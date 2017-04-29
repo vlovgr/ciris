@@ -14,30 +14,32 @@ The core library is <a href="build.sbt">dependency-free</a>, while modules integ
 )
 </code></pre>
 </div>
-<p>and replace <code class="highlighter-rouge">%%</code> with <code class="highlighter-rouge">%%%</code> if you’re using Scala.js or Scala Native.</p>
+<p>and make sure to replace <code class="highlighter-rouge">%%</code> with <code class="highlighter-rouge">%%%</code> if you’re using Scala.js or Scala Native.</p>
 
 <h3 id="documentation">Documentation</h3>
 <p>TODO</p>
 
 <h3 id="usage-example">Usage Example</h3>
-<p>TODO</p>
+<p>Ciris configuration loading is done in two parts: define what to load, and what to create once everything is loaded.<br />
+We are using a case class for our configuration in the following example, but feel free to use whatever you want.<br />
+The <code class="highlighter-rouge">ciris-refined</code> module is used here to integrate with <a href="https://github.com/fthomas/refined">refined</a> to encode validation in the data types.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
 <span class="k">import</span> <span class="nn">ciris.refined._</span>
 
 <span class="k">import</span> <span class="nn">eu.timepit.refined.auto._</span>
-<span class="k">import</span> <span class="nn">eu.timepit.refined.types.string.NonEmptyString</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.PortNumber</span>
+<span class="k">import</span> <span class="nn">eu.timepit.refined.types.string.NonEmptyString</span>
 
 <span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
 
 <span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Config</span><span class="o">(</span>
   <span class="n">apiKey</span><span class="k">:</span> <span class="kt">NonEmptyString</span><span class="o">,</span> <span class="c1">// API key cannot be empty
 </span>  <span class="n">timeout</span><span class="k">:</span> <span class="kt">Duration</span><span class="o">,</span>
-  <span class="n">port</span><span class="k">:</span> <span class="kt">PortNumber</span> <span class="c1">// Only allow actual port numbers
+  <span class="n">port</span><span class="k">:</span> <span class="kt">PortNumber</span> <span class="c1">// Only allow Ints which are port numbers
 </span><span class="o">)</span>
 
-<span class="k">val</span> <span class="n">config</span> <span class="k">=</span>
+<span class="k">val</span> <span class="n">config</span><span class="k">:</span> <span class="kt">Either</span><span class="o">[</span><span class="kt">ConfigErrors</span>, <span class="kt">Config</span><span class="o">]</span> <span class="k">=</span>
   <span class="n">loadConfig</span><span class="o">(</span>
     <span class="n">env</span><span class="o">[</span><span class="kt">NonEmptyString</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">),</span> <span class="c1">// Reads environment variable API_KEY
 </span>    <span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">PortNumber</span><span class="o">]](</span><span class="s">"http.port"</span><span class="o">)</span> <span class="c1">// Reads system property http.port
@@ -49,6 +51,14 @@ The core library is <a href="build.sbt">dependency-free</a>, while modules integ
     <span class="o">)</span>
   <span class="o">}</span>
 </code></pre>
+</div>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">show</span><span class="o">(</span><span class="n">config</span><span class="o">)</span>
+<span class="c1">// res5: String = Left(ConfigErrors(MissingKey(API_KEY,Environment)))
+</span>
+<span class="n">show</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">messages</span><span class="o">))</span>
+<span class="c1">// res6: String = Left(Vector(Missing environment variable [API_KEY]))
+</span></code></pre>
 </div>
 
 </div></div></section><section class="technologies"><div class="container"><div class="row"></div></div></section></main><footer id="site-footer"><div class="container"><div class="row"><div class="col-xs-6"><p>Ciris is designed and developed by <a href="https://vlovgr.se" target="_blank">Viktor Lövgren</a></p></div><div class="col-xs-6"><p class="text-right"><a href="https://github.com/vlovgr/ciris"><span class="fa fa-github"></span>View on GitHub</a></p></div></div><div class="row"><div class="col-xs-6"><p>Website built with <a href="https://47deg.github.io/sbt-microsites/" target="_blank">Sbt-microsites</a> - © 2016 <a href="https://www.47deg.com/" target="_blank">47 Degrees</a></p></div></div></div></footer><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
