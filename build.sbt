@@ -6,7 +6,7 @@ lazy val ciris = project
   .settings(inThisBuild(scalaSettings))
   .settings(inThisBuild(metadataSettings))
   .aggregate(
-    coreJS, coreJVM, coreNative,
+    coreJS, coreJVM,
     enumeratumJS, enumeratumJVM,
     refinedJS, refinedJVM,
     squantsJS, squantsJVM
