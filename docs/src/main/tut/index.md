@@ -10,8 +10,9 @@ import ciris.build._
 def show[T](t: T): String = t.toString
 ```
 
-## Ciris
+[![Build Status](https://travis-ci.org/vlovgr/ciris.svg?branch=master)](https://travis-ci.org/vlovgr/ciris)
 
+## Ciris
 Lightweight, extensible, and validated configuration loading in [Scala][scala], [Scala.js][scalajs], and [Scala Native][scalanative].  
 The core library is [dependency-free](build.sbt), while provided modules integrate with other popular libraries.
 
