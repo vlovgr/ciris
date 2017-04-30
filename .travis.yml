@@ -5,3 +5,6 @@ scala:
   - 2.12.2
 jdk:
   - oraclejdk8
+script:
+  - sbt ++$TRAVIS_SCALA_VERSION test
+  - if [[ $TRAVIS_SCALA_VERSION == '2.11.11' ]]; then sbt coreNative/test ; fi
