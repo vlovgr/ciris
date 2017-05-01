@@ -1,6 +1,8 @@
 [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=4db798)](https://gitter.im/vlovgr/ciris)
 
 ## Ciris
+
+[![Join the chat at https://gitter.im/vlovgr/ciris](https://badges.gitter.im/vlovgr/ciris.svg)](https://gitter.im/vlovgr/ciris?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Lightweight, extensible, and validated configuration loading in [Scala][scala], [Scala.js][scalajs], and [Scala Native][scalanative].  
 The core library is [dependency-free](build.sbt), while provided modules integrate with other popular libraries.
 
