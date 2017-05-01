@@ -5,6 +5,7 @@ lazy val ciris = project
   .settings(moduleName := "ciris", name := "Ciris")
   .settings(inThisBuild(scalaSettings))
   .settings(inThisBuild(metadataSettings))
+  .settings(inThisBuild(testSettings))
   .aggregate(
     coreJS, coreJVM,
     enumeratumJS, enumeratumJVM,
@@ -129,6 +130,16 @@ lazy val metadataSettings = Seq(
   organization := "is.cir",
   organizationName := "Ciris",
   organizationHomepage := Some(url("https://cir.is"))
+)
+
+lazy val testSettings = Seq(
+  logBuffered in Test := false,
+  parallelExecution in Test := false,
+  testOptions in Test += Tests.Argument("-oDF"),
+  libraryDependencies ++= Seq(
+    "org.scalatest" %%% "scalatest" % "3.0.1" % Test,
+    "org.scalacheck" %%% "scalacheck" % "1.13.4" % Test
+  )
 )
 
 lazy val crossCompileSettings = Seq(
