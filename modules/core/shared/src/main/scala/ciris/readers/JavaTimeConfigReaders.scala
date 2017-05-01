@@ -66,15 +66,13 @@ trait JavaTimeConfigReaders {
     fromOption("IsoEra")(value ⇒ IsoEra.values.find(_.name equalsIgnoreCase value))
 
   implicit val japaneseEraConfigReader: ConfigReader[JapaneseEra] =
-    catchNonFatal("JapaneseEra")(JapaneseEra.valueOf)
+    fromOption("JapaneseEra")(value ⇒ JapaneseEra.values.find(_.toString equalsIgnoreCase value))
 
   implicit val minguoEraConfigReader: ConfigReader[MinguoEra] =
     fromOption("MinguoEra")(value ⇒ MinguoEra.values.find(_.name equalsIgnoreCase value))
 
   implicit val thaiBuddhistEraConfigReader: ConfigReader[ThaiBuddhistEra] =
-    fromOption("ThaiBuddhistEra") { value ⇒
-      ThaiBuddhistEra.values.find(_.name equalsIgnoreCase value)
-    }
+    fromOption("ThaiBuddhistEra")(value ⇒ ThaiBuddhistEra.values.find(_.name equalsIgnoreCase value))
 
   import java.time.format._
 
