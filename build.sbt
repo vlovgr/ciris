@@ -137,8 +137,8 @@ lazy val testSettings = Seq(
   parallelExecution in Test := false,
   testOptions in Test += Tests.Argument("-oDF"),
   libraryDependencies ++= Seq(
-    "org.scalatest" %%% "scalatest" % "3.0.1" % Test,
-    "org.scalacheck" %%% "scalacheck" % "1.13.4" % Test
+    "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
+    "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
   )
 )
 
