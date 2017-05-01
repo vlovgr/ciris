@@ -380,15 +380,15 @@ final class JavaTimeConfigReadersSpec extends PropertySpec with JavaTimeGenerato
     "reading a DateTimeFormatter" should {
       "successfully read DateTimeFormatter patterns" in {
         val examplePatterns = Gen.oneOf("uuuu-MMM-dd", "yyyy MM dd")
-        forAll(examplePatterns) { dateTimeFormatterPattern: String ⇒
-          read[DateTimeFormatter](dateTimeFormatterPattern) shouldBe a[Right[_, _]]
+        forAll(examplePatterns) { examplePattern: String ⇒
+          read[DateTimeFormatter](examplePattern) shouldBe a[Right[_, _]]
         }
       }
 
       "return a failure for other values" in {
-        val examplePatterns = Gen.oneOf("mmm", "ddd")
-        forAll(examplePatterns) { dateTimeFormatterPattern: String ⇒
-          read[DateTimeFormatter](dateTimeFormatterPattern) shouldBe a[Left[_, _]]
+        val badExamplePatterns = Gen.oneOf("mmm", "ddd")
+        forAll(badExamplePatterns) { badExamplePattern: String ⇒
+          read[DateTimeFormatter](badExamplePattern) shouldBe a[Left[_, _]]
         }
       }
     }
