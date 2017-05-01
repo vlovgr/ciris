@@ -15,6 +15,12 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks {
     } yield if (lower) char.toLower else char.toUpper).map(_.mkString)
   }
 
+  def mixedCaseEnum[T](values: Array[T])(f: T ⇒ String): Gen[(T, String)] =
+    for {
+      value ← Gen.oneOf(values)
+      valueString ← mixedCase(f(value))
+    } yield (value, valueString)
+
   def fails[A](f: ⇒ A): Boolean = Try(f).isFailure
 
   def read[A](value: String)(implicit reader: ConfigReader[A]): Either[ConfigError, A] =
