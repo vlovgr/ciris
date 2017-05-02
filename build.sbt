@@ -6,6 +6,10 @@ lazy val ciris = project
   .settings(inThisBuild(scalaSettings))
   .settings(inThisBuild(metadataSettings))
   .settings(inThisBuild(testSettings))
+//  .settings(
+//    sourceGenerators in Compile +=
+//      Def.task(generateSources((sourceManaged in Compile).value, "ciris")).taskValue
+//  )
   .aggregate(
     coreJS, coreJVM,
     enumeratumJS, enumeratumJVM,

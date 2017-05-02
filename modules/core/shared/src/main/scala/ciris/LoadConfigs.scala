@@ -8,6 +8,9 @@
 package ciris
 
 private [ciris] trait LoadConfigs {
+  def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 ⇒ Z): Either[ConfigErrors, Z] =
+    a1.value.fold(error ⇒ Left(ConfigErrors(error)), a1 ⇒ Right(f(a1)))
+
   def loadConfig[A1, A2, Z](a1: ConfigValue[A1], a2: ConfigValue[A2])(f: (A1, A2) => Z): Either[ConfigErrors, Z] =
     (a1 append a2).value.right.map(f.tupled)
 

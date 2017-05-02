@@ -67,6 +67,32 @@ final class CirisSpec extends PropertySpec {
           "key22" → "value22"
         )
 
+      "loading 1 key" should {
+        "be able to load" in {
+          loadConfig(
+            read[String]("key1")
+          )(v1 ⇒ v1) shouldBe Right("value1")
+        }
+
+        "fail to load if it is missing" in {
+          loadConfig(
+            read[String]("akey1")
+          )(v1 ⇒ v1) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the type is wrong" in {
+          loadConfig(
+            read[Int]("key1")
+          )(v1 ⇒ v1) shouldBe a[Left[_, _]]
+        }
+
+        "include the error" in {
+          loadConfig(
+            read[Int]("key1")
+          )(v1 ⇒ v1).left.map(_.size) shouldBe Left(1)
+        }
+      }
+
       "loading 2 keys" should {
         "be able to load" in {
           loadConfig(
