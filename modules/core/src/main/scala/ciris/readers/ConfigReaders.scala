@@ -6,4 +6,5 @@ trait ConfigReaders
     with JavaNetConfigReaders
     with JavaTimeConfigReaders
     with JavaUtilConfigReaders
+    with MathConfigReaders
     with PrimitiveConfigReaders
