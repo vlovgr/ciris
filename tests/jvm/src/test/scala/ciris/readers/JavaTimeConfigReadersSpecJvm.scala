@@ -8,7 +8,7 @@ import ciris.PropertySpec
 import ciris.generators.JavaTimeGenerators
 import org.scalacheck.Gen
 
-final class JavaTimeConfigReadersSpec extends PropertySpec with JavaTimeGenerators {
+final class JavaTimeConfigReadersSpecJvm extends PropertySpec with JavaTimeGenerators {
   "JavaTimeConfigReaders" when {
     "reading a DayOfWeek" should {
       "successfully read DayOfWeek values" in {

@@ -3,7 +3,7 @@ package ciris.refined
 import ciris.PropertySpec
 import eu.timepit.refined.types.numeric.PosInt
 
-final class RefinedConfigReadersSpec extends PropertySpec {
+final class RefinedConfigReadersSpecJs extends PropertySpec {
   "RefinedConfigReaders" when {
     "reading a RefType" should {
       "successfully read a RefType" in {
