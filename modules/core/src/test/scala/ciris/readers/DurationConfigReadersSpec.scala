@@ -2,6 +2,7 @@ package ciris.readers
 
 import ciris.PropertySpec
 import ciris.generators.DurationGenerators
+import org.scalacheck.Gen
 
 import scala.concurrent.duration.{Duration, FiniteDuration}
 
@@ -37,6 +38,13 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
         forAll { finiteDuration: FiniteDuration ⇒
           val value = readValue[FiniteDuration](finiteDuration.toString)
           value.right.map(_.toNanos) shouldBe Right(finiteDuration.toNanos)
+        }
+      }
+
+      "return a failure for infinite durations" in {
+        val infiniteDurations = List("Inf", "PlusInf", "+Inf", "MinusInf", "-Inf")
+        forAll(Gen.oneOf(infiniteDurations)){ infiniteDuration ⇒
+          readValue[FiniteDuration](infiniteDuration) shouldBe a[Left[_, _]]
         }
       }
 
