@@ -19,7 +19,7 @@ object LatestVersion extends AutoPlugin {
       IO.write(latestVersionFile, latestVersionFileContents)
       Vcs.detect(file(".")).foreach { vcs ⇒
         vcs.add(latestVersionFile.getPath) !! state.log
-        vcs.commit(s"Set latest version to $newLatestVersion [ci skip]", sign = false) !! state.log
+        vcs.commit(s"Set latest version to $newLatestVersion", sign = true) !! state.log
       }
 
       reapply(Seq(latestVersion in ThisBuild := newLatestVersion), state)

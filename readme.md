@@ -13,10 +13,10 @@ To get started with [SBT][sbt], simply add the following lines to your `build.sb
 ```
 // Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.0.1-SNAPSHOT",
-  "is.cir" %% "ciris-enumeratum" % "0.0.1-SNAPSHOT",
-  "is.cir" %% "ciris-refined" % "0.0.1-SNAPSHOT",
-  "is.cir" %% "ciris-squants" % "0.0.1-SNAPSHOT"
+  "is.cir" %% "ciris-core" % "0.1.0-SNAPSHOT",
+  "is.cir" %% "ciris-enumeratum" % "0.1.0-SNAPSHOT",
+  "is.cir" %% "ciris-refined" % "0.1.0-SNAPSHOT",
+  "is.cir" %% "ciris-squants" % "0.1.0-SNAPSHOT"
 )
 ```
 

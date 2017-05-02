@@ -1,39 +1,42 @@
 lazy val ciris = project
   .in(file("."))
   .settings(moduleName := "ciris", name := "Ciris")
-  .settings(inThisBuild(testSettings))
   .settings(inThisBuild(scalaSettings))
-  .settings(inThisBuild(metadataSettings))
+  .settings(inThisBuild(testSettings))
+  .settings(noPublishSettings)
+  .settings(releaseSettings)
   .aggregate(core, enumeratum, refined, squants)
 
 lazy val core = project
   .in(file("modules/core"))
   .settings(moduleName := "ciris-core", name := "Ciris core")
+  .settings(releaseSettings)
 
 lazy val enumeratum = project
   .in(file("modules/enumeratum"))
   .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
   .settings(libraryDependencies += "com.beachape" %% "enumeratum" % "1.5.12")
+  .settings(releaseSettings)
   .dependsOn(core % "compile;test->test")
 
 lazy val refined = project
   .in(file("modules/refined"))
   .settings(moduleName := "ciris-refined", name := "Ciris refined")
   .settings(libraryDependencies += "eu.timepit" %% "refined" % "0.8.0")
+  .settings(releaseSettings)
   .dependsOn(core % "compile;test->test")
 
 lazy val squants = project
   .in(file("modules/squants"))
   .settings(moduleName := "ciris-squants", name := "Ciris squants")
   .settings(libraryDependencies += "org.typelevel" %% "squants" % "1.2.0")
+  .settings(releaseSettings)
   .dependsOn(core % "compile;test->test")
 
 lazy val docs = project
   .in(file("docs"))
   .settings(moduleName := "ciris-docs", name := "Ciris docs")
-  .dependsOn(core, enumeratum, refined, squants)
-  .enablePlugins(BuildInfoPlugin, MicrositesPlugin)
-  .settings(noReleaseSettings)
+  .settings(noPublishSettings)
   .settings(
     micrositeName := "Ciris",
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
@@ -47,7 +50,7 @@ lazy val docs = project
     buildInfoObject := "build",
     buildInfoPackage := "ciris",
     buildInfoKeys := Seq[BuildInfoKey](
-      organization in ThisBuild,
+      organization,
       latestVersion in ThisBuild,
       crossScalaVersions in ThisBuild,
       BuildInfoKey.map(moduleName in core) { case (k, v) ⇒ "core" + k.capitalize -> v },
@@ -56,6 +59,8 @@ lazy val docs = project
       BuildInfoKey.map(moduleName in squants) { case (k, v) ⇒ "squants" + k.capitalize -> v }
     )
   )
+  .dependsOn(core, enumeratum, refined, squants)
+  .enablePlugins(BuildInfoPlugin, MicrositesPlugin)
 
 lazy val scala210 = "2.10.6"
 lazy val scala211 = "2.11.11"
@@ -100,6 +105,62 @@ lazy val metadataSettings = Seq(
   organizationHomepage := Some(url("https://cir.is"))
 )
 
+import ReleaseTransformations._
+lazy val releaseSettings =
+  metadataSettings ++ Seq(
+    homepage := organizationHomepage.value,
+    publishMavenStyle := true,
+    publishArtifact in Test := false,
+    useGpg := true,
+    pomIncludeRepository := { _ => false },
+    licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
+    scmInfo := Some(
+      ScmInfo(
+        url("https://github.com/vlovgr/ciris"),
+        "scm:git@github.com:vlovgr/ciris.git"
+      )
+    ),
+    developers := List(
+      Developer(
+        id = "vlovgr",
+        name = "Viktor Lövgren",
+        email = "github@vlovgr.se",
+        url = url("https://vlovgr.se")
+      )
+    ),
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+      if(isSnapshot.value)
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    },
+    releaseCrossBuild := true,
+    releaseTagName := s"v${(version in ThisBuild).value}",
+    releaseTagComment := s"Release version ${(version in ThisBuild).value}",
+    releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}",
+    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
+    releaseUseGlobalVersion := true,
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      runClean,
+      runTest,
+      setReleaseVersion,
+      setLatestVersion,
+      releaseStepTask(updateReadme in ThisBuild),
+      commitReleaseVersion,
+      tagRelease,
+      publishArtifacts,
+      releaseStepCommand("sonatypeRelease"),
+      setNextVersion,
+      commitNextVersion,
+      pushChanges,
+      releaseStepCommand("project docs"),
+      releaseStepCommand("publishMicrosite")
+    )
+  )
+
 lazy val testSettings = Seq(
   logBuffered in Test := false,
   parallelExecution in Test := false,
@@ -110,12 +171,12 @@ lazy val testSettings = Seq(
   )
 )
 
-lazy val noReleaseSettings = Seq(
-  publish := (),
-  publishLocal := (),
-  publishArtifact := false,
-  releaseProcess := Seq()
-)
+lazy val noPublishSettings =
+  metadataSettings ++ Seq(
+    publish := (),
+    publishLocal := (),
+    publishArtifact := false
+  )
 
 val generateReadme = taskKey[File]("Generates the readme")
 generateReadme in ThisBuild := {
@@ -125,4 +186,13 @@ generateReadme in ThisBuild := {
   val target = (baseDirectory in ciris).value / "readme.md"
   IO.write(target, readme)
   target
+}
+
+val updateReadme = taskKey[Unit]("Generates and commits the readme")
+updateReadme in ThisBuild := {
+  (generateReadme in ThisBuild).value
+  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs ⇒
+    vcs.add("readme.md").!
+    vcs.commit("Update readme to latest version", sign = true).!
+  }
 }
