@@ -1,12 +1,13 @@
-package ciris.refined
+package ciris.refined.readers
 
 import ciris.PropertySpec
+import ciris.refined._
 import eu.timepit.refined.types.numeric.PosInt
 
 final class RefinedConfigReadersSpec extends PropertySpec {
   "RefinedConfigReaders" when {
     "reading a RefType" should {
-      "successfully read a RefType" in {
+      "successfully read RefType values" in {
         readValue[PosInt]("1").right.map(_.value) shouldBe Right(1)
       }
 

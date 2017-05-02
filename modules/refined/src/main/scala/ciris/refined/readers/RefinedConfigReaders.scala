@@ -1,4 +1,4 @@
-package ciris.refined
+package ciris.refined.readers
 
 import ciris.ConfigReader
 import eu.timepit.refined.api.{RefType, Validate}

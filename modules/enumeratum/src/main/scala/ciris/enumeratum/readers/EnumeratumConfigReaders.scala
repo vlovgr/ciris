@@ -1,4 +1,4 @@
-package ciris.enumeratum
+package ciris.enumeratum.readers
 
 import _root_.enumeratum._
 import _root_.enumeratum.values._
