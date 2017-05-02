@@ -101,10 +101,17 @@ final class CirisSpec extends PropertySpec {
           )((v1, v2) ⇒ (v1, v2)) shouldBe Right(("value1", "value2"))
         }
 
-        "fail to load if one is missing" in {
+        "fail to load if first one is missing" in {
           loadConfig(
             read[String]("key1"),
             read[String]("akey2")
+          )((v1, v2) ⇒ (v1, v2)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if second one is missing" in {
+          loadConfig(
+            read[String]("akey1"),
+            read[String]("key2")
           )((v1, v2) ⇒ (v1, v2)) shouldBe a[Left[_, _]]
         }
 
@@ -137,6 +144,14 @@ final class CirisSpec extends PropertySpec {
             read[String]("key1"),
             read[String]("akey2"),
             read[String]("key3")
+          )((v1, v2, v3) ⇒ (v1, v2, v3)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("akey3")
           )((v1, v2, v3) ⇒ (v1, v2, v3)) shouldBe a[Left[_, _]]
         }
 
@@ -173,6 +188,15 @@ final class CirisSpec extends PropertySpec {
             read[String]("akey2"),
             read[String]("key3"),
             read[String]("key4")
+          )((v1, v2, v3, v4) ⇒ (v1, v2, v3, v4)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("akey4")
           )((v1, v2, v3, v4) ⇒ (v1, v2, v3, v4)) shouldBe a[Left[_, _]]
         }
 
@@ -213,6 +237,16 @@ final class CirisSpec extends PropertySpec {
             read[String]("key3"),
             read[String]("key4"),
             read[String]("key5")
+          )((v1, v2, v3, v4, v5) ⇒ (v1, v2, v3, v4, v5)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("akey5")
           )((v1, v2, v3, v4, v5) ⇒ (v1, v2, v3, v4, v5)) shouldBe a[Left[_, _]]
         }
 
@@ -257,6 +291,17 @@ final class CirisSpec extends PropertySpec {
             read[String]("key4"),
             read[String]("key5"),
             read[String]("key6")
+          )((v1, v2, v3, v4, v5, v6) ⇒ (v1, v2, v3, v4, v5, v6)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("akey6")
           )((v1, v2, v3, v4, v5, v6) ⇒ (v1, v2, v3, v4, v5, v6)) shouldBe a[Left[_, _]]
         }
 
@@ -305,6 +350,18 @@ final class CirisSpec extends PropertySpec {
             read[String]("key5"),
             read[String]("key6"),
             read[String]("key7")
+          )((v1, v2, v3, v4, v5, v6, v7) ⇒ (v1, v2, v3, v4, v5, v6, v7)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("akey7")
           )((v1, v2, v3, v4, v5, v6, v7) ⇒ (v1, v2, v3, v4, v5, v6, v7)) shouldBe a[Left[_, _]]
         }
 
@@ -357,6 +414,19 @@ final class CirisSpec extends PropertySpec {
             read[String]("key6"),
             read[String]("key7"),
             read[String]("key8")
+          )((v1, v2, v3, v4, v5, v6, v7, v8) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("akey8")
           )((v1, v2, v3, v4, v5, v6, v7, v8) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8)) shouldBe a[Left[_, _]]
         }
 
@@ -413,6 +483,20 @@ final class CirisSpec extends PropertySpec {
             read[String]("key7"),
             read[String]("key8"),
             read[String]("key9")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("akey9")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9)) shouldBe a[Left[_, _]]
         }
 
@@ -473,6 +557,21 @@ final class CirisSpec extends PropertySpec {
             read[String]("key8"),
             read[String]("key9"),
             read[String]("key10")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("akey10")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10)) shouldBe a[Left[_, _]]
         }
 
@@ -537,6 +636,22 @@ final class CirisSpec extends PropertySpec {
             read[String]("key9"),
             read[String]("key10"),
             read[String]("key11")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("akey11")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11)) shouldBe a[Left[_, _]]
         }
 
@@ -605,6 +720,23 @@ final class CirisSpec extends PropertySpec {
             read[String]("key10"),
             read[String]("key11"),
             read[String]("key12")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("akey12")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12)) shouldBe a[Left[_, _]]
         }
 
@@ -677,6 +809,24 @@ final class CirisSpec extends PropertySpec {
             read[String]("key11"),
             read[String]("key12"),
             read[String]("key13")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("akey13")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13)) shouldBe a[Left[_, _]]
         }
 
@@ -753,6 +903,25 @@ final class CirisSpec extends PropertySpec {
             read[String]("key12"),
             read[String]("key13"),
             read[String]("key14")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("key13"),
+            read[String]("akey14")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14)) shouldBe a[Left[_, _]]
         }
 
@@ -833,6 +1002,26 @@ final class CirisSpec extends PropertySpec {
             read[String]("key13"),
             read[String]("key14"),
             read[String]("key15")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("key13"),
+            read[String]("key14"),
+            read[String]("akey15")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15)) shouldBe a[Left[_, _]]
         }
 
@@ -917,6 +1106,27 @@ final class CirisSpec extends PropertySpec {
             read[String]("key14"),
             read[String]("key15"),
             read[String]("key16")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("key13"),
+            read[String]("key14"),
+            read[String]("key15"),
+            read[String]("akey16")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16)) shouldBe a[Left[_, _]]
         }
 
@@ -1005,6 +1215,28 @@ final class CirisSpec extends PropertySpec {
             read[String]("key15"),
             read[String]("key16"),
             read[String]("key17")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("key13"),
+            read[String]("key14"),
+            read[String]("key15"),
+            read[String]("key16"),
+            read[String]("akey17")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17)) shouldBe a[Left[_, _]]
         }
 
@@ -1097,6 +1329,29 @@ final class CirisSpec extends PropertySpec {
             read[String]("key16"),
             read[String]("key17"),
             read[String]("key18")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("key13"),
+            read[String]("key14"),
+            read[String]("key15"),
+            read[String]("key16"),
+            read[String]("key17"),
+            read[String]("akey18")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18)) shouldBe a[Left[_, _]]
         }
 
@@ -1193,6 +1448,30 @@ final class CirisSpec extends PropertySpec {
             read[String]("key17"),
             read[String]("key18"),
             read[String]("key19")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("key13"),
+            read[String]("key14"),
+            read[String]("key15"),
+            read[String]("key16"),
+            read[String]("key17"),
+            read[String]("key18"),
+            read[String]("akey19")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19)) shouldBe a[Left[_, _]]
         }
 
@@ -1293,6 +1572,31 @@ final class CirisSpec extends PropertySpec {
             read[String]("key18"),
             read[String]("key19"),
             read[String]("key20")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("key13"),
+            read[String]("key14"),
+            read[String]("key15"),
+            read[String]("key16"),
+            read[String]("key17"),
+            read[String]("key18"),
+            read[String]("key19"),
+            read[String]("akey20")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20)) shouldBe a[Left[_, _]]
         }
 
@@ -1397,6 +1701,32 @@ final class CirisSpec extends PropertySpec {
             read[String]("key19"),
             read[String]("key20"),
             read[String]("key21")
+          )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21)) shouldBe a[Left[_, _]]
+        }
+
+        "fail to load if the last one is missing" in {
+          loadConfig(
+            read[String]("key1"),
+            read[String]("key2"),
+            read[String]("key3"),
+            read[String]("key4"),
+            read[String]("key5"),
+            read[String]("key6"),
+            read[String]("key7"),
+            read[String]("key8"),
+            read[String]("key9"),
+            read[String]("key10"),
+            read[String]("key11"),
+            read[String]("key12"),
+            read[String]("key13"),
+            read[String]("key14"),
+            read[String]("key15"),
+            read[String]("key16"),
+            read[String]("key17"),
+            read[String]("key18"),
+            read[String]("key19"),
+            read[String]("key20"),
+            read[String]("akey21")
           )((v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21) ⇒ (v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21)) shouldBe a[Left[_, _]]
         }
 
