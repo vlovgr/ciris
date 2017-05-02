@@ -123,7 +123,7 @@ object SourceGenerators extends AutoPlugin {
          |$classes
        """.stripMargin.trim + "\n"
 
-    val output = root / rootPackage / "ConfigValueClasses.scala"
+    val output = root / rootPackage / "ConfigValues.scala"
     IO.write(output, content)
     Seq(output)
   }
