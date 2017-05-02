@@ -6,6 +6,10 @@ lazy val ciris = project
   .settings(inThisBuild(scalaSettings))
   .settings(inThisBuild(metadataSettings))
   .settings(inThisBuild(testSettings))
+//  .settings(
+//    sourceGenerators in Compile +=
+//      Def.task(generateSources((sourceManaged in Compile).value, "ciris")).taskValue
+//  )
   .aggregate(
     coreJS, coreJVM,
     enumeratumJS, enumeratumJVM,
@@ -17,14 +21,6 @@ lazy val core =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
     .in(file("modules/core"))
     .settings(moduleName := "ciris-core", name := "Ciris core")
-    .settings(
-      sourceGenerators in Compile += Def.task {
-        generateSources(
-          (sourceManaged in Compile).value,
-          "ciris"
-        )
-      }.taskValue
-    )
     .jsSettings(crossCompileSettings)
     .jvmSettings(crossCompileSettings)
 
@@ -137,8 +133,8 @@ lazy val testSettings = Seq(
   parallelExecution in Test := false,
   testOptions in Test += Tests.Argument("-oDF"),
   libraryDependencies ++= Seq(
-    "org.scalatest" %%% "scalatest" % "3.0.1" % Test,
-    "org.scalacheck" %%% "scalacheck" % "1.13.4" % Test
+    "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
+    "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
   )
 )
 

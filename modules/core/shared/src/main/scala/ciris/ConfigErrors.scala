@@ -7,6 +7,9 @@ final class ConfigErrors private (val toVector: Vector[ConfigError]) extends Any
   def messages: Vector[String] =
     toVector.map(_.message)
 
+  def size: Int =
+    toVector.size
+
   override def toString: String =
     s"ConfigErrors(${toVector.mkString(",")})"
 }

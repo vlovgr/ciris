@@ -70,6 +70,9 @@ object SourceGenerators extends AutoPlugin {
         |package $rootPackage
         |
         |private [$rootPackage] trait LoadConfigs {
+        |  def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 ⇒ Z): Either[ConfigErrors, Z] =
+        |    a1.value.fold(error ⇒ Left(ConfigErrors(error)), a1 ⇒ Right(f(a1)))
+        |
         |$defs
         |}
       """.stripMargin.trim + "\n"
@@ -123,7 +126,7 @@ object SourceGenerators extends AutoPlugin {
          |$classes
        """.stripMargin.trim + "\n"
 
-    val output = root / rootPackage / "ConfigValueClasses.scala"
+    val output = root / rootPackage / "ConfigValues.scala"
     IO.write(output, content)
     Seq(output)
   }
