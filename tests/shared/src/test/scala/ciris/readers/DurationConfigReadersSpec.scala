@@ -15,7 +15,11 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
               duration.toString.drop(9)
             else duration.toString
 
-          readValue[Duration](durationString) shouldBe Right(duration)
+          val value = readValue[Duration](durationString)
+          if (duration.isFinite)
+            value.right.map(_.toNanos) shouldBe Right(duration.toNanos)
+          else
+            value shouldBe Right(duration)
         }
       }
 
@@ -31,7 +35,8 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
     "reading a FiniteDuration" should {
       "successfully read FiniteDuration values" in {
         forAll { finiteDuration: FiniteDuration ⇒
-          readValue[FiniteDuration](finiteDuration.toString) shouldBe Right(finiteDuration)
+          val value = readValue[FiniteDuration](finiteDuration.toString)
+          value.right.map(_.toNanos) shouldBe Right(finiteDuration.toNanos)
         }
       }
 
