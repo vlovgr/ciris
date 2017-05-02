@@ -19,7 +19,7 @@ val scalaPublishVersions: String = {
 
 ## Ciris
 Lightweight, extensible, and validated configuration loading in [Scala][scala].  
-The core library is [dependency-free](build.sbt), while modules provide library integrations.
+The core library is dependency-free, while modules provide library integrations.
 
 ### Introduction
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined] and [squants][squants] to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.
