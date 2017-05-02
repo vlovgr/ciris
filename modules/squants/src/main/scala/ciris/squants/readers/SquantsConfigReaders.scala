@@ -1,10 +1,10 @@
-package ciris.squants
+package ciris.squants.readers
 
 import ciris.ConfigReader
 import ciris.ConfigReader.fromTry
 
 trait SquantsConfigReaders {
-  import _root_.squants.electro._
+  import squants.electro._
 
   implicit val capacitanceConfigReader: ConfigReader[Capacitance] =
     fromTry("Capacitance")(Capacitance.apply)
@@ -39,7 +39,7 @@ trait SquantsConfigReaders {
   implicit val resistivityConfigReader: ConfigReader[Resistivity] =
     fromTry("Resistivity")(Resistivity.apply)
 
-  import _root_.squants.energy._
+  import squants.energy._
 
   implicit val energyConfigReader: ConfigReader[Energy] =
     fromTry("Energy")(Energy.apply)
@@ -56,7 +56,7 @@ trait SquantsConfigReaders {
   implicit val SpecificEnergyConfigReader: ConfigReader[SpecificEnergy] =
     fromTry("SpecificEnergy")(SpecificEnergy.apply)
 
-  import _root_.squants.information._
+  import squants.information._
 
   implicit val dataRateConfigReader: ConfigReader[DataRate] =
     fromTry("DataRate")(DataRate.apply)
@@ -64,12 +64,12 @@ trait SquantsConfigReaders {
   implicit val informationConfigReader: ConfigReader[Information] =
     fromTry("Information")(Information.apply)
 
-  import _root_.squants.market._
+  import squants.market._
 
   implicit val moneyDensityConfigReader: ConfigReader[Money] =
     fromTry("Money")(Money.apply)
 
-  import _root_.squants.mass._
+  import squants.mass._
 
   implicit val areaDensityConfigReader: ConfigReader[AreaDensity] =
     fromTry("AreaDensity")(AreaDensity.apply)
@@ -83,7 +83,7 @@ trait SquantsConfigReaders {
   implicit val massConfigReader: ConfigReader[Mass] =
     fromTry("Mass")(Mass.apply)
 
-  import _root_.squants.motion._
+  import squants.motion._
 
   implicit val accelerationConfigReader: ConfigReader[Acceleration] =
     fromTry("Acceleration")(Acceleration.apply)
@@ -118,7 +118,7 @@ trait SquantsConfigReaders {
   implicit val yankConfigReader: ConfigReader[Yank] =
     fromTry("Yank")(Yank.apply)
 
-  import _root_.squants.photo._
+  import squants.photo._
 
   implicit val illuminanceConfigReader: ConfigReader[Illuminance] =
     fromTry("Illuminance")(Illuminance.apply)
@@ -138,7 +138,7 @@ trait SquantsConfigReaders {
   implicit val luminousIntensityConfigReader: ConfigReader[LuminousIntensity] =
     fromTry("LuminousIntensity")(LuminousIntensity.apply)
 
-  import _root_.squants.radio._
+  import squants.radio._
 
   implicit val irradianceConfigReader: ConfigReader[Irradiance] =
     fromTry("Irradiance")(Irradiance.apply)
@@ -158,7 +158,7 @@ trait SquantsConfigReaders {
   implicit val spectralPowerConfigReader: ConfigReader[SpectralPower] =
     fromTry("SpectralPower")(SpectralPower.apply)
 
-  import _root_.squants.space._
+  import squants.space._
 
   implicit val angleConfigReader: ConfigReader[Angle] =
     fromTry("Angle")(Angle.apply)
@@ -175,7 +175,7 @@ trait SquantsConfigReaders {
   implicit val volumeConfigReader: ConfigReader[Volume] =
     fromTry("Volume")(Volume.apply)
 
-  import _root_.squants.thermal._
+  import squants.thermal._
 
   implicit val temperatureConfigReader: ConfigReader[Temperature] =
     fromTry("Temperature")(Temperature.apply)
@@ -183,7 +183,7 @@ trait SquantsConfigReaders {
   implicit val thermalCapacityConfigReader: ConfigReader[ThermalCapacity] =
     fromTry("ThermalCapacity")(ThermalCapacity.apply)
 
-  import _root_.squants.time._
+  import squants.time._
 
   implicit val frequencyConfigReader: ConfigReader[Frequency] =
     fromTry("Frequency")(Frequency.apply)
