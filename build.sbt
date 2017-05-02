@@ -5,13 +5,34 @@ lazy val ciris = project
   .settings(moduleName := "ciris", name := "Ciris")
   .settings(inThisBuild(scalaSettings))
   .settings(inThisBuild(metadataSettings))
-  .settings(inThisBuild(testSettings))
   .aggregate(
     coreJS, coreJVM,
     enumeratumJS, enumeratumJVM,
     refinedJS, refinedJVM,
-    squantsJS, squantsJVM
+    squantsJS, squantsJVM,
+    testsJS, testsJVM
   )
+
+lazy val tests =
+  crossProject(JSPlatform, JVMPlatform, NativePlatform)
+    .in(file("tests"))
+    .settings(moduleName := "ciris-tests", name := "Ciris tests")
+    .jsSettings(crossCompileSettings)
+    .jvmSettings(crossCompileSettings)
+    .settings(noReleaseSettings)
+    .settings(
+      logBuffered in Test := false,
+      parallelExecution in Test := false,
+      testOptions in Test += Tests.Argument("-oDF"),
+      libraryDependencies ++= Seq(
+        "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
+        "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
+      )
+    )
+    .dependsOn(core, enumeratum, refined, squants)
+
+lazy val testsJS = tests.js
+lazy val testsJVM = tests.jvm
 
 lazy val core =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -66,6 +87,7 @@ lazy val docs = project
   .settings(moduleName := "ciris-docs", name := "Ciris docs")
   .dependsOn(coreJVM, refinedJVM)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin)
+  .settings(noReleaseSettings)
   .settings(
     micrositeName := "Ciris",
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
@@ -128,18 +150,15 @@ lazy val metadataSettings = Seq(
   organizationHomepage := Some(url("https://cir.is"))
 )
 
-lazy val testSettings = Seq(
-  logBuffered in Test := false,
-  parallelExecution in Test := false,
-  testOptions in Test += Tests.Argument("-oDF"),
-  libraryDependencies ++= Seq(
-    "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
-    "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
-  )
-)
-
 lazy val crossCompileSettings = Seq(
   crossScalaVersions := Seq(scala210, scala211, scala212)
+)
+
+lazy val noReleaseSettings = Seq(
+  publish := (),
+  publishLocal := (),
+  publishArtifact := false,
+  releaseProcess := Seq()
 )
 
 val generateReadme = taskKey[File]("Generates the readme")
