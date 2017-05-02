@@ -8,22 +8,29 @@ section: "home"
 import ciris.build._
 
 def show[T](t: T): String = t.toString
+
+val scalaPublishVersions: String = {
+ val sep = if(crossScalaVersions.size > 2) ", " else " and "
+ crossScalaVersions.map(_.split('.').init.mkString(".")).mkString(sep)
+}
 ```
 
 [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=4db798)](https://gitter.im/vlovgr/ciris)
 
 ## Ciris
-Lightweight, extensible, and validated configuration loading in [Scala][scala], [Scala.js][scalajs], and [Scala Native][scalanative].  
-The core library is [dependency-free](build.sbt), while provided modules integrate with other popular libraries.
+Lightweight, extensible, and validated configuration loading in [Scala][scala].  
+The core library is [dependency-free](build.sbt), while modules provide library integrations.
 
 ### Introduction
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined] and [squants][squants] to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.
 
 ### Getting Started
-To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file:
+To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.
+
 ```tut:evaluated
 println(
 s"""
+ |// Libraries are published for Scala $scalaPublishVersions
  |libraryDependencies ++= Seq(
  |  "$organization" %% "$coreModuleName" % "$latestVersion",
  |  "$organization" %% "$enumeratumModuleName" % "$latestVersion",
@@ -33,15 +40,12 @@ s"""
  """.stripMargin.trim
 )
 ```
-and make sure to replace `%%` with `%%%` if you're using Scala.js or Scala Native.  
+
 The only required module is `ciris-core`, the rest are optional library integrations.
 
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
-
-Modules are published for Scala 2.10, 2.11, and 2.12 wherever possible.  
-Please take note that Scala Native currently only supports Scala 2.11.
 
 ### Usage Example
 Ciris configuration loading is done in two parts: define what to load, and what to create once everything is loaded.  
@@ -88,5 +92,3 @@ show(config.left.map(_.messages))
 [squants]: http://www.squants.com
 [sbt]: http://www.scala-sbt.org
 [scala]: http://www.scala-lang.org
-[scalajs]: https://www.scala-js.org
-[scalanative]: http://www.scala-native.org/

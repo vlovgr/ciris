@@ -13,7 +13,6 @@ cache:
   - "$HOME/.ivy2/cache"
   - "$HOME/.sbt/boot/"
 script:
-  - if [[ $TRAVIS_SCALA_VERSION == '2.11.11' ]]; then sbt ++$TRAVIS_SCALA_VERSION coreNative/compile ; fi
-  - sbt ++$TRAVIS_SCALA_VERSION coverage test coverageReport && sbt ++$TRAVIS_SCALA_VERSION coverageAggregate
+  - sbt ++$TRAVIS_SCALA_VERSION coverage test coverageReport
 after_success:
-  - if [[ $TRAVIS_SCALA_VERSION == '2.12.2' ]]; then bash <(curl -s https://codecov.io/bash) ; fi
+  - bash <(curl -s https://codecov.io/bash)
