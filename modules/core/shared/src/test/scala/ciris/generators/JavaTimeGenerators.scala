@@ -24,7 +24,7 @@ trait JavaTimeGenerators {
       minute <- Gen.choose(0, 59)
       second <- Gen.choose(0, 59)
       nanoOfSecond <- Gen.choose(0, 999999999)
-      zoneId <- Gen.oneOf(ZoneId.getAvailableZoneIds.asScala.toList)
+      zoneId = ZoneId.of("UTC")
     } yield
       ZonedDateTime.of(
         year,
@@ -34,7 +34,7 @@ trait JavaTimeGenerators {
         minute,
         second,
         nanoOfSecond,
-        ZoneId.of(zoneId)
+        zoneId
       )
 
   implicit val arbZonedDateTime: Arbitrary[ZonedDateTime] =
