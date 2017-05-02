@@ -83,14 +83,14 @@ object SourceGenerators extends AutoPlugin {
   }
 
   def generateConfigValueClasses(root: File, rootPackage: String): Seq[File] = {
-    val classes = (2 to maximumNumberOfParams)
+    val classes = (2 until maximumNumberOfParams)
       .map { current ⇒
         val next = current + 1
         val nextTypeParam = typeParam(next)
         val currentTypeParams = typeParams(current)
 
         val defs =
-          if (current == maximumNumberOfParams) ""
+          if (current == maximumNumberOfParams - 1) ""
           else {
             // format: off
             s"""

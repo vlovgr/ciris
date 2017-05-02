@@ -6,10 +6,6 @@ lazy val ciris = project
   .settings(inThisBuild(scalaSettings))
   .settings(inThisBuild(metadataSettings))
   .settings(inThisBuild(testSettings))
-//  .settings(
-//    sourceGenerators in Compile +=
-//      Def.task(generateSources((sourceManaged in Compile).value, "ciris")).taskValue
-//  )
   .aggregate(
     coreJS, coreJVM,
     enumeratumJS, enumeratumJVM,
@@ -21,6 +17,10 @@ lazy val core =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
     .in(file("modules/core"))
     .settings(moduleName := "ciris-core", name := "Ciris core")
+//    .settings(
+//      sourceGenerators in Compile +=
+//        Def.task(generateSources((sourceManaged in Compile).value, "ciris")).taskValue
+//    )
     .jsSettings(crossCompileSettings)
     .jvmSettings(crossCompileSettings)
 
