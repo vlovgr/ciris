@@ -5,7 +5,7 @@ import java.net.{URI, URL}
 import ciris.PropertySpec
 import org.scalacheck.Gen
 
-final class JavaNetConfigReadersSpecJvm extends PropertySpec {
+final class JavaNetConfigReadersSpec extends PropertySpec {
   "JavaNetConfigReaders" when {
     "reading an URI" should {
       "successfully read URI values" in {
