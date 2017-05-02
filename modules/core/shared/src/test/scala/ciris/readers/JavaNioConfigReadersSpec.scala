@@ -9,7 +9,7 @@ final class JavaNioConfigReadersSpec extends PropertySpec {
     "reading a Path" should {
       "successfully read Path values" in {
         forAll { string: String ⇒
-          read[Path](string) shouldBe a[Right[_, _]]
+          readValue[Path](string) shouldBe a[Right[_, _]]
         }
       }
     }

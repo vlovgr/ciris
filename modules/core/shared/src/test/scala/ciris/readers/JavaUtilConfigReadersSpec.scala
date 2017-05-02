@@ -10,14 +10,14 @@ final class JavaUtilConfigReadersSpec extends PropertySpec {
     "reading an UUID" should {
       "successfully read UUID values" in {
         forAll(Gen.uuid) { uuid ⇒
-          read[UUID](uuid.toString) shouldBe Right(uuid)
+          readValue[UUID](uuid.toString) shouldBe Right(uuid)
         }
       }
 
       "return a failure for other values" in {
         forAll { string: String ⇒
           whenever(fails(UUID.fromString(string))) {
-            read[UUID](string) shouldBe a[Left[_, _]]
+            readValue[UUID](string) shouldBe a[Left[_, _]]
           }
         }
       }

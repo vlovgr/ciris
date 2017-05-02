@@ -15,14 +15,14 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
               duration.toString.drop(9)
             else duration.toString
 
-          read[Duration](durationString) shouldBe Right(duration)
+          readValue[Duration](durationString) shouldBe Right(duration)
         }
       }
 
       "return a failure for other values" in {
         forAll { string: String ⇒
           whenever(fails(Duration(string))) {
-            read[Duration](string) shouldBe a[Left[_, _]]
+            readValue[Duration](string) shouldBe a[Left[_, _]]
           }
         }
       }
@@ -31,14 +31,14 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
     "reading a FiniteDuration" should {
       "successfully read FiniteDuration values" in {
         forAll { finiteDuration: FiniteDuration ⇒
-          read[FiniteDuration](finiteDuration.toString) shouldBe Right(finiteDuration)
+          readValue[FiniteDuration](finiteDuration.toString) shouldBe Right(finiteDuration)
         }
       }
 
       "return a failure for other values" in {
         forAll { string: String ⇒
           whenever(fails(Duration(string)) || !Duration(string).isFinite()) {
-            read[FiniteDuration](string) shouldBe a[Left[_, _]]
+            readValue[FiniteDuration](string) shouldBe a[Left[_, _]]
           }
         }
       }

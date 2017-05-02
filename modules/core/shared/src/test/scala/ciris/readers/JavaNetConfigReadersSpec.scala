@@ -11,7 +11,7 @@ final class JavaNetConfigReadersSpec extends PropertySpec {
       "successfully read URI values" in {
         val exampleUris = Gen.oneOf("http://localhost", "ftp://localhost")
         forAll(exampleUris) { exampleUri: String ⇒
-          read[URI](exampleUri) shouldBe a[Right[_, _]]
+          readValue[URI](exampleUri) shouldBe a[Right[_, _]]
         }
       }
     }
@@ -20,7 +20,7 @@ final class JavaNetConfigReadersSpec extends PropertySpec {
       "successfully read URL values" in {
         val exampleUrls = Gen.oneOf("http://localhost", "ftp://localhost")
         forAll(exampleUrls) { exampleUrl: String ⇒
-          read[URL](exampleUrl) shouldBe a[Right[_, _]]
+          readValue[URL](exampleUrl) shouldBe a[Right[_, _]]
         }
       }
     }

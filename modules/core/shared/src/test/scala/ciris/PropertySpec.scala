@@ -23,10 +23,10 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks {
 
   def fails[A](f: ⇒ A): Boolean = Try(f).isFailure
 
-  def read[A](value: String)(implicit reader: ConfigReader[A]): Either[ConfigError, A] =
+  def readValue[A](value: String)(implicit reader: ConfigReader[A]): Either[ConfigError, A] =
     reader.read("key")(sourceWith("key", value))
 
-  def readEmpty[A](implicit reader: ConfigReader[A]): Either[ConfigError, A] =
+  def readNonExistingValue[A](implicit reader: ConfigReader[A]): Either[ConfigError, A] =
     reader.read("key")(new ConfigSource {
       override def read(key: String): Either[ConfigError, String] =
         Left(MissingKey(key, this))
@@ -38,6 +38,14 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks {
     new ConfigSource {
       override def read(readKey: String): Either[ConfigError, String] =
         Map(key → value).get(readKey).map(Right(_)).getOrElse(Left(MissingKey(readKey, this)))
+
+      override def keyType: String = "test source"
+    }
+
+  def sourceWith(entries: (String, String)*): ConfigSource =
+    new ConfigSource {
+      override def read(key: String): Either[ConfigError, String] =
+        entries.toMap.get(key).map(Right(_)).getOrElse(Left(MissingKey(key, this)))
 
       override def keyType: String = "test source"
     }

@@ -1,6 +1,8 @@
 package ciris
 
-import ciris.ConfigError.MissingKey
+import ciris.ConfigError.{InvalidKey, MissingKey}
+
+import scala.util.{Failure, Success, Try}
 
 abstract class ConfigSource {
   def read(key: String): Either[ConfigError, String]
@@ -17,7 +19,14 @@ object ConfigSource {
 
   case object Properties extends ConfigSource {
     override def read(key: String): Either[ConfigError, String] =
-      sys.props.get(key).map(Right(_)).getOrElse(Left(MissingKey(key, this)))
+      Try(sys.props.get(key)) match {
+        case Success(Some(value)) ⇒
+          Right(value)
+        case Success(None) ⇒
+          Left(MissingKey(key, this))
+        case Failure(cause) ⇒
+          Left(InvalidKey(key, this, cause))
+      }
 
     override val keyType: String = "system property"
   }

@@ -12,6 +12,12 @@ object ConfigError {
     override def message: String = s"Missing ${source.keyType} [$key]"
   }
 
+  final case class InvalidKey(key: String, source: ConfigSource, cause: Throwable)
+      extends ConfigError {
+
+    override def message: String = s"Invalid ${source.keyType} [$key]: $cause"
+  }
+
   final case class WrongType[A, B](
     key: String,
     value: A,
