@@ -17,14 +17,6 @@ lazy val core =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
     .in(file("modules/core"))
     .settings(moduleName := "ciris-core", name := "Ciris core")
-    .settings(
-      sourceGenerators in Compile += Def.task {
-        generateSources(
-          (sourceManaged in Compile).value,
-          "ciris"
-        )
-      }.taskValue
-    )
     .jsSettings(crossCompileSettings)
     .jvmSettings(crossCompileSettings)
 
