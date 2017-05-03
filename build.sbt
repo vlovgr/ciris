@@ -40,6 +40,7 @@ lazy val docs = project
   .settings(
     micrositeName := "Ciris",
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
+    micrositeDocumentationUrl := "https://www.javadoc.io/doc/is.cir/ciris-core_2.12",
     micrositeAuthor := "Viktor Lövgren",
     micrositeOrganizationHomepage := "https://vlovgr.se",
     micrositeGithubOwner := "vlovgr",
