@@ -28,7 +28,7 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
     override val values: IndexedSeq[CharEnumItem] = findValues
   }
 
-  sealed trait EnumEntryItem extends EnumEntry with UpperSnakecase
+  sealed abstract class EnumEntryItem extends EnumEntry with UpperSnakecase
   object EnumEntryItem extends Enum[EnumEntryItem] {
     case object A extends EnumEntryItem with Uppercase
     case object B extends EnumEntryItem with Lowercase

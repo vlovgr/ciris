@@ -22,8 +22,9 @@ final class MathConfigReadersSpec extends PropertySpec {
 
     "reading a BigDecimal" should {
       "successfully read BigDecimal values" in {
-        forAll { bigDecimal: BigDecimal ⇒
-          readValue[BigDecimal](bigDecimal.toString) shouldBe Right(bigDecimal)
+        forAll { double: Double ⇒
+          val doubleString = double.toString
+          readValue[BigDecimal](doubleString) shouldBe Right(BigDecimal(doubleString))
         }
       }
 
