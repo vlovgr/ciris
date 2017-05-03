@@ -1,4 +1,4 @@
-[![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=4db798)](https://gitter.im/vlovgr/ciris)
+[![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=4db798)](https://gitter.im/vlovgr/ciris) [![Version](https://index.scala-lang.org/vlovgr/ciris/ciris-core/latest.svg?color=blue)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://www.javadoc.io/badge/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://www.javadoc.io/doc/is.cir/ciris-core_2.12)
 
 ## Ciris
 Lightweight, extensible, and validated configuration loading in [Scala][scala].  
