@@ -180,6 +180,14 @@ lazy val noPublishSettings =
     publishArtifact := false
   )
 
+lazy val sourceGeneratorSettings = Seq(
+  sourceGenerators in Compile +=
+    Def.task(generateSources(
+      (sourceManaged in Compile).value,
+      "ciris"
+    )).taskValue
+)
+
 val generateReadme = taskKey[File]("Generates the readme")
 generateReadme in ThisBuild := {
   (tut in docs).value
