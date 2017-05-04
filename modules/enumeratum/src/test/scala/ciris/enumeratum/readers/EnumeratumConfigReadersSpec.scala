@@ -74,9 +74,15 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
   "EnumeratumConfigReaders" when {
     "reading a ByteEnum" should {
-      "successfully read the ByteEnum values" in {
+      "successfully read ByteEnum values" in {
         forAll(Gen.oneOf(ByteEnumItem.values)) { enum ⇒
           readValue[ByteEnumItem](enum.value.toString) shouldBe Right(enum)
+        }
+      }
+
+      "successfully read optional ByteEnum values" in {
+        forAll(Gen.oneOf(ByteEnumItem.values)) { enum ⇒
+          readValue[Option[ByteEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
@@ -90,9 +96,15 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
     }
 
     "reading a CharEnum" should {
-      "successfully read the CharEnum values" in {
+      "successfully read CharEnum values" in {
         forAll(Gen.oneOf(CharEnumItem.values)) { enum ⇒
           readValue[CharEnumItem](enum.value.toString) shouldBe Right(enum)
+        }
+      }
+
+      "successfully read optional CharEnum values" in {
+        forAll(Gen.oneOf(CharEnumItem.values)) { enum ⇒
+          readValue[Option[CharEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
@@ -106,9 +118,15 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
     }
 
     "reading an EnumEntry" should {
-      "successfully read the EnumEntry names" in {
+      "successfully read EnumEntry names" in {
         forAll(Gen.oneOf(EnumEntryItem.values)) { enum ⇒
           readValue[EnumEntryItem](enum.entryName) shouldBe Right(enum)
+        }
+      }
+
+      "successfully read optional EnumEntry names" in {
+        forAll(Gen.oneOf(EnumEntryItem.values)) { enum ⇒
+          readValue[Option[EnumEntryItem]](enum.entryName) shouldBe Right(Some(enum))
         }
       }
 
@@ -122,9 +140,15 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
     }
 
     "reading an IntEnum" should {
-      "successfully read the IntEnum values" in {
+      "successfully read IntEnum values" in {
         forAll(Gen.oneOf(IntEnumItem.values)) { enum ⇒
           readValue[IntEnumItem](enum.value.toString) shouldBe Right(enum)
+        }
+      }
+
+      "successfully read optional IntEnum values" in {
+        forAll(Gen.oneOf(IntEnumItem.values)) { enum ⇒
+          readValue[Option[IntEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
@@ -138,9 +162,15 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
     }
 
     "reading a LongEnum" should {
-      "successfully read the LongEnum values" in {
+      "successfully read LongEnum values" in {
         forAll(Gen.oneOf(LongEnumItem.values)) { enum ⇒
           readValue[LongEnumItem](enum.value.toString) shouldBe Right(enum)
+        }
+      }
+
+      "successfully read optional LongEnum values" in {
+        forAll(Gen.oneOf(LongEnumItem.values)) { enum ⇒
+          readValue[Option[LongEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
@@ -154,9 +184,15 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
     }
 
     "reading a ShortEnum" should {
-      "successfully read the ShortEnum values" in {
+      "successfully read ShortEnum values" in {
         forAll(Gen.oneOf(ShortEnumItem.values)) { enum ⇒
           readValue[ShortEnumItem](enum.value.toString) shouldBe Right(enum)
+        }
+      }
+
+      "successfully read optional ShortEnum values" in {
+        forAll(Gen.oneOf(ShortEnumItem.values)) { enum ⇒
+          readValue[Option[ShortEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
@@ -170,9 +206,15 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
     }
 
     "reading a StringEnum" should {
-      "successfully read the StringEnum values" in {
+      "successfully read StringEnum values" in {
         forAll(Gen.oneOf(StringEnumItem.values)) { enum ⇒
           readValue[StringEnumItem](enum.value.toString) shouldBe Right(enum)
+        }
+      }
+
+      "successfully read optional StringEnum values" in {
+        forAll(Gen.oneOf(StringEnumItem.values)) { enum ⇒
+          readValue[Option[StringEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 

@@ -112,6 +112,12 @@ final class SquantsConfigReadersSpec extends PropertySpec with SquantsGenerators
         }
       }
 
+      s"successfully read optional $typeName values" in {
+        forAll(genQuantity(dimension)) { quantity ⇒
+          readValue[Option[A]](quantity.toString) shouldBe Right(Some(quantity))
+        }
+      }
+
       "return a failure for other values" in {
         forAll { string: String ⇒
           whenever(apply(string).isFailure) {
@@ -127,6 +133,12 @@ final class SquantsConfigReadersSpec extends PropertySpec with SquantsGenerators
       "successfully read Money values" in {
         forAll(genMoney) { money ⇒
           readValue[Money](money.toString) shouldBe Right(money)
+        }
+      }
+
+      "successfully read optional Money values" in {
+        forAll(genMoney) { money ⇒
+          readValue[Option[Money]](money.toString) shouldBe Right(Some(money))
         }
       }
 
