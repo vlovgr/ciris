@@ -43,6 +43,7 @@ lazy val docs = project
     micrositeDocumentationUrl := "https://www.javadoc.io/doc/is.cir/ciris-core_2.12",
     micrositeAuthor := "Viktor Lövgren",
     micrositeOrganizationHomepage := "https://vlovgr.se",
+    micrositeAnalyticsToken := "UA-37804684-4",
     micrositeGithubOwner := "vlovgr",
     micrositeGithubRepo := "ciris",
     micrositeHighlightTheme := "atom-one-light"
