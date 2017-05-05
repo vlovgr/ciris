@@ -158,6 +158,7 @@ lazy val releaseSettings =
       releaseStepTask(updateReadme in ThisBuild),
       commitReleaseVersion,
       tagRelease,
+      pushChanges,
       releaseStepInputTask(githubRelease),
       publishArtifacts,
       releaseStepCommand("sonatypeRelease"),
