@@ -6,7 +6,7 @@ import scala.concurrent.duration.{Duration, FiniteDuration}
 
 trait DurationGenerators {
   val genFiniteDuration: Gen[FiniteDuration] =
-    Gen.chooseNum(0, Long.MaxValue).map(Duration.fromNanos)
+    Gen.chooseNum(0, 1e10.toLong).map(Duration.fromNanos)
 
   implicit val arbFiniteDuration: Arbitrary[FiniteDuration] =
     Arbitrary(genFiniteDuration)
