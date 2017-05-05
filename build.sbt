@@ -137,6 +137,9 @@ lazy val releaseSettings =
       else
         Some("releases" at nexus + "service/local/staging/deploy/maven2")
     },
+    ghreleaseRepoOrg := "vlovgr",
+    ghreleaseRepoName := "ciris",
+    ghreleaseAssets := Seq(),
     releaseCrossBuild := true,
     releaseTagName := s"v${(version in ThisBuild).value}",
     releaseTagComment := s"Release version ${(version in ThisBuild).value}",
@@ -145,6 +148,8 @@ lazy val releaseSettings =
     releaseUseGlobalVersion := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
+      releaseStepTask(ghreleaseGetCredentials),
+      releaseStepTask(ghreleaseGetRepo),
       inquireVersions,
       runClean,
       runTest,
@@ -153,6 +158,7 @@ lazy val releaseSettings =
       releaseStepTask(updateReadme in ThisBuild),
       commitReleaseVersion,
       tagRelease,
+      releaseStepInputTask(githubRelease, "n"),
       publishArtifacts,
       releaseStepCommand("sonatypeRelease"),
       setNextVersion,
