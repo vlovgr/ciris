@@ -186,67 +186,78 @@ object SourceGenerators extends AutoPlugin {
       (1 to n).map(i ⇒ s""""value$i"""").mkString(", ")
 
     def testsWithParams(n: Int): String = {
-      s"""
-         |"loading $n keys" should {
-         |  "be able to load" in {
-         |    loadConfig(${reads(n)})(${identity(n)}) shouldBe Right((${values(n)}))
-         |  }
-         |
-         |  "be able to load values" in {
-         |    withValues(${reads(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(
-           n)})) shouldBe Right((${values(n)}))
-         |  }
-         |
-         |  "fail to load if the first one is missing" in {
-         |    loadConfig(${readsFirstMissing(n)})(${identity(n)}) shouldBe a[Left[_, _]]
-         |  }
-         |
-         |  "fail to load values if the first one is missing" in {
-         |    withValues(${readsFirstMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(
-           n)})(${identity(n)})) shouldBe a[Left[_, _]]
-         |  }
-         |
-         |  "fail to load if the last one is missing in" in {
-         |    loadConfig(${readsLastOneMissing(n)})(${identity(n)}) shouldBe a[Left[_, _]]
-         |  }
-         |
-         |  "fail to load values if the last one is missing" in {
-         |    withValues(${readsLastOneMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(
-           n)})(${identity(n)})) shouldBe a[Left[_, _]]
-         |  }
-         |
-         |  "fail to load if the first type is wrong" in {
-         |    loadConfig(${readsFirstTypeWrong(n)})(${identity(n)}) shouldBe a[Left[_, _]]
-         |  }
-         |
-         |  "fail to load values if the first type is wrong" in {
-         |    withValues(${readsFirstTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(
-           n)})(${identity(n)})) shouldBe a[Left[_, _]]
-         |  }
-         |
-         |  "fail to load if the last type is wrong" in {
-         |    loadConfig(${readsLastTypeWrong(n)})(${identity(n)}) shouldBe a[Left[_, _]]
-         |  }
-         |
-         |  "fail to load values if the last type is wrong" in {
-         |    withValues(${readsLastTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(
-           n)})(${identity(n)})) shouldBe a[Left[_, _]]
-         |  }
-         |
-         |  "fail to load and accumulate the errors" in {
-         |    loadConfig(${readsAllTypesWrong(n)})(${identity(n)}).left.map(_.size) shouldBe Left($n)
-         |  }
-         |
-         |  "fail to load values and accumulate the errors" in {
-         |    withValues(${readsAllTypesWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(
-           n)})(${identity(n)})) shouldBe a[Left[_, _]]
-         |  }
-         |}
-       """.stripMargin.trim.split('\n').map((" " * 6) + _).mkString("\n")
+      val tests =
+        if (n == 0) {
+          s"""
+            |"loading 0 keys" should {
+            |  "always be able to load" in {
+            |    forAll { int: Int =>
+            |      loadConfig(int) shouldBe Right(int)
+            |    }
+            |  }
+            |}
+          """.stripMargin
+        } else {
+          // format: off
+          s"""
+             |"loading $n keys" should {
+             |  "be able to load" in {
+             |    loadConfig(${reads(n)})(${identity(n)}) shouldBe Right((${values(n)}))
+             |  }
+             |
+             |  "be able to load values" in {
+             |    withValues(${reads(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe Right((${values(n)}))
+             |  }
+             |
+             |  "fail to load if the first one is missing" in {
+             |    loadConfig(${readsFirstMissing(n)})(${identity(n)}) shouldBe a[Left[_, _]]
+             |  }
+             |
+             |  "fail to load values if the first one is missing" in {
+             |    withValues(${readsFirstMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |  }
+             |
+             |  "fail to load if the last one is missing in" in {
+             |    loadConfig(${readsLastOneMissing(n)})(${identity(n)}) shouldBe a[Left[_, _]]
+             |  }
+             |
+             |  "fail to load values if the last one is missing" in {
+             |    withValues(${readsLastOneMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |  }
+             |
+             |  "fail to load if the first type is wrong" in {
+             |    loadConfig(${readsFirstTypeWrong(n)})(${identity(n)}) shouldBe a[Left[_, _]]
+             |  }
+             |
+             |  "fail to load values if the first type is wrong" in {
+             |    withValues(${readsFirstTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |  }
+             |
+             |  "fail to load if the last type is wrong" in {
+             |    loadConfig(${readsLastTypeWrong(n)})(${identity(n)}) shouldBe a[Left[_, _]]
+             |  }
+             |
+             |  "fail to load values if the last type is wrong" in {
+             |    withValues(${readsLastTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |  }
+             |
+             |  "fail to load and accumulate the errors" in {
+             |    loadConfig(${readsAllTypesWrong(n)})(${identity(n)}).left.map(_.size) shouldBe Left($n)
+             |  }
+             |
+             |  "fail to load values and accumulate the errors" in {
+             |    withValues(${readsAllTypesWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |  }
+             |}
+           """.stripMargin
+          // format: on
+        }
+
+      tests.trim.split('\n').map((" " * 6) + _).mkString("\n")
     }
 
     val tests: String =
-      (1 until maximumNumberOfParams)
+      (0 until maximumNumberOfParams)
         .map(testsWithParams)
         .mkString("\n\n")
 
