@@ -26,31 +26,67 @@ The only required module is `ciris-core`, the rest are optional library integrat
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
 
-### Usage Example
+### Usage Examples
 Ciris configuration loading is done in two parts: define what to load, and what to create once everything is loaded.  
-We are using a case class for our configuration in the following example, but feel free to use whatever you want.  
-The `ciris-refined` module is used here to integrate with [refined][refined] to encode validation in the data types.
+Let's start simple by defining a configuration and loading only the necessary parts of it from the environment.
 
 ```scala
 import ciris._
+
+import scala.concurrent.duration._
+
+final case class Config(
+  apiKey: String,
+  timeout: Duration,
+  port: Int
+)
+
+val config: Either[ConfigErrors, Config] =
+  loadConfig(
+    env[String]("API_KEY"), // Reads environment variable API_KEY
+    prop[Option[Int]]("http.port") // Reads system property http.port
+  ) { (apiKey, port) =>
+    Config(
+      apiKey = apiKey,
+      timeout = 10.seconds,
+      port = port getOrElse 4000
+    )
+  }
+
+```
+
+```scala
+show(config)
+// res5: String = Left(ConfigErrors(MissingKey(API_KEY,Environment)))
+
+show(config.left.map(_.messages))
+// res6: String = Left(Vector(Missing environment variable [API_KEY]))
+```
+
+#### Encoding Validation
+Ciris intentionally forces you to encode validation in your data types. This means you have to put more thought into your configurations, and in turn, your domain models. If you want to load an API key, you probably don't want it to be any `String`. If you want to load a port value, you probably don't want it to be any `Int` (valid ports are 0 to 65535).
+
+By using more precise types, we get type-safety and a guarantee that values conform to our requirements. One of the easiest ways to encode validation in data types is by using [refined][refined]. Ciris provides a `ciris-refined` module which allows you to read any refined type. You can also get compile-time validation for literals from refined.
+
+Let's modify the configuration to use refined types and again load the same parts from the environment.
+
+```scala
 import ciris.refined._
 
 import eu.timepit.refined.auto._
 import eu.timepit.refined.types.net.PortNumber
 import eu.timepit.refined.types.string.NonEmptyString
 
-import scala.concurrent.duration._
-
 final case class Config(
-  apiKey: NonEmptyString, // API key cannot be empty
+  apiKey: NonEmptyString,
   timeout: Duration,
-  port: PortNumber // Only allow Ints which are port numbers
+  port: PortNumber
 )
 
-val config: Either[ConfigErrors, Config] =
+val config =
   loadConfig(
-    env[NonEmptyString]("API_KEY"), // Reads environment variable API_KEY
-    prop[Option[PortNumber]]("http.port") // Reads system property http.port
+    env[NonEmptyString]("API_KEY"),
+    prop[Option[PortNumber]]("http.port")
   ) { (apiKey, port) =>
     Config(
       apiKey = apiKey,
@@ -60,12 +96,76 @@ val config: Either[ConfigErrors, Config] =
   }
 ```
 
-```scala
-show(config)
-// res5: String = Left(ConfigErrors(MissingKey(API_KEY,Environment)))
+#### Multiple Environments
+One of the most common use cases for configurations is having different values for different environments. There are several ways to deal with environments with Ciris: one way being to define an enumeration with [enumeratum][enumeratum] and use the `ciris-enumeratum` module to be able to load values of that enumeration. You can then switch configuration by just writing conditional statements in plain code.
 
-show(config.left.map(_.messages))
-// res6: String = Left(Vector(Missing environment variable [API_KEY]))
+Let's define and load a configuration depending on different environments.
+
+```scala
+import _root_.enumeratum._
+import ciris.enumeratum._
+
+object configuration {
+  sealed abstract class AppEnvironment extends EnumEntry
+  object AppEnvironment extends Enum[AppEnvironment] {
+    case object Local extends AppEnvironment
+    case object Testing extends AppEnvironment
+    case object Production extends AppEnvironment
+
+    val values = findValues
+  }
+}
+
+import configuration._
+
+val config =
+  loadConfig(
+    env[NonEmptyString]("API_KEY"),
+    prop[Option[PortNumber]]("http.port"),
+    env[Option[AppEnvironment]]("APP_ENV")
+  ) { (apiKey, port, appEnvironment) =>
+    val default =
+      Config(
+        apiKey = apiKey,
+        timeout = 10 seconds,
+        port = port getOrElse 4000
+      )
+
+    appEnvironment.map {
+      case AppEnvironment.Local => default
+      case _ => default.copy(timeout = 5 seconds)
+    }.getOrElse(default)
+  }
+```
+
+What about reading different configuration values depending on the environment? For example, you could use defaults for everything in a local environment, while reading configuration values, like the API key and port, in the other environments.
+
+For that purpose, there is a `withValues` construct that you can use. It works exactly like `loadConfig`, except it wraps your `loadConfig` statements, only executing them if all the `withValues` values could be read successfully. If it helps, think of `loadConfig` as `map` and `withValues` as `flatMap` (which is also how they are defined internally).
+
+```scala
+withValues(
+  env[Option[AppEnvironment]]("APP_ENV")
+) {
+  case Some(AppEnvironment.Local) | None =>
+    loadConfig {
+      Config(
+        apiKey = "changeme",
+        timeout = 10 seconds,
+        port = 4000
+      )
+    }
+  case _ =>
+    loadConfig(
+      env[NonEmptyString]("API_KEY"),
+      prop[PortNumber]("http.port")
+    ) { (apiKey, port) =>
+      Config(
+        apiKey = apiKey,
+        timeout = 5 seconds,
+        port = port
+      )
+    }
+}
 ```
 
 [enumeratum]: https://github.com/lloydmeta/enumeratum
