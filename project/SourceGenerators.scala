@@ -53,13 +53,13 @@ object SourceGenerators extends AutoPlugin {
           val firstArgs = args(current, arg ⇒ s"ConfigValue[${typeParam(arg)}]")
 
           val loadConfigSecondArgs = s"f: (${typeParams(current)}) => Z"
-          val withConfigSecondArgs = s"f: (${typeParams(current)}) => Either[ConfigErrors, Z]"
+          val withValuesSecondArgs = s"f: (${typeParams(current)}) => Either[ConfigErrors, Z]"
 
           Seq(
             s"def loadConfig[$params, Z]($firstArgs)($loadConfigSecondArgs): Either[ConfigErrors, Z] =",
             s"  (${valueParams(current, sep = " append ")}).value.right.map(f.tupled)",
             "",
-            s"def withConfig[$params, Z]($firstArgs)($withConfigSecondArgs): Either[ConfigErrors, Z] =",
+            s"def withValues[$params, Z]($firstArgs)($withValuesSecondArgs): Either[ConfigErrors, Z] =",
             s"  (${valueParams(current, sep = " append ") }).value.right.flatMap(f.tupled)"
           ).map("  " + _).mkString("\n")
         }
@@ -80,7 +80,7 @@ object SourceGenerators extends AutoPlugin {
         |  def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 ⇒ Z): Either[ConfigErrors, Z] =
         |    a1.value.fold(error ⇒ Left(ConfigErrors(error)), a1 ⇒ Right(f(a1)))
         |
-        |  def withConfig[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
+        |  def withValues[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
         |    a1.value.fold(error ⇒ Left(ConfigErrors(error)), f)
         |
         |$defs
