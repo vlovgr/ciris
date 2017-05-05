@@ -184,6 +184,7 @@ lazy val sourceGeneratorSettings = Seq(
   sourceGenerators in Compile +=
     Def.task(generateSources(
       (sourceManaged in Compile).value,
+      (sourceManaged in Test).value,
       "ciris"
     )).taskValue
 )
