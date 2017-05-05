@@ -159,7 +159,7 @@ lazy val releaseSettings =
       commitReleaseVersion,
       tagRelease,
       pushChanges,
-      releaseStepInputTask(githubRelease),
+      releaseStepInputTask(githubRelease, s" v${(version in ThisBuild).value.stripSuffix("-SNAPSHOT")}"),
       publishArtifacts,
       releaseStepCommand("sonatypeRelease"),
       setNextVersion,
