@@ -159,12 +159,11 @@ val config =
 
 What about reading different configuration values depending on the environment? For example, you could use defaults for everything in a local environment, while reading configuration values, like the API key and port, in the other environments.
 
-For that purpose, there is a `withValues` construct that you can use. It works exactly like `loadConfig`, except it wraps your `loadConfig` statements, only executing them if all the `withValues` values could be read successfully. If it helps, think of `loadConfig` as `map` and `withValues` as `flatMap` (which is also how they are defined internally).
+For that purpose, there is a `withValues` (and `withValue`) construct that you can use. It works exactly like `loadConfig`, except it wraps your `loadConfig` statements, only executing them if all `withValues` values could be read successfully.  
+If it helps, think of `loadConfig` as `map` and `withValues` as `flatMap` (which is also how they are defined internally).
 
 ```tut:silent
-withValues(
-  env[Option[AppEnvironment]]("APP_ENV")
-) {
+withValue(env[Option[AppEnvironment]]("APP_ENV")) {
   case Some(AppEnvironment.Local) | None =>
     loadConfig {
       Config(
