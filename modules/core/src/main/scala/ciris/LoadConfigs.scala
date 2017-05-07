@@ -14,6 +14,9 @@ private [ciris] trait LoadConfigs {
   def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 ⇒ Z): Either[ConfigErrors, Z] =
     a1.value.fold(error ⇒ Left(ConfigErrors(error)), a1 ⇒ Right(f(a1)))
 
+  def withValue[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
+   withValues(a1)(f)
+
   def withValues[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
     a1.value.fold(error ⇒ Left(ConfigErrors(error)), f)
 

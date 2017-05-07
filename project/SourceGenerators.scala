@@ -86,6 +86,9 @@ object SourceGenerators extends AutoPlugin {
         |  def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 ⇒ Z): Either[ConfigErrors, Z] =
         |    a1.value.fold(error ⇒ Left(ConfigErrors(error)), a1 ⇒ Right(f(a1)))
         |
+        |  def withValue[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
+        |   withValues(a1)(f)
+        |
         |  def withValues[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
         |    a1.value.fold(error ⇒ Left(ConfigErrors(error)), f)
         |
@@ -198,6 +201,10 @@ object SourceGenerators extends AutoPlugin {
             |}
           """.stripMargin
         } else {
+          val withValueMethods =
+            if(n == 1) List("withValues", "withValue")
+            else List("withValues")
+
           // format: off
           s"""
              |"loading $n keys" should {
@@ -206,7 +213,7 @@ object SourceGenerators extends AutoPlugin {
              |  }
              |
              |  "be able to load values" in {
-             |    withValues(${reads(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe Right((${values(n)}))
+             |    ${withValueMethods.map(_ + s"""(${reads(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe Right((${values(n)}))""").mkString("\n    ")}
              |  }
              |
              |  "fail to load if the first one is missing" in {
@@ -214,7 +221,7 @@ object SourceGenerators extends AutoPlugin {
              |  }
              |
              |  "fail to load values if the first one is missing" in {
-             |    withValues(${readsFirstMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |    ${withValueMethods.map(_ + s"""(${readsFirstMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |
              |  "fail to load if the last one is missing in" in {
@@ -222,7 +229,7 @@ object SourceGenerators extends AutoPlugin {
              |  }
              |
              |  "fail to load values if the last one is missing" in {
-             |    withValues(${readsLastOneMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |    ${withValueMethods.map(_ + s"""(${readsLastOneMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |
              |  "fail to load if the first type is wrong" in {
@@ -230,7 +237,7 @@ object SourceGenerators extends AutoPlugin {
              |  }
              |
              |  "fail to load values if the first type is wrong" in {
-             |    withValues(${readsFirstTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |    ${withValueMethods.map(_ + s"""(${readsFirstTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |
              |  "fail to load if the last type is wrong" in {
@@ -238,7 +245,7 @@ object SourceGenerators extends AutoPlugin {
              |  }
              |
              |  "fail to load values if the last type is wrong" in {
-             |    withValues(${readsLastTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |    ${withValueMethods.map(_ + s"""(${readsLastTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |
              |  "fail to load and accumulate the errors" in {
@@ -246,7 +253,7 @@ object SourceGenerators extends AutoPlugin {
              |  }
              |
              |  "fail to load values and accumulate the errors" in {
-             |    withValues(${readsAllTypesWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]
+             |    ${withValueMethods.map(_ + s"""(${readsAllTypesWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |}
            """.stripMargin

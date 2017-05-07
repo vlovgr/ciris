@@ -27,6 +27,7 @@ final class LoadConfigsSpec extends PropertySpec {
       
         "be able to load values" in {
           withValues(read[String]("key1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe Right(("value1"))
+          withValue(read[String]("key1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe Right(("value1"))
         }
       
         "fail to load if the first one is missing" in {
@@ -35,6 +36,7 @@ final class LoadConfigsSpec extends PropertySpec {
       
         "fail to load values if the first one is missing" in {
           withValues(read[String]("akey1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
+          withValue(read[String]("akey1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
         }
       
         "fail to load if the last one is missing in" in {
@@ -43,6 +45,7 @@ final class LoadConfigsSpec extends PropertySpec {
       
         "fail to load values if the last one is missing" in {
           withValues(read[String]("akey1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
+          withValue(read[String]("akey1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
         }
       
         "fail to load if the first type is wrong" in {
@@ -51,6 +54,7 @@ final class LoadConfigsSpec extends PropertySpec {
       
         "fail to load values if the first type is wrong" in {
           withValues(read[Int]("key1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
+          withValue(read[Int]("key1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
         }
       
         "fail to load if the last type is wrong" in {
@@ -59,6 +63,7 @@ final class LoadConfigsSpec extends PropertySpec {
       
         "fail to load values if the last type is wrong" in {
           withValues(read[Int]("key1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
+          withValue(read[Int]("key1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
         }
       
         "fail to load and accumulate the errors" in {
@@ -67,6 +72,7 @@ final class LoadConfigsSpec extends PropertySpec {
       
         "fail to load values and accumulate the errors" in {
           withValues(read[Int]("key1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
+          withValue(read[Int]("key1"))((b1) => loadConfig(read[String]("key1"))((a1) => (a1))) shouldBe a[Left[_, _]]
         }
       }
 
