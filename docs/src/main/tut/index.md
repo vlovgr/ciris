@@ -18,14 +18,14 @@ val scalaPublishVersions: String = {
 [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=4db798)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://www.javadoc.io/doc/is.cir/ciris-core_2.12)
 
 ## Ciris
-Lightweight, extensible, and validated configuration loading in [Scala][scala].  
+Lightweight, extensible, and validated configuration loading in [Scala][scala] and [Scala.js][scalajs].  
 The core library is dependency-free, while modules provide library integrations.
 
 ### Introduction
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined] and [squants][squants] to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.
 
 ### Getting Started
-To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.
+To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file:
 
 ```tut:evaluated
 println(
@@ -40,6 +40,8 @@ s"""
  """.stripMargin.trim
 )
 ```
+
+and make sure to replace `%%` with `%%%` if you are using Scala.js.
 
 The only required module is `ciris-core`, the rest are optional library integrations.
 
@@ -159,8 +161,7 @@ val config =
 
 What about reading different configuration values depending on the environment? For example, you could use defaults for everything in a local environment, while reading configuration values, like the API key and port, in the other environments.
 
-For that purpose, there is a `withValues` (and `withValue`) construct that you can use. It works exactly like `loadConfig`, except it wraps your `loadConfig` statements, only executing them if all `withValues` values could be read successfully.  
-If it helps, think of `loadConfig` as `map` and `withValues` as `flatMap` (which is also how they are defined internally).
+For that purpose, there is a `withValues` (and `withValue`) construct that you can use. It works exactly like `loadConfig`, except it wraps your `loadConfig` statements, only executing them if all `withValues` values could be read successfully. If it helps, think of `loadConfig` as `map` and `withValues` as `flatMap` (which is also how they are defined internally).
 
 ```tut:silent
 withValue(env[Option[AppEnvironment]]("APP_ENV")) {
@@ -191,3 +192,4 @@ withValue(env[Option[AppEnvironment]]("APP_ENV")) {
 [squants]: http://www.squants.com
 [sbt]: http://www.scala-sbt.org
 [scala]: http://www.scala-lang.org
+[scalajs]: https://www.scala-js.org
