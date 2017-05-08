@@ -1,0 +1,4 @@
+### Changes
+* Add a `withValue` alias for `withValues` arity one. ([#5](https://github.com/vlovgr/ciris/pull/5))
+
+Released on 2017-05-08.
