@@ -20,10 +20,10 @@ The core library is dependency-free, while modules provide library integrations.
 
 <div class="highlighter-rouge"><pre class="highlight"><code>// Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.1.1",
-  "is.cir" %% "ciris-enumeratum" % "0.1.1",
-  "is.cir" %% "ciris-refined" % "0.1.1",
-  "is.cir" %% "ciris-squants" % "0.1.1"
+  "is.cir" %% "ciris-core" % "0.1.2",
+  "is.cir" %% "ciris-enumeratum" % "0.1.2",
+  "is.cir" %% "ciris-refined" % "0.1.2",
+  "is.cir" %% "ciris-squants" % "0.1.2"
 )
 </code></pre>
 </div>
@@ -150,11 +150,10 @@ Let’s start simple by defining a configuration and loading only the necessary 
 
 <p>What about reading different configuration values depending on the environment? For example, you could use defaults for everything in a local environment, while reading configuration values, like the API key and port, in the other environments.</p>
 
-<p>For that purpose, there is a <code class="highlighter-rouge">withValues</code> construct that you can use. It works exactly like <code class="highlighter-rouge">loadConfig</code>, except it wraps your <code class="highlighter-rouge">loadConfig</code> statements, only executing them if all the <code class="highlighter-rouge">withValues</code> values could be read successfully. If it helps, think of <code class="highlighter-rouge">loadConfig</code> as <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">withValues</code> as <code class="highlighter-rouge">flatMap</code> (which is also how they are defined internally).</p>
+<p>For that purpose, there is a <code class="highlighter-rouge">withValues</code> (and <code class="highlighter-rouge">withValue</code>) construct that you can use. It works exactly like <code class="highlighter-rouge">loadConfig</code>, except it wraps your <code class="highlighter-rouge">loadConfig</code> statements, only executing them if all <code class="highlighter-rouge">withValues</code> values could be read successfully.<br />
+If it helps, think of <code class="highlighter-rouge">loadConfig</code> as <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">withValues</code> as <code class="highlighter-rouge">flatMap</code> (which is also how they are defined internally).</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">withValues</span><span class="o">(</span>
-  <span class="n">env</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]](</span><span class="s">"APP_ENV"</span><span class="o">)</span>
-<span class="o">)</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">withValue</span><span class="o">(</span><span class="n">env</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]](</span><span class="s">"APP_ENV"</span><span class="o">))</span> <span class="o">{</span>
   <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">AppEnvironment</span><span class="o">.</span><span class="nc">Local</span><span class="o">)</span> <span class="o">|</span> <span class="nc">None</span> <span class="k">=&gt;</span>
     <span class="n">loadConfig</span> <span class="o">{</span>
       <span class="nc">Config</span><span class="o">(</span>
