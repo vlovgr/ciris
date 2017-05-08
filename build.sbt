@@ -2,36 +2,57 @@ lazy val ciris = project
   .in(file("."))
   .settings(moduleName := "ciris", name := "Ciris")
   .settings(inThisBuild(scalaSettings))
-  .settings(inThisBuild(testSettings))
   .settings(noPublishSettings)
   .settings(releaseSettings)
-  .aggregate(core, enumeratum, refined, squants)
+  .settings(testSettings)
+  .aggregate(
+    coreJS, coreJVM,
+    enumeratumJS, enumeratumJVM,
+    refinedJS, refinedJVM,
+    squantsJS, squantsJVM
+  )
 
-lazy val core = project
+lazy val core = crossProject
   .in(file("modules/core"))
   .settings(moduleName := "ciris-core", name := "Ciris core")
   .settings(releaseSettings)
+  .settings(testSettings)
 
-lazy val enumeratum = project
+lazy val coreJS = core.js
+lazy val coreJVM = core.jvm
+
+lazy val enumeratum = crossProject
   .in(file("modules/enumeratum"))
   .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
-  .settings(libraryDependencies += "com.beachape" %% "enumeratum" % "1.5.12")
+  .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.12")
   .settings(releaseSettings)
+  .settings(testSettings)
   .dependsOn(core % "compile;test->test")
 
-lazy val refined = project
+lazy val enumeratumJS = enumeratum.js
+lazy val enumeratumJVM = enumeratum.jvm
+
+lazy val refined = crossProject
   .in(file("modules/refined"))
   .settings(moduleName := "ciris-refined", name := "Ciris refined")
-  .settings(libraryDependencies += "eu.timepit" %% "refined" % "0.8.1")
+  .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.1")
   .settings(releaseSettings)
+  .settings(testSettings)
   .dependsOn(core % "compile;test->test")
 
-lazy val squants = project
+lazy val refinedJS = refined.js
+lazy val refinedJVM = refined.jvm
+
+lazy val squants = crossProject
   .in(file("modules/squants"))
   .settings(moduleName := "ciris-squants", name := "Ciris squants")
-  .settings(libraryDependencies += "org.typelevel" %% "squants" % "1.2.0")
+  .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.2.0")
   .settings(releaseSettings)
+  .settings(testSettings)
   .dependsOn(core % "compile;test->test")
+
+lazy val squantsJS = squants.js
+lazy val squantsJVM = squants.jvm
 
 lazy val docs = project
   .in(file("docs"))
@@ -55,13 +76,13 @@ lazy val docs = project
       organization,
       latestVersion in ThisBuild,
       crossScalaVersions in ThisBuild,
-      BuildInfoKey.map(moduleName in core) { case (k, v) ⇒ "core" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in enumeratum) { case (k, v) ⇒ "enumeratum" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in refined) { case (k, v) ⇒ "refined" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in squants) { case (k, v) ⇒ "squants" + k.capitalize -> v }
+      BuildInfoKey.map(moduleName in coreJVM) { case (k, v) ⇒ "core" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) ⇒ "enumeratum" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) ⇒ "refined" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) ⇒ "squants" + k.capitalize -> v }
     )
   )
-  .dependsOn(core, enumeratum, refined, squants)
+  .dependsOn(coreJVM, enumeratumJVM, refinedJVM, squantsJVM)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin)
 
 lazy val scala210 = "2.10.6"
@@ -168,8 +189,8 @@ lazy val testSettings = Seq(
   parallelExecution in Test := false,
   testOptions in Test += Tests.Argument("-oDF"),
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.0.3" % Test,
-    "org.scalacheck" %% "scalacheck" % "1.13.5" % Test
+    "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
+    "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
   )
 )
 
