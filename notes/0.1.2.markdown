@@ -1,4 +1,7 @@
 ### Changes
 * Add a `withValue` alias for `withValues` arity one. ([#5](https://github.com/vlovgr/ciris/pull/5))
 
+### Updates
+* Update `ciris-refined` to use [refined](https://github.com/fthomas/refined) 0.8.1. ([#6](https://github.com/vlovgr/ciris/pull/6))
+
 Released on 2017-05-08.
