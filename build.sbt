@@ -22,7 +22,7 @@ lazy val enumeratum = project
 lazy val refined = project
   .in(file("modules/refined"))
   .settings(moduleName := "ciris-refined", name := "Ciris refined")
-  .settings(libraryDependencies += "eu.timepit" %% "refined" % "0.8.0")
+  .settings(libraryDependencies += "eu.timepit" %% "refined" % "0.8.1")
   .settings(releaseSettings)
   .dependsOn(core % "compile;test->test")
 
