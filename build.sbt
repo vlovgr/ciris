@@ -228,3 +228,23 @@ updateReadme in ThisBuild := {
     vcs.commit("Update readme to latest version", sign = true).!
   }
 }
+
+lazy val allModules = List("core", "enumeratum", "refined", "squants")
+lazy val allModulesJS = allModules.map(_ + "JS")
+lazy val allModulesJVM = allModules.map(_ + "JVM")
+
+def addCommandsAlias(name: String, values: List[String]) =
+  addCommandAlias(name, values.mkString(";", ";", ""))
+
+addCommandsAlias("testJS", allModulesJS.map(_ + "/test"))
+
+addCommandsAlias("testJVM", allModulesJVM.map(_ + "/test"))
+
+addCommandsAlias("validate", List(
+  "clean",
+  "testJS",
+  "coverage",
+  "testJVM",
+  "coverageReport",
+  "coverageOff"
+))
