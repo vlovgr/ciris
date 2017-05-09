@@ -1,10 +1,14 @@
 lazy val ciris = project
   .in(file("."))
   .settings(moduleName := "ciris", name := "Ciris")
-  .settings(inThisBuild(scalaSettings))
+  .settings(scalaSettings)
   .settings(noPublishSettings)
   .settings(releaseSettings)
   .settings(testSettings)
+  .settings(
+    console := (console in (coreJVM, Compile)).value,
+    console in Test := (console in (coreJVM, Test)).value
+  )
   .aggregate(
     coreJS, coreJVM,
     enumeratumJS, enumeratumJVM,
@@ -15,6 +19,7 @@ lazy val ciris = project
 lazy val core = crossProject
   .in(file("modules/core"))
   .settings(moduleName := "ciris-core", name := "Ciris core")
+  .settings(scalaSettings)
   .settings(releaseSettings)
   .settings(testSettings)
 
@@ -25,6 +30,7 @@ lazy val enumeratum = crossProject
   .in(file("modules/enumeratum"))
   .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
   .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.12")
+  .settings(scalaSettings)
   .settings(releaseSettings)
   .settings(testSettings)
   .dependsOn(core % "compile;test->test")
@@ -36,6 +42,7 @@ lazy val refined = crossProject
   .in(file("modules/refined"))
   .settings(moduleName := "ciris-refined", name := "Ciris refined")
   .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.1")
+  .settings(scalaSettings)
   .settings(releaseSettings)
   .settings(testSettings)
   .dependsOn(core % "compile;test->test")
@@ -47,6 +54,7 @@ lazy val squants = crossProject
   .in(file("modules/squants"))
   .settings(moduleName := "ciris-squants", name := "Ciris squants")
   .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.2.0")
+  .settings(scalaSettings)
   .settings(releaseSettings)
   .settings(testSettings)
   .dependsOn(core % "compile;test->test")
@@ -57,6 +65,7 @@ lazy val squantsJVM = squants.jvm
 lazy val docs = project
   .in(file("docs"))
   .settings(moduleName := "ciris-docs", name := "Ciris docs")
+  .settings(scalaSettings)
   .settings(noPublishSettings)
   .settings(
     micrositeName := "Ciris",
@@ -92,33 +101,30 @@ lazy val scala212 = "2.12.2"
 lazy val scalaSettings = Seq(
   scalaVersion := scala211,
   crossScalaVersions := Seq(scala210, scala211, scala212),
-  scalacOptions ++= {
-    val onScala210 = scalaVersion.value == scala210
-    val warnUnusedImport = "-Ywarn-unused-import"
-
-    Seq(
-      "-deprecation",
-      "-encoding",
-      "UTF-8",
-      "-feature",
-      "-language:existentials",
-      "-language:higherKinds",
-      "-language:implicitConversions",
-      "-language:postfixOps",
-      "-unchecked",
-      "-Xfatal-warnings",
-      "-Xlint",
-      "-Yno-adapted-args",
-      "-Ywarn-dead-code",
-      "-Ywarn-numeric-widen",
-      "-Ywarn-value-discard",
-      "-Xfuture",
-      warnUnusedImport
-    ).filter {
-      case `warnUnusedImport` if onScala210 ⇒ false
-      case _ ⇒ true
-    }
-  }
+  scalacOptions ++= Seq(
+    "-deprecation",
+    "-encoding",
+    "UTF-8",
+    "-feature",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-language:postfixOps",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-Xlint",
+    "-Yno-adapted-args",
+    "-Ywarn-dead-code",
+    "-Ywarn-numeric-widen",
+    "-Ywarn-value-discard",
+    "-Xfuture",
+    "-Ywarn-unused-import"
+  ).filter {
+    case "-Ywarn-unused-import" if scalaVersion.value == scala210 ⇒ false
+    case _ ⇒ true
+  },
+  scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
+  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
 lazy val metadataSettings = Seq(
