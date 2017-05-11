@@ -178,6 +178,7 @@ lazy val releaseSettings =
       setReleaseVersion,
       setLatestVersion,
       releaseStepTask(updateReadme in ThisBuild),
+      releaseStepTask(updateScripts in ThisBuild),
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
@@ -232,6 +233,43 @@ updateReadme in ThisBuild := {
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs ⇒
     vcs.add("readme.md").!
     vcs.commit("Update readme to latest version", sign = true).!
+  }
+}
+
+val scriptsDirectory = "scripts"
+
+val generateScripts = taskKey[Unit]("Generates scripts")
+generateScripts in ThisBuild := {
+  val output = file(scriptsDirectory)
+  val coreModuleName = (moduleName in coreJVM).value
+  val organizationId = (organization in coreJVM).value
+  val coreModuleVersion = (latestVersion in ThisBuild).value
+
+  val tryScript =
+    s"""
+       |#!/bin/env sh
+       |test -e ~/.coursier/coursier || ( \\
+       |  mkdir -p ~/.coursier && \\
+       |  curl -Lso ~/.coursier/coursier https://git.io/vgvpD && \\
+       |  chmod +x ~/.coursier/coursier \\
+       |)
+       |
+       |~/.coursier/coursier launch -q -P \\
+       |  com.lihaoyi:ammonite_2.12.2:0.8.4 \\
+       |  $organizationId:${coreModuleName}_2.12:$coreModuleVersion \\
+       |  -- --predef 'import ciris._' < /dev/tty
+     """.stripMargin.trim + "\n"
+
+  IO.createDirectory(output)
+  IO.write(output / "try.sh", tryScript)
+}
+
+val updateScripts = taskKey[Unit]("Generates and commits scripts")
+updateScripts in ThisBuild := {
+  (generateScripts in ThisBuild).value
+  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs ⇒
+    vcs.add(scriptsDirectory).!
+    vcs.commit("Update scripts to latest version", sign = true).!
   }
 }
 
