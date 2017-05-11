@@ -65,6 +65,12 @@ final class PrimitiveConfigReadersSpec extends PropertySpec {
         }
       }
 
+      "successfully read Double percentage values" in {
+        forAll { double: Double ⇒
+          readValue[Double](double.toString + "%") shouldBe Right(double / 100d)
+        }
+      }
+
       "return a failure for other values" in {
         forAll { string: String ⇒
           whenever(fails(string.toDouble)) {
@@ -78,6 +84,12 @@ final class PrimitiveConfigReadersSpec extends PropertySpec {
       "successfully read Float values" in {
         forAll { float: Float ⇒
           readValue[Float](float.toString) shouldBe Right(float)
+        }
+      }
+
+      "successfully read Float percentage values" in {
+        forAll { float: Float ⇒
+          readValue[Float](float.toString + "%") shouldBe Right(float / 100f)
         }
       }
 
