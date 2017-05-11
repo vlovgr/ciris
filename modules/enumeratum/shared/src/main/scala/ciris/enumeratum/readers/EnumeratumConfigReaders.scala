@@ -22,7 +22,7 @@ trait EnumeratumConfigReaders {
               case Some(to) ⇒ Right(to)
               case None ⇒
                 val typeName = implicitly[ClassTag[To]].runtimeClass.getName
-                Left(WrongType(key, value, typeName, source))
+                Left(WrongType(key, value, typeName, source.keyType))
             }
           }
         )
