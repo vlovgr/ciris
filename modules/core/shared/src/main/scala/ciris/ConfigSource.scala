@@ -1,6 +1,6 @@
 package ciris
 
-import ciris.ConfigError.{ReadException, MissingKey}
+import ciris.ConfigError.{MissingKey, ReadException}
 
 import scala.util.{Failure, Success, Try}
 
@@ -41,6 +41,9 @@ object ConfigSource {
         case Success(None) ⇒ Left(MissingKey(key, keyType))
         case Failure(cause) ⇒ Left(ReadException(key, keyType, cause))
     })
+
+  def catchNonFatal(keyType: ConfigKeyType)(read: String ⇒ String): ConfigSource =
+    ConfigSource.fromTry(keyType)(key ⇒ Try(read(key)))
 
   case object Environment extends ConfigSource(ConfigKeyType.Environment) {
     override def read(key: String): Either[ConfigError, String] =
