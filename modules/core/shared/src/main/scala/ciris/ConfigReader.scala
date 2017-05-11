@@ -15,7 +15,7 @@ sealed abstract class ConfigReader[A] { self ⇒
         .fold(Left.apply, value ⇒ {
           f(value) match {
             case Some(b) ⇒ Right(b)
-            case None ⇒ Left(WrongType(key, value, typeName, source))
+            case None ⇒ Left(WrongType(key, value, typeName, source.keyType))
           }
         })
     }
@@ -27,7 +27,7 @@ sealed abstract class ConfigReader[A] { self ⇒
         .fold(Left.apply, value ⇒ {
           f(value) match {
             case Right(r) ⇒ Right(r)
-            case Left(cause) ⇒ Left(WrongType(key, value, typeName, source, Some(cause)))
+            case Left(cause) ⇒ Left(WrongType(key, value, typeName, source.keyType, Some(cause)))
           }
         })
     }
@@ -56,7 +56,7 @@ object ConfigReader extends ConfigReaders {
     withValue { (key, value, source) ⇒
       f(value) match {
         case Some(t) ⇒ Right(t)
-        case None ⇒ Left(WrongType(key, value, typeName, source))
+        case None ⇒ Left(WrongType(key, value, typeName, source.keyType))
       }
     }
 
@@ -64,7 +64,7 @@ object ConfigReader extends ConfigReaders {
     withValue { (key, value, source) ⇒
       f(value) match {
         case Success(a) ⇒ Right(a)
-        case Failure(cause) ⇒ Left(WrongType(key, value, typeName, source, Some(cause)))
+        case Failure(cause) ⇒ Left(WrongType(key, value, typeName, source.keyType, Some(cause)))
       }
     }
 
@@ -72,7 +72,7 @@ object ConfigReader extends ConfigReaders {
     withValue { (key, value, source) ⇒
       Try(f(value)) match {
         case Success(t) ⇒ Right(t)
-        case Failure(cause) ⇒ Left(WrongType(key, value, typeName, source, Some(cause)))
+        case Failure(cause) ⇒ Left(WrongType(key, value, typeName, source.keyType, Some(cause)))
       }
     }
 }
