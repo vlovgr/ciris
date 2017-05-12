@@ -38,6 +38,26 @@ libraryDependencies ++= Seq(
   <li>The <code class="highlighter-rouge">ciris-squants</code> module allows loading <a href="http://www.squants.com">squants</a> data types.</li>
 </ul>
 
+<h4 id="ammonite">Ammonite</h4>
+<p>To start an <a href="http://www.lihaoyi.com/Ammonite/#Ammonite-REPL">Ammonite REPL</a> with Ciris loaded and imported, simply run the following.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -Ls try.cir.is | sh
+</code></pre>
+</div>
+<p>You will need to have a JDK installed. The <a href="https://try.cir.is">script</a> will then:</p>
+<ul>
+  <li>download and install the latest available version of <a href="https://github.com/coursier/coursier">coursier</a>,</li>
+  <li>use coursier to fetch Ammonite and the latest version of Ciris, and</li>
+  <li>start a REPL session with Ciris already imported.</li>
+</ul>
+
+<p>If you already have the Ammonite REPL installed, you can use the following commands to load Ciris.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.2.0`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.2.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-refined:0.2.0`, ciris.refined._
+import $ivy.`is.cir::ciris-squants:0.2.0`, ciris.squants._
+</code></pre>
+</div>
+
 <h3 id="usage-examples">Usage Examples</h3>
 <p>Ciris configuration loading is done in two parts: define what to load, and what to create once everything is loaded.<br />
 Let’s start simple by defining a configuration and loading only the necessary parts of it from the environment.</p>
@@ -68,10 +88,10 @@ Let’s start simple by defining a configuration and loading only the necessary 
 </div>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">show</span><span class="o">(</span><span class="n">config</span><span class="o">)</span>
-<span class="c1">// res5: String = Left(ConfigErrors(MissingKey(API_KEY,Environment)))
+<span class="c1">// res6: String = Left(ConfigErrors(MissingKey(API_KEY,Environment)))
 </span>
 <span class="n">show</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">messages</span><span class="o">))</span>
-<span class="c1">// res6: String = Left(Vector(Missing environment variable [API_KEY]))
+<span class="c1">// res7: String = Left(Vector(Missing environment variable [API_KEY]))
 </span></code></pre>
 </div>
 
