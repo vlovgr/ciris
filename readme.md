@@ -28,6 +28,24 @@ The only required module is `ciris-core`, the rest are optional library integrat
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
 
+#### Ammonite
+To start an [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) with Ciris loaded and imported, simply run the following.
+```
+curl -Ls try.cir.is | sh
+```
+You will need to have a JDK installed. The [script](https://try.cir.is) will then:
+* download and install the latest available version of [coursier](https://github.com/coursier/coursier),
+* use coursier to fetch Ammonite and the latest version of Ciris, and
+* start a REPL session with Ciris already imported.
+
+If you already have the Ammonite REPL installed, you can use the following commands to load Ciris.
+```
+import $ivy.`is.cir::ciris-core:0.2.0`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.2.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-refined:0.2.0`, ciris.refined._
+import $ivy.`is.cir::ciris-squants:0.2.0`, ciris.squants._
+```
+
 ### Usage Examples
 Ciris configuration loading is done in two parts: define what to load, and what to create once everything is loaded.  
 Let's start simple by defining a configuration and loading only the necessary parts of it from the environment.
@@ -59,10 +77,10 @@ val config: Either[ConfigErrors, Config] =
 
 ```scala
 show(config)
-// res5: String = Left(ConfigErrors(MissingKey(API_KEY,Environment)))
+// res6: String = Left(ConfigErrors(MissingKey(API_KEY,Environment)))
 
 show(config.left.map(_.messages))
-// res6: String = Left(Vector(Missing environment variable [API_KEY]))
+// res7: String = Left(Vector(Missing environment variable [API_KEY]))
 ```
 
 #### Encoding Validation

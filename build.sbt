@@ -84,7 +84,7 @@ lazy val docs = project
     buildInfoKeys := Seq[BuildInfoKey](
       organization,
       latestVersion in ThisBuild,
-      crossScalaVersions in ThisBuild,
+      crossScalaVersions,
       BuildInfoKey.map(moduleName in coreJVM) { case (k, v) ⇒ "core" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) ⇒ "enumeratum" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) ⇒ "refined" + k.capitalize -> v },

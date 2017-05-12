@@ -49,6 +49,28 @@ The only required module is `ciris-core`, the rest are optional library integrat
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
 
+#### Ammonite
+To start an [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) with Ciris loaded and imported, simply run the following.
+```
+curl -Ls try.cir.is | sh
+```
+You will need to have a JDK installed. The [script](https://try.cir.is) will then:
+* download and install the latest available version of [coursier](https://github.com/coursier/coursier),
+* use coursier to fetch Ammonite and the latest version of Ciris, and
+* start a REPL session with Ciris already imported.
+
+If you already have the Ammonite REPL installed, you can use the following commands to load Ciris.
+```tut:evaluated
+println(
+s"""
+ |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._
+ |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
+ |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._
+ |import $$ivy.`$organization::$squantsModuleName:$latestVersion`, ciris.squants._
+ """.stripMargin.trim
+)
+```
+
 ### Usage Examples
 Ciris configuration loading is done in two parts: define what to load, and what to create once everything is loaded.  
 Let's start simple by defining a configuration and loading only the necessary parts of it from the environment.
