@@ -87,8 +87,16 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for other values" in {
+        forAll { byte: Byte ⇒
+          whenever(ByteEnumItem.withValueOpt(byte).isEmpty) {
+            readValue[ByteEnumItem](byte.toString) shouldBe a[Left[_, _]]
+          }
+        }
+      }
+
+      "return a failure for wrong type values" in {
         forAll { string: String ⇒
-          whenever(!ByteEnumItem.values.map(_.value.toString).contains(string)) {
+          whenever(fails(string.toByte)) {
             readValue[ByteEnumItem](string) shouldBe a[Left[_, _]]
           }
         }
@@ -109,8 +117,16 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for other values" in {
+        forAll { char: Char ⇒
+          whenever(CharEnumItem.withValueOpt(char).isEmpty) {
+            readValue[CharEnumItem](char.toString) shouldBe a[Left[_, _]]
+          }
+        }
+      }
+
+      "return a failure for wrong type values" in {
         forAll { string: String ⇒
-          whenever(!CharEnumItem.values.map(_.value.toString).contains(string)) {
+          whenever(string.length != 1) {
             readValue[CharEnumItem](string) shouldBe a[Left[_, _]]
           }
         }
@@ -132,7 +148,7 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
       "return a failure for other values" in {
         forAll { string: String ⇒
-          whenever(!EnumEntryItem.values.map(_.entryName).contains(string)) {
+          whenever(EnumEntryItem.withNameOption(string).isEmpty) {
             readValue[EnumEntryItem](string) shouldBe a[Left[_, _]]
           }
         }
@@ -153,8 +169,16 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for other values" in {
+        forAll { int: Int ⇒
+          whenever(IntEnumItem.withValueOpt(int).isEmpty) {
+            readValue[IntEnumItem](int.toString) shouldBe a[Left[_, _]]
+          }
+        }
+      }
+
+      "return a failure for wrong type values" in {
         forAll { string: String ⇒
-          whenever(!IntEnumItem.values.map(_.value.toString).contains(string)) {
+          whenever(fails(string.toInt)) {
             readValue[IntEnumItem](string) shouldBe a[Left[_, _]]
           }
         }
@@ -175,8 +199,16 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for other values" in {
+        forAll { long: Long ⇒
+          whenever(LongEnumItem.withValueOpt(long).isEmpty) {
+            readValue[LongEnumItem](long.toString) shouldBe a[Left[_, _]]
+          }
+        }
+      }
+
+      "return a failure for wrong type values" in {
         forAll { string: String ⇒
-          whenever(!LongEnumItem.values.map(_.value.toString).contains(string)) {
+          whenever(fails(string.toLong)) {
             readValue[LongEnumItem](string) shouldBe a[Left[_, _]]
           }
         }
@@ -197,8 +229,16 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for other values" in {
+        forAll { short: Short ⇒
+          whenever(ShortEnumItem.withValueOpt(short).isEmpty) {
+            readValue[ShortEnumItem](short.toString) shouldBe a[Left[_, _]]
+          }
+        }
+      }
+
+      "return a failure for wrong type values" in {
         forAll { string: String ⇒
-          whenever(!ShortEnumItem.values.map(_.value.toString).contains(string)) {
+          whenever(fails(string.toShort)) {
             readValue[ShortEnumItem](string) shouldBe a[Left[_, _]]
           }
         }
@@ -220,7 +260,7 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
       "return a failure for other values" in {
         forAll { string: String ⇒
-          whenever(!StringEnumItem.values.map(_.value.toString).contains(string)) {
+          whenever(StringEnumItem.withValueOpt(string).isEmpty) {
             readValue[StringEnumItem](string) shouldBe a[Left[_, _]]
           }
         }

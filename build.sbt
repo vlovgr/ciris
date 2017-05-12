@@ -12,6 +12,7 @@ lazy val ciris = project
   .aggregate(
     coreJS, coreJVM,
     enumeratumJS, enumeratumJVM,
+    genericJS, genericJVM,
     refinedJS, refinedJVM,
     squantsJS, squantsJVM
   )
@@ -37,6 +38,24 @@ lazy val enumeratum = crossProject
 
 lazy val enumeratumJS = enumeratum.js
 lazy val enumeratumJVM = enumeratum.jvm
+
+lazy val generic = crossProject
+  .in(file("modules/generic"))
+  .settings(moduleName := "ciris-generic", name := "Ciris generic")
+  .settings(
+    libraryDependencies ++=
+      Seq(
+        "com.chuusai" %%% "shapeless" % "2.3.2",
+        compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" % Test cross CrossVersion.patch)
+      )
+  )
+  .settings(scalaSettings)
+  .settings(releaseSettings)
+  .settings(testSettings)
+  .dependsOn(core % "compile;test->test")
+
+lazy val genericJS = generic.js
+lazy val genericJVM = generic.jvm
 
 lazy val refined = crossProject
   .in(file("modules/refined"))
@@ -87,11 +106,12 @@ lazy val docs = project
       crossScalaVersions,
       BuildInfoKey.map(moduleName in coreJVM) { case (k, v) ⇒ "core" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) ⇒ "enumeratum" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in genericJVM) { case (k, v) ⇒ "generic" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) ⇒ "refined" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) ⇒ "squants" + k.capitalize -> v }
     )
   )
-  .dependsOn(coreJVM, enumeratumJVM, refinedJVM, squantsJVM)
+  .dependsOn(coreJVM, enumeratumJVM, genericJVM, refinedJVM, squantsJVM)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin)
 
 lazy val scala210 = "2.10.6"
@@ -118,9 +138,11 @@ lazy val scalaSettings = Seq(
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
     "-Xfuture",
-    "-Ywarn-unused-import"
+    "-Ywarn-unused-import",
+    "-Ywarn-unused"
   ).filter {
     case "-Ywarn-unused-import" if scalaVersion.value == scala210 ⇒ false
+    case "-Ywarn-unused" if scalaVersion.value != scala212 ⇒ false
     case _ ⇒ true
   },
   scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
@@ -254,12 +276,13 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P \\
-       |  com.lihaoyi:ammonite_2.12.2:0.8.4 \\
+       |  com.lihaoyi:ammonite_2.12.2:0.8.5 \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in refinedJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
-       |  -- --predef 'import ciris._,ciris.enumeratum._,ciris.refined._,ciris.squants._' < /dev/tty
+       |  -- --predef 'import ciris._,ciris.enumeratum._,ciris.generic._,ciris.refined._,ciris.squants._' < /dev/tty
      """.stripMargin.trim + "\n"
 
   IO.createDirectory(output)
@@ -275,7 +298,7 @@ updateScripts in ThisBuild := {
   }
 }
 
-lazy val allModules = List("core", "enumeratum", "refined", "squants")
+lazy val allModules = List("core", "enumeratum", "generic", "refined", "squants")
 lazy val allModulesJS = allModules.map(_ + "JS")
 lazy val allModulesJVM = allModules.map(_ + "JVM")
 

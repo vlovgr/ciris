@@ -34,6 +34,7 @@ s"""
  |libraryDependencies ++= Seq(
  |  "$organization" %% "$coreModuleName" % "$latestVersion",
  |  "$organization" %% "$enumeratumModuleName" % "$latestVersion",
+ |  "$organization" %% "$genericModuleName" % "$latestVersion",
  |  "$organization" %% "$refinedModuleName" % "$latestVersion",
  |  "$organization" %% "$squantsModuleName" % "$latestVersion"
  |)
@@ -46,6 +47,7 @@ and make sure to replace `%%` with `%%%` if you are using Scala.js.
 The only required module is `ciris-core`, the rest are optional library integrations.
 
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
+- The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
 
@@ -65,6 +67,7 @@ println(
 s"""
  |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
+ |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
  |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._
  |import $$ivy.`$organization::$squantsModuleName:$latestVersion`, ciris.squants._
  """.stripMargin.trim
@@ -211,6 +214,7 @@ withValue(env[Option[AppEnvironment]]("APP_ENV")) {
 
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
+[shapeless]: https://github.com/milessabin/shapeless
 [squants]: http://www.squants.com
 [sbt]: http://www.scala-sbt.org
 [scala]: http://www.scala-lang.org
