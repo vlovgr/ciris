@@ -13,10 +13,11 @@ To get started with [SBT][sbt], simply add the following lines to your `build.sb
 ```
 // Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.2.0",
-  "is.cir" %% "ciris-enumeratum" % "0.2.0",
-  "is.cir" %% "ciris-refined" % "0.2.0",
-  "is.cir" %% "ciris-squants" % "0.2.0"
+  "is.cir" %% "ciris-core" % "0.3.0",
+  "is.cir" %% "ciris-enumeratum" % "0.3.0",
+  "is.cir" %% "ciris-generic" % "0.3.0",
+  "is.cir" %% "ciris-refined" % "0.3.0",
+  "is.cir" %% "ciris-squants" % "0.3.0"
 )
 ```
 
@@ -25,8 +26,15 @@ and make sure to replace `%%` with `%%%` if you are using Scala.js.
 The only required module is `ciris-core`, the rest are optional library integrations.
 
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
+- The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
+
+If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
+
+```
+libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+```
 
 #### Ammonite
 To start an [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) with Ciris loaded and imported, simply run the following.
@@ -40,10 +48,11 @@ You will need to have a JDK installed. The [script](https://try.cir.is) will the
 
 If you already have the Ammonite REPL installed, you can use the following commands to load Ciris.
 ```
-import $ivy.`is.cir::ciris-core:0.2.0`, ciris._
-import $ivy.`is.cir::ciris-enumeratum:0.2.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-refined:0.2.0`, ciris.refined._
-import $ivy.`is.cir::ciris-squants:0.2.0`, ciris.squants._
+import $ivy.`is.cir::ciris-core:0.3.0`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.3.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.3.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.3.0`, ciris.refined._
+import $ivy.`is.cir::ciris-squants:0.3.0`, ciris.squants._
 ```
 
 ### Usage Examples
@@ -188,6 +197,7 @@ withValue(env[Option[AppEnvironment]]("APP_ENV")) {
 
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
+[shapeless]: https://github.com/milessabin/shapeless
 [squants]: http://www.squants.com
 [sbt]: http://www.scala-sbt.org
 [scala]: http://www.scala-lang.org
