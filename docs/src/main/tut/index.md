@@ -51,6 +51,12 @@ The only required module is `ciris-core`, the rest are optional library integrat
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
 
+If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
+
+```
+libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+```
+
 #### Ammonite
 To start an [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) with Ciris loaded and imported, simply run the following.
 ```
