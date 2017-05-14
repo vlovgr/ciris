@@ -20,10 +20,11 @@ The core library is dependency-free, while modules provide library integrations.
 
 <div class="highlighter-rouge"><pre class="highlight"><code>// Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.2.0",
-  "is.cir" %% "ciris-enumeratum" % "0.2.0",
-  "is.cir" %% "ciris-refined" % "0.2.0",
-  "is.cir" %% "ciris-squants" % "0.2.0"
+  "is.cir" %% "ciris-core" % "0.3.0",
+  "is.cir" %% "ciris-enumeratum" % "0.3.0",
+  "is.cir" %% "ciris-generic" % "0.3.0",
+  "is.cir" %% "ciris-refined" % "0.3.0",
+  "is.cir" %% "ciris-squants" % "0.3.0"
 )
 </code></pre>
 </div>
@@ -34,9 +35,16 @@ libraryDependencies ++= Seq(
 
 <ul>
   <li>The <code class="highlighter-rouge">ciris-enumeratum</code> module allows loading <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations.</li>
+  <li>The <code class="highlighter-rouge">ciris-generic</code> module allows loading more types with <a href="https://github.com/milessabin/shapeless">shapeless</a>.</li>
   <li>The <code class="highlighter-rouge">ciris-refined</code> module allows loading <a href="https://github.com/fthomas/refined">refined</a> refinement types.</li>
   <li>The <code class="highlighter-rouge">ciris-squants</code> module allows loading <a href="http://www.squants.com">squants</a> data types.</li>
 </ul>
+
+<p>If you’re using <code class="highlighter-rouge">ciris-generic</code> with Scala 2.10, you’ll need to include the <a href="http://docs.scala-lang.org/overviews/macros/paradise.html">Macro Paradise</a> compiler plugin.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+</code></pre>
+</div>
 
 <h4 id="ammonite">Ammonite</h4>
 <p>To start an <a href="http://www.lihaoyi.com/Ammonite/#Ammonite-REPL">Ammonite REPL</a> with Ciris loaded and imported, simply run the following.</p>
@@ -51,10 +59,11 @@ libraryDependencies ++= Seq(
 </ul>
 
 <p>If you already have the Ammonite REPL installed, you can use the following commands to load Ciris.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.2.0`, ciris._
-import $ivy.`is.cir::ciris-enumeratum:0.2.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-refined:0.2.0`, ciris.refined._
-import $ivy.`is.cir::ciris-squants:0.2.0`, ciris.squants._
+<div class="highlighter-rouge"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.3.0`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.3.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.3.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.3.0`, ciris.refined._
+import $ivy.`is.cir::ciris-squants:0.3.0`, ciris.squants._
 </code></pre>
 </div>
 
