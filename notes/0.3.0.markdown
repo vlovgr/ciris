@@ -1,0 +1,11 @@
+### Changes
+* Add a `ciris-generic` module using [shapeless](https://github.com/milessabin/shapeless) to load coproducts and products. ([#9](https://github.com/vlovgr/ciris/pull/9))
+* Add additional methods to create a `ConfigSource`. ([#8](https://github.com/vlovgr/ciris/pull/8))
+* Add support for reading more types. ([#10](https://github.com/vlovgr/ciris/pull/10))
+
+### Miscellaneous
+* There is now a try script using [coursier](https://github.com/coursier/coursier) and [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) (see updated readme).
+* [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) imports for loading Ciris modules are now included in the readme.
+* You can now use `sbt console` in the project root (and modules) to try out Ciris.
+
+Released on 2017-05-14.
