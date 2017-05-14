@@ -7,6 +7,9 @@ import org.scalatest.{Matchers, WordSpec}
 import scala.util.Try
 
 class PropertySpec extends WordSpec with Matchers with PropertyChecks {
+  override implicit val generatorDrivenConfig: PropertyCheckConfiguration =
+    PropertyCheckConfiguration(minSuccessful = 1000)
+
   def mixedCase(string: String): Gen[String] = {
     (for {
       lowers ← Gen.listOfN(string.length, Gen.oneOf(true, false))

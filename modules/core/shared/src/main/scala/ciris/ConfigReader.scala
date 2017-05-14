@@ -8,6 +8,11 @@ import scala.util.{Failure, Success, Try}
 sealed abstract class ConfigReader[A] { self ⇒
   def read(key: String)(implicit source: ConfigSource): Either[ConfigError, A]
 
+  final def map[B](f: A ⇒ B): ConfigReader[B] =
+    ConfigReader.pure { (key, source) ⇒
+      self.read(key)(source).fold(Left.apply, value ⇒ Right(f(value)))
+    }
+
   final def mapOption[B](typeName: String)(f: A ⇒ Option[B]): ConfigReader[B] =
     ConfigReader.pure { (key, source) ⇒
       self
