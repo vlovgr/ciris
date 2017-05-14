@@ -16,10 +16,16 @@ trait PrimitiveConfigReaders {
     }
 
   implicit val doubleConfigReader: ConfigReader[Double] =
-    catchNonFatal("Double")(_.toDouble)
+    catchNonFatal("Double") {
+      case s if s.lastOption.exists(_ == '%') ⇒ s.init.toDouble / 100d
+      case s ⇒ s.toDouble
+    }
 
   implicit val floatConfigReader: ConfigReader[Float] =
-    catchNonFatal("Float")(_.toFloat)
+    catchNonFatal("Float") {
+      case s if s.lastOption.exists(_ == '%') ⇒ s.init.toFloat / 100f
+      case s ⇒ s.toFloat
+    }
 
   implicit val intConfigReader: ConfigReader[Int] =
     catchNonFatal("Int")(_.toInt)
