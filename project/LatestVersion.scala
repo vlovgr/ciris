@@ -17,7 +17,7 @@ object LatestVersion extends AutoPlugin {
       val latestVersionFileContents = s"""latestVersion in ThisBuild := "$newLatestVersion"""" + "\n"
 
       IO.write(latestVersionFile, latestVersionFileContents)
-      Vcs.detect(file(".")).foreach { vcs ⇒
+      Vcs.detect(file(".")).foreach { vcs =>
         vcs.add(latestVersionFile.getPath) !! state.log
         vcs.commit(s"Set latest version to $newLatestVersion", sign = true) !! state.log
       }

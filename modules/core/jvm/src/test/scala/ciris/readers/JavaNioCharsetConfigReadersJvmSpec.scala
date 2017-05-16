@@ -14,7 +14,7 @@ final class JavaNioCharsetConfigReadersJvmSpec extends PropertySpec {
         val availableCharsets = Charset.availableCharsets().keySet().asScala.toSeq
         val genAvailableCharset = Gen.oneOf(availableCharsets).flatMap(mixedCase)
 
-        forAll(genAvailableCharset) { charset ⇒
+        forAll(genAvailableCharset) { charset =>
           readValue[Charset](charset) shouldBe a[Right[_, _]]
         }
       }

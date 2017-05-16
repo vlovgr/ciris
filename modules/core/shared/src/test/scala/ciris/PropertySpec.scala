@@ -12,21 +12,21 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks {
 
   def mixedCase(string: String): Gen[String] = {
     (for {
-      lowers ← Gen.listOfN(string.length, Gen.oneOf(true, false))
-      (lower, char) ← lowers zip string
+      lowers <- Gen.listOfN(string.length, Gen.oneOf(true, false))
+      (lower, char) <- lowers zip string
     } yield if (lower) char.toLower else char.toUpper).map(_.mkString)
   }
 
-  def mixedCaseEnum[T](values: Array[T])(f: T ⇒ String): Gen[(T, String)] =
+  def mixedCaseEnum[T](values: Array[T])(f: T => String): Gen[(T, String)] =
     for {
-      value ← Gen.oneOf(values)
-      valueString ← mixedCase(f(value))
+      value <- Gen.oneOf(values)
+      valueString <- mixedCase(f(value))
     } yield (value, valueString)
 
-  def fails[A](f: ⇒ A): Boolean = Try(f).isFailure
+  def fails[A](f: => A): Boolean = Try(f).isFailure
 
   def readValue[A](value: String)(implicit reader: ConfigReader[A]): Either[ConfigError, A] =
-    reader.read("key")(sourceWith("key" → value))
+    reader.read("key")(sourceWith("key" -> value))
 
   def readNonExistingValue[A](implicit reader: ConfigReader[A]): Either[ConfigError, A] =
     reader.read("key")(sourceWith())

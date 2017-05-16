@@ -11,14 +11,14 @@ final class JavaUtilConfigReadersSpec extends PropertySpec {
     "reading a regex Pattern" should {
       "successfully read Pattern values" in {
         val examplePatterns = List("[a-z&&[def]]", "(\\D)")
-        forAll(Gen.oneOf(examplePatterns)) { examplePattern ⇒
+        forAll(Gen.oneOf(examplePatterns)) { examplePattern =>
           readValue[Pattern](examplePattern) shouldBe a[Right[_, _]]
         }
       }
 
       "return a failure for other values" in {
         val exampleInvalidPatterns = List("[AB", "(CD[E]")
-        forAll(Gen.oneOf(exampleInvalidPatterns)) { exampleInvalidPattern ⇒
+        forAll(Gen.oneOf(exampleInvalidPatterns)) { exampleInvalidPattern =>
           readValue[Pattern](exampleInvalidPattern) shouldBe a[Left[_, _]]
         }
       }
@@ -26,13 +26,13 @@ final class JavaUtilConfigReadersSpec extends PropertySpec {
 
     "reading an UUID" should {
       "successfully read UUID values" in {
-        forAll(Gen.uuid) { uuid ⇒
+        forAll(Gen.uuid) { uuid =>
           readValue[UUID](uuid.toString) shouldBe Right(uuid)
         }
       }
 
       "return a failure for other values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(fails(UUID.fromString(string))) {
             readValue[UUID](string) shouldBe a[Left[_, _]]
           }

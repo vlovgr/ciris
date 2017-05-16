@@ -10,7 +10,7 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
   "DurationConfigReaders" when {
     "reading a Duration" should {
       "successfully read Duration values" in {
-        forAll { duration: Duration ⇒
+        forAll { duration: Duration =>
           val durationString =
             if (duration.toString startsWith "Duration.")
               duration.toString.drop(9)
@@ -25,7 +25,7 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
       }
 
       "return a failure for other values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(fails(Duration(string))) {
             readValue[Duration](string) shouldBe a[Left[_, _]]
           }
@@ -35,7 +35,7 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
 
     "reading a FiniteDuration" should {
       "successfully read FiniteDuration values" in {
-        forAll { finiteDuration: FiniteDuration ⇒
+        forAll { finiteDuration: FiniteDuration =>
           val value = readValue[FiniteDuration](finiteDuration.toString)
           value.right.map(_.toNanos) shouldBe Right(finiteDuration.toNanos)
         }
@@ -43,13 +43,13 @@ final class DurationConfigReadersSpec extends PropertySpec with DurationGenerato
 
       "return a failure for infinite durations" in {
         val infiniteDurations = List("Inf", "PlusInf", "+Inf", "MinusInf", "-Inf")
-        forAll(Gen.oneOf(infiniteDurations)){ infiniteDuration ⇒
+        forAll(Gen.oneOf(infiniteDurations)){ infiniteDuration =>
           readValue[FiniteDuration](infiniteDuration) shouldBe a[Left[_, _]]
         }
       }
 
       "return a failure for other values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(fails(Duration(string)) || !Duration(string).isFinite()) {
             readValue[FiniteDuration](string) shouldBe a[Left[_, _]]
           }

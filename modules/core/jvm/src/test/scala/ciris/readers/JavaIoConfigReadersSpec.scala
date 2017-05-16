@@ -8,7 +8,7 @@ final class JavaIoConfigReadersSpec extends PropertySpec {
   "JavaIoConfigReaders" when {
     "reading a File" should {
       "successfully read File values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           readValue[File](string) shouldBe a[Right[_, _]]
         }
       }

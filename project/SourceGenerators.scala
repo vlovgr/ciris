@@ -38,7 +38,7 @@ object SourceGenerators extends AutoPlugin {
     * Generates: {{{ $prefix1${sep}$prefix2$sep...$prefix$n$sep }}}
     */
   def valueParams(n: Int, sep: String = ", ", prefix: String = "a"): String =
-    (1 to n).map(i ⇒ valueParam(i, prefix)).mkString(sep)
+    (1 to n).map(i => valueParam(i, prefix)).mkString(sep)
 
   /**
     * Generates: {{{ $prefix$n }}}
@@ -48,15 +48,15 @@ object SourceGenerators extends AutoPlugin {
   /**
     * Generates: {{{ a1: ${typeName(1)}, a2: ${typeName(2)},..., a$n: ${typeName(n)} }}}
     */
-  def args(n: Int, typeName: Int ⇒ String): String =
-    (1 to n).map(i ⇒ s"${valueParam(i)}: ${typeName(i)}").mkString(", ")
+  def args(n: Int, typeName: Int => String): String =
+    (1 to n).map(i => s"${valueParam(i)}: ${typeName(i)}").mkString(", ")
 
   def generateLoadConfigs(sourcesRoot: File, rootPackage: String): Seq[File] = {
     val defs =
       (2 until maximumNumberOfParams)
-        .map { current ⇒
+        .map { current =>
           val params = typeParams(current)
-          val firstArgs = args(current, arg ⇒ s"ConfigValue[${typeParam(arg)}]")
+          val firstArgs = args(current, arg => s"ConfigValue[${typeParam(arg)}]")
 
           val loadConfigSecondArgs = s"f: (${typeParams(current)}) => Z"
           val withValuesSecondArgs = s"f: (${typeParams(current)}) => Either[ConfigErrors, Z]"
@@ -83,14 +83,14 @@ object SourceGenerators extends AutoPlugin {
         |  def loadConfig[Z](z: Z): Either[ConfigErrors, Z] =
         |    Right(z)
         |
-        |  def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 ⇒ Z): Either[ConfigErrors, Z] =
-        |    a1.value.fold(error ⇒ Left(ConfigErrors(error)), a1 ⇒ Right(f(a1)))
+        |  def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 => Z): Either[ConfigErrors, Z] =
+        |    a1.value.fold(error => Left(ConfigErrors(error)), a1 => Right(f(a1)))
         |
         |  def withValue[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
         |   withValues(a1)(f)
         |
         |  def withValues[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
-        |    a1.value.fold(error ⇒ Left(ConfigErrors(error)), f)
+        |    a1.value.fold(error => Left(ConfigErrors(error)), f)
         |
         |$defs
         |}
@@ -103,7 +103,7 @@ object SourceGenerators extends AutoPlugin {
 
   def generateConfigValueClasses(sourcesRoot: File, rootPackage: String): Seq[File] = {
     val classes = (2 until maximumNumberOfParams)
-      .map { current ⇒
+      .map { current =>
         val next = current + 1
         val nextTypeParam = typeParam(next)
         val currentTypeParams = typeParams(current)
@@ -153,7 +153,7 @@ object SourceGenerators extends AutoPlugin {
   def generateLoadConfigsSpec(testSourcesRoot: File, rootPackage: String): Seq[File] = {
 
     def reads(n: Int, from: Int = 1, typeName: String = "String"): String =
-      (from to n).map(i ⇒ s"""read[$typeName]("key$i")""").mkString(", ")
+      (from to n).map(i => s"""read[$typeName]("key$i")""").mkString(", ")
 
     def readsFirstMissing(n: Int): String =
       Seq(
@@ -186,7 +186,7 @@ object SourceGenerators extends AutoPlugin {
       s"(${valueParams(n)}) => (${valueParams(n)})"
 
     def values(n: Int): String =
-      (1 to n).map(i ⇒ s""""value$i"""").mkString(", ")
+      (1 to n).map(i => s""""value$i"""").mkString(", ")
 
     def testsWithParams(n: Int): String = {
       val tests =
@@ -279,7 +279,7 @@ object SourceGenerators extends AutoPlugin {
         |final class LoadConfigsSpec extends PropertySpec {
         |  "LoadConfigs" when {
         |    "loading configurations" when {
-        |      implicit val source: ConfigSource = sourceWith("key1" → "value1", "key2" → "value2", "key3" → "value3", "key4" → "value4", "key5" → "value5", "key6" → "value6", "key7" → "value7", "key8" → "value8", "key9" → "value9", "key10" → "value10", "key11" → "value11", "key12" → "value12", "key13" → "value13", "key14" → "value14", "key15" → "value15", "key16" → "value16", "key17" → "value17", "key18" → "value18", "key19" → "value19", "key20" → "value20", "key21" → "value21", "key22" → "value22")
+        |      implicit val source: ConfigSource = sourceWith("key1" -> "value1", "key2" -> "value2", "key3" -> "value3", "key4" -> "value4", "key5" -> "value5", "key6" -> "value6", "key7" -> "value7", "key8" -> "value8", "key9" -> "value9", "key10" -> "value10", "key11" -> "value11", "key12" -> "value12", "key13" -> "value13", "key14" -> "value14", "key15" -> "value15", "key16" -> "value16", "key17" -> "value17", "key18" -> "value18", "key19" -> "value19", "key20" -> "value20", "key21" -> "value21", "key22" -> "value22")
         |
         |$tests
         |    }

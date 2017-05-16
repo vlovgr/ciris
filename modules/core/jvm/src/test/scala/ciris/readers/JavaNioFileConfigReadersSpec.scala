@@ -9,7 +9,7 @@ final class JavaNioFileConfigReadersSpec extends PropertySpec {
   "JavaNioFileConfigReaders" when {
     "reading a Path" should {
       "successfully read Path values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(!fails(Paths.get(string))) {
             readValue[Path](string) shouldBe Right(Paths.get(string))
           }
@@ -18,7 +18,7 @@ final class JavaNioFileConfigReadersSpec extends PropertySpec {
 
       "return a failure for invalid values" in {
         val invalidPaths = List[String](null, "\u0000")
-        forAll(Gen.oneOf(invalidPaths)) { invalidPath ⇒
+        forAll(Gen.oneOf(invalidPaths)) { invalidPath =>
           readValue[Path](invalidPath) shouldBe a[Left[_, _]]
         }
       }

@@ -6,7 +6,7 @@ final class DerivedConfigReadersSpec extends PropertySpec {
   "DerivedConfigReaders" when {
     "reading an Option" should {
       "successfully read existing values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           readValue[Option[String]](string) shouldBe Right(Some(string))
         }
       }

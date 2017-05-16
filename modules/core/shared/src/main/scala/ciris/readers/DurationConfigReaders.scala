@@ -10,7 +10,7 @@ trait DurationConfigReaders {
     catchNonFatal("Duration")(Duration.apply)
 
   implicit val finiteDurationConfigReader: ConfigReader[FiniteDuration] =
-    durationConfigReader.mapOption("FiniteDuration") { duration ⇒
-      Some(duration).collect { case finite: FiniteDuration ⇒ finite }
+    durationConfigReader.mapOption("FiniteDuration") { duration =>
+      Some(duration).collect { case finite: FiniteDuration => finite }
     }
 }

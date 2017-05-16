@@ -53,7 +53,7 @@ trait JavaTimeGenerators {
     Arbitrary(genZonedDateTime.map(_.toLocalTime))
 
   implicit val arbMonthDay: Arbitrary[MonthDay] =
-    Arbitrary(genZonedDateTime.map(date ⇒ MonthDay.of(date.getMonth, date.getDayOfMonth)))
+    Arbitrary(genZonedDateTime.map(date => MonthDay.of(date.getMonth, date.getDayOfMonth)))
 
   implicit val arbOffsetDateTime: Arbitrary[OffsetDateTime] =
     Arbitrary(genZonedDateTime.map(_.toOffsetDateTime))
@@ -65,10 +65,10 @@ trait JavaTimeGenerators {
     Arbitrary(Gen.choose(0, Int.MaxValue).map(Period.ofDays))
 
   implicit val arbYear: Arbitrary[Year] =
-    Arbitrary(genZonedDateTime.map(date ⇒ Year.of(date.getYear)))
+    Arbitrary(genZonedDateTime.map(date => Year.of(date.getYear)))
 
   implicit val arbYearMonth: Arbitrary[YearMonth] =
-    Arbitrary(genZonedDateTime.map(date ⇒ YearMonth.of(date.getYear, date.getMonth)))
+    Arbitrary(genZonedDateTime.map(date => YearMonth.of(date.getYear, date.getMonth)))
 
   implicit val arbZoneId: Arbitrary[ZoneId] =
     Arbitrary(Gen.oneOf(ZoneId.getAvailableZoneIds.asScala.toList).map(ZoneId.of))

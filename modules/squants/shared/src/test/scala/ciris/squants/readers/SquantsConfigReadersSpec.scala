@@ -101,25 +101,25 @@ final class SquantsConfigReadersSpec extends PropertySpec with SquantsGenerators
 
   def testDimension[A <: Quantity[A]: ConfigReader: ClassTag](
     dimension: Dimension[A],
-    apply: String ⇒ Try[A]
+    apply: String => Try[A]
   ): Unit = {
     val typeName: String = implicitly[ClassTag[A]].runtimeClass.getSimpleName
 
     s"reading a $typeName" should {
       s"successfully read $typeName values" in {
-        forAll(genQuantity(dimension)) { quantity ⇒
+        forAll(genQuantity(dimension)) { quantity =>
           readValue[A](quantity.toString) shouldBe Right(quantity)
         }
       }
 
       s"successfully read optional $typeName values" in {
-        forAll(genQuantity(dimension)) { quantity ⇒
+        forAll(genQuantity(dimension)) { quantity =>
           readValue[Option[A]](quantity.toString) shouldBe Right(Some(quantity))
         }
       }
 
       "return a failure for other values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(apply(string).isFailure) {
             readValue[A](string) shouldBe a[Left[_, _]]
           }
@@ -131,19 +131,19 @@ final class SquantsConfigReadersSpec extends PropertySpec with SquantsGenerators
   def testMoney(): Unit = {
     "reading a Money" should {
       "successfully read Money values" in {
-        forAll(genMoney) { money ⇒
+        forAll(genMoney) { money =>
           readValue[Money](money.toString) shouldBe Right(money)
         }
       }
 
       "successfully read optional Money values" in {
-        forAll(genMoney) { money ⇒
+        forAll(genMoney) { money =>
           readValue[Option[Money]](money.toString) shouldBe Right(Some(money))
         }
       }
 
       "return a failure for other values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(market.Money(string).isFailure) {
             readValue[Money](string) shouldBe a[Left[_, _]]
           }

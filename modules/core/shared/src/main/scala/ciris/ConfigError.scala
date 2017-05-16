@@ -44,7 +44,7 @@ object ConfigError {
     cause: Option[B] = None
   ) extends ConfigError {
     override def message: String = {
-      val causeMessage = cause.map(cause ⇒ s": $cause").getOrElse("")
+      val causeMessage = cause.map(cause => s": $cause").getOrElse("")
       s"${keyType.value.capitalize} [$key] with value [$value] cannot be converted to type [$typeName]$causeMessage"
     }
   }

@@ -75,19 +75,19 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
   "EnumeratumConfigReaders" when {
     "reading a ByteEnum" should {
       "successfully read ByteEnum values" in {
-        forAll(Gen.oneOf(ByteEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(ByteEnumItem.values)) { enum =>
           readValue[ByteEnumItem](enum.value.toString) shouldBe Right(enum)
         }
       }
 
       "successfully read optional ByteEnum values" in {
-        forAll(Gen.oneOf(ByteEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(ByteEnumItem.values)) { enum =>
           readValue[Option[ByteEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
       "return a failure for other values" in {
-        forAll { byte: Byte ⇒
+        forAll { byte: Byte =>
           whenever(ByteEnumItem.withValueOpt(byte).isEmpty) {
             readValue[ByteEnumItem](byte.toString) shouldBe a[Left[_, _]]
           }
@@ -95,7 +95,7 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for wrong type values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(fails(string.toByte)) {
             readValue[ByteEnumItem](string) shouldBe a[Left[_, _]]
           }
@@ -105,19 +105,19 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
     "reading a CharEnum" should {
       "successfully read CharEnum values" in {
-        forAll(Gen.oneOf(CharEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(CharEnumItem.values)) { enum =>
           readValue[CharEnumItem](enum.value.toString) shouldBe Right(enum)
         }
       }
 
       "successfully read optional CharEnum values" in {
-        forAll(Gen.oneOf(CharEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(CharEnumItem.values)) { enum =>
           readValue[Option[CharEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
       "return a failure for other values" in {
-        forAll { char: Char ⇒
+        forAll { char: Char =>
           whenever(CharEnumItem.withValueOpt(char).isEmpty) {
             readValue[CharEnumItem](char.toString) shouldBe a[Left[_, _]]
           }
@@ -125,7 +125,7 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for wrong type values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(string.length != 1) {
             readValue[CharEnumItem](string) shouldBe a[Left[_, _]]
           }
@@ -135,19 +135,19 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
     "reading an EnumEntry" should {
       "successfully read EnumEntry names" in {
-        forAll(Gen.oneOf(EnumEntryItem.values)) { enum ⇒
+        forAll(Gen.oneOf(EnumEntryItem.values)) { enum =>
           readValue[EnumEntryItem](enum.entryName) shouldBe Right(enum)
         }
       }
 
       "successfully read optional EnumEntry names" in {
-        forAll(Gen.oneOf(EnumEntryItem.values)) { enum ⇒
+        forAll(Gen.oneOf(EnumEntryItem.values)) { enum =>
           readValue[Option[EnumEntryItem]](enum.entryName) shouldBe Right(Some(enum))
         }
       }
 
       "return a failure for other values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(EnumEntryItem.withNameOption(string).isEmpty) {
             readValue[EnumEntryItem](string) shouldBe a[Left[_, _]]
           }
@@ -157,19 +157,19 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
     "reading an IntEnum" should {
       "successfully read IntEnum values" in {
-        forAll(Gen.oneOf(IntEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(IntEnumItem.values)) { enum =>
           readValue[IntEnumItem](enum.value.toString) shouldBe Right(enum)
         }
       }
 
       "successfully read optional IntEnum values" in {
-        forAll(Gen.oneOf(IntEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(IntEnumItem.values)) { enum =>
           readValue[Option[IntEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
       "return a failure for other values" in {
-        forAll { int: Int ⇒
+        forAll { int: Int =>
           whenever(IntEnumItem.withValueOpt(int).isEmpty) {
             readValue[IntEnumItem](int.toString) shouldBe a[Left[_, _]]
           }
@@ -177,7 +177,7 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for wrong type values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(fails(string.toInt)) {
             readValue[IntEnumItem](string) shouldBe a[Left[_, _]]
           }
@@ -187,19 +187,19 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
     "reading a LongEnum" should {
       "successfully read LongEnum values" in {
-        forAll(Gen.oneOf(LongEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(LongEnumItem.values)) { enum =>
           readValue[LongEnumItem](enum.value.toString) shouldBe Right(enum)
         }
       }
 
       "successfully read optional LongEnum values" in {
-        forAll(Gen.oneOf(LongEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(LongEnumItem.values)) { enum =>
           readValue[Option[LongEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
       "return a failure for other values" in {
-        forAll { long: Long ⇒
+        forAll { long: Long =>
           whenever(LongEnumItem.withValueOpt(long).isEmpty) {
             readValue[LongEnumItem](long.toString) shouldBe a[Left[_, _]]
           }
@@ -207,7 +207,7 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for wrong type values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(fails(string.toLong)) {
             readValue[LongEnumItem](string) shouldBe a[Left[_, _]]
           }
@@ -217,19 +217,19 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
     "reading a ShortEnum" should {
       "successfully read ShortEnum values" in {
-        forAll(Gen.oneOf(ShortEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(ShortEnumItem.values)) { enum =>
           readValue[ShortEnumItem](enum.value.toString) shouldBe Right(enum)
         }
       }
 
       "successfully read optional ShortEnum values" in {
-        forAll(Gen.oneOf(ShortEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(ShortEnumItem.values)) { enum =>
           readValue[Option[ShortEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
       "return a failure for other values" in {
-        forAll { short: Short ⇒
+        forAll { short: Short =>
           whenever(ShortEnumItem.withValueOpt(short).isEmpty) {
             readValue[ShortEnumItem](short.toString) shouldBe a[Left[_, _]]
           }
@@ -237,7 +237,7 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
       }
 
       "return a failure for wrong type values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(fails(string.toShort)) {
             readValue[ShortEnumItem](string) shouldBe a[Left[_, _]]
           }
@@ -247,19 +247,19 @@ final class EnumeratumConfigReadersSpec extends PropertySpec {
 
     "reading a StringEnum" should {
       "successfully read StringEnum values" in {
-        forAll(Gen.oneOf(StringEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(StringEnumItem.values)) { enum =>
           readValue[StringEnumItem](enum.value.toString) shouldBe Right(enum)
         }
       }
 
       "successfully read optional StringEnum values" in {
-        forAll(Gen.oneOf(StringEnumItem.values)) { enum ⇒
+        forAll(Gen.oneOf(StringEnumItem.values)) { enum =>
           readValue[Option[StringEnumItem]](enum.value.toString) shouldBe Right(Some(enum))
         }
       }
 
       "return a failure for other values" in {
-        forAll { string: String ⇒
+        forAll { string: String =>
           whenever(StringEnumItem.withValueOpt(string).isEmpty) {
             readValue[StringEnumItem](string) shouldBe a[Left[_, _]]
           }

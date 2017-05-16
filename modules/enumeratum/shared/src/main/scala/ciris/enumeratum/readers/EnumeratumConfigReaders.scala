@@ -11,16 +11,16 @@ trait EnumeratumConfigReaders {
   private def fromOption[
     From: ConfigReader,
     To: ClassTag
-  ](f: From ⇒ Option[To]): ConfigReader[To] =
-    ConfigReader.pure { (key, source) ⇒
+  ](f: From => Option[To]): ConfigReader[To] =
+    ConfigReader.pure { (key, source) =>
       ConfigReader[From]
         .read(key)(source)
         .fold(
           Left.apply,
-          value ⇒ {
+          value => {
             f(value) match {
-              case Some(to) ⇒ Right(to)
-              case None ⇒
+              case Some(to) => Right(to)
+              case None =>
                 val typeName = implicitly[ClassTag[To]].runtimeClass.getName
                 Left(WrongType(key, value, typeName, source.keyType))
             }

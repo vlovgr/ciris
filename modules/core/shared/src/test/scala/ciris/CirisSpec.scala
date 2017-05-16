@@ -14,7 +14,7 @@ final class CirisSpec extends PropertySpec {
       }
 
       "return a failure for non-existing variables" in {
-        forAll { key: String ⇒
+        forAll { key: String =>
           whenever(!sys.env.contains(key)) {
             env[String](key).value shouldBe a[Left[_, _]]
           }
@@ -36,7 +36,7 @@ final class CirisSpec extends PropertySpec {
       }
 
       "return a failure for non-existing properties" in {
-        forAll { key: String ⇒
+        forAll { key: String =>
           whenever(key.nonEmpty && !sys.props.contains(key)) {
             prop[String](key).value shouldBe a[Left[_, _]]
           }

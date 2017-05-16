@@ -8,8 +8,8 @@ import squants.{Dimension, Quantity}
 trait SquantsGenerators {
   def genQuantity[A <: Quantity[A]](dimension: Dimension[A]): Gen[A] =
     for {
-      value ← arbitrary[Double]
-      unit ← Gen.oneOf(dimension.units.toList)
+      value <- arbitrary[Double]
+      unit <- Gen.oneOf(dimension.units.toList)
     } yield unit(value)
 
   val genCurrency: Gen[Currency] =
@@ -43,8 +43,8 @@ trait SquantsGenerators {
 
   val genMoney: Gen[Money] =
     for {
-      value ← arbitrary[Double]
-      currency ← genCurrency
+      value <- arbitrary[Double]
+      currency <- genCurrency
     } yield {
       val moneyValue =
         BigDecimal(value)

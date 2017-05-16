@@ -104,11 +104,11 @@ lazy val docs = project
       organization,
       latestVersion in ThisBuild,
       crossScalaVersions,
-      BuildInfoKey.map(moduleName in coreJVM) { case (k, v) ⇒ "core" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) ⇒ "enumeratum" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in genericJVM) { case (k, v) ⇒ "generic" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) ⇒ "refined" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) ⇒ "squants" + k.capitalize -> v }
+      BuildInfoKey.map(moduleName in coreJVM) { case (k, v) => "core" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) => "enumeratum" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) => "refined" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v }
     )
   )
   .dependsOn(coreJVM, enumeratumJVM, genericJVM, refinedJVM, squantsJVM)
@@ -141,9 +141,9 @@ lazy val scalaSettings = Seq(
     "-Ywarn-unused-import",
     "-Ywarn-unused"
   ).filter {
-    case "-Ywarn-unused-import" if scalaVersion.value == scala210 ⇒ false
-    case "-Ywarn-unused" if scalaVersion.value != scala212 ⇒ false
-    case _ ⇒ true
+    case "-Ywarn-unused-import" if scalaVersion.value == scala210 => false
+    case "-Ywarn-unused" if scalaVersion.value != scala212 => false
+    case _ => true
   },
   scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
@@ -252,7 +252,7 @@ generateReadme in ThisBuild := {
 val updateReadme = taskKey[Unit]("Generates and commits the readme")
 updateReadme in ThisBuild := {
   (generateReadme in ThisBuild).value
-  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs ⇒
+  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add("readme.md").!
     vcs.commit("Update readme to latest version", sign = true).!
   }
@@ -292,7 +292,7 @@ generateScripts in ThisBuild := {
 val updateScripts = taskKey[Unit]("Generates and commits scripts")
 updateScripts in ThisBuild := {
   (generateScripts in ThisBuild).value
-  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs ⇒
+  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add(scriptsDirectory).!
     vcs.commit("Update scripts to latest version", sign = true).!
   }
