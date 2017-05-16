@@ -53,7 +53,7 @@ trait SquantsConfigReaders {
   implicit val powerRampConfigReader: ConfigReader[PowerRamp] =
     fromTry("PowerRamp")(PowerRamp.apply)
 
-  implicit val SpecificEnergyConfigReader: ConfigReader[SpecificEnergy] =
+  implicit val specificEnergyConfigReader: ConfigReader[SpecificEnergy] =
     fromTry("SpecificEnergy")(SpecificEnergy.apply)
 
   import squants.information._
