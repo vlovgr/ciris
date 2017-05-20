@@ -5,9 +5,7 @@ section: "home"
 ---
 
 ```tut:invisible
-import ciris.build._
-
-def show[T](t: T): String = t.toString
+import ciris.build.info._
 
 val scalaPublishVersions: String = {
  val sep = if(crossScalaVersions.size > 2) ", " else " and "
@@ -15,11 +13,19 @@ val scalaPublishVersions: String = {
 }
 ```
 
-[![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=4db798)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://www.javadoc.io/doc/is.cir/ciris-core_2.12)
+[![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
 
 ## Ciris
 Lightweight, extensible, and validated configuration loading in [Scala][scala] and [Scala.js][scalajs].  
 The core library is dependency-free, while modules provide library integrations.
+
+The name comes from being an abbreviation of the word _configurations_.  
+Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https://en.wikipedia.org/wiki/Appendix_Vergiliana#Ciris_.28.22The_Sea-Bird.22.29).
+
+> The Ciris is an epyllion in 541 hexameters describing the myth of Nisus, the king of Megara and his daughter Scylla.<br/>
+> After the city falls and Scylla is taken prisoner on the Cretan ships, Amphitrite transforms her into the _ciris_ seabird.
+
+Ciris is a new project under active development. Feedback and contributions are welcome.
 
 ### Introduction
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined] and [squants][squants] to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.
@@ -42,9 +48,10 @@ s"""
 )
 ```
 
-and make sure to replace `%%` with `%%%` if you are using Scala.js.
+and make sure to replace `%%` with `%%%` if you are using Scala.js.  
+For changes between versions, please refer to the [release notes](https://github.com/vlovgr/ciris/releases).
 
-The only required module is `ciris-core`, the rest are optional library integrations.
+The only required module is `ciris-core`, the rest are optional modules.
 
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
@@ -64,10 +71,10 @@ curl -Ls try.cir.is | sh
 ```
 You will need to have a JDK installed. The [script](https://try.cir.is) will then:
 * download and install the latest available version of [coursier](https://github.com/coursier/coursier),
-* use coursier to fetch Ammonite and the latest version of Ciris, and
-* start a REPL session with Ciris already imported.
+* use coursier to fetch Ammonite and the latest Ciris version,
+* start an Ammonite REPL with Ciris already imported.
 
-If you already have the Ammonite REPL installed, you can use the following commands to load Ciris.
+If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```tut:evaluated
 println(
 s"""
@@ -80,143 +87,22 @@ s"""
 )
 ```
 
-### Usage Examples
-Ciris configuration loading is done in two parts: define what to load, and what to create once everything is loaded.  
-Let's start simple by defining a configuration and loading only the necessary parts of it from the environment.
+### Motivation
+When it takes little effort to change and release software, for example when employing [continuous deployment](https://www.agilealliance.org/glossary/continuous-deployment/) practices, writing your configurations in Scala can be a viable alternative to configuration files, in order to increase compile-time safety. Since configuration files are not validated at compile-time, any errors will occur at runtime. Tests and macros can be used to perform validation, but by simply using Scala as a configuration language, we ensure that the configuration is correct when compiling, thereby eliminating many potential runtime errors, without having to resort to macros.
 
-```tut:silent
-import ciris._
+For security reasons, it's desirable that secrets, like passwords, are not stored in the source code. For a Scala configuration, this means that the code containing your secrets should be stored in a different place, and later be compiled together with the rest of your application. If you require that your secrets shouldn't be persisted to disk, that might not be feasible. Alternatively, you can define most of your configuration in Scala and only load secrets, and other values which cannot reside in code, from the application's environment.
 
-import scala.concurrent.duration._
+While it's possible to not use any libraries in the latter case, loading values from the environment typically means dealing with: different environments and configuration sources, type conversions, error handling, and validation. This is where Ciris comes in: a small library, dependency-free at its core, helping you to deal with all of that more easily.
 
-final case class Config(
-  apiKey: String,
-  timeout: Duration,
-  port: Int
-)
+### Documentation
+For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs/basics).  
+If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).
 
-val config: Either[ConfigErrors, Config] =
-  loadConfig(
-    env[String]("API_KEY"), // Reads environment variable API_KEY
-    prop[Option[Int]]("http.port") // Reads system property http.port
-  ) { (apiKey, port) =>
-    Config(
-      apiKey = apiKey,
-      timeout = 10.seconds,
-      port = port getOrElse 4000
-    )
-  }
+### Participation
+Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Typelevel Code of Conduct](http://typelevel.org/conduct.html). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
-```
-
-```tut:book
-show(config)
-
-show(config.left.map(_.messages))
-```
-
-#### Encoding Validation
-Ciris intentionally forces you to encode validation in your data types. This means you have to put more thought into your configurations, and in turn, your domain models. If you want to load an API key, you probably don't want it to be any `String`. If you want to load a port value, you probably don't want it to be any `Int` (valid ports are 0 to 65535).
-
-By using more precise types, we get type-safety and a guarantee that values conform to our requirements. One of the easiest ways to encode validation in data types is by using [refined][refined]. Ciris provides a `ciris-refined` module which allows you to read any refined type. You can also get compile-time validation for literals from refined.
-
-Let's modify the configuration to use refined types and again load the same parts from the environment.
-
-```tut:silent
-import ciris.refined._
-
-import eu.timepit.refined.auto._
-import eu.timepit.refined.types.net.PortNumber
-import eu.timepit.refined.types.string.NonEmptyString
-
-final case class Config(
-  apiKey: NonEmptyString,
-  timeout: Duration,
-  port: PortNumber
-)
-
-val config =
-  loadConfig(
-    env[NonEmptyString]("API_KEY"),
-    prop[Option[PortNumber]]("http.port")
-  ) { (apiKey, port) =>
-    Config(
-      apiKey = apiKey,
-      timeout = 10 seconds,
-      port = port getOrElse 4000
-    )
-  }
-```
-
-#### Multiple Environments
-One of the most common use cases for configurations is having different values for different environments. There are several ways to deal with environments with Ciris: one way being to define an enumeration with [enumeratum][enumeratum] and use the `ciris-enumeratum` module to be able to load values of that enumeration. You can then switch configuration by just writing conditional statements in plain code.
-
-Let's define and load a configuration depending on different environments.
-
-```tut:silent
-import _root_.enumeratum._
-import ciris.enumeratum._
-
-object configuration {
-  sealed abstract class AppEnvironment extends EnumEntry
-  object AppEnvironment extends Enum[AppEnvironment] {
-    case object Local extends AppEnvironment
-    case object Testing extends AppEnvironment
-    case object Production extends AppEnvironment
-
-    val values = findValues
-  }
-}
-
-import configuration._
-
-val config =
-  loadConfig(
-    env[NonEmptyString]("API_KEY"),
-    prop[Option[PortNumber]]("http.port"),
-    env[Option[AppEnvironment]]("APP_ENV")
-  ) { (apiKey, port, appEnvironment) =>
-    val default =
-      Config(
-        apiKey = apiKey,
-        timeout = 10 seconds,
-        port = port getOrElse 4000
-      )
-
-    appEnvironment.map {
-      case AppEnvironment.Local => default
-      case _ => default.copy(timeout = 5 seconds)
-    }.getOrElse(default)
-  }
-```
-
-What about reading different configuration values depending on the environment? For example, you could use defaults for everything in a local environment, while reading configuration values, like the API key and port, in the other environments.
-
-For that purpose, there is a `withValues` (and `withValue`) construct that you can use. It works exactly like `loadConfig`, except it wraps your `loadConfig` statements, only executing them if all `withValues` values could be read successfully. If it helps, think of `loadConfig` as `map` and `withValues` as `flatMap` (which is also how they are defined internally).
-
-```tut:silent
-withValue(env[Option[AppEnvironment]]("APP_ENV")) {
-  case Some(AppEnvironment.Local) | None =>
-    loadConfig {
-      Config(
-        apiKey = "changeme",
-        timeout = 10 seconds,
-        port = 4000
-      )
-    }
-  case _ =>
-    loadConfig(
-      env[NonEmptyString]("API_KEY"),
-      prop[PortNumber]("http.port")
-    ) { (apiKey, port) =>
-      Config(
-        apiKey = apiKey,
-        timeout = 5 seconds,
-        port = port
-      )
-    }
-}
-```
+### License
+Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
