@@ -1,0 +1,64 @@
+a:hover, a:focus {
+  color: #3e4959;
+}
+
+blockquote {
+  font-size: 13px;
+}
+
+.highlight {
+  margin-bottom: 12.5px !important;
+}
+
+/* Home layout */
+
+.jumbotron {
+  background-image: unset;
+}
+
+.jumbotron h1 {
+  color: #f3f3f3;
+}
+
+#site-header .navbar-wrapper a {
+  color: #f3f3f3;
+}
+
+.technologies {
+  display: none;
+}
+
+#site-footer p {
+  color: rgba(243, 243, 243, 0.3);
+}
+
+#site-footer p a {
+  color: rgba(243, 243, 243, 0.6);
+}
+
+/* Docs layout */
+
+.sidebar-nav > li > a:hover {
+  color: #f3f3f3;
+}
+
+.sidebar-nav > li a.active {
+  border-left: 3px solid #aab5bd;
+  color: #f3f3f3;
+}
+
+.sidebar-nav > .sidebar-brand a {
+  color: #f3f3f3;
+}
+
+.sidebar-nav > .sidebar-brand a .brand-wrapper span {
+  left: 45px;
+}
+
+.label-default {
+  background-color: #cdd3da;
+}
+
+.modal-kazari {
+  display: none;
+}

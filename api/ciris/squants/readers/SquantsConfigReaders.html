@@ -1,0 +1,1468 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <title></title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="../../../lib/index.js"></script>
+      <script type="text/javascript" src="../../../index.js"></script>
+      <script type="text/javascript" src="../../../lib/scheduler.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '../../../';
+      </script>
+    
+        </head>
+        <body>
+      <div id="search">
+        <span id="doc-title"><span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
+    </div>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="index.html#_root_" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the API documentation for Link(https://cir.is,Text(Ciris)): lightweight, extensible, and validated configuration loading in Scala." href="../../../index.html">
+              <span class="name">root</span>
+            </a>
+      </span>
+      
+      <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.</p><p>The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.3.0" target="_blank">v0.3.0</a> on Scala 2.12.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="../../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="http://www.squants.com" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for an overview, with examples and explanations of the most common use cases, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ciris"></a><a id="ciris:ciris"></a>
+      <span class="permalink">
+      <a href="index.html#ciris" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../index.html">
+              <span class="name">ciris</span>
+            </a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="ciris.squants" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="squants"></a><a id="squants:squants"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#squants" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../index.html">
+              <span class="name">squants</span>
+            </a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.squants.readers" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="readers"></a><a id="readers:readers"></a>
+      <span class="permalink">
+      <a href="../../ciris/squants/index.html#readers" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="index.html">
+              <span class="name">readers</span>
+            </a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris.squants">squants</a></dd></dl></div>
+    </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="" title=""></a>
+                        <a href="" title="">
+                          SquantsConfigReaders
+                        </a>
+                      </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="trait type">
+      <div id="definition">
+        <div class="big-circle trait">t</div>
+        <p id="owner"><a href="../../index.html" class="extype" name="ciris">ciris</a>.<a href="../index.html" class="extype" name="ciris.squants">squants</a>.<a href="index.html" class="extype" name="ciris.squants.readers">readers</a></p>
+        <h1>SquantsConfigReaders<span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        <h3><span class="morelinks"></span></h3>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SquantsConfigReaders</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.3.0/modules/squants/shared/src/main/scala/ciris/squants/readers/SquantsConfigReaders.scala" target="_blank">SquantsConfigReaders.scala</a></dd></dl><div class="toggleContainer block">
+          <span class="toggle">
+            Linear Supertypes
+          </span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              <li class="inherit out"><span>By Inheritance</span></li>
+            </ol>
+          </div>
+          <div class="ancestors">
+                  <span class="filtertype">Inherited<br />
+                  </span>
+                  <ol id="linearization">
+                    <li class="in" name="ciris.squants.readers.SquantsConfigReaders"><span>SquantsConfigReaders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  </ol>
+                </div><div class="ancestors">
+              <span class="filtertype"></span>
+              <ol>
+                <li class="hideall out"><span>Hide All</span></li>
+                <li class="showall in"><span>Show All</span></li>
+              </ol>
+            </div>
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#!=(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html###():Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#==(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#accelerationConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="accelerationConfigReader:ciris.ConfigReader[squants.motion.Acceleration]"></a><a id="accelerationConfigReader:ConfigReader[Acceleration]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#accelerationConfigReader:ciris.ConfigReader[squants.motion.Acceleration]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">accelerationConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Acceleration">Acceleration</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#angleConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="angleConfigReader:ciris.ConfigReader[squants.space.Angle]"></a><a id="angleConfigReader:ConfigReader[Angle]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#angleConfigReader:ciris.ConfigReader[squants.space.Angle]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">angleConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.Angle">Angle</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#angularVelocityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="angularVelocityConfigReader:ciris.ConfigReader[squants.motion.AngularVelocity]"></a><a id="angularVelocityConfigReader:ConfigReader[AngularVelocity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#angularVelocityConfigReader:ciris.ConfigReader[squants.motion.AngularVelocity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">angularVelocityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.AngularVelocity">AngularVelocity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#areaConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="areaConfigReader:ciris.ConfigReader[squants.space.Area]"></a><a id="areaConfigReader:ConfigReader[Area]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#areaConfigReader:ciris.ConfigReader[squants.space.Area]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">areaConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.Area">Area</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#areaDensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="areaDensityConfigReader:ciris.ConfigReader[squants.mass.AreaDensity]"></a><a id="areaDensityConfigReader:ConfigReader[AreaDensity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#areaDensityConfigReader:ciris.ConfigReader[squants.mass.AreaDensity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">areaDensityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.AreaDensity">AreaDensity</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#asInstanceOf[T0]:T0" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#capacitanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="capacitanceConfigReader:ciris.ConfigReader[squants.electro.Capacitance]"></a><a id="capacitanceConfigReader:ConfigReader[Capacitance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#capacitanceConfigReader:ciris.ConfigReader[squants.electro.Capacitance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">capacitanceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.Capacitance">Capacitance</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#chemicalAmountConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="chemicalAmountConfigReader:ciris.ConfigReader[squants.mass.ChemicalAmount]"></a><a id="chemicalAmountConfigReader:ConfigReader[ChemicalAmount]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#chemicalAmountConfigReader:ciris.ConfigReader[squants.mass.ChemicalAmount]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">chemicalAmountConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.ChemicalAmount">ChemicalAmount</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a><a id="clone():AnyRef"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#clone():Object" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#conductivityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="conductivityConfigReader:ciris.ConfigReader[squants.electro.Conductivity]"></a><a id="conductivityConfigReader:ConfigReader[Conductivity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#conductivityConfigReader:ciris.ConfigReader[squants.electro.Conductivity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">conductivityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.Conductivity">Conductivity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#dataRateConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="dataRateConfigReader:ciris.ConfigReader[squants.information.DataRate]"></a><a id="dataRateConfigReader:ConfigReader[DataRate]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#dataRateConfigReader:ciris.ConfigReader[squants.information.DataRate]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dataRateConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.information.DataRate">DataRate</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#densityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="densityConfigReader:ciris.ConfigReader[squants.mass.Density]"></a><a id="densityConfigReader:ConfigReader[Density]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#densityConfigReader:ciris.ConfigReader[squants.mass.Density]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">densityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.Density">Density</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricChargeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="electricChargeConfigReader:ciris.ConfigReader[squants.electro.ElectricCharge]"></a><a id="electricChargeConfigReader:ConfigReader[ElectricCharge]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#electricChargeConfigReader:ciris.ConfigReader[squants.electro.ElectricCharge]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">electricChargeConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricCharge">ElectricCharge</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricCurrentConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="electricCurrentConfigReader:ciris.ConfigReader[squants.electro.ElectricCurrent]"></a><a id="electricCurrentConfigReader:ConfigReader[ElectricCurrent]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#electricCurrentConfigReader:ciris.ConfigReader[squants.electro.ElectricCurrent]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">electricCurrentConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricCurrent">ElectricCurrent</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricPotentialConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="electricPotentialConfigReader:ciris.ConfigReader[squants.electro.ElectricPotential]"></a><a id="electricPotentialConfigReader:ConfigReader[ElectricPotential]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#electricPotentialConfigReader:ciris.ConfigReader[squants.electro.ElectricPotential]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">electricPotentialConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricPotential">ElectricPotential</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricalConductanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="electricalConductanceConfigReader:ciris.ConfigReader[squants.electro.ElectricalConductance]"></a><a id="electricalConductanceConfigReader:ConfigReader[ElectricalConductance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#electricalConductanceConfigReader:ciris.ConfigReader[squants.electro.ElectricalConductance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">electricalConductanceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricalConductance">ElectricalConductance</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricalResistanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="electricalResistanceConfigReader:ciris.ConfigReader[squants.electro.ElectricalResistance]"></a><a id="electricalResistanceConfigReader:ConfigReader[ElectricalResistance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#electricalResistanceConfigReader:ciris.ConfigReader[squants.electro.ElectricalResistance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">electricalResistanceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricalResistance">ElectricalResistance</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#energyConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="energyConfigReader:ciris.ConfigReader[squants.energy.Energy]"></a><a id="energyConfigReader:ConfigReader[Energy]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#energyConfigReader:ciris.ConfigReader[squants.energy.Energy]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">energyConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.Energy">Energy</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#energyDensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="energyDensityConfigReader:ciris.ConfigReader[squants.energy.EnergyDensity]"></a><a id="energyDensityConfigReader:ConfigReader[EnergyDensity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#energyDensityConfigReader:ciris.ConfigReader[squants.energy.EnergyDensity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">energyDensityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.EnergyDensity">EnergyDensity</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#equals(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#forceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="forceConfigReader:ciris.ConfigReader[squants.motion.Force]"></a><a id="forceConfigReader:ConfigReader[Force]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#forceConfigReader:ciris.ConfigReader[squants.motion.Force]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">forceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Force">Force</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#frequencyConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="frequencyConfigReader:ciris.ConfigReader[squants.time.Frequency]"></a><a id="frequencyConfigReader:ConfigReader[Frequency]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#frequencyConfigReader:ciris.ConfigReader[squants.time.Frequency]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">frequencyConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.time.Frequency">Frequency</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#getClass():Class[_]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#hashCode():Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#illuminanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="illuminanceConfigReader:ciris.ConfigReader[squants.photo.Illuminance]"></a><a id="illuminanceConfigReader:ConfigReader[Illuminance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#illuminanceConfigReader:ciris.ConfigReader[squants.photo.Illuminance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">illuminanceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.Illuminance">Illuminance</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#inductanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="inductanceConfigReader:ciris.ConfigReader[squants.electro.Inductance]"></a><a id="inductanceConfigReader:ConfigReader[Inductance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#inductanceConfigReader:ciris.ConfigReader[squants.electro.Inductance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">inductanceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.Inductance">Inductance</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#informationConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="informationConfigReader:ciris.ConfigReader[squants.information.Information]"></a><a id="informationConfigReader:ConfigReader[Information]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#informationConfigReader:ciris.ConfigReader[squants.information.Information]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">informationConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.information.Information">Information</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#irradianceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="irradianceConfigReader:ciris.ConfigReader[squants.radio.Irradiance]"></a><a id="irradianceConfigReader:ConfigReader[Irradiance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#irradianceConfigReader:ciris.ConfigReader[squants.radio.Irradiance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">irradianceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.Irradiance">Irradiance</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#isInstanceOf[T0]:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#jerkConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="jerkConfigReader:ciris.ConfigReader[squants.motion.Jerk]"></a><a id="jerkConfigReader:ConfigReader[Jerk]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#jerkConfigReader:ciris.ConfigReader[squants.motion.Jerk]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jerkConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Jerk">Jerk</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#lengthConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lengthConfigReader:ciris.ConfigReader[squants.space.Length]"></a><a id="lengthConfigReader:ConfigReader[Length]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#lengthConfigReader:ciris.ConfigReader[squants.space.Length]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lengthConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.Length">Length</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="luminanceConfigReader:ciris.ConfigReader[squants.photo.Luminance]"></a><a id="luminanceConfigReader:ConfigReader[Luminance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#luminanceConfigReader:ciris.ConfigReader[squants.photo.Luminance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">luminanceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.Luminance">Luminance</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminousEnergyConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="luminousEnergyConfigReader:ciris.ConfigReader[squants.photo.LuminousEnergy]"></a><a id="luminousEnergyConfigReader:ConfigReader[LuminousEnergy]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#luminousEnergyConfigReader:ciris.ConfigReader[squants.photo.LuminousEnergy]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">luminousEnergyConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.LuminousEnergy">LuminousEnergy</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminousExposureConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="luminousExposureConfigReader:ciris.ConfigReader[squants.photo.LuminousExposure]"></a><a id="luminousExposureConfigReader:ConfigReader[LuminousExposure]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#luminousExposureConfigReader:ciris.ConfigReader[squants.photo.LuminousExposure]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">luminousExposureConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.LuminousExposure">LuminousExposure</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminousFluxConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="luminousFluxConfigReader:ciris.ConfigReader[squants.photo.LuminousFlux]"></a><a id="luminousFluxConfigReader:ConfigReader[LuminousFlux]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#luminousFluxConfigReader:ciris.ConfigReader[squants.photo.LuminousFlux]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">luminousFluxConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.LuminousFlux">LuminousFlux</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminousIntensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="luminousIntensityConfigReader:ciris.ConfigReader[squants.photo.LuminousIntensity]"></a><a id="luminousIntensityConfigReader:ConfigReader[LuminousIntensity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#luminousIntensityConfigReader:ciris.ConfigReader[squants.photo.LuminousIntensity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">luminousIntensityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.LuminousIntensity">LuminousIntensity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#magneticFluxConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="magneticFluxConfigReader:ciris.ConfigReader[squants.electro.MagneticFlux]"></a><a id="magneticFluxConfigReader:ConfigReader[MagneticFlux]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#magneticFluxConfigReader:ciris.ConfigReader[squants.electro.MagneticFlux]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">magneticFluxConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.MagneticFlux">MagneticFlux</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#magneticFluxDensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="magneticFluxDensityConfigReader:ciris.ConfigReader[squants.electro.MagneticFluxDensity]"></a><a id="magneticFluxDensityConfigReader:ConfigReader[MagneticFluxDensity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#magneticFluxDensityConfigReader:ciris.ConfigReader[squants.electro.MagneticFluxDensity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">magneticFluxDensityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.MagneticFluxDensity">MagneticFluxDensity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#massConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="massConfigReader:ciris.ConfigReader[squants.mass.Mass]"></a><a id="massConfigReader:ConfigReader[Mass]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#massConfigReader:ciris.ConfigReader[squants.mass.Mass]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">massConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.Mass">Mass</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#massFlowConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="massFlowConfigReader:ciris.ConfigReader[squants.motion.MassFlow]"></a><a id="massFlowConfigReader:ConfigReader[MassFlow]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#massFlowConfigReader:ciris.ConfigReader[squants.motion.MassFlow]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">massFlowConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.MassFlow">MassFlow</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#momentumConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="momentumConfigReader:ciris.ConfigReader[squants.motion.Momentum]"></a><a id="momentumConfigReader:ConfigReader[Momentum]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#momentumConfigReader:ciris.ConfigReader[squants.motion.Momentum]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">momentumConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Momentum">Momentum</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#moneyDensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="moneyDensityConfigReader:ciris.ConfigReader[squants.market.Money]"></a><a id="moneyDensityConfigReader:ConfigReader[Money]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#moneyDensityConfigReader:ciris.ConfigReader[squants.market.Money]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">moneyDensityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.market.Money">Money</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#notify():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#notifyAll():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#powerConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="powerConfigReader:ciris.ConfigReader[squants.energy.Power]"></a><a id="powerConfigReader:ConfigReader[Power]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#powerConfigReader:ciris.ConfigReader[squants.energy.Power]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">powerConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.Power">Power</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#powerRampConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="powerRampConfigReader:ciris.ConfigReader[squants.energy.PowerRamp]"></a><a id="powerRampConfigReader:ConfigReader[PowerRamp]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#powerRampConfigReader:ciris.ConfigReader[squants.energy.PowerRamp]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">powerRampConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.PowerRamp">PowerRamp</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#pressureChangeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="pressureChangeConfigReader:ciris.ConfigReader[squants.motion.PressureChange]"></a><a id="pressureChangeConfigReader:ConfigReader[PressureChange]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#pressureChangeConfigReader:ciris.ConfigReader[squants.motion.PressureChange]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pressureChangeConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.PressureChange">PressureChange</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#pressureConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="pressureConfigReader:ciris.ConfigReader[squants.motion.Pressure]"></a><a id="pressureConfigReader:ConfigReader[Pressure]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#pressureConfigReader:ciris.ConfigReader[squants.motion.Pressure]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pressureConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Pressure">Pressure</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#radianceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="radianceConfigReader:ciris.ConfigReader[squants.radio.Radiance]"></a><a id="radianceConfigReader:ConfigReader[Radiance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#radianceConfigReader:ciris.ConfigReader[squants.radio.Radiance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">radianceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.Radiance">Radiance</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#radiantIntensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="radiantIntensityConfigReader:ciris.ConfigReader[squants.radio.RadiantIntensity]"></a><a id="radiantIntensityConfigReader:ConfigReader[RadiantIntensity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#radiantIntensityConfigReader:ciris.ConfigReader[squants.radio.RadiantIntensity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">radiantIntensityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.RadiantIntensity">RadiantIntensity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#resistivityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="resistivityConfigReader:ciris.ConfigReader[squants.electro.Resistivity]"></a><a id="resistivityConfigReader:ConfigReader[Resistivity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#resistivityConfigReader:ciris.ConfigReader[squants.electro.Resistivity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resistivityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.Resistivity">Resistivity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#solidAngleConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="solidAngleConfigReader:ciris.ConfigReader[squants.space.SolidAngle]"></a><a id="solidAngleConfigReader:ConfigReader[SolidAngle]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#solidAngleConfigReader:ciris.ConfigReader[squants.space.SolidAngle]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">solidAngleConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.SolidAngle">SolidAngle</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#specificEnergyConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="specificEnergyConfigReader:ciris.ConfigReader[squants.energy.SpecificEnergy]"></a><a id="specificEnergyConfigReader:ConfigReader[SpecificEnergy]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#specificEnergyConfigReader:ciris.ConfigReader[squants.energy.SpecificEnergy]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">specificEnergyConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.SpecificEnergy">SpecificEnergy</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#spectralIntensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="spectralIntensityConfigReader:ciris.ConfigReader[squants.radio.SpectralIntensity]"></a><a id="spectralIntensityConfigReader:ConfigReader[SpectralIntensity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#spectralIntensityConfigReader:ciris.ConfigReader[squants.radio.SpectralIntensity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">spectralIntensityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.SpectralIntensity">SpectralIntensity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#spectralIrradianceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="spectralIrradianceConfigReader:ciris.ConfigReader[squants.radio.SpectralIrradiance]"></a><a id="spectralIrradianceConfigReader:ConfigReader[SpectralIrradiance]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#spectralIrradianceConfigReader:ciris.ConfigReader[squants.radio.SpectralIrradiance]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">spectralIrradianceConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.SpectralIrradiance">SpectralIrradiance</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#spectralPowerConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="spectralPowerConfigReader:ciris.ConfigReader[squants.radio.SpectralPower]"></a><a id="spectralPowerConfigReader:ConfigReader[SpectralPower]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#spectralPowerConfigReader:ciris.ConfigReader[squants.radio.SpectralPower]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">spectralPowerConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.SpectralPower">SpectralPower</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#temperatureConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="temperatureConfigReader:ciris.ConfigReader[squants.thermal.Temperature]"></a><a id="temperatureConfigReader:ConfigReader[Temperature]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#temperatureConfigReader:ciris.ConfigReader[squants.thermal.Temperature]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">temperatureConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.thermal.Temperature">Temperature</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#thermalCapacityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="thermalCapacityConfigReader:ciris.ConfigReader[squants.thermal.ThermalCapacity]"></a><a id="thermalCapacityConfigReader:ConfigReader[ThermalCapacity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#thermalCapacityConfigReader:ciris.ConfigReader[squants.thermal.ThermalCapacity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">thermalCapacityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.thermal.ThermalCapacity">ThermalCapacity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#timeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="timeConfigReader:ciris.ConfigReader[squants.time.Time]"></a><a id="timeConfigReader:ConfigReader[Time]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#timeConfigReader:ciris.ConfigReader[squants.time.Time]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">timeConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.time.Time">Time</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#toString():String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#velocityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="velocityConfigReader:ciris.ConfigReader[squants.motion.Velocity]"></a><a id="velocityConfigReader:ConfigReader[Velocity]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#velocityConfigReader:ciris.ConfigReader[squants.motion.Velocity]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">velocityConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Velocity">Velocity</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#volumeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="volumeConfigReader:ciris.ConfigReader[squants.space.Volume]"></a><a id="volumeConfigReader:ConfigReader[Volume]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#volumeConfigReader:ciris.ConfigReader[squants.space.Volume]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">volumeConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.Volume">Volume</span>]</span>
+      </span>
+      
+      
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#volumeFlowConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="volumeFlowConfigReader:ciris.ConfigReader[squants.motion.VolumeFlow]"></a><a id="volumeFlowConfigReader:ConfigReader[VolumeFlow]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#volumeFlowConfigReader:ciris.ConfigReader[squants.motion.VolumeFlow]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">volumeFlowConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.VolumeFlow">VolumeFlow</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#wait(x$1:Long):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="ciris.squants.readers.SquantsConfigReaders#yankConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="yankConfigReader:ciris.ConfigReader[squants.motion.Yank]"></a><a id="yankConfigReader:ConfigReader[Yank]"></a>
+      <span class="permalink">
+      <a href="../../../ciris/squants/readers/SquantsConfigReaders.html#yankConfigReader:ciris.ConfigReader[squants.motion.Yank]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">yankConfigReader</span><span class="result">: <a href="../../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Yank">Yank</span>]</span>
+      </span>
+      
+      
+    </li>
+              </ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
+    </body>
+      </html>
