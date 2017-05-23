@@ -81,6 +81,7 @@ lazy val squants = crossProject
 lazy val squantsJS = squants.js
 lazy val squantsJVM = squants.jvm
 
+import com.typesafe.sbt.SbtGit.GitKeys._
 lazy val docs = project
   .in(file("docs"))
   .settings(moduleName := "ciris-docs", name := "Ciris docs")
@@ -89,17 +90,28 @@ lazy val docs = project
   .settings(
     micrositeName := "Ciris",
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
-    micrositeDocumentationUrl := "https://www.javadoc.io/doc/is.cir/ciris-core_2.12",
+    micrositeDocumentationUrl := "api",
     micrositeAuthor := "Viktor Lövgren",
     micrositeOrganizationHomepage := "https://vlovgr.se",
     micrositeAnalyticsToken := "UA-37804684-4",
     micrositeGithubOwner := "vlovgr",
     micrositeGithubRepo := "ciris",
-    micrositeHighlightTheme := "atom-one-light"
+    micrositeTwitterCreator := "@vlovgr",
+    micrositeHighlightTheme := "atom-one-light",
+    micrositePalette := Map(
+      "brand-primary" -> "#3e4959",
+      "brand-secondary" -> "#3e4959",
+      "brand-tertiary" -> "#3e4959",
+      "gray-dark" -> "#3e4959",
+      "gray" -> "#837f84",
+      "gray-light" -> "#e3e2e3",
+      "gray-lighter" -> "#f4f3f4",
+      "white-color" -> "#f3f3f3"
+    )
   )
   .settings(
-    buildInfoObject := "build",
-    buildInfoPackage := "ciris",
+    buildInfoObject := "info",
+    buildInfoPackage := "ciris.build",
     buildInfoKeys := Seq[BuildInfoKey](
       organization,
       latestVersion in ThisBuild,
@@ -109,17 +121,55 @@ lazy val docs = project
       BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) => "refined" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v }
+    ),
+    scalaVersion := "2.12.1" // sbt-buildinfo 0.7.0 broken on 2.12.2
+  )
+  .settings(
+    generateApiIndexFile := {
+      val target = resourceManaged.value / "api.txt"
+      val version = (latestVersion in ThisBuild).value
+      val scalaTargetVersion = scalaVersion.value.split('.').init.mkString(".")
+
+      val content =
+        s"""
+          |This is the API documentation for [[https://cir.is Ciris]]: lightweight, extensible, and validated configuration loading in Scala.
+          |
+          |The documentation is kept up-to-date with new releases, currently documenting release [[https://github.com/vlovgr/ciris/releases/tag/v$version v$version]] on Scala $scalaTargetVersion.
+          |
+          |Ciris is divided into the following set of modules.
+          |
+          | - The [[ciris core]] module provides basic functionality and support for reading standard library types.
+          | - The [[ciris.enumeratum enumeratum]] module integrates with [[https://github.com/lloydmeta/enumeratum enumeratum]] to be able to read enumerations.
+          | - The [[ciris.generic generic]] module uses [[https://github.com/milessabin/shapeless shapeless]] to be able to read unary products, and coproducts.
+          | - The [[ciris.refined refined]] module integrates with [[https://github.com/fthomas/refined refined]] to be able to read refinement types.
+          | - The [[ciris.squants squants]] module integrates with [[http://www.squants.com squants]] to read values with unit of measure.
+          |
+          |If you're looking for an overview, with examples and explanations of the most common use cases, please refer to the [[https://cir.is/docs/basics usage guide]].
+        """.stripMargin.trim
+
+      IO.write(target, content)
+      target
+    },
+    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(noDocumentationProjects: _*),
+    siteSubdirName in ScalaUnidoc := micrositeDocumentationUrl.value,
+    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
+    gitRemoteRepo := "git@github.com:vlovgr/ciris.git",
+    scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
+      "-skip-packages", buildInfoPackage.value,
+      "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(latestVersion in ThisBuild).value}€{FILE_PATH}.scala",
+      "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,
+      "-doc-root-content", (generateApiIndexFile.value).getAbsolutePath
     )
   )
   .dependsOn(coreJVM, enumeratumJVM, genericJVM, refinedJVM, squantsJVM)
-  .enablePlugins(BuildInfoPlugin, MicrositesPlugin)
+  .enablePlugins(BuildInfoPlugin, MicrositesPlugin, ScalaUnidocPlugin)
 
 lazy val scala210 = "2.10.6"
 lazy val scala211 = "2.11.11"
 lazy val scala212 = "2.12.2"
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala211,
+  scalaVersion := scala212,
   crossScalaVersions := Seq(scala210, scala211, scala212),
   scalacOptions ++= Seq(
     "-deprecation",
@@ -141,8 +191,8 @@ lazy val scalaSettings = Seq(
     "-Ywarn-unused-import",
     "-Ywarn-unused"
   ).filter {
-    case "-Ywarn-unused-import" if scalaVersion.value == scala210 => false
-    case "-Ywarn-unused" if scalaVersion.value != scala212 => false
+    case "-Ywarn-unused-import" if (scalaVersion.value startsWith "2.10") => false
+    case "-Ywarn-unused" if !(scalaVersion.value startsWith "2.12") => false
     case _ => true
   },
   scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
@@ -164,6 +214,8 @@ lazy val releaseSettings =
     publishArtifact in Test := false,
     useGpg := true,
     pomIncludeRepository := { _ => false },
+    autoAPIMappings := true,
+    apiURL := Some(url("https://cir.is/api")),
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
     scmInfo := Some(
       ScmInfo(
@@ -297,6 +349,20 @@ updateScripts in ThisBuild := {
     vcs.commit("Update scripts to latest version", sign = true).!
   }
 }
+
+val generateApiIndexFile = taskKey[File]("Generates the API index file")
+
+lazy val crossModules: Seq[(Project, Project)] =
+  Seq(
+    (coreJVM, coreJS),
+    (enumeratumJVM, enumeratumJS),
+    (genericJVM, genericJS),
+    (refinedJVM, refinedJS),
+    (squantsJVM, squantsJS)
+  )
+
+lazy val noDocumentationProjects: Seq[ProjectReference] =
+  crossModules.map { case(_, js) => (js: ProjectReference) }
 
 lazy val allModules = List("core", "enumeratum", "generic", "refined", "squants")
 lazy val allModulesJS = allModules.map(_ + "JS")
