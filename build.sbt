@@ -14,7 +14,8 @@ lazy val ciris = project
     enumeratumJS, enumeratumJVM,
     genericJS, genericJVM,
     refinedJS, refinedJVM,
-    squantsJS, squantsJVM
+    squantsJS, squantsJVM,
+    testsJS, testsJVM
   )
 
 lazy val core = crossProject
@@ -22,7 +23,6 @@ lazy val core = crossProject
   .settings(moduleName := "ciris-core", name := "Ciris core")
   .settings(scalaSettings)
   .settings(releaseSettings)
-  .settings(testSettings)
 
 lazy val coreJS = core.js
 lazy val coreJVM = core.jvm
@@ -33,8 +33,7 @@ lazy val enumeratum = crossProject
   .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.12")
   .settings(scalaSettings)
   .settings(releaseSettings)
-  .settings(testSettings)
-  .dependsOn(core % "compile;test->test")
+  .dependsOn(core)
 
 lazy val enumeratumJS = enumeratum.js
 lazy val enumeratumJVM = enumeratum.jvm
@@ -42,17 +41,10 @@ lazy val enumeratumJVM = enumeratum.jvm
 lazy val generic = crossProject
   .in(file("modules/generic"))
   .settings(moduleName := "ciris-generic", name := "Ciris generic")
-  .settings(
-    libraryDependencies ++=
-      Seq(
-        "com.chuusai" %%% "shapeless" % "2.3.2",
-        compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" % Test cross CrossVersion.patch)
-      )
-  )
+  .settings(libraryDependencies += "com.chuusai" %%% "shapeless" % "2.3.2")
   .settings(scalaSettings)
   .settings(releaseSettings)
-  .settings(testSettings)
-  .dependsOn(core % "compile;test->test")
+  .dependsOn(core)
 
 lazy val genericJS = generic.js
 lazy val genericJVM = generic.jvm
@@ -63,8 +55,7 @@ lazy val refined = crossProject
   .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.1")
   .settings(scalaSettings)
   .settings(releaseSettings)
-  .settings(testSettings)
-  .dependsOn(core % "compile;test->test")
+  .dependsOn(core)
 
 lazy val refinedJS = refined.js
 lazy val refinedJVM = refined.jvm
@@ -75,11 +66,22 @@ lazy val squants = crossProject
   .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.2.0")
   .settings(scalaSettings)
   .settings(releaseSettings)
-  .settings(testSettings)
-  .dependsOn(core % "compile;test->test")
+  .dependsOn(core)
 
 lazy val squantsJS = squants.js
 lazy val squantsJVM = squants.jvm
+
+lazy val tests = crossProject
+  .in(file("tests"))
+  .settings(moduleName := "ciris-tests", name := "Ciris tests")
+  .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" % Test cross CrossVersion.patch))
+  .settings(scalaSettings)
+  .settings(noPublishSettings)
+  .settings(testSettings)
+  .dependsOn(core, enumeratum, generic, refined, squants)
+
+lazy val testsJS = tests.js
+lazy val testsJVM = tests.jvm
 
 import com.typesafe.sbt.SbtGit.GitKeys._
 lazy val docs = project
@@ -358,28 +360,21 @@ lazy val crossModules: Seq[(Project, Project)] =
     (enumeratumJVM, enumeratumJS),
     (genericJVM, genericJS),
     (refinedJVM, refinedJS),
-    (squantsJVM, squantsJS)
+    (squantsJVM, squantsJS),
+    (testsJVM, testsJS)
   )
 
 lazy val noDocumentationProjects: Seq[ProjectReference] =
-  crossModules.map { case(_, js) => (js: ProjectReference) }
-
-lazy val allModules = List("core", "enumeratum", "generic", "refined", "squants")
-lazy val allModulesJS = allModules.map(_ + "JS")
-lazy val allModulesJVM = allModules.map(_ + "JVM")
+  crossModules.map { case(_, js) => js: ProjectReference } :+ (testsJVM: ProjectReference)
 
 def addCommandsAlias(name: String, values: List[String]) =
   addCommandAlias(name, values.mkString(";", ";", ""))
 
-addCommandsAlias("testJS", allModulesJS.map(_ + "/test"))
-
-addCommandsAlias("testJVM", allModulesJVM.map(_ + "/test"))
-
 addCommandsAlias("validate", List(
   "clean",
-  "testJS",
+  "testsJS/test",
   "coverage",
-  "testJVM",
+  "testsJVM/test",
   "coverageReport",
   "coverageOff"
 ))
