@@ -21,11 +21,11 @@ To get started with [SBT][sbt], simply add the following lines to your `build.sb
 ```
 // Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.3.0",
-  "is.cir" %% "ciris-enumeratum" % "0.3.0",
-  "is.cir" %% "ciris-generic" % "0.3.0",
-  "is.cir" %% "ciris-refined" % "0.3.0",
-  "is.cir" %% "ciris-squants" % "0.3.0"
+  "is.cir" %% "ciris-core" % "0.3.1",
+  "is.cir" %% "ciris-enumeratum" % "0.3.1",
+  "is.cir" %% "ciris-generic" % "0.3.1",
+  "is.cir" %% "ciris-refined" % "0.3.1",
+  "is.cir" %% "ciris-squants" % "0.3.1"
 )
 ```
 
@@ -57,11 +57,11 @@ You will need to have a JDK installed. The [script](https://try.cir.is) will the
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```
-import $ivy.`is.cir::ciris-core:0.3.0`, ciris._
-import $ivy.`is.cir::ciris-enumeratum:0.3.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.3.0`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.3.0`, ciris.refined._
-import $ivy.`is.cir::ciris-squants:0.3.0`, ciris.squants._
+import $ivy.`is.cir::ciris-core:0.3.1`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.3.1`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.3.1`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.3.1`, ciris.refined._
+import $ivy.`is.cir::ciris-squants:0.3.1`, ciris.squants._
 ```
 
 ### Motivation
