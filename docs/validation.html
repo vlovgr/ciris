@@ -34,7 +34,7 @@ ga('send', 'pageview');
 </span></code></pre>
 </div>
 
-<p>Here we’ve said that the API key must be a non-empty <code class="highlighter-rouge">String</code> and that the port number must be an integer between 0 and 65535. We could also require that the timeout must be finite and within a certain range, but since it’s always specified in the code, it’s arguably harder to get wrong. Now, let’s see how we can simply change the types to read in the <code class="highlighter-rouge">env</code> and <code class="highlighter-rouge">prop</code> methods to the refined types, and how Ciris will take of loading them for you.</p>
+<p>Here we’ve said that the API key must be a non-empty <code class="highlighter-rouge">String</code> and that the port number must be an integer between 0 and 65535. We could also require that the timeout must be finite and within a certain range, but since it’s always specified in the code, it’s arguably harder to get wrong. Now, let’s see how we can simply change the types to read in the <code class="highlighter-rouge">env</code> and <code class="highlighter-rouge">prop</code> methods to the refined types, and how Ciris will take care of loading them for you.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
 <span class="c1">// import ciris._
