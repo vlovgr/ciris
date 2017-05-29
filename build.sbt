@@ -255,6 +255,7 @@ lazy val releaseSettings =
       setLatestVersion,
       releaseStepTask(updateReadme in ThisBuild),
       releaseStepTask(updateScripts in ThisBuild),
+      releaseStepTask(addDateToReleaseNotes in ThisBuild),
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
@@ -353,6 +354,41 @@ updateScripts in ThisBuild := {
 }
 
 val generateApiIndexFile = taskKey[File]("Generates the API index file")
+
+val releaseNotesFile = taskKey[File]("Release notes for current version")
+releaseNotesFile in ThisBuild := {
+  val currentVersion = (version in ThisBuild).value
+  file("notes") / s"$currentVersion.markdown"
+}
+
+val ensureReleaseNotesExists = taskKey[Unit]("Ensure release notes exists")
+ensureReleaseNotesExists in ThisBuild := {
+  val currentVersion = (version in ThisBuild).value
+  val notes = releaseNotesFile.value
+  if(!notes.isFile) {
+    throw new IllegalStateException(s"no release notes found for version [$currentVersion] at [$notes].")
+  }
+}
+
+val addDateToReleaseNotes = taskKey[Unit]("Add current date to release notes")
+addDateToReleaseNotes in ThisBuild := {
+  ensureReleaseNotesExists.value
+
+  val dateString = {
+    val formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val now = java.time.ZonedDateTime.now()
+    now.format(formatter)
+  }
+
+  val file = releaseNotesFile.value
+  val newContents = IO.read(file).trim + s"\n\nReleased on $dateString.\n"
+  IO.write(file, newContents)
+
+  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
+    vcs.add(file.getAbsolutePath).!
+    vcs.commit(s"Add release date for v${(version in ThisBuild).value}", sign = true).!
+  }
+}
 
 lazy val crossModules: Seq[(Project, Project)] =
   Seq(
