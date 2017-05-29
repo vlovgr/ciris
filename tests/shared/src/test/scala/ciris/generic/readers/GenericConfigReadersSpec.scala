@@ -3,6 +3,23 @@ package ciris.generic.readers
 import ciris.PropertySpec
 import ciris.generic._
 import shapeless._
+import shapeless.test.illTyped
+
+final class FloatValue(val value: Float) extends AnyVal
+
+final class PrivateFloatValue private (val value: Float) extends AnyVal
+
+object PrivateFloatValue {
+  def withValue(value: Float): PrivateFloatValue =
+    new PrivateFloatValue(value)
+}
+
+final case class PrivateDoubleValue private (value: Double) extends AnyVal
+
+object PrivateDoubleValue {
+  def withValue(value: Double): PrivateDoubleValue =
+    new PrivateDoubleValue(value)
+}
 
 final case class Port(value: Int) extends AnyVal
 
@@ -13,18 +30,57 @@ final case class BooleanValue(value: Boolean) extends DoubleOrBoolean
 final case class IntValue(value: Int)
 
 final class GenericConfigReadersSpec extends PropertySpec {
-  "ShapelessConfigReaders" when {
+  "GenericConfigReaders" when {
     "reading value classes" should {
-      "successfully read value classes" in {
+      "successfully read value class values" in {
+        forAll { value: Float =>
+          readValue[FloatValue](value.toString) shouldBe Right(new FloatValue(value))
+        }
+      }
+
+      "return a failure for wrong value class values" in {
+        forAll { value: String =>
+          whenever(fails(value.toFloat)) {
+            readValue[FloatValue](value) shouldBe a[Left[_, _]]
+          }
+        }
+      }
+    }
+
+    "reading value classes with private constructors" should {
+      "not be able to read value classes with private constructors" in {
+        illTyped { """readValue[PrivateFloatValue]("1.0")""" }
+      }
+    }
+
+    "reading product value classes" should {
+      "successfully read product value class values" in {
         forAll { value: Int =>
           readValue[Port](value.toString) shouldBe Right(Port(value))
         }
       }
 
-      "return a failure for the wrong type" in {
+      "return a failure for wrong product value class values" in {
         forAll { value: String =>
           whenever(fails(value.toInt)) {
             readValue[Port](value) shouldBe a[Left[_, _]]
+          }
+        }
+      }
+    }
+
+    "reading product value classes with private constructors" should {
+      "successfully read product value class values" in {
+        forAll { value: Double =>
+          readValue[PrivateDoubleValue](value.toString) shouldBe
+            Right(PrivateDoubleValue.withValue(value))
+        }
+      }
+
+      "return a failure for wrong product value class values" in {
+        forAll { value: String =>
+          whenever(fails(value.toDouble)) {
+            readValue[PrivateDoubleValue](value) shouldBe a[Left[_, _]]
           }
         }
       }
@@ -78,14 +134,14 @@ final class GenericConfigReadersSpec extends PropertySpec {
       }
     }
 
-    "reading products with arity one" should {
-      "successfully read product values" in {
+    "reading unary products" should {
+      "successfully read unary product values" in {
         forAll { int: Int =>
           readValue[IntValue](int.toString) shouldBe Right(IntValue(int))
         }
       }
 
-      "return a failure for wrong product values" in {
+      "return a failure for wrong unary product values" in {
         forAll { string: String =>
           whenever(fails(string.toInt)) {
             readValue[IntValue](string) shouldBe a[Left[_, _]]
