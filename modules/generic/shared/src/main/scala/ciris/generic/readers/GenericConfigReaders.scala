@@ -26,7 +26,7 @@ trait GenericConfigReaders {
     }
   }
 
-  implicit def hListArityOneConfigReader[A](
+  implicit def unaryHListConfigReader[A](
     implicit readA: Lazy[ConfigReader[A]]
   ): ConfigReader[A :: HNil] = {
     readA.value.map(_ :: HNil)
