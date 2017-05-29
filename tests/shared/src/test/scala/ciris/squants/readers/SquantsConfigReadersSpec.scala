@@ -47,10 +47,12 @@ final class SquantsConfigReadersSpec extends PropertySpec with SquantsGenerators
     testDimension(ChemicalAmount, ChemicalAmount.apply)
     testDimension(Density, Density.apply)
     testDimension(Mass, Mass.apply)
+    testDimension(MomentOfInertia, MomentOfInertia.apply)
 
     import squants.motion._
 
     testDimension(Acceleration, Acceleration.apply)
+    testDimension(AngularAcceleration, AngularAcceleration.apply)
     testDimension(AngularVelocity, AngularVelocity.apply)
     testDimension(Force, Force.apply)
     testDimension(Jerk, Jerk.apply)
@@ -58,6 +60,7 @@ final class SquantsConfigReadersSpec extends PropertySpec with SquantsGenerators
     testDimension(Momentum, Momentum.apply)
     testDimension(Pressure, Pressure.apply)
     testDimension(PressureChange, PressureChange.apply)
+    testDimension(Torque, Torque.apply)
     testDimension(Velocity, Velocity.apply)
     testDimension(VolumeFlow, VolumeFlow.apply)
     testDimension(Yank, Yank.apply)
