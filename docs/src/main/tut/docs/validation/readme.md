@@ -26,7 +26,7 @@ final case class Config(
 )
 ```
 
-Here we've said that the API key must be a non-empty `String` and that the port number must be an integer between 0 and 65535. We could also require that the timeout must be finite and within a certain range, but since it's always specified in the code, it's arguably harder to get wrong. Now, let's see how we can simply change the types to read in the `env` and `prop` methods to the refined types, and how Ciris will take of loading them for you.
+Here we've said that the API key must be a non-empty `String` and that the port number must be an integer between 0 and 65535. We could also require that the timeout must be finite and within a certain range, but since it's always specified in the code, it's arguably harder to get wrong. Now, let's see how we can simply change the types to read in the `env` and `prop` methods to the refined types, and how Ciris will take care of loading them for you.
 
 ```tut:book
 import ciris._

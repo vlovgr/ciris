@@ -4,7 +4,7 @@ import ciris.ConfigError.{MissingKey, ReadException}
 
 import scala.util.{Failure, Success, Try}
 
-sealed abstract class ConfigSource(val keyType: ConfigKeyType) {
+abstract class ConfigSource(val keyType: ConfigKeyType) {
   def read(key: String): Either[ConfigError, String]
 }
 
