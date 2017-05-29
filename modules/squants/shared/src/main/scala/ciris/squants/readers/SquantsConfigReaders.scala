@@ -83,10 +83,16 @@ trait SquantsConfigReaders {
   implicit val massConfigReader: ConfigReader[Mass] =
     fromTry("Mass")(Mass.apply)
 
+  implicit val momentOfInertiaConfigReader: ConfigReader[MomentOfInertia] =
+    fromTry("MomentOfInertia")(MomentOfInertia.apply)
+
   import squants.motion._
 
   implicit val accelerationConfigReader: ConfigReader[Acceleration] =
     fromTry("Acceleration")(Acceleration.apply)
+
+  implicit val angularAccelerationConfigReader: ConfigReader[AngularAcceleration] =
+    fromTry("AngularAcceleration")(AngularAcceleration.apply)
 
   implicit val angularVelocityConfigReader: ConfigReader[AngularVelocity] =
     fromTry("AngularVelocity")(AngularVelocity.apply)
@@ -108,6 +114,9 @@ trait SquantsConfigReaders {
 
   implicit val pressureChangeConfigReader: ConfigReader[PressureChange] =
     fromTry("PressureChange")(PressureChange.apply)
+
+  implicit val torqueConfigReader: ConfigReader[Torque] =
+    fromTry("Torque")(Torque.apply)
 
   implicit val velocityConfigReader: ConfigReader[Velocity] =
     fromTry("Velocity")(Velocity.apply)

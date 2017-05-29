@@ -63,7 +63,7 @@ lazy val refinedJVM = refined.jvm
 lazy val squants = crossProject
   .in(file("modules/squants"))
   .settings(moduleName := "ciris-squants", name := "Ciris squants")
-  .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.2.0")
+  .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.3.0")
   .settings(scalaSettings)
   .settings(releaseSettings)
   .dependsOn(core)
