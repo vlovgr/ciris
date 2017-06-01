@@ -1,11 +1,11 @@
 ---
 layout: docs
 title: "Multiple Environments"
-position: 3
+position: 5
 permalink: /docs/environments
 ---
 
-# Multiple Environments
+# <a name="multiple-environments" href="#multiple-environments">Multiple Environments</a>
 One of the most common use cases for configurations is having different values for different environments. There are several ways to deal with environments using Ciris: one way being to define an enumeration with [enumeratum][enumeratum] and use the `ciris-enumeratum` module to be able to load values of that enumeration. You can then switch configuration by just writing conditional statements in plain code.
 
 Let's start off by defining an enumeration for our environments: local, testing, and production.

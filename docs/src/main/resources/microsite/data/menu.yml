@@ -1,6 +1,10 @@
 options:
   - title: Usage Basics
     url: docs/basics
+  - title: Core Concepts
+    url: docs/concepts
+  - title: Modules Overview
+    url: docs/modules
   - title: Encoding Validation
     url: docs/validation
   - title: Multiple Environments

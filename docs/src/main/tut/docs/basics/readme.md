@@ -5,7 +5,7 @@ position: 1
 permalink: /docs/basics
 ---
 
-# Usage Basics
+# <a name="usage-basics" href="#usage-basics">Usage Basics</a>
 Ciris configuration loading is done in two parts: define what to load and what to create once everything is loaded. Let's start simple by defining a configuration and loading only the necessary parts of it from the environment. If you haven't already, now is also a good time to separate your application from your configuration, so that the configuration can be loaded separately.
 
 The configuration can be modeled with nested case classes. Here we'll define a small example configuration for an HTTP service, binding at a certain port, using an API key for request authorization, and using a maximum timeout when making HTTP requests to other services.
@@ -20,7 +20,7 @@ final case class Config(
 )
 ```
 
-In this case, the API key is a secret and we would like to load it from the environment. The same goes for the port, which needs to be dynamic depending on the environment. We can read environment variables using the `env` method and system properties using the `prop` method, both returning a `ConfigValue`. The `loadConfig` method then accepts `ConfigValue`s and expects a function creating the configuration using the loaded values. If there are errors while reading values, Ciris will deal with them and accumulate them for you as `ConfigErrors`.
+In this case, the API key is a secret and we would like to load it from the environment. The same goes for the port, which needs to be dynamic depending on the environment. We can read environment variables using the `env` method and system properties using the `prop` method, both returning a `ConfigValue`. The `loadConfig` method then accepts `ConfigValue`s and expects a function creating the configuration using the loaded values. If there are errors while reading values, Ciris will deal with them and accumulate them as `ConfigErrors`. You can read more about `ConfigValue` and `ConfigErrors` in [Core Concepts](/docs/concepts).
 
 ```tut:book
 import ciris._
