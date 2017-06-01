@@ -1,0 +1,264 @@
+<html><head><title>Ciris</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Viktor Lövgren" /><meta name="description" content="Lightweight, extensible, and validated configuration loading in Scala" /><meta name="og:image" content="/img/poster.png" /><meta name="og:title" content="Ciris" /><meta name="og:site_name" content="Ciris" /><meta name="og:url" content="" /><meta name="og:type" content="website" /><meta name="og:description" content="Lightweight, extensible, and validated configuration loading in Scala" /><link rel="icon" type="image/png" href="/img/favicon.png" /><meta name="twitter:title" content="Ciris" /><meta name="twitter:image" content="img/poster.png" /><meta name="twitter:description" content="Lightweight, extensible, and validated configuration loading in Scala" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:creator" content="@vlovgr" /><script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-37804684-4' , 'auto');
+ga('send', 'pageview');
+      </script><link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/img/favicon310x150.png" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/highlight/styles/atom-one-light.css" /><link rel="stylesheet" href="/css/style.css" /><link rel="stylesheet" href="/css/palette.css" /><link rel="stylesheet" href="/css/codemirror.css" /><link rel="stylesheet" href="/css/kazari-style.css" /><link rel="stylesheet" href="/css/monokai.css" /><link rel="stylesheet" href="/css/custom.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/" class="brand"><div class="brand-wrapper"><span>Ciris</span></div></a></li> <li><a href="/docs/basics" class="">Usage Basics</a></li> <li><a href="/docs/concepts" class="">Core Concepts</a></li> <li><a href="/docs/modules" class=" active ">Modules Overview</a></li> <li><a href="/docs/validation" class="">Encoding Validation</a></li> <li><a href="/docs/environments" class="">Multiple Environments</a></li> <li><a href="/docs/sources" class="">Configuration Sources</a></li> <li><a href="/docs/readers" class="">Custom Readers</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li id="gh-eyes-item" class="hidden-xs"><a href="https://github.com/vlovgr/ciris"><i class="fa fa-eye"></i><span>WATCH<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs"><a href="https://github.com/vlovgr/ciris"><i class="fa fa-star-o"></i><span>STARS<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('Ciris Lightweight, extensible, and validated configuration loading in Scala');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('Ciris Lightweight, extensible, and validated configuration loading in Scala');"><i class="fa fa-facebook"></i></a></li><li><a href="#" onclick="shareSiteGoogle();"><i class="fa fa-google-plus"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="vlovgr" data-github-repo="ciris"><div class="content-wrapper"><section><h1 id="modules-overview"><a name="modules-overview" href="#modules-overview">Modules Overview</a></h1>
+<p>Ciris core module, <code class="highlighter-rouge">ciris-core</code>, provides basic functionality and readers for many standard library types. See <a href="/docs/concepts">Core Concepts</a> for an explanation of the concepts in the core module. Remaining sections mostly cover the core module in greater detail, in particular <a href="/docs/sources">Configuration Sources</a> and <a href="/docs/readers">Custom Readers</a>. In the sections below, Ciris’ other modules are explained briefly.</p>
+
+<h2 id="enumeratum"><a name="enumeratum" href="#enumeratum">Enumeratum</a></h2>
+<p>The <code class="highlighter-rouge">ciris-enumeratum</code> module provides support for reading <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations. You can refer to the <a href="/api/ciris/enumeratum">documentation</a> for a complete list of supported enumerations. As an example, let’s define an <code class="highlighter-rouge">Enum</code> and see how we can load values of that enumeration using Ciris. Enumeratum provides mixins, like <code class="highlighter-rouge">Lowercase</code> below, which we can use to customize the name of our enumerations, and in turn, what values we will be able to load with Ciris.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">enumeratum._</span>
+<span class="c1">// import enumeratum._
+</span>
+<span class="k">import</span> <span class="nn">enumeratum.EnumEntry._</span>
+<span class="c1">// import enumeratum.EnumEntry._
+</span>
+<span class="k">object</span> <span class="nc">configuration</span> <span class="o">{</span>
+  <span class="k">sealed</span> <span class="k">abstract</span> <span class="k">class</span> <span class="nc">AppEnvironment</span> <span class="k">extends</span> <span class="nc">EnumEntry</span> <span class="k">with</span> <span class="nc">Lowercase</span>
+  <span class="k">object</span> <span class="nc">AppEnvironment</span> <span class="k">extends</span> <span class="nc">Enum</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="k">object</span> <span class="nc">Local</span> <span class="k">extends</span> <span class="nc">AppEnvironment</span>
+    <span class="k">case</span> <span class="k">object</span> <span class="nc">Testing</span> <span class="k">extends</span> <span class="nc">AppEnvironment</span>
+    <span class="k">case</span> <span class="k">object</span> <span class="nc">Production</span> <span class="k">extends</span> <span class="nc">AppEnvironment</span>
+
+    <span class="k">val</span> <span class="n">values</span> <span class="k">=</span> <span class="n">findValues</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// defined object configuration
+</span></code></pre>
+</div>
+
+<p>Let’s also define a custom implicit <a href="/docs/sources">configuration source</a>, holding some values we can ask Ciris to load.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<span class="c1">// import ciris._
+</span>
+<span class="k">import</span> <span class="nn">ciris.enumeratum._</span>
+<span class="c1">// import ciris.enumeratum._
+</span>
+<span class="k">import</span> <span class="nn">configuration._</span>
+<span class="c1">// import configuration._
+</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"enumeratum key"</span><span class="o">)</span>
+  <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span>
+    <span class="s">"localEnv"</span> <span class="o">-&gt;</span> <span class="s">"local"</span><span class="o">,</span>
+    <span class="s">"testingEnv"</span> <span class="o">-&gt;</span> <span class="s">"testing"</span><span class="o">,</span>
+    <span class="s">"TestingEnv"</span> <span class="o">-&gt;</span> <span class="s">"Testing"</span><span class="o">,</span>
+    <span class="s">"invalidEnv"</span> <span class="o">-&gt;</span> <span class="s">"invalid"</span>
+  <span class="o">))</span>
+<span class="o">}</span>
+<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(enumeratum key))
+</span></code></pre>
+</div>
+
+<p>We can then ask Ciris to load values of the enumeration, from the implicit source, using the <code class="highlighter-rouge">read</code> method.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"localEnv"</span><span class="o">)</span>
+<span class="c1">// res0: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Right(Local))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"testingEnv"</span><span class="o">)</span>
+<span class="c1">// res1: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Right(Testing))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"TestingEnv"</span><span class="o">)</span>
+<span class="c1">// res2: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Left(WrongType(TestingEnv,Testing,configuration$AppEnvironment,ConfigKeyType(enumeratum key),None)))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"invalidEnv"</span><span class="o">)</span>
+<span class="c1">// res3: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Left(WrongType(invalidEnv,invalid,configuration$AppEnvironment,ConfigKeyType(enumeratum key),None)))
+</span></code></pre>
+</div>
+
+<p>Dealing with multiple environments is a common use case for configurations, explained in greater detail in the <a href="/docs/environments">Multiple Environments</a> section.</p>
+
+<h2 id="generic"><a name="generic" href="#generic">Generic</a></h2>
+<p>The <code class="highlighter-rouge">ciris-generic</code> module provides the ability to read unary products, and coproducts using <a href="https://github.com/milessabin/shapeless">shapeless</a>. This allows you to load case classes with one argument, including <a href="http://docs.scala-lang.org/overviews/core/value-classes.html">value classes</a>, and shapeless coproducts, plus anything else that shapeless’ <code class="highlighter-rouge">Generic</code> supports. Let’s take a brief look at these cases to see how it works in practice. We start by defining a source from which we can read configuration values.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<span class="c1">// import ciris._
+</span>
+<span class="k">import</span> <span class="nn">ciris.generic._</span>
+<span class="c1">// import ciris.generic._
+</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"generic key"</span><span class="o">)</span>
+  <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span><span class="s">"key"</span> <span class="o">-&gt;</span> <span class="s">"5.0"</span><span class="o">))</span>
+<span class="o">}</span>
+<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(generic key))
+</span></code></pre>
+</div>
+
+<p>We can then define and load a unary product, for example a case class with one value.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">DoubleValue</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span>
+<span class="c1">// defined class DoubleValue
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">DoubleValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
+<span class="c1">// res0: ciris.ConfigValue[DoubleValue] = ConfigValue(Right(DoubleValue(5.0)))
+</span></code></pre>
+</div>
+
+<p>It also works for value classes and any other unary products shapeless’ <code class="highlighter-rouge">Generic</code> supports.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">class</span> <span class="nc">FloatValue</span><span class="o">(</span><span class="k">val</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span>
+<span class="c1">// defined class FloatValue
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">FloatValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
+<span class="c1">// res1: ciris.ConfigValue[FloatValue] = ConfigValue(Right(FloatValue@40a00000))
+</span></code></pre>
+</div>
+
+<p>We can also define a shapeless coproduct and load it.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">shapeless.</span><span class="o">{:+:,</span> <span class="nc">CNil</span><span class="o">}</span>
+<span class="c1">// import shapeless.{$colon$plus$colon, CNil}
+</span>
+<span class="k">type</span> <span class="kt">DoubleOrFloat</span> <span class="o">=</span> <span class="nc">DoubleValue</span> <span class="o">:+:</span> <span class="nc">FloatValue</span> <span class="o">:+:</span> <span class="nc">CNil</span>
+<span class="c1">// defined type alias DoubleOrFloat
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">DoubleOrFloat</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
+<span class="c1">// res2: ciris.ConfigValue[DoubleOrFloat] = ConfigValue(Right(Inl(DoubleValue(5.0))))
+</span></code></pre>
+</div>
+
+<p>If we define a product with more than one value:</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">TwoValues</span><span class="o">(</span><span class="n">value1</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">value2</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span>
+<span class="c1">// defined class TwoValues
+</span></code></pre>
+</div>
+
+<p>we will not be able to load it, resulting in an error at compile-time.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">TwoValues</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
+<span class="c1">// &lt;console&gt;:23: error: could not find implicit value for evidence parameter of type ciris.ConfigReader[TwoValues]
+//        read[TwoValues]("key")
+//                       ^
+</span></code></pre>
+</div>
+
+<p>Also, if there’s no public constructor or apply method:</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">object</span> <span class="nc">PrivateValues</span> <span class="o">{</span>
+  <span class="k">final</span> <span class="k">class</span> <span class="nc">PrivateFloatValue</span> <span class="k">private</span><span class="o">(</span><span class="k">val</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span>
+  <span class="k">object</span> <span class="nc">PrivateFloatValue</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">withValue</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">=</span>
+      <span class="k">new</span> <span class="nc">PrivateFloatValue</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// defined object PrivateValues
+</span>
+<span class="k">import</span> <span class="nn">PrivateValues._</span>
+<span class="c1">// import PrivateValues._
+</span></code></pre>
+</div>
+
+<p>we will not be able to load it, again resulting in an error at compile-time.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">PrivateFloatValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
+<span class="c1">// &lt;console&gt;:25: error: could not find implicit value for evidence parameter of type ciris.ConfigReader[PrivateValues.PrivateFloatValue]
+//        read[PrivateFloatValue]("key")
+//                               ^
+</span></code></pre>
+</div>
+
+<h2 id="refined"><a name="refined" href="#refined">Refined</a></h2>
+<p>The <code class="highlighter-rouge">ciris-refined</code> module allows you to load refinement types from <a href="https://github.com/fthomas/refined">refined</a>. Let’s start by defining a configuration source from which to read some values.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<span class="c1">// import ciris._
+</span>
+<span class="k">import</span> <span class="nn">ciris.refined._</span>
+<span class="c1">// import ciris.refined._
+</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"refined key"</span><span class="o">)</span>
+  <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span>
+    <span class="s">"negative"</span> <span class="o">-&gt;</span> <span class="s">"-1"</span><span class="o">,</span>
+    <span class="s">"zero"</span> <span class="o">-&gt;</span> <span class="s">"0"</span><span class="o">,</span>
+    <span class="s">"positive"</span> <span class="o">-&gt;</span> <span class="s">"1"</span><span class="o">,</span>
+    <span class="s">"other"</span> <span class="o">-&gt;</span> <span class="s">"abc"</span>
+  <span class="o">))</span>
+<span class="o">}</span>
+<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(refined key))
+</span></code></pre>
+</div>
+
+<p>In this example, we’ll simply try to read <code class="highlighter-rouge">PosInt</code> values, which are all <code class="highlighter-rouge">Int</code>s strictly greater than zero.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.numeric.PosInt</span>
+<span class="c1">// import eu.timepit.refined.types.numeric.PosInt
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"negative"</span><span class="o">)</span>
+<span class="c1">// res0: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(negative,-1,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive],ConfigKeyType(refined key),Some(Predicate failed: (-1 &gt; 0).))))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"zero"</span><span class="o">)</span>
+<span class="c1">// res1: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(zero,0,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive],ConfigKeyType(refined key),Some(Predicate failed: (0 &gt; 0).))))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"positive"</span><span class="o">)</span>
+<span class="c1">// res2: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Right(1))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"other"</span><span class="o">)</span>
+<span class="c1">// res3: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(other,abc,Int,ConfigKeyType(refined key),Some(java.lang.NumberFormatException: For input string: "abc"))))
+</span></code></pre>
+</div>
+
+<p>Refinement types are useful for making sure your configuration is valid. See the <a href="/docs/validation">Encoding Validation</a> section for more information.</p>
+
+<h2 id="squants"><a name="squants" href="#squants">Squants</a></h2>
+<p>The <code class="highlighter-rouge">ciris-squants</code> module allows loading values with unit of measure from <a href="https://github.com/typelevel/squants">squants</a>. For a complete list of supported dimensions, refer to the <a href="/api/ciris/squants">documentation</a>. Let’s see how this works by first defining a configuration source with a few different keys mapping to <code class="highlighter-rouge">Time</code> values, each having a different unit of measure.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">squants.time.Time</span>
+<span class="c1">// import squants.time.Time
+</span>
+<span class="k">import</span> <span class="nn">ciris._</span>
+<span class="c1">// import ciris._
+</span>
+<span class="k">import</span> <span class="nn">ciris.squants._</span>
+<span class="c1">// import ciris.squants._
+</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"squants key"</span><span class="o">)</span>
+  <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span>
+    <span class="s">"seconds"</span> <span class="o">-&gt;</span> <span class="s">"3 s"</span><span class="o">,</span>
+    <span class="s">"minutes"</span> <span class="o">-&gt;</span> <span class="s">"23 m"</span><span class="o">,</span>
+    <span class="s">"hours"</span> <span class="o">-&gt;</span> <span class="s">"12 h"</span>
+  <span class="o">))</span>
+<span class="o">}</span>
+<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(squants key))
+</span></code></pre>
+</div>
+
+<p>We can then load these values by simply specifying that we want to read values of type <code class="highlighter-rouge">Time</code>.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">secondsValue</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"seconds"</span><span class="o">).</span><span class="n">value</span>
+<span class="c1">// secondsValue: Either[ciris.ConfigError,squants.time.Time] = Right(3.0 s)
+</span>
+<span class="k">val</span> <span class="n">minutesValue</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"minutes"</span><span class="o">).</span><span class="n">value</span>
+<span class="c1">// minutesValue: Either[ciris.ConfigError,squants.time.Time] = Right(23.0 m)
+</span>
+<span class="k">val</span> <span class="n">hoursValue</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"hours"</span><span class="o">).</span><span class="n">value</span>
+<span class="c1">// hoursValue: Either[ciris.ConfigError,squants.time.Time] = Right(12.0 h)
+</span>
+<span class="k">for</span> <span class="o">{</span>
+  <span class="n">seconds</span> <span class="k">&lt;-</span> <span class="n">secondsValue</span>
+  <span class="n">minutes</span> <span class="k">&lt;-</span> <span class="n">minutesValue</span>
+  <span class="n">hours</span> <span class="k">&lt;-</span> <span class="n">hoursValue</span>
+<span class="o">}</span> <span class="k">yield</span> <span class="o">(</span><span class="n">seconds</span> <span class="o">+</span> <span class="n">minutes</span> <span class="o">+</span> <span class="n">hours</span><span class="o">).</span><span class="n">toMinutes</span>
+<span class="c1">// res0: scala.util.Either[ciris.ConfigError,Double] = Right(743.05)
+</span></code></pre>
+</div>
+
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
+languages:['scala','java','bash']
+});
+hljs.initHighlighting();
+             </script><script src="/js/custom.js"></script><script>((window.gitter = {}).chat = {}).options = {
+room: 'vlovgr/ciris'};</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script><script src="/js/main.js"></script><script src="/js/kazari.js"></script><script>
+$(document).ready(function() {
+	kazari.KazariPlugin().decorateCode('https://scala-evaluator-212.herokuapp.com/eval', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.S2F6YXJp.Jl2eqMfw8IakJF93PjxTbrf-8YUJgX5OoOfy5JHE8Yw', '', 'monokai')
+})
+    </script></body></html>

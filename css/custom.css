@@ -1,5 +1,7 @@
 a:hover, a:focus {
   color: #3e4959;
+  text-decoration-skip: ink;
+  -webkit-text-decoration-skip: ink;
 }
 
 blockquote {
@@ -61,4 +63,10 @@ blockquote {
 
 .modal-kazari {
   display: none;
+}
+
+#page-content-wrapper section a:hover, #page-content-wrapper section a:focus {
+  text-decoration: underline;
+  text-decoration-skip: ink;
+  -webkit-text-decoration-skip: ink;
 }
