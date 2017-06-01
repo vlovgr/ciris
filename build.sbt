@@ -214,7 +214,7 @@ lazy val releaseSettings =
     homepage := organizationHomepage.value,
     publishMavenStyle := true,
     publishArtifact in Test := false,
-    useGpg := true,
+    useGpg := false,
     pomIncludeRepository := { _ => false },
     autoAPIMappings := true,
     apiURL := Some(url("https://cir.is/api")),
