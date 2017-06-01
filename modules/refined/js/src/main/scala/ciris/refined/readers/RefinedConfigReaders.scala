@@ -10,9 +10,9 @@ trait RefinedConfigReaders {
     implicit reader: ConfigReader[T],
     refType: RefType[F],
     validate: Validate[T, P],
-    typeTag: ClassTag[T]
+    classTag: ClassTag[F[T, P]]
   ): ConfigReader[F[T, P]] = {
-    val typeName = implicitly[ClassTag[T]].runtimeClass.getName
+    val typeName = classTag.runtimeClass.getSimpleName
     reader.mapEither(typeName)(refType.refine[P].apply(_))
   }
 }
