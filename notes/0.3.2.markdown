@@ -1,0 +1,13 @@
+### Changes
+* `ConfigSource` is no longer a sealed class and can be extended. ([#17](https://github.com/vlovgr/ciris/pull/17))
+* `ciris-refined` uses a `WeakTypeTag` on the JVM. ([#20](https://github.com/vlovgr/ciris/pull/20))
+
+### Updates
+* `ciris-squants` module is now using `squants` 1.3.0. ([#16](https://github.com/vlovgr/ciris/pull/16))
+
+### Miscellaneous
+* Rename implicits in `ciris-generic`, add more test cases. ([#15](https://github.com/vlovgr/ciris/pull/15))
+* The `ConfigValue` class now has a sensible `toString` method. ([#19](https://github.com/vlovgr/ciris/pull/19))
+* Usage guide now has two new sections, [Core Concepts](https://cir.is/docs/concepts) and [Modules Overview](https://cir.is/docs/modules). ([#19](https://github.com/vlovgr/ciris/pull/19))
+* Documentation now has headings which are hyperlinks with anchors. ([#19](https://github.com/vlovgr/ciris/pull/19))
+* Multiple smaller changes to the release process. ([#18](https://github.com/vlovgr/ciris/pull/18), [#21](https://github.com/vlovgr/ciris/pull/21))
