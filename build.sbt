@@ -233,13 +233,12 @@ lazy val releaseSettings =
         url = url("https://vlovgr.se")
       )
     ),
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if(isSnapshot.value)
-        Some("snapshots" at nexus + "content/repositories/snapshots")
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
       else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    },
+        Opts.resolver.sonatypeStaging
+    ),
     releaseCrossBuild := true,
     releaseTagName := s"v${(version in ThisBuild).value}",
     releaseTagComment := s"Release version ${(version in ThisBuild).value}",
@@ -258,8 +257,8 @@ lazy val releaseSettings =
       releaseStepTask(addDateToReleaseNotes in ThisBuild),
       commitReleaseVersion,
       tagRelease,
-      publishArtifacts,
-      releaseStepCommand("sonatypeRelease"),
+      ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+      ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true),
       setNextVersion,
       commitNextVersion,
       pushChanges,
