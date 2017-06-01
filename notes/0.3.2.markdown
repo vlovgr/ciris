@@ -11,3 +11,5 @@
 * Usage guide now has two new sections, [Core Concepts](https://cir.is/docs/concepts) and [Modules Overview](https://cir.is/docs/modules). ([#19](https://github.com/vlovgr/ciris/pull/19))
 * Documentation now has headings which are hyperlinks with anchors. ([#19](https://github.com/vlovgr/ciris/pull/19))
 * Smaller changes to the release process. ([#18](https://github.com/vlovgr/ciris/pull/18))
+
+Released on 2017-06-01.
