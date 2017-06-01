@@ -1,12 +1,12 @@
 ---
 layout: docs
 title: "Custom Readers"
-position: 5
+position: 7
 permalink: /docs/readers
 ---
 
-# Custom Readers
-Ciris already supports reading many standard library types and provides integrations with libraries like [enumeratum][enumeratum], [refined][refined], [shapeless][shapeless], and [squants][squants]. If you're trying to load a standard library type, it is likely that it should be supported by Ciris, so please [file an issue](https://github.com/vlovgr/ciris/issues/new) or, even better, submit a pull-request. The same applies if you're trying to integrate with a library for which Ciris does not already provide a module.
+# <a name="custom-readers" href="#custom-readers">Custom Readers</a>
+Ciris already supports reading many standard library types and provides integrations with libraries like [enumeratum][enumeratum], [refined][refined], and [squants][squants]. If you're trying to load a standard library type, it is likely that it should be supported by Ciris, so please [file an issue](https://github.com/vlovgr/ciris/issues/new) or, even better, submit a pull-request. The same applies if you're trying to integrate with a library for which Ciris does not already provide a module.
 
 However, there may be cases where you need to resort to defining custom readers for your types. For example, let's say you're dealing with a sealed `Odd` class, where you can only construct instances from an `odd` method, which accepts an `Int` and returns an `Option[Odd]`.
 
@@ -35,7 +35,7 @@ implicit def oddConfigReader(implicit intReader: ConfigReader[Int]) =
   intReader.mapOption("Odd")(odd)
 ```
 
-We can then try to read `Odd` values from a custom configuration source.
+We can then try to read `Odd` values from a custom [configuration source](/docs/sources).
 
 ```tut:book
 implicit val source = {
@@ -43,20 +43,19 @@ implicit val source = {
   ConfigSource.fromMap(keyType)(Map("a" -> "abc", "b" -> "6", "c" -> "3"))
 }
 
-val a = read[Odd]("a").value
+val a = read[Odd]("a")
 
-a.left.map(_.message)
+a.value.left.map(_.message)
 
-val b = read[Odd]("b").value
+val b = read[Odd]("b")
 
-b.left.map(_.message)
+b.value.left.map(_.message)
 
-read[Odd]("c").value
+read[Odd]("c")
 ```
 
 While this demonstrates how to create custom `ConfigReader`s, a better way to represent `Odd` values is by using the `Odd` predicate from [refined][refined]. The [Encoding Validation](/docs/validation) section has more information on the `ciris-refined` module and how you can use it to read refined types.
 
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
-[shapeless]: https://github.com/milessabin/shapeless
-[squants]: http://www.squants.com
+[squants]: https://github.com/typelevel/squants
