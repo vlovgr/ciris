@@ -3,6 +3,9 @@ package ciris
 sealed abstract class ConfigValue[A] {
   def value: Either[ConfigError, A]
 
+  override def toString: String =
+    s"ConfigValue($value)"
+
   private[ciris] def append[B](next: ConfigValue[B]): ConfigValue2[A, B] = {
     (value, next.value) match {
       case (Right(a), Right(b)) => new ConfigValue2(Right((a, b)))
