@@ -1,6 +1,6 @@
 [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
 
-## <a name="ciris" href="#ciris">Ciris</a>
+## Ciris
 Lightweight, extensible, and validated configuration loading in [Scala][scala] and [Scala.js][scalajs].  
 The core library is dependency-free, while modules provide library integrations.
 
@@ -12,10 +12,10 @@ Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https:
 
 Ciris is a new project under active development. Feedback and contributions are welcome.
 
-### <a name="introduction" href="#introduction">Introduction</a>
+### Introduction
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined] and [squants][squants] to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.
 
-### <a name="getting-started" href="#getting-started">Getting Started</a>
+### Getting Started
 To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file:
 
 ```
@@ -47,7 +47,7 @@ If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Mac
 libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.patch)
 ```
 
-#### <a name="ammonite" href="#ammonite">Ammonite</a>
+#### Ammonite
 To start an [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) with Ciris loaded and imported, simply run the following.
 ```
 curl -Ls try.cir.is | sh
@@ -66,21 +66,21 @@ import $ivy.`is.cir::ciris-refined:0.3.2`, ciris.refined._
 import $ivy.`is.cir::ciris-squants:0.3.2`, ciris.squants._
 ```
 
-### <a name="motivation" href="#motivation">Motivation</a>
+### Motivation
 When it takes little effort to change and release software, for example when employing [continuous deployment](https://www.agilealliance.org/glossary/continuous-deployment/) practices, writing your configurations in Scala can be a viable alternative to configuration files, in order to increase compile-time safety. Since configuration files are not validated at compile-time, any errors will occur at runtime. Tests and macros can be used to perform validation, but by simply using Scala as a configuration language, we ensure that the configuration is correct when compiling, thereby eliminating many potential runtime errors, without having to resort to macros.
 
 For security reasons, it's desirable that secrets, like passwords, are not stored in the source code. For a Scala configuration, this means that the code containing your secrets should be stored in a different place, and later be compiled together with the rest of your application. If you require that your secrets shouldn't be persisted to disk, that might not be feasible. Alternatively, you can define most of your configuration in Scala and only load secrets, and other values which cannot reside in code, from the application's environment.
 
 While it's possible to not use any libraries in the latter case, loading values from the environment typically means dealing with: different environments and configuration sources, type conversions, error handling, and validation. This is where Ciris comes in: a small library, dependency-free at its core, helping you to deal with all of that more easily.
 
-### <a name="documentation" href="#documentation">Documentation</a>
+### Documentation
 For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs/basics).  
 If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).
 
-### <a name="participation" href="#participation">Participation</a>
+### Participation
 Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Typelevel Code of Conduct](http://typelevel.org/conduct.html). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
-### <a name="license" href="#license">License</a>
+### License
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
 [enumeratum]: https://github.com/lloydmeta/enumeratum

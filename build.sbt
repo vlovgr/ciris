@@ -298,7 +298,10 @@ val generateReadme = taskKey[File]("Generates the readme")
 generateReadme in ThisBuild := {
   (tut in docs).value
   val source = IO.read((tutTargetDirectory in docs).value / "index.md")
-  val readme = source.replaceAll("^\\s*---[^(---)]*---\\s*", "")
+  val readme =
+    source
+      .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
+      .replaceAll("""\n(#+) <a[^>]+>(.+)<\/a>""", "\n$1 $2") // Remove header links
   val target = (baseDirectory in ciris).value / "readme.md"
   IO.write(target, readme)
   target
