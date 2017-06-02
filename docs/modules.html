@@ -234,21 +234,17 @@ ga('send', 'pageview');
 
 <p>We can then load these values by simply specifying that we want to read values of type <code class="highlighter-rouge">Time</code>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">secondsValue</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"seconds"</span><span class="o">).</span><span class="n">value</span>
-<span class="c1">// secondsValue: Either[ciris.ConfigError,squants.time.Time] = Right(3.0 s)
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">seconds</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"seconds"</span><span class="o">)</span>
+<span class="c1">// seconds: ciris.ConfigValue[squants.time.Time] = ConfigValue(Right(3.0 s))
 </span>
-<span class="k">val</span> <span class="n">minutesValue</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"minutes"</span><span class="o">).</span><span class="n">value</span>
-<span class="c1">// minutesValue: Either[ciris.ConfigError,squants.time.Time] = Right(23.0 m)
+<span class="k">val</span> <span class="n">minutes</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"minutes"</span><span class="o">)</span>
+<span class="c1">// minutes: ciris.ConfigValue[squants.time.Time] = ConfigValue(Right(23.0 m))
 </span>
-<span class="k">val</span> <span class="n">hoursValue</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"hours"</span><span class="o">).</span><span class="n">value</span>
-<span class="c1">// hoursValue: Either[ciris.ConfigError,squants.time.Time] = Right(12.0 h)
+<span class="k">val</span> <span class="n">hours</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"hours"</span><span class="o">)</span>
+<span class="c1">// hours: ciris.ConfigValue[squants.time.Time] = ConfigValue(Right(12.0 h))
 </span>
-<span class="k">for</span> <span class="o">{</span>
-  <span class="n">seconds</span> <span class="k">&lt;-</span> <span class="n">secondsValue</span>
-  <span class="n">minutes</span> <span class="k">&lt;-</span> <span class="n">minutesValue</span>
-  <span class="n">hours</span> <span class="k">&lt;-</span> <span class="n">hoursValue</span>
-<span class="o">}</span> <span class="k">yield</span> <span class="o">(</span><span class="n">seconds</span> <span class="o">+</span> <span class="n">minutes</span> <span class="o">+</span> <span class="n">hours</span><span class="o">).</span><span class="n">toMinutes</span>
-<span class="c1">// res0: scala.util.Either[ciris.ConfigError,Double] = Right(743.05)
+<span class="n">loadConfig</span><span class="o">(</span><span class="n">seconds</span><span class="o">,</span> <span class="n">minutes</span><span class="o">,</span> <span class="n">hours</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toMinutes</span><span class="o">)</span>
+<span class="c1">// res0: scala.util.Either[ciris.ConfigErrors,Double] = Right(743.05)
 </span></code></pre>
 </div>
 
