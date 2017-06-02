@@ -185,17 +185,11 @@ implicit val source = {
 We can then load these values by simply specifying that we want to read values of type `Time`.
 
 ```tut:book
-val secondsValue = read[Time]("seconds").value
+val seconds = read[Time]("seconds")
+val minutes = read[Time]("minutes")
+val hours = read[Time]("hours")
 
-val minutesValue = read[Time]("minutes").value
-
-val hoursValue = read[Time]("hours").value
-
-for {
-  seconds <- secondsValue
-  minutes <- minutesValue
-  hours <- hoursValue
-} yield (seconds + minutes + hours).toMinutes
+loadConfig(seconds, minutes, hours)(_ + _ + _).map(_.toMinutes)
 ```
 
 [enumeratum]: https://github.com/lloydmeta/enumeratum
