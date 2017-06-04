@@ -52,7 +52,7 @@ lazy val genericJVM = generic.jvm
 lazy val refined = crossProject
   .in(file("modules/refined"))
   .settings(moduleName := "ciris-refined", name := "Ciris refined")
-  .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.1")
+  .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.2")
   .settings(scalaSettings)
   .settings(releaseSettings)
   .dependsOn(core)
