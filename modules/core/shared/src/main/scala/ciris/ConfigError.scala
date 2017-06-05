@@ -27,13 +27,13 @@ object ConfigError {
     new Combined(Vector(error1, error2) ++ rest) {}
 
   final case class MissingKey(key: String, keyType: ConfigKeyType) extends ConfigError {
-    override def message: String = s"Missing ${keyType.value} [$key]"
+    override def message: String = s"Missing ${keyType.name} [$key]"
   }
 
   final case class ReadException(key: String, keyType: ConfigKeyType, cause: Throwable)
       extends ConfigError {
 
-    override def message: String = s"Exception while reading ${keyType.value} [$key]: $cause"
+    override def message: String = s"Exception while reading ${keyType.name} [$key]: $cause"
   }
 
   final case class WrongType[A, B](
@@ -45,7 +45,7 @@ object ConfigError {
   ) extends ConfigError {
     override def message: String = {
       val causeMessage = cause.map(cause => s": $cause").getOrElse("")
-      s"${keyType.value.capitalize} [$key] with value [$value] cannot be converted to type [$typeName]$causeMessage"
+      s"${keyType.name.capitalize} [$key] with value [$value] cannot be converted to type [$typeName]$causeMessage"
     }
   }
 }

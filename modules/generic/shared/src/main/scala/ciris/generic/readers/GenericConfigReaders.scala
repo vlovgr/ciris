@@ -7,7 +7,7 @@ trait GenericConfigReaders {
   implicit val cNilConfigReader: ConfigReader[CNil] =
     ConfigReader.pure { (key, source) =>
       Left(ConfigError(
-        s"Could not find any valid coproduct choice while reading ${source.keyType.value} [$key]"))
+        s"Could not find any valid coproduct choice while reading ${source.keyType.name} [$key]"))
     }
 
   implicit def coproductConfigReader[A, B <: Coproduct](
