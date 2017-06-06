@@ -1,5 +1,7 @@
 package ciris
 
+import org.scalacheck.Gen
+
 import scala.util.Try
 
 final class ConfigSourceSpec extends PropertySpec {
@@ -25,6 +27,34 @@ final class ConfigSourceSpec extends PropertySpec {
         forAll { (keyType: String, key: String) =>
           val source = ConfigSource.fromTry(ConfigKeyType[String](keyType))(_ => Try(throw new Error))
           source.read(key).value shouldBe a[Left[_, _]]
+        }
+      }
+    }
+
+    "created from an IndexedSeq" should {
+      "succeed if the index exists and value is of expected type" in {
+        forAll { (keyType: String, indexedSeq: IndexedSeq[String]) =>
+          whenever(indexedSeq.nonEmpty) {
+            val source = ConfigSource.byIndex(ConfigKeyType[Int](keyType))(indexedSeq)
+            forAll(Gen.chooseNum(0, indexedSeq.length - 1)) { index =>
+              source.read(index).value shouldBe a[Right[_, _]]
+            }
+          }
+        }
+      }
+
+      "fail if the index does not exist" in {
+        forAll { (keyType: String, indexedSeq: IndexedSeq[String]) =>
+          val source = ConfigSource.byIndex(ConfigKeyType[Int](keyType))(indexedSeq)
+
+          forAll {
+            Gen.oneOf(
+              Gen.chooseNum(Int.MinValue, -1),
+              Gen.chooseNum(indexedSeq.length, Int.MaxValue)
+            )
+          } { index =>
+            source.read(index).value shouldBe a[Left[_, _]]
+          }
         }
       }
     }
