@@ -35,7 +35,7 @@ import ciris.enumeratum._
 import configuration._
 
 implicit val source = {
-  val keyType = ConfigKeyType("enumeratum key")
+  val keyType = ConfigKeyType[String]("enumeratum key")
   ConfigSource.fromMap(keyType)(Map(
     "localEnv" -> "local",
     "testingEnv" -> "testing",
@@ -67,7 +67,7 @@ import ciris._
 import ciris.generic._
 
 implicit val source = {
-  val keyType = ConfigKeyType("generic key")
+  val keyType = ConfigKeyType[String]("generic key")
   ConfigSource.fromMap(keyType)(Map("key" -> "5.0"))
 }
 ```
@@ -138,7 +138,7 @@ import ciris._
 import ciris.refined._
 
 implicit val source = {
-  val keyType = ConfigKeyType("refined key")
+  val keyType = ConfigKeyType[String]("refined key")
   ConfigSource.fromMap(keyType)(Map(
     "negative" -> "-1",
     "zero" -> "0",
@@ -173,7 +173,7 @@ import ciris._
 import ciris.squants._
 
 implicit val source = {
-  val keyType = ConfigKeyType("squants key")
+  val keyType = ConfigKeyType[String]("squants key")
   ConfigSource.fromMap(keyType)(Map(
     "seconds" -> "3 s",
     "minutes" -> "23 m",

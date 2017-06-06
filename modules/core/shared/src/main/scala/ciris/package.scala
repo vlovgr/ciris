@@ -1,10 +1,13 @@
 package object ciris extends LoadConfigs {
-  def env[A: ConfigReader](key: String): ConfigValue[A] =
-    ConfigValue(key)(ConfigSource.Environment, ConfigReader[A])
+  def env[Value: ConfigReader](key: String): ConfigValue[Value] =
+    ConfigValue(key)(ConfigSource.Environment, ConfigReader[Value])
 
-  def prop[A: ConfigReader](key: String): ConfigValue[A] =
-    ConfigValue(key)(ConfigSource.Properties, ConfigReader[A])
+  def prop[Value: ConfigReader](key: String): ConfigValue[Value] =
+    ConfigValue(key)(ConfigSource.Properties, ConfigReader[Value])
 
-  def read[A: ConfigReader](key: String)(implicit source: ConfigSource): ConfigValue[A] =
-    ConfigValue(key)(source, ConfigReader[A])
+  def arg[Value: ConfigReader](args: IndexedSeq[String])(index: Int): ConfigValue[Value] =
+    ConfigValue(index)(ConfigSource.byIndex(ConfigKeyType.Argument)(args), ConfigReader[Value])
+
+  def read[Value]: ConfigValuePartiallyApplied[Value] =
+    new ConfigValuePartiallyApplied[Value]
 }

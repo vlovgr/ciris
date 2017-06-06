@@ -4,37 +4,37 @@ import ciris.ConfigError.{MissingKey, ReadException}
 
 import scala.util.{Failure, Success, Try}
 
-abstract class ConfigSource(val keyType: ConfigKeyType) {
-  def read(key: String): Either[ConfigError, String]
+abstract class ConfigSource[Key](val keyType: ConfigKeyType[Key]) {
+  def read(key: Key): ConfigSourceEntry[Key]
 }
 
 object ConfigSource {
-  def apply(keyType: ConfigKeyType)(read: String => Either[ConfigError, String]): ConfigSource = {
-    val readValue = read
+  def apply[Key](keyType: ConfigKeyType[Key])(read: Key => Either[ConfigError, String]): ConfigSource[Key] = {
+    val entry = (key: Key) => ConfigSourceEntry(key, keyType, read(key))
     new ConfigSource(keyType) {
-      override def read(key: String): Either[ConfigError, String] = readValue(key)
+      override def read(key: Key): ConfigSourceEntry[Key] = entry(key)
       override def toString: String = s"ConfigSource($keyType)"
     }
   }
 
-  def fromOption(keyType: ConfigKeyType)(read: String => Option[String]): ConfigSource =
+  def fromOption[Key](keyType: ConfigKeyType[Key])(read: Key => Option[String]): ConfigSource[Key] =
     ConfigSource(keyType)(key =>
       read(key) match {
         case Some(value) => Right(value)
         case None => Left(MissingKey(key, keyType))
     })
 
-  def fromMap(keyType: ConfigKeyType)(map: Map[String, String]): ConfigSource =
+  def fromMap[Key](keyType: ConfigKeyType[Key])(map: Map[Key, String]): ConfigSource[Key] =
     ConfigSource.fromOption(keyType)(map.get)
 
-  def fromTry(keyType: ConfigKeyType)(read: String => Try[String]): ConfigSource =
+  def fromTry[Key](keyType: ConfigKeyType[Key])(read: Key => Try[String]): ConfigSource[Key] =
     ConfigSource(keyType)(key =>
       read(key) match {
         case Success(value) => Right(value)
         case Failure(cause) => Left(ReadException(key, keyType, cause))
     })
 
-  def fromTryOption(keyType: ConfigKeyType)(read: String => Try[Option[String]]): ConfigSource =
+  def fromTryOption[Key](keyType: ConfigKeyType[Key])(read: Key => Try[Option[String]]): ConfigSource[Key] =
     ConfigSource(keyType)(key =>
       read(key) match {
         case Success(Some(value)) => Right(value)
@@ -42,16 +42,30 @@ object ConfigSource {
         case Failure(cause) => Left(ReadException(key, keyType, cause))
     })
 
-  def catchNonFatal(keyType: ConfigKeyType)(read: String => String): ConfigSource =
+  def catchNonFatal[Key](keyType: ConfigKeyType[Key])(read: Key => String): ConfigSource[Key] =
     ConfigSource.fromTry(keyType)(key => Try(read(key)))
 
-  case object Environment extends ConfigSource(ConfigKeyType.Environment) {
-    override def read(key: String): Either[ConfigError, String] =
-      ConfigSource.fromMap(keyType)(sys.env).read(key)
+  def byIndex(keyType: ConfigKeyType[Int])(indexedSeq: IndexedSeq[String]): ConfigSource[Int] =
+    ConfigSource.fromOption[Int](keyType){ index =>
+      if(0 <= index && index < indexedSeq.length)
+        Some(indexedSeq(index))
+      else
+        None
+    }
+
+  case object Environment extends ConfigSource[String](ConfigKeyType.Environment) {
+    private val delegate: ConfigSource[String] =
+      ConfigSource.fromMap(keyType)(sys.env)
+
+    override def read(key: String): ConfigSourceEntry[String] =
+      delegate.read(key)
   }
 
-  case object Properties extends ConfigSource(ConfigKeyType.Properties) {
-    override def read(key: String): Either[ConfigError, String] =
-      ConfigSource.fromTryOption(keyType)(key => Try(sys.props.get(key))).read(key)
+  case object Properties extends ConfigSource[String](ConfigKeyType.Properties) {
+    private val delegate: ConfigSource[String] =
+      ConfigSource.fromTryOption(keyType)(key => Try(sys.props.get(key)))
+
+    override def read(key: String): ConfigSourceEntry[String] =
+      delegate.read(key)
   }
 }

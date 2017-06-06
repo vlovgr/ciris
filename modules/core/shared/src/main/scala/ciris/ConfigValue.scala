@@ -17,13 +17,13 @@ sealed abstract class ConfigValue[A] {
 }
 
 object ConfigValue {
-  def apply[A](key: String)(
-    implicit source: ConfigSource,
-    reader: ConfigReader[A]
-  ): ConfigValue[A] = {
-    new ConfigValue[A] {
-      override def value: Either[ConfigError, A] =
-        reader.read(key)(source)
+  def apply[Key, Value](key: Key)(
+    implicit source: ConfigSource[Key],
+    reader: ConfigReader[Value]
+  ): ConfigValue[Value] = {
+    new ConfigValue[Value] {
+      override def value: Either[ConfigError, Value] =
+        reader.read[Key](source.read(key))
     }
   }
 }
