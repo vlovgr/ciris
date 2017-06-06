@@ -1,6 +1,6 @@
 package ciris
 
-final class ConfigValuePartiallyApplied[Value] private[ciris] {
+final class ConfigValuePartiallyApplied[Value] {
   def apply[Key](key: Key)(
     implicit source: ConfigSource[Key],
     reader: ConfigReader[Value]

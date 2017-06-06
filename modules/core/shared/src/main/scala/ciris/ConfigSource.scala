@@ -54,7 +54,7 @@ object ConfigSource {
     }
 
   case object Environment extends ConfigSource[String](ConfigKeyType.Environment) {
-    val delegate: ConfigSource[String] =
+    private val delegate: ConfigSource[String] =
       ConfigSource.fromMap(keyType)(sys.env)
 
     override def read(key: String): ConfigSourceEntry[String] =
@@ -62,7 +62,7 @@ object ConfigSource {
   }
 
   case object Properties extends ConfigSource[String](ConfigKeyType.Properties) {
-    val delegate: ConfigSource[String] =
+    private val delegate: ConfigSource[String] =
       ConfigSource.fromTryOption(keyType)(key => Try(sys.props.get(key)))
 
     override def read(key: String): ConfigSourceEntry[String] =
