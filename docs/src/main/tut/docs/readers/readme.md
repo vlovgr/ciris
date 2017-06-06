@@ -39,7 +39,7 @@ We can then try to read `Odd` values from a custom [configuration source](/docs/
 
 ```tut:book
 implicit val source = {
-  val keyType = ConfigKeyType("int key")
+  val keyType = ConfigKeyType[String]("int key")
   ConfigSource.fromMap(keyType)(Map("a" -> "abc", "b" -> "6", "c" -> "3"))
 }
 

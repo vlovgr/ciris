@@ -19,7 +19,7 @@ if(!sys.props.get("file.encoding").isDefined)
 import ciris._
 
 implicit val fixedProperties = {
-  val keyType = ConfigKeyType("fixed system property")
+  val keyType = ConfigKeyType[String]("fixed system property")
   ConfigSource.fromMap(keyType)(sys.props.toMap)
 }
 
