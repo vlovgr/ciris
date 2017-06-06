@@ -45,6 +45,14 @@ object ConfigSource {
   def catchNonFatal[Key](keyType: ConfigKeyType[Key])(read: Key => String): ConfigSource[Key] =
     ConfigSource.fromTry(keyType)(key => Try(read(key)))
 
+  def byIndex(keyType: ConfigKeyType[Int])(indexedSeq: IndexedSeq[String]): ConfigSource[Int] =
+    ConfigSource.fromOption[Int](keyType){ index =>
+      if(0 <= index && index < indexedSeq.length)
+        Some(indexedSeq(index))
+      else
+        None
+    }
+
   case object Environment extends ConfigSource[String](ConfigKeyType.Environment) {
     val delegate: ConfigSource[String] =
       ConfigSource.fromMap(keyType)(sys.env)

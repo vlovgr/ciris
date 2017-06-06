@@ -12,4 +12,6 @@ object ConfigKeyType {
   case object Environment extends ConfigKeyType[String]("environment variable")
 
   case object Properties extends ConfigKeyType[String]("system property")
+
+  case object Argument extends ConfigKeyType[Int]("command-line argument")
 }
