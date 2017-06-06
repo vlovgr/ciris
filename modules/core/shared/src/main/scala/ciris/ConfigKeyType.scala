@@ -1,15 +1,15 @@
 package ciris
 
-sealed class ConfigKeyType(val name: String)
+sealed class ConfigKeyType[Key](val name: String)
 
 object ConfigKeyType {
-  def apply(name: String): ConfigKeyType =
-    new ConfigKeyType(name) {
+  def apply[Key](name: String): ConfigKeyType[Key] =
+    new ConfigKeyType[Key](name) {
       override def toString: String =
         s"ConfigKeyType($name)"
     }
 
-  case object Environment extends ConfigKeyType("environment variable")
+  case object Environment extends ConfigKeyType[String]("environment variable")
 
-  case object Properties extends ConfigKeyType("system property")
+  case object Properties extends ConfigKeyType[String]("system property")
 }
