@@ -1,7 +1,7 @@
 package ciris.readers
 
 import ciris.ConfigReader
-import ciris.ConfigReader.{catchNonFatal, fromOption, withValue}
+import ciris.ConfigReader.{catchNonFatal, fromOption}
 
 trait PrimitiveConfigReaders {
   implicit val booleanConfigReader: ConfigReader[Boolean] =
@@ -37,5 +37,5 @@ trait PrimitiveConfigReaders {
     catchNonFatal("Short")(_.toShort)
 
   implicit val stringConfigReader: ConfigReader[String] =
-    withValue((_, value, _) => Right(value))
+    ConfigReader.map(Right.apply)
 }

@@ -3,7 +3,7 @@ package ciris.enumeratum.readers
 import _root_.enumeratum._
 import _root_.enumeratum.values._
 import ciris.ConfigError.WrongType
-import ciris.ConfigReader
+import ciris.{ConfigError, ConfigReader, ConfigSourceEntry}
 
 import scala.reflect.ClassTag
 
@@ -12,20 +12,16 @@ trait EnumeratumConfigReaders {
     From: ConfigReader,
     To: ClassTag
   ](f: From => Option[To]): ConfigReader[To] =
-    ConfigReader.pure { (key, source) =>
-      ConfigReader[From]
-        .read(key)(source)
-        .fold(
-          Left.apply,
-          value => {
-            f(value) match {
-              case Some(to) => Right(to)
-              case None =>
-                val typeName = implicitly[ClassTag[To]].runtimeClass.getName
-                Left(WrongType(key, value, typeName, source.keyType))
-            }
+    new ConfigReader[To] {
+      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, To] =
+        ConfigReader[From].read(entry).right.flatMap { value =>
+          f(value) match {
+            case Some(to) => Right(to)
+            case None =>
+              val typeName = implicitly[ClassTag[To]].runtimeClass.getName
+              Left(WrongType(entry.key, value, typeName, entry.keyType))
           }
-        )
+        }
     }
 
   implicit def byteEnumEntryConfigReader[A <: ByteEnumEntry: ClassTag](

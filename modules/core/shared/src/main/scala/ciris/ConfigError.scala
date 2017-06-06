@@ -26,22 +26,22 @@ object ConfigError {
   def combined(error1: ConfigError, error2: ConfigError, rest: ConfigError*): Combined =
     new Combined(Vector(error1, error2) ++ rest) {}
 
-  final case class MissingKey(key: String, keyType: ConfigKeyType) extends ConfigError {
+  final case class MissingKey[Key](key: Key, keyType: ConfigKeyType[Key]) extends ConfigError {
     override def message: String = s"Missing ${keyType.name} [$key]"
   }
 
-  final case class ReadException(key: String, keyType: ConfigKeyType, cause: Throwable)
+  final case class ReadException[Key](key: Key, keyType: ConfigKeyType[Key], cause: Throwable)
       extends ConfigError {
 
     override def message: String = s"Exception while reading ${keyType.name} [$key]: $cause"
   }
 
-  final case class WrongType[A, B](
-    key: String,
-    value: A,
+  final case class WrongType[Key, Value, Cause](
+    key: Key,
+    value: Value,
     typeName: String,
-    keyType: ConfigKeyType,
-    cause: Option[B] = None
+    keyType: ConfigKeyType[Key],
+    cause: Option[Cause] = None
   ) extends ConfigError {
     override def message: String = {
       val causeMessage = cause.map(cause => s": $cause").getOrElse("")

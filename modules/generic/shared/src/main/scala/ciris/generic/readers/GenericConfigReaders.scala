@@ -1,30 +1,30 @@
 package ciris.generic.readers
 
-import ciris.{ConfigError, ConfigReader}
+import ciris.{ConfigError, ConfigReader, ConfigSourceEntry}
 import shapeless.{:+:, ::, CNil, Coproduct, Generic, HNil, Inl, Inr, Lazy}
 
 trait GenericConfigReaders {
   implicit val cNilConfigReader: ConfigReader[CNil] =
-    ConfigReader.pure { (key, source) =>
-      Left(ConfigError(
-        s"Could not find any valid coproduct choice while reading ${source.keyType.name} [$key]"))
+    new ConfigReader[CNil] {
+      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, CNil] =
+        Left(ConfigError(s"Could not find any valid coproduct choice while reading ${entry.keyType.name} [${entry.key}]"))
     }
 
   implicit def coproductConfigReader[A, B <: Coproduct](
     implicit readA: Lazy[ConfigReader[A]],
     readB: ConfigReader[B]
-  ): ConfigReader[A :+: B] = {
-    ConfigReader.pure { (key, source) =>
-      readA.value.read(key)(source) match {
-        case Right(a) => Right(Inl(a))
-        case Left(aError) =>
-          readB.read(key)(source) match {
-            case Right(b) => Right(Inr(b))
-            case Left(bError) => Left(aError combine bError)
-          }
-      }
+  ): ConfigReader[A :+: B] =
+    new ConfigReader[A :+: B] {
+      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A :+: B] =
+        readA.value.read(entry) match {
+          case Right(a) => Right(Inl(a))
+          case Left(aError) =>
+            readB.read(entry) match {
+              case Right(b) => Right(Inr(b))
+              case Left(bError) => Left(aError combine bError)
+            }
+        }
     }
-  }
 
   implicit def unaryHListConfigReader[A](
     implicit readA: Lazy[ConfigReader[A]]
