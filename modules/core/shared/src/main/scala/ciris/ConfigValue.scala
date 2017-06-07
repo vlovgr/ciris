@@ -1,12 +1,38 @@
 package ciris
 
-sealed abstract class ConfigValue[A] {
-  def value: Either[ConfigError, A]
+/**
+  * A value which has been read from a [[ConfigSource]], and converted
+  * to the specified type `Value` using a [[ConfigReader]]. The class is
+  * a thin wrapper around an `Either[ConfigError, Value]` value to
+  * support error accumulation.
+  *
+  * To create a [[ConfigValue]], you typically use methods like [[env]],
+  * [[prop]], or [[read]], but if you need to write a similar method for
+  * a custom configuration source, use the [[ConfigValue#apply]] method,
+  * requiring a [[ConfigSource]] and [[ConfigReader]].
+  *
+  * {{{
+  * scala> ConfigValue("key")(ConfigSource.Properties, ConfigReader[String])
+  * res0: ConfigValue[String] = ConfigValue(Left(MissingKey(key, Property)))
+  * }}}
+  *
+  * @tparam Value the type of the value
+  */
+sealed abstract class ConfigValue[Value] {
+
+  /**
+    * The read configuration value or a [[ConfigError]] if there was an
+    * error while trying to read from the configuration source, or if
+    * there was an error when converting to type `Value`.
+    *
+    * @return the configuration value or an error if unsuccessful
+    */
+  def value: Either[ConfigError, Value]
 
   override def toString: String =
     s"ConfigValue($value)"
 
-  private[ciris] def append[B](next: ConfigValue[B]): ConfigValue2[A, B] = {
+  private[ciris] def append[A](next: ConfigValue[A]): ConfigValue2[Value, A] = {
     (value, next.value) match {
       case (Right(a), Right(b)) => new ConfigValue2(Right((a, b)))
       case (Left(error1), Right(_)) => new ConfigValue2(Left(ConfigErrors(error1)))
@@ -17,13 +43,78 @@ sealed abstract class ConfigValue[A] {
 }
 
 object ConfigValue {
+
+  /**
+    * Creates a new [[ConfigValue]] by reading the specified key from
+    * the configuration source, converting the value to type `Value`
+    * using the specified [[ConfigReader]].
+    *
+    * @param key the key to read
+    * @param source the configuration source to read from
+    * @param reader the reader to use to convert the value
+    * @tparam Key the type of the key
+    * @tparam Value the type of the value
+    * @return a new [[ConfigValue]] with the read value
+    * @example {{{
+    * scala> ConfigValue("key")(ConfigSource.Properties, ConfigReader[String])
+    * res0: ConfigValue[String] = ConfigValue(Left(MissingKey(key, Property)))
+    * }}}
+    */
   def apply[Key, Value](key: Key)(
-    implicit source: ConfigSource[Key],
+    source: ConfigSource[Key],
     reader: ConfigReader[Value]
   ): ConfigValue[Value] = {
     new ConfigValue[Value] {
       override def value: Either[ConfigError, Value] =
         reader.read[Key](source.read(key))
+    }
+  }
+
+  /**
+    * Partial type application of [[ConfigValue]] by first fixing
+    * the `Value` type, allowing for type inference of the key's
+    * type, while looking for an implicit [[ConfigSource]].
+    *
+    * This is to support syntax like the one for [[read]].
+    *
+    * {{{
+    * scala> implicit val source = ConfigSource.Environment
+    * source: ConfigSource.Environment.type = Environment
+    *
+    * scala> read[Int]("key")
+    * res0: ConfigValue[Int] = ConfigValue(Left(MissingKey(key, Environment)))
+    * }}}
+    *
+    * @tparam Value the type of value to read
+    */
+  final class PartiallyApplied[Value] {
+
+    /**
+      * Creates a [[ConfigValue]] by looking for an implicit [[ConfigSource]]
+      * matching the specified key's type `Key`. Requires a [[ConfigReader]]
+      * for `Value` to be able to read values.
+      *
+      * Typically, you would use this method via the [[read]] method.
+      *
+      * {{{
+      * scala> implicit val source = ConfigSource.Environment
+      * source: ConfigSource.Environment.type = Environment
+      *
+      * scala> read[Int]("key")
+      * res0: ConfigValue[Int] = ConfigValue(Left(MissingKey(key, Environment)))
+      * }}}
+      *
+      * @param key the key to read from the configuration source
+      * @param source the configuration source from which to read
+      * @param reader the reader to convert the value
+      * @tparam Key the type of the key
+      * @return a new [[ConfigValue]] with the value
+      */
+    def apply[Key](key: Key)(
+      implicit source: ConfigSource[Key],
+      reader: ConfigReader[Value]
+    ): ConfigValue[Value] = {
+      ConfigValue[Key, Value](key)(source, reader)
     }
   }
 }

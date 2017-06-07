@@ -22,6 +22,8 @@ lazy val core = crossProject
   .in(file("modules/core"))
   .settings(moduleName := "ciris-core", name := "Ciris core")
   .settings(scalaSettings)
+  .settings(testSettings)
+  .jsSettings(jsTestSettings)
   .settings(releaseSettings)
 
 lazy val coreJS = core.js
@@ -32,6 +34,8 @@ lazy val enumeratum = crossProject
   .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
   .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.12")
   .settings(scalaSettings)
+  .settings(testSettings)
+  .jsSettings(jsTestSettings)
   .settings(releaseSettings)
   .dependsOn(core)
 
@@ -43,6 +47,8 @@ lazy val generic = crossProject
   .settings(moduleName := "ciris-generic", name := "Ciris generic")
   .settings(libraryDependencies += "com.chuusai" %%% "shapeless" % "2.3.2")
   .settings(scalaSettings)
+  .settings(testSettings)
+  .jsSettings(jsTestSettings)
   .settings(releaseSettings)
   .dependsOn(core)
 
@@ -54,6 +60,8 @@ lazy val refined = crossProject
   .settings(moduleName := "ciris-refined", name := "Ciris refined")
   .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.2")
   .settings(scalaSettings)
+  .settings(testSettings)
+  .jsSettings(jsTestSettings)
   .settings(releaseSettings)
   .dependsOn(core)
 
@@ -65,6 +73,8 @@ lazy val squants = crossProject
   .settings(moduleName := "ciris-squants", name := "Ciris squants")
   .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.3.0")
   .settings(scalaSettings)
+  .settings(testSettings)
+  .jsSettings(jsTestSettings)
   .settings(releaseSettings)
   .dependsOn(core)
 
@@ -78,6 +88,7 @@ lazy val tests = crossProject
   .settings(scalaSettings)
   .settings(noPublishSettings)
   .settings(testSettings)
+  .jsSettings(jsTestSettings)
   .dependsOn(core, enumeratum, generic, refined, squants)
 
 lazy val testsJS = tests.js
@@ -88,6 +99,7 @@ lazy val docs = project
   .in(file("docs"))
   .settings(moduleName := "ciris-docs", name := "Ciris docs")
   .settings(scalaSettings)
+  .settings(testSettings)
   .settings(noPublishSettings)
   .settings(
     micrositeName := "Ciris",
@@ -134,8 +146,7 @@ lazy val docs = project
 
       val content =
         s"""
-          |This is the API documentation for [[https://cir.is Ciris]]: lightweight, extensible, and validated configuration loading in Scala.
-          |
+          |This is the API documentation for [[https://cir.is Ciris]]: lightweight, extensible, and validated configuration loading in Scala.<br>
           |The documentation is kept up-to-date with new releases, currently documenting release [[https://github.com/vlovgr/ciris/releases/tag/v$version v$version]] on Scala $scalaTargetVersion.
           |
           |Ciris is divided into the following set of modules.
@@ -144,15 +155,16 @@ lazy val docs = project
           | - The [[ciris.enumeratum enumeratum]] module integrates with [[https://github.com/lloydmeta/enumeratum enumeratum]] to be able to read enumerations.
           | - The [[ciris.generic generic]] module uses [[https://github.com/milessabin/shapeless shapeless]] to be able to read unary products, and coproducts.
           | - The [[ciris.refined refined]] module integrates with [[https://github.com/fthomas/refined refined]] to be able to read refinement types.
-          | - The [[ciris.squants squants]] module integrates with [[http://www.squants.com squants]] to read values with unit of measure.
+          | - The [[ciris.squants squants]] module integrates with [[https://github.com/typelevel/squants squants]] to read values with unit of measure.
           |
-          |If you're looking for an overview, with examples and explanations of the most common use cases, please refer to the [[https://cir.is/docs/basics usage guide]].
+          |If you're looking for usage instructions, please refer to the [[https://cir.is/docs/basics usage guide]].
         """.stripMargin.trim
 
       IO.write(target, content)
       target
     },
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(noDocumentationProjects: _*),
+    scalacOptions --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
+    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(noDocumentationModules: _*),
     siteSubdirName in ScalaUnidoc := micrositeDocumentationUrl.value,
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
     gitRemoteRepo := "git@github.com:vlovgr/ciris.git",
@@ -197,7 +209,7 @@ lazy val scalaSettings = Seq(
     case "-Ywarn-unused" if !(scalaVersion.value startsWith "2.12") => false
     case _ => true
   },
-  scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
+  scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
@@ -272,10 +284,17 @@ lazy val testSettings = Seq(
   logBuffered in Test := false,
   parallelExecution in Test := false,
   testOptions in Test += Tests.Argument("-oDF"),
+  scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
+  doctestTestFramework := DoctestTestFramework.ScalaTest,
+  doctestWithDependencies := false,
   libraryDependencies ++= Seq(
     "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
     "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
   )
+)
+
+lazy val jsTestSettings = Seq(
+  doctestGenTests := Seq.empty
 )
 
 lazy val noPublishSettings =
@@ -393,18 +412,27 @@ addDateToReleaseNotes in ThisBuild := {
   }
 }
 
+lazy val moduleNames = List[String]("core", "enumeratum", "generic", "refined", "squants")
+lazy val jsModuleNames = moduleNames.map(_ + "JS")
+lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
+
+addCommandsAlias("docTests", (jsModuleNames ++ jvmModuleNames).map(_ + "/test"))
+
 lazy val crossModules: Seq[(Project, Project)] =
   Seq(
     (coreJVM, coreJS),
     (enumeratumJVM, enumeratumJS),
     (genericJVM, genericJS),
     (refinedJVM, refinedJS),
-    (squantsJVM, squantsJS),
-    (testsJVM, testsJS)
+    (squantsJVM, squantsJS)
   )
 
-lazy val noDocumentationProjects: Seq[ProjectReference] =
-  crossModules.map { case(_, js) => js: ProjectReference } :+ (testsJVM: ProjectReference)
+lazy val noDocumentationModules: Seq[ProjectReference] = {
+  val jsModules = crossModules.map { case (_, js) => js }
+  val testModules = Seq(testsJVM, testsJS)
+
+  (jsModules ++ testModules).map(module => module: ProjectReference)
+}
 
 def addCommandsAlias(name: String, values: List[String]) =
   addCommandAlias(name, values.mkString(";", ";", ""))
@@ -414,6 +442,7 @@ addCommandsAlias("validate", List(
   "testsJS/test",
   "coverage",
   "testsJVM/test",
-  "coverageReport",
-  "coverageOff"
+  "coverageReport"
 ))
+
+addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))

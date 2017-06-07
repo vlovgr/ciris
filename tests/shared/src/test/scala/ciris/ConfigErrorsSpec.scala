@@ -1,25 +1,25 @@
 package ciris
 
-import ciris.ConfigError.{ReadException, MissingKey, WrongType}
+import ciris.ConfigError.{readException, missingKey, wrongType}
 
 final class ConfigErrorsSpec extends PropertySpec {
   "ConfigErrors" when {
     "converting to String" should {
       "list the errors" in {
         val configErrors =
-          ConfigErrors(MissingKey("key", ConfigKeyType.Environment))
+          ConfigErrors(missingKey("key", ConfigKeyType.Environment))
             .append(ConfigError("a"))
 
-        configErrors.toString shouldBe "ConfigErrors(MissingKey(key,Environment),ConfigError(a))"
+        configErrors.toString shouldBe "ConfigErrors(MissingKey(key, Environment), ConfigError(a))"
       }
     }
 
     "converting to messages" should {
       "list the error messages" in {
         val configErrors =
-          ConfigErrors(MissingKey("key", ConfigKeyType.Environment))
-            .append(ReadException("key2", ConfigKeyType.Properties, new Error("error")))
-            .append(WrongType("key3", "value3", "Int", ConfigKeyType.Environment, cause = None))
+          ConfigErrors(missingKey("key", ConfigKeyType.Environment))
+            .append(readException("key2", ConfigKeyType.Property, new Error("error")))
+            .append(wrongType("key3", "value3", "Int", ConfigKeyType.Environment))
             .append(ConfigError("a"))
             .append(ConfigError.combined(ConfigError("b"), ConfigError("c")))
 

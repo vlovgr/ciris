@@ -2,7 +2,7 @@ package ciris.enumeratum.readers
 
 import _root_.enumeratum._
 import _root_.enumeratum.values._
-import ciris.ConfigError.WrongType
+import ciris.ConfigError.wrongType
 import ciris.{ConfigError, ConfigReader, ConfigSourceEntry}
 
 import scala.reflect.ClassTag
@@ -19,7 +19,7 @@ trait EnumeratumConfigReaders {
             case Some(to) => Right(to)
             case None =>
               val typeName = implicitly[ClassTag[To]].runtimeClass.getName
-              Left(WrongType(entry.key, value, typeName, entry.keyType))
+              Left(wrongType(entry.key, value, typeName, entry.keyType))
           }
         }
     }

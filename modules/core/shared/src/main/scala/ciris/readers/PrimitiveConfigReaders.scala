@@ -37,5 +37,5 @@ trait PrimitiveConfigReaders {
     catchNonFatal("Short")(_.toShort)
 
   implicit val stringConfigReader: ConfigReader[String] =
-    ConfigReader.map(Right.apply)
+    ConfigReader.identity
 }
