@@ -14,5 +14,6 @@ cache:
   - "$HOME/.sbt/boot/"
 script:
   - sbt ++$TRAVIS_SCALA_VERSION validate
+  - if [[ "$TRAVIS_SCALA_VERSION" == 2.12.* ]]; then sbt validateDocs; fi
 after_success:
   - bash <(curl -s https://codecov.io/bash)

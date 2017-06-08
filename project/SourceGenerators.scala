@@ -61,13 +61,56 @@ object SourceGenerators extends AutoPlugin {
           val loadConfigSecondArgs = s"f: (${typeParams(current)}) => Z"
           val withValuesSecondArgs = s"f: (${typeParams(current)}) => Either[ConfigErrors, Z]"
 
-          Seq(
-            s"def loadConfig[$params, Z]($firstArgs)($loadConfigSecondArgs): Either[ConfigErrors, Z] =",
-            s"  (${valueParams(current, sep = " append ")}).value.right.map(f.tupled)",
-            "",
-            s"def withValues[$params, Z]($firstArgs)($withValuesSecondArgs): Either[ConfigErrors, Z] =",
-            s"  (${valueParams(current, sep = " append ")}).value.right.flatMap(f.tupled)"
-          ).map("  " + _).mkString("\n")
+          val valueParamsDoc = (1 to current).map(n => s"  * @param ${valueParam(n)} configuration value $n").mkString("\n")
+          val typeParamsDoc = (1 to current).map(n => s"  * @tparam ${typeParam(n)} the type for configuration value $n").mkString("\n")
+
+          val loadConfigDoc =
+            s"""
+              |/**
+              |  * Loads a configuration using the $current specified [[ConfigValue]]s.
+              |  * Deals with error accumulation if there are any errors in the
+              |  * provided [[ConfigValue]]s.
+              |  *
+              |$valueParamsDoc
+              |  * @param f the function to create the configuration
+              |$typeParamsDoc
+              |  * @tparam Z the type of the configuration
+              |  * @return the configuration or errors
+              |  */
+            """.stripMargin.trim.split("\n")
+
+          val withValuesDoc =
+            s"""
+               |/**
+               |  * Defines a requirement on $current [[ConfigValue]]s in order to be
+               |  * able to load a configuration. The method wraps `loadConfig`
+               |  * methods, requiring the provided [[ConfigValue]]s to be
+               |  * available in order to use the `loadConfig` methods.
+               |  *
+               |  * Deals with error accumulation if there are any errors in
+               |  * the provided [[ConfigValue]]s.
+               |  *
+               |$valueParamsDoc
+               |  * @param f the function to create the configuration
+               |$typeParamsDoc
+               |  * @tparam Z the type of the configuration
+               |  * @return the configuration or errors
+               |  */
+             """.stripMargin.trim.split("\n")
+
+          {
+            loadConfigDoc ++
+              Seq(
+                s"def loadConfig[$params, Z]($firstArgs)($loadConfigSecondArgs): Either[ConfigErrors, Z] =",
+                s"  (${valueParams(current, sep = " append ")}).value.right.map(f.tupled)",
+                ""
+              ) ++
+              withValuesDoc ++
+              Seq(
+                s"def withValues[$params, Z]($firstArgs)($withValuesSecondArgs): Either[ConfigErrors, Z] =",
+                s"  (${valueParams(current, sep = " append ")}).value.right.flatMap(f.tupled)"
+              )
+          }.map("  " + _).mkString("\n")
         }
         .mkString("\n\n")
 
@@ -80,15 +123,58 @@ object SourceGenerators extends AutoPlugin {
         |package $rootPackage
         |
         |private [$rootPackage] trait LoadConfigs {
+        |
+        |  /**
+        |    * Wraps the specified value in an `Either[ConfigErrors, Z]`. Useful
+        |    * when you want to use a static configuration inside a `withValues`
+        |    * block, requiring you to wrap it with this method.
+        |    *
+        |    * @param z the value to wrap
+        |    * @tparam Z the type of the value to wrap
+        |    * @return the value wrapped in an `Either[ConfigErrors, Z]`
+        |    */
         |  def loadConfig[Z](z: Z): Either[ConfigErrors, Z] =
         |    Right(z)
         |
+        |  /**
+        |    * Loads a configuration using the specified [[ConfigValue]].
+        |    *
+        |    * @param a1 the configuration value
+        |    * @param f the function to create the configuration
+        |    * @tparam A1 the type of the configuration value
+        |    * @tparam Z the type of the configuration
+        |    * @return the configuration or errors
+        |    */
         |  def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 => Z): Either[ConfigErrors, Z] =
         |    a1.value.fold(error => Left(ConfigErrors(error)), a1 => Right(f(a1)))
         |
+        |  /**
+        |    * Defines a requirement on a single [[ConfigValue]] in order to be
+        |    * able to load a configuration. The method wraps `loadConfig`
+        |    * methods, requiring the provided [[ConfigValue]] to be
+        |    * available in order to use the `loadConfig` methods.
+        |    *
+        |    * @param a1 the configuration value
+        |    * @param f the function to create the configuration
+        |    * @tparam A1 the type of the configuration value
+        |    * @tparam Z the type of the configuration
+        |    * @return the configuration or errors
+        |    */
         |  def withValue[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
         |   withValues(a1)(f)
         |
+        |  /**
+        |    * Defines a requirement on a single [[ConfigValue]] in order to be
+        |    * able to load a configuration. The method wraps any `loadConfig`
+        |    * methods, requiring the provided [[ConfigValue]] to be
+        |    * available in order to use the `loadConfig` methods.
+        |    *
+        |    * @param a1 the configuration value
+        |    * @param f the function to create the configuration
+        |    * @tparam A1 the type of the configuration value
+        |    * @tparam Z the type of the configuration
+        |    * @return the configuration or errors
+        |    */
         |  def withValues[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
         |    a1.value.fold(error => Left(ConfigErrors(error)), f)
         |
