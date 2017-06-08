@@ -30,8 +30,13 @@ Ciris is a new project under active development. Feedback and contributions are 
 ### <a name="introduction" href="#introduction">Introduction</a>
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined] and [squants][squants] to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.
 
+Ciris is intended as an alternative to configuration files, and libraries like [Typesafe Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
+
+You can read more about the reasons behind Ciris in the [Motivation](#motivation) section.
+
 ### <a name="getting-started" href="#getting-started">Getting Started</a>
-To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file:
+To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.  
+For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs/basics).
 
 ```tut:evaluated
 println(
@@ -48,17 +53,16 @@ s"""
 )
 ```
 
-and make sure to replace `%%` with `%%%` if you are using Scala.js.  
-For changes between versions, please refer to the [release notes](https://github.com/vlovgr/ciris/releases).
+Make sure to replace `%%` with `%%%` if you are using Scala.js.  
+For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
 
-The only required module is `ciris-core`, the rest are optional library integrations.
+The only required module is `ciris-core`, the rest are optional library integrations.  
+For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
 
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
-
-The [Modules Overview](https://cir.is/docs/modules) section explains how to use these modules.
 
 If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
 
