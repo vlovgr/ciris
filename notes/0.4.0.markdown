@@ -12,6 +12,7 @@
 ### Miscellaneous
 * Fix unused import warnings in `sbt console`.
 * Argument names, type parameter names, and `toString` methods have changed in a few places.
+* Ensure usage guide compiles and API documentation tests pass on all supported Scala versions. ([#28](https://github.com/vlovgr/ciris/pull/28))
 
 ##### ConfigError
 * `ConfigError#apply` now accepts messages by reference.
