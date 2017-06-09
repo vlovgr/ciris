@@ -416,7 +416,7 @@ lazy val moduleNames = List[String]("core", "enumeratum", "generic", "refined", 
 lazy val jsModuleNames = moduleNames.map(_ + "JS")
 lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
 
-addCommandsAlias("docTests", (jsModuleNames ++ jvmModuleNames).map(_ + "/test"))
+addCommandsAlias("docTests", jvmModuleNames.map(_ + "/test"))
 
 lazy val crossModules: Seq[(Project, Project)] =
   Seq(
@@ -439,10 +439,11 @@ def addCommandsAlias(name: String, values: List[String]) =
 
 addCommandsAlias("validate", List(
   "clean",
+  "docTests",
+  "docs/unidoc",
+  "docs/tut",
   "testsJS/test",
   "coverage",
   "testsJVM/test",
   "coverageReport"
 ))
-
-addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))
