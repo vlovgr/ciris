@@ -74,7 +74,7 @@ implicit val source = {
 
 We can then define and load a unary product, for example a case class with one value.
 
-```tut:book
+```scala
 final case class DoubleValue(value: Double)
 
 read[DoubleValue]("key")
@@ -82,7 +82,7 @@ read[DoubleValue]("key")
 
 It also works for value classes and any other unary products shapeless' `Generic` supports.
 
-```tut:book
+```scala
 final class FloatValue(val value: Float) extends AnyVal
 
 read[FloatValue]("key")
@@ -90,7 +90,7 @@ read[FloatValue]("key")
 
 We can also define a shapeless coproduct and load it.
 
-```tut:book
+```scala
 import shapeless.{:+:, CNil}
 
 type DoubleOrFloat = DoubleValue :+: FloatValue :+: CNil
@@ -189,7 +189,7 @@ val seconds = read[Time]("seconds")
 val minutes = read[Time]("minutes")
 val hours = read[Time]("hours")
 
-loadConfig(seconds, minutes, hours)(_ + _ + _).map(_.toMinutes)
+loadConfig(seconds, minutes, hours)(_ + _ + _).right.map(_.toMinutes)
 ```
 
 [enumeratum]: https://github.com/lloydmeta/enumeratum

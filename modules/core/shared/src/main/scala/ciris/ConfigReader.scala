@@ -119,7 +119,7 @@ abstract class ConfigReader[Value] { self =>
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456", "abc"))
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
-    * scala> val reader = ConfigReader.identity.mapEither("Int")(value => scala.util.Try(value.toInt).fold(Left.apply, Right.apply))
+    * scala> val reader = ConfigReader.identity.mapEither("Int")(value => scala.util.Try(value.toInt).map(Right.apply).recover { case e => Left(e) }.get)
     * reader: ConfigReader[Int] = ConfigReader$$$$anon$$3@8635c89
     *
     * scala> reader.read(source.read(0))
