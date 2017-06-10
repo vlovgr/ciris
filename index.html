@@ -25,24 +25,30 @@ After the city falls and Scylla is taken prisoner on the Cretan ships, Amphitrit
 <h3 id="introduction"><a name="introduction" href="#introduction">Introduction</a></h3>
 <p>Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as <a href="https://github.com/fthomas/refined">refined</a> and <a href="https://github.com/typelevel/squants">squants</a> to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.</p>
 
+<p>Ciris is intended as an alternative to configuration files, and libraries like <a href="https://github.com/typesafehub/config">Typesafe Config</a>, in situations where it’s easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.</p>
+
+<p>You can read more about the reasons behind Ciris in the <a href="#motivation">Motivation</a> section.</p>
+
 <h3 id="getting-started"><a name="getting-started" href="#getting-started">Getting Started</a></h3>
-<p>To get started with <a href="http://www.scala-sbt.org">SBT</a>, simply add the following lines to your <code class="highlighter-rouge">build.sbt</code> file:</p>
+<p>To get started with <a href="http://www.scala-sbt.org">SBT</a>, simply add the following lines to your <code class="highlighter-rouge">build.sbt</code> file.<br />
+For an overview, usage instructions, and examples, please see the <a href="https://cir.is/docs/basics">usage guide</a>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>// Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.3.2",
-  "is.cir" %% "ciris-enumeratum" % "0.3.2",
-  "is.cir" %% "ciris-generic" % "0.3.2",
-  "is.cir" %% "ciris-refined" % "0.3.2",
-  "is.cir" %% "ciris-squants" % "0.3.2"
+  "is.cir" %% "ciris-core" % "0.4.0",
+  "is.cir" %% "ciris-enumeratum" % "0.4.0",
+  "is.cir" %% "ciris-generic" % "0.4.0",
+  "is.cir" %% "ciris-refined" % "0.4.0",
+  "is.cir" %% "ciris-squants" % "0.4.0"
 )
 </code></pre>
 </div>
 
-<p>and make sure to replace <code class="highlighter-rouge">%%</code> with <code class="highlighter-rouge">%%%</code> if you are using Scala.js.<br />
-For changes between versions, please refer to the <a href="https://github.com/vlovgr/ciris/releases">release notes</a>.</p>
+<p>Make sure to replace <code class="highlighter-rouge">%%</code> with <code class="highlighter-rouge">%%%</code> if you are using Scala.js.<br />
+For changes between versions, please see the <a href="https://github.com/vlovgr/ciris/releases">release notes</a>.</p>
 
-<p>The only required module is <code class="highlighter-rouge">ciris-core</code>, the rest are optional library integrations.</p>
+<p>The only required module is <code class="highlighter-rouge">ciris-core</code>, the rest are optional library integrations.<br />
+For an explanation of how to use the modules, see the <a href="https://cir.is/docs/modules">Modules Overview</a> section.</p>
 
 <ul>
   <li>The <code class="highlighter-rouge">ciris-enumeratum</code> module allows loading <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations.</li>
@@ -50,8 +56,6 @@ For changes between versions, please refer to the <a href="https://github.com/vl
   <li>The <code class="highlighter-rouge">ciris-refined</code> module allows loading <a href="https://github.com/fthomas/refined">refined</a> refinement types.</li>
   <li>The <code class="highlighter-rouge">ciris-squants</code> module allows loading <a href="https://github.com/typelevel/squants">squants</a> data types.</li>
 </ul>
-
-<p>The <a href="https://cir.is/docs/modules">Modules Overview</a> section explains how to use these modules.</p>
 
 <p>If you’re using <code class="highlighter-rouge">ciris-generic</code> with Scala 2.10, you’ll need to include the <a href="http://docs.scala-lang.org/overviews/macros/paradise.html">Macro Paradise</a> compiler plugin.</p>
 
@@ -72,11 +76,11 @@ For changes between versions, please refer to the <a href="https://github.com/vl
 </ul>
 
 <p>If you already have the Ammonite REPL installed, you can load Ciris using the following commands.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.3.2`, ciris._
-import $ivy.`is.cir::ciris-enumeratum:0.3.2`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.3.2`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.3.2`, ciris.refined._
-import $ivy.`is.cir::ciris-squants:0.3.2`, ciris.squants._
+<div class="highlighter-rouge"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.4.0`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.4.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.4.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.4.0`, ciris.refined._
+import $ivy.`is.cir::ciris-squants:0.4.0`, ciris.squants._
 </code></pre>
 </div>
 

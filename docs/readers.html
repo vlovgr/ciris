@@ -46,19 +46,19 @@ ga('send', 'pageview');
 <p>We can then try to read <code class="highlighter-rouge">Odd</code> values from a custom <a href="/docs/sources">configuration source</a>.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"int key"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"int key"</span><span class="o">)</span>
   <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span><span class="s">"a"</span> <span class="o">-&gt;</span> <span class="s">"abc"</span><span class="o">,</span> <span class="s">"b"</span> <span class="o">-&gt;</span> <span class="s">"6"</span><span class="o">,</span> <span class="s">"c"</span> <span class="o">-&gt;</span> <span class="s">"3"</span><span class="o">))</span>
 <span class="o">}</span>
-<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(int key))
+<span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(int key))
 </span>
 <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Odd</span><span class="o">](</span><span class="s">"a"</span><span class="o">)</span>
-<span class="c1">// a: ciris.ConfigValue[Odd] = ConfigValue(Left(WrongType(a,abc,Int,ConfigKeyType(int key),Some(java.lang.NumberFormatException: For input string: "abc"))))
+<span class="c1">// a: ciris.ConfigValue[Odd] = ConfigValue(Left(WrongType(a, abc, Int, ConfigKeyType(int key), Some(java.lang.NumberFormatException: For input string: "abc"))))
 </span>
 <span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">message</span><span class="o">)</span>
 <span class="c1">// res1: scala.util.Either[String,Odd] = Left(Int key [a] with value [abc] cannot be converted to type [Int]: java.lang.NumberFormatException: For input string: "abc")
 </span>
 <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Odd</span><span class="o">](</span><span class="s">"b"</span><span class="o">)</span>
-<span class="c1">// b: ciris.ConfigValue[Odd] = ConfigValue(Left(WrongType(b,6,Odd,ConfigKeyType(int key),None)))
+<span class="c1">// b: ciris.ConfigValue[Odd] = ConfigValue(Left(WrongType(b, 6, Odd, ConfigKeyType(int key), None)))
 </span>
 <span class="n">b</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">message</span><span class="o">)</span>
 <span class="c1">// res2: scala.util.Either[String,Odd] = Left(Int key [b] with value [6] cannot be converted to type [Odd])

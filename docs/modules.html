@@ -44,7 +44,7 @@ ga('send', 'pageview');
 <span class="c1">// import configuration._
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"enumeratum key"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"enumeratum key"</span><span class="o">)</span>
   <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span>
     <span class="s">"localEnv"</span> <span class="o">-&gt;</span> <span class="s">"local"</span><span class="o">,</span>
     <span class="s">"testingEnv"</span> <span class="o">-&gt;</span> <span class="s">"testing"</span><span class="o">,</span>
@@ -52,7 +52,7 @@ ga('send', 'pageview');
     <span class="s">"invalidEnv"</span> <span class="o">-&gt;</span> <span class="s">"invalid"</span>
   <span class="o">))</span>
 <span class="o">}</span>
-<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(enumeratum key))
+<span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(enumeratum key))
 </span></code></pre>
 </div>
 
@@ -65,10 +65,10 @@ ga('send', 'pageview');
 <span class="c1">// res1: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Right(Testing))
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"TestingEnv"</span><span class="o">)</span>
-<span class="c1">// res2: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Left(WrongType(TestingEnv,Testing,configuration$AppEnvironment,ConfigKeyType(enumeratum key),None)))
+<span class="c1">// res2: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Left(WrongType(TestingEnv, Testing, configuration$AppEnvironment, ConfigKeyType(enumeratum key), None)))
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"invalidEnv"</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Left(WrongType(invalidEnv,invalid,configuration$AppEnvironment,ConfigKeyType(enumeratum key),None)))
+<span class="c1">// res3: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Left(WrongType(invalidEnv, invalid, configuration$AppEnvironment, ConfigKeyType(enumeratum key), None)))
 </span></code></pre>
 </div>
 
@@ -84,44 +84,37 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.generic._
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"generic key"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"generic key"</span><span class="o">)</span>
   <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span><span class="s">"key"</span> <span class="o">-&gt;</span> <span class="s">"5.0"</span><span class="o">))</span>
 <span class="o">}</span>
-<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(generic key))
+<span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(generic key))
 </span></code></pre>
 </div>
 
 <p>We can then define and load a unary product, for example a case class with one value.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">DoubleValue</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span>
-<span class="c1">// defined class DoubleValue
-</span>
+
 <span class="n">read</span><span class="o">[</span><span class="kt">DoubleValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
-<span class="c1">// res0: ciris.ConfigValue[DoubleValue] = ConfigValue(Right(DoubleValue(5.0)))
-</span></code></pre>
+</code></pre>
 </div>
 
 <p>It also works for value classes and any other unary products shapeless’ <code class="highlighter-rouge">Generic</code> supports.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">class</span> <span class="nc">FloatValue</span><span class="o">(</span><span class="k">val</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span>
-<span class="c1">// defined class FloatValue
-</span>
+
 <span class="n">read</span><span class="o">[</span><span class="kt">FloatValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
-<span class="c1">// res1: ciris.ConfigValue[FloatValue] = ConfigValue(Right(FloatValue@40a00000))
-</span></code></pre>
+</code></pre>
 </div>
 
 <p>We can also define a shapeless coproduct and load it.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">shapeless.</span><span class="o">{:+:,</span> <span class="nc">CNil</span><span class="o">}</span>
-<span class="c1">// import shapeless.{$colon$plus$colon, CNil}
-</span>
+
 <span class="k">type</span> <span class="kt">DoubleOrFloat</span> <span class="o">=</span> <span class="nc">DoubleValue</span> <span class="o">:+:</span> <span class="nc">FloatValue</span> <span class="o">:+:</span> <span class="nc">CNil</span>
-<span class="c1">// defined type alias DoubleOrFloat
-</span>
+
 <span class="n">read</span><span class="o">[</span><span class="kt">DoubleOrFloat</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
-<span class="c1">// res2: ciris.ConfigValue[DoubleOrFloat] = ConfigValue(Right(Inl(DoubleValue(5.0))))
-</span></code></pre>
+</code></pre>
 </div>
 
 <p>If we define a product with more than one value:</p>
@@ -134,7 +127,7 @@ ga('send', 'pageview');
 <p>we will not be able to load it, resulting in an error at compile-time.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">TwoValues</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
-<span class="c1">// &lt;console&gt;:23: error: could not find implicit value for evidence parameter of type ciris.ConfigReader[TwoValues]
+<span class="c1">// &lt;console&gt;:22: error: could not find implicit value for parameter reader: ciris.ConfigReader[TwoValues]
 //        read[TwoValues]("key")
 //                       ^
 </span></code></pre>
@@ -159,7 +152,7 @@ ga('send', 'pageview');
 <p>we will not be able to load it, again resulting in an error at compile-time.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">PrivateFloatValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
-<span class="c1">// &lt;console&gt;:25: error: could not find implicit value for evidence parameter of type ciris.ConfigReader[PrivateValues.PrivateFloatValue]
+<span class="c1">// &lt;console&gt;:24: error: could not find implicit value for parameter reader: ciris.ConfigReader[PrivateValues.PrivateFloatValue]
 //        read[PrivateFloatValue]("key")
 //                               ^
 </span></code></pre>
@@ -175,7 +168,7 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.refined._
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"refined key"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"refined key"</span><span class="o">)</span>
   <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span>
     <span class="s">"negative"</span> <span class="o">-&gt;</span> <span class="s">"-1"</span><span class="o">,</span>
     <span class="s">"zero"</span> <span class="o">-&gt;</span> <span class="s">"0"</span><span class="o">,</span>
@@ -183,7 +176,7 @@ ga('send', 'pageview');
     <span class="s">"other"</span> <span class="o">-&gt;</span> <span class="s">"abc"</span>
   <span class="o">))</span>
 <span class="o">}</span>
-<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(refined key))
+<span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(refined key))
 </span></code></pre>
 </div>
 
@@ -193,16 +186,16 @@ ga('send', 'pageview');
 <span class="c1">// import eu.timepit.refined.types.numeric.PosInt
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"negative"</span><span class="o">)</span>
-<span class="c1">// res0: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(negative,-1,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive],ConfigKeyType(refined key),Some(Predicate failed: (-1 &gt; 0).))))
+<span class="c1">// res0: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(negative, -1, eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive], ConfigKeyType(refined key), Some(Predicate failed: (-1 &gt; 0).))))
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"zero"</span><span class="o">)</span>
-<span class="c1">// res1: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(zero,0,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive],ConfigKeyType(refined key),Some(Predicate failed: (0 &gt; 0).))))
+<span class="c1">// res1: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(zero, 0, eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive], ConfigKeyType(refined key), Some(Predicate failed: (0 &gt; 0).))))
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"positive"</span><span class="o">)</span>
 <span class="c1">// res2: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Right(1))
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"other"</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(other,abc,Int,ConfigKeyType(refined key),Some(java.lang.NumberFormatException: For input string: "abc"))))
+<span class="c1">// res3: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(other, abc, Int, ConfigKeyType(refined key), Some(java.lang.NumberFormatException: For input string: "abc"))))
 </span></code></pre>
 </div>
 
@@ -221,14 +214,14 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.squants._
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"squants key"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"squants key"</span><span class="o">)</span>
   <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span>
     <span class="s">"seconds"</span> <span class="o">-&gt;</span> <span class="s">"3 s"</span><span class="o">,</span>
     <span class="s">"minutes"</span> <span class="o">-&gt;</span> <span class="s">"23 m"</span><span class="o">,</span>
     <span class="s">"hours"</span> <span class="o">-&gt;</span> <span class="s">"12 h"</span>
   <span class="o">))</span>
 <span class="o">}</span>
-<span class="c1">// source: ciris.ConfigSource = ConfigSource(ConfigKeyType(squants key))
+<span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(squants key))
 </span></code></pre>
 </div>
 
@@ -243,7 +236,7 @@ ga('send', 'pageview');
 <span class="k">val</span> <span class="n">hours</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"hours"</span><span class="o">)</span>
 <span class="c1">// hours: ciris.ConfigValue[squants.time.Time] = ConfigValue(Right(12.0 h))
 </span>
-<span class="n">loadConfig</span><span class="o">(</span><span class="n">seconds</span><span class="o">,</span> <span class="n">minutes</span><span class="o">,</span> <span class="n">hours</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toMinutes</span><span class="o">)</span>
+<span class="n">loadConfig</span><span class="o">(</span><span class="n">seconds</span><span class="o">,</span> <span class="n">minutes</span><span class="o">,</span> <span class="n">hours</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">).</span><span class="n">right</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toMinutes</span><span class="o">)</span>
 <span class="c1">// res0: scala.util.Either[ciris.ConfigErrors,Double] = Right(743.05)
 </span></code></pre>
 </div>
