@@ -15,31 +15,35 @@ Ciris is a new project under active development. Feedback and contributions are 
 ### Introduction
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined] and [squants][squants] to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.
 
+Ciris is intended as an alternative to configuration files, and libraries like [Typesafe Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
+
+You can read more about the reasons behind Ciris in the [Motivation](#motivation) section.
+
 ### Getting Started
-To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file:
+To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.  
+For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs/basics).
 
 ```
 // Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.3.2",
-  "is.cir" %% "ciris-enumeratum" % "0.3.2",
-  "is.cir" %% "ciris-generic" % "0.3.2",
-  "is.cir" %% "ciris-refined" % "0.3.2",
-  "is.cir" %% "ciris-squants" % "0.3.2"
+  "is.cir" %% "ciris-core" % "0.4.0",
+  "is.cir" %% "ciris-enumeratum" % "0.4.0",
+  "is.cir" %% "ciris-generic" % "0.4.0",
+  "is.cir" %% "ciris-refined" % "0.4.0",
+  "is.cir" %% "ciris-squants" % "0.4.0"
 )
 ```
 
-and make sure to replace `%%` with `%%%` if you are using Scala.js.  
-For changes between versions, please refer to the [release notes](https://github.com/vlovgr/ciris/releases).
+Make sure to replace `%%` with `%%%` if you are using Scala.js.  
+For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
 
-The only required module is `ciris-core`, the rest are optional library integrations.
+The only required module is `ciris-core`, the rest are optional library integrations.  
+For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
 
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
-
-The [Modules Overview](https://cir.is/docs/modules) section explains how to use these modules.
 
 If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
 
@@ -59,11 +63,11 @@ You will need to have a JDK installed. The [script](https://try.cir.is) will the
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```
-import $ivy.`is.cir::ciris-core:0.3.2`, ciris._
-import $ivy.`is.cir::ciris-enumeratum:0.3.2`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.3.2`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.3.2`, ciris.refined._
-import $ivy.`is.cir::ciris-squants:0.3.2`, ciris.squants._
+import $ivy.`is.cir::ciris-core:0.4.0`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.4.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.4.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.4.0`, ciris.refined._
+import $ivy.`is.cir::ciris-squants:0.4.0`, ciris.squants._
 ```
 
 ### Motivation
