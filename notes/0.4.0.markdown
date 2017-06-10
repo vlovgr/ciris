@@ -38,3 +38,5 @@
 ##### ConfigValue
 * Add `ConfigValue.PartiallyApplied` to support the `read` method.
 * Change `ConfigValue#apply` arguments to be explicit instead of implicit.
+
+Released on 2017-06-10.
