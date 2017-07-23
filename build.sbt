@@ -353,13 +353,13 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P \\
-       |  com.lihaoyi:ammonite_2.12.2:0.9.9 \\
+       |  com.lihaoyi:ammonite_2.12.2:1.0.0 \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in refinedJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
-       |  -- --predef 'import ciris._,ciris.enumeratum._,ciris.generic._,ciris.refined._,ciris.squants._' < /dev/tty
+       |  -- --predef-code 'import ciris._,ciris.enumeratum._,ciris.generic._,ciris.refined._,ciris.squants._' < /dev/tty
      """.stripMargin.trim + "\n"
 
   IO.createDirectory(output)
