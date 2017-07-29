@@ -135,8 +135,7 @@ lazy val docs = project
       BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) => "refined" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v }
-    ),
-    scalaVersion := "2.12.1" // sbt-buildinfo 0.7.0 broken on 2.12.2
+    )
   )
   .settings(
     generateApiIndexFile := {
