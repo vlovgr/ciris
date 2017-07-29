@@ -285,7 +285,6 @@ lazy val testSettings = Seq(
   testOptions in Test += Tests.Argument("-oDF"),
   scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
   doctestTestFramework := DoctestTestFramework.ScalaTest,
-  doctestWithDependencies := false,
   libraryDependencies ++= Seq(
     "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
     "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
