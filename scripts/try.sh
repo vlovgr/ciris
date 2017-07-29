@@ -6,7 +6,7 @@ test -e ~/.coursier/coursier || ( \
 )
 
 ~/.coursier/coursier launch -q -P \
-  com.lihaoyi:ammonite_2.12.2:1.0.0 \
+  com.lihaoyi:ammonite_2.12.3:1.0.1 \
   is.cir:ciris-core_2.12:0.4.0 \
   is.cir:ciris-enumeratum_2.12:0.4.0 \
   is.cir:ciris-generic_2.12:0.4.0 \
