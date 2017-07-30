@@ -135,8 +135,7 @@ lazy val docs = project
       BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) => "refined" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v }
-    ),
-    scalaVersion := "2.12.1" // sbt-buildinfo 0.7.0 broken on 2.12.2
+    )
   )
   .settings(
     generateApiIndexFile := {
@@ -180,7 +179,7 @@ lazy val docs = project
 
 lazy val scala210 = "2.10.6"
 lazy val scala211 = "2.11.11"
-lazy val scala212 = "2.12.2"
+lazy val scala212 = "2.12.3"
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
@@ -286,7 +285,6 @@ lazy val testSettings = Seq(
   testOptions in Test += Tests.Argument("-oDF"),
   scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
   doctestTestFramework := DoctestTestFramework.ScalaTest,
-  doctestWithDependencies := false,
   libraryDependencies ++= Seq(
     "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
     "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
@@ -353,7 +351,7 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P \\
-       |  com.lihaoyi:ammonite_2.12.2:1.0.0 \\
+       |  com.lihaoyi:ammonite_2.12.3:1.0.1 \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
