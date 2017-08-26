@@ -102,6 +102,18 @@ object ConfigSource {
     })
 
   /**
+    * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]],
+    * where the source is always empty - that is, it has no value for any
+    * key of type `Key`.
+    *
+    * @param keyType the [[ConfigKeyType]] representing the key type and name
+    * @tparam Key the type of keys which the source supports
+    * @return a new empty [[ConfigSource]] without any entries
+    */
+  def empty[Key](keyType: ConfigKeyType[Key]): ConfigSource[Key] =
+    ConfigSource.fromOption(keyType)(_ => None)
+
+  /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
     * and `Map` with keys of type `Key`.
     *
