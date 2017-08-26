@@ -104,6 +104,39 @@ abstract class ConfigReader[Value] { self =>
     }
 
   /**
+    * Applies a partial function on the converted value. The type conversion to
+    * `A` will only succeed for values which the partial function is defined.
+    *
+    * @param typeName the name of the type `A`
+    * @param f the partial function converting from `Value` to `A`
+    * @tparam A the type for which to convert the value to
+    * @return a new `ConfigReader[A]`
+    * @example {{{
+    * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456", "-123"))
+    * source: ConfigSource[Int] = ConfigSource(Argument)
+    *
+    * scala> val reader = ConfigReader.identity.collect("PosBigInt") { case s if s.forall(_.isDigit) => BigInt(s) }
+    * reader: ciris.ConfigReader[scala.math.BigInt] = ciris.ConfigReader$$anon$2@727cfc59
+    *
+    * scala> reader.read(source.read(0))
+    * res0: Either[ciris.ConfigError,scala.math.BigInt] = Right(123456)
+    *
+    * scala> reader.read(source.read(1))
+    * res1: Either[ciris.ConfigError,scala.math.BigInt] = Left(WrongType(1, -123, PosBigInt, Argument, None))
+    *
+    * scala> reader.read(source.read(2))
+    * res2: Either[ciris.ConfigError,scala.math.BigInt] = Left(MissingKey(2, Argument))
+    * }}}
+    */
+  final def collect[A](typeName: String)(f: PartialFunction[Value, A]): ConfigReader[A] =
+    mapOption(typeName) {
+      case value if f.isDefinedAt(value) =>
+        Some(f(value))
+      case _ =>
+        None
+    }
+
+  /**
     * Applies a function on the converted value, returning an `Either[L, R]`.
     * If the function returns `Left[L, _]`, the type conversion to `R` will
     * be considered to have failed. Returning a `Right[_, R]` means that
