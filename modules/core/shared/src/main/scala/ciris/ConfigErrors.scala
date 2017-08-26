@@ -99,6 +99,15 @@ final class ConfigErrors private (val toVector: Vector[ConfigError]) extends Any
   def size: Int =
     toVector.size
 
+  /**
+    * Converts this [[ConfigErrors]] to a [[ConfigException]]
+    * which can be thrown.
+    *
+    * @return a new [[ConfigException]]
+    */
+  def toException: ConfigException =
+    ConfigException(this)
+
   override def toString: String =
     s"ConfigErrors(${toVector.mkString(", ")})"
 }
