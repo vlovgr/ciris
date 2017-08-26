@@ -13,7 +13,7 @@ package ciris
   *
   * @param errors the underlying [[ConfigErrors]] of the exception
   */
-final class ConfigException private (errors: ConfigErrors)
+final class ConfigException private (val errors: ConfigErrors)
     extends Throwable({
       val errorCount =
         if (errors.size == 1) "error"

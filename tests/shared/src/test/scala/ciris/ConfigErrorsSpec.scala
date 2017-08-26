@@ -32,5 +32,15 @@ final class ConfigErrorsSpec extends PropertySpec {
         )
       }
     }
+
+    "converting to exception" should {
+      "be able to retrieve the original errors" in {
+        val configErrors =
+          ConfigErrors(missingKey("key", ConfigKeyType.Environment))
+            .append(readException("key2", ConfigKeyType.Property, new Error("error")))
+
+        configErrors.toException.errors shouldBe configErrors
+      }
+    }
   }
 }
