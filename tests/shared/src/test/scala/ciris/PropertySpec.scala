@@ -31,6 +31,9 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks {
   def readValue[A](value: String)(implicit reader: ConfigReader[A]): Either[ConfigError, A] =
     readConfigValue[A](value).value
 
+  def readNonExistingConfigValue[A](implicit reader: ConfigReader[A]): ConfigValue[A] =
+    ConfigValue("key")(emptySource, reader)
+
   def readNonExistingValue[A](implicit reader: ConfigReader[A]): Either[ConfigError, A] =
     reader.read(emptySource.read("key"))
 
