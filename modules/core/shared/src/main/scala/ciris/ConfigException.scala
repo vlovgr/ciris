@@ -1,14 +1,14 @@
 package ciris
 
 /**
-  * A [[Throwable]] representation of [[ConfigErrors]]. Useful in cases
+  * A `Throwable` representation of [[ConfigErrors]]. Useful in cases
   * where it's desirable to have failed configuration loading halt
   * program execution - typically during application startup.<br>
   * <br>
   * There's a quick way to convert [[ConfigErrors]] to an exception.
   * {{{
   * scala> ConfigErrors(ConfigError("error1")).toException
-  * res0: ciris.ConfigException = ConfigException(ConfigError(error1))
+  * res0: ConfigException = ConfigException(ConfigError(error1))
   * }}}
   *
   * @param errors the underlying [[ConfigErrors]] of the exception
@@ -40,10 +40,10 @@ object ConfigException {
     * @return a new [[ConfigException]]
     * @example {{{
     * scala> ConfigException(ConfigError("error1") append ConfigError("error2"))
-    * res0: ciris.ConfigException = ConfigException(ConfigError(error1), ConfigError(error2))
+    * res0: ConfigException = ConfigException(ConfigError(error1), ConfigError(error2))
     *
     * scala> (ConfigError("error1") append ConfigError("error2")).toException
-    * res1: ciris.ConfigException = ConfigException(ConfigError(error1), ConfigError(error2))
+    * res1: ConfigException = ConfigException(ConfigError(error1), ConfigError(error2))
     * }}}
     */
   def apply(errors: ConfigErrors): ConfigException =
