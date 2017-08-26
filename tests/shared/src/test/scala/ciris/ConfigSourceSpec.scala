@@ -31,6 +31,15 @@ final class ConfigSourceSpec extends PropertySpec {
       }
     }
 
+    "always empty" should {
+      "fail for any key" in {
+        val source = ConfigSource.empty(ConfigKeyType[String]("key"))
+        forAll { (key: String) =>
+          source.read(key).value shouldBe a[Left[_, _]]
+        }
+      }
+    }
+
     "created from an IndexedSeq" should {
       "succeed if the index exists and value is of expected type" in {
         forAll { (keyType: String, indexedSeq: IndexedSeq[String]) =>
