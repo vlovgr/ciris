@@ -3,7 +3,7 @@ package ciris
 import ciris.syntax._
 
 final class CirisSyntaxSpec extends PropertySpec {
-  "Syntax" when {
+  "Ciris syntax" when {
     "using orThrow" should {
       "return the configuration if loaded successfully" in {
         val config = loadConfig(

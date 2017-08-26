@@ -1,7 +1,7 @@
 package ciris
 
 object syntax {
-  implicit def eitherConfigErrorsOps[T](
+  implicit def eitherConfigErrorsSyntax[T](
     either: Either[ConfigErrors, T]
   ): EitherConfigErrorsSyntax[T] = {
     new EitherConfigErrorsSyntax(either)
