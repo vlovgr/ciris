@@ -367,7 +367,7 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P \\
-       |  com.lihaoyi:ammonite_2.12.3:1.0.1 \\
+       |  com.lihaoyi:ammonite_2.12.3:1.0.2 \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
