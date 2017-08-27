@@ -426,7 +426,7 @@ object ConfigReader extends ConfigReaders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("1", "1234", "a"))
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
-    * scala> val reader = ConfigReader.fromTryOption("Int")(value => scala.util.Try(if(value.length == 3) Some(value.toInt) else None))
+    * scala> val reader = ConfigReader.fromTryOption("Int")(value => scala.util.Try(if(value.length < 4) Some(value.toInt) else None))
     * reader: ConfigReader[Int] = ConfigReader$$$$anon$$9@7d20803b
     *
     * scala> reader.read(source.read(0))
@@ -436,7 +436,7 @@ object ConfigReader extends ConfigReaders {
     * res1: Either[ConfigError,Int] = Left(WrongType(1, 1234, Int, Argument, None))
     *
     * scala> reader.read(source.read(2))
-    * res2: Either[ConfigError,Int] = Left(WrongType(1, a, Int, Argument, Some(java.lang.NumberFormatException: For input string: "a")))
+    * res2: Either[ConfigError,Int] = Left(WrongType(2, a, Int, Argument, Some(java.lang.NumberFormatException: For input string: "a")))
     *
     * scala> reader.read(source.read(3))
     * res3: Either[ConfigError,Int] = Left(MissingKey(3, Argument))
