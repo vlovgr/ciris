@@ -14,6 +14,7 @@ lazy val ciris = project
     enumeratumJS, enumeratumJVM,
     genericJS, genericJVM,
     refinedJS, refinedJVM,
+    spireJS, spireJVM,
     squantsJS, squantsJVM,
     testsJS, testsJVM
   )
@@ -68,6 +69,19 @@ lazy val refined = crossProject
 lazy val refinedJS = refined.js
 lazy val refinedJVM = refined.jvm
 
+lazy val spire = crossProject
+  .in(file("modules/spire"))
+  .settings(moduleName := "ciris-spire", name := "Ciris spire")
+  .settings(libraryDependencies += "org.typelevel" %%% "spire" % "0.14.1")
+  .settings(scalaSettings)
+  .settings(testSettings)
+  .jsSettings(jsTestSettings)
+  .settings(releaseSettings)
+  .dependsOn(core)
+
+lazy val spireJS = spire.js
+lazy val spireJVM = spire.jvm
+
 lazy val squants = crossProject
   .in(file("modules/squants"))
   .settings(moduleName := "ciris-squants", name := "Ciris squants")
@@ -89,7 +103,7 @@ lazy val tests = crossProject
   .settings(noPublishSettings)
   .settings(testSettings)
   .jsSettings(jsTestSettings)
-  .dependsOn(core, enumeratum, generic, refined, squants)
+  .dependsOn(core, enumeratum, generic, refined, spire, squants)
 
 lazy val testsJS = tests.js
 lazy val testsJVM = tests.jvm
@@ -134,6 +148,7 @@ lazy val docs = project
       BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) => "enumeratum" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) => "refined" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in spireJVM) { case (k, v) => "spire" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v }
     )
   )
@@ -154,6 +169,7 @@ lazy val docs = project
           | - The [[ciris.enumeratum enumeratum]] module integrates with [[https://github.com/lloydmeta/enumeratum enumeratum]] to be able to read enumerations.
           | - The [[ciris.generic generic]] module uses [[https://github.com/milessabin/shapeless shapeless]] to be able to read unary products, and coproducts.
           | - The [[ciris.refined refined]] module integrates with [[https://github.com/fthomas/refined refined]] to be able to read refinement types.
+          | - The [[ciris.spire spire]] module integrates with [[https://github.com/non/spire spire]] to be able to read more number types.
           | - The [[ciris.squants squants]] module integrates with [[https://github.com/typelevel/squants squants]] to read values with unit of measure.
           |
           |If you're looking for usage instructions, please refer to the [[https://cir.is/docs/basics usage guide]].
@@ -174,7 +190,7 @@ lazy val docs = project
       "-doc-root-content", (generateApiIndexFile.value).getAbsolutePath
     )
   )
-  .dependsOn(coreJVM, enumeratumJVM, genericJVM, refinedJVM, squantsJVM)
+  .dependsOn(coreJVM, enumeratumJVM, genericJVM, refinedJVM, spireJVM, squantsJVM)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin, ScalaUnidocPlugin)
 
 lazy val scala210 = "2.10.6"
@@ -356,8 +372,9 @@ generateScripts in ThisBuild := {
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in refinedJVM).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in spireJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
-       |  -- --predef-code 'import ciris._,ciris.enumeratum._,ciris.generic._,ciris.refined._,ciris.squants._' < /dev/tty
+       |  -- --predef-code 'import ciris._,ciris.enumeratum._,ciris.generic._,ciris.refined._,ciris.spire._,ciris.squants._' < /dev/tty
      """.stripMargin.trim + "\n"
 
   IO.createDirectory(output)
@@ -410,7 +427,7 @@ addDateToReleaseNotes in ThisBuild := {
   }
 }
 
-lazy val moduleNames = List[String]("core", "enumeratum", "generic", "refined", "squants")
+lazy val moduleNames = List[String]("core", "enumeratum", "generic", "refined", "spire", "squants")
 lazy val jsModuleNames = moduleNames.map(_ + "JS")
 lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
 
@@ -422,6 +439,7 @@ lazy val crossModules: Seq[(Project, Project)] =
     (enumeratumJVM, enumeratumJS),
     (genericJVM, genericJS),
     (refinedJVM, refinedJS),
+    (spireJVM, spireJS),
     (squantsJVM, squantsJS)
   )
 
