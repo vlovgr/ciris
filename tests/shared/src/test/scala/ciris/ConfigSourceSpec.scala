@@ -15,6 +15,32 @@ final class ConfigSourceSpec extends PropertySpec {
       }
     }
 
+    "created from entries" should {
+      "succeed for keys in the entries" in {
+        forAll { (keyType: String, entries: Seq[(Int, String)]) =>
+          whenever(entries.nonEmpty) {
+            val source = ConfigSource.fromEntries(ConfigKeyType[Int](keyType))(entries: _*)
+            forAll(Gen.oneOf(entries)) { case (key, _) =>
+              source.read(key).value shouldBe a[Right[_, _]]
+            }
+          }
+        }
+      }
+
+      "fail for keys not in the entries" in {
+        forAll { (keyType: String, entries: Seq[(Int, String)]) =>
+          val source = ConfigSource.fromEntries(ConfigKeyType[Int](keyType))(entries: _*)
+          val exists = entries.map { case (key, _) => key }.toSet
+
+          forAll(minSuccessful(10)) { key: Int =>
+            whenever(!exists(key)) {
+              source.read(key).value shouldBe a[Left[_, _]]
+            }
+          }
+        }
+      }
+    }
+
     "created from a Try" should {
       "succeed if the Try succeeds" in {
         forAll { (keyType: String, key: String) =>
