@@ -47,6 +47,7 @@ s"""
  |  "$organization" %% "$enumeratumModuleName" % "$latestVersion",
  |  "$organization" %% "$genericModuleName" % "$latestVersion",
  |  "$organization" %% "$refinedModuleName" % "$latestVersion",
+ |  "$organization" %% "$spireModuleName" % "$latestVersion",
  |  "$organization" %% "$squantsModuleName" % "$latestVersion"
  |)
  """.stripMargin.trim
@@ -62,6 +63,7 @@ For an explanation of how to use the modules, see the [Modules Overview](https:/
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
+- The `ciris-spire` module allows loading [spire][spire] number types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
 
 If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
@@ -88,6 +90,7 @@ s"""
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
  |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
  |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._
+ |import $$ivy.`$organization::$spireModuleName:$latestVersion`, ciris.spire._
  |import $$ivy.`$organization::$squantsModuleName:$latestVersion`, ciris.squants._
  """.stripMargin.trim
 )
@@ -113,6 +116,7 @@ Ciris is available under the MIT license, available at [https://opensource.org/l
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
 [shapeless]: https://github.com/milessabin/shapeless
+[spire]: https://github.com/non/spire
 [squants]: https://github.com/typelevel/squants
 [sbt]: http://www.scala-sbt.org
 [scala]: http://www.scala-lang.org

@@ -97,10 +97,114 @@ abstract class ConfigReader[Value] { self =>
           .read(entry)
           .fold(Left.apply, value => {
             f(value) match {
-              case Some(b) => Right(b)
-              case None => Left(wrongType(entry.key, value, typeName, entry.keyType))
+              case Some(a) => Right(a)
+              case None    => Left(wrongType(entry.key, value, typeName, entry.keyType))
             }
           })
+    }
+
+  /**
+    * Applies a function on the converted value, returning a `Try[A]`.
+    * If the function returns a `Success`, the type conversion will
+    * be considered successful. Returning a `Failure` means that
+    * the conversion failed.
+    *
+    * @param typeName the name of the type `A`
+    * @param f the function converting from `Value` to `Try[A]`
+    * @tparam A the type for which to convert the value to
+    * @return a new `ConfigReader[A]`
+    * @example {{{
+    * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456", "abc"))
+    * source: ConfigSource[Int] = ConfigSource(Argument)
+    *
+    * scala> val reader = ConfigReader.identity.mapTry("Int")(value => scala.util.Try(value.toInt))
+    * reader: ConfigReader[Int] = ConfigReader$$$$anon$$3@380729e4
+    *
+    * scala> reader.read(source.read(0))
+    * res0: Either[ConfigError,Int] = Right(123456)
+    *
+    * scala> reader.read(source.read(1))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, abc, Int, Argument, Some(java.lang.NumberFormatException: For input string: "abc")))
+    *
+    * scala> reader.read(source.read(2))
+    * res2: Either[ConfigError,Int] = Left(MissingKey(2, Argument))
+    * }}}
+    */
+  final def mapTry[A](typeName: String)(f: Value => Try[A]): ConfigReader[A] =
+    new ConfigReader[A] {
+      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+        self
+          .read(entry)
+          .fold(Left.apply, value => {
+            f(value) match {
+              case Success(a) => Right(a)
+              case Failure(cause) =>
+                Left(wrongType(entry.key, value, typeName, entry.keyType, Some(cause)))
+            }
+          })
+    }
+
+  /**
+    * Applies a function on the converted value to `A`, making sure to catch
+    * any non-fatal exceptions thrown by the function. The conversion will
+    * be considered successful only if the function does not throw an
+    * exception.
+    *
+    * @param typeName the name of the type `A`
+    * @param f the function converting from `Value` to `A`
+    * @tparam A the type for which to convert the value to
+    * @return a new `ConfigReader[A]`
+    * @example {{{
+    * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456", "abc"))
+    * source: ConfigSource[Int] = ConfigSource(Argument)
+    *
+    * scala> val reader = ConfigReader.identity.mapCatchNonFatal("Int")(_.toInt)
+    * reader: ConfigReader[Int] = ConfigReader$$$$anon$$3@17323c05
+    *
+    * scala> reader.read(source.read(0))
+    * res0: Either[ConfigError,Int] = Right(123456)
+    *
+    * scala> reader.read(source.read(1))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, abc, Int, Argument, Some(java.lang.NumberFormatException: For input string: "abc")))
+    *
+    * scala> reader.read(source.read(2))
+    * res2: Either[ConfigError,Int] = Left(MissingKey(2, Argument))
+    * }}}
+    */
+  final def mapCatchNonFatal[A](typeName: String)(f: Value => A): ConfigReader[A] =
+    mapTry(typeName)(value => Try(f(value)))
+
+  /**
+    * Applies a partial function on the converted value. The type conversion to
+    * `A` will only succeed for values which the partial function is defined.
+    *
+    * @param typeName the name of the type `A`
+    * @param f the partial function converting from `Value` to `A`
+    * @tparam A the type for which to convert the value to
+    * @return a new `ConfigReader[A]`
+    * @example {{{
+    * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456", "-123"))
+    * source: ConfigSource[Int] = ConfigSource(Argument)
+    *
+    * scala> val reader = ConfigReader.identity.collect("PosBigInt") { case s if s.forall(_.isDigit) => BigInt(s) }
+    * reader: ConfigReader[scala.math.BigInt] = ConfigReader$$$$anon$$2@727cfc59
+    *
+    * scala> reader.read(source.read(0))
+    * res0: Either[ConfigError,scala.math.BigInt] = Right(123456)
+    *
+    * scala> reader.read(source.read(1))
+    * res1: Either[ConfigError,scala.math.BigInt] = Left(WrongType(1, -123, PosBigInt, Argument, None))
+    *
+    * scala> reader.read(source.read(2))
+    * res2: Either[ConfigError,scala.math.BigInt] = Left(MissingKey(2, Argument))
+    * }}}
+    */
+  final def collect[A](typeName: String)(f: PartialFunction[Value, A]): ConfigReader[A] =
+    mapOption(typeName) {
+      case value if f.isDefinedAt(value) =>
+        Some(f(value))
+      case _ =>
+        None
     }
 
   /**
@@ -267,7 +371,7 @@ object ConfigReader extends ConfigReaders {
         entry.value.right.flatMap { value =>
           f(value) match {
             case Some(t) => Right(t)
-            case None => Left(wrongType(entry.key, value, typeName, entry.keyType))
+            case None    => Left(wrongType(entry.key, value, typeName, entry.keyType))
           }
         }
     }
@@ -302,6 +406,49 @@ object ConfigReader extends ConfigReaders {
         entry.value.right.flatMap { value =>
           f(value) match {
             case Success(a) => Right(a)
+            case Failure(cause) =>
+              Left(wrongType(entry.key, value, typeName, entry.keyType, Some(cause)))
+          }
+        }
+    }
+
+  /**
+    * Creates a new [[ConfigReader]] by applying a function in the case
+    * when a value was successfully read from the configuration source,
+    * returning a `Try[Option[A]]`. The conversion will only succeed
+    * if the function returns `Success[Some[A]]`.
+    *
+    * @param typeName the name of the type `A`
+    * @param f the function to apply on the value, returning `Try[Option[A]]`
+    * @tparam A the type to convert to
+    * @return a new `ConfigReader[A]`
+    * @example {{{
+    * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("1", "1234", "a"))
+    * source: ConfigSource[Int] = ConfigSource(Argument)
+    *
+    * scala> val reader = ConfigReader.fromTryOption("Int")(value => scala.util.Try(if(value.length < 4) Some(value.toInt) else None))
+    * reader: ConfigReader[Int] = ConfigReader$$$$anon$$9@7d20803b
+    *
+    * scala> reader.read(source.read(0))
+    * res0: Either[ConfigError,Int] = Right(1)
+    *
+    * scala> reader.read(source.read(1))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, 1234, Int, Argument, None))
+    *
+    * scala> reader.read(source.read(2))
+    * res2: Either[ConfigError,Int] = Left(WrongType(2, a, Int, Argument, Some(java.lang.NumberFormatException: For input string: "a")))
+    *
+    * scala> reader.read(source.read(3))
+    * res3: Either[ConfigError,Int] = Left(MissingKey(3, Argument))
+    * }}}
+    */
+  def fromTryOption[A](typeName: String)(f: String => Try[Option[A]]): ConfigReader[A] =
+    new ConfigReader[A] {
+      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+        entry.value.right.flatMap { value =>
+          f(value) match {
+            case Success(Some(value)) => Right(value)
+            case Success(None)        => Left(wrongType(entry.key, value, typeName, entry.keyType))
             case Failure(cause) =>
               Left(wrongType(entry.key, value, typeName, entry.keyType, Some(cause)))
           }
