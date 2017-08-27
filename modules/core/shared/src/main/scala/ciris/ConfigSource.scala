@@ -134,6 +134,33 @@ object ConfigSource {
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
+    * and entries with keys of type `Key`. If the same key appears more
+    * than once in the entries, the last one will be chosen to be
+    * included in the source.
+    *
+    * @param keyType the [[ConfigKeyType]] representing the key type and name
+    * @param entries the entries to be included in the source
+    * @tparam Key the type of keys which the source supports
+    * @return a new [[ConfigSource]] using the specified arguments
+    * @example {{{
+    * scala> val source = ConfigSource.fromEntries(ConfigKeyType.Argument)(0 -> "abc", 0 -> "def", 1 -> "ghi")
+    * source: ConfigSource[Int] = ConfigSource(Argument)
+    *
+    * scala> source.read(0)
+    * res0: ConfigSourceEntry[Int] = ConfigSourceEntry(0, Argument, Right(def))
+    *
+    * scala> source.read(1)
+    * res1: ConfigSourceEntry[Int] = ConfigSourceEntry(1, Argument, Right(ghi))
+    *
+    * scala> source.read(2)
+    * res2: ConfigSourceEntry[Int] = ConfigSourceEntry(2, Argument, Left(MissingKey(2, Argument)))
+    * }}}
+    */
+  def fromEntries[Key](keyType: ConfigKeyType[Key])(entries: (Key, String)*): ConfigSource[Key] =
+    ConfigSource.fromMap(keyType)(entries.toMap)
+
+  /**
+    * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
     * and read function, reading keys of the type `Key`, and returning
     * a value wrapped in a `Try`. The source will only successfully
     * read values for keys where the function returns `Success`.
