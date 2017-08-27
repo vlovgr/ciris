@@ -1,0 +1,14 @@
+### Changes
+* Add `ciris-spire` module for integration with [spire](https://github.com/non/spire). ([#35](https://github.com/vlovgr/ciris/pull/35))
+* Add `ConfigSource#empty` and `fromEntries`. ([#33](https://github.com/vlovgr/ciris/pull/33), [#35](https://github.com/vlovgr/ciris/pull/35))
+* Add `ConfigException` and `Either[ConfigErrors, T]#orThrow()` syntax. ([#34](https://github.com/vlovgr/ciris/pull/34))
+* Add `ConfigErrors#toException` for converting to `ConfigException`. ([#34](https://github.com/vlovgr/ciris/pull/34))
+* Add `ConfigReader#collect`, `mapTry`, `mapCatchNonFatal`, `fromTryOption`. ([#35](https://github.com/vlovgr/ciris/pull/35))
+
+### Updates
+* The try script now uses Ammonite 1.0.2. ([#35](https://github.com/vlovgr/ciris/pull/35))
+* Scala.js has been updated to 0.6.19. ([#32](https://github.com/vlovgr/ciris/pull/32))
+* Update to Scala 2.12.3. ([#32](https://github.com/vlovgr/ciris/pull/32))
+
+### Miscellaneous
+* Ciris is now a Typelevel incubator library. ([#31](https://github.com/vlovgr/ciris/pull/31))
