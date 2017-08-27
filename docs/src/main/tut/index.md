@@ -47,7 +47,7 @@ s"""
  |  "$organization" %% "$enumeratumModuleName" % "$latestVersion",
  |  "$organization" %% "$genericModuleName" % "$latestVersion",
  |  "$organization" %% "$refinedModuleName" % "$latestVersion",
- |  "$organization" %% "$spireModuleName" % "$latestVersion"
+ |  "$organization" %% "$spireModuleName" % "$latestVersion",
  |  "$organization" %% "$squantsModuleName" % "$latestVersion"
  |)
  """.stripMargin.trim

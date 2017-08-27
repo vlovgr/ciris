@@ -118,7 +118,7 @@ abstract class ConfigReader[Value] { self =>
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> val reader = ConfigReader.identity.mapTry("Int")(value => scala.util.Try(value.toInt))
-    * reader: ConfigReader[Int] = ConfigReader$$anon$3@380729e4
+    * reader: ConfigReader[Int] = ConfigReader$$$$anon$$3@380729e4
     *
     * scala> reader.read(source.read(0))
     * res0: Either[ConfigError,Int] = Right(123456)
@@ -159,7 +159,7 @@ abstract class ConfigReader[Value] { self =>
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> val reader = ConfigReader.identity.mapCatchNonFatal("Int")(_.toInt)
-    * reader: ConfigReader[Int] = ConfigReader$$anon$3@17323c05
+    * reader: ConfigReader[Int] = ConfigReader$$$$anon$$3@17323c05
     *
     * scala> reader.read(source.read(0))
     * res0: Either[ConfigError,Int] = Right(123456)
@@ -187,7 +187,7 @@ abstract class ConfigReader[Value] { self =>
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> val reader = ConfigReader.identity.collect("PosBigInt") { case s if s.forall(_.isDigit) => BigInt(s) }
-    * reader: ConfigReader[scala.math.BigInt] = ConfigReader$$anon$2@727cfc59
+    * reader: ConfigReader[scala.math.BigInt] = ConfigReader$$$$anon$$2@727cfc59
     *
     * scala> reader.read(source.read(0))
     * res0: Either[ConfigError,scala.math.BigInt] = Right(123456)
@@ -427,7 +427,7 @@ object ConfigReader extends ConfigReaders {
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> val reader = ConfigReader.fromTryOption("Int")(value => scala.util.Try(if(value.length == 3) Some(value.toInt) else None))
-    * reader: ConfigReader[Int] = ConfigReader$$anon$9@7d20803b
+    * reader: ConfigReader[Int] = ConfigReader$$$$anon$$9@7d20803b
     *
     * scala> reader.read(source.read(0))
     * res0: Either[ConfigError,Int] = Right(1)
