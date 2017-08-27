@@ -164,6 +164,43 @@ read[PosInt]("other")
 
 Refinement types are useful for making sure your configuration is valid. See the [Encoding Validation](/docs/validation) section for more information.
 
+## <a name="spire" href="#spire">Spire</a>
+The `ciris-spire` module adds support for loading [spire][spire] number types. For a complete list of support number types, refer to the [documentation](/api/ciris/spire). Let's see how we can load spire number types by first defining a custom configuration source.
+
+```tut:book:reset
+import spire.math._
+import ciris._
+import ciris.spire._
+
+implicit val source = {
+  val keyType = ConfigKeyType[String]("spire key")
+  ConfigSource.fromEntries(keyType)(
+    "natural" -> "847365894625891365137596378546725",
+    "interval" -> "(1/3, 524/51]",
+    "rational" -> "-194712/-129831",
+    "uint" -> (Int.MaxValue.toLong + 1L).toString
+  )
+}
+```
+
+We can then simply read values from the source using `read` and by specifying spire number types.
+
+```tut:book
+read[Natural]("natural")
+
+read[Interval[Rational]]("interval")
+
+read[Rational]("rational")
+
+read[Number]("natural")
+
+read[Real]("rational")
+
+read[Trilean]("trilean")
+
+read[UInt]("uint")
+```
+
 ## <a name="squants" href="#squants">Squants</a>
 The `ciris-squants` module allows loading values with unit of measure from [squants][squants]. For a complete list of supported dimensions, refer to the [documentation](/api/ciris/squants). Let's see how this works by first defining a configuration source with a few different keys mapping to `Time` values, each having a different unit of measure.
 
@@ -195,4 +232,5 @@ loadConfig(seconds, minutes, hours)(_ + _ + _).right.map(_.toMinutes)
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
 [shapeless]: https://github.com/milessabin/shapeless
+[spire]: https://github.com/non/spire
 [squants]: https://github.com/typelevel/squants
