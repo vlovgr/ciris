@@ -213,7 +213,7 @@ If you are looking for a getting started guide, with examples and explanations, 
       <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li class="current-entities indented1">
-                        <a class="object" href="" title=""></a>
+                        <a class="object" href="ConfigError$.html" title=""></a>
                         <a class="class" href="ConfigError.html" title="A class representing one or more errors that occurred while reading
 a single ConfigValue configuration value."></a>
                         <a href="ConfigError.html" title="A class representing one or more errors that occurred while reading
@@ -230,8 +230,8 @@ while reading one or more ConfigValue configuration values.">
                         </a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigException$.html" title=""></a>
-                        <a class="class" href="ConfigException.html" title="A Throwable representation of ConfigErrors."></a>
-                        <a href="ConfigException.html" title="A Throwable representation of ConfigErrors.">
+                        <a class="class" href="" title="A Throwable representation of ConfigErrors."></a>
+                        <a href="" title="A Throwable representation of ConfigErrors.">
                           ConfigException
                         </a>
                       </li><li class="current-entities indented1">
@@ -287,36 +287,41 @@ to the specified type Value using a ConfigReader.">
             </div>
           </div>
           <div id="content">
-            <body class="object value">
+            <body class="class type">
       <div id="definition">
-        <a href="ConfigError.html" title="See companion class"><div class="big-circle object-companion-class">o</div></a>
+        <a href="ConfigException$.html" title="See companion object"><div class="big-circle class-companion-object">c</div></a>
         <p id="owner"><a href="index.html" class="extype" name="ciris">ciris</a></p>
-        <h1><a href="ConfigError.html" title="See companion class">ConfigError</a><span class="permalink">
-      <a href="../ciris/ConfigError$.html" title="Permalink">
+        <h1><a href="ConfigException$.html" title="See companion object">ConfigException</a><span class="permalink">
+      <a href="../ciris/ConfigException.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
         <h3><span class="morelinks"><div>
-            Companion <a href="ConfigError.html" title="See companion class">class ConfigError</a>
+            Companion <a href="ConfigException$.html" title="See companion object">object ConfigException</a>
           </div></span></h3>
       </div>
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">ConfigError</span>
+        <span class="name">ConfigException</span><span class="result"> extends <span class="extype" name="scala.Throwable">Throwable</span></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.4.1/modules/core/shared/src/main/scala/ciris/ConfigError.scala" target="_blank">ConfigError.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A <code>Throwable</code> representation of <a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a>. Useful in cases
+where it's desirable to have failed configuration loading halt
+program execution - typically during application startup.<br>
+<br>
+There's a quick way to convert <a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a> to an exception.</p><pre>scala&gt; ConfigErrors(ConfigError(<span class="lit">"error1"</span>)).toException
+res0: ConfigException = ConfigException(ConfigError(error1))</pre></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.4.1/modules/core/shared/src/main/scala/ciris/ConfigException.scala" target="_blank">ConfigException.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="java.lang.Throwable">Throwable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -342,7 +347,7 @@ to the specified type Value using a ConfigReader.">
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="ciris.ConfigError"><span>ConfigError</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="ciris.ConfigException"><span>ConfigException</span></li><li class="in" name="java.lang.Throwable"><span>Throwable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -372,7 +377,7 @@ to the specified type Value using a ConfigReader.">
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../ciris/ConfigException.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -388,7 +393,7 @@ to the specified type Value using a ConfigReader.">
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html###():Int" title="Permalink">
+      <a href="../ciris/ConfigException.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -404,7 +409,7 @@ to the specified type Value using a ConfigReader.">
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../ciris/ConfigException.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -417,31 +422,26 @@ to the specified type Value using a ConfigReader.">
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="ciris.ConfigError#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(message:=&gt;String):ciris.ConfigError"></a><a id="apply(⇒String):ConfigError"></a>
+    </li><li name="java.lang.Throwable#addSuppressed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addSuppressed(x$1:Throwable):Unit"></a><a id="addSuppressed(Throwable):Unit"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#apply(message:=&gt;String):ciris.ConfigError" title="Permalink">
+      <a href="../ciris/ConfigException.html#addSuppressed(x$1:Throwable):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="message">message: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
+        <span class="name">addSuppressed</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.3/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
-      <p class="shortcomment cmt">Creates a new <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> with the specified message.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> with the specified message.
-</p></div><dl class="paramcmts block"><dt class="param">message</dt><dd class="cmt"><p>the message to use for the <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> with the specified message</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; ConfigError(<span class="lit">"error1"</span>)
-res0: ConfigError = ConfigError(error1)</pre></li></ol>
-            </div><dt>Note</dt><dd><span class="cmt"><p>note that the message is passed by reference, meaning it will not
-      be evaluated until the <a href="ConfigError.html#message:String" class="extmbr" name="ciris.ConfigError#message">ConfigError#message</a> method is invoked.</p></span></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../ciris/ConfigException.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -457,7 +457,7 @@ res0: ConfigError = ConfigError(error1)</pre></li></ol>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#clone():Object" title="Permalink">
+      <a href="../ciris/ConfigException.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -476,32 +476,10 @@ res0: ConfigError = ConfigError(error1)</pre></li></ol>
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="ciris.ConfigError#combined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="combined(first:ciris.ConfigError,second:ciris.ConfigError,rest:ciris.ConfigError*):ciris.ConfigError"></a><a id="combined(ConfigError,ConfigError,ConfigError*):ConfigError"></a>
-      <span class="permalink">
-      <a href="../ciris/ConfigError$.html#combined(first:ciris.ConfigError,second:ciris.ConfigError,rest:ciris.ConfigError*):ciris.ConfigError" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">combined</span><span class="params">(<span name="first">first: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>, <span name="second">second: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>, <span name="rest">rest: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>*</span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
-      </span>
-      
-      <p class="shortcomment cmt">Combines two or more <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s into a single <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Combines two or more <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s into a single <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>.
-This is useful when there is more than one error when reading a value.
-</p></div><dl class="paramcmts block"><dt class="param">first</dt><dd class="cmt"><p>the first <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> to combine</p></dd><dt class="param">second</dt><dd class="cmt"><p>the second <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> to combine</p></dd><dt class="param">rest</dt><dd class="cmt"><p>any remaining <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s to combine</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> combining all specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s</p></dd></dl><dl class="attributes block"> <div class="block">Examples:
-               <ol><li class="cmt"><p>you can use the <a href="ConfigError.html#combine(that:ciris.ConfigError):ciris.ConfigError" class="extmbr" name="ciris.ConfigError#combine">ConfigError#combine</a> method.</p><pre>scala&gt; ConfigError(<span class="lit">"error1"</span>) combine ConfigError(<span class="lit">"error2"</span>)
-res1: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</pre></li>, <li class="cmt"><p>you can use the <a href="#combined(first:ciris.ConfigError,second:ciris.ConfigError,rest:ciris.ConfigError*):ciris.ConfigError" class="extmbr" name="ciris.ConfigError#combined">ConfigError#combined</a> method.</p><pre>scala&gt; ConfigError.combined(ConfigError(<span class="lit">"error1"</span>), ConfigError(<span class="lit">"error2"</span>))
-res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</pre></li></ol>
-            </div></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../ciris/ConfigException.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -517,7 +495,7 @@ res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</
     </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#equals(x$1:Any):Boolean" title="Permalink">
+      <a href="../ciris/ConfigException.html#equals(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -530,10 +508,42 @@ res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="ciris.ConfigException#errors" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="errors:ciris.ConfigErrors"></a><a id="errors:ConfigErrors"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#errors:ciris.ConfigErrors" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">errors</span><span class="result">: <a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a></span>
+      </span>
+      
+      
+    </li><li name="java.lang.Throwable#fillInStackTrace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fillInStackTrace():Throwable"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#fillInStackTrace():Throwable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fillInStackTrace</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#finalize():Unit" title="Permalink">
+      <a href="../ciris/ConfigException.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -552,10 +562,26 @@ res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="java.lang.Throwable#getCause" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getCause():Throwable"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#getCause():Throwable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getCause</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#getClass():Class[_]" title="Permalink">
+      <a href="../ciris/ConfigException.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -568,10 +594,74 @@ res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="java.lang.Throwable#getLocalizedMessage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getLocalizedMessage():String"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#getLocalizedMessage():String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getLocalizedMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#getMessage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getMessage():String"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#getMessage():String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMessage</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#getStackTrace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getStackTrace():Array[StackTraceElement]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#getStackTrace():Array[StackTraceElement]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.3/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#getSuppressed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getSuppressed():Array[Throwable]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#getSuppressed():Array[Throwable]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSuppressed</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.3/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="java.lang.Throwable">Throwable</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#hashCode():Int" title="Permalink">
+      <a href="../ciris/ConfigException.html#hashCode():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -584,10 +674,26 @@ res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="java.lang.Throwable#initCause" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="initCause(x$1:Throwable):Throwable"></a><a id="initCause(Throwable):Throwable"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#initCause(x$1:Throwable):Throwable" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initCause</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.lang.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="java.lang.Throwable">Throwable</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../ciris/ConfigException.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -600,36 +706,10 @@ res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="ciris.ConfigError#missingKey" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="missingKey[Key](key:Key,keyType:ciris.ConfigKeyType[Key]):ciris.ConfigError"></a><a id="missingKey[Key](Key,ConfigKeyType[Key]):ConfigError"></a>
-      <span class="permalink">
-      <a href="../ciris/ConfigError$.html#missingKey[Key](key:Key,keyType:ciris.ConfigKeyType[Key]):ciris.ConfigError" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">missingKey</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.missingKey.Key">Key</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.missingKey.Key">Key</span>]</span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates a new error representing the fact that a key is missing from the
-configuration source, that is, that there is no value for a specified key.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new error representing the fact that a key is missing from the
-configuration source, that is, that there is no value for a specified key.
-Accepts a key value of type <code>Key</code> and a matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key which is missing from the configuration source</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the type of keys the configuration source reads</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified key and key type</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError.missingKey(<span class="lit">"key"</span>, ConfigKeyType.Environment)
-error: ConfigError = MissingKey(key, Environment)
-
-scala&gt; error.message
-res0: <span class="std">String</span> = Missing environment variable [key]</pre></li></ol>
-            </div></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../ciris/ConfigException.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -645,7 +725,7 @@ res0: <span class="std">String</span> = Missing environment variable [key]</pre>
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#notify():Unit" title="Permalink">
+      <a href="../ciris/ConfigException.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -661,7 +741,7 @@ res0: <span class="std">String</span> = Missing environment variable [key]</pre>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#notifyAll():Unit" title="Permalink">
+      <a href="../ciris/ConfigException.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -674,10 +754,10 @@ res0: <span class="std">String</span> = Missing environment variable [key]</pre>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="ciris.ConfigError#readException" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readException[Key](key:Key,keyType:ciris.ConfigKeyType[Key],cause:Throwable):ciris.ConfigError"></a><a id="readException[Key](Key,ConfigKeyType[Key],Throwable):ConfigError"></a>
+    </li><li name="java.lang.Throwable#printStackTrace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="printStackTrace(x$1:java.io.PrintWriter):Unit"></a><a id="printStackTrace(PrintWriter):Unit"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#readException[Key](key:Key,keyType:ciris.ConfigKeyType[Key],cause:Throwable):ciris.ConfigError" title="Permalink">
+      <a href="../ciris/ConfigException.html#printStackTrace(x$1:java.io.PrintWriter):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -686,24 +766,62 @@ res0: <span class="std">String</span> = Missing environment variable [key]</pre>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">readException</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.readException.Key">Key</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.readException.Key">Key</span>]</span>, <span name="cause">cause: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
+        <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintWriter">PrintWriter</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.3/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
-      <p class="shortcomment cmt">Creates a new error representing the fact that there was an exception while
-reading a key from a configuration source.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new error representing the fact that there was an exception while
-reading a key from a configuration source. Accepts a key value of type
-<code>Key</code>, a matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>, and the <code>Throwable</code> cause.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key for which there was a read exception</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the type of keys the configuration source reads</p></dd><dt class="param">cause</dt><dd class="cmt"><p>the reason why there was an exception while reading</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError.readException(<span class="lit">"key"</span>, ConfigKeyType.Environment, <span class="kw">new</span> Error(<span class="lit">"error"</span>))
-error: ConfigError = ReadException(key, Environment, java.lang.Error: error)
-
-scala&gt; error.message
-res0: <span class="std">String</span> = Exception <span class="kw">while</span> reading environment variable [key]: java.lang.Error: error</pre></li></ol>
-            </div></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#printStackTrace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="printStackTrace(x$1:java.io.PrintStream):Unit"></a><a id="printStackTrace(PrintStream):Unit"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#printStackTrace(x$1:java.io.PrintStream):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">printStackTrace</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="java.io.PrintStream">PrintStream</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.3/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#printStackTrace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="printStackTrace():Unit"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#printStackTrace():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">printStackTrace</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.3/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
+    </li><li name="java.lang.Throwable#setStackTrace" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setStackTrace(x$1:Array[StackTraceElement]):Unit"></a><a id="setStackTrace(Array[StackTraceElement]):Unit"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigException.html#setStackTrace(x$1:Array[StackTraceElement]):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setStackTrace</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.3/scala/Array.html#scala.Array" class="extype" name="scala.Array">Array</a>[<span class="extype" name="java.lang.StackTraceElement">StackTraceElement</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.3/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Throwable</dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../ciris/ConfigException.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -716,10 +834,10 @@ res0: <span class="std">String</span> = Exception <span class="kw">while</span> 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="ciris.ConfigException#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#toString():String" title="Permalink">
+      <a href="../ciris/ConfigException.html#toString():String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -728,14 +846,14 @@ res0: <span class="std">String</span> = Exception <span class="kw">while</span> 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="ciris.ConfigException">ConfigException</a> → Throwable → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#wait():Unit" title="Permalink">
+      <a href="../ciris/ConfigException.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -757,7 +875,7 @@ res0: <span class="std">String</span> = Exception <span class="kw">while</span> 
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../ciris/ConfigException.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -779,7 +897,7 @@ res0: <span class="std">String</span> = Exception <span class="kw">while</span> 
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../ciris/ConfigException.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -798,33 +916,6 @@ res0: <span class="std">String</span> = Exception <span class="kw">while</span> 
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="ciris.ConfigError#wrongType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wrongType[Key,Value,Cause](key:Key,value:Value,typeName:String,keyType:ciris.ConfigKeyType[Key],cause:Option[Cause]):ciris.ConfigError"></a><a id="wrongType[Key,Value,Cause](Key,Value,String,ConfigKeyType[Key],Option[Cause]):ConfigError"></a>
-      <span class="permalink">
-      <a href="../ciris/ConfigError$.html#wrongType[Key,Value,Cause](key:Key,value:Value,typeName:String,keyType:ciris.ConfigKeyType[Key],cause:Option[Cause]):ciris.ConfigError" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wrongType</span><span class="tparams">[<span name="Key">Key</span>, <span name="Value">Value</span>, <span name="Cause">Cause</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.wrongType.Key">Key</span></span>, <span name="value">value: <span class="extype" name="ciris.ConfigError.wrongType.Value">Value</span></span>, <span name="typeName">typeName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.wrongType.Key">Key</span>]</span>, <span name="cause">cause: <a href="http://www.scala-lang.org/api/2.12.3/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigError.wrongType.Cause">Cause</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates a new error representing the fact that there was an error while trying to
-convert a configuration value to a type with name <code>typeName</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new error representing the fact that there was an error while trying to
-convert a configuration value to a type with name <code>typeName</code>. Accepts a key of type
-<code>Key</code>, a matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>, a value of type <code>Value</code>, the name of the type
-for which conversion was attempted, and an optional cause of type <code>Cause</code>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="tparam">Value</dt><dd class="cmt"><p>the type of the value</p></dd><dt class="tparam">Cause</dt><dd class="cmt"><p>the type of the cause</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key for which the value was of the wrong type</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value which could not be converted to the expected type</p></dd><dt class="param">typeName</dt><dd class="cmt"><p>the name of the type for which conversion was attempted</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the type of keys the configuration source reads</p></dd><dt class="param">cause</dt><dd class="cmt"><p>optionally, the reason why the conversion failed</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError.wrongType(<span class="lit">"key"</span>, <span class="num">1.5</span>, <span class="lit">"Int"</span>, ConfigKeyType.Environment)
-error: ConfigError = WrongType(key, <span class="num">1.5</span>, <span class="std">Int</span>, Environment, <span class="std">None</span>)
-
-scala&gt; error.message
-res0: <span class="std">String</span> = Environment variable [key] <span class="kw">with</span> value [<span class="num">1.5</span>] cannot be converted to <span class="kw">type</span> [<span class="std">Int</span>]</pre></li></ol>
-            </div></dl></div>
     </li>
               </ol>
             </div>
@@ -835,7 +926,11 @@ res0: <span class="std">String</span> = Environment variable [key] <span class="
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="java.lang.Throwable">
+              <h3>Inherited from <span class="extype" name="java.lang.Throwable">Throwable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

@@ -201,6 +201,56 @@ ga('send', 'pageview');
 
 <p>Refinement types are useful for making sure your configuration is valid. See the <a href="/docs/validation">Encoding Validation</a> section for more information.</p>
 
+<h2 id="spire"><a name="spire" href="#spire">Spire</a></h2>
+<p>The <code class="highlighter-rouge">ciris-spire</code> module adds support for loading <a href="https://github.com/non/spire">spire</a> number types. For a complete list of support number types, refer to the <a href="/api/ciris/spire">documentation</a>. Let’s see how we can load spire number types by first defining a custom configuration source.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spire.math._</span>
+<span class="c1">// import spire.math._
+</span>
+<span class="k">import</span> <span class="nn">ciris._</span>
+<span class="c1">// import ciris._
+</span>
+<span class="k">import</span> <span class="nn">ciris.spire._</span>
+<span class="c1">// import ciris.spire._
+</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"spire key"</span><span class="o">)</span>
+  <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromEntries</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span>
+    <span class="s">"natural"</span> <span class="o">-&gt;</span> <span class="s">"847365894625891365137596378546725"</span><span class="o">,</span>
+    <span class="s">"interval"</span> <span class="o">-&gt;</span> <span class="s">"(1/3, 524/51]"</span><span class="o">,</span>
+    <span class="s">"rational"</span> <span class="o">-&gt;</span> <span class="s">"-194712/-129831"</span><span class="o">,</span>
+    <span class="s">"uint"</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="nc">Int</span><span class="o">.</span><span class="nc">MaxValue</span><span class="o">.</span><span class="n">toLong</span> <span class="o">+</span> <span class="mi">1L</span><span class="o">).</span><span class="n">toString</span>
+  <span class="o">)</span>
+<span class="o">}</span>
+<span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(spire key))
+</span></code></pre>
+</div>
+
+<p>We can then simply read values from the source using <code class="highlighter-rouge">read</code> and by specifying spire number types.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">Natural</span><span class="o">](</span><span class="s">"natural"</span><span class="o">)</span>
+<span class="c1">// res0: ciris.ConfigValue[spire.math.Natural] = ConfigValue(Right(847365894625891365137596378546725))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">Interval</span><span class="o">[</span><span class="kt">Rational</span><span class="o">]](</span><span class="s">"interval"</span><span class="o">)</span>
+<span class="c1">// res1: ciris.ConfigValue[spire.math.Interval[spire.math.Rational]] = ConfigValue(Right((1/3, 524/51]))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">Rational</span><span class="o">](</span><span class="s">"rational"</span><span class="o">)</span>
+<span class="c1">// res2: ciris.ConfigValue[spire.math.Rational] = ConfigValue(Right(64904/43277))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">Number</span><span class="o">](</span><span class="s">"natural"</span><span class="o">)</span>
+<span class="c1">// res3: ciris.ConfigValue[spire.math.Number] = ConfigValue(Right(847365894625891365137596378546725))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">Real</span><span class="o">](</span><span class="s">"rational"</span><span class="o">)</span>
+<span class="c1">// res4: ciris.ConfigValue[spire.math.Real] = ConfigValue(Right(64904/43277))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">Trilean</span><span class="o">](</span><span class="s">"trilean"</span><span class="o">)</span>
+<span class="c1">// res5: ciris.ConfigValue[spire.math.Trilean] = ConfigValue(Right(unknown))
+</span>
+<span class="n">read</span><span class="o">[</span><span class="kt">UInt</span><span class="o">](</span><span class="s">"uint"</span><span class="o">)</span>
+<span class="c1">// res6: ciris.ConfigValue[spire.math.UInt] = ConfigValue(Right(2147483648))
+</span></code></pre>
+</div>
+
 <h2 id="squants"><a name="squants" href="#squants">Squants</a></h2>
 <p>The <code class="highlighter-rouge">ciris-squants</code> module allows loading values with unit of measure from <a href="https://github.com/typelevel/squants">squants</a>. For a complete list of supported dimensions, refer to the <a href="/api/ciris/squants">documentation</a>. Let’s see how this works by first defining a configuration source with a few different keys mapping to <code class="highlighter-rouge">Time</code> values, each having a different unit of measure.</p>
 
