@@ -12,3 +12,5 @@
 
 ### Miscellaneous
 * Ciris is now a Typelevel incubator library. ([#31](https://github.com/vlovgr/ciris/pull/31))
+
+Released on 2017-08-28.
