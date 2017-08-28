@@ -26,11 +26,12 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 ```
 // Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.4.0",
-  "is.cir" %% "ciris-enumeratum" % "0.4.0",
-  "is.cir" %% "ciris-generic" % "0.4.0",
-  "is.cir" %% "ciris-refined" % "0.4.0",
-  "is.cir" %% "ciris-squants" % "0.4.0"
+  "is.cir" %% "ciris-core" % "0.4.1",
+  "is.cir" %% "ciris-enumeratum" % "0.4.1",
+  "is.cir" %% "ciris-generic" % "0.4.1",
+  "is.cir" %% "ciris-refined" % "0.4.1",
+  "is.cir" %% "ciris-spire" % "0.4.1",
+  "is.cir" %% "ciris-squants" % "0.4.1"
 )
 ```
 
@@ -43,6 +44,7 @@ For an explanation of how to use the modules, see the [Modules Overview](https:/
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
+- The `ciris-spire` module allows loading [spire][spire] number types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
 
 If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
@@ -63,11 +65,12 @@ You will need to have a JDK installed. The [script](https://try.cir.is) will the
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```
-import $ivy.`is.cir::ciris-core:0.4.0`, ciris._
-import $ivy.`is.cir::ciris-enumeratum:0.4.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.4.0`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.4.0`, ciris.refined._
-import $ivy.`is.cir::ciris-squants:0.4.0`, ciris.squants._
+import $ivy.`is.cir::ciris-core:0.4.1`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.4.1`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.4.1`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.4.1`, ciris.refined._
+import $ivy.`is.cir::ciris-spire:0.4.1`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.4.1`, ciris.squants._
 ```
 
 ### Motivation
@@ -90,6 +93,7 @@ Ciris is available under the MIT license, available at [https://opensource.org/l
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
 [shapeless]: https://github.com/milessabin/shapeless
+[spire]: https://github.com/non/spire
 [squants]: https://github.com/typelevel/squants
 [sbt]: http://www.scala-sbt.org
 [scala]: http://www.scala-lang.org
