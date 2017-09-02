@@ -1,4 +1,4 @@
-[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](http://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
+[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
 
 ## Ciris
 Lightweight, extensible, and validated configuration loading in [Scala][scala] and [Scala.js][scalajs].  
@@ -13,11 +13,18 @@ Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https:
 Ciris is a new project under active development. Feedback and contributions are welcome.
 
 ### Introduction
-Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined] and [squants][squants] to support even more types. Configurations are typically modeled as case class hierarchies, but you are free to choose the model you see fit.
+Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined], [spire][spire], and [squants][squants].
 
 Ciris is intended as an alternative to configuration files, and libraries like [Typesafe Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
 
-You can read more about the reasons behind Ciris in the [Motivation](#motivation) section.
+The presentation below introduces Ciris and covers configurations with refined types.  
+The blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) provides more details on the topic.
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=C3ciegxMAqA">
+    <img src="https://i.imgur.com/OaCPYsv.png"/>
+  </a>
+</p>
 
 ### Getting Started
 To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.  
