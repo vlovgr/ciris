@@ -45,6 +45,29 @@ sealed abstract class ConfigValue[Value] {
 object ConfigValue {
 
   /**
+    * Creates a new [[ConfigValue]] from the specified value, which is
+    * the result of having read some configuration value from a source
+    * and converted it to type `Value`.
+    *
+    * @param value the read configuration value or a [[ConfigError]]
+    * @tparam Value the type of the value
+    * @return a new [[ConfigValue]] with the specified value
+    * @example {{{
+    * scala> ConfigValue[Int](Left(ConfigError("error")))
+    * res0: ConfigValue[Int] = ConfigValue(Left(ConfigError(error)))
+    *
+    * scala> ConfigValue(Right(123))
+    * res1: ConfigValue[Int] = ConfigValue(Right(123))
+    * }}}
+    */
+  def apply[Value](value: Either[ConfigError, Value]): ConfigValue[Value] = {
+    val _value = value
+    new ConfigValue[Value] {
+      override val value: Either[ConfigError, Value] = _value
+    }
+  }
+
+  /**
     * Creates a new [[ConfigValue]] by reading the specified key from
     * the configuration source, converting the value to type `Value`
     * using the specified [[ConfigReader]].
@@ -63,12 +86,8 @@ object ConfigValue {
   def apply[Key, Value](key: Key)(
     source: ConfigSource[Key],
     reader: ConfigReader[Value]
-  ): ConfigValue[Value] = {
-    new ConfigValue[Value] {
-      override def value: Either[ConfigError, Value] =
-        reader.read[Key](source.read(key))
-    }
-  }
+  ): ConfigValue[Value] =
+    ConfigValue(reader.read[Key](source.read(key)))
 
   /**
     * Partial type application of [[ConfigValue]] by first fixing
