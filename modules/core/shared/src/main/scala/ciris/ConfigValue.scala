@@ -63,12 +63,12 @@ sealed abstract class ConfigValue[Value] {
     * }}}
     */
   final def orElse[A >: Value](that: => ConfigValue[A]): ConfigValue[A] =
-    ConfigValue(value.fold(error => {
+    ConfigValue(value.fold(thisError => {
       that.value.fold(
-        nextError => Left(error combine nextError),
-        nextValue => Right(nextValue)
+        thatError => Left(thisError combine thatError),
+        thatValue => Right(thatValue)
       )
-    }, value => Right(value)))
+    }, thisValue => Right(thisValue)))
 
   private[ciris] def append[A](next: ConfigValue[A]): ConfigValue2[Value, A] = {
     (value, next.value) match {
@@ -124,8 +124,9 @@ object ConfigValue {
   def apply[Key, Value](key: Key)(
     source: ConfigSource[Key],
     reader: ConfigReader[Value]
-  ): ConfigValue[Value] =
+  ): ConfigValue[Value] = {
     ConfigValue(reader.read[Key](source.read(key)))
+  }
 
   /**
     * Partial type application of [[ConfigValue]] by first fixing
