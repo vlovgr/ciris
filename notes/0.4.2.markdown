@@ -3,5 +3,5 @@
 * Add `ConfigValue#apply` for creating a `ConfigValue` from an `Either[ConfigError, T]`. ([#37](https://github.com/vlovgr/ciris/pull/37))
 
 ### Updates
-* Update refined to 0.8.3. ([#40](https://github.com/vlovgr/ciris/pull/40))
+* Update refined to 0.8.4. ([#41](https://github.com/vlovgr/ciris/pull/41))
 * Update Scala.js to 0.6.20. ([#40](https://github.com/vlovgr/ciris/pull/40))
