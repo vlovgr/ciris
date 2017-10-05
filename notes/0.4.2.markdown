@@ -5,3 +5,5 @@
 ### Updates
 * Update refined to 0.8.4. ([#41](https://github.com/vlovgr/ciris/pull/41))
 * Update Scala.js to 0.6.20. ([#40](https://github.com/vlovgr/ciris/pull/40))
+
+Released on 2017-10-05.
