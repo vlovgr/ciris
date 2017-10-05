@@ -59,7 +59,7 @@ lazy val genericJVM = generic.jvm
 lazy val refined = crossProject
   .in(file("modules/refined"))
   .settings(moduleName := "ciris-refined", name := "Ciris refined")
-  .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.2")
+  .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.3")
   .settings(scalaSettings)
   .settings(testSettings)
   .jsSettings(jsTestSettings)
@@ -302,7 +302,7 @@ lazy val testSettings = Seq(
   scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
   doctestTestFramework := DoctestTestFramework.ScalaTest,
   libraryDependencies ++= Seq(
-    "org.scalatest" %%% "scalatest" % "3.0.3" % Test,
+    "org.scalatest" %%% "scalatest" % "3.0.4" % Test,
     "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
   )
 )
