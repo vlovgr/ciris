@@ -36,6 +36,31 @@ sealed abstract class ConfigValue[Value] {
     s"ConfigValue($value)"
 
   /**
+    * Returns a new [[ConfigValue]] with the value transformed using
+    * the provided function. If there is no value, due to an error,
+    * returns a [[ConfigValue]] with the error instead.
+    *
+    * @param f a function with which to transform the value
+    * @tparam A the type of value the provided function returns
+    * @return a new [[ConfigValue]] with the transformed value
+    */
+  final def map[A](f: Value => A): ConfigValue[A] =
+    ConfigValue(value.right.map(f))
+
+  /**
+    * Returns a new [[ConfigValue]] from the existing value of this
+    * [[ConfigValue]] and by applying the function `f`. If there is
+    * no value, due to an error, returns a [[ConfigValue]] with the
+    * error instead.
+    *
+    * @param f a function from which to create a new [[ConfigValue]]
+    * @tparam A the type of value for the new [[ConfigValue]]
+    * @return a new [[ConfigValue]] from the provided function
+    */
+  final def flatMap[A](f: Value => Either[ConfigError, A]): ConfigValue[A] =
+    ConfigValue(value.right.flatMap(f))
+
+  /**
     * If `this` configuration value was read successfully, uses `this`
     * value, otherwise uses the configuration value of `that`. If an
     * error occurred for both configuration values, their errors
@@ -72,9 +97,9 @@ sealed abstract class ConfigValue[Value] {
 
   private[ciris] def append[A](next: ConfigValue[A]): ConfigValue2[Value, A] = {
     (value, next.value) match {
-      case (Right(a), Right(b)) => new ConfigValue2(Right((a, b)))
-      case (Left(error1), Right(_)) => new ConfigValue2(Left(ConfigErrors(error1)))
-      case (Right(_), Left(error2)) => new ConfigValue2(Left(ConfigErrors(error2)))
+      case (Right(a), Right(b))         => new ConfigValue2(Right((a, b)))
+      case (Left(error1), Right(_))     => new ConfigValue2(Left(ConfigErrors(error1)))
+      case (Right(_), Left(error2))     => new ConfigValue2(Left(ConfigErrors(error2)))
       case (Left(error1), Left(error2)) => new ConfigValue2(Left(error1 append error2))
     }
   }
