@@ -66,14 +66,14 @@
       </span>
       <span class="symbol">
         <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala.
-The documentation is kept up-to-date with new releases, currently documenting release v0.4.1 on Scala 2.12." href="../index.html">
+The documentation is kept up-to-date with new releases, currently documenting release v0.4.2 on Scala 2.12." href="../index.html">
               <span class="name">root</span>
             </a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.4.1" target="_blank">v0.4.1</a> on Scala 2.12.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.4.1" target="_blank">v0.4.1</a> on Scala 2.12.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.4.2" target="_blank">v0.4.2</a> on Scala 2.12.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.4.2" target="_blank">v0.4.2</a> on Scala 2.12.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -317,9 +317,12 @@ to the specified type <code>Value</code> using a <a href="ConfigReader.html" cla
 a thin wrapper around an <code>Either[ConfigError, Value]</code> value to
 support error accumulation.</p><p>To create a <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>, you typically use methods like <a href="index.html#env[Value](key:String)(implicitevidence$1:ciris.ConfigReader[Value]):ciris.ConfigValue[Value]" class="extmbr" name="ciris#env">env</a>,
 <a href="index.html#prop[Value](key:String)(implicitevidence$2:ciris.ConfigReader[Value]):ciris.ConfigValue[Value]" class="extmbr" name="ciris#prop">prop</a>, or <a href="index.html#read[Value]:ciris.ConfigValue.PartiallyApplied[Value]" class="extmbr" name="ciris#read">read</a>, but if you need to write a similar method for
-a custom configuration source, use the <a href="ConfigValue$.html#apply[Key,Value](key:Key)(source:ciris.ConfigSource[Key],reader:ciris.ConfigReader[Value]):ciris.ConfigValue[Value]" class="extmbr" name="ciris.ConfigValue#apply">ConfigValue#apply</a> method,
-requiring a <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> and <a href="ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>.</p><pre>scala&gt; ConfigValue(<span class="lit">"key"</span>)(ConfigSource.Properties, ConfigReader[<span class="std">String</span>])
-res0: ConfigValue[<span class="std">String</span>] = ConfigValue(Left(MissingKey(key, Property)))</pre></div><dl class="paramcmts block"><dt class="tparam">Value</dt><dd class="cmt"><p>the type of the value</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.4.1/modules/core/shared/src/main/scala/ciris/ConfigValue.scala" target="_blank">ConfigValue.scala</a></dd></dl><div class="toggleContainer block">
+a custom configuration source, you can use the functions provided in
+the companion object.</p><pre>scala&gt; ConfigValue(<span class="lit">"key"</span>)(ConfigSource.Properties, ConfigReader[<span class="std">String</span>])
+res0: ConfigValue[<span class="std">String</span>] = ConfigValue(Left(MissingKey(key, Property)))
+
+scala&gt; ConfigValue(Right(<span class="num">123</span>))
+res1: ConfigValue[<span class="std">Int</span>] = ConfigValue(Right(<span class="num">123</span>))</pre></div><dl class="paramcmts block"><dt class="tparam">Value</dt><dd class="cmt"><p>the type of the value</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.4.2/modules/core/shared/src/main/scala/ciris/ConfigValue.scala" target="_blank">ConfigValue.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -636,6 +639,41 @@ there was an error when converting to type <code>Value</code>.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="ciris.ConfigValue#orElse" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="orElse[A&gt;:Value](that:=&gt;ciris.ConfigValue[A]):ciris.ConfigValue[A]"></a><a id="orElse[A&gt;:Value](⇒ConfigValue[A]):ConfigValue[A]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigValue.html#orElse[A&gt;:Value](that:=&gt;ciris.ConfigValue[A]):ciris.ConfigValue[A]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">orElse</span><span class="tparams">[<span name="A">A &gt;: <span class="extype" name="ciris.ConfigValue.Value">Value</span></span>]</span><span class="params">(<span name="that">that: ⇒ <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.orElse.A">A</span>]</span>)</span><span class="result">: <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.orElse.A">A</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">If <code>this</code> configuration value was read successfully, uses <code>this</code>
+value, otherwise uses the configuration value of <code>that</code>.</p><div class="fullcomment"><div class="comment cmt"><p>If <code>this</code> configuration value was read successfully, uses <code>this</code>
+value, otherwise uses the configuration value of <code>that</code>. If an
+error occurred for both configuration values, their errors
+will be accumulated.</p><p>Note that the provided <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> will only be evaluated
+if <code>this</code> configuration value is an error. This allows you to
+chain configuration values like in the following example.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of <code>that</code> <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> to use</p></dd><dt class="param">that</dt><dd class="cmt"><p>the <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> to use if <code>this</code> value is an error</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error =
+     |  ConfigValue[<span class="std">Int</span>](Left(ConfigError(<span class="lit">"error1"</span>))).
+     |    orElse(ConfigValue(Left(ConfigError(<span class="lit">"error2"</span>))))
+error: ConfigValue[<span class="std">Int</span>] = ConfigValue(Left(Combined(Vector(ConfigError(error1), ConfigError(error2)))))
+
+scala&gt; error.value.left.map(_.message).toString
+res0: <span class="std">String</span> = Left(error1, error2)
+
+scala&gt; ConfigValue[<span class="std">Int</span>](Left(ConfigError(<span class="lit">"error1"</span>))).
+     |   orElse(ConfigValue(Right(<span class="num">123</span>)))
+res1: ConfigValue[<span class="std">Int</span>] = ConfigValue(Right(<span class="num">123</span>))</pre></li></ol>
+            </div></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
