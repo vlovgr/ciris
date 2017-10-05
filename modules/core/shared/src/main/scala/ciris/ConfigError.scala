@@ -128,7 +128,7 @@ object ConfigError {
     *
     * @param errors two or more errors to combine
     */
-  private sealed class Combined(val errors: Vector[ConfigError]) extends ConfigError {
+  private sealed case class Combined(errors: Vector[ConfigError]) extends ConfigError {
     override def message: String = errors.map(_.message).mkString(", ")
     override def toString: String = s"Combined($errors)"
   }
@@ -174,7 +174,7 @@ object ConfigError {
     * @param keyType the type of keys the configuration source reads
     * @tparam Key the type of the key
     */
-  private sealed class MissingKey[Key](key: Key, keyType: ConfigKeyType[Key]) extends ConfigError {
+  private sealed case class MissingKey[Key](key: Key, keyType: ConfigKeyType[Key]) extends ConfigError {
     override def message: String = s"Missing ${keyType.name} [$key]"
     override def toString: String = s"MissingKey($key, $keyType)"
   }
@@ -219,7 +219,7 @@ object ConfigError {
     * @param cause the reason why there was an exception while reading
     * @tparam Key the type of the key
     */
-  private sealed class ReadException[Key](key: Key, keyType: ConfigKeyType[Key], cause: Throwable) extends ConfigError {
+  private sealed case class ReadException[Key](key: Key, keyType: ConfigKeyType[Key], cause: Throwable) extends ConfigError {
     override def message: String = s"Exception while reading ${keyType.name} [$key]: $cause"
     override def toString: String = s"ReadException($key, $keyType, $cause)"
   }
@@ -270,7 +270,7 @@ object ConfigError {
     * @tparam Value the type of the value
     * @tparam Cause the type of the cause
     */
-  private sealed class WrongType[Key, Value, Cause](
+  private sealed case class WrongType[Key, Value, Cause](
     key: Key,
     value: Value,
     typeName: String,

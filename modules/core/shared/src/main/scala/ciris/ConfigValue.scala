@@ -8,12 +8,15 @@ package ciris
   *
   * To create a [[ConfigValue]], you typically use methods like [[env]],
   * [[prop]], or [[read]], but if you need to write a similar method for
-  * a custom configuration source, use the [[ConfigValue#apply]] method,
-  * requiring a [[ConfigSource]] and [[ConfigReader]].
+  * a custom configuration source, you can use the functions provided in
+  * the companion object.
   *
   * {{{
   * scala> ConfigValue("key")(ConfigSource.Properties, ConfigReader[String])
   * res0: ConfigValue[String] = ConfigValue(Left(MissingKey(key, Property)))
+  *
+  * scala> ConfigValue(Right(123))
+  * res1: ConfigValue[Int] = ConfigValue(Right(123))
   * }}}
   *
   * @tparam Value the type of the value
@@ -32,6 +35,41 @@ sealed abstract class ConfigValue[Value] {
   override def toString: String =
     s"ConfigValue($value)"
 
+  /**
+    * If `this` configuration value was read successfully, uses `this`
+    * value, otherwise uses the configuration value of `that`. If an
+    * error occurred for both configuration values, their errors
+    * will be accumulated.
+    *
+    * Note that the provided [[ConfigValue]] will only be evaluated
+    * if `this` configuration value is an error. This allows you to
+    * chain configuration values like in the following example.
+    *
+    * @param that the [[ConfigValue]] to use if `this` value is an error
+    * @tparam A the type of `that` [[ConfigValue]] to use
+    * @return a new [[ConfigValue]]
+    * @example {{{
+    * scala> val error =
+    *      |  ConfigValue[Int](Left(ConfigError("error1"))).
+    *      |    orElse(ConfigValue(Left(ConfigError("error2"))))
+    * error: ConfigValue[Int] = ConfigValue(Left(Combined(Vector(ConfigError(error1), ConfigError(error2)))))
+    *
+    * scala> error.value.left.map(_.message).toString
+    * res0: String = Left(error1, error2)
+    *
+    * scala> ConfigValue[Int](Left(ConfigError("error1"))).
+    *      |   orElse(ConfigValue(Right(123)))
+    * res1: ConfigValue[Int] = ConfigValue(Right(123))
+    * }}}
+    */
+  final def orElse[A >: Value](that: => ConfigValue[A]): ConfigValue[A] =
+    ConfigValue(value.fold(thisError => {
+      that.value.fold(
+        thatError => Left(thisError combine thatError),
+        thatValue => Right(thatValue)
+      )
+    }, thisValue => Right(thisValue)))
+
   private[ciris] def append[A](next: ConfigValue[A]): ConfigValue2[Value, A] = {
     (value, next.value) match {
       case (Right(a), Right(b)) => new ConfigValue2(Right((a, b)))
@@ -43,6 +81,29 @@ sealed abstract class ConfigValue[Value] {
 }
 
 object ConfigValue {
+
+  /**
+    * Creates a new [[ConfigValue]] from the specified value, which is
+    * the result of having read some configuration value from a source
+    * and converted it to type `Value`.
+    *
+    * @param value the read configuration value or a [[ConfigError]]
+    * @tparam Value the type of the value
+    * @return a new [[ConfigValue]] with the specified value
+    * @example {{{
+    * scala> ConfigValue[Int](Left(ConfigError("error")))
+    * res0: ConfigValue[Int] = ConfigValue(Left(ConfigError(error)))
+    *
+    * scala> ConfigValue(Right(123))
+    * res1: ConfigValue[Int] = ConfigValue(Right(123))
+    * }}}
+    */
+  def apply[Value](value: Either[ConfigError, Value]): ConfigValue[Value] = {
+    val _value = value
+    new ConfigValue[Value] {
+      override val value: Either[ConfigError, Value] = _value
+    }
+  }
 
   /**
     * Creates a new [[ConfigValue]] by reading the specified key from
@@ -64,10 +125,7 @@ object ConfigValue {
     source: ConfigSource[Key],
     reader: ConfigReader[Value]
   ): ConfigValue[Value] = {
-    new ConfigValue[Value] {
-      override def value: Either[ConfigError, Value] =
-        reader.read[Key](source.read(key))
-    }
+    ConfigValue(reader.read[Key](source.read(key)))
   }
 
   /**
