@@ -21,19 +21,7 @@ package ciris
   *
   * @tparam Value the type of the value
   */
-sealed abstract class ConfigValue[Value] {
-
-  /**
-    * The read configuration value or a [[ConfigError]] if there was an
-    * error while trying to read from the configuration source, or if
-    * there was an error when converting to type `Value`.
-    *
-    * @return the configuration value or an error if unsuccessful
-    */
-  def value: Either[ConfigError, Value]
-
-  override def toString: String =
-    s"ConfigValue($value)"
+final case class ConfigValue[Value](value: Either[ConfigError, Value]) extends AnyVal {
 
   /**
     * If `this` configuration value was read successfully, uses `this`
@@ -62,7 +50,7 @@ sealed abstract class ConfigValue[Value] {
     * res1: ConfigValue[Int] = ConfigValue(Right(123))
     * }}}
     */
-  final def orElse[A >: Value](that: => ConfigValue[A]): ConfigValue[A] =
+  def orElse[A >: Value](that: => ConfigValue[A]): ConfigValue[A] =
     ConfigValue(value.fold(thisError => {
       that.value.fold(
         thatError => Left(thisError combine thatError),
@@ -72,38 +60,18 @@ sealed abstract class ConfigValue[Value] {
 
   private[ciris] def append[A](next: ConfigValue[A]): ConfigValue2[Value, A] = {
     (value, next.value) match {
-      case (Right(a), Right(b)) => new ConfigValue2(Right((a, b)))
-      case (Left(error1), Right(_)) => new ConfigValue2(Left(ConfigErrors(error1)))
-      case (Right(_), Left(error2)) => new ConfigValue2(Left(ConfigErrors(error2)))
+      case (Right(a), Right(b))         => new ConfigValue2(Right((a, b)))
+      case (Left(error1), Right(_))     => new ConfigValue2(Left(ConfigErrors(error1)))
+      case (Right(_), Left(error2))     => new ConfigValue2(Left(ConfigErrors(error2)))
       case (Left(error1), Left(error2)) => new ConfigValue2(Left(error1 append error2))
     }
   }
+
+  override def toString: String =
+    s"ConfigValue($value)"
 }
 
 object ConfigValue {
-
-  /**
-    * Creates a new [[ConfigValue]] from the specified value, which is
-    * the result of having read some configuration value from a source
-    * and converted it to type `Value`.
-    *
-    * @param value the read configuration value or a [[ConfigError]]
-    * @tparam Value the type of the value
-    * @return a new [[ConfigValue]] with the specified value
-    * @example {{{
-    * scala> ConfigValue[Int](Left(ConfigError("error")))
-    * res0: ConfigValue[Int] = ConfigValue(Left(ConfigError(error)))
-    *
-    * scala> ConfigValue(Right(123))
-    * res1: ConfigValue[Int] = ConfigValue(Right(123))
-    * }}}
-    */
-  def apply[Value](value: Either[ConfigError, Value]): ConfigValue[Value] = {
-    val _value = value
-    new ConfigValue[Value] {
-      override val value: Either[ConfigError, Value] = _value
-    }
-  }
 
   /**
     * Creates a new [[ConfigValue]] by reading the specified key from
