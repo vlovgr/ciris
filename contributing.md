@@ -40,10 +40,10 @@ Before you open a pull request, you should make sure that `sbt +validate` runs s
 
 If your pull request addresses an existing issue, please include the issue number in the pull request message, or as part of your commit message. For example, if your pull request addresses issue number 52, then please include `fixes #52` in your pull request message, or in the commit message.
 
-## Grant of License
+## Grant of license
 Ciris is licensed under the [MIT License](https://opensource.org/licenses/MIT). Opening a pull request signifies your consent to license your contributions under this license.
 
-## Code of Conduct
+## Code of conduct
 Ciris supports the [Typelevel Code of Conduct](http://typelevel.org/conduct.html). To provide a safe and friendly environment for teaching, learning, and contributing, it is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
 ## Credits
