@@ -94,6 +94,14 @@ import $ivy.`is.cir::ciris-squants:0.4.2`, ciris.squants._
 </code></pre>
 </div>
 
+<h4 id="external-libraries"><a name="external-libraries" href="#external-libraries">External Libraries</a></h4>
+<p>Below is an incomplete list of third-party libraries that integrate with Ciris.<br />
+If your library is not included in the list, then please open a pull request.</p>
+
+<ul>
+  <li><a href="https://github.com/ovotech/ciris-aws-ssm"><code class="highlighter-rouge">ciris-aws-ssm</code></a> for <a href="https://aws.amazon.com/ec2/systems-manager">Amazon EC2 Systems Manager (SSM)</a> parameter store as configuration source.</li>
+</ul>
+
 <h3 id="motivation"><a name="motivation" href="#motivation">Motivation</a></h3>
 <p>When it takes little effort to change and release software, for example when employing <a href="https://www.agilealliance.org/glossary/continuous-deployment/">continuous deployment</a> practices, writing your configurations in Scala can be a viable alternative to configuration files, in order to increase compile-time safety. Since configuration files are not validated at compile-time, any errors will occur at runtime. Tests and macros can be used to perform validation, but by simply using Scala as a configuration language, we ensure that the configuration is correct when compiling, thereby eliminating many potential runtime errors, without having to resort to macros.</p>
 
@@ -107,6 +115,8 @@ If you’re looking for a more detailed code-centric overview, you can instead t
 
 <h3 id="participation"><a name="participation" href="#participation">Participation</a></h3>
 <p>Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the <a href="http://typelevel.org/conduct.html">Typelevel Code of Conduct</a>. It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.</p>
+
+<p>If you would like to be involved in building Ciris, check out the <a href="https://github.com/vlovgr/ciris/blob/master/contributing.md">contributing guide</a>.</p>
 
 <h3 id="license"><a name="license" href="#license">License</a></h3>
 <p>Ciris is available under the MIT license, available at <a href="https://opensource.org/licenses/MIT">https://opensource.org/licenses/MIT</a> and in the <a href="https://github.com/vlovgr/ciris/blob/master/license.txt">license file</a>.</p>
