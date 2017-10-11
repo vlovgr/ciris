@@ -8,6 +8,10 @@ blockquote {
   font-size: 13px;
 }
 
+h4 {
+  margin-top: 25px;
+}
+
 .highlight {
   margin-bottom: 12.5px !important;
 }
