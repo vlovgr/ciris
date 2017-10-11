@@ -123,6 +123,8 @@ If you're looking for a more detailed code-centric overview, you can instead tak
 ### <a name="participation" href="#participation">Participation</a>
 Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Typelevel Code of Conduct](http://typelevel.org/conduct.html). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
+If you would like to be involved in building Ciris, check out the [contributing guide](https://github.com/vlovgr/ciris/blob/master/contributing.md).
+
 ### <a name="license" href="#license">License</a>
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
