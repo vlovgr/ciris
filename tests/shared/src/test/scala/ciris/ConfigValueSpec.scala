@@ -34,5 +34,27 @@ final class ConfigValueSpec extends PropertySpec {
         result.value shouldBe Left(ConfigError.combined(error1, error2))
       }
     }
+
+    "using map" should {
+      "successfully map available values" in {
+        ConfigValue(Right(123)).map(_ * 2).value shouldBe Right(246)
+      }
+
+      "return an error when the value is unavailable" in {
+        ConfigValue[Int](Left(ConfigError("123"))).map(_ * 2).value shouldBe a[Left[_, _]]
+      }
+    }
+
+    "using flatMap" should {
+      "successfully flatMap available values" in {
+        ConfigValue(Right(123)).flatMap(int => Right(int * 2)).value shouldBe Right(246)
+      }
+
+      "return an error when the value in unavailable" in {
+        ConfigValue[Int](Left(ConfigError("123")))
+          .flatMap(int => Right(int * 2))
+          .value shouldBe a[Left[_, _]]
+      }
+    }
   }
 }
