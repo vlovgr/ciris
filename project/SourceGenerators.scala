@@ -122,7 +122,7 @@ object SourceGenerators extends AutoPlugin {
         |
         |package $rootPackage
         |
-        |private [$rootPackage] trait LoadConfigs {
+        |private[$rootPackage] trait LoadConfigs {
         |
         |  /**
         |    * Wraps the specified value in an `Either[ConfigErrors, Z]`. Useful
@@ -214,9 +214,9 @@ object SourceGenerators extends AutoPlugin {
           }
 
         val signature =
-          s"private[$rootPackage] final class ConfigValue$current[$currentTypeParams](val value: Either[ConfigErrors, ($currentTypeParams)])"
+          s"private[$rootPackage] final class ConfigValue$current[$currentTypeParams](val value: Either[ConfigErrors, ($currentTypeParams)]) extends AnyVal"
 
-        s"$signature$defs"
+        s"$signature $defs"
       }
       .mkString("\n\n")
 
