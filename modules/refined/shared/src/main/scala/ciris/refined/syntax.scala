@@ -11,7 +11,7 @@ object syntax {
     new RefinedConfigValueSyntax[T](config)
   }
 
-  final class RefinedConfigValueSyntax[T](val config: ConfigValue[T]) extends AnyVal {
+  final class RefinedConfigValueSyntax[T](val config: ConfigValue[T]) {
 
     /**
       * Attempts to refine the [[ConfigValue]] by checking whether the
@@ -72,7 +72,7 @@ object syntax {
       new MapRefinePartiallyApplied[T, P](config)
   }
 
-  final class MapRefinePartiallyApplied[T, P](val config: ConfigValue[T]) extends AnyVal {
+  final class MapRefinePartiallyApplied[T, P](val config: ConfigValue[T]) {
     def apply[S](f: T => S)(implicit validate: Validate[S, P]): ConfigValue[Refined[S, P]] =
       config.flatMap { t =>
         val s = f(t)
