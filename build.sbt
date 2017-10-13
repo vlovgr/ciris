@@ -281,6 +281,7 @@ lazy val releaseSettings =
       setReleaseVersion,
       setLatestVersion,
       releaseStepTask(updateReadme in ThisBuild),
+      releaseStepTask(updateContributing in ThisBuild),
       releaseStepTask(updateScripts in ThisBuild),
       releaseStepTask(addDateToReleaseNotes in ThisBuild),
       commitReleaseVersion,
@@ -345,6 +346,28 @@ updateReadme in ThisBuild := {
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add("readme.md").!
     vcs.commit("Update readme to latest version", sign = true).!
+  }
+}
+
+val generateContributing = taskKey[File]("Generates the contributing.md file")
+generateContributing in ThisBuild := {
+  (tut in docs).value
+  val source = IO.read((tutTargetDirectory in docs).value / "contributing" / "readme.md")
+  val readme =
+    source
+      .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
+      .replaceAll("""\n(#+) <a[^>]+>(.+)<\/a>""", "\n$1 $2") // Remove header links
+  val target = (baseDirectory in ciris).value / "contributing.md"
+  IO.write(target, readme)
+  target
+}
+
+val updateContributing = taskKey[Unit]("Generates and commits the contributing.md file")
+updateContributing in ThisBuild := {
+  (generateContributing in ThisBuild).value
+  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
+    vcs.add("contributing.md").!
+    vcs.commit("Update contributing.md to latest version", sign = true).!
   }
 }
 
