@@ -108,6 +108,7 @@ Below is an incomplete list of third-party libraries that integrate with Ciris.
 If your library is not included in the list, then please open a pull request.
 
 * [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm) for [Amazon EC2 Systems Manager (SSM)](https://aws.amazon.com/ec2/systems-manager) parameter store as configuration source.
+* [`ciris-credstash`](https://github.com/ovotech/ciris-credstash) for using [CredStash](https://github.com/fugue/credstash) as a configuration source.
 
 ### <a name="motivation" href="#motivation">Motivation</a>
 When it takes little effort to change and release software, for example when employing [continuous deployment](https://www.agilealliance.org/glossary/continuous-deployment/) practices, writing your configurations in Scala can be a viable alternative to configuration files, in order to increase compile-time safety. Since configuration files are not validated at compile-time, any errors will occur at runtime. Tests and macros can be used to perform validation, but by simply using Scala as a configuration language, we ensure that the configuration is correct when compiling, thereby eliminating many potential runtime errors, without having to resort to macros.
