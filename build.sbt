@@ -313,8 +313,7 @@ lazy val jsTestSettings = Seq(
 
 lazy val noPublishSettings =
   metadataSettings ++ Seq(
-    publish := (),
-    publishLocal := (),
+    skip in publish := true,
     publishArtifact := false
   )
 
