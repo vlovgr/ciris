@@ -1,0 +1,10 @@
+-Dfile.encoding=UTF8
+-Xms1G
+-Xmx6G
+-Xss6M
+-XX:MaxPermSize=512M
+-XX:ReservedCodeCacheSize=250M
+-XX:+TieredCompilation
+-XX:-UseGCOverheadLimit
+-XX:+CMSClassUnloadingEnabled
+-XX:+UseConcMarkSweepGC
