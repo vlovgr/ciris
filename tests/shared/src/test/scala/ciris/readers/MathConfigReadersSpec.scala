@@ -68,7 +68,7 @@ final class MathConfigReadersSpec extends PropertySpec {
       "return a failure for other values" in {
         forAll { string: String =>
           whenever(fails(new JBigInteger(string))) {
-            readValue[JBigDecimal](string) shouldBe a[Left[_, _]]
+            readValue[JBigInteger](string) shouldBe a[Left[_, _]]
           }
         }
       }
