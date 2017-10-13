@@ -73,7 +73,7 @@ The documentation is kept up-to-date with new releases, currently documenting re
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
 The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.4.2" target="_blank">v0.4.2</a> on Scala 2.12.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.4.2" target="_blank">v0.4.2</a> on Scala 2.12.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.4.2" target="_blank">v0.4.2</a> on Scala 2.12.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -99,10 +99,10 @@ If you are looking for a getting started guide, with examples and explanations, 
 get started is to bring it into scope with an import.<br>
 If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
-    </li><li name="ciris.readers" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
+    </li><li name="ciris.refined" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="refined"></a><a id="refined:refined"></a>
       <span class="permalink">
-      <a href="../ciris/index.html#readers" title="Permalink">
+      <a href="../ciris/index.html#refined" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -111,89 +111,54 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="" href="index.html">
-              <span class="name">readers</span>
+        <a title="Module providing an integration with refined." href="index.html">
+              <span class="name">refined</span>
             </a>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li class="current-entities indented2">
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.refined.syntax" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="syntax"></a><a id="syntax:syntax"></a>
+      <span class="permalink">
+      <a href="../../ciris/refined/index.html#syntax" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="syntax$.html">
+              <span class="name">syntax</span>
+            </a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris.refined">refined</a></dd></dl></div>
+    </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="ConfigReaders.html" title=""></a>
-                        <a href="ConfigReaders.html" title="">
-                          ConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="DerivedConfigReaders.html" title=""></a>
-                        <a href="DerivedConfigReaders.html" title="">
-                          DerivedConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="DurationConfigReaders.html" title=""></a>
-                        <a href="DurationConfigReaders.html" title="">
-                          DurationConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="JavaIoConfigReaders.html" title=""></a>
-                        <a href="JavaIoConfigReaders.html" title="">
-                          JavaIoConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="JavaNetConfigReaders.html" title=""></a>
-                        <a href="JavaNetConfigReaders.html" title="">
-                          JavaNetConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="JavaNioCharsetConfigReaders.html" title=""></a>
-                        <a href="JavaNioCharsetConfigReaders.html" title="">
-                          JavaNioCharsetConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="JavaNioFileConfigReaders.html" title=""></a>
-                        <a href="JavaNioFileConfigReaders.html" title="">
-                          JavaNioFileConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="JavaTimeConfigReaders.html" title=""></a>
-                        <a href="JavaTimeConfigReaders.html" title="">
-                          JavaTimeConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="JavaUtilConfigReaders.html" title=""></a>
-                        <a href="JavaUtilConfigReaders.html" title="">
-                          JavaUtilConfigReaders
-                        </a>
-                      </li><li class="current-entities indented2">
-                        <span class="separator"></span>
-                        <a class="trait" href="" title=""></a>
+                        <a class="class" href="" title=""></a>
                         <a href="" title="">
-                          MathConfigReaders
+                          MapRefinePartiallyApplied
                         </a>
-                      </li><li class="current-entities indented2">
+                      </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="PrimitiveConfigReaders.html" title=""></a>
-                        <a href="PrimitiveConfigReaders.html" title="">
-                          PrimitiveConfigReaders
+                        <a class="class" href="syntax$$RefinedConfigValueSyntax.html" title=""></a>
+                        <a href="syntax$$RefinedConfigValueSyntax.html" title="">
+                          RefinedConfigValueSyntax
                         </a>
                       </li>
               </ul>
             </div>
           </div>
           <div id="content">
-            <body class="trait type">
+            <body class="class type">
       <div id="definition">
-        <div class="big-circle trait">t</div>
-        <p id="owner"><a href="../index.html" class="extype" name="ciris">ciris</a>.<a href="index.html" class="extype" name="ciris.readers">readers</a></p>
-        <h1>MathConfigReaders<span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html" title="Permalink">
+        <div class="big-circle class">c</div>
+        <p id="owner"><a href="../index.html" class="extype" name="ciris">ciris</a>.<a href="index.html" class="extype" name="ciris.refined">refined</a>.<a href="syntax$.html" class="extype" name="ciris.refined.syntax">syntax</a></p>
+        <h1>MapRefinePartiallyApplied<span class="permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
@@ -202,26 +167,21 @@ If you are looking for a getting started guide, with examples and explanations, 
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">MathConfigReaders</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">MapRefinePartiallyApplied</span><span class="tparams">[<span name="T">T</span>, <span name="P">P</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.4.2/modules/core/shared/src/main/scala/ciris/readers/MathConfigReaders.scala" target="_blank">MathConfigReaders.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.4.2/modules/refined/shared/src/main/scala/ciris/refined/syntax.scala" target="_blank">syntax.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div><div class="toggleContainer block">
-            <span class="toggle">
-              Known Subclasses
-            </span>
-            <div class="subClasses hiddenContent"><a href="../ConfigReader$.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>, <a href="ConfigReaders.html" class="extype" name="ciris.readers.ConfigReaders">ConfigReaders</a></div>
-          </div></div>
+        </div></div>
         
 
       <div id="mbrsel">
@@ -246,7 +206,7 @@ If you are looking for a getting started guide, with examples and explanations, 
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="ciris.readers.MathConfigReaders"><span>MathConfigReaders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="ciris.refined.syntax.MapRefinePartiallyApplied"><span>MapRefinePartiallyApplied</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -264,7 +224,26 @@ If you are looking for a getting started guide, with examples and explanations, 
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="ciris.refined.syntax.MapRefinePartiallyApplied#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(config:ciris.ConfigValue[T]):ciris.refined.syntax.MapRefinePartiallyApplied[T,P]"></a><a id="&lt;init&gt;:MapRefinePartiallyApplied[T,P]"></a>
+      <span class="permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#&lt;init&gt;(config:ciris.ConfigValue[T]):ciris.refined.syntax.MapRefinePartiallyApplied[T,P]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MapRefinePartiallyApplied</span><span class="params">(<span name="config">config: <a href="../ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.refined.syntax.MapRefinePartiallyApplied.T">T</span>]</span>)</span>
+      </span>
+      
+      
+    </li></ol>
+            </div>
 
         
 
@@ -276,7 +255,7 @@ If you are looking for a getting started guide, with examples and explanations, 
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -292,7 +271,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html###():Int" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -308,7 +287,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -321,10 +300,26 @@ If you are looking for a getting started guide, with examples and explanations, 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="ciris.refined.syntax.MapRefinePartiallyApplied#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="apply[S](f:T=&gt;S)(implicitvalidate:eu.timepit.refined.api.Validate[S,P]):ciris.ConfigValue[eu.timepit.refined.api.Refined[S,P]]"></a><a id="apply[S]((T)⇒S)(Validate[S,P]):ConfigValue[Refined[S,P]]"></a>
+      <span class="permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#apply[S](f:T=&gt;S)(implicitvalidate:eu.timepit.refined.api.Validate[S,P]):ciris.ConfigValue[eu.timepit.refined.api.Refined[S,P]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="S">S</span>]</span><span class="params">(<span name="f">f: (<span class="extype" name="ciris.refined.syntax.MapRefinePartiallyApplied.T">T</span>) ⇒ <span class="extype" name="ciris.refined.syntax.MapRefinePartiallyApplied.apply.S">S</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="validate">validate: <a href="https://static.javadoc.io/eu.timepit/refined_2.12/0.8.4/eu/timepit/refined/eu/timepit/refined/api/Validate.html#eu.timepit.refined.api.Validate" class="extype" name="eu.timepit.refined.api.Validate">Validate</a>[<span class="extype" name="ciris.refined.syntax.MapRefinePartiallyApplied.apply.S">S</span>, <span class="extype" name="ciris.refined.syntax.MapRefinePartiallyApplied.P">P</span>]</span>)</span><span class="result">: <a href="../ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<a href="https://static.javadoc.io/eu.timepit/refined_2.12/0.8.4/eu/timepit/refined/eu/timepit/refined/api/Refined.html#eu.timepit.refined.api.Refined" class="extype" name="eu.timepit.refined.api.Refined">Refined</a>[<span class="extype" name="ciris.refined.syntax.MapRefinePartiallyApplied.apply.S">S</span>, <span class="extype" name="ciris.refined.syntax.MapRefinePartiallyApplied.P">P</span>]]</span>
+      </span>
+      
+      
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -337,42 +332,10 @@ If you are looking for a getting started guide, with examples and explanations, 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="ciris.readers.MathConfigReaders#bigDecimalConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bigDecimalConfigReader:ciris.ConfigReader[BigDecimal]"></a><a id="bigDecimalConfigReader:ConfigReader[BigDecimal]"></a>
-      <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#bigDecimalConfigReader:ciris.ConfigReader[BigDecimal]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bigDecimalConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="scala.BigDecimal">BigDecimal</span>]</span>
-      </span>
-      
-      
-    </li><li name="ciris.readers.MathConfigReaders#bigIntConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bigIntConfigReader:ciris.ConfigReader[BigInt]"></a><a id="bigIntConfigReader:ConfigReader[BigInt]"></a>
-      <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#bigIntConfigReader:ciris.ConfigReader[BigInt]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bigIntConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="scala.BigInt">BigInt</span>]</span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#clone():Object" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -391,10 +354,26 @@ If you are looking for a getting started guide, with examples and explanations, 
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="ciris.refined.syntax.MapRefinePartiallyApplied#config" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="config:ciris.ConfigValue[T]"></a><a id="config:ConfigValue[T]"></a>
+      <span class="permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#config:ciris.ConfigValue[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">config</span><span class="result">: <a href="../ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.refined.syntax.MapRefinePartiallyApplied.T">T</span>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -410,7 +389,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#equals(x$1:Any):Boolean" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#equals(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -426,7 +405,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#finalize():Unit" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -448,7 +427,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#getClass():Class[_]" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -464,7 +443,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#hashCode():Int" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#hashCode():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -480,7 +459,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -493,42 +472,10 @@ If you are looking for a getting started guide, with examples and explanations, 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="ciris.readers.MathConfigReaders#jBigDecimalConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="jBigDecimalConfigReader:ciris.ConfigReader[java.math.BigDecimal]"></a><a id="jBigDecimalConfigReader:ConfigReader[BigDecimal]"></a>
-      <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#jBigDecimalConfigReader:ciris.ConfigReader[java.math.BigDecimal]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">jBigDecimalConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="java.math.BigDecimal">BigDecimal</span>]</span>
-      </span>
-      
-      
-    </li><li name="ciris.readers.MathConfigReaders#jBigIntegerConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="jBigIntegerConfigReader:ciris.ConfigReader[java.math.BigInteger]"></a><a id="jBigIntegerConfigReader:ConfigReader[BigInteger]"></a>
-      <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#jBigIntegerConfigReader:ciris.ConfigReader[java.math.BigInteger]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">jBigIntegerConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="java.math.BigInteger">BigInteger</span>]</span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -544,7 +491,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#notify():Unit" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -560,7 +507,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#notifyAll():Unit" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -576,7 +523,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -592,7 +539,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#toString():String" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#toString():String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -608,7 +555,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#wait():Unit" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -630,7 +577,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -652,7 +599,7 @@ If you are looking for a getting started guide, with examples and explanations, 
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../ciris/readers/MathConfigReaders.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../ciris/refined/syntax$$MapRefinePartiallyApplied.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>

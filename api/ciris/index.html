@@ -572,22 +572,22 @@ an <code>Either[ConfigError, String]</code>. Values are always of type <code>Str
 the type <code>Key</code> can be different. Also includes the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> to
 be able to support better error messages.</p><p>To create a <a href="ConfigSourceEntry.html" class="extype" name="ciris.ConfigSourceEntry">ConfigSourceEntry</a>, use the <a href="ConfigSourceEntry$.html#apply[Key](key:Key,keyType:ciris.ConfigKeyType[Key],value:Either[ciris.ConfigError,String]):ciris.ConfigSourceEntry[Key]" class="extmbr" name="ciris.ConfigSourceEntry#apply">ConfigSourceEntry#apply</a> method.</p><pre>scala&gt; ConfigSourceEntry(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"value"</span>))
 res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key, Environment, Right(value))</pre></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of key</p></dd></dl></div>
-    </li><li name="ciris.ConfigValue" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ConfigValue[Value]extendsAnyRef"></a><a id="ConfigValue[Value]:ConfigValue[Value]"></a>
+    </li><li name="ciris.ConfigValue" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ConfigValue[Value]extendsAnyValwithProductwithSerializable"></a><a id="ConfigValue[Value]:ConfigValue[Value]"></a>
       <span class="permalink">
-      <a href="../ciris/index.html#ConfigValue[Value]extendsAnyRef" title="Permalink">
+      <a href="../ciris/index.html#ConfigValue[Value]extendsAnyValwithProductwithSerializable" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
       <span class="modifier_kind">
-        <span class="modifier">sealed abstract </span>
-        <span class="kind">class</span>
+        <span class="modifier">final </span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
         <a title="A value which has been read from a ConfigSource, and converted
 to the specified type Value using a ConfigReader." href="ConfigValue.html">
               <span class="name">ConfigValue</span>
-            </a><span class="tparams">[<span name="Value">Value</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+            </a><span class="tparams">[<span name="Value">Value</span>]</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Either">Either</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.ConfigValue.Value">Value</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.AnyVal">AnyVal</span> with <a href="http://www.scala-lang.org/api/2.12.3/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="http://www.scala-lang.org/api/2.12.3/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       <p class="shortcomment cmt">A value which has been read from a <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>, and converted
@@ -1753,7 +1753,7 @@ available in order to use the <code>loadConfig</code> methods.
       <span class="symbol">
         <a title="" href="ConfigValue$.html">
               <span class="name">ConfigValue</span>
-            </a>
+            </a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.3/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       

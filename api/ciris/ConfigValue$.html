@@ -307,7 +307,7 @@ to the specified type Value using a ConfigReader.">
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">ConfigValue</span>
+        <span class="name">ConfigValue</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.3/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       </h4>
 
@@ -316,7 +316,7 @@ to the specified type Value using a ConfigReader.">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.3/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -342,7 +342,7 @@ to the specified type Value using a ConfigReader.">
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="ciris.ConfigValue"><span>ConfigValue</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="ciris.ConfigValue"><span>ConfigValue</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -471,33 +471,6 @@ using the specified <a href="ConfigReader.html" class="extype" name="ciris.Confi
 </p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="tparam">Value</dt><dd class="cmt"><p>the type of the value</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key to read</p></dd><dt class="param">source</dt><dd class="cmt"><p>the configuration source to read from</p></dd><dt class="param">reader</dt><dd class="cmt"><p>the reader to use to convert the value</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a> with the read value</p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; ConfigValue(<span class="lit">"key"</span>)(ConfigSource.Properties, ConfigReader[<span class="std">String</span>])
 res0: ConfigValue[<span class="std">String</span>] = ConfigValue(Left(MissingKey(key, Property)))</pre></li></ol>
-            </div></dl></div>
-    </li><li name="ciris.ConfigValue#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[Value](value:Either[ciris.ConfigError,Value]):ciris.ConfigValue[Value]"></a><a id="apply[Value](Either[ConfigError,Value]):ConfigValue[Value]"></a>
-      <span class="permalink">
-      <a href="../ciris/ConfigValue$.html#apply[Value](value:Either[ciris.ConfigError,Value]):ciris.ConfigValue[Value]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="Value">Value</span>]</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Either">Either</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.ConfigValue.apply.Value">Value</span>]</span>)</span><span class="result">: <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.apply.Value">Value</span>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Creates a new <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a> from the specified value, which is
-the result of having read some configuration value from a source
-and converted it to type <code>Value</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a> from the specified value, which is
-the result of having read some configuration value from a source
-and converted it to type <code>Value</code>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Value</dt><dd class="cmt"><p>the type of the value</p></dd><dt class="param">value</dt><dd class="cmt"><p>the read configuration value or a <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a> with the specified value</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; ConfigValue[<span class="std">Int</span>](Left(ConfigError(<span class="lit">"error"</span>)))
-res0: ConfigValue[<span class="std">Int</span>] = ConfigValue(Left(ConfigError(error)))
-
-scala&gt; ConfigValue(Right(<span class="num">123</span>))
-res1: ConfigValue[<span class="std">Int</span>] = ConfigValue(Right(<span class="num">123</span>))</pre></li></ol>
             </div></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
@@ -795,7 +768,11 @@ res1: ConfigValue[<span class="std">Int</span>] = ConfigValue(Right(<span class=
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.3/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
