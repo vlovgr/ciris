@@ -1,8 +1,15 @@
-# Contributing Guide
+---
+layout: docs
+title: "Contributing Guide"
+position: 8
+permalink: /docs/contributing
+---
+
+# <a name="contributing-guide" href="#contributing-guide">Contributing Guide</a>
 This guide is for people who would like to be involved in building Ciris.  
 As a free and open source project, we gladly welcome contributions.
 
-## Find something to work on
+## <a name="find-something-to-work-on" href="#find-something-to-work-on">Find something to work on</a>
 Looking for a way to help out? Take a look at the [open issues](https://github.com/vlovgr/ciris/issues). Choose an issue that looks interesting to you. If you are new to the project, the label [`low-hanging fruit`](https://github.com/vlovgr/ciris/labels/low-hanging%20fruit) can help you identify suitable issues to work on. Before you start working on an issue, make sure it's not already assigned to someone and that nobody else has left a comment saying they're working on it. Of course, you can also comment on an issue someone else is working on and offer to collaborate. If you're unsure where to start, you can always ask for help in the [Gitter](https://gitter.im/vlovgr/ciris) chat room.
 
 Have an idea for something new? That's great! We recommend you make sure it belongs in Ciris before you put effort into creating a pull request. The preferred ways to do that are to either:
@@ -10,10 +17,10 @@ Have an idea for something new? That's great! We recommend you make sure it belo
 * [create an issue](https://github.com/vlovgr/ciris/issues/new) describing your idea, or
 * ask for feedback in the [Gitter](https://gitter.im/vlovgr/ciris) chat room.
 
-## Let us know you are working on it
+## <a name="let-us-know-you-are-working-on-it" href="#let-us-know-you-are-working-on-it">Let us know you are working on it</a>
 If there is already an open issue for the task you're working on, leave a comment to let people know you're working on it. If there isn't already an issue and it's a non-trivial task, it's a good idea to create a new issue and put a note that you're working on it. This prevents contributors from duplicating effort.
 
-## Build the project
+## <a name="build-the-project" href="#build-the-project">Build the project</a>
 First you'll need to checkout a local copy of the code base.
 ```
 git clone https://github.com/vlovgr/ciris.git
@@ -35,19 +42,19 @@ Below is a list of some useful sbt commands to help you get started.
 * `test`: run tests for the application sources.
 * `validate`: compile documentation and run tests.
 
-## Submit a pull request
+## <a name="submit-a-pull-request" href="#submit-a-pull-request">Submit a pull request</a>
 Before you open a pull request, you should make sure that `sbt +validate` runs successfully. [Travis CI](https://travis-ci.org/vlovgr/ciris) will run this as well, but it may save you some time to be alerted to problems earlier on. Once Travis CI has run, [Codecov](https://codecov.io/gh/vlovgr/ciris) will check the code coverage and comment on your pull request with the results.
 
 If your pull request addresses an existing issue, please include the issue number in the pull request message, or as part of your commit message. For example, if your pull request addresses issue number 52, then please include `fixes #52` in your pull request message, or in the commit message.
 
-## Grant of license
+## <a name="grant-of-license" href="#grant-of-license">Grant of license</a>
 Ciris is licensed under the [MIT License](https://opensource.org/licenses/MIT). Opening a pull request signifies your consent to license your contributions under this license.
 
-## Code of conduct
+## <a name="code-of-conduct" href="#code-of-conduct">Code of conduct</a>
 Ciris supports the [Typelevel Code of Conduct](http://typelevel.org/conduct.html). To provide a safe and friendly environment for teaching, learning, and contributing, it is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
-## Credits
+## <a name="credits" href="#credits">Credits</a>
 This document is heavily based on the [http4s contributing guide](http://http4s.org/contributing/).
 
-## Contributors
+## <a name="contributors" href="#contributors">Contributors</a>
 Ciris does not have any contributors yet, which means you can be the first one!
