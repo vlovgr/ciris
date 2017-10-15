@@ -333,8 +333,8 @@ generateReadme in ThisBuild := {
   val source = IO.read((tutTargetDirectory in docs).value / "index.md")
   val readme =
     source
-      .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
       .replaceAll("""\n(#+) <a[^>]+>(.+)<\/a>""", "\n$1 $2") // Remove header links
+      .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
   val target = (baseDirectory in ciris).value / "readme.md"
   IO.write(target, readme)
   target
@@ -349,25 +349,25 @@ updateReadme in ThisBuild := {
   }
 }
 
-val generateContributing = taskKey[File]("Generates the contributing.md file")
+val generateContributing = taskKey[File]("Generates the contributing guide")
 generateContributing in ThisBuild := {
   (tut in docs).value
-  val source = IO.read((tutTargetDirectory in docs).value / "contributing" / "readme.md")
-  val readme =
+  val source = IO.read((tutTargetDirectory in docs).value / "docs" / "contributing" / "readme.md")
+  val contributing =
     source
-      .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
       .replaceAll("""\n(#+) <a[^>]+>(.+)<\/a>""", "\n$1 $2") // Remove header links
+      .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
   val target = (baseDirectory in ciris).value / "contributing.md"
-  IO.write(target, readme)
+  IO.write(target, contributing)
   target
 }
 
-val updateContributing = taskKey[Unit]("Generates and commits the contributing.md file")
+val updateContributing = taskKey[Unit]("Generates and commits the contributing guide")
 updateContributing in ThisBuild := {
   (generateContributing in ThisBuild).value
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add("contributing.md").!
-    vcs.commit("Update contributing.md to latest version", sign = true).!
+    vcs.commit("Update contributing guide to latest version", sign = true).!
   }
 }
 

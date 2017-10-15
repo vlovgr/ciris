@@ -1,4 +1,4 @@
-# Contributing
+# Contributing Guide
 This guide is for people who would like to be involved in building Ciris.  
 As a free and open source project, we gladly welcome contributions.
 

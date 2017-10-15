@@ -13,5 +13,5 @@ options:
     url: docs/sources
   - title: Custom Readers
     url: docs/readers
-  - title: Contributing to Ciris
+  - title: Contributing Guide
     url: docs/contributing
