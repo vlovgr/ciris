@@ -8,51 +8,6 @@ import ciris.ConfigReader.{catchNonFatal, fromOption}
 trait JavaTimeConfigReaders {
   import java.time._
 
-  implicit def localDateFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[LocalDate] = format match {
-    case null => catchNonFatal("LocalDate")(LocalDate.parse)
-    case _    => catchNonFatal("LocalDate")(LocalDate.parse(_, format))
-  }
-
-  implicit def localDateTimeFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[LocalDateTime] = format match  {
-    case null => catchNonFatal("LocalDateTime")(LocalDateTime.parse)
-    case _    => catchNonFatal("LocalDateTime")(LocalDateTime.parse(_, format))
-  }
-
-  implicit def localTimeFormattedFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[LocalTime] = format match {
-    case null => catchNonFatal("LocalTime")(LocalTime.parse)
-    case _    => catchNonFatal("LocalTime")(LocalTime.parse(_, format))
-  }
-
-  implicit def monthDayFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[MonthDay] = format match {
-    case null => catchNonFatal("MonthDay")(MonthDay.parse)
-    case _    => catchNonFatal("MonthDay")(MonthDay.parse(_, format))
-  }
-
-  implicit def offsetDateTimeFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[OffsetDateTime] = format match {
-    case null => catchNonFatal("OffsetDateTime")(OffsetDateTime.parse)
-    case _    => catchNonFatal("OffsetDateTime")(OffsetDateTime.parse(_, format))
-  }
-
-  implicit def offsetTimeFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[OffsetTime] = format match {
-    case null => catchNonFatal("OffsetTime")(OffsetTime.parse)
-    case _    => catchNonFatal("OffsetTime")(OffsetTime.parse(_, format))
-  }
-
-  implicit def yearFormattedFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[Year] = format match {
-    case null => catchNonFatal("Year")(Year.parse)
-    case _    => catchNonFatal("Year")(Year.parse(_, format))
-  }
-
-  implicit def yearMonthFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[YearMonth] = format match {
-    case null => catchNonFatal("YearMonth")(YearMonth.parse)
-    case _    => catchNonFatal("YearMonth")(YearMonth.parse(_, format))
-  }
-
-  implicit def zonedDateTimeFormattedConfigReader(implicit format: DateTimeFormatter = null): ConfigReader[ZonedDateTime] = format match {
-    case null => catchNonFatal("ZonedDateTime")(ZonedDateTime.parse)
-    case _    => catchNonFatal("ZonedDateTime")(ZonedDateTime.parse(_, format))
-  }
-
   implicit val dayOfWeekConfigReader: ConfigReader[DayOfWeek] =
     fromOption("DayOfWeek")(value => DayOfWeek.values.find(_.name equalsIgnoreCase value))
 
@@ -62,11 +17,74 @@ trait JavaTimeConfigReaders {
   implicit val instantConfigReader: ConfigReader[Instant] =
     catchNonFatal("Instant")(Instant.parse)
 
+  implicit def localDateConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[LocalDate] = format match {
+    case null => catchNonFatal("LocalDate")(LocalDate.parse)
+    case _    => catchNonFatal("LocalDate")(LocalDate.parse(_, format))
+  }
+
+  implicit def localDateTimeConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[LocalDateTime] = format match {
+    case null => catchNonFatal("LocalDateTime")(LocalDateTime.parse)
+    case _    => catchNonFatal("LocalDateTime")(LocalDateTime.parse(_, format))
+  }
+
+  implicit def localTimeConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[LocalTime] = format match {
+    case null => catchNonFatal("LocalTime")(LocalTime.parse)
+    case _    => catchNonFatal("LocalTime")(LocalTime.parse(_, format))
+  }
+
   implicit val monthConfigReader: ConfigReader[Month] =
     fromOption("Month")(value => Month.values.find(_.name equalsIgnoreCase value))
 
+  implicit def monthDayConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[MonthDay] = format match {
+    case null => catchNonFatal("MonthDay")(MonthDay.parse)
+    case _    => catchNonFatal("MonthDay")(MonthDay.parse(_, format))
+  }
+
+  implicit def offsetDateTimeConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[OffsetDateTime] = format match {
+    case null => catchNonFatal("OffsetDateTime")(OffsetDateTime.parse)
+    case _    => catchNonFatal("OffsetDateTime")(OffsetDateTime.parse(_, format))
+  }
+
+  implicit def offsetTimeConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[OffsetTime] = format match {
+    case null => catchNonFatal("OffsetTime")(OffsetTime.parse)
+    case _    => catchNonFatal("OffsetTime")(OffsetTime.parse(_, format))
+  }
+
   implicit val periodConfigReader: ConfigReader[Period] =
     catchNonFatal("Period")(Period.parse)
+
+  implicit def yearConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[Year] = format match {
+    case null => catchNonFatal("Year")(Year.parse)
+    case _    => catchNonFatal("Year")(Year.parse(_, format))
+  }
+
+  implicit def yearMonthConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[YearMonth] = format match {
+    case null => catchNonFatal("YearMonth")(YearMonth.parse)
+    case _    => catchNonFatal("YearMonth")(YearMonth.parse(_, format))
+  }
+
+  implicit def zonedDateTimeConfigReader(
+    implicit format: DateTimeFormatter = null
+  ): ConfigReader[ZonedDateTime] = format match {
+    case null => catchNonFatal("ZonedDateTime")(ZonedDateTime.parse)
+    case _    => catchNonFatal("ZonedDateTime")(ZonedDateTime.parse(_, format))
+  }
 
   implicit val zoneIdConfigReader: ConfigReader[ZoneId] =
     catchNonFatal("ZoneId")(ZoneId.of)

@@ -4,7 +4,7 @@ import java.time.{Month, Year, ZoneId, ZonedDateTime}
 
 import org.scalacheck.Gen
 
-trait LimitedRangeTimeGenerators extends JavaTimeGenerators {
+trait LimitedJavaTimeGenerators extends JavaTimeGenerators {
   override val genZonedDateTime: Gen[ZonedDateTime] =
     for {
       year <- Gen.choose(2000, 2099)
