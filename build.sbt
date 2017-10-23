@@ -329,7 +329,8 @@ lazy val mimaSettings = Seq(
 )
 
 lazy val jsTestSettings = Seq(
-  doctestGenTests := Seq.empty
+  doctestGenTests := Seq.empty,
+  coverageEnabled := false
 )
 
 lazy val noPublishSettings =
