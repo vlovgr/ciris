@@ -201,7 +201,7 @@ lazy val docs = project
 
 lazy val scala210 = "2.10.6"
 lazy val scala211 = "2.11.11"
-lazy val scala212 = "2.12.3"
+lazy val scala212 = "2.12.4"
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
@@ -410,7 +410,7 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P \\
-       |  com.lihaoyi:ammonite_2.12.3:1.0.2 \\
+       |  com.lihaoyi:ammonite_2.12.4:1.0.3 \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
