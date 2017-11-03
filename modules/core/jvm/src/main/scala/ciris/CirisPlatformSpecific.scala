@@ -16,7 +16,7 @@ private[ciris] trait CirisPlatformSpecific {
     *                           before trying to convert to type `Value`;
     *                           defaults to not modify the file contents
     * @param charset the charset of the file to read;
-    *                defaults to [[Charset.defaultCharset]]
+    *                defaults to `Charset.defaultCharset`
     * @tparam Value the type to convert the value to
     * @return a [[ConfigValue]] with the result
     * @see [[fileWithName]]
@@ -48,7 +48,7 @@ private[ciris] trait CirisPlatformSpecific {
     *                           before trying to convert to type `Value`;
     *                           defaults to not modify the file contents
     * @param charset the charset of the file to read;
-    *                defaults to [[Charset.defaultCharset]]
+    *                defaults to `Charset.defaultCharset`
     * @tparam Value the type to convert the value to
     * @return a [[ConfigValue]] with the result
     * @see [[file]]

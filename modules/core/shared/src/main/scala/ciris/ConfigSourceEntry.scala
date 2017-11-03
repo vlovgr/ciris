@@ -41,7 +41,7 @@ sealed class ConfigSourceEntry[Key](
     * }}}
     */
   def mapValue(f: String => String): ConfigSourceEntry[Key] =
-    new ConfigSourceEntry(key, keyType, value.map(f))
+    new ConfigSourceEntry(key, keyType, value.right.map(f))
 
   override def toString: String =
     s"ConfigSourceEntry($key, $keyType, $value)"
