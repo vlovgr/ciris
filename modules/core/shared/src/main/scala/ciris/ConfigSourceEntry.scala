@@ -37,7 +37,7 @@ sealed class ConfigSourceEntry[Key](
     * entry: ConfigSourceEntry[String] = ConfigSourceEntry(key, Environment, Right(value ))
     *
     * scala> entry.mapValue(_.trim)
-    * res0: ciris.ConfigSourceEntry[String] = ConfigSourceEntry(key, Environment, Right(value))
+    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key, Environment, Right(value))
     * }}}
     */
   def mapValue(f: String => String): ConfigSourceEntry[Key] =

@@ -252,9 +252,9 @@ abstract class ConfigReader[Value] { self =>
 
   /**
     * Applies a function on the values in the [[ConfigSourceEntry]]s read by
-    * the reader, before trying to convert the value to type [[Value]]. This
-    * returns a new [[ConfigReader]] with the behavior, leaving the current
-    * [[ConfigReader]] unmodified.
+    * the reader, before trying to convert the value to type `Value`. This
+    * returns a new [[ConfigReader]] with the behavior, leaving the
+    * current [[ConfigReader]] unmodified.
     *
     * @param f the function to apply on the [[ConfigSourceEntry]] values
     * @return a new [[ConfigReader]] with the entry value transformation
@@ -263,7 +263,7 @@ abstract class ConfigReader[Value] { self =>
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> val reader = ConfigReader[Int].mapEntryValue(_.trim)
-    * reader: ConfigReader[Int] = ciris.ConfigReader$$anon$5@57c04ac9
+    * reader: ConfigReader[Int] = ciris.ConfigReader$$$$anon$$5@57c04ac9
     *
     * scala> reader.read(source.read(0))
     * res0: Either[ConfigError,Int] = Right(123)

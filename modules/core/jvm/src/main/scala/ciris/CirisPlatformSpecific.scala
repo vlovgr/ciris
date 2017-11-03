@@ -9,11 +9,11 @@ private[ciris] trait CirisPlatformSpecific {
     * Reads the contents of the specified `file` with `charset`,
     * applies the `modifyFileContents` function on the contents,
     * and attempts to convert the modified file contents to type
-    * [[Value]]. The result is wrapped in a [[ConfigValue]].
+    * `Value`. The result is wrapped in a [[ConfigValue]].
     *
     * @param file the file of which to read the contents
     * @param modifyFileContents the function to apply on the file contents
-    *                           before trying to convert to type [[Value]];
+    *                           before trying to convert to type `Value`;
     *                           defaults to not modify the file contents
     * @param charset the charset of the file to read;
     *                defaults to [[Charset.defaultCharset]]
@@ -40,12 +40,12 @@ private[ciris] trait CirisPlatformSpecific {
   /**
     * Reads the contents of the specified file `name` with `charset`,
     * applies the `modifyFileContents` function on the contents, and
-    * attempts to convert the modified file contents to type [[Value]].
+    * attempts to convert the modified file contents to type `Value`.
     * The result is wrapped in a [[ConfigValue]].
     *
     * @param name the name of the file of which to read the contents
     * @param modifyFileContents the function to apply on the file contents
-    *                           before trying to convert to type [[Value]];
+    *                           before trying to convert to type `Value`;
     *                           defaults to not modify the file contents
     * @param charset the charset of the file to read;
     *                defaults to [[Charset.defaultCharset]]
