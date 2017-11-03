@@ -48,7 +48,7 @@ abstract class ConfigSource[Key](val keyType: ConfigKeyType[Key]) {
   def read(key: Key): ConfigSourceEntry[Key]
 }
 
-object ConfigSource {
+object ConfigSource extends ConfigSourcePlatformSpecific {
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]] and
