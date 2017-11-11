@@ -14,15 +14,15 @@ object syntax {
   final class RefinedConfigValueSyntax[T](val config: ConfigValue[T]) {
 
     /**
-      * Attempts to refine the [[ConfigValue]] by checking whether the
+      * Attempts to refine the `ConfigValue` by checking whether the
       * value conforms to the predicate `P`. If the value conforms to
-      * the predicate, returns a new [[ConfigValue]] with the refined
-      * value; otherwise, returns a new [[ConfigValue]] with an error
+      * the predicate, returns a new `ConfigValue` with the refined
+      * value; otherwise, returns a new `ConfigValue` with an error
       * detailing why the value does not conform to the predicate.
       *
       * @param validate the implicit validate instance for the predicate
       * @tparam P the type of the predicate, must be specified
-      * @return a new [[ConfigValue]] with the result of the refinement
+      * @return a new `ConfigValue` with the result of the refinement
       * @example {{{
       * scala> import ciris._, ciris.refined.syntax._, eu.timepit.refined.api.Refined, eu.timepit.refined.collection.NonEmpty
       * import ciris._
@@ -43,7 +43,7 @@ object syntax {
       }
 
     /**
-      * Applies a function to the [[ConfigValue]] and attempts to refine
+      * Applies a function to the `ConfigValue` and attempts to refine
       * the returned value, by checking whether the value conforms to the
       * specified predicate `P`.
       *
@@ -53,7 +53,7 @@ object syntax {
       * like in the following example.
       *
       * @tparam P the type of the predicate, must be specified
-      * @return a new [[ConfigValue]] with the result of the refinement
+      * @return a new `ConfigValue` with the result of the refinement
       * @example {{{
       * scala> import ciris._, ciris.refined.syntax._, eu.timepit.refined.api.Refined, eu.timepit.refined.string.Uri
       * import ciris._
