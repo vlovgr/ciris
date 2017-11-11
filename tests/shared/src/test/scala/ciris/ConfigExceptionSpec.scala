@@ -9,7 +9,7 @@ final class ConfigExceptionSpec extends PropertySpec {
             .append(ConfigError.readException("key", ConfigKeyType.Property, new Error("error")))
             .toException
 
-        configException.toString shouldBe "ConfigException(MissingKey(key, Environment), ReadException(key, Property, java.lang.Error: error))"
+        configException.toString shouldBe s"ciris.ConfigException: ${configException.getMessage}"
       }
     }
 
@@ -21,7 +21,7 @@ final class ConfigExceptionSpec extends PropertySpec {
 
           configException.getMessage.trim shouldBe
             """
-              |configuration loading failed with the following error.
+              |configuration loading failed with the following errors.
               |
               |  - Missing environment variable [key].
             """.stripMargin.trim
@@ -37,7 +37,7 @@ final class ConfigExceptionSpec extends PropertySpec {
 
           configException.getMessage.trim shouldBe
             """
-              |configuration loading failed with the following [2] errors.
+              |configuration loading failed with the following errors.
               |
               |  - Missing environment variable [key].
               |  - Exception while reading system property [key]: java.lang.Error: error.
