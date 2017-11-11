@@ -33,12 +33,12 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 ```
 // Libraries are published for Scala 2.10, 2.11, 2.12
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.4.2",
-  "is.cir" %% "ciris-enumeratum" % "0.4.2",
-  "is.cir" %% "ciris-generic" % "0.4.2",
-  "is.cir" %% "ciris-refined" % "0.4.2",
-  "is.cir" %% "ciris-spire" % "0.4.2",
-  "is.cir" %% "ciris-squants" % "0.4.2"
+  "is.cir" %% "ciris-core" % "0.5.0",
+  "is.cir" %% "ciris-enumeratum" % "0.5.0",
+  "is.cir" %% "ciris-generic" % "0.5.0",
+  "is.cir" %% "ciris-refined" % "0.5.0",
+  "is.cir" %% "ciris-spire" % "0.5.0",
+  "is.cir" %% "ciris-squants" % "0.5.0"
 )
 ```
 
@@ -72,12 +72,12 @@ You will need to have a JDK installed. The [script](https://try.cir.is) will the
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```
-import $ivy.`is.cir::ciris-core:0.4.2`, ciris._
-import $ivy.`is.cir::ciris-enumeratum:0.4.2`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.4.2`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.4.2`, ciris.refined._
-import $ivy.`is.cir::ciris-spire:0.4.2`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.4.2`, ciris.squants._
+import $ivy.`is.cir::ciris-core:0.5.0`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.5.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.5.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.5.0`, ciris.refined._
+import $ivy.`is.cir::ciris-spire:0.5.0`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.5.0`, ciris.squants._
 ```
 
 #### External Libraries
