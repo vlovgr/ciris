@@ -22,3 +22,5 @@ Minor version numbers are now used to indicate binary compatibility.
 
 ### Miscellaneous
 - There's now a [contributing guide](https://cir.is/docs/contributing) for the project. (Thanks [@asalvadore](https://github.com/asalvadore).) ([#47](https://github.com/vlovgr/ciris/pull/47), [#61](https://github.com/vlovgr/ciris/pull/61), [#62](https://github.com/vlovgr/ciris/pull/62))
+
+Released on 2017-11-11.
