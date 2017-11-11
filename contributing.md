@@ -48,6 +48,3 @@ Ciris supports the [Typelevel Code of Conduct](http://typelevel.org/conduct.html
 
 ## Credits
 This document is heavily based on the [http4s contributing guide](http://http4s.org/contributing/).
-
-## Contributors
-Ciris does not have any contributors yet, which means you can be the first one!
