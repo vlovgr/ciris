@@ -25,6 +25,24 @@ sealed class ConfigSourceEntry[Key](
   val value: Either[ConfigError, String]
 ) {
 
+  /**
+    * Transforms the value read from the configuration source by applying
+    * the specified function, returning a new [[ConfigSourceEntry]] which
+    * includes the modified value.
+    *
+    * @param f the function to apply to the read configuration value
+    * @return a new [[ConfigSourceEntry]] with the transformed value
+    * @example {{{
+    * scala> val entry = ConfigSourceEntry("key", ConfigKeyType.Environment, Right("value "))
+    * entry: ConfigSourceEntry[String] = ConfigSourceEntry(key, Environment, Right(value ))
+    *
+    * scala> entry.mapValue(_.trim)
+    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key, Environment, Right(value))
+    * }}}
+    */
+  def mapValue(f: String => String): ConfigSourceEntry[Key] =
+    new ConfigSourceEntry(key, keyType, value.right.map(f))
+
   override def toString: String =
     s"ConfigSourceEntry($key, $keyType, $value)"
 }

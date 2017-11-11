@@ -25,7 +25,7 @@ package ciris
   */
 sealed class ConfigKeyType[Key](val name: String)
 
-object ConfigKeyType {
+object ConfigKeyType extends ConfigKeyTypePlatformSpecific {
 
   /**
     * Creates a new [[ConfigKeyType]] for the specified key name and type.
