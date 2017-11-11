@@ -100,5 +100,20 @@ final class ConfigReaderSpec extends PropertySpec {
         }
       }
     }
+
+    "using mapEntryValue" should {
+      val f: String => String = _.take(1)
+      val reader = ConfigReader.identity.mapEntryValue(f)
+
+      "keep the error if there is one" in {
+        reader.read(nonExistingEntry) shouldBe a[Left[_, _]]
+      }
+
+      "map the entry value if there is one" in {
+        forAll { value: String =>
+          reader.read(existingEntry(value)) shouldBe Right(f(value))
+        }
+      }
+    }
   }
 }
