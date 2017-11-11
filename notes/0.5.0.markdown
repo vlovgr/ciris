@@ -1,0 +1,24 @@
+### Changes
+- Add `.jvmopts` for default java options. ([#56](https://github.com/vlovgr/ciris/pull/56))
+- Add `refine` and `mapRefine` syntax to `ConfigValue`. ([#42](https://github.com/vlovgr/ciris/pull/42))
+- Add support for Java `BigDecimal` and `BigInteger`. (Thanks [@asalvadore](https://github.com/asalvadore).) ([#57](https://github.com/vlovgr/ciris/pull/57))
+- Add customisable `ConfigReader` instances for Java time. (Thanks [@ZsoltBalvanyos](https://github.com/ZsoltBalvanyos).) ([#63](https://github.com/vlovgr/ciris/pull/63), [#64](https://github.com/vlovgr/ciris/pull/64))
+- Add support for reading from files with the `file` and `fileWithName` methods (JVM only). ([#69](https://github.com/vlovgr/ciris/pull/69))  
+Add `ConfigKeyType#File`, `ConfigSource#File`, `ConfigReader#mapEntryValue`, `ConfigSourceEntry#mapValue`.
+- Add build integration with the [Migration Manager for Scala (MiMa)](https://github.com/typesafehub/migration-manager). ([#58](https://github.com/vlovgr/ciris/pull/58))  
+Minor version numbers are now used to indicate binary compatibility.
+- Change `ConfigValue` to be a `final case class` and value class. ([#45](https://github.com/vlovgr/ciris/pull/45))
+- Fix `ConfigException#toString` to include the exception message. ([#68](https://github.com/vlovgr/ciris/pull/68))
+
+### Updates
+- Update SBT to 1.0.3. ([#66](https://github.com/vlovgr/ciris/pull/66))
+- Update Scala to 2.12.4. ([#65](https://github.com/vlovgr/ciris/pull/65))
+- Update Scala.js to 0.6.21. ([#67](https://github.com/vlovgr/ciris/pull/67))
+
+### External Libraries
+- [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm) for [Amazon EC2 Systems Manager (SSM)](https://aws.amazon.com/ec2/systems-manager) parameter store integration. (Thanks [@cb372](https://github.com/cb372).)
+- [`ciris-credstash`](https://github.com/ovotech/ciris-credstash) for [CredStash](https://github.com/fugue/credstash) integration. (Thanks [@laurence-bird](https://github.com/laurence-bird) and [fmsbeekmans](https://github.com/fmsbeekmans).)
+- External libraries are now listed in the readme and on the index page. ([#46](https://github.com/vlovgr/ciris/pull/46), [#59](https://github.com/vlovgr/ciris/pull/59))
+
+### Miscellaneous
+- There's now a [contributing guide](https://cir.is/docs/contributing) for the project. (Thanks [@asalvadore](https://github.com/asalvadore).) ([#47](https://github.com/vlovgr/ciris/pull/47), [#61](https://github.com/vlovgr/ciris/pull/61), [#62](https://github.com/vlovgr/ciris/pull/62))
