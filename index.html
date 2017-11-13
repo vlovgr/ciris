@@ -40,18 +40,20 @@ The blog post <a href="https://typelevel.org/blog/2017/06/21/ciris.html">Validat
 <p>To get started with <a href="http://www.scala-sbt.org">SBT</a>, simply add the following lines to your <code class="highlighter-rouge">build.sbt</code> file.<br />
 For an overview, usage instructions, and examples, please see the <a href="https://cir.is/docs/basics">usage guide</a>.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Libraries are published for Scala 2.10, 2.11, 2.12
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val cirisVersion = "0.5.0"
+
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.5.0",
-  "is.cir" %% "ciris-enumeratum" % "0.5.0",
-  "is.cir" %% "ciris-generic" % "0.5.0",
-  "is.cir" %% "ciris-refined" % "0.5.0",
-  "is.cir" %% "ciris-spire" % "0.5.0",
-  "is.cir" %% "ciris-squants" % "0.5.0"
-)
+  "is.cir" %% "ciris-core",
+  "is.cir" %% "ciris-enumeratum",
+  "is.cir" %% "ciris-generic",
+  "is.cir" %% "ciris-refined",
+  "is.cir" %% "ciris-spire",
+  "is.cir" %% "ciris-squants"
+).map(_ % cirisVersion)
 </code></pre></div></div>
 
-<p>Make sure to replace <code class="highlighter-rouge">%%</code> with <code class="highlighter-rouge">%%%</code> if you are using Scala.js.<br />
+<p>Libraries are published for Scala 2.10, 2.11, and 2.12.<br />
+Make sure to replace <code class="highlighter-rouge">%%</code> with <code class="highlighter-rouge">%%%</code> if you are using Scala.js.<br />
 For changes between versions, please see the <a href="https://github.com/vlovgr/ciris/releases">release notes</a>.</p>
 
 <p>The only required module is <code class="highlighter-rouge">ciris-core</code>, the rest are optional library integrations.<br />
