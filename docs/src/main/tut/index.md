@@ -8,8 +8,8 @@ section: "home"
 import ciris.build.info._
 
 val scalaPublishVersions: String = {
- val sep = if(crossScalaVersions.size > 2) ", " else " and "
- crossScalaVersions.map(_.split('.').init.mkString(".")).mkString(sep)
+ val publishVersions = crossScalaVersions.map(_.split('.').init.mkString("."))
+ publishVersions.init.mkString(", ") ++ publishVersions.lastOption.map(", and " + _).mkString
 }
 ```
 
@@ -48,21 +48,29 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 ```tut:evaluated
 println(
 s"""
- |// Libraries are published for Scala $scalaPublishVersions
+ |val cirisVersion = "$latestVersion"
+ |
  |libraryDependencies ++= Seq(
- |  "$organization" %% "$coreModuleName" % "$latestVersion",
- |  "$organization" %% "$enumeratumModuleName" % "$latestVersion",
- |  "$organization" %% "$genericModuleName" % "$latestVersion",
- |  "$organization" %% "$refinedModuleName" % "$latestVersion",
- |  "$organization" %% "$spireModuleName" % "$latestVersion",
- |  "$organization" %% "$squantsModuleName" % "$latestVersion"
- |)
+ |  "$organization" %% "$coreModuleName",
+ |  "$organization" %% "$enumeratumModuleName",
+ |  "$organization" %% "$genericModuleName",
+ |  "$organization" %% "$refinedModuleName",
+ |  "$organization" %% "$spireModuleName",
+ |  "$organization" %% "$squantsModuleName"
+ |).map(_ % cirisVersion)
  """.stripMargin.trim
 )
 ```
 
-Make sure to replace `%%` with `%%%` if you are using Scala.js.  
-For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
+```tut:passthrough
+println(
+s"""
+ |Libraries are published for Scala $scalaPublishVersions.  
+ |Make sure to replace `%%` with `%%%` if you are using Scala.js.  
+ |For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
+ """.stripMargin.trim
+)
+```
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
