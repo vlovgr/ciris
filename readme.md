@@ -31,19 +31,23 @@ To get started with [SBT][sbt], simply add the following lines to your `build.sb
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs/basics).
 
 ```
-// Libraries are published for Scala 2.10, 2.11, 2.12
+val cirisVersion = "0.5.0"
+
 libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core" % "0.5.0",
-  "is.cir" %% "ciris-enumeratum" % "0.5.0",
-  "is.cir" %% "ciris-generic" % "0.5.0",
-  "is.cir" %% "ciris-refined" % "0.5.0",
-  "is.cir" %% "ciris-spire" % "0.5.0",
-  "is.cir" %% "ciris-squants" % "0.5.0"
-)
+  "is.cir" %% "ciris-core",
+  "is.cir" %% "ciris-enumeratum",
+  "is.cir" %% "ciris-generic",
+  "is.cir" %% "ciris-refined",
+  "is.cir" %% "ciris-spire",
+  "is.cir" %% "ciris-squants"
+).map(_ % cirisVersion)
 ```
 
+
+Libraries are published for Scala 2.10, 2.11, and 2.12.  
 Make sure to replace `%%` with `%%%` if you are using Scala.js.  
 For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
+
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
