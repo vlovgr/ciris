@@ -199,8 +199,8 @@ lazy val docs = project
   .dependsOn(coreJVM, enumeratumJVM, genericJVM, refinedJVM, spireJVM, squantsJVM)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin, ScalaUnidocPlugin)
 
-lazy val scala210 = "2.10.6"
-lazy val scala211 = "2.11.11"
+lazy val scala210 = "2.10.7"
+lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.4"
 
 lazy val scalaSettings = Seq(
@@ -208,8 +208,8 @@ lazy val scalaSettings = Seq(
   crossScalaVersions := Seq(scala210, scala211, scala212),
   scalacOptions ++= Seq(
     "-deprecation",
-    "-encoding",
-    "UTF-8",
+    "-encoding", "UTF-8",
+    "-target:jvm-1.8",
     "-feature",
     "-language:existentials",
     "-language:higherKinds",
