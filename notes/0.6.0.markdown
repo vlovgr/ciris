@@ -10,3 +10,5 @@
 - Add syntax imports to Ammonite imports and try script. ([#75](https://github.com/vlovgr/ciris/pull/75))
 - Add note on binary compatibility to index page/readme. ([#75](https://github.com/vlovgr/ciris/pull/75))
 - Add note clarifying library is targeting Java 8. ([#75](https://github.com/vlovgr/ciris/pull/75))
+
+Released on 2017-12-08.
