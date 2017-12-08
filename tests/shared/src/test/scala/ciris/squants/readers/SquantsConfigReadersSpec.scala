@@ -123,7 +123,7 @@ final class SquantsConfigReadersSpec extends PropertySpec with SquantsGenerators
 
       "return a failure for other values" in {
         forAll { string: String =>
-          whenever(apply(string).isFailure) {
+          whenever(Try(apply(string)).flatten.isFailure) {
             readValue[A](string) shouldBe a[Left[_, _]]
           }
         }

@@ -1,7 +1,9 @@
 package ciris.squants.readers
 
 import ciris.ConfigReader
-import ciris.ConfigReader.{catchNonFatal, fromTry}
+import ciris.ConfigReader.fromTry
+
+import scala.util.Try
 
 trait SquantsConfigReaders {
   import squants.electro._
@@ -188,7 +190,7 @@ trait SquantsConfigReaders {
 
   // https://github.com/typelevel/squants/issues/261
   implicit val temperatureConfigReader: ConfigReader[Temperature] =
-    catchNonFatal("Temperature")(value => Temperature(value).get)
+    fromTry("Temperature")(value => Try(Temperature(value)).flatten)
 
   implicit val thermalCapacityConfigReader: ConfigReader[ThermalCapacity] =
     fromTry("ThermalCapacity")(ThermalCapacity.apply)
