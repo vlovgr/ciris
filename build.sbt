@@ -167,7 +167,8 @@ lazy val docs = project
       val content =
         s"""
           |This is the API documentation for [[https://cir.is Ciris]]: lightweight, extensible, and validated configuration loading in Scala.<br>
-          |The documentation is kept up-to-date with new releases, currently documenting release [[https://github.com/vlovgr/ciris/releases/tag/v$version v$version]] on Scala $scalaTargetVersion.
+          |The documentation is kept up-to-date with new releases, currently documenting release [[https://github.com/vlovgr/ciris/releases/tag/v$version v$version]] on Scala $scalaTargetVersion.<br>
+          |Note that the API documentation targets the JVM, and there may be differences on other platforms (Scala.js).
           |
           |Ciris is divided into the following set of modules.
           |
@@ -417,7 +418,16 @@ generateScripts in ThisBuild := {
        |  $organizationId:${(moduleName in refinedJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in spireJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
-       |  -- --predef-code 'import ciris._,ciris.enumeratum._,ciris.generic._,ciris.refined._,ciris.spire._,ciris.squants._' < /dev/tty
+       |  -- --predef-code "\\
+       |        import ciris._,\\
+       |        ciris.syntax._,\\
+       |        ciris.enumeratum._,\\
+       |        ciris.generic._,\\
+       |        ciris.refined._,\\
+       |        ciris.refined.syntax._,\\
+       |        ciris.spire._,\\
+       |        ciris.squants._\\
+       |      " < /dev/tty
      """.stripMargin.trim + "\n"
 
   IO.createDirectory(output)

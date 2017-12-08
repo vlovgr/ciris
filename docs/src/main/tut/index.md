@@ -65,12 +65,15 @@ s"""
 ```tut:passthrough
 println(
 s"""
- |Libraries are published for Scala $scalaPublishVersions.  
- |Make sure to replace `%%` with `%%%` if you are using Scala.js.  
+ |Make sure to replace `%%` with `%%%` above if you are using Scala.js.  
+ |Libraries are published for Scala $scalaPublishVersions, and Java 8.  
  |For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
  """.stripMargin.trim
 )
 ```
+
+Binary compatibility for the library is guaranteed between minor versions.  
+For example, `0.5.x` is binary compatible with `0.5.y` for any `x` and `y`.
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
@@ -101,10 +104,10 @@ If you already have the Ammonite REPL installed, you can load Ciris using the fo
 ```tut:evaluated
 println(
 s"""
- |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._
+ |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._, ciris.syntax._
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
  |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
- |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._
+ |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._, ciris.refined.syntax._
  |import $$ivy.`$organization::$spireModuleName:$latestVersion`, ciris.spire._
  |import $$ivy.`$organization::$squantsModuleName:$latestVersion`, ciris.squants._
  """.stripMargin.trim

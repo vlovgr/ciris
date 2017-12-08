@@ -6,8 +6,9 @@ package ciris
   * supported by Ciris in the core module include the following:<br>
   * <br>
   * - [[ConfigKeyType#Environment]]: "environment variable" of type `String`,<br>
-  * - [[ConfigKeyType#Property]]: "system property" of type `String`, and<br>
-  * - [[ConfigKeyType#Argument]]: "command-line argument" of type `Int`.<br>
+  * - [[ConfigKeyType#Property]]: "system property" of type `String`,<br>
+  * - [[ConfigKeyType#Argument]]: "command-line argument" of type `Int`, and<br>
+  * - [[ConfigKeyType#File]]: "file" of type `(File, Charset)`.<br>
   * <br>
   * To create a new [[ConfigKeyType]] use the apply method in the companion object,
   * specifying the name of the key and its type. Note that there are no checks for
