@@ -1,0 +1,12 @@
+### Changes
+- Add `Secret[A]` to avoid logging secret configuration values. ([#73](https://github.com/vlovgr/ciris/pull/73))
+- Fix Squants `ConfigReader[Temperature]` to work around [#261](https://github.com/typelevel/squants/issues/261). ([#75](https://github.com/vlovgr/ciris/pull/75))
+
+### Updates
+- Update SBT to 1.0.4. ([#72](https://github.com/vlovgr/ciris/pull/72))
+- Update Scala to 2.11.12 and 2.10.7. ([#70](https://github.com/vlovgr/ciris/pull/70))
+
+### Miscellaneous
+- Add syntax imports to Ammonite imports and try script. ([#75](https://github.com/vlovgr/ciris/pull/75))
+- Add note on binary compatibility to index page/readme. ([#75](https://github.com/vlovgr/ciris/pull/75))
+- Add note clarifying library is targeting Java 8. ([#75](https://github.com/vlovgr/ciris/pull/75))
