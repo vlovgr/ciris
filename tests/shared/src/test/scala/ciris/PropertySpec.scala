@@ -2,11 +2,11 @@ package ciris
 
 import org.scalacheck.Gen
 import org.scalatest.prop.PropertyChecks
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.{EitherValues, Matchers, WordSpec}
 
 import scala.util.Try
 
-class PropertySpec extends WordSpec with Matchers with PropertyChecks {
+class PropertySpec extends WordSpec with Matchers with PropertyChecks with EitherValues {
   override implicit val generatorDrivenConfig: PropertyCheckConfiguration =
     PropertyCheckConfiguration(minSuccessful = 1000)
 
