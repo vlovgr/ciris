@@ -65,8 +65,8 @@ s"""
 ```tut:passthrough
 println(
 s"""
- |Libraries are published for Scala $scalaPublishVersions.  
- |Make sure to replace `%%` with `%%%` if you are using Scala.js.  
+ |Make sure to replace `%%` with `%%%` above if you are using Scala.js.  
+ |Libraries are published for Scala $scalaPublishVersions, and Java 8.  
  |For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
  """.stripMargin.trim
 )
