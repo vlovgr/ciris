@@ -13,7 +13,7 @@ ga('send', 'pageview');
 
 <p>Let’s modify the configuration seen in <a href="/docs/basics">Usage Basics</a> to use refined types.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.auto._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.auto._</span>
 <span class="c1">// import eu.timepit.refined.auto._
 </span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.PortNumber</span>
@@ -31,11 +31,12 @@ ga('send', 'pageview');
   <span class="n">port</span><span class="k">:</span> <span class="kt">PortNumber</span>
 <span class="o">)</span>
 <span class="c1">// defined class Config
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>Here we’ve said that the API key must be a non-empty <code class="highlighter-rouge">String</code> and that the port number must be an <code class="highlighter-rouge">Int</code> between 0 and 65535. We could also require that the timeout must be finite and within a certain range, but since it’s always specified in the code, it’s arguably harder to get wrong. Now, let’s see how we can simply change the types to read in the <code class="highlighter-rouge">env</code> and <code class="highlighter-rouge">prop</code> methods to the refined types, and how Ciris will take care of loading them for you.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
 <span class="c1">// import ciris._
 </span>
 <span class="k">import</span> <span class="nn">ciris.refined._</span>
@@ -53,7 +54,8 @@ ga('send', 'pageview');
     <span class="o">)</span>
   <span class="o">}</span>
 <span class="c1">// config: Either[ciris.ConfigErrors,Config] = Left(ConfigErrors(MissingKey(API_KEY, Environment)))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
 languages:['scala','java','bash']

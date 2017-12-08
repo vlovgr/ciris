@@ -11,7 +11,7 @@ ga('send', 'pageview');
 
 <p>However, there may be cases where you need to resort to defining custom readers for your types. For example, let’s say you’re dealing with a sealed <code class="highlighter-rouge">Odd</code> class, where you can only construct instances from an <code class="highlighter-rouge">odd</code> method, which accepts an <code class="highlighter-rouge">Int</code> and returns an <code class="highlighter-rouge">Option[Odd]</code>.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
 <span class="c1">// import ciris._
 </span>
 <span class="k">sealed</span> <span class="k">abstract</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Odd</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
@@ -23,26 +23,29 @@ ga('send', 'pageview');
     <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">new</span> <span class="nc">Odd</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="o">{})</span>
 <span class="o">}</span>
 <span class="c1">// odd: (value: Int)Option[Odd]
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>We would now like to load <code class="highlighter-rouge">Odd</code> values using Ciris. If we try and do this straight away, it will fail during compile, saying there is no implicit <code class="highlighter-rouge">ConfigReader</code> in scope.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">env</span><span class="o">[</span><span class="kt">Odd</span><span class="o">](</span><span class="s">"ODD_VALUE"</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">env</span><span class="o">[</span><span class="kt">Odd</span><span class="o">](</span><span class="s">"ODD_VALUE"</span><span class="o">)</span>
 <span class="c1">// &lt;console&gt;:18: error: could not find implicit value for evidence parameter of type ciris.ConfigReader[Odd]
 //        env[Odd]("ODD_VALUE")
 //                ^
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>This means we’ll have to define a custom implicit <code class="highlighter-rouge">ConfigReader[Odd]</code> instance. The <a href="https://cir.is/api/ciris/ConfigReader$.html"><code class="highlighter-rouge">ConfigReader</code></a> companion object provides some helper methods for creating <code class="highlighter-rouge">ConfigReader</code>s. In this case, we’ll rely on the default <code class="highlighter-rouge">ConfigReader[Int]</code> instance to read an <code class="highlighter-rouge">Int</code> and we will then try to convert the <code class="highlighter-rouge">Int</code> to an <code class="highlighter-rouge">Odd</code> instance using the <code class="highlighter-rouge">mapOption</code> method. Most <code class="highlighter-rouge">ConfigReader</code> methods accept a <code class="highlighter-rouge">typeName</code> argument which is the name of the type you’re reading. Depending on which Scala version and which platform (Scala, Scala.js, …) you run on, you may be able to use <a href="http://docs.scala-lang.org/overviews/reflection/typetags-manifests.html">type tags</a>. In this case, and cases where you don’t have type parameters, it’s simple enough to just provide the type name.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">def</span> <span class="n">oddConfigReader</span><span class="o">(</span><span class="k">implicit</span> <span class="n">intReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span> <span class="k">=</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">def</span> <span class="n">oddConfigReader</span><span class="o">(</span><span class="k">implicit</span> <span class="n">intReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span> <span class="k">=</span>
   <span class="n">intReader</span><span class="o">.</span><span class="n">mapOption</span><span class="o">(</span><span class="s">"Odd"</span><span class="o">)(</span><span class="n">odd</span><span class="o">)</span>
 <span class="c1">// oddConfigReader: (implicit intReader: ciris.ConfigReader[Int])ciris.ConfigReader[Odd]
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>We can then try to read <code class="highlighter-rouge">Odd</code> values from a custom <a href="/docs/sources">configuration source</a>.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">source</span> <span class="k">=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">keyType</span> <span class="k">=</span> <span class="nc">ConfigKeyType</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"int key"</span><span class="o">)</span>
   <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span><span class="s">"a"</span> <span class="o">-&gt;</span> <span class="s">"abc"</span><span class="o">,</span> <span class="s">"b"</span> <span class="o">-&gt;</span> <span class="s">"6"</span><span class="o">,</span> <span class="s">"c"</span> <span class="o">-&gt;</span> <span class="s">"3"</span><span class="o">))</span>
 <span class="o">}</span>
@@ -62,7 +65,8 @@ ga('send', 'pageview');
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">Odd</span><span class="o">](</span><span class="s">"c"</span><span class="o">)</span>
 <span class="c1">// res3: ciris.ConfigValue[Odd] = ConfigValue(Right(Odd(3)))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>While this demonstrates how to create custom <code class="highlighter-rouge">ConfigReader</code>s, a better way to represent <code class="highlighter-rouge">Odd</code> values is by using the <code class="highlighter-rouge">Odd</code> predicate from <a href="https://github.com/fthomas/refined">refined</a>. The <a href="/docs/validation">Encoding Validation</a> section has more information on the <code class="highlighter-rouge">ciris-refined</code> module and how you can use it to read refined types.</p>
 

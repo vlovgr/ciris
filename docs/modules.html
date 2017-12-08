@@ -12,7 +12,7 @@ ga('send', 'pageview');
 <h2 id="enumeratum"><a name="enumeratum" href="#enumeratum">Enumeratum</a></h2>
 <p>The <code class="highlighter-rouge">ciris-enumeratum</code> module provides support for reading <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations. You can refer to the <a href="/api/ciris/enumeratum">documentation</a> for a complete list of supported enumerations. As an example, let’s define an <code class="highlighter-rouge">Enum</code> and see how we can load values of that enumeration using Ciris. Enumeratum provides mixins, like <code class="highlighter-rouge">Lowercase</code> below, which we can use to customize the name of our enumerations, and in turn, what values we will be able to load with Ciris.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">enumeratum._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">enumeratum._</span>
 <span class="c1">// import enumeratum._
 </span>
 <span class="k">import</span> <span class="nn">enumeratum.EnumEntry._</span>
@@ -29,11 +29,12 @@ ga('send', 'pageview');
   <span class="o">}</span>
 <span class="o">}</span>
 <span class="c1">// defined object configuration
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>Let’s also define a custom implicit <a href="/docs/sources">configuration source</a>, holding some values we can ask Ciris to load.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
 <span class="c1">// import ciris._
 </span>
 <span class="k">import</span> <span class="nn">ciris.enumeratum._</span>
@@ -52,11 +53,12 @@ ga('send', 'pageview');
   <span class="o">))</span>
 <span class="o">}</span>
 <span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(enumeratum key))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>We can then ask Ciris to load values of the enumeration, from the implicit source, using the <code class="highlighter-rouge">read</code> method.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"localEnv"</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"localEnv"</span><span class="o">)</span>
 <span class="c1">// res0: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Right(Local))
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"testingEnv"</span><span class="o">)</span>
@@ -67,14 +69,15 @@ ga('send', 'pageview');
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"invalidEnv"</span><span class="o">)</span>
 <span class="c1">// res3: ciris.ConfigValue[configuration.AppEnvironment] = ConfigValue(Left(WrongType(invalidEnv, invalid, configuration$AppEnvironment, ConfigKeyType(enumeratum key), None)))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>Dealing with multiple environments is a common use case for configurations, explained in greater detail in the <a href="/docs/environments">Multiple Environments</a> section.</p>
 
 <h2 id="generic"><a name="generic" href="#generic">Generic</a></h2>
 <p>The <code class="highlighter-rouge">ciris-generic</code> module provides the ability to read unary products, and coproducts using <a href="https://github.com/milessabin/shapeless">shapeless</a>. This allows you to load case classes with one argument, including <a href="http://docs.scala-lang.org/overviews/core/value-classes.html">value classes</a>, and shapeless coproducts, plus anything else that shapeless’ <code class="highlighter-rouge">Generic</code> supports. Let’s take a brief look at these cases to see how it works in practice. We start by defining a source from which we can read configuration values.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
 <span class="c1">// import ciris._
 </span>
 <span class="k">import</span> <span class="nn">ciris.generic._</span>
@@ -85,48 +88,54 @@ ga('send', 'pageview');
   <span class="nc">ConfigSource</span><span class="o">.</span><span class="n">fromMap</span><span class="o">(</span><span class="n">keyType</span><span class="o">)(</span><span class="nc">Map</span><span class="o">(</span><span class="s">"key"</span> <span class="o">-&gt;</span> <span class="s">"5.0"</span><span class="o">))</span>
 <span class="o">}</span>
 <span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(generic key))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>We can then define and load a unary product, for example a case class with one value.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">DoubleValue</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">DoubleValue</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span>
 
 <span class="n">read</span><span class="o">[</span><span class="kt">DoubleValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <p>It also works for value classes and any other unary products shapeless’ <code class="highlighter-rouge">Generic</code> supports.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="k">class</span> <span class="nc">FloatValue</span><span class="o">(</span><span class="k">val</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">class</span> <span class="nc">FloatValue</span><span class="o">(</span><span class="k">val</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span>
 
 <span class="n">read</span><span class="o">[</span><span class="kt">FloatValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <p>We can also define a shapeless coproduct and load it.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">shapeless.</span><span class="o">{:+:,</span> <span class="nc">CNil</span><span class="o">}</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">shapeless.</span><span class="o">{:+:,</span> <span class="nc">CNil</span><span class="o">}</span>
 
 <span class="k">type</span> <span class="kt">DoubleOrFloat</span> <span class="o">=</span> <span class="nc">DoubleValue</span> <span class="o">:+:</span> <span class="nc">FloatValue</span> <span class="o">:+:</span> <span class="nc">CNil</span>
 
 <span class="n">read</span><span class="o">[</span><span class="kt">DoubleOrFloat</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
-</code></pre></div></div>
+</code></pre>
+</div>
 
 <p>If we define a product with more than one value:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">TwoValues</span><span class="o">(</span><span class="n">value1</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">value2</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">TwoValues</span><span class="o">(</span><span class="n">value1</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">value2</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span>
 <span class="c1">// defined class TwoValues
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>we will not be able to load it, resulting in an error at compile-time.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">TwoValues</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">TwoValues</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
 <span class="c1">// &lt;console&gt;:22: error: could not find implicit value for parameter reader: ciris.ConfigReader[TwoValues]
 //        read[TwoValues]("key")
 //                       ^
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>Also, if there’s no public constructor or apply method:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">PrivateValues</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">object</span> <span class="nc">PrivateValues</span> <span class="o">{</span>
   <span class="k">final</span> <span class="k">class</span> <span class="nc">PrivateFloatValue</span> <span class="k">private</span><span class="o">(</span><span class="k">val</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span>
   <span class="k">object</span> <span class="nc">PrivateFloatValue</span> <span class="o">{</span>
     <span class="k">def</span> <span class="n">withValue</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">=</span>
@@ -137,20 +146,22 @@ ga('send', 'pageview');
 </span>
 <span class="k">import</span> <span class="nn">PrivateValues._</span>
 <span class="c1">// import PrivateValues._
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>we will not be able to load it, again resulting in an error at compile-time.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">PrivateFloatValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">PrivateFloatValue</span><span class="o">](</span><span class="s">"key"</span><span class="o">)</span>
 <span class="c1">// &lt;console&gt;:24: error: could not find implicit value for parameter reader: ciris.ConfigReader[PrivateValues.PrivateFloatValue]
 //        read[PrivateFloatValue]("key")
 //                               ^
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <h2 id="refined"><a name="refined" href="#refined">Refined</a></h2>
 <p>The <code class="highlighter-rouge">ciris-refined</code> module allows you to load refinement types from <a href="https://github.com/fthomas/refined">refined</a>. Let’s start by defining a configuration source from which to read some values.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
 <span class="c1">// import ciris._
 </span>
 <span class="k">import</span> <span class="nn">ciris.refined._</span>
@@ -166,11 +177,12 @@ ga('send', 'pageview');
   <span class="o">))</span>
 <span class="o">}</span>
 <span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(refined key))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>In this example, we’ll simply try to read <code class="highlighter-rouge">PosInt</code> values, which are all <code class="highlighter-rouge">Int</code>s strictly greater than zero.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.numeric.PosInt</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.numeric.PosInt</span>
 <span class="c1">// import eu.timepit.refined.types.numeric.PosInt
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"negative"</span><span class="o">)</span>
@@ -184,14 +196,15 @@ ga('send', 'pageview');
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">](</span><span class="s">"other"</span><span class="o">)</span>
 <span class="c1">// res3: ciris.ConfigValue[eu.timepit.refined.types.numeric.PosInt] = ConfigValue(Left(WrongType(other, abc, Int, ConfigKeyType(refined key), Some(java.lang.NumberFormatException: For input string: "abc"))))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>Refinement types are useful for making sure your configuration is valid. See the <a href="/docs/validation">Encoding Validation</a> section for more information.</p>
 
 <h2 id="spire"><a name="spire" href="#spire">Spire</a></h2>
 <p>The <code class="highlighter-rouge">ciris-spire</code> module adds support for loading <a href="https://github.com/non/spire">spire</a> number types. For a complete list of support number types, refer to the <a href="/api/ciris/spire">documentation</a>. Let’s see how we can load spire number types by first defining a custom configuration source.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spire.math._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spire.math._</span>
 <span class="c1">// import spire.math._
 </span>
 <span class="k">import</span> <span class="nn">ciris._</span>
@@ -210,11 +223,12 @@ ga('send', 'pageview');
   <span class="o">)</span>
 <span class="o">}</span>
 <span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(spire key))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>We can then simply read values from the source using <code class="highlighter-rouge">read</code> and by specifying spire number types.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">Natural</span><span class="o">](</span><span class="s">"natural"</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">read</span><span class="o">[</span><span class="kt">Natural</span><span class="o">](</span><span class="s">"natural"</span><span class="o">)</span>
 <span class="c1">// res0: ciris.ConfigValue[spire.math.Natural] = ConfigValue(Right(847365894625891365137596378546725))
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">Interval</span><span class="o">[</span><span class="kt">Rational</span><span class="o">]](</span><span class="s">"interval"</span><span class="o">)</span>
@@ -234,12 +248,13 @@ ga('send', 'pageview');
 </span>
 <span class="n">read</span><span class="o">[</span><span class="kt">UInt</span><span class="o">](</span><span class="s">"uint"</span><span class="o">)</span>
 <span class="c1">// res6: ciris.ConfigValue[spire.math.UInt] = ConfigValue(Right(2147483648))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <h2 id="squants"><a name="squants" href="#squants">Squants</a></h2>
 <p>The <code class="highlighter-rouge">ciris-squants</code> module allows loading values with unit of measure from <a href="https://github.com/typelevel/squants">squants</a>. For a complete list of supported dimensions, refer to the <a href="/api/ciris/squants">documentation</a>. Let’s see how this works by first defining a configuration source with a few different keys mapping to <code class="highlighter-rouge">Time</code> values, each having a different unit of measure.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">squants.time.Time</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">squants.time.Time</span>
 <span class="c1">// import squants.time.Time
 </span>
 <span class="k">import</span> <span class="nn">ciris._</span>
@@ -257,11 +272,12 @@ ga('send', 'pageview');
   <span class="o">))</span>
 <span class="o">}</span>
 <span class="c1">// source: ciris.ConfigSource[String] = ConfigSource(ConfigKeyType(squants key))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>We can then load these values by simply specifying that we want to read values of type <code class="highlighter-rouge">Time</code>.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">seconds</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"seconds"</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">seconds</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"seconds"</span><span class="o">)</span>
 <span class="c1">// seconds: ciris.ConfigValue[squants.time.Time] = ConfigValue(Right(3.0 s))
 </span>
 <span class="k">val</span> <span class="n">minutes</span> <span class="k">=</span> <span class="n">read</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"minutes"</span><span class="o">)</span>
@@ -272,7 +288,8 @@ ga('send', 'pageview');
 </span>
 <span class="n">loadConfig</span><span class="o">(</span><span class="n">seconds</span><span class="o">,</span> <span class="n">minutes</span><span class="o">,</span> <span class="n">hours</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">).</span><span class="n">right</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toMinutes</span><span class="o">)</span>
 <span class="c1">// res0: scala.util.Either[ciris.ConfigErrors,Double] = Right(743.05)
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
 languages:['scala','java','bash']
