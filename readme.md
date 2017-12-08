@@ -31,7 +31,7 @@ To get started with [SBT][sbt], simply add the following lines to your `build.sb
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs/basics).
 
 ```
-val cirisVersion = "0.5.0"
+val cirisVersion = "0.6.0"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-core",
@@ -44,10 +44,13 @@ libraryDependencies ++= Seq(
 ```
 
 
-Libraries are published for Scala 2.10, 2.11, and 2.12.  
-Make sure to replace `%%` with `%%%` if you are using Scala.js.  
+Make sure to replace `%%` with `%%%` above if you are using Scala.js.  
+Libraries are published for Scala 2.10, 2.11, and 2.12, and Java 8.  
 For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
 
+
+Binary compatibility for the library is guaranteed between minor versions.  
+For example, `0.5.x` is binary compatible with `0.5.y` for any `x` and `y`.
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
@@ -76,12 +79,12 @@ You will need to have a JDK installed. The [script](https://try.cir.is) will the
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```
-import $ivy.`is.cir::ciris-core:0.5.0`, ciris._
-import $ivy.`is.cir::ciris-enumeratum:0.5.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.5.0`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.5.0`, ciris.refined._
-import $ivy.`is.cir::ciris-spire:0.5.0`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.5.0`, ciris.squants._
+import $ivy.`is.cir::ciris-core:0.6.0`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.6.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.6.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.6.0`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.6.0`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.6.0`, ciris.squants._
 ```
 
 #### External Libraries
