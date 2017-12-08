@@ -48,9 +48,9 @@ Make sure to replace `%%` with `%%%` above if you are using Scala.js.
 Libraries are published for Scala 2.10, 2.11, and 2.12, and Java 8.  
 For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
 
-
 Binary compatibility for the library is guaranteed between minor versions.  
-For example, `0.5.x` is binary compatible with `0.5.y` for any `x` and `y`.
+For example, `0.6.x` is binary compatible with `0.6.y` for any `x` and `y`.
+
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
