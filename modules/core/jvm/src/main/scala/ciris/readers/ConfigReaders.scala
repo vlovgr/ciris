@@ -1,7 +1,8 @@
 package ciris.readers
 
 trait ConfigReaders
-    extends DerivedConfigReaders
+    extends CirisConfigReaders
+    with DerivedConfigReaders
     with DurationConfigReaders
     with JavaIoConfigReaders
     with JavaNetConfigReaders
