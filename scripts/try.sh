@@ -13,4 +13,13 @@ test -e ~/.coursier/coursier || ( \
   is.cir:ciris-refined_2.12:0.5.0 \
   is.cir:ciris-spire_2.12:0.5.0 \
   is.cir:ciris-squants_2.12:0.5.0 \
-  -- --predef-code 'import ciris._,ciris.enumeratum._,ciris.generic._,ciris.refined._,ciris.spire._,ciris.squants._' < /dev/tty
+  -- --predef-code "\
+        import ciris._,\
+        ciris.syntax._,\
+        ciris.enumeratum._,\
+        ciris.generic._,\
+        ciris.refined._,\
+        ciris.refined.syntax._,\
+        ciris.spire._,\
+        ciris.squants._\
+      " < /dev/tty

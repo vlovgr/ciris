@@ -417,7 +417,16 @@ generateScripts in ThisBuild := {
        |  $organizationId:${(moduleName in refinedJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in spireJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
-       |  -- --predef-code 'import ciris._,ciris.enumeratum._,ciris.generic._,ciris.refined._,ciris.spire._,ciris.squants._' < /dev/tty
+       |  -- --predef-code "\\
+       |        import ciris._,\\
+       |        ciris.syntax._,\\
+       |        ciris.enumeratum._,\\
+       |        ciris.generic._,\\
+       |        ciris.refined._,\\
+       |        ciris.refined.syntax._,\\
+       |        ciris.spire._,\\
+       |        ciris.squants._\\
+       |      " < /dev/tty
      """.stripMargin.trim + "\n"
 
   IO.createDirectory(output)
