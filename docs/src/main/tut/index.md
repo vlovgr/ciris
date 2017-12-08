@@ -104,10 +104,10 @@ If you already have the Ammonite REPL installed, you can load Ciris using the fo
 ```tut:evaluated
 println(
 s"""
- |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._
+ |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._, ciris.syntax._
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
  |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
- |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._
+ |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._, ciris.refined.syntax._
  |import $$ivy.`$organization::$spireModuleName:$latestVersion`, ciris.spire._
  |import $$ivy.`$organization::$squantsModuleName:$latestVersion`, ciris.squants._
  """.stripMargin.trim
