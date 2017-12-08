@@ -17,6 +17,20 @@ final class SecretSpec extends PropertySpec {
       }
     }
 
+    "not be equal if values are different" in {
+      forAll { (a: Int, b: Int) =>
+        whenever(a != b) {
+          Secret(a) shouldNot equal(Secret(b))
+        }
+      }
+    }
+
+    "not be equal if one is not a secret" in {
+      forAll { (a: Int, b: Int) =>
+        Secret(a) shouldNot equal(b)
+      }
+    }
+
     "have equal hash code to a copy with the same value" in {
       forAll { secret: Secret[Int] =>
         secret.hashCode shouldBe secret.copy().hashCode
@@ -33,6 +47,12 @@ final class SecretSpec extends PropertySpec {
       forAll { secret: Secret[Int] =>
         val value = secret match { case Secret(value) => value }
         value shouldBe secret.value
+      }
+    }
+
+    "be able to read secret values" in {
+      forAll { value: Int =>
+        readValue[Secret[Int]](value.toString) shouldBe Right(Secret(value))
       }
     }
   }
