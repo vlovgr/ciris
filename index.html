@@ -27,12 +27,12 @@ After the city falls and Scylla is taken prisoner on the Cretan ships, Amphitrit
 
 <p>Ciris is intended as an alternative to configuration files, and libraries like <a href="https://github.com/typesafehub/config">Typesafe Config</a>, in situations where it’s easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.</p>
 
-<p>The presentation below introduces Ciris and covers configurations with refined types.<br />
-The blog post <a href="https://typelevel.org/blog/2017/06/21/ciris.html">Validated Configurations with Ciris</a> provides more details on the topic.</p>
+<p>Refer to the presentation <a href="https://www.youtube.com/watch?v=C3ciegxMAqA">Refined types for validated configurations</a> (<a href="https://vlovgr.github.io/refined-types">slides</a>) and follow-up blog post<br />
+<a href="https://typelevel.org/blog/2017/06/21/ciris.html">Validated Configurations with Ciris</a> for an introduction to Ciris and configurations with refined types.</p>
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=C3ciegxMAqA">
-    <img src="https://i.imgur.com/OaCPYsv.png" />
+  <a href="https://asciinema.org/a/151742">
+    <img src="https://asciinema.org/a/151742.png" width="75%" />
   </a>
 </p>
 
@@ -40,7 +40,7 @@ The blog post <a href="https://typelevel.org/blog/2017/06/21/ciris.html">Validat
 <p>To get started with <a href="http://www.scala-sbt.org">SBT</a>, simply add the following lines to your <code class="highlighter-rouge">build.sbt</code> file.<br />
 For an overview, usage instructions, and examples, please see the <a href="https://cir.is/docs/basics">usage guide</a>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>val cirisVersion = "0.6.0"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val cirisVersion = "0.6.0"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-core",
@@ -50,8 +50,7 @@ libraryDependencies ++= Seq(
   "is.cir" %% "ciris-spire",
   "is.cir" %% "ciris-squants"
 ).map(_ % cirisVersion)
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Make sure to replace <code class="highlighter-rouge">%%</code> with <code class="highlighter-rouge">%%%</code> above if you are using Scala.js.<br />
 Libraries are published for Scala 2.10, 2.11, and 2.12, and Java 8.<br />
@@ -73,15 +72,13 @@ For an explanation of how to use the modules, see the <a href="https://cir.is/do
 
 <p>If you’re using <code class="highlighter-rouge">ciris-generic</code> with Scala 2.10, you’ll need to include the <a href="http://docs.scala-lang.org/overviews/macros/paradise.html">Macro Paradise</a> compiler plugin.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.patch)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.patch)
+</code></pre></div></div>
 
 <h4 id="ammonite"><a name="ammonite" href="#ammonite">Ammonite</a></h4>
 <p>To start an <a href="http://www.lihaoyi.com/Ammonite/#Ammonite-REPL">Ammonite REPL</a> with Ciris loaded and imported, simply run the following.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>curl -Ls try.cir.is | sh
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -Ls try.cir.is | sh
+</code></pre></div></div>
 <p>You will need to have a JDK installed. The <a href="https://try.cir.is">script</a> will then:</p>
 <ul>
   <li>download and install the latest available version of <a href="https://github.com/coursier/coursier">coursier</a>,</li>
@@ -90,14 +87,13 @@ For an explanation of how to use the modules, see the <a href="https://cir.is/do
 </ul>
 
 <p>If you already have the Ammonite REPL installed, you can load Ciris using the following commands.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.6.0`, ciris._, ciris.syntax._
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.6.0`, ciris._, ciris.syntax._
 import $ivy.`is.cir::ciris-enumeratum:0.6.0`, ciris.enumeratum._
 import $ivy.`is.cir::ciris-generic:0.6.0`, ciris.generic._
 import $ivy.`is.cir::ciris-refined:0.6.0`, ciris.refined._, ciris.refined.syntax._
 import $ivy.`is.cir::ciris-spire:0.6.0`, ciris.spire._
 import $ivy.`is.cir::ciris-squants:0.6.0`, ciris.squants._
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="external-libraries"><a name="external-libraries" href="#external-libraries">External Libraries</a></h4>
 <p>Below is an incomplete list of third-party libraries that integrate with Ciris.<br />

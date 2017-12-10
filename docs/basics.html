@@ -11,7 +11,7 @@ ga('send', 'pageview');
 
 <p>The configuration can be modeled with nested case classes. Here we’ll define a small example configuration for an HTTP service, binding at a certain port, using an API key for request authorization, and using a maximum timeout when making HTTP requests to other services.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
 <span class="c1">// import scala.concurrent.duration._
 </span>
 <span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Config</span><span class="o">(</span>
@@ -20,12 +20,11 @@ ga('send', 'pageview');
   <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span>
 <span class="o">)</span>
 <span class="c1">// defined class Config
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>In this case, the API key is a secret and we would like to load it from the environment. The same goes for the port, which needs to be dynamic depending on the environment. We can read environment variables using the <code class="highlighter-rouge">env</code> method and system properties using the <code class="highlighter-rouge">prop</code> method, both returning a <code class="highlighter-rouge">ConfigValue</code>. The <code class="highlighter-rouge">loadConfig</code> method then accepts <code class="highlighter-rouge">ConfigValue</code>s and expects a function creating the configuration using the loaded values. If there are errors while reading values, Ciris will deal with them and accumulate them as <code class="highlighter-rouge">ConfigErrors</code>. You can read more about <code class="highlighter-rouge">ConfigValue</code> and <code class="highlighter-rouge">ConfigErrors</code> in <a href="/docs/concepts">Core Concepts</a>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris._</span>
 <span class="c1">// import ciris._
 </span>
 <span class="k">val</span> <span class="n">config</span> <span class="k">=</span>
@@ -40,15 +39,13 @@ ga('send', 'pageview');
     <span class="o">)</span>
   <span class="o">}</span>
 <span class="c1">// config: Either[ciris.ConfigErrors,Config] = Left(ConfigErrors(MissingKey(API_KEY, Environment)))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The values which do not need to be loaded from the environment can be written as literals. It’s also possible to optionally read values (like for the port in the example above), providing defaults if they have not been specified. In this case, we forgot to specify the <code class="highlighter-rouge">API_KEY</code> environment variable and therefore get an appropriate error. If we want more sensible error messages, simply use the <code class="highlighter-rouge">messages</code> method on <code class="highlighter-rouge">ConfigErrors</code>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">config</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">messages</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">config</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">messages</span><span class="o">)</span>
 <span class="c1">// res0: scala.util.Either[Vector[String],Config] = Left(Vector(Missing environment variable [API_KEY]))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
 languages:['scala','java','bash']
 });
