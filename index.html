@@ -72,12 +72,12 @@ For an explanation of how to use the modules, see the <a href="https://cir.is/do
 
 <p>If you’re using <code class="highlighter-rouge">ciris-generic</code> with Scala 2.10, you’ll need to include the <a href="http://docs.scala-lang.org/overviews/macros/paradise.html">Macro Paradise</a> compiler plugin.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.patch)
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="n">compilerPlugin</span><span class="o">(</span><span class="s">"org.scalamacros"</span> <span class="o">%</span> <span class="s">"paradise"</span> <span class="o">%</span> <span class="s">"2.1.0"</span> <span class="n">cross</span> <span class="nc">CrossVersion</span><span class="o">.</span><span class="n">patch</span><span class="o">)</span>
 </code></pre></div></div>
 
 <h4 id="ammonite"><a name="ammonite" href="#ammonite">Ammonite</a></h4>
 <p>To start an <a href="http://www.lihaoyi.com/Ammonite/#Ammonite-REPL">Ammonite REPL</a> with Ciris loaded and imported, simply run the following.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -Ls try.cir.is | sh
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-Ls</span> try.cir.is | sh
 </code></pre></div></div>
 <p>You will need to have a JDK installed. The <a href="https://try.cir.is">script</a> will then:</p>
 <ul>
@@ -85,6 +85,10 @@ For an explanation of how to use the modules, see the <a href="https://cir.is/do
   <li>use coursier to fetch Ammonite and the latest Ciris version,</li>
   <li>start an Ammonite REPL with Ciris already imported.</li>
 </ul>
+
+<p>To use <a href="https://typelevel.org/scala/">Typelevel Scala</a> with literal types enabled, instead use the following.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-Ls</span> try.cir.is/typelevel | sh
+</code></pre></div></div>
 
 <p>If you already have the Ammonite REPL installed, you can load Ciris using the following commands.</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.6.0`, ciris._, ciris.syntax._
