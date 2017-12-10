@@ -88,19 +88,24 @@ For an explanation of how to use the modules, see the [Modules Overview](https:/
 
 If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
 
-```
+```scala
 libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.patch)
 ```
 
 #### <a name="ammonite" href="#ammonite">Ammonite</a>
 To start an [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) with Ciris loaded and imported, simply run the following.
-```
+```bash
 curl -Ls try.cir.is | sh
 ```
 You will need to have a JDK installed. The [script](https://try.cir.is) will then:
 * download and install the latest available version of [coursier](https://github.com/coursier/coursier),
 * use coursier to fetch Ammonite and the latest Ciris version,
 * start an Ammonite REPL with Ciris already imported.
+
+To use [Typelevel Scala](https://typelevel.org/scala/) with literal types enabled, instead use the following.
+```bash
+curl -Ls try.cir.is/typelevel | sh
+```
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```tut:evaluated
