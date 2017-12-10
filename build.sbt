@@ -401,7 +401,20 @@ generateScripts in ThisBuild := {
   val organizationId = (organization in coreJVM).value
   val moduleVersion = (latestVersion in ThisBuild).value
 
-  val tryScript =
+  def tryScript(
+    extraCoursierArgs: Seq[String] = Seq.empty,
+    extraPredefCode: Seq[String] = Seq.empty
+  ) = {
+    val coursierArgs =
+      if(extraCoursierArgs.nonEmpty)
+        "\n" + extraCoursierArgs.map(s => s"  $s \\").mkString("\n")
+      else ""
+
+    val predefCode =
+      if(extraPredefCode.nonEmpty)
+        "\n" + extraPredefCode.map(s => s"        $s;\\").mkString("\n")
+      else ""
+
     s"""
        |#!/usr/bin/env sh
        |test -e ~/.coursier/coursier || ( \\
@@ -411,14 +424,14 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P \\
-       |  com.lihaoyi:ammonite_2.12.4:1.0.3 \\
+       |  com.lihaoyi:ammonite_2.12.4:1.0.3 \\$coursierArgs
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in refinedJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in spireJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
-       |  -- --predef-code "\\
+       |  -- --predef-code "\\$predefCode
        |        import ciris._,\\
        |        ciris.syntax._,\\
        |        ciris.enumeratum._,\\
@@ -429,9 +442,23 @@ generateScripts in ThisBuild := {
        |        ciris.squants._\\
        |      " < /dev/tty
      """.stripMargin.trim + "\n"
+  }
 
   IO.createDirectory(output)
-  IO.write(output / "try.sh", tryScript)
+  IO.write(output / "try.sh", tryScript())
+  IO.write(output / "try.typelevel.sh", tryScript(
+    extraCoursierArgs = Seq(
+      "-E org.scala-lang:scala-library",
+      "-E org.scala-lang:scala-compiler",
+      "-E org.scala-lang:scala-reflect",
+      "org.typelevel:scala-compiler:2.12.4-bin-typelevel-4",
+      "org.typelevel:scala-library:2.12.4-bin-typelevel-4",
+      "org.typelevel:scala-reflect:2.12.4-bin-typelevel-4"
+    ),
+    extraPredefCode = Seq(
+      "repl.compiler.settings.YliteralTypes.value = true"
+    )
+  ))
 }
 
 val updateScripts = taskKey[Unit]("Generates and commits scripts")
