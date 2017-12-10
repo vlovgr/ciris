@@ -17,12 +17,12 @@ Ciris encourages compile-time safety by defining as much as possible of your con
 
 Ciris is intended as an alternative to configuration files, and libraries like [Typesafe Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
 
-The presentation below introduces Ciris and covers configurations with refined types.  
-The blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) provides more details on the topic.
+Refer to the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) ([slides](https://vlovgr.github.io/refined-types)) and follow-up blog post  
+[Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for an introduction to Ciris and configurations with refined types.
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=C3ciegxMAqA">
-    <img src="https://i.imgur.com/OaCPYsv.png"/>
+  <a href="https://asciinema.org/a/151742">
+    <img src="https://asciinema.org/a/151742.png" width="75%"/>
   </a>
 </p>
 
