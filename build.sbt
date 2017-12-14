@@ -1,3 +1,7 @@
+import sbtcrossproject.{crossProject, CrossType}
+import com.typesafe.sbt.SbtGit.GitKeys._
+import ReleaseTransformations._
+
 lazy val ciris = project
   .in(file("."))
   .settings(moduleName := "ciris", name := "Ciris")
@@ -10,7 +14,7 @@ lazy val ciris = project
     console in Test := (console in (coreJVM, Test)).value
   )
   .aggregate(
-    coreJS, coreJVM,
+    coreJS, coreJVM, coreNative,
     enumeratumJS, enumeratumJVM,
     genericJS, genericJVM,
     refinedJS, refinedJVM,
@@ -19,102 +23,110 @@ lazy val ciris = project
     testsJS, testsJVM
   )
 
-lazy val core = crossProject
-  .in(file("modules/core"))
-  .settings(moduleName := "ciris-core", name := "Ciris core")
-  .settings(scalaSettings)
-  .settings(testSettings)
-  .jsSettings(jsTestSettings)
-  .jvmSettings(mimaSettings)
-  .settings(releaseSettings)
+lazy val core =
+  crossProject(JSPlatform, JVMPlatform, NativePlatform)
+    .in(file("modules/core"))
+    .settings(moduleName := "ciris-core", name := "Ciris core")
+    .settings(scalaSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .jvmSettings(jvmModuleSettings)
+    .nativeSettings(nativeModuleSettings)
+    .settings(releaseSettings)
 
 lazy val coreJS = core.js
 lazy val coreJVM = core.jvm
+lazy val coreNative = core.native
 
-lazy val enumeratum = crossProject
-  .in(file("modules/enumeratum"))
-  .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
-  .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.12")
-  .settings(scalaSettings)
-  .settings(testSettings)
-  .jsSettings(jsTestSettings)
-  .jvmSettings(mimaSettings)
-  .settings(releaseSettings)
-  .dependsOn(core)
+lazy val enumeratum =
+  crossProject(JSPlatform, JVMPlatform)
+    .in(file("modules/enumeratum"))
+    .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
+    .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.12")
+    .settings(scalaSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .jvmSettings(jvmModuleSettings)
+    .settings(releaseSettings)
+    .dependsOn(core)
 
 lazy val enumeratumJS = enumeratum.js
 lazy val enumeratumJVM = enumeratum.jvm
 
-lazy val generic = crossProject
-  .in(file("modules/generic"))
-  .settings(moduleName := "ciris-generic", name := "Ciris generic")
-  .settings(libraryDependencies += "com.chuusai" %%% "shapeless" % "2.3.2")
-  .settings(scalaSettings)
-  .settings(testSettings)
-  .jsSettings(jsTestSettings)
-  .jvmSettings(mimaSettings)
-  .settings(releaseSettings)
-  .dependsOn(core)
+lazy val generic =
+  crossProject(JSPlatform, JVMPlatform)
+    .in(file("modules/generic"))
+    .settings(moduleName := "ciris-generic", name := "Ciris generic")
+    .settings(libraryDependencies += "com.chuusai" %%% "shapeless" % "2.3.2")
+    .settings(scalaSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .jvmSettings(jvmModuleSettings)
+    .settings(releaseSettings)
+    .dependsOn(core)
 
 lazy val genericJS = generic.js
 lazy val genericJVM = generic.jvm
 
-lazy val refined = crossProject
-  .in(file("modules/refined"))
-  .settings(moduleName := "ciris-refined", name := "Ciris refined")
-  .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.4")
-  .settings(scalaSettings)
-  .settings(testSettings)
-  .jsSettings(jsTestSettings)
-  .jvmSettings(mimaSettings)
-  .settings(releaseSettings)
-  .dependsOn(core)
+lazy val refined =
+  crossProject(JSPlatform, JVMPlatform)
+    .in(file("modules/refined"))
+    .settings(moduleName := "ciris-refined", name := "Ciris refined")
+    .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.4")
+    .settings(scalaSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .jvmSettings(jvmModuleSettings)
+    .settings(releaseSettings)
+    .dependsOn(core)
 
 lazy val refinedJS = refined.js
 lazy val refinedJVM = refined.jvm
 
-lazy val spire = crossProject
-  .in(file("modules/spire"))
-  .settings(moduleName := "ciris-spire", name := "Ciris spire")
-  .settings(libraryDependencies += "org.typelevel" %%% "spire" % "0.14.1")
-  .settings(scalaSettings)
-  .settings(testSettings)
-  .jsSettings(jsTestSettings)
-  .jvmSettings(mimaSettings)
-  .settings(releaseSettings)
-  .dependsOn(core)
+lazy val spire =
+  crossProject(JSPlatform, JVMPlatform)
+    .in(file("modules/spire"))
+    .settings(moduleName := "ciris-spire", name := "Ciris spire")
+    .settings(libraryDependencies += "org.typelevel" %%% "spire" % "0.14.1")
+    .settings(scalaSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .jvmSettings(jvmModuleSettings)
+    .settings(releaseSettings)
+    .dependsOn(core)
 
 lazy val spireJS = spire.js
 lazy val spireJVM = spire.jvm
 
-lazy val squants = crossProject
-  .in(file("modules/squants"))
-  .settings(moduleName := "ciris-squants", name := "Ciris squants")
-  .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.3.0")
-  .settings(scalaSettings)
-  .settings(testSettings)
-  .jsSettings(jsTestSettings)
-  .jvmSettings(mimaSettings)
-  .settings(releaseSettings)
-  .dependsOn(core)
+lazy val squants =
+  crossProject(JSPlatform, JVMPlatform)
+    .in(file("modules/squants"))
+    .settings(moduleName := "ciris-squants", name := "Ciris squants")
+    .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.3.0")
+    .settings(scalaSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .jvmSettings(jvmModuleSettings)
+    .settings(releaseSettings)
+    .dependsOn(core)
 
 lazy val squantsJS = squants.js
 lazy val squantsJVM = squants.jvm
 
-lazy val tests = crossProject
-  .in(file("tests"))
-  .settings(moduleName := "ciris-tests", name := "Ciris tests")
-  .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" % Test cross CrossVersion.patch))
-  .settings(scalaSettings)
-  .settings(noPublishSettings)
-  .settings(testSettings)
-  .jsSettings(jsTestSettings)
-  .dependsOn(core, enumeratum, generic, refined, spire, squants)
+lazy val tests =
+  crossProject(JSPlatform, JVMPlatform)
+    .in(file("tests"))
+    .settings(moduleName := "ciris-tests", name := "Ciris tests")
+    .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" % Test cross CrossVersion.patch))
+    .settings(scalaSettings)
+    .settings(noPublishSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .dependsOn(core, enumeratum, generic, refined, spire, squants)
 
 lazy val testsJS = tests.js
 lazy val testsJVM = tests.jvm
 
-import com.typesafe.sbt.SbtGit.GitKeys._
 lazy val docs = project
   .in(file("docs"))
   .settings(moduleName := "ciris-docs", name := "Ciris docs")
@@ -242,7 +254,6 @@ lazy val metadataSettings = Seq(
   organizationHomepage := Some(url("https://cir.is"))
 )
 
-import ReleaseTransformations._
 lazy val releaseSettings =
   metadataSettings ++ Seq(
     homepage := organizationHomepage.value,
@@ -267,12 +278,11 @@ lazy val releaseSettings =
         url = url("https://vlovgr.se")
       )
     ),
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
+    publishTo := Some {
       if(isSnapshot.value)
-        Some("snapshots" at nexus + "content/repositories/snapshots")
+        Opts.resolver.sonatypeSnapshots
       else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+        Opts.resolver.sonatypeStaging
     },
     releaseCrossBuild := true,
     releaseTagName := s"v${(version in ThisBuild).value}",
@@ -310,8 +320,8 @@ lazy val testSettings = Seq(
   scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
   doctestTestFramework := DoctestTestFramework.ScalaTest,
   libraryDependencies ++= Seq(
-    "org.scalatest" %%% "scalatest" % "3.0.4" % Test,
-    "org.scalacheck" %%% "scalacheck" % "1.13.5" % Test
+    "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
+    "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
   )
 )
 
@@ -329,10 +339,27 @@ lazy val mimaSettings = Seq(
   }
 )
 
-lazy val jsTestSettings = Seq(
+lazy val jvmModuleSettings =
+  mimaSettings
+
+lazy val nonJvmModuleSettings = Seq(
   doctestGenTests := Seq.empty,
   coverageEnabled := false
 )
+
+lazy val jsModuleSettings =
+  nonJvmModuleSettings
+
+lazy val nativeModuleSettings =
+  nonJvmModuleSettings ++ Seq(
+    scalaVersion := scala211,
+    crossScalaVersions := Seq(scala211),
+    publishArtifact in (Compile, packageDoc) := false, // See https://github.com/scala-native/scala-native/issues/1121
+    libraryDependencies --= Seq( // Does not support Scala Native yet
+      "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
+      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
+    )
+  )
 
 lazy val noPublishSettings =
   metadataSettings ++ Seq(
@@ -510,24 +537,31 @@ addDateToReleaseNotes in ThisBuild := {
 lazy val moduleNames = List[String]("core", "enumeratum", "generic", "refined", "spire", "squants")
 lazy val jsModuleNames = moduleNames.map(_ + "JS")
 lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
+lazy val nativeModuleNames = List("core").map(_ + "Native")
 
 addCommandsAlias("docTests", jvmModuleNames.map(_ + "/test"))
 
-lazy val crossModules: Seq[(Project, Project)] =
+lazy val crossModules: Seq[(Project, Project, Option[Project])] =
   Seq(
-    (coreJVM, coreJS),
-    (enumeratumJVM, enumeratumJS),
-    (genericJVM, genericJS),
-    (refinedJVM, refinedJS),
-    (spireJVM, spireJS),
-    (squantsJVM, squantsJS)
+    (coreJVM, coreJS, Some(coreNative)),
+    (enumeratumJVM, enumeratumJS, None),
+    (genericJVM, genericJS, None),
+    (refinedJVM, refinedJS, None),
+    (spireJVM, spireJS, None),
+    (squantsJVM, squantsJS, None)
   )
 
 lazy val noDocumentationModules: Seq[ProjectReference] = {
-  val jsModules = crossModules.map { case (_, js) => js }
+  val nonJvmModules =
+    crossModules.flatMap {
+      case (_, js, native) =>
+        Seq(js) ++ native
+    }
+
   val testModules = Seq(testsJVM, testsJS)
 
-  (jsModules ++ testModules).map(module => module: ProjectReference)
+  (nonJvmModules ++ testModules)
+    .map(module => module: ProjectReference)
 }
 
 def addCommandsAlias(name: String, values: List[String]) =
@@ -544,3 +578,9 @@ addCommandsAlias("validate", List(
   "coverageReport",
   "mimaReportBinaryIssues"
 ))
+
+addCommandsAlias("validateNative", nativeModuleNames.map(_ + "/test"))
+
+lazy val scalaTestVersion = "3.0.4"
+
+lazy val scalaCheckVersion = "1.13.5"
