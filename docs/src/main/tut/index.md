@@ -18,8 +18,8 @@ val minorVersion = latestVersion.split('.').take(2).mkString(".")
 [![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
 
 ## <a name="ciris" href="#ciris">Ciris</a>
-Lightweight, extensible, and validated configuration loading in [Scala][scala] and [Scala.js][scalajs].  
-The core library is dependency-free, while modules provide library integrations.
+Lightweight, extensible, and validated configuration loading in [Scala][scala], [Scala.js][scalajs], and [Scala Native][scalanative].  
+The core library is dependency-free, while modules provide integrations with external libraries.
 
 The name comes from being an abbreviation of the word _configurations_.  
 Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https://en.wikipedia.org/wiki/Appendix_Vergiliana#Ciris_.28.22The_Sea-Bird.22.29).
@@ -67,8 +67,8 @@ s"""
 ```tut:passthrough
 println(
 s"""
- |Make sure to replace `%%` with `%%%` above if you are using Scala.js.  
- |Libraries are published for Scala $scalaPublishVersions, and Java 8.  
+ |Make sure to replace `%%` with `%%%` above if you are using Scala.js or Scala Native.  
+ |Libraries are published for Scala $scalaPublishVersions, and Java 8 where possible.  
  |For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
  |
  |Binary compatibility for the library is guaranteed between minor versions.  
@@ -155,3 +155,4 @@ Ciris is available under the MIT license, available at [https://opensource.org/l
 [sbt]: http://www.scala-sbt.org
 [scala]: http://www.scala-lang.org
 [scalajs]: https://www.scala-js.org
+[scalanative]: http://scala-native.org
