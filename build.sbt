@@ -284,7 +284,7 @@ lazy val releaseSettings =
       else
         Opts.resolver.sonatypeStaging
     },
-    releaseCrossBuild := true,
+    releaseCrossBuild := false, // See https://github.com/sbt/sbt-release/issues/214
     releaseTagName := s"v${(version in ThisBuild).value}",
     releaseTagComment := s"Release version ${(version in ThisBuild).value}",
     releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}",
@@ -294,7 +294,7 @@ lazy val releaseSettings =
       checkSnapshotDependencies,
       inquireVersions,
       runClean,
-      runTest,
+      releaseStepCommandAndRemaining("+test"),
       setReleaseVersion,
       setLatestVersion,
       releaseStepTask(updateReadme in ThisBuild),
@@ -303,7 +303,7 @@ lazy val releaseSettings =
       releaseStepTask(addDateToReleaseNotes in ThisBuild),
       commitReleaseVersion,
       tagRelease,
-      publishArtifacts,
+      releaseStepCommandAndRemaining("publishSignedAll"),
       releaseStepCommand("sonatypeRelease"),
       setNextVersion,
       commitNextVersion,
@@ -354,7 +354,7 @@ lazy val nativeModuleSettings =
   nonJvmModuleSettings ++ Seq(
     scalaVersion := scala211,
     crossScalaVersions := Seq(scala211),
-    publishArtifact in (Compile, packageDoc) := false, // See https://github.com/scala-native/scala-native/issues/1121
+    sources in (Compile, doc) := Seq.empty, // See https://github.com/scala-native/scala-native/issues/1121
     libraryDependencies --= Seq( // Does not support Scala Native yet
       "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
       "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
@@ -538,8 +538,11 @@ lazy val moduleNames = List[String]("core", "enumeratum", "generic", "refined", 
 lazy val jsModuleNames = moduleNames.map(_ + "JS")
 lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
 lazy val nativeModuleNames = List("core").map(_ + "Native")
+lazy val allModuleNames = (jsModuleNames ++ jvmModuleNames ++ nativeModuleNames)
 
 addCommandsAlias("docTests", jvmModuleNames.map(_ + "/test"))
+
+addCommandsAlias("publishSignedAll", allModuleNames.map(m => s"+$m/publishSigned"))
 
 lazy val crossModules: Seq[(Project, Project, Option[Project])] =
   Seq(
