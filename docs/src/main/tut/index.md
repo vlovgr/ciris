@@ -7,12 +7,17 @@ section: "home"
 ```tut:invisible
 import ciris.build.info._
 
-val scalaPublishVersions: String = {
- val publishVersions = crossScalaVersions.map(_.split('.').init.mkString("."))
- publishVersions.init.mkString(", ") ++ publishVersions.lastOption.map(", and " + _).mkString
-}
+val scalaPublishVersions: Seq[String] =
+  crossScalaVersions.map(_.split('.').init.mkString("."))
 
-val minorVersion = latestVersion.split('.').take(2).mkString(".")
+val scalaPublishVersionsString: String =
+  scalaPublishVersions.init.mkString(", ") ++ scalaPublishVersions.lastOption.map(", and " + _).mkString
+
+val scalaPublishVersionsShortString: String =
+  scalaPublishVersions.mkString(", ")
+
+val minorVersion =
+  latestVersion.split('.').take(2).mkString(".")
 ```
 
 [![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
@@ -68,8 +73,19 @@ s"""
 println(
 s"""
  |Make sure to replace `%%` with `%%%` above if you are using Scala.js or Scala Native.  
- |Libraries are published for Scala $scalaPublishVersions, and Java 8 where possible.  
+ |Libraries are published for Scala $scalaPublishVersionsString, and Java 8 where possible.  
  |For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
+ |
+ |Refer to the table below for platform and version support across modules.
+ |
+ || Module                | Scala                                     | Scala.js                                        | Scala Native        |
+ ||-----------------------|-------------------------------------------|-------------------------------------------------|---------------------|
+ || $coreModuleName       | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#10003; 0.3 (2.11) |
+ || $enumeratumModuleName | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
+ || $genericModuleName    | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
+ || $refinedModuleName    | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
+ || $spireModuleName      | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
+ || $squantsModuleName    | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
  |
  |Binary compatibility for the library is guaranteed between minor versions.  
  |For example, `$minorVersion.x` is binary compatible with `$minorVersion.y` for any `x` and `y`.
