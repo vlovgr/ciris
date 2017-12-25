@@ -87,8 +87,9 @@ s"""
  || $spireModuleName      | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
  || $squantsModuleName    | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
  |
- |Binary compatibility for the library is guaranteed between minor versions.  
- |For example, `$minorVersion.x` is binary compatible with `$minorVersion.y` for any `x` and `y`.
+ |Backwards binary compatibility for the library is guaranteed between minor versions.  
+ |For example, `$minorVersion.x` is backwards binary compatible with `$minorVersion.y` for any `x > y`.  
+ |More recent minor versions are drop-in replacements for earlier minor versions.
  """.stripMargin.trim
 )
 ```

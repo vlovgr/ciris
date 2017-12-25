@@ -59,8 +59,9 @@ Refer to the table below for platform and version support across modules.
  ciris-spire      | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;            |
  ciris-squants    | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;            |
 
-Binary compatibility for the library is guaranteed between minor versions.  
-For example, `0.6.x` is binary compatible with `0.6.y` for any `x` and `y`.
+Backwards binary compatibility for the library is guaranteed between minor versions.  
+For example, `0.6.x` is backwards binary compatible with `0.6.y` for any `x > y`.  
+More recent minor versions are drop-in replacements for earlier minor versions.
 
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
