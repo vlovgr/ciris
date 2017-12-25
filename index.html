@@ -108,8 +108,9 @@ For changes between versions, please see the <a href="https://github.com/vlovgr/
   </tbody>
 </table>
 
-<p>Binary compatibility for the library is guaranteed between minor versions.<br />
-For example, <code class="highlighter-rouge">0.6.x</code> is binary compatible with <code class="highlighter-rouge">0.6.y</code> for any <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">y</code>.</p>
+<p>Backwards binary compatibility for the library is guaranteed between minor versions.<br />
+For example, <code class="highlighter-rouge">0.6.x</code> is backwards binary compatible with <code class="highlighter-rouge">0.6.y</code> for any <code class="highlighter-rouge">x &gt; y</code>.<br />
+More recent minor versions are drop-in replacements for earlier minor versions.</p>
 
 <p>The only required module is <code class="highlighter-rouge">ciris-core</code>, the rest are optional library integrations.<br />
 For an explanation of how to use the modules, see the <a href="https://cir.is/docs/modules">Modules Overview</a> section.</p>
