@@ -1,8 +1,8 @@
 [![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
 
 ## Ciris
-Lightweight, extensible, and validated configuration loading in [Scala][scala] and [Scala.js][scalajs].  
-The core library is dependency-free, while modules provide library integrations.
+Lightweight, extensible, and validated configuration loading in [Scala][scala], [Scala.js][scalajs], and [Scala Native][scalanative].  
+The core library is dependency-free, while modules provide integrations with external libraries.
 
 The name comes from being an abbreviation of the word _configurations_.  
 Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https://en.wikipedia.org/wiki/Appendix_Vergiliana#Ciris_.28.22The_Sea-Bird.22.29).
@@ -31,7 +31,7 @@ To get started with [SBT][sbt], simply add the following lines to your `build.sb
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs/basics).
 
 ```
-val cirisVersion = "0.6.0"
+val cirisVersion = "0.6.1"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-core",
@@ -44,9 +44,20 @@ libraryDependencies ++= Seq(
 ```
 
 
-Make sure to replace `%%` with `%%%` above if you are using Scala.js.  
-Libraries are published for Scala 2.10, 2.11, and 2.12, and Java 8.  
+Make sure to replace `%%` with `%%%` above if you are using Scala.js or Scala Native.  
+Libraries are published for Scala 2.10, 2.11, and 2.12, and Java 8 where possible.  
 For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
+
+Refer to the table below for platform and version support across modules.
+
+ Module                | Scala                                     | Scala.js                                        | Scala Native        |
+-----------------------|-------------------------------------------|-------------------------------------------------|---------------------|
+ ciris-core       | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#10003; 0.3 (2.11) |
+ ciris-enumeratum | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;            |
+ ciris-generic    | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;            |
+ ciris-refined    | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;            |
+ ciris-spire      | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;            |
+ ciris-squants    | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;            |
 
 Binary compatibility for the library is guaranteed between minor versions.  
 For example, `0.6.x` is binary compatible with `0.6.y` for any `x` and `y`.
@@ -84,12 +95,12 @@ curl -Ls try.cir.is/typelevel | sh
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```
-import $ivy.`is.cir::ciris-core:0.6.0`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.6.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.6.0`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.6.0`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.6.0`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.6.0`, ciris.squants._
+import $ivy.`is.cir::ciris-core:0.6.1`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.6.1`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.6.1`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.6.1`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.6.1`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.6.1`, ciris.squants._
 ```
 
 #### External Libraries
@@ -126,3 +137,4 @@ Ciris is available under the MIT license, available at [https://opensource.org/l
 [sbt]: http://www.scala-sbt.org
 [scala]: http://www.scala-lang.org
 [scalajs]: https://www.scala-js.org
+[scalanative]: http://scala-native.org
