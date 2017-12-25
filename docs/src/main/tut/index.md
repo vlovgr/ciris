@@ -7,17 +7,17 @@ section: "home"
 ```tut:invisible
 import ciris.build.info._
 
+def minorVersion(version: String): String =
+  version.split('.').init.mkString(".")
+
 val scalaPublishVersions: Seq[String] =
-  crossScalaVersions.map(_.split('.').init.mkString("."))
+  crossScalaVersions.map(minorVersion)
 
 val scalaPublishVersionsString: String =
   scalaPublishVersions.init.mkString(", ") ++ scalaPublishVersions.lastOption.map(", and " + _).mkString
 
-val scalaPublishVersionsShortString: String =
-  scalaPublishVersions.mkString(", ")
-
-val minorVersion =
-  latestVersion.split('.').take(2).mkString(".")
+val latestMinorVersion =
+  minorVersion(latestVersion)
 ```
 
 [![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
@@ -78,17 +78,17 @@ s"""
  |
  |Refer to the table below for platform and version support across modules.
  |
- || Module                | Scala                                     | Scala.js                                        | Scala Native        |
- ||-----------------------|-------------------------------------------|-------------------------------------------------|---------------------|
- || $coreModuleName       | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#10003; 0.3 (2.11) |
- || $enumeratumModuleName | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
- || $genericModuleName    | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
- || $refinedModuleName    | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
- || $spireModuleName      | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
- || $squantsModuleName    | &#10003; $scalaPublishVersionsShortString | &#10003; 0.6 ($scalaPublishVersionsShortString) | &#65794;            |
+ || Module                | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                    |
+ ||-----------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+ || $coreModuleName       | &#10003; ${coreJvmCrossScalaVersions.map(minorVersion).mkString(", ")}       | &#10003; 0.6 (${coreJsCrossScalaVersions.map(minorVersion).mkString(", ")})       | &#10003; 0.3 (${coreNativeCrossScalaVersions.map(minorVersion).mkString(", ")}) |
+ || $enumeratumModuleName | &#10003; ${enumeratumJvmCrossScalaVersions.map(minorVersion).mkString(", ")} | &#10003; 0.6 (${enumeratumJsCrossScalaVersions.map(minorVersion).mkString(", ")}) | &#65794;                                                                        |
+ || $genericModuleName    | &#10003; ${genericJvmCrossScalaVersions.map(minorVersion).mkString(", ")}    | &#10003; 0.6 (${genericJsCrossScalaVersions.map(minorVersion).mkString(", ")})    | &#65794;                                                                        |
+ || $refinedModuleName    | &#10003; ${refinedJvmCrossScalaVersions.map(minorVersion).mkString(", ")}    | &#10003; 0.6 (${refinedJsCrossScalaVersions.map(minorVersion).mkString(", ")})    | &#65794;                                                                        |
+ || $spireModuleName      | &#10003; ${spireJvmCrossScalaVersions.map(minorVersion).mkString(", ")}      | &#10003; 0.6 (${spireJsCrossScalaVersions.map(minorVersion).mkString(", ")})      | &#65794;                                                                        |
+ || $squantsModuleName    | &#10003; ${squantsJvmCrossScalaVersions.map(minorVersion).mkString(", ")}    | &#10003; 0.6 (${squantsJsCrossScalaVersions.map(minorVersion).mkString(", ")})    | &#65794;                                                                        |
  |
  |Backwards binary compatibility for the library is guaranteed between minor versions.  
- |For example, `$minorVersion.x` is backwards binary compatible with `$minorVersion.y` for any `x > y`.  
+ |For example, `$latestMinorVersion.x` is backwards binary compatible with `$latestMinorVersion.y` for any `x > y`.  
  |More recent minor versions are drop-in replacements for earlier minor versions.
  """.stripMargin.trim
 )
