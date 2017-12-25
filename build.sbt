@@ -167,7 +167,20 @@ lazy val docs = project
       BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) => "refined" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in spireJVM) { case (k, v) => "spire" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v }
+      BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in coreJVM) { case (k, v) => "coreJvm" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in coreJS) { case (k, v) => "coreJs" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in coreNative) { case (k, v) => "coreNative" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in enumeratumJVM) { case (k, v) => "enumeratumJvm" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in enumeratumJS) { case (k, v) => "enumeratumJs" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in genericJVM) { case (k, v) => "genericJvm" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in genericJS) { case (k, v) => "genericJs" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in refinedJVM) { case (k, v) => "refinedJvm" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in refinedJS) { case (k, v) => "refinedJs" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in spireJVM) { case (k, v) => "spireJvm" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in spireJS) { case (k, v) => "spireJs" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in squantsJVM) { case (k, v) => "squantsJvm" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in squantsJS) { case (k, v) => "squantsJs" + k.capitalize -> v }
     )
   )
   .settings(
