@@ -11,7 +11,7 @@ ga('send', 'pageview');
 
 <p>Let’s start off by defining an enumeration for our environments: local, testing, and production.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">enumeratum._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">enumeratum._</span>
 <span class="c1">// import enumeratum._
 </span>
 <span class="k">object</span> <span class="nc">configuration</span> <span class="o">{</span>
@@ -25,11 +25,12 @@ ga('send', 'pageview');
   <span class="o">}</span>
 <span class="o">}</span>
 <span class="c1">// defined object configuration
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>We’ll then reuse the same configuration as seen in the <a href="/docs/validation">Encoding Validation</a> section.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.auto._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.auto._</span>
 <span class="c1">// import eu.timepit.refined.auto._
 </span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.PortNumber</span>
@@ -47,11 +48,12 @@ ga('send', 'pageview');
   <span class="n">port</span><span class="k">:</span> <span class="kt">PortNumber</span>
 <span class="o">)</span>
 <span class="c1">// defined class Config
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>Then, let’s read the API key and port from the environment, along with which environment the application is running in. In this case, we’re using a default configuration, overriding the timeout value in the testing and production environments. If no environment was set, we will use the default configuration.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">configuration._</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">configuration._</span>
 <span class="c1">// import configuration._
 </span>
 <span class="k">import</span> <span class="nn">ciris.enumeratum._</span>
@@ -82,11 +84,12 @@ ga('send', 'pageview');
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="c1">// config: Either[ciris.ConfigErrors,Config] = Left(ConfigErrors(MissingKey(API_KEY, Environment)))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 <p>What about reading different configuration values depending on the environment? For example, you could use defaults for everything in a local environment, while reading configuration values, like the API key and port, in the other environments. For that purpose, there is a <code class="highlighter-rouge">withValues</code> (and <code class="highlighter-rouge">withValue</code>) method you can use. It works exactly like <code class="highlighter-rouge">loadConfig</code> except it wraps your <code class="highlighter-rouge">loadConfig</code> statements, only executing them if all <code class="highlighter-rouge">withValues</code> values could be read successfully. If it helps, think of <code class="highlighter-rouge">loadConfig</code> as <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">withValues</code> as <code class="highlighter-rouge">flatMap</code> (which is also how they are defined internally).</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">withValue</span><span class="o">(</span><span class="n">env</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]](</span><span class="s">"APP_ENV"</span><span class="o">))</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">withValue</span><span class="o">(</span><span class="n">env</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]](</span><span class="s">"APP_ENV"</span><span class="o">))</span> <span class="o">{</span>
   <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">AppEnvironment</span><span class="o">.</span><span class="nc">Local</span><span class="o">)</span> <span class="o">|</span> <span class="nc">None</span> <span class="k">=&gt;</span>
     <span class="n">loadConfig</span> <span class="o">{</span>
       <span class="nc">Config</span><span class="o">(</span>
@@ -108,7 +111,8 @@ ga('send', 'pageview');
     <span class="o">}</span>
 <span class="o">}</span>
 <span class="c1">// res0: Either[ciris.ConfigErrors,Config] = Right(Config(changeme,10 seconds,4000))
-</span></code></pre></div></div>
+</span></code></pre>
+</div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
 languages:['scala','java','bash']
