@@ -1,6 +1,7 @@
 package ciris
 
 import org.scalacheck.Gen
+import org.scalacheck.Arbitrary.arbitrary
 
 final class CirisSpec extends PropertySpec {
   "Ciris" when {
@@ -46,9 +47,9 @@ final class CirisSpec extends PropertySpec {
 
     "loading command-line arguments" should {
       "be able to load all arguments as string" in {
-        forAll { args: IndexedSeq[String] =>
+        forAll(sized(arbitrary[IndexedSeq[String]])) { args =>
           whenever(args.nonEmpty) {
-            forAll(Gen.chooseNum(0, args.length - 1)) { index =>
+            forAll(Gen.chooseNum(0, args.length - 1), minSuccessful(10)) { index =>
               arg[String](args)(index).value shouldBe a[Right[_, _]]
             }
           }
@@ -56,13 +57,13 @@ final class CirisSpec extends PropertySpec {
       }
 
       "return a failure for non-existing indexes" in {
-        forAll { args: IndexedSeq[String] =>
-          forAll {
+        forAll(sized(arbitrary[IndexedSeq[String]])) { args =>
+          forAll({
             Gen.oneOf(
               Gen.chooseNum(Int.MinValue, -1),
               Gen.chooseNum(args.length, Int.MaxValue)
             )
-          } { index =>
+          }, minSuccessful(10)){ index =>
             arg[String](args)(index).value shouldBe a[Left[_, _]]
           }
         }

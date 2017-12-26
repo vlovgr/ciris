@@ -10,6 +10,9 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks with Eithe
   override implicit val generatorDrivenConfig: PropertyCheckConfiguration =
     PropertyCheckConfiguration(minSuccessful = 1000)
 
+  def sized[A](gen: Gen[A]): Gen[A] =
+    Gen.resize(20, gen)
+
   def mixedCase(string: String): Gen[String] = {
     (for {
       lowers <- Gen.listOfN(string.length, Gen.oneOf(true, false))

@@ -1,6 +1,7 @@
 package ciris
 
 import org.scalacheck.Gen
+import org.scalacheck.Arbitrary.arbitrary
 
 import scala.util.Try
 
@@ -17,10 +18,16 @@ final class ConfigSourceSpec extends PropertySpec {
 
     "created from entries" should {
       "succeed for keys in the entries" in {
-        forAll { (keyType: String, entries: Seq[(Int, String)]) =>
+        val gen =
+          for {
+            keyType <- arbitrary[String]
+            entries <- sized(arbitrary[Seq[(Int, String)]])
+          } yield (keyType, entries)
+
+        forAll(gen) { case (keyType, entries) =>
           whenever(entries.nonEmpty) {
             val source = ConfigSource.fromEntries(ConfigKeyType[Int](keyType))(entries: _*)
-            forAll(Gen.oneOf(entries)) { case (key, _) =>
+            forAll(Gen.oneOf(entries), minSuccessful(10)) { case (key, _) =>
               source.read(key).value shouldBe a[Right[_, _]]
             }
           }
@@ -68,10 +75,16 @@ final class ConfigSourceSpec extends PropertySpec {
 
     "created from an IndexedSeq" should {
       "succeed if the index exists and value is of expected type" in {
-        forAll { (keyType: String, indexedSeq: IndexedSeq[String]) =>
+        val gen =
+          for {
+            keyType <- arbitrary[String]
+            indexedSeq <- sized(arbitrary[IndexedSeq[String]])
+          } yield (keyType, indexedSeq)
+
+        forAll(gen) { case (keyType, indexedSeq) =>
           whenever(indexedSeq.nonEmpty) {
             val source = ConfigSource.byIndex(ConfigKeyType[Int](keyType))(indexedSeq)
-            forAll(Gen.chooseNum(0, indexedSeq.length - 1)) { index =>
+            forAll(Gen.chooseNum(0, indexedSeq.length - 1), minSuccessful(10)) { index =>
               source.read(index).value shouldBe a[Right[_, _]]
             }
           }
@@ -79,15 +92,21 @@ final class ConfigSourceSpec extends PropertySpec {
       }
 
       "fail if the index does not exist" in {
-        forAll { (keyType: String, indexedSeq: IndexedSeq[String]) =>
+        val gen =
+          for {
+            keyType <- arbitrary[String]
+            indexedSeq <- sized(arbitrary[IndexedSeq[String]])
+          } yield (keyType, indexedSeq)
+
+        forAll(gen) { case (keyType, indexedSeq) =>
           val source = ConfigSource.byIndex(ConfigKeyType[Int](keyType))(indexedSeq)
 
-          forAll {
+          forAll({
             Gen.oneOf(
               Gen.chooseNum(Int.MinValue, -1),
               Gen.chooseNum(indexedSeq.length, Int.MaxValue)
             )
-          } { index =>
+          }, minSuccessful(10)){ index =>
             source.read(index).value shouldBe a[Left[_, _]]
           }
         }
