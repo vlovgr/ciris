@@ -103,7 +103,7 @@ For an explanation of how to use the modules, see the [Modules Overview](https:/
 - The `ciris-spire` module allows loading [spire][spire] number types.
 - The `ciris-squants` module allows loading [squants][squants] data types.
 
-If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
+If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](https://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
 
 ```scala
 libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.patch)
@@ -157,7 +157,7 @@ For an overview, with examples and explanations of the most common use cases, pl
 If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).
 
 ### <a name="participation" href="#participation">Participation</a>
-Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Typelevel Code of Conduct](http://typelevel.org/conduct.html). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
+Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Typelevel Code of Conduct](https://typelevel.org/conduct.html). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
 If you would like to be involved in building Ciris, check out the [contributing guide](https://cir.is/docs/contributing).
 
@@ -169,7 +169,7 @@ Ciris is available under the MIT license, available at [https://opensource.org/l
 [shapeless]: https://github.com/milessabin/shapeless
 [spire]: https://github.com/non/spire
 [squants]: https://github.com/typelevel/squants
-[sbt]: http://www.scala-sbt.org
-[scala]: http://www.scala-lang.org
+[sbt]: https://www.scala-sbt.org
+[scala]: https://www.scala-lang.org
 [scalajs]: https://www.scala-js.org
 [scalanative]: http://scala-native.org
