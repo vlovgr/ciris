@@ -106,7 +106,7 @@ For an explanation of how to use the modules, see the [Modules Overview](https:/
 If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](http://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
 
 ```scala
-libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.patch)
+libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.patch)
 ```
 
 #### <a name="ammonite" href="#ammonite">Ammonite</a>
