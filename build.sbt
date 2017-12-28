@@ -72,7 +72,7 @@ lazy val refined =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/refined"))
     .settings(moduleName := "ciris-refined", name := "Ciris refined")
-    .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.5")
+    .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.6")
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
