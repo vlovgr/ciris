@@ -7,12 +7,12 @@ test -e ~/.coursier/coursier || ( \
 
 ~/.coursier/coursier launch -q -P \
   com.lihaoyi:ammonite_2.12.4:1.0.3 \
-  is.cir:ciris-core_2.12:0.6.1 \
-  is.cir:ciris-enumeratum_2.12:0.6.1 \
-  is.cir:ciris-generic_2.12:0.6.1 \
-  is.cir:ciris-refined_2.12:0.6.1 \
-  is.cir:ciris-spire_2.12:0.6.1 \
-  is.cir:ciris-squants_2.12:0.6.1 \
+  is.cir:ciris-core_2.12:0.6.2 \
+  is.cir:ciris-enumeratum_2.12:0.6.2 \
+  is.cir:ciris-generic_2.12:0.6.2 \
+  is.cir:ciris-refined_2.12:0.6.2 \
+  is.cir:ciris-spire_2.12:0.6.2 \
+  is.cir:ciris-squants_2.12:0.6.2 \
   -- --predef-code "\
         import ciris._,\
         ciris.syntax._,\
