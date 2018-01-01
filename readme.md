@@ -31,7 +31,7 @@ To get started with [SBT][sbt], simply add the following lines to your `build.sb
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs/basics).
 
 ```
-val cirisVersion = "0.6.1"
+val cirisVersion = "0.6.2"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-core",
@@ -50,14 +50,14 @@ For changes between versions, please see the [release notes](https://github.com/
 
 Refer to the table below for platform and version support across modules.
 
- Module                | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                    |
------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
- ciris-core       | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11) |
- ciris-enumeratum | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                        |
- ciris-generic    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                        |
- ciris-refined    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                        |
- ciris-spire      | &#10003; 2.10, 2.11, 2.12      | &#10003; 0.6 (2.10, 2.11, 2.12)      | &#65794;                                                                        |
- ciris-squants    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                        |
+ Module                | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
+-----------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+ ciris-core       | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11)    |
+ ciris-enumeratum | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
+ ciris-generic    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
+ ciris-refined    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
+ ciris-spire      | &#10003; 2.10, 2.11, 2.12      | &#10003; 0.6 (2.10, 2.11, 2.12)      | &#65794;                                                                           |
+ ciris-squants    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
 
 Backwards binary compatibility for the library is guaranteed between minor versions.  
 For example, `0.6.x` is backwards binary compatible with `0.6.y` for any `x > y`.  
@@ -96,12 +96,12 @@ curl -Ls try.cir.is/typelevel | sh
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 ```
-import $ivy.`is.cir::ciris-core:0.6.1`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.6.1`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.6.1`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.6.1`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.6.1`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.6.1`, ciris.squants._
+import $ivy.`is.cir::ciris-core:0.6.2`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.6.2`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.6.2`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.6.2`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.6.2`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.6.2`, ciris.squants._
 ```
 
 #### External Libraries
