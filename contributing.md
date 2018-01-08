@@ -19,7 +19,7 @@ First you'll need to checkout a local copy of the code base.
 git clone https://github.com/vlovgr/ciris.git
 ```
 
-To build the project, you'll need to have [SBT](http://www.scala-sbt.org) installed.
+To build the project, you'll need to have [SBT](https://www.scala-sbt.org) installed.
 
 Run `sbt`, and then `validate` to ensure everything is setup correctly.  
 Below is a list of some useful sbt commands to help you get started.
@@ -34,6 +34,7 @@ Below is a list of some useful sbt commands to help you get started.
 * `generateScripts`: generates the script files in the [`scripts`](https://github.com/vlovgr/ciris/tree/master/scripts) directory.
 * `test`: run tests for the application sources.
 * `validate`: compile documentation and run tests.
+* `validateNative`: run tests for Scala Native modules (requires [Scala Native](http://www.scala-native.org) setup).
 
 ## Submit a pull request
 Before you open a pull request, you should make sure that `sbt +validate` runs successfully. [Travis CI](https://travis-ci.org/vlovgr/ciris) will run this as well, but it may save you some time to be alerted to problems earlier on. Once Travis CI has run, [Codecov](https://codecov.io/gh/vlovgr/ciris) will check the code coverage and comment on your pull request with the results.
@@ -44,7 +45,7 @@ If your pull request addresses an existing issue, please include the issue numbe
 Ciris is licensed under the [MIT License](https://opensource.org/licenses/MIT). Opening a pull request signifies your consent to license your contributions under this license.
 
 ## Code of conduct
-Ciris supports the [Typelevel Code of Conduct](http://typelevel.org/conduct.html). To provide a safe and friendly environment for teaching, learning, and contributing, it is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
+Ciris supports the [Typelevel Code of Conduct](https://typelevel.org/conduct.html). To provide a safe and friendly environment for teaching, learning, and contributing, it is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
 ## Credits
-This document is heavily based on the [http4s contributing guide](http://http4s.org/contributing/).
+This document is heavily based on the [http4s contributing guide](http://http4s.org/contributing).
