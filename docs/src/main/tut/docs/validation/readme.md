@@ -5,7 +5,7 @@ position: 4
 permalink: /docs/validation
 ---
 
-# <a name="encoding-validation" href="#encoding-validation">Encoding Validation</a>
+# Encoding Validation
 Ciris intentionally forces you to encode validation in your data types. This means that you have to put more thought into your configurations, and in turn, your domain models. For example, if you want to load an API key, you probably don't want it to be any `String` (not empty) and if you want to load a port value, you probably don't want it to be any `Int` (valid ports are 0 to 65535).
 
 By using more precise types, we get type-safety and a guarantee that values conform to our requirements throughout the application. One of the easiest ways to encode validation in data types is by using [refined][refined]. Ciris provides a `ciris-refined` module which allows you to read any refined type. You can also get compile-time validation for literals from refined (supported by macros).

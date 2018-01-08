@@ -5,7 +5,7 @@ position: 1
 permalink: /docs/basics
 ---
 
-# <a name="usage-basics" href="#usage-basics">Usage Basics</a>
+# Usage Basics
 Ciris configuration loading is done in two parts: define what to load and what to create once everything is loaded. Let's start simple by defining a configuration and loading only the necessary parts of it from the environment. If you haven't already, now is also a good time to separate your application from your configuration, so that the configuration can be loaded separately.
 
 The configuration can be modeled with nested case classes. Here we'll define a small example configuration for an HTTP service, binding at a certain port, using an API key for request authorization, and using a maximum timeout when making HTTP requests to other services.
