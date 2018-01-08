@@ -16,6 +16,17 @@ final class ConfigSourceSpec extends PropertySpec {
       }
     }
 
+    "created with an error" should {
+      "return the error for every read key" in {
+        val error = ConfigError("error")
+        val source = ConfigSource.failed(ConfigKeyType.Environment)(error)
+
+        forAll { key: String =>
+          source.read(key).value shouldBe Left(error)
+        }
+      }
+    }
+
     "created from entries" should {
       "succeed for keys in the entries" in {
         val gen =

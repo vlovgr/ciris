@@ -114,6 +114,29 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     ConfigSource.fromOption(keyType)(_ => None)
 
   /**
+    * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]],
+    * where the specified [[ConfigError]] will be returned for every read
+    * key of type `Key`.
+    *
+    * @param keyType the [[ConfigKeyType]] representing the key type and name
+    * @param error the error which will be returned for every read key
+    * @tparam Key the type of keys which the source supports
+    * @return a new failed [[ConfigSource]] always returning the specified error
+    * @example {{{
+    * scala> val source = ConfigSource.failed(ConfigKeyType.Environment)(ConfigError("error"))
+    * source: ConfigSource[String] = ConfigSource(Environment)
+    *
+    * scala> source.read("key1")
+    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key1, Environment, Left(ConfigError(error)))
+    *
+    * scala> source.read("key2")
+    * res1: ConfigSourceEntry[String] = ConfigSourceEntry(key2, Environment, Left(ConfigError(error)))
+    * }}}
+    */
+  def failed[Key](keyType: ConfigKeyType[Key])(error: ConfigError): ConfigSource[Key] =
+    ConfigSource(keyType)(_ => Left(error))
+
+  /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
     * and `Map` with keys of type `Key`.
     *
