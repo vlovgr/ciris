@@ -197,7 +197,7 @@ lazy val docs = project
         s"""
           |This is the API documentation for [[https://cir.is Ciris]]: lightweight, extensible, and validated configuration loading in Scala.<br>
           |The documentation is kept up-to-date with new releases, currently documenting release [[https://github.com/vlovgr/ciris/releases/tag/v$version v$version]] on Scala $scalaTargetVersion.<br>
-          |Note that the API documentation targets the JVM, and there may be differences on other platforms (Scala.js).
+          |Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.
           |
           |Ciris is divided into the following set of modules.
           |
