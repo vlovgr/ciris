@@ -1,4 +1,4 @@
-[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris) [![Documentation](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=docs)](https://cir.is/api)
+[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&label=version)](https://index.scala-lang.org/vlovgr/ciris)
 
 ## Ciris
 Lightweight, extensible, and validated configuration loading in [Scala][scala], [Scala.js][scalajs], and [Scala Native][scalanative].  
@@ -13,16 +13,15 @@ Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https:
 Ciris is a new project under active development. Feedback and contributions are welcome.
 
 ### Introduction
-Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [refined][refined], [spire][spire], and [squants][squants].
+Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
 
 Ciris is intended as an alternative to configuration files, and libraries like [Typesafe Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
 
-Refer to the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) ([slides](https://vlovgr.github.io/refined-types)) and follow-up blog post  
-[Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for an introduction to Ciris and configurations with refined types.
+The [usage guide](https://cir.is/docs/basics) provides a more detailed introduction to Ciris. See also the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) and follow-up blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for a short introduction to the library and configurations with refined types.
 
 <p align="center">
   <a href="https://asciinema.org/a/151742">
-    <img src="https://asciinema.org/a/151742.png" width="75%"/>
+    <img src="https://asciinema.org/a/151742.png" width="65%"/>
   </a>
 </p>
 
@@ -52,12 +51,12 @@ Refer to the table below for platform and version support across modules.
 
  Module                | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
 -----------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
- ciris-core       | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11)    |
- ciris-enumeratum | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
- ciris-generic    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
- ciris-refined    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
- ciris-spire      | &#10003; 2.10, 2.11, 2.12      | &#10003; 0.6 (2.10, 2.11, 2.12)      | &#65794;                                                                           |
- ciris-squants    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
+ `ciris-core`       | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11)    |
+ `ciris-enumeratum` | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
+ `ciris-generic`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
+ `ciris-refined`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
+ `ciris-spire`      | &#10003; 2.10, 2.11, 2.12      | &#10003; 0.6 (2.10, 2.11, 2.12)      | &#65794;                                                                           |
+ `ciris-squants`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
 
 Backwards binary compatibility for the library is guaranteed between minor versions.  
 For example, `0.6.x` is backwards binary compatible with `0.6.y` for any `x > y`.  
@@ -108,8 +107,8 @@ import $ivy.`is.cir::ciris-squants:0.6.2`, ciris.squants._
 Below is an incomplete list of third-party libraries that integrate with Ciris.  
 If your library is not included in the list, then please open a pull request.
 
-* [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm) for [Amazon EC2 Systems Manager (SSM)](https://aws.amazon.com/ec2/systems-manager) parameter store as configuration source.
-* [`ciris-credstash`](https://github.com/ovotech/ciris-credstash) for using [CredStash](https://github.com/fugue/credstash) as a configuration source.
+* [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm)
+* [`ciris-credstash`](https://github.com/ovotech/ciris-credstash)
 
 ### Motivation
 When it takes little effort to change and release software, for example when employing [continuous deployment](https://www.agilealliance.org/glossary/continuous-deployment/) practices, writing your configurations in Scala can be a viable alternative to configuration files, in order to increase compile-time safety. Since configuration files are not validated at compile-time, any errors will occur at runtime. Tests and macros can be used to perform validation, but by simply using Scala as a configuration language, we ensure that the configuration is correct when compiling, thereby eliminating many potential runtime errors, without having to resort to macros.
