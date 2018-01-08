@@ -5,10 +5,10 @@ position: 3
 permalink: /docs/modules
 ---
 
-# <a name="modules-overview" href="#modules-overview">Modules Overview</a>
+# Modules Overview
 Ciris core module, `ciris-core`, provides basic functionality and readers for many standard library types. See [Core Concepts](/docs/concepts) for an explanation of the concepts in the core module. Remaining sections mostly cover the core module in greater detail, in particular [Configuration Sources](/docs/sources) and [Custom Readers](/docs/readers). In the sections below, Ciris' other modules are explained briefly.
 
-## <a name="enumeratum" href="#enumeratum">Enumeratum</a>
+## Enumeratum
 The `ciris-enumeratum` module provides support for reading [enumeratum][enumeratum] enumerations. You can refer to the [documentation](/api/ciris/enumeratum) for a complete list of supported enumerations. As an example, let's define an `Enum` and see how we can load values of that enumeration using Ciris. Enumeratum provides mixins, like `Lowercase` below, which we can use to customize the name of our enumerations, and in turn, what values we will be able to load with Ciris.
 
 ```tut:book:reset
@@ -59,7 +59,7 @@ read[AppEnvironment]("invalidEnv")
 
 Dealing with multiple environments is a common use case for configurations, explained in greater detail in the [Multiple Environments](/docs/environments) section.
 
-## <a name="generic" href="#generic">Generic</a>
+## Generic
 The `ciris-generic` module provides the ability to read unary products, and coproducts using [shapeless][shapeless]. This allows you to load case classes with one argument, including [value classes](http://docs.scala-lang.org/overviews/core/value-classes.html), and shapeless coproducts, plus anything else that shapeless' `Generic` supports. Let's take a brief look at these cases to see how it works in practice. We start by defining a source from which we can read configuration values.
 
 ```tut:book:reset
@@ -130,7 +130,7 @@ we will not be able to load it, again resulting in an error at compile-time.
 read[PrivateFloatValue]("key")
 ```
 
-## <a name="refined" href="#refined">Refined</a>
+## Refined
 The `ciris-refined` module allows you to load refinement types from [refined][refined]. Let's start by defining a configuration source from which to read some values.
 
 ```tut:book:reset
@@ -164,7 +164,7 @@ read[PosInt]("other")
 
 Refinement types are useful for making sure your configuration is valid. See the [Encoding Validation](/docs/validation) section for more information.
 
-## <a name="spire" href="#spire">Spire</a>
+## Spire
 The `ciris-spire` module adds support for loading [spire][spire] number types. For a complete list of support number types, refer to the [documentation](/api/ciris/spire). Let's see how we can load spire number types by first defining a custom configuration source.
 
 ```tut:book:reset
@@ -201,7 +201,7 @@ read[Trilean]("trilean")
 read[UInt]("uint")
 ```
 
-## <a name="squants" href="#squants">Squants</a>
+## Squants
 The `ciris-squants` module allows loading values with unit of measure from [squants][squants]. For a complete list of supported dimensions, refer to the [documentation](/api/ciris/squants). Let's see how this works by first defining a configuration source with a few different keys mapping to `Time` values, each having a different unit of measure.
 
 ```tut:book:reset

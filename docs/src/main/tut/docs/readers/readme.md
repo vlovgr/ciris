@@ -5,7 +5,7 @@ position: 7
 permalink: /docs/readers
 ---
 
-# <a name="custom-readers" href="#custom-readers">Custom Readers</a>
+# Custom Readers
 Ciris already supports reading many standard library types and provides integrations with libraries like [enumeratum][enumeratum], [refined][refined], and [squants][squants]. If you're trying to load a standard library type, it is likely that it should be supported by Ciris, so please [file an issue](https://github.com/vlovgr/ciris/issues/new) or, even better, submit a pull-request. The same applies if you're trying to integrate with a library for which Ciris does not already provide a module.
 
 However, there may be cases where you need to resort to defining custom readers for your types. For example, let's say you're dealing with a sealed `Odd` class, where you can only construct instances from an `odd` method, which accepts an `Int` and returns an `Option[Odd]`.

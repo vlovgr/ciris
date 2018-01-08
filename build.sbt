@@ -139,6 +139,7 @@ lazy val docs = project
     micrositeName := "Ciris",
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
     micrositeDocumentationUrl := "api",
+    micrositeKazariEnabled := false,
     micrositeAuthor := "Viktor Lövgren",
     micrositeOrganizationHomepage := "https://vlovgr.se",
     micrositeAnalyticsToken := "UA-37804684-4",
