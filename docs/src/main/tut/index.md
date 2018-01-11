@@ -51,9 +51,10 @@ The [usage guide](https://cir.is/docs/basics) provides a more detailed introduct
 To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.  
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs/basics).
 
-```tut:evaluated
+```tut:passthrough
 println(
 s"""
+ |```scala
  |val cirisVersion = "$latestVersion"
  |
  |libraryDependencies ++= Seq(
@@ -64,6 +65,7 @@ s"""
  |  "$organization" %% "$spireModuleName",
  |  "$organization" %% "$squantsModuleName"
  |).map(_ % cirisVersion)
+ |```
  """.stripMargin.trim
 )
 ```
@@ -124,15 +126,17 @@ curl -Ls try.cir.is/typelevel | sh
 ```
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
-```tut:evaluated
+```tut:passthrough
 println(
 s"""
+ |```scala
  |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._, ciris.syntax._
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
  |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
  |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._, ciris.refined.syntax._
  |import $$ivy.`$organization::$spireModuleName:$latestVersion`, ciris.spire._
  |import $$ivy.`$organization::$squantsModuleName:$latestVersion`, ciris.squants._
+ |```
  """.stripMargin.trim
 )
 ```
@@ -143,13 +147,6 @@ If your library is not included in the list, then please open a pull request.
 
 * [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm)
 * [`ciris-credstash`](https://github.com/ovotech/ciris-credstash)
-
-### <a name="motivation" href="#motivation">Motivation</a>
-When it takes little effort to change and release software, for example when employing [continuous deployment](https://www.agilealliance.org/glossary/continuous-deployment/) practices, writing your configurations in Scala can be a viable alternative to configuration files, in order to increase compile-time safety. Since configuration files are not validated at compile-time, any errors will occur at runtime. Tests and macros can be used to perform validation, but by simply using Scala as a configuration language, we ensure that the configuration is correct when compiling, thereby eliminating many potential runtime errors, without having to resort to macros.
-
-For security reasons, it's desirable that secrets, like passwords, are not stored in the source code. For a Scala configuration, this means that the code containing your secrets should be stored in a different place, and later be compiled together with the rest of your application. If you require that your secrets shouldn't be persisted to disk, that might not be feasible. Alternatively, you can define most of your configuration in Scala and only load secrets, and other values which cannot reside in code, from the application's environment.
-
-While it's possible to not use any libraries in the latter case, loading values from the environment typically means dealing with: different environments and configuration sources, type conversions, error handling, and validation. This is where Ciris comes in: a small library, dependency-free at its core, helping you to deal with all of that more easily.
 
 ### <a name="documentation" href="#documentation">Documentation</a>
 For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs/basics).  
