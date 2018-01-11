@@ -39,16 +39,16 @@ After the city falls and Scylla is taken prisoner on the Cretan ships, Amphitrit
 <p>To get started with <a href="https://www.scala-sbt.org">SBT</a>, simply add the following lines to your <code class="highlighter-rouge">build.sbt</code> file.<br />
 For an overview, usage instructions, and examples, please see the <a href="https://cir.is/docs/basics">usage guide</a>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>val cirisVersion = "0.6.2"
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">cirisVersion</span> <span class="k">=</span> <span class="s">"0.6.2"</span>
 
-libraryDependencies ++= Seq(
-  "is.cir" %% "ciris-core",
-  "is.cir" %% "ciris-enumeratum",
-  "is.cir" %% "ciris-generic",
-  "is.cir" %% "ciris-refined",
-  "is.cir" %% "ciris-spire",
-  "is.cir" %% "ciris-squants"
-).map(_ % cirisVersion)
+<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-core"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-enumeratum"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-generic"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-refined"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-spire"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-squants"</span>
+<span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">%</span> <span class="n">cirisVersion</span><span class="o">)</span>
 </code></pre>
 </div>
 
@@ -146,12 +146,13 @@ For an explanation of how to use the modules, see the <a href="https://cir.is/do
 </div>
 
 <p>If you already have the Ammonite REPL installed, you can load Ciris using the following commands.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>import $ivy.`is.cir::ciris-core:0.6.2`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.6.2`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.6.2`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.6.2`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.6.2`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.6.2`, ciris.squants._
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-core:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="k">_</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">syntax</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-enumeratum:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">enumeratum</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-generic:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-refined:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="k">_</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="n">syntax</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-spire:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">spire</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-squants:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">squants</span><span class="o">.</span><span class="k">_</span>
 </code></pre>
 </div>
 
@@ -163,13 +164,6 @@ If your library is not included in the list, then please open a pull request.</p
   <li><a href="https://github.com/ovotech/ciris-aws-ssm"><code class="highlighter-rouge">ciris-aws-ssm</code></a></li>
   <li><a href="https://github.com/ovotech/ciris-credstash"><code class="highlighter-rouge">ciris-credstash</code></a></li>
 </ul>
-
-<h3 id="motivation"><a name="motivation" href="#motivation">Motivation</a></h3>
-<p>When it takes little effort to change and release software, for example when employing <a href="https://www.agilealliance.org/glossary/continuous-deployment/">continuous deployment</a> practices, writing your configurations in Scala can be a viable alternative to configuration files, in order to increase compile-time safety. Since configuration files are not validated at compile-time, any errors will occur at runtime. Tests and macros can be used to perform validation, but by simply using Scala as a configuration language, we ensure that the configuration is correct when compiling, thereby eliminating many potential runtime errors, without having to resort to macros.</p>
-
-<p>For security reasons, it’s desirable that secrets, like passwords, are not stored in the source code. For a Scala configuration, this means that the code containing your secrets should be stored in a different place, and later be compiled together with the rest of your application. If you require that your secrets shouldn’t be persisted to disk, that might not be feasible. Alternatively, you can define most of your configuration in Scala and only load secrets, and other values which cannot reside in code, from the application’s environment.</p>
-
-<p>While it’s possible to not use any libraries in the latter case, loading values from the environment typically means dealing with: different environments and configuration sources, type conversions, error handling, and validation. This is where Ciris comes in: a small library, dependency-free at its core, helping you to deal with all of that more easily.</p>
 
 <h3 id="documentation"><a name="documentation" href="#documentation">Documentation</a></h3>
 <p>For an overview, with examples and explanations of the most common use cases, please refer to the <a href="https://cir.is/docs/basics">usage guide</a>.<br />
