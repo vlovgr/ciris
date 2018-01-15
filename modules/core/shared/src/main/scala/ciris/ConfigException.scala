@@ -11,7 +11,7 @@ final class ConfigException private (val errors: ConfigErrors)
     extends Throwable({
       val errorMessages =
         errors.toVector
-          .map(error => s"  - ${error.message}.")
+          .map(error => s"  - ${error.message.stripSuffix(".")}.")
           .mkString("\n", "\n", "\n")
 
       s"configuration loading failed with the following errors.\n$errorMessages"
