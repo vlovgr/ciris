@@ -29,10 +29,10 @@ final class ConfigExceptionSpec extends PropertySpec {
       }
 
       "there are multiple errors" should {
-        "list all the errors" in {
+        "list all the errors without duplicate trailing dots" in {
           val configException =
             ConfigErrors(ConfigError.missingKey("key", ConfigKeyType.Environment))
-              .append(ConfigError.readException("key", ConfigKeyType.Property, new Error("error")))
+              .append(ConfigError.readException("key", ConfigKeyType.Property, new Error("error.")))
               .toException
 
           configException.getMessage.trim shouldBe
