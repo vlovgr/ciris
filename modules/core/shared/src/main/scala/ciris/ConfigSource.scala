@@ -17,7 +17,7 @@ import scala.util.{Failure, Success, Try}
   * source: ConfigSource[String] = ConfigSource(ConfigKeyType(identity key))
   *
   * scala> source.read("key")
-  * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key, ConfigKeyType(identity key), Right(key))
+  * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, ConfigKeyType(identity key), Right(key))
   * }}}
   *
   * There are also convenience methods in the companion object for creating
@@ -42,10 +42,10 @@ abstract class ConfigSource[Key](val keyType: ConfigKeyType[Key]) {
     * @return a [[ConfigSourceEntry]] containing the key-value pair
     * @example {{{
     * scala> ConfigSource.Environment.read("key")
-    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key, Environment, Left(MissingKey(key, Environment)))
+    * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, Environment, Left(MissingKey(key, Environment)))
     * }}}
     */
-  def read(key: Key): ConfigSourceEntry[Key]
+  def read(key: Key): ConfigSourceEntry[Key, String]
 }
 
 object ConfigSource extends ConfigSourcePlatformSpecific {
@@ -64,14 +64,14 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[String] = ConfigSource(ConfigKeyType(identity key))
     *
     * scala> source.read("key")
-    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key, ConfigKeyType(identity key), Right(key))
+    * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, ConfigKeyType(identity key), Right(key))
     * }}}
     */
   def apply[Key](keyType: ConfigKeyType[Key])(
     read: Key => Either[ConfigError, String]): ConfigSource[Key] = {
     val entry = (key: Key) => ConfigSourceEntry(key, keyType, read(key))
     new ConfigSource(keyType) {
-      override def read(key: Key): ConfigSourceEntry[Key] = entry(key)
+      override def read(key: Key): ConfigSourceEntry[Key, String] = entry(key)
       override def toString: String = s"ConfigSource($keyType)"
     }
   }
@@ -90,7 +90,7 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[String] = ConfigSource(Environment)
     *
     * scala> source.read("key")
-    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key, Environment, Left(MissingKey(key, Environment)))
+    * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, Environment, Left(MissingKey(key, Environment)))
     * }}}
     */
   def fromOption[Key](keyType: ConfigKeyType[Key])(
@@ -127,10 +127,10 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[String] = ConfigSource(Environment)
     *
     * scala> source.read("key1")
-    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key1, Environment, Left(ConfigError(error)))
+    * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key1, Environment, Left(ConfigError(error)))
     *
     * scala> source.read("key2")
-    * res1: ConfigSourceEntry[String] = ConfigSourceEntry(key2, Environment, Left(ConfigError(error)))
+    * res1: ConfigSourceEntry[String, String] = ConfigSourceEntry(key2, Environment, Left(ConfigError(error)))
     * }}}
     */
   def failed[Key](keyType: ConfigKeyType[Key])(error: ConfigError): ConfigSource[Key] =
@@ -149,7 +149,7 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[String] = ConfigSource(Environment)
     *
     * scala> source.read("key")
-    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key, Environment, Left(MissingKey(key, Environment)))
+    * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, Environment, Left(MissingKey(key, Environment)))
     * }}}
     */
   def fromMap[Key](keyType: ConfigKeyType[Key])(map: Map[Key, String]): ConfigSource[Key] =
@@ -170,13 +170,13 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> source.read(0)
-    * res0: ConfigSourceEntry[Int] = ConfigSourceEntry(0, Argument, Right(def))
+    * res0: ConfigSourceEntry[Int, String] = ConfigSourceEntry(0, Argument, Right(def))
     *
     * scala> source.read(1)
-    * res1: ConfigSourceEntry[Int] = ConfigSourceEntry(1, Argument, Right(ghi))
+    * res1: ConfigSourceEntry[Int, String] = ConfigSourceEntry(1, Argument, Right(ghi))
     *
     * scala> source.read(2)
-    * res2: ConfigSourceEntry[Int] = ConfigSourceEntry(2, Argument, Left(MissingKey(2, Argument)))
+    * res2: ConfigSourceEntry[Int, String] = ConfigSourceEntry(2, Argument, Left(MissingKey(2, Argument)))
     * }}}
     */
   def fromEntries[Key](keyType: ConfigKeyType[Key])(entries: (Key, String)*): ConfigSource[Key] =
@@ -197,10 +197,10 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> source.read(0)
-    * res0: ConfigSourceEntry[Int] = ConfigSourceEntry(0, Argument, Right(a))
+    * res0: ConfigSourceEntry[Int, String] = ConfigSourceEntry(0, Argument, Right(a))
     *
     * scala> source.read(1)
-    * res1: ConfigSourceEntry[Int] = ConfigSourceEntry(1, Argument, Left(ReadException(1, Argument, java.lang.IndexOutOfBoundsException: 1)))
+    * res1: ConfigSourceEntry[Int, String] = ConfigSourceEntry(1, Argument, Left(ReadException(1, Argument, java.lang.IndexOutOfBoundsException: 1)))
     * }}}
     */
   def fromTry[Key](keyType: ConfigKeyType[Key])(read: Key => Try[String]): ConfigSource[Key] =
@@ -226,10 +226,10 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[String] = ConfigSource(Property)
     *
     * scala> source.read("key")
-    * res0: ConfigSourceEntry[String] = ConfigSourceEntry(key, Property, Left(MissingKey(key, Property)))
+    * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, Property, Left(MissingKey(key, Property)))
     *
     * scala> source.read("")
-    * res1: ConfigSourceEntry[String] = ConfigSourceEntry(, Property, Left(ReadException(, Property, java.lang.IllegalArgumentException: key can't be empty)))
+    * res1: ConfigSourceEntry[String, String] = ConfigSourceEntry(, Property, Left(ReadException(, Property, java.lang.IllegalArgumentException: key can't be empty)))
     * }}}
     */
   def fromTryOption[Key](keyType: ConfigKeyType[Key])(
@@ -256,10 +256,10 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> source.read(0)
-    * res0: ConfigSourceEntry[Int] = ConfigSourceEntry(0, Argument, Right(a))
+    * res0: ConfigSourceEntry[Int, String] = ConfigSourceEntry(0, Argument, Right(a))
     *
     * scala> source.read(1)
-    * res1: ConfigSourceEntry[Int] = ConfigSourceEntry(1, Argument, Left(ReadException(1, Argument, java.lang.IndexOutOfBoundsException: 1)))
+    * res1: ConfigSourceEntry[Int, String] = ConfigSourceEntry(1, Argument, Left(ReadException(1, Argument, java.lang.IndexOutOfBoundsException: 1)))
     * }}}
     */
   def catchNonFatal[Key](keyType: ConfigKeyType[Key])(read: Key => String): ConfigSource[Key] =
@@ -279,10 +279,10 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * source: ConfigSource[Int] = ConfigSource(Argument)
     *
     * scala> source.read(0)
-    * res0: ConfigSourceEntry[Int] = ConfigSourceEntry(0, Argument, Right(a))
+    * res0: ConfigSourceEntry[Int, String] = ConfigSourceEntry(0, Argument, Right(a))
     *
     * scala> source.read(1)
-    * res1: ConfigSourceEntry[Int] = ConfigSourceEntry(1, Argument, Left(MissingKey(1, Argument)))
+    * res1: ConfigSourceEntry[Int, String] = ConfigSourceEntry(1, Argument, Left(MissingKey(1, Argument)))
     * }}}
     */
   def byIndex(keyType: ConfigKeyType[Int])(indexedSeq: IndexedSeq[String]): ConfigSource[Int] =
@@ -300,7 +300,7 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     private val delegate: ConfigSource[String] =
       ConfigSource.fromMap(keyType)(sys.env)
 
-    override def read(key: String): ConfigSourceEntry[String] =
+    override def read(key: String): ConfigSourceEntry[String, String] =
       delegate.read(key)
   }
 
@@ -311,7 +311,7 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     private val delegate: ConfigSource[String] =
       ConfigSource.fromTryOption(keyType)(key => Try(sys.props.get(key)))
 
-    override def read(key: String): ConfigSourceEntry[String] =
+    override def read(key: String): ConfigSourceEntry[String, String] =
       delegate.read(key)
   }
 }
