@@ -2,8 +2,8 @@ package ciris
 
 /**
   * A value which has been read from a [[ConfigSource]], and converted
-  * to the specified type `Value` using a [[ConfigReader]]. The class is
-  * a thin wrapper around an `Either[ConfigError, Value]` value to
+  * to the specified type `Value` using a [[ConfigDecoder]]. The class
+  * is a thin wrapper around an `Either[ConfigError, Value]` value to
   * support error accumulation.
   *
   * To create a [[ConfigValue]], you typically use methods like [[env]],
@@ -12,7 +12,7 @@ package ciris
   * the companion object.
   *
   * {{{
-  * scala> ConfigValue("key")(ConfigSource.Properties, ConfigReader[String])
+  * scala> ConfigValue("key")(ConfigSource.Properties, ConfigDecoder[String])
   * res0: ConfigValue[String] = ConfigValue(Left(MissingKey(key, Property)))
   *
   * scala> ConfigValue(Right(123))
@@ -101,24 +101,24 @@ object ConfigValue {
   /**
     * Creates a new [[ConfigValue]] by reading the specified key from
     * the configuration source, converting the value to type `Value`
-    * using the specified [[ConfigReader]].
+    * using the specified [[ConfigDecoder]].
     *
     * @param key the key to read
     * @param source the configuration source to read from
-    * @param reader the reader to use to convert the value
+    * @param decoder the decoder to use to convert the value
     * @tparam Key the type of the key
     * @tparam Value the type of the value
     * @return a new [[ConfigValue]] with the read value
     * @example {{{
-    * scala> ConfigValue("key")(ConfigSource.Properties, ConfigReader[String])
+    * scala> ConfigValue("key")(ConfigSource.Properties, ConfigDecoder[String])
     * res0: ConfigValue[String] = ConfigValue(Left(MissingKey(key, Property)))
     * }}}
     */
   def apply[Key, Value](key: Key)(
     source: ConfigSource[Key],
-    reader: ConfigReader[Value]
+    decoder: ConfigDecoder[Value]
   ): ConfigValue[Value] = {
-    ConfigValue(reader.read[Key, String](source.read(key)))
+    ConfigValue(decoder.decode[Key, String](source.read(key)))
   }
 
   /**
@@ -142,7 +142,7 @@ object ConfigValue {
 
     /**
       * Creates a [[ConfigValue]] by looking for an implicit [[ConfigSource]]
-      * matching the specified key's type `Key`. Requires a [[ConfigReader]]
+      * matching the specified key's type `Key`. Requires a [[ConfigDecoder]]
       * for `Value` to be able to read values.
       *
       * Typically, you would use this method via the [[read]] method.
@@ -157,15 +157,15 @@ object ConfigValue {
       *
       * @param key the key to read from the configuration source
       * @param source the configuration source from which to read
-      * @param reader the reader to convert the value
+      * @param decoder the decoder to convert the value
       * @tparam Key the type of the key
       * @return a new [[ConfigValue]] with the value
       */
     def apply[Key](key: Key)(
       implicit source: ConfigSource[Key],
-      reader: ConfigReader[Value]
+      decoder: ConfigDecoder[Value]
     ): ConfigValue[Value] = {
-      ConfigValue[Key, Value](key)(source, reader)
+      ConfigValue[Key, Value](key)(source, decoder)
     }
   }
 }

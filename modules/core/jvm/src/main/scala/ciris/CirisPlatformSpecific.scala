@@ -25,14 +25,14 @@ private[ciris] trait CirisPlatformSpecific {
     * res0: ConfigValue[Double] = ConfigValue(Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
     * }}}
     */
-  def file[Value: ConfigReader](
+  def file[Value: ConfigDecoder](
     file: File,
     modifyFileContents: String => String = identity,
     charset: Charset = Charset.defaultCharset
   ): ConfigValue[Value] = {
     ConfigValue((file, charset))(
       ConfigSource.File,
-      ConfigReader[Value]
+      ConfigDecoder[Value]
         .mapEntryValue(modifyFileContents)
     )
   }
@@ -57,7 +57,7 @@ private[ciris] trait CirisPlatformSpecific {
     * res0: ConfigValue[Double] = ConfigValue(Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
     * }}}
     */
-  def fileWithName[Value: ConfigReader](
+  def fileWithName[Value: ConfigDecoder](
     name: String,
     modifyFileContents: String => String = identity,
     charset: Charset = Charset.defaultCharset

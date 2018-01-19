@@ -18,8 +18,8 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * res0: ciris.ConfigValue[Int] = ConfigValue(Left(MissingKey(key, Environment)))
     * }}}
     */
-  def env[Value: ConfigReader](key: String): ConfigValue[Value] =
-    ConfigValue(key)(ConfigSource.Environment, ConfigReader[Value])
+  def env[Value: ConfigDecoder](key: String): ConfigValue[Value] =
+    ConfigValue(key)(ConfigSource.Environment, ConfigDecoder[Value])
 
   /**
     * Reads the system property with the specified key name,
@@ -34,8 +34,8 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * res0: ciris.ConfigValue[Int] = ConfigValue(Left(MissingKey(key, Property)))
     * }}}
     */
-  def prop[Value: ConfigReader](key: String): ConfigValue[Value] =
-    ConfigValue(key)(ConfigSource.Properties, ConfigReader[Value])
+  def prop[Value: ConfigDecoder](key: String): ConfigValue[Value] =
+    ConfigValue(key)(ConfigSource.Properties, ConfigDecoder[Value])
 
   /**
     * Reads the command-line argument with the specified index,
@@ -57,8 +57,8 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * res2: ciris.ConfigValue[Int] = ConfigValue(Left(WrongType(0, a, Int, Argument, Some(java.lang.NumberFormatException: For input string: "a"))))
     * }}}
     */
-  def arg[Value: ConfigReader](args: IndexedSeq[String])(index: Int): ConfigValue[Value] =
-    ConfigValue(index)(ConfigSource.byIndex(ConfigKeyType.Argument)(args), ConfigReader[Value])
+  def arg[Value: ConfigDecoder](args: IndexedSeq[String])(index: Int): ConfigValue[Value] =
+    ConfigValue(index)(ConfigSource.byIndex(ConfigKeyType.Argument)(args), ConfigDecoder[Value])
 
   /**
     * Reads from an implicit source, and tries to convert the value
