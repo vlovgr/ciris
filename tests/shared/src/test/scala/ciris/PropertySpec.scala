@@ -28,17 +28,17 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks with Eithe
 
   def fails[A](f: => A): Boolean = Try(f).isFailure
 
-  def readConfigValue[A](value: String)(implicit reader: ConfigReader[A]): ConfigValue[A] =
-    ConfigValue("key")(sourceWith("key" -> value), reader)
+  def readConfigValue[A](value: String)(implicit decoder: ConfigDecoder[A]): ConfigValue[A] =
+    ConfigValue("key")(sourceWith("key" -> value), decoder)
 
-  def readValue[A](value: String)(implicit reader: ConfigReader[A]): Either[ConfigError, A] =
+  def readValue[A](value: String)(implicit decoder: ConfigDecoder[A]): Either[ConfigError, A] =
     readConfigValue[A](value).value
 
-  def readNonExistingConfigValue[A](implicit reader: ConfigReader[A]): ConfigValue[A] =
-    ConfigValue("key")(emptySource, reader)
+  def readNonExistingConfigValue[A](implicit decoder: ConfigDecoder[A]): ConfigValue[A] =
+    ConfigValue("key")(emptySource, decoder)
 
-  def readNonExistingValue[A](implicit reader: ConfigReader[A]): Either[ConfigError, A] =
-    reader.read(emptySource.read("key"))
+  def readNonExistingValue[A](implicit decoder: ConfigDecoder[A]): Either[ConfigError, A] =
+    decoder.decode(emptySource.read("key"))
 
   def existingEntry(value: String): ConfigEntry[String, String, String] =
     sourceWith("key" -> value).read("key")

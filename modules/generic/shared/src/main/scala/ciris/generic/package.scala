@@ -1,8 +1,9 @@
 package ciris
 
-import ciris.generic.readers.GenericConfigReaders
+import ciris.generic.decoders.GenericConfigDecoders
 
 /**
-  * Module using [[https://github.com/milessabin/shapeless shapeless]] for generic derivation of ConfigReaders.
+  * Module using [[https://github.com/milessabin/shapeless shapeless]]
+  * for generic derivation of ConfigDecoders.
   */
-package object generic extends GenericConfigReaders
+package object generic extends GenericConfigDecoders

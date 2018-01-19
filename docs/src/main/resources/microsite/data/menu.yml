@@ -11,7 +11,7 @@ options:
     url: docs/environments
   - title: Configuration Sources
     url: docs/sources
-  - title: Custom Readers
-    url: docs/readers
+  - title: Custom Decoders
+    url: docs/decoders
   - title: Contributing Guide
     url: docs/contributing
