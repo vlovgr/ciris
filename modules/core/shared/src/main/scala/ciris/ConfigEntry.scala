@@ -7,11 +7,11 @@ package ciris
   * type `Value`. Also includes the [[ConfigKeyType]] to be able to support
   * better error messages.
   *
-  * To create a [[ConfigSourceEntry]], use [[ConfigSourceEntry#apply]].
+  * To create a [[ConfigEntry]], use [[ConfigEntry#apply]].
   *
   * {{{
-  * scala> ConfigSourceEntry("key", ConfigKeyType.Environment, Right("value"))
-  * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, Environment, Right(value))
+  * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
+  * res0: ConfigEntry[String, String] = ConfigEntry(key, Environment, Right(value))
   * }}}
   *
   * @param key the key which was read from the configuration source
@@ -20,7 +20,7 @@ package ciris
   * @tparam Key the type of the key
   * @tparam Value the type of the value
   */
-sealed class ConfigSourceEntry[Key, Value](
+sealed class ConfigEntry[Key, Value](
   val key: Key,
   val keyType: ConfigKeyType[Key],
   val value: Either[ConfigError, Value]
@@ -28,30 +28,30 @@ sealed class ConfigSourceEntry[Key, Value](
 
   /**
     * Transforms the value read from the configuration source by applying
-    * the specified function, returning a new [[ConfigSourceEntry]] which
+    * the specified function, returning a new [[ConfigEntry]] which
     * includes the modified value.
     *
     * @param f the function to apply to the read configuration value
-    * @return a new [[ConfigSourceEntry]] with the transformed value
+    * @return a new [[ConfigEntry]] with the transformed value
     * @example {{{
-    * scala> val entry = ConfigSourceEntry("key", ConfigKeyType.Environment, Right("value "))
-    * entry: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, Environment, Right(value ))
+    * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value "))
+    * entry: ConfigEntry[String, String] = ConfigEntry(key, Environment, Right(value ))
     *
     * scala> entry.mapValue(_.trim)
-    * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, Environment, Right(value))
+    * res0: ConfigEntry[String, String] = ConfigEntry(key, Environment, Right(value))
     * }}}
     */
-  def mapValue[A](f: Value => A): ConfigSourceEntry[Key, A] =
-    new ConfigSourceEntry(key, keyType, value.right.map(f))
+  def mapValue[A](f: Value => A): ConfigEntry[Key, A] =
+    new ConfigEntry(key, keyType, value.right.map(f))
 
   override def toString: String =
-    s"ConfigSourceEntry($key, $keyType, $value)"
+    s"ConfigEntry($key, $keyType, $value)"
 }
 
-object ConfigSourceEntry {
+object ConfigEntry {
 
   /**
-    * Creates a new [[ConfigSourceEntry]] representing an entry (key-value pair)
+    * Creates a new [[ConfigEntry]] representing an entry (key-value pair)
     * that has been read from a configuration source. The reading might have failed,
     * represented by wrapping the value in an `Either[ConfigError, String]`. Values are
     * always of type `String`, while the `Key` can be different. Also includes the
@@ -61,17 +61,17 @@ object ConfigSourceEntry {
     * @param keyType the type of keys the configuration source reads
     * @param value the value which was read or a [[ConfigError]]
     * @tparam Key the type of key
-    * @return a new [[ConfigSourceEntry]] using the specified arguments
+    * @return a new [[ConfigEntry]] using the specified arguments
     * @example {{{
-    * scala> ConfigSourceEntry("key", ConfigKeyType.Environment, Right("value"))
-    * res0: ConfigSourceEntry[String, String] = ConfigSourceEntry(key, Environment, Right(value))
+    * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
+    * res0: ConfigEntry[String, String] = ConfigEntry(key, Environment, Right(value))
     * }}}
     */
   def apply[Key, Value](
     key: Key,
     keyType: ConfigKeyType[Key],
     value: Either[ConfigError, Value]
-  ): ConfigSourceEntry[Key, Value] = {
-    new ConfigSourceEntry(key, keyType, value)
+  ): ConfigEntry[Key, Value] = {
+    new ConfigEntry(key, keyType, value)
   }
 }
