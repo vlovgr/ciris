@@ -118,7 +118,7 @@ object ConfigValue {
     source: ConfigSource[Key],
     reader: ConfigReader[Value]
   ): ConfigValue[Value] = {
-    ConfigValue(reader.read[Key](source.read(key)))
+    ConfigValue(reader.read[Key, String](source.read(key)))
   }
 
   /**
