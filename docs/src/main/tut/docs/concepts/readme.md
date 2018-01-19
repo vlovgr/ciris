@@ -6,25 +6,25 @@ permalink: /docs/concepts
 ---
 
 # Core Concepts
-This section explains the core concepts in Ciris, including the types `ConfigSource`, `ConfigSourceEntry`, `ConfigKeyType`, `ConfigReader`, `ConfigError`, `ConfigErrors`, and `ConfigValue` and the methods `loadConfig`, `withValue`, `withValues`, `env`, `prop`, `arg`, and `read`. For [basic usage](/docs/basics), you do not need to have a complete understanding of these concepts, although it might be helpful. If you need to do some integration with Ciris, like creating a new [module](/docs/modules), defining a new [configuration source](/docs/sources), or writing a [custom reader](/docs/readers) to support new types, understanding these core concepts will be beneficial.
+This section explains the core concepts in Ciris, including the types `ConfigSource`, `ConfigEntry`, `ConfigKeyType`, `ConfigReader`, `ConfigError`, `ConfigErrors`, and `ConfigValue` and the methods `loadConfig`, `withValue`, `withValues`, `env`, `prop`, `arg`, and `read`. For [basic usage](/docs/basics), you do not need to have a complete understanding of these concepts, although it might be helpful. If you need to do some integration with Ciris, like creating a new [module](/docs/modules), defining a new [configuration source](/docs/sources), or writing a [custom reader](/docs/readers) to support new types, understanding these core concepts will be beneficial.
 
 ## Configuration Sources
-Configuration values can be read from different sources, represented by `ConfigSource`s, which are anything that can map keys of type `Key` to `String` values, like `Map[Int, String]` for example, and that return a `ConfigError` error if there was an error while reading the value (for example, when no value exists for a given key). A `ConfigSource` reads keys of type `ConfigKeyType`, which is simply a wrapper around the key name and type, for example `environment variable` and type `String`. `ConfigSource` returns a `ConfigSourceEntry`, which is the result of reading a key, including the read key and the `ConfigKeyType`. The abstract class `ConfigSource` is defined as follows.
+Configuration values can be read from different sources, represented by `ConfigSource`s, which are anything that can map keys of type `Key` to `String` values, like `Map[Int, String]` for example, and that return a `ConfigError` error if there was an error while reading the value (for example, when no value exists for a given key). A `ConfigSource` reads keys of type `ConfigKeyType`, which is simply a wrapper around the key name and type, for example `environment variable` and type `String`. `ConfigSource` returns a `ConfigEntry`, which is the result of reading a key, including the read key and the `ConfigKeyType`. The abstract class `ConfigSource` is defined as follows.
 
 ```scala
 abstract class ConfigSource[Key](val keyType: ConfigKeyType[Key]) {
-  def read(key: Key): ConfigSourceEntry[Key]
+  def read(key: Key): ConfigEntry[Key]
 }
 ```
 
 Ciris provides `ConfigSource`s for environment variables, system properties, and command-line arguments in the core library. If you require other configuration sources, you can easily create your own. You can read more about `ConfigSource`s in the [Configuration Sources](/docs/sources) section.
 
 ## Configuration Readers
-Values read from a `ConfigSource` can be converted into another type `A` using a `ConfigReader[A]`. `ConfigReader`s accept a `ConfigSourceEntry` from a source and tries to convert the `String` value into type `A`, returning a `ConfigError` error if the conversion was unsuccessful. The abstract class `ConfigReader` is defined as follows.
+Values read from a `ConfigSource` can be converted into another type `A` using a `ConfigReader[A]`. `ConfigReader`s accept a `ConfigEntry` from a source and tries to convert the `String` value into type `A`, returning a `ConfigError` error if the conversion was unsuccessful. The abstract class `ConfigReader` is defined as follows.
 
 ```scala
 abstract class ConfigReader[Value] {
-  def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, Value]
+  def read[Key](entry: ConfigEntry[Key]): Either[ConfigError, Value]
 }
 ```
 
