@@ -1,8 +1,8 @@
 package ciris
 
-import ciris.squants.readers.SquantsConfigReaders
+import ciris.squants.decoders.SquantsConfigDecoders
 
 /**
   * Module providing an integration with [[https://github.com/typelevel/squants squants]].
   */
-package object squants extends SquantsConfigReaders
+package object squants extends SquantsConfigDecoders
