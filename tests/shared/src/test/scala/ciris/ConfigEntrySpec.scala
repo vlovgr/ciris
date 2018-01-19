@@ -1,12 +1,12 @@
 package ciris
 
-final class ConfigSourceEntrySpec extends PropertySpec {
-  "ConfigSourceEntry" when {
+final class ConfigEntrySpec extends PropertySpec {
+  "ConfigEntry" when {
     "converting to String" should {
       "include the key, keyType, and value" in {
         forAll { value: String =>
           existingEntry(value).toString shouldBe
-            s"ConfigSourceEntry(key, ConfigKeyType(test key), Right($value))"
+            s"ConfigEntry(key, ConfigKeyType(test key), Right($value))"
         }
       }
     }
