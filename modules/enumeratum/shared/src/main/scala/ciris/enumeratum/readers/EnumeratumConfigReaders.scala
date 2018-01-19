@@ -3,7 +3,7 @@ package ciris.enumeratum.readers
 import _root_.enumeratum._
 import _root_.enumeratum.values._
 import ciris.ConfigError.wrongType
-import ciris.{ConfigError, ConfigReader, ConfigSourceEntry}
+import ciris.{ConfigError, ConfigReader, ConfigEntry}
 
 import scala.reflect.ClassTag
 
@@ -13,7 +13,7 @@ trait EnumeratumConfigReaders {
     To: ClassTag
   ](f: From => Option[To]): ConfigReader[To] =
     new ConfigReader[To] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, To] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, To] =
         ConfigReader[From].read(entry).right.flatMap { value =>
           f(value) match {
             case Some(to) => Right(to)

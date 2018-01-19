@@ -7,10 +7,11 @@ import scala.util.{Failure, Success, Try}
 
 /**
   * [[ConfigReader]] represents the ability to convert the value of a
-  * [[ConfigSourceEntry]] (a value read from a [[ConfigSource]]) to a
-  * different type. Values in a [[ConfigSourceEntry]] are always of
-  * type `String`, so a [[ConfigReader]] provides a conversion from
-  * `String` to `Value`, while supporting sensible error messages.
+  * [[ConfigEntry]] (a value read from a [[ConfigSource]]) to a
+  * different type. Values in a [[ConfigEntry]] need to be of
+  * type `String` to be supported, so a [[ConfigReader]] provides
+  * a conversion from `String` to `Value`, while supporting
+  * sensible error messages.
   *
   * To create a new [[ConfigReader]], simply extended the class and
   * implement the [[read]] method. Alternatively, use the methods
@@ -22,15 +23,15 @@ import scala.util.{Failure, Success, Try}
 abstract class ConfigReader[Value] { self =>
 
   /**
-    * Reads the value of the specified [[ConfigSourceEntry]], converting
+    * Reads the value of the specified [[ConfigEntry]], converting
     * the value from type `String` to type `Value`, while supporting
     * sensible error messages.
     *
-    * @param entry the [[ConfigSourceEntry]] from which to read the value
+    * @param entry the [[ConfigEntry]] from which to read the value
     * @tparam Key the type of the key read from the configuration source
     * @return the converted value or a [[ConfigError]] if reading failed
     */
-  def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, Value]
+  def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, Value]
 
   /**
     * Applies a function to the converted value from this [[ConfigReader]].
@@ -59,7 +60,7 @@ abstract class ConfigReader[Value] { self =>
     */
   final def map[A](f: Value => A): ConfigReader[A] =
     new ConfigReader[A] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A] =
         self.read(entry).fold(Left.apply, value => Right(f(value)))
     }
 
@@ -92,7 +93,7 @@ abstract class ConfigReader[Value] { self =>
     */
   final def mapOption[A](typeName: String)(f: Value => Option[A]): ConfigReader[A] =
     new ConfigReader[A] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A] =
         self
           .read(entry)
           .fold(Left.apply, value => {
@@ -132,7 +133,7 @@ abstract class ConfigReader[Value] { self =>
     */
   final def mapTry[A](typeName: String)(f: Value => Try[A]): ConfigReader[A] =
     new ConfigReader[A] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A] =
         self
           .read(entry)
           .fold(Left.apply, value => {
@@ -238,7 +239,7 @@ abstract class ConfigReader[Value] { self =>
     */
   final def mapEither[L, R](typeName: String)(f: Value => Either[L, R]): ConfigReader[R] =
     new ConfigReader[R] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, R] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, R] =
         self
           .read(entry)
           .fold(Left.apply, value => {
@@ -251,12 +252,12 @@ abstract class ConfigReader[Value] { self =>
     }
 
   /**
-    * Applies a function on the values in the [[ConfigSourceEntry]]s read by
+    * Applies a function on the values in the [[ConfigEntry]]s read by
     * the reader, before trying to convert the value to type `Value`. This
     * returns a new [[ConfigReader]] with the behavior, leaving the
     * current [[ConfigReader]] unmodified.
     *
-    * @param f the function to apply on the [[ConfigSourceEntry]] values
+    * @param f the function to apply on the [[ConfigEntry]] values
     * @return a new [[ConfigReader]] with the entry value transformation
     * @example {{{
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123 "))
@@ -271,7 +272,7 @@ abstract class ConfigReader[Value] { self =>
     */
   final def mapEntryValue(f: String => String): ConfigReader[Value] =
     new ConfigReader[Value] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, Value] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, Value] =
         self.read(entry.mapValue(f))
     }
 }
@@ -303,13 +304,13 @@ object ConfigReader extends ConfigReaders {
     */
   def identity: ConfigReader[String] =
     new ConfigReader[String] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, String] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, String] =
         entry.value
     }
 
   /**
     * Creates a new [[ConfigReader]] by applying a function for both the
-    * error case and the value case, directly on the [[ConfigSourceEntry]],
+    * error case and the value case, directly on the [[ConfigEntry]],
     * without any intermediate type conversions.
     *
     * @param onError the function to apply in the case of an error
@@ -338,7 +339,7 @@ object ConfigReader extends ConfigReaders {
     onValue: String => Either[ConfigError, A]
   ): ConfigReader[A] =
     new ConfigReader[A] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A] =
         entry.value.fold(onError, onValue)
     }
 
@@ -392,7 +393,7 @@ object ConfigReader extends ConfigReaders {
     */
   def fromOption[A](typeName: String)(f: String => Option[A]): ConfigReader[A] =
     new ConfigReader[A] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A] =
         entry.value.right.flatMap { value =>
           f(value) match {
             case Some(t) => Right(t)
@@ -427,7 +428,7 @@ object ConfigReader extends ConfigReaders {
     */
   def fromTry[A](typeName: String)(f: String => Try[A]): ConfigReader[A] =
     new ConfigReader[A] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A] =
         entry.value.right.flatMap { value =>
           f(value) match {
             case Success(a) => Right(a)
@@ -469,7 +470,7 @@ object ConfigReader extends ConfigReaders {
     */
   def fromTryOption[A](typeName: String)(f: String => Try[Option[A]]): ConfigReader[A] =
     new ConfigReader[A] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A] =
         entry.value.right.flatMap { value =>
           f(value) match {
             case Success(Some(value)) => Right(value)
@@ -507,7 +508,7 @@ object ConfigReader extends ConfigReaders {
     */
   def catchNonFatal[A](typeName: String)(f: String => A): ConfigReader[A] =
     new ConfigReader[A] {
-      override def read[Key](entry: ConfigSourceEntry[Key]): Either[ConfigError, A] =
+      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A] =
         entry.value.right.flatMap { value =>
           Try(f(value)) match {
             case Success(t) => Right(t)

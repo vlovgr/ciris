@@ -40,13 +40,13 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks with Eithe
   def readNonExistingValue[A](implicit reader: ConfigReader[A]): Either[ConfigError, A] =
     reader.read(emptySource.read("key"))
 
-  def existingEntry(value: String): ConfigSourceEntry[String] =
+  def existingEntry(value: String): ConfigEntry[String, String] =
     sourceWith("key" -> value).read("key")
 
   val emptySource: ConfigSource[String] =
     sourceWith()
 
-  val nonExistingEntry: ConfigSourceEntry[String] =
+  val nonExistingEntry: ConfigEntry[String, String] =
     emptySource.read("key")
 
   def sourceWith(entries: (String, String)*): ConfigSource[String] =
