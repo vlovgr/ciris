@@ -2,9 +2,9 @@ package ciris
 
 /**
   * A class representing one or more errors that occurred while reading
-  * a single [[ConfigValue]] configuration value. An error is basically
-  * a String message, and can be created from one by using the
-  * [[ConfigError#apply]] method in the companion object.
+  * or decoding a single [[ConfigValue]] configuration value. An error
+  * is basically a String message, and can be created from one by
+  * using [[ConfigError#apply]] in the companion object.
   *
   * {{{
   * scala> val error = ConfigError("error")
@@ -15,7 +15,7 @@ package ciris
   * <br>
   * [[ConfigError]]s can be combined into a single [[ConfigError]] using
   * the [[combine]] method. This is useful when there was more than one
-  * error when reading the configuration value.
+  * error when reading or decoding the configuration value.
   *
   * {{{
   * scala> error combine ConfigError("error2")
@@ -52,7 +52,8 @@ sealed abstract class ConfigError {
   /**
     * Combines this [[ConfigError]] with that [[ConfigError]] to create
     * a new [[ConfigError]] with both errors' messages. This is useful
-    * for when there is more than one error when reading a value.
+    * for when there is more than one error when reading or decoding a
+    * value.
     *
     * [[ConfigError]]s are combined in order so that the message of this
     * [[ConfigError]] is before the message of that [[ConfigError]].
@@ -69,8 +70,8 @@ sealed abstract class ConfigError {
 
   /**
     * Appends that [[ConfigError]] to this [[ConfigError]] to create a
-    * new [[ConfigErrors]] instance. This is useful for when reading
-    * more than one value and errors need to be accumulated.
+    * new [[ConfigErrors]] instance. This is useful for when reading or
+    * decoding more than one value and errors need to be accumulated.
     *
     * [[ConfigError]]s are appended in order so that this [[ConfigError]]
     * is before that [[ConfigError]] in the resulting [[ConfigErrors]].
@@ -111,8 +112,9 @@ object ConfigError {
 
   /**
     * A [[ConfigError]] which is the combination of at least two other [[ConfigError]]s.
-    * This is useful when there is more than one error when reading a value. To create
-    * a [[Combined]] error using other [[ConfigError]]s, use the [[combined]] method.
+    * This is useful when there is more than one error when reading or decoding a value.
+    * To create a [[Combined]] error using other [[ConfigError]]s, use the [[combined]]
+    * method.
     *
     * {{{
     * scala> ConfigError.combined(ConfigError("error1"), ConfigError("error2"))
@@ -135,7 +137,8 @@ object ConfigError {
 
   /**
     * Combines two or more [[ConfigError]]s into a single [[ConfigError]].
-    * This is useful when there is more than one error when reading a value.
+    * This is useful when there is more than one error when reading or
+    * decoding a value.
     *
     * @param first the first [[ConfigError]] to combine
     * @param second the second [[ConfigError]] to combine
