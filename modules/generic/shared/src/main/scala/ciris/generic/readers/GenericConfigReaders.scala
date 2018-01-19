@@ -6,7 +6,7 @@ import shapeless.{:+:, ::, CNil, Coproduct, Generic, HNil, Inl, Inr, Lazy}
 trait GenericConfigReaders {
   implicit val cNilConfigReader: ConfigReader[CNil] =
     new ConfigReader[CNil] {
-      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, CNil] =
+      override def read[Key, S](entry: ConfigEntry[Key, S, String]): Either[ConfigError, CNil] =
         Left(ConfigError(s"Could not find any valid coproduct choice while reading ${entry.keyType.name} [${entry.key}]"))
     }
 
@@ -15,7 +15,7 @@ trait GenericConfigReaders {
     readB: ConfigReader[B]
   ): ConfigReader[A :+: B] =
     new ConfigReader[A :+: B] {
-      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, A :+: B] =
+      override def read[Key, S](entry: ConfigEntry[Key, S, String]): Either[ConfigError, A :+: B] =
         readA.value.read(entry) match {
           case Right(a) => Right(Inl(a))
           case Left(aError) =>
