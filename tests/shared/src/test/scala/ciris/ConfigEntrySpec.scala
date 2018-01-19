@@ -16,7 +16,7 @@ final class ConfigEntrySpec extends PropertySpec {
         "apply the function on the value" in {
           forAll { value: String =>
             val f: String => String = _.take(1)
-            val entry = existingEntry(value).mapValue(f)
+            val entry = existingEntry(value).mapValueRight(f)
             entry.value shouldBe Right(f(value))
           }
         }
@@ -24,7 +24,7 @@ final class ConfigEntrySpec extends PropertySpec {
 
       "the value was not read successfully" should {
         "leave the value as it is" in {
-          val entry = nonExistingEntry.mapValue(_.take(1))
+          val entry = nonExistingEntry.mapValueRight(_.take(1))
           entry.value shouldBe nonExistingEntry.value
         }
       }
