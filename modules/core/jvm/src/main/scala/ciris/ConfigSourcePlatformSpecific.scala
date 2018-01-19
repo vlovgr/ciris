@@ -17,7 +17,7 @@ private[ciris] trait ConfigSourcePlatformSpecific {
           Source.fromFile(file, charset.name).mkString
       }
 
-    override def read(key: (JFile, Charset)): ConfigEntry[(JFile, Charset), String] =
+    override def read(key: (JFile, Charset)): ConfigEntry[(JFile, Charset), String, String] =
       delegate.read(key)
   }
 }

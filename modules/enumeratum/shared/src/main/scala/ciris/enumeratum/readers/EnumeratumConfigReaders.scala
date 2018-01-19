@@ -13,7 +13,7 @@ trait EnumeratumConfigReaders {
     To: ClassTag
   ](f: From => Option[To]): ConfigReader[To] =
     new ConfigReader[To] {
-      override def read[Key](entry: ConfigEntry[Key, String]): Either[ConfigError, To] =
+      override def read[Key, S](entry: ConfigEntry[Key, S, String]): Either[ConfigError, To] =
         ConfigReader[From].read(entry).right.flatMap { value =>
           f(value) match {
             case Some(to) => Right(to)
