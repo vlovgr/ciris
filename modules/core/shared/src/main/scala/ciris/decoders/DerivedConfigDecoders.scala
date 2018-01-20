@@ -3,9 +3,11 @@ package ciris.decoders
 import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
 
 trait DerivedConfigDecoders {
-  implicit def optionConfigDecoder[Value: ConfigDecoder]: ConfigDecoder[Option[Value]] =
-    new ConfigDecoder[Option[Value]] {
-      override def decode[Key, S](entry: ConfigEntry[Key, S, String]): Either[ConfigError, Option[Value]] =
-        entry.value.fold(_ => Right(None), _ => ConfigDecoder[Value].decode(entry).right.map(Some.apply))
+  implicit def optionConfigDecoder[A, B](
+    implicit decoder: ConfigDecoder[A, B]
+  ): ConfigDecoder[A, Option[B]] =
+    new ConfigDecoder[A, Option[B]] {
+      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, Option[B]] =
+        entry.value.fold(_ => Right(None), _ => decoder.decode(entry).right.map(Some.apply))
     }
 }

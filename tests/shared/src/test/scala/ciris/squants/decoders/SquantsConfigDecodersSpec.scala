@@ -102,10 +102,10 @@ final class SquantsConfigDecodersSpec extends PropertySpec with SquantsGenerator
     testDimension(Time, Time.apply)
   }
 
-  def testDimension[A <: Quantity[A]: ConfigDecoder: ClassTag](
+  def testDimension[A <: Quantity[A]: ClassTag](
     dimension: Dimension[A],
     apply: String => Try[A]
-  ): Unit = {
+  )(implicit decoder: ConfigDecoder[String, A]): Unit = {
     val typeName: String = implicitly[ClassTag[A]].runtimeClass.getSimpleName
 
     s"reading a $typeName" should {

@@ -4,12 +4,11 @@ import java.util.UUID
 import java.util.regex.Pattern
 
 import ciris.ConfigDecoder
-import ciris.ConfigDecoder.catchNonFatal
 
 trait JavaUtilConfigDecoders {
-  implicit val regexPatternConfigDecoder: ConfigDecoder[Pattern] =
-    catchNonFatal("Pattern")(Pattern.compile)
+  implicit val regexPatternConfigDecoder: ConfigDecoder[String, Pattern] =
+    ConfigDecoder.catchNonFatal[String]("Pattern")(Pattern.compile)
 
-  implicit val uuidConfigDecoder: ConfigDecoder[UUID] =
-    catchNonFatal("UUID")(UUID.fromString)
+  implicit val uuidConfigDecoder: ConfigDecoder[String, UUID] =
+    ConfigDecoder.catchNonFatal[String]("UUID")(UUID.fromString)
 }
