@@ -274,7 +274,7 @@ abstract class ConfigDecoder[A, B] { self =>
   final def mapEntryValue(f: A => A): ConfigDecoder[A, B] =
     new ConfigDecoder[A, B] {
       override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-        self.decode(entry.mapValueRight(f))
+        self.decode(entry.mapValue(f))
     }
 }
 
