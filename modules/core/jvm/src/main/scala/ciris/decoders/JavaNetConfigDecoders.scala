@@ -3,15 +3,14 @@ package ciris.decoders
 import java.net._
 
 import ciris.ConfigDecoder
-import ciris.ConfigDecoder.catchNonFatal
 
 trait JavaNetConfigDecoders {
-  implicit val inetAddressConfigDecoder: ConfigDecoder[InetAddress] =
-    catchNonFatal("InetAddress")(InetAddress.getByName)
+  implicit val inetAddressConfigDecoder: ConfigDecoder[String, InetAddress] =
+    ConfigDecoder.catchNonFatal[String]("InetAddress")(InetAddress.getByName)
 
-  implicit val uriConfigDecoder: ConfigDecoder[URI] =
-    catchNonFatal("URI")(new URI(_))
+  implicit val uriConfigDecoder: ConfigDecoder[String, URI] =
+    ConfigDecoder.catchNonFatal[String]("URI")(new URI(_))
 
-  implicit val urlConfigDecoder: ConfigDecoder[URL] =
-    catchNonFatal("URL")(new URL(_))
+  implicit val urlConfigDecoder: ConfigDecoder[String, URL] =
+    ConfigDecoder.catchNonFatal[String]("URL")(new URL(_))
 }

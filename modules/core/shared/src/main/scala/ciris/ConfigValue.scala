@@ -116,7 +116,7 @@ object ConfigValue {
     */
   def apply[Key, Value](key: Key)(
     source: ConfigSource[Key],
-    decoder: ConfigDecoder[Value]
+    decoder: ConfigDecoder[String, Value]
   ): ConfigValue[Value] = {
     ConfigValue(decoder.decode[Key, String](source.read(key)))
   }
@@ -163,7 +163,7 @@ object ConfigValue {
       */
     def apply[Key](key: Key)(
       implicit source: ConfigSource[Key],
-      decoder: ConfigDecoder[Value]
+      decoder: ConfigDecoder[String, Value]
     ): ConfigValue[Value] = {
       ConfigValue[Key, Value](key)(source, decoder)
     }
