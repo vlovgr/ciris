@@ -5,6 +5,6 @@ import java.nio.charset._
 import ciris.ConfigDecoder
 
 trait JavaNioCharsetConfigDecoders {
-  implicit val charsetConfigDecoder: ConfigDecoder[Charset] =
-    ConfigDecoder.catchNonFatal("Charset")(Charset.forName)
+  implicit val charsetConfigDecoder: ConfigDecoder[String, Charset] =
+    ConfigDecoder.catchNonFatal[String]("Charset")(Charset.forName)
 }
