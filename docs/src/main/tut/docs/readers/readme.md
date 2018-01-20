@@ -28,10 +28,10 @@ We would now like to load `Odd` values using Ciris. If we try and do this straig
 env[Odd]("ODD_VALUE")
 ```
 
-This means we'll have to define a custom implicit `ConfigDecoder[Odd]` instance. The [`ConfigDecoder`](https://cir.is/api/ciris/ConfigDecoder$.html) companion object provides some helper methods for creating `ConfigDecoder`s. In this case, we'll rely on the default `ConfigDecoder[Int]` instance to read an `Int` and we will then try to convert the `Int` to an `Odd` instance using the `mapOption` method. Most `ConfigDecoder` methods accept a `typeName` argument which is the name of the type you're reading. Depending on which Scala version and which platform (Scala, Scala.js, &hellip;) you run on, you may be able to use [type tags](http://docs.scala-lang.org/overviews/reflection/typetags-manifests.html). In this case, and cases where you don't have type parameters, it's simple enough to just provide the type name.
+This means we'll have to define a custom implicit `ConfigDecoder[String, Odd]` instance. The [`ConfigDecoder`](https://cir.is/api/ciris/ConfigDecoder$.html) companion object provides some helper methods for creating `ConfigDecoder`s. In this case, we'll rely on the existing `ConfigDecoder[String, Int]` instance to decode an `Int`, and we will then try to convert the `Int` to an `Odd` instance using the `mapOption` method. Most `ConfigDecoder` methods accept a `typeName` argument which is the name of the type you're reading. Depending on which Scala version and which platform (Scala, Scala.js, Scala Native) you run on, you may be able to use [type tags](http://docs.scala-lang.org/overviews/reflection/typetags-manifests.html). In this case, and cases where you don't have type parameters, it's simple enough to just provide the type name.
 
 ```tut:book
-implicit def oddConfigDecoder(implicit decoder: ConfigDecoder[Int]) =
+implicit def oddConfigDecoder(implicit decoder: ConfigDecoder[String, Int]) =
   decoder.mapOption("Odd")(odd)
 ```
 
