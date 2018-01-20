@@ -11,13 +11,13 @@ final class SpireConfigDecodersSpec extends PropertySpec {
     "reading Algebraic" should {
       "successfully read all BigDecimal strings" in {
         forAll { bigDecimal: BigDecimal =>
-          ConfigDecoder[Algebraic].decode(existingEntry(bigDecimal.toString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, Algebraic].decode(existingEntry(bigDecimal.toString)) shouldBe a[Right[_, _]]
         }
       }
     }
 
     "reading Interval[Rational]" should {
-      val decoder = ConfigDecoder[Interval[Rational]]
+      val decoder = ConfigDecoder[String, Interval[Rational]]
       def shouldSucceed(value: String) =
         decoder.decode(existingEntry(value)) shouldBe a[Right[_, _]]
 
@@ -51,14 +51,14 @@ final class SpireConfigDecodersSpec extends PropertySpec {
         } yield string.mkString
 
         forAll(gen) { digitString =>
-          ConfigDecoder[Natural].decode(existingEntry(digitString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, Natural].decode(existingEntry(digitString)) shouldBe a[Right[_, _]]
         }
       }
 
       "fail to read non digit-only strings" in {
         forAll { string: String =>
           whenever(string.exists(c => !c.isDigit)) {
-            ConfigDecoder[Natural].decode(existingEntry(string)) shouldBe a[Left[_, _]]
+            ConfigDecoder[String, Natural].decode(existingEntry(string)) shouldBe a[Left[_, _]]
           }
         }
       }
@@ -67,14 +67,14 @@ final class SpireConfigDecodersSpec extends PropertySpec {
     "reading Number" should {
       "successfully read all BigDecimal strings" in {
         forAll { bigDecimal: BigDecimal =>
-          ConfigDecoder[Number].decode(existingEntry(bigDecimal.toString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, Number].decode(existingEntry(bigDecimal.toString)) shouldBe a[Right[_, _]]
         }
       }
     }
 
     "reading Polynomial[Rational]" should {
       "successfully read an example polynomial" in {
-        ConfigDecoder[Polynomial[Rational]]
+        ConfigDecoder[String, Polynomial[Rational]]
           .decode(existingEntry("1/5x + 1/3x^2")) shouldBe a[Right[_, _]]
       }
     }
@@ -88,7 +88,7 @@ final class SpireConfigDecodersSpec extends PropertySpec {
         } yield s"$n${d.map(d => "/" + d).getOrElse("")}"
 
         forAll(gen) { rationalString =>
-          ConfigDecoder[Rational].decode(existingEntry(rationalString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, Rational].decode(existingEntry(rationalString)) shouldBe a[Right[_, _]]
         }
       }
     }
@@ -96,7 +96,7 @@ final class SpireConfigDecodersSpec extends PropertySpec {
     "reading Real" should {
       "successfully read all BigDecimal strings" in {
         forAll { bigDecimal: BigDecimal =>
-          ConfigDecoder[Real].decode(existingEntry(bigDecimal.toString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, Real].decode(existingEntry(bigDecimal.toString)) shouldBe a[Right[_, _]]
         }
       }
     }
@@ -104,20 +104,20 @@ final class SpireConfigDecodersSpec extends PropertySpec {
     "reading SafeLong" should {
       "successfully read all BigInt strings" in {
         forAll { bigInt: BigInt =>
-          ConfigDecoder[SafeLong].decode(existingEntry(bigInt.toString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, SafeLong].decode(existingEntry(bigInt.toString)) shouldBe a[Right[_, _]]
         }
       }
     }
 
     "reading Trilean" should {
       "successfully read missing value as unknown" in {
-        ConfigDecoder[Trilean].decode(nonExistingEntry) shouldBe Right(Trilean.Unknown)
+        ConfigDecoder[String, Trilean].decode(nonExistingEntry) shouldBe Right(Trilean.Unknown)
       }
 
       "successfully read boolean values" in {
         val gen = Gen.oneOf(mixedCase("true"), mixedCase("false"))
         forAll(gen) { booleanString =>
-          ConfigDecoder[Trilean].decode(existingEntry(booleanString)) shouldBe Right {
+          ConfigDecoder[String, Trilean].decode(existingEntry(booleanString)) shouldBe Right {
             if (booleanString.toBoolean) Trilean.True else Trilean.False
           }
         }
@@ -128,7 +128,7 @@ final class SpireConfigDecodersSpec extends PropertySpec {
       "be able to read all representable values" in {
         val gen = Gen.chooseNum(UByte.MinValue.toInt, UByte.MaxValue.toInt)
         forAll(gen) { value =>
-          ConfigDecoder[UByte].decode(existingEntry(value.toString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, UByte].decode(existingEntry(value.toString)) shouldBe a[Right[_, _]]
         }
       }
     }
@@ -137,7 +137,7 @@ final class SpireConfigDecodersSpec extends PropertySpec {
       "be able to read all representable values" in {
         val gen = Gen.chooseNum(UInt.MinValue.toLong, UInt.MaxValue.toLong)
         forAll(gen) { value =>
-          ConfigDecoder[UInt].decode(existingEntry(value.toString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, UInt].decode(existingEntry(value.toString)) shouldBe a[Right[_, _]]
         }
       }
     }
@@ -152,7 +152,7 @@ final class SpireConfigDecodersSpec extends PropertySpec {
           BigInt(first) + BigInt(second) + zeroOrOne // ULong.MaxValue is 2 * Long.MaxValue + 1
 
         forAll(gen) { value =>
-          ConfigDecoder[ULong].decode(existingEntry(value.toString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, ULong].decode(existingEntry(value.toString)) shouldBe a[Right[_, _]]
         }
       }
     }
@@ -161,7 +161,7 @@ final class SpireConfigDecodersSpec extends PropertySpec {
       "be able to read all representable values" in {
         val gen = Gen.chooseNum(UShort.MinValue.toInt, UShort.MaxValue.toInt)
         forAll(gen) { value =>
-          ConfigDecoder[UShort].decode(existingEntry(value.toString)) shouldBe a[Right[_, _]]
+          ConfigDecoder[String, UShort].decode(existingEntry(value.toString)) shouldBe a[Right[_, _]]
         }
       }
     }

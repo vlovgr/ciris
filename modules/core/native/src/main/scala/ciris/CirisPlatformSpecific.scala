@@ -4,23 +4,22 @@ import java.io.File
 import java.nio.charset.Charset
 
 private[ciris] trait CirisPlatformSpecific {
-  def file[Value: ConfigDecoder](
+  def file[Value](
     file: File,
     modifyFileContents: String => String = identity,
     charset: Charset = Charset.defaultCharset
-  ): ConfigValue[Value] = {
+  )(implicit decoder: ConfigDecoder[String, Value]): ConfigValue[Value] = {
     ConfigValue((file, charset))(
       ConfigSource.File,
-      ConfigDecoder[Value]
-        .mapEntryValue(modifyFileContents)
+      decoder.mapEntryValue(modifyFileContents)
     )
   }
 
-  def fileWithName[Value: ConfigDecoder](
+  def fileWithName[Value](
     name: String,
     modifyFileContents: String => String = identity,
     charset: Charset = Charset.defaultCharset
-  ): ConfigValue[Value] = {
+  )(implicit decoder: ConfigDecoder[String, Value]): ConfigValue[Value] = {
     this.file(new File(name), modifyFileContents, charset)
   }
 }
