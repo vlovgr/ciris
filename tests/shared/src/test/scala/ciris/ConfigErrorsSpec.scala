@@ -19,7 +19,8 @@ final class ConfigErrorsSpec extends PropertySpec {
         val configErrors =
           ConfigErrors(missingKey("key", ConfigKeyType.Environment))
             .append(readException("key2", ConfigKeyType.Property, new Error("error")))
-            .append(wrongType("key3", "value3", "Int", ConfigKeyType.Environment))
+            .append(wrongType("key3", ConfigKeyType.Environment, Right("value3"), "value3", "Int"))
+            .append(wrongType("key4", ConfigKeyType.Environment, Right("value4"), "value5", "Int"))
             .append(ConfigError("a"))
             .append(ConfigError.combined(ConfigError("b"), ConfigError("c")))
 
@@ -27,6 +28,7 @@ final class ConfigErrorsSpec extends PropertySpec {
           "Missing environment variable [key]",
           "Exception while reading system property [key2]: java.lang.Error: error",
           "Environment variable [key3] with value [value3] cannot be converted to type [Int]",
+          "Environment variable [key4] with value [value5] (and unmodified value [value4]) cannot be converted to type [Int]",
           "a",
           "b, c"
         )

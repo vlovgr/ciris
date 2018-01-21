@@ -43,14 +43,14 @@ final class ConfigErrorSpec extends PropertySpec {
 
       "have a String representation for wrong type errors without cause" in {
         val keyType = ConfigKeyType[String]("keyType")
-        ConfigError.wrongType("key", "value", "typeName", keyType, cause = None).toString shouldBe
-          "WrongType(key, value, typeName, ConfigKeyType(keyType), None)"
+        ConfigError.wrongType("key", keyType, Right("sourceValue"), "value", "typeName").toString shouldBe
+          "WrongType(key, ConfigKeyType(keyType), Right(sourceValue), value, typeName, None)"
       }
 
       "have a String representation for wrong type errors with cause" in {
         val keyType = ConfigKeyType[String]("keyType")
-        ConfigError.wrongType("key", "value", "typeName", keyType, Some("cause")).toString shouldBe
-          "WrongType(key, value, typeName, ConfigKeyType(keyType), Some(cause))"
+        ConfigError.wrongType("key", keyType, Right("value"), "value", "typeName", Some("cause")).toString shouldBe
+          "WrongType(key, ConfigKeyType(keyType), Right(value), value, typeName, Some(cause))"
       }
     }
   }

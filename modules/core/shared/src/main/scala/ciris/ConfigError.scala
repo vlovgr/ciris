@@ -130,7 +130,7 @@ object ConfigError {
     *
     * @param errors two or more errors to combine
     */
-  private sealed case class Combined(errors: Vector[ConfigError]) extends ConfigError {
+  private final case class Combined(errors: Vector[ConfigError]) extends ConfigError {
     override def message: String = errors.map(_.message).mkString(", ")
     override def toString: String = s"Combined($errors)"
   }
@@ -158,26 +158,8 @@ object ConfigError {
   def combined(first: ConfigError, second: ConfigError, rest: ConfigError*): ConfigError =
     new Combined(Vector(first, second) ++ rest)
 
-  /**
-    * A [[ConfigError]] representing that a key is missing from the configuration source,
-    * that is, that there is no value for a specified key. Accepts a key value of type
-    * Key and a matching [[ConfigKeyType]].
-    *
-    * To create a new [[MissingKey]] error, use the [[missingKey]] method.
-    *
-    * {{{
-    * scala> val error = ConfigError.missingKey("key", ConfigKeyType.Environment)
-    * error: ConfigError = MissingKey(key, Environment)
-    *
-    * scala> error.message
-    * res0: String = Missing environment variable [key]
-    * }}}
-    *
-    * @param key the key which is missing from the configuration source
-    * @param keyType the type of keys the configuration source reads
-    * @tparam Key the type of the key
-    */
-  private sealed case class MissingKey[Key](key: Key, keyType: ConfigKeyType[Key]) extends ConfigError {
+  private final case class MissingKey[Key](key: Key, keyType: ConfigKeyType[Key])
+      extends ConfigError {
     override def message: String = s"Missing ${keyType.name} [$key]"
     override def toString: String = s"MissingKey($key, $keyType)"
   }
@@ -202,27 +184,11 @@ object ConfigError {
   def missingKey[Key](key: Key, keyType: ConfigKeyType[Key]): ConfigError =
     new MissingKey[Key](key, keyType)
 
-  /**
-    * A [[ConfigError]] representing that there was an exception while reading a key
-    * from a configuration source. Accepts a key value of type `Key`, a matching
-    * [[ConfigKeyType]], and the `Throwable` cause.
-    *
-    * To create a new [[ReadException]] error, use the [[readException]] method.
-    *
-    * {{{
-    * scala> val error = ConfigError.readException("key", ConfigKeyType.Environment, new Error("error"))
-    * error: ConfigError = ReadException(key, Environment, java.lang.Error: error)
-    *
-    * scala> error.message
-    * res0: String = Exception while reading environment variable [key]: java.lang.Error: error
-    * }}}
-    *
-    * @param key the key for which there was a read exception
-    * @param keyType the type of keys the configuration source reads
-    * @param cause the reason why there was an exception while reading
-    * @tparam Key the type of the key
-    */
-  private sealed case class ReadException[Key](key: Key, keyType: ConfigKeyType[Key], cause: Throwable) extends ConfigError {
+  private final case class ReadException[Key](
+    key: Key,
+    keyType: ConfigKeyType[Key],
+    cause: Throwable
+  ) extends ConfigError {
     override def message: String = s"Exception while reading ${keyType.name} [$key]: $cause"
     override def toString: String = s"ReadException($key, $keyType, $cause)"
   }
@@ -248,77 +214,62 @@ object ConfigError {
   def readException[Key](key: Key, keyType: ConfigKeyType[Key], cause: Throwable): ConfigError =
     new ReadException[Key](key, keyType, cause)
 
-  /**
-    * A [[ConfigError]] representing that there was an error while trying to convert a
-    * configuration value to a type with name `typeName`. Accepts a key of type `Key`,
-    * a matching [[ConfigKeyType]], a value of type `Value`, the name of the type for
-    * which conversion was attempted, and an optional cause of type `Cause`.
-    *
-    * To create a new [[WrongType]] error, use the [[wrongType]] method.
-    *
-    * {{{
-    * scala> val error = ConfigError.wrongType("key", 1.5, "Int", ConfigKeyType.Environment)
-    * error: ConfigError = WrongType(key, 1.5, Int, Environment, None)
-    *
-    * scala> error.message
-    * res0: String = Environment variable [key] with value [1.5] cannot be converted to type [Int]
-    * }}}
-    *
-    * @param key the key for which the value was of the wrong type
-    * @param value the value which could not be converted to the expected type
-    * @param typeName the name of the type for which conversion was attempted
-    * @param keyType the type of keys the configuration source reads
-    * @param cause optionally, the reason why the conversion failed
-    * @tparam Key the type of the key
-    * @tparam Value the type of the value
-    * @tparam Cause the type of the cause
-    */
-  private sealed case class WrongType[Key, Value, Cause](
-    key: Key,
-    value: Value,
+  private final case class WrongType[K, S, V, C](
+    key: K,
+    keyType: ConfigKeyType[K],
+    sourceValue: Either[ConfigError, S],
+    value: V,
     typeName: String,
-    keyType: ConfigKeyType[Key],
-    cause: Option[Cause] = None
+    cause: Option[C] = None
   ) extends ConfigError {
     override def message: String = {
       val causeMessage = cause.map(cause => s": $cause").getOrElse("")
-      s"${keyType.name.capitalize} [$key] with value [$value] cannot be converted to type [$typeName]$causeMessage"
+      val sourceValueMessage =
+        sourceValue match {
+          case Right(sourceValue) if sourceValue.toString != value.toString =>
+            s" (and unmodified value [$sourceValue])"
+          case _ =>
+            ""
+        }
+
+      s"${keyType.name.capitalize} [$key] with value [$value]$sourceValueMessage cannot be converted to type [$typeName]$causeMessage"
     }
 
     override def toString: String =
-      s"WrongType($key, $value, $typeName, $keyType, $cause)"
+      s"WrongType($key, $keyType, $sourceValue, $value, $typeName, $cause)"
   }
 
   /**
     * Creates a new error representing the fact that there was an error while trying to
     * convert a configuration value to a type with name `typeName`. Accepts a key of type
-    * `Key`, a matching [[ConfigKeyType]], a value of type `Value`, the name of the type
-    * for which conversion was attempted, and an optional cause of type `Cause`.
+    * `K`, a matching [[ConfigKeyType]], a value of type `V`, the name of the type
+    * for which conversion was attempted, and an optional cause of type `C`.
     *
     * @param key the key for which the value was of the wrong type
     * @param value the value which could not be converted to the expected type
     * @param typeName the name of the type for which conversion was attempted
     * @param keyType the type of keys the configuration source reads
     * @param cause optionally, the reason why the conversion failed
-    * @tparam Key the type of the key
-    * @tparam Value the type of the value
-    * @tparam Cause the type of the cause
+    * @tparam K the type of the key
+    * @tparam V the type of the value
+    * @tparam C the type of the cause
     * @return a new error using the specified arguments
     * @example {{{
-    * scala> val error = ConfigError.wrongType("key", 1.5, "Int", ConfigKeyType.Environment)
+    * scala> val error = ConfigError.wrongType("key", ConfigKeyType.Environment, Right("1.5"), 1.5, "Int")
     * error: ConfigError = WrongType(key, 1.5, Int, Environment, None)
     *
     * scala> error.message
     * res0: String = Environment variable [key] with value [1.5] cannot be converted to type [Int]
     * }}}
     */
-  def wrongType[Key, Value, Cause](
-    key: Key,
-    value: Value,
+  def wrongType[K, S, V, C](
+    key: K,
+    keyType: ConfigKeyType[K],
+    sourceValue: Either[ConfigError, S],
+    value: V,
     typeName: String,
-    keyType: ConfigKeyType[Key],
-    cause: Option[Cause] = None
+    cause: Option[C] = None
   ): ConfigError = {
-    new WrongType[Key, Value, Cause](key, value, typeName, keyType, cause)
+    new WrongType[K, S, V, C](key, keyType, sourceValue, value, typeName, cause)
   }
 }
