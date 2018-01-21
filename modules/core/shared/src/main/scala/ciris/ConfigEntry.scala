@@ -164,7 +164,10 @@ final class ConfigEntry[K, S, V] private (
     }, thisValue => Right(thisValue)))
 
   override def toString: String = {
-    if (sourceValue == value) s"ConfigEntry($key, $keyType, $value)"
+    val sourceValueString = sourceValue.toString
+    val valueString = value.toString
+
+    if (sourceValueString == valueString) s"ConfigEntry($key, $keyType, $value)"
     else s"ConfigEntry($key, $keyType, $sourceValue, $value)"
   }
 }
