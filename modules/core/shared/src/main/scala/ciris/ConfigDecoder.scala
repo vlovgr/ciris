@@ -88,7 +88,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError,Int] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,Int] = Left(WrongType(1, abc, Int, Argument, None))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, None))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError,Int] = Left(MissingKey(2, Argument))
@@ -102,7 +102,7 @@ abstract class ConfigDecoder[A, B] { self =>
           .fold(Left.apply, value => {
             f(value) match {
               case Some(a) => Right(a)
-              case None    => Left(wrongType(entry.key, value, typeName, entry.keyType))
+              case None    => Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
             }
           })
     }
@@ -128,7 +128,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError,Int] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,Int] = Left(WrongType(1, abc, Int, Argument, Some(java.lang.NumberFormatException: For input string: "abc")))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, Some(java.lang.NumberFormatException: For input string: "abc")))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError,Int] = Left(MissingKey(2, Argument))
@@ -143,7 +143,7 @@ abstract class ConfigDecoder[A, B] { self =>
             f(value) match {
               case Success(a) => Right(a)
               case Failure(cause) =>
-                Left(wrongType(entry.key, value, typeName, entry.keyType, Some(cause)))
+                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
             }
           })
     }
@@ -169,7 +169,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError,Int] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,Int] = Left(WrongType(1, abc, Int, Argument, Some(java.lang.NumberFormatException: For input string: "abc")))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, Some(java.lang.NumberFormatException: For input string: "abc")))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError,Int] = Left(MissingKey(2, Argument))
@@ -197,7 +197,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError,scala.math.BigInt] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,scala.math.BigInt] = Left(WrongType(1, -123, PosBigInt, Argument, None))
+    * res1: Either[ConfigError,scala.math.BigInt] = Left(WrongType(1, Argument, Right(-123), -123, PosBigInt, None))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError,scala.math.BigInt] = Left(MissingKey(2, Argument))
@@ -232,7 +232,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError,Int] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,Int] = Left(WrongType(1, abc, Int, Argument, Some(java.lang.NumberFormatException: For input string: "abc")))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, Some(java.lang.NumberFormatException: For input string: "abc")))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError,Int] = Left(MissingKey(2, Argument))
@@ -247,7 +247,7 @@ abstract class ConfigDecoder[A, B] { self =>
             f(value) match {
               case Right(r) => Right(r)
               case Left(cause) =>
-                Left(wrongType(entry.key, value, typeName, entry.keyType, Some(cause)))
+                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
             }
           })
     }
@@ -467,7 +467,7 @@ object ConfigDecoder extends ConfigDecoders {
     * res0: Either[ConfigError,String] = Right(1)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,String] = Left(WrongType(1, 25, String, Argument, None))
+    * res1: Either[ConfigError,String] = Left(WrongType(1, Argument, Right(25), 25, String, None))
     * }}}
     */
   def fromOption[A, B](typeName: String)(f: A => Option[B]): ConfigDecoder[A, B] =
@@ -493,7 +493,7 @@ object ConfigDecoder extends ConfigDecoders {
             f(value) match {
               case Some(t) => Right(t)
               case None =>
-                Left(wrongType(entry.key, value, typeName, entry.keyType))
+                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
             }
           }
       }
@@ -524,7 +524,7 @@ object ConfigDecoder extends ConfigDecoders {
     * res0: Either[ConfigError,Int] = Right(1)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,Int] = Left(WrongType(1, a, Int, Argument, Some(java.lang.NumberFormatException: For input string: "a")))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a")))
     * }}}
     */
   def fromTry[A, B](typeName: String)(f: A => Try[B]): ConfigDecoder[A, B] =
@@ -550,7 +550,7 @@ object ConfigDecoder extends ConfigDecoders {
             f(value) match {
               case Success(a) => Right(a)
               case Failure(cause) =>
-                Left(wrongType(entry.key, value, typeName, entry.keyType, Some(cause)))
+                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
             }
           }
       }
@@ -581,10 +581,10 @@ object ConfigDecoder extends ConfigDecoders {
     * res0: Either[ConfigError,Int] = Right(1)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,Int] = Left(WrongType(1, 1234, Int, Argument, None))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(1234), 1234, Int, None))
     *
     * scala> decoder.decode(source.read(2))
-    * res2: Either[ConfigError,Int] = Left(WrongType(2, a, Int, Argument, Some(java.lang.NumberFormatException: For input string: "a")))
+    * res2: Either[ConfigError,Int] = Left(WrongType(2, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a")))
     *
     * scala> decoder.decode(source.read(3))
     * res3: Either[ConfigError,Int] = Left(MissingKey(3, Argument))
@@ -613,9 +613,9 @@ object ConfigDecoder extends ConfigDecoders {
             f(value) match {
               case Success(Some(value)) => Right(value)
               case Success(None) =>
-                Left(wrongType(entry.key, value, typeName, entry.keyType))
+                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
               case Failure(cause) =>
-                Left(wrongType(entry.key, value, typeName, entry.keyType, Some(cause)))
+                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
             }
           }
       }
@@ -647,7 +647,7 @@ object ConfigDecoder extends ConfigDecoders {
     * res0: Either[ConfigError,Int] = Right(1)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,Int] = Left(WrongType(1, a, Int, Argument, Some(java.lang.NumberFormatException: For input string: "a")))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a")))
     * }}}
     */
   def catchNonFatal[A, B](typeName: String)(f: A => B): ConfigDecoder[A, B] =
@@ -673,7 +673,7 @@ object ConfigDecoder extends ConfigDecoders {
             Try(f(value)) match {
               case Success(t) => Right(t)
               case Failure(cause) =>
-                Left(wrongType(entry.key, value, typeName, entry.keyType, Some(cause)))
+                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
             }
           }
       }

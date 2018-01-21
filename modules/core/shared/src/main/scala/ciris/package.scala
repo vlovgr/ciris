@@ -54,7 +54,7 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * res1: ciris.ConfigValue[Int] = ConfigValue(Left(MissingKey(1, Argument)))
     *
     * scala> ciris.arg[Int](Array("a"))(0)
-    * res2: ciris.ConfigValue[Int] = ConfigValue(Left(WrongType(0, a, Int, Argument, Some(java.lang.NumberFormatException: For input string: "a"))))
+    * res2: ciris.ConfigValue[Int] = ConfigValue(Left(WrongType(0, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a"))))
     * }}}
     */
   def arg[Value](args: IndexedSeq[String])(index: Int)(implicit decoder: ConfigDecoder[String, Value]): ConfigValue[Value] =
