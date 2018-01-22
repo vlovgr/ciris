@@ -27,14 +27,14 @@ object configuration {
 }
 ```
 
-Let's also define a custom implicit [configuration source](/docs/sources), holding some values we can ask Ciris to load.
+Let's also define a custom [configuration source](/docs/sources), holding some values we can ask Ciris to load.
 
 ```tut:book
 import ciris._
 import ciris.enumeratum._
 import configuration._
 
-implicit val source = {
+val source = {
   val keyType = ConfigKeyType[String]("enumeratum key")
   ConfigSource.fromMap(keyType)(Map(
     "localEnv" -> "local",
@@ -45,16 +45,16 @@ implicit val source = {
 }
 ```
 
-We can then ask Ciris to load values of the enumeration, from the implicit source, using the `read` method.
+We can then ask Ciris to load values from the source and decode them as enumeration values.
 
 ```tut:book
-read[AppEnvironment]("localEnv")
+source.read("localEnv").decodeValue[AppEnvironment]
 
-read[AppEnvironment]("testingEnv")
+source.read("testingEnv").decodeValue[AppEnvironment]
 
-read[AppEnvironment]("TestingEnv")
+source.read("TestingEnv").decodeValue[AppEnvironment]
 
-read[AppEnvironment]("invalidEnv")
+source.read("invalidEnv").decodeValue[AppEnvironment]
 ```
 
 Dealing with multiple environments is a common use case for configurations, explained in greater detail in the [Multiple Environments](/docs/environments) section.
@@ -66,7 +66,7 @@ The `ciris-generic` module provides the ability to read unary products, and copr
 import ciris._
 import ciris.generic._
 
-implicit val source = {
+val source = {
   val keyType = ConfigKeyType[String]("generic key")
   ConfigSource.fromMap(keyType)(Map("key" -> "5.0"))
 }
@@ -77,7 +77,7 @@ We can then define and load a unary product, for example a case class with one v
 ```scala
 final case class DoubleValue(value: Double)
 
-read[DoubleValue]("key")
+source.read("key").decodeValue[DoubleValue]
 ```
 
 It also works for value classes and any other unary products shapeless' `Generic` supports.
@@ -85,7 +85,7 @@ It also works for value classes and any other unary products shapeless' `Generic
 ```scala
 final class FloatValue(val value: Float) extends AnyVal
 
-read[FloatValue]("key")
+source.read("key").decodeValue[FloatValue]
 ```
 
 We can also define a shapeless coproduct and load it.
@@ -95,7 +95,7 @@ import shapeless.{:+:, CNil}
 
 type DoubleOrFloat = DoubleValue :+: FloatValue :+: CNil
 
-read[DoubleOrFloat]("key")
+source.read("key").decodeValue[DoubleOrFloat]
 ```
 
 If we define a product with more than one value:
@@ -107,7 +107,7 @@ final case class TwoValues(value1: Double, value2: Float)
 we will not be able to load it, resulting in an error at compile-time.
 
 ```tut:fail:book
-read[TwoValues]("key")
+source.read("key").decodeValue[TwoValues]
 ```
 
 Also, if there's no public constructor or apply method:
@@ -127,7 +127,7 @@ import PrivateValues._
 we will not be able to load it, again resulting in an error at compile-time.
 
 ```tut:fail:book
-read[PrivateFloatValue]("key")
+source.read("key").decodeValue[PrivateFloatValue]
 ```
 
 ## Refined
@@ -137,7 +137,7 @@ The `ciris-refined` module allows you to load refinement types from [refined][re
 import ciris._
 import ciris.refined._
 
-implicit val source = {
+val source = {
   val keyType = ConfigKeyType[String]("refined key")
   ConfigSource.fromMap(keyType)(Map(
     "negative" -> "-1",
@@ -153,13 +153,13 @@ In this example, we'll simply try to read `PosInt` values, which are all `Int`s 
 ```tut:book
 import eu.timepit.refined.types.numeric.PosInt
 
-read[PosInt]("negative")
+source.read("negative").decodeValue[PosInt]
 
-read[PosInt]("zero")
+source.read("zero").decodeValue[PosInt]
 
-read[PosInt]("positive")
+source.read("positive").decodeValue[PosInt]
 
-read[PosInt]("other")
+source.read("other").decodeValue[PosInt]
 ```
 
 Refinement types are useful for making sure your configuration is valid. See the [Encoding Validation](/docs/validation) section for more information.
@@ -172,7 +172,7 @@ import spire.math._
 import ciris._
 import ciris.spire._
 
-implicit val source = {
+val source = {
   val keyType = ConfigKeyType[String]("spire key")
   ConfigSource.fromEntries(keyType)(
     "natural" -> "847365894625891365137596378546725",
@@ -183,22 +183,22 @@ implicit val source = {
 }
 ```
 
-We can then simply read values from the source using `read` and by specifying spire number types.
+We can then simply read entries from the source, using `read`, and decode the values into spire number types.
 
 ```tut:book
-read[Natural]("natural")
+source.read("natural").decodeValue[Natural]
 
-read[Interval[Rational]]("interval")
+source.read("interval").decodeValue[Interval[Rational]]
 
-read[Rational]("rational")
+source.read("rational").decodeValue[Rational]
 
-read[Number]("natural")
+source.read("natural").decodeValue[Number]
 
-read[Real]("rational")
+source.read("rational").decodeValue[Real]
 
-read[Trilean]("trilean")
+source.read("trilean").decodeValue[Trilean]
 
-read[UInt]("uint")
+source.read("uint").decodeValue[UInt]
 ```
 
 ## Squants
@@ -209,7 +209,7 @@ import squants.time.Time
 import ciris._
 import ciris.squants._
 
-implicit val source = {
+val source = {
   val keyType = ConfigKeyType[String]("squants key")
   ConfigSource.fromMap(keyType)(Map(
     "seconds" -> "3 s",
@@ -219,12 +219,12 @@ implicit val source = {
 }
 ```
 
-We can then load these values by simply specifying that we want to read values of type `Time`.
+We can then load these entries and decode the values into type `Time`.
 
 ```tut:book
-val seconds = read[Time]("seconds")
-val minutes = read[Time]("minutes")
-val hours = read[Time]("hours")
+val seconds = source.read("seconds").decodeValue[Time]
+val minutes = source.read("minutes").decodeValue[Time]
+val hours = source.read("hours").decodeValue[Time]
 
 loadConfig(seconds, minutes, hours)(_ + _ + _).right.map(_.toMinutes)
 ```

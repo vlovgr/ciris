@@ -163,6 +163,15 @@ final class ConfigEntry[K, S, V] private (
       )
     }, thisValue => Right(thisValue)))
 
+  private[ciris] def append[A](next: ConfigEntry[_, _, A]): ConfigValue2[V, A] = {
+    (value, next.value) match {
+      case (Right(v), Right(a))         => new ConfigValue2(Right((v, a)))
+      case (Left(error1), Right(_))     => new ConfigValue2(Left(ConfigErrors(error1)))
+      case (Right(_), Left(error2))     => new ConfigValue2(Left(ConfigErrors(error2)))
+      case (Left(error1), Left(error2)) => new ConfigValue2(Left(error1 append error2))
+    }
+  }
+
   override def toString: String = {
     val sourceValueString = sourceValue.toString
     val valueString = value.toString

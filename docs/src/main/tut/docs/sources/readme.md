@@ -18,12 +18,12 @@ if(!sys.props.get("file.encoding").isDefined)
 ```tut:book
 import ciris._
 
-implicit val fixedProperties = {
+val source = {
   val keyType = ConfigKeyType[String]("fixed system property")
   ConfigSource.fromMap(keyType)(sys.props.toMap)
 }
 
-read[String]("file.encoding")
+source.read("file.encoding")
 
 prop[String]("file.encoding")
 ```
@@ -33,7 +33,7 @@ To verify that the source does not change, let's delete the `file.encoding` key,
 ```tut:book
 sys.props.remove("file.encoding")
 
-read[String]("file.encoding")
+source.read("file.encoding")
 
 prop[String]("file.encoding")
 ```
