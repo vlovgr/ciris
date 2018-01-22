@@ -10,8 +10,8 @@ private[ciris] trait ConfigSourcePlatformSpecific {
   /**
     * [[ConfigSource]] reading file contents from `File` and `Charset` keys.
     */
-  case object File extends ConfigSource[(JFile, Charset)](ConfigKeyType.File) {
-    private val delegate: ConfigSource[(JFile, Charset)] =
+  case object File extends ConfigSource[(JFile, Charset), String](ConfigKeyType.File) {
+    private val delegate: ConfigSource[(JFile, Charset), String] =
       ConfigSource.catchNonFatal(keyType) {
         case (file, charset) =>
           Source.fromFile(file, charset.name).mkString

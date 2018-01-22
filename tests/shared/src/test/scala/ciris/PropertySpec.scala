@@ -43,12 +43,12 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks with Eithe
   def existingEntry(value: String): ConfigEntry[String, String, String] =
     sourceWith("key" -> value).read("key")
 
-  val emptySource: ConfigSource[String] =
+  val emptySource: ConfigSource[String, String] =
     sourceWith()
 
   val nonExistingEntry: ConfigEntry[String, String, String] =
     emptySource.read("key")
 
-  def sourceWith(entries: (String, String)*): ConfigSource[String] =
+  def sourceWith(entries: (String, String)*): ConfigSource[String, String] =
     ConfigSource.fromMap(ConfigKeyType[String]("test key"))(entries.toMap)
 }
