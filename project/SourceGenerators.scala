@@ -56,20 +56,20 @@ object SourceGenerators extends AutoPlugin {
       (2 until maximumNumberOfParams)
         .map { current =>
           val params = typeParams(current)
-          val firstArgs = args(current, arg => s"ConfigValue[${typeParam(arg)}]")
+          val firstArgs = args(current, arg => s"ConfigEntry[_, _, ${typeParam(arg)}]")
 
           val loadConfigSecondArgs = s"f: (${typeParams(current)}) => Z"
           val withValuesSecondArgs = s"f: (${typeParams(current)}) => Either[ConfigErrors, Z]"
 
-          val valueParamsDoc = (1 to current).map(n => s"  * @param ${valueParam(n)} configuration value $n").mkString("\n")
+          val valueParamsDoc = (1 to current).map(n => s"  * @param ${valueParam(n)} configuration entry $n").mkString("\n")
           val typeParamsDoc = (1 to current).map(n => s"  * @tparam ${typeParam(n)} the type for configuration value $n").mkString("\n")
 
           val loadConfigDoc =
             s"""
               |/**
-              |  * Loads a configuration using the $current specified [[ConfigValue]]s.
+              |  * Loads a configuration using the $current specified [[ConfigEntry]]s.
               |  * Deals with error accumulation if there are any errors in the
-              |  * provided [[ConfigValue]]s.
+              |  * provided [[ConfigEntry]]s.
               |  *
               |$valueParamsDoc
               |  * @param f the function to create the configuration
@@ -82,13 +82,13 @@ object SourceGenerators extends AutoPlugin {
           val withValuesDoc =
             s"""
                |/**
-               |  * Defines a requirement on $current [[ConfigValue]]s in order to be
+               |  * Defines a requirement on $current [[ConfigEntry]]s in order to be
                |  * able to load a configuration. The method wraps `loadConfig`
-               |  * methods, requiring the provided [[ConfigValue]]s to be
+               |  * methods, requiring the provided [[ConfigEntry]]s to be
                |  * available in order to use the `loadConfig` methods.
                |  *
                |  * Deals with error accumulation if there are any errors in
-               |  * the provided [[ConfigValue]]s.
+               |  * the provided [[ConfigEntry]]s.
                |  *
                |$valueParamsDoc
                |  * @param f the function to create the configuration
@@ -137,7 +137,7 @@ object SourceGenerators extends AutoPlugin {
         |    Right(z)
         |
         |  /**
-        |    * Loads a configuration using the specified [[ConfigValue]].
+        |    * Loads a configuration using the specified [[ConfigEntry]].
         |    *
         |    * @param a1 the configuration value
         |    * @param f the function to create the configuration
@@ -145,13 +145,13 @@ object SourceGenerators extends AutoPlugin {
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def loadConfig[A1, Z](a1: ConfigValue[A1])(f: A1 => Z): Either[ConfigErrors, Z] =
+        |  def loadConfig[A1, Z](a1: ConfigEntry[_, _, A1])(f: A1 => Z): Either[ConfigErrors, Z] =
         |    a1.value.fold(error => Left(ConfigErrors(error)), a1 => Right(f(a1)))
         |
         |  /**
-        |    * Defines a requirement on a single [[ConfigValue]] in order to be
+        |    * Defines a requirement on a single [[ConfigEntry]] in order to be
         |    * able to load a configuration. The method wraps `loadConfig`
-        |    * methods, requiring the provided [[ConfigValue]] to be
+        |    * methods, requiring the provided [[ConfigEntry]] to be
         |    * available in order to use the `loadConfig` methods.
         |    *
         |    * @param a1 the configuration value
@@ -160,13 +160,13 @@ object SourceGenerators extends AutoPlugin {
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def withValue[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
+        |  def withValue[A1, Z](a1: ConfigEntry[_, _, A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
         |   withValues(a1)(f)
         |
         |  /**
-        |    * Defines a requirement on a single [[ConfigValue]] in order to be
+        |    * Defines a requirement on a single [[ConfigEntry]] in order to be
         |    * able to load a configuration. The method wraps any `loadConfig`
-        |    * methods, requiring the provided [[ConfigValue]] to be
+        |    * methods, requiring the provided [[ConfigEntry]] to be
         |    * available in order to use the `loadConfig` methods.
         |    *
         |    * @param a1 the configuration value
@@ -175,7 +175,7 @@ object SourceGenerators extends AutoPlugin {
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def withValues[A1, Z](a1: ConfigValue[A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
+        |  def withValues[A1, Z](a1: ConfigEntry[_, _, A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
         |    a1.value.fold(error => Left(ConfigErrors(error)), f)
         |
         |$defs
@@ -200,7 +200,7 @@ object SourceGenerators extends AutoPlugin {
             // format: off
             s"""
                |{
-               |  def append[$nextTypeParam](next: ConfigValue[$nextTypeParam]): ConfigValue$next[${typeParams(next)}] = {
+               |  def append[$nextTypeParam](next: ConfigEntry[_, _, $nextTypeParam]): ConfigValue$next[${typeParams(next)}] = {
                |    (value, next.value) match {
                |      case (Right((${valueParams(current)})), Right(${valueParam(next)})) => new ConfigValue$next(Right((${valueParams(next)})))
                |      case (Left(errors), Right(_)) => new ConfigValue$next(Left(errors))
@@ -366,6 +366,9 @@ object SourceGenerators extends AutoPlugin {
         |  "LoadConfigs" when {
         |    "loading configurations" when {
         |      implicit val source: ConfigSource[String] = sourceWith("key1" -> "value1", "key2" -> "value2", "key3" -> "value3", "key4" -> "value4", "key5" -> "value5", "key6" -> "value6", "key7" -> "value7", "key8" -> "value8", "key9" -> "value9", "key10" -> "value10", "key11" -> "value11", "key12" -> "value12", "key13" -> "value13", "key14" -> "value14", "key15" -> "value15", "key16" -> "value16", "key17" -> "value17", "key18" -> "value18", "key19" -> "value19", "key20" -> "value20", "key21" -> "value21", "key22" -> "value22")
+        |
+        |      def read[Value](key: String)(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[String, String, Value] =
+        |        source.read(key).decodeValue[Value]
         |
         |$tests
         |    }

@@ -2,7 +2,7 @@ package ciris
 
 /**
   * A class representing one or more errors that occurred while reading
-  * or decoding a single [[ConfigValue]] configuration value. An error
+  * or decoding a single [[ConfigEntry]] configuration value. An error
   * is basically a String message, and can be created from one by
   * using [[ConfigError#apply]] in the companion object.
   *
