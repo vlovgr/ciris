@@ -8,18 +8,18 @@ private[ciris] trait CirisPlatformSpecific {
     file: File,
     modifyFileContents: String => String = identity,
     charset: Charset = Charset.defaultCharset
-  )(implicit decoder: ConfigDecoder[String, Value]): ConfigValue[Value] = {
-    ConfigValue((file, charset))(
-      ConfigSource.File,
-      decoder.mapEntryValue(modifyFileContents)
-    )
+  )(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[(File, Charset), String, Value] = {
+    ConfigSource.File
+      .read((file, charset))
+      .mapValue(modifyFileContents)
+      .decodeValue[Value]
   }
 
   def fileWithName[Value](
     name: String,
     modifyFileContents: String => String = identity,
     charset: Charset = Charset.defaultCharset
-  )(implicit decoder: ConfigDecoder[String, Value]): ConfigValue[Value] = {
+  )(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[(File, Charset), String, Value] = {
     this.file(new File(name), modifyFileContents, charset)
   }
 }

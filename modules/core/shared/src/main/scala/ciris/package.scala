@@ -8,75 +8,71 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
   /**
     * Reads the environment variable with the specified key name,
     * and tries to convert the value to type `Value`, wrapping
-    * the result in a [[ConfigValue]].
+    * the result in a [[ConfigEntry]].
     *
     * @param key the name of the environment variable to read
     * @tparam Value the type to convert the value to
-    * @return a [[ConfigValue]] with the result
+    * @return a [[ConfigEntry]] with the result
     * @example {{{
     * scala> ciris.env[Int]("key")
-    * res0: ciris.ConfigValue[Int] = ConfigValue(Left(MissingKey(key, Environment)))
+    * res0: ciris.ConfigEntry[String, String, Int] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
     * }}}
     */
-  def env[Value](key: String)(implicit decoder: ConfigDecoder[String, Value]): ConfigValue[Value] =
-    ConfigValue(key)(ConfigSource.Environment, decoder)
+  def env[Value](key: String)(
+    implicit decoder: ConfigDecoder[String, Value]
+  ): ConfigEntry[String, String, Value] = {
+    ConfigSource.Environment
+      .read(key)
+      .decodeValue[Value]
+  }
 
   /**
     * Reads the system property with the specified key name,
     * and tries to convert the value to type `Value`,
-    * wrapping the result in a [[ConfigValue]].
+    * wrapping the result in a [[ConfigEntry]].
     *
     * @param key the system property to read
     * @tparam Value the type to convert the value to
-    * @return a [[ConfigValue]] with the result
+    * @return a [[ConfigEntry]] with the result
     * @example {{{
     * scala> ciris.prop[Int]("key")
-    * res0: ciris.ConfigValue[Int] = ConfigValue(Left(MissingKey(key, Property)))
+    * res0: ciris.ConfigEntry[String, String, Int] = ConfigEntry(key, Property, Left(MissingKey(key, Property)))
     * }}}
     */
-  def prop[Value](key: String)(implicit decoder: ConfigDecoder[String, Value]): ConfigValue[Value] =
-    ConfigValue(key)(ConfigSource.Properties, decoder)
+  def prop[Value](key: String)(
+    implicit decoder: ConfigDecoder[String, Value]
+  ): ConfigEntry[String, String, Value] = {
+    ConfigSource.Properties
+      .read(key)
+      .decodeValue[Value]
+  }
 
   /**
     * Reads the command-line argument with the specified index,
     * and tries to convert the value to type `Value`, wrapping
-    * the result in a [[ConfigValue]].
+    * the result in a [[ConfigEntry]].
     *
     * @param args the command-line arguments
     * @param index the index of the argument to read
     * @tparam Value the type to convert the value to
-    * @return a [[ConfigValue]] with the result
+    * @return a [[ConfigEntry]] with the result
     * @example {{{
     * scala> ciris.arg[Int](Array("50"))(0)
-    * res0: ciris.ConfigValue[Int] = ConfigValue(Right(50))
+    * res0: ciris.ConfigEntry[Int, String, Int] = ConfigEntry(0, Argument, Right(50))
     *
     * scala> ciris.arg[Int](Array("50"))(1)
-    * res1: ciris.ConfigValue[Int] = ConfigValue(Left(MissingKey(1, Argument)))
+    * res1: ciris.ConfigEntry[Int, String, Int] = ConfigEntry(1, Argument, Left(MissingKey(1, Argument)))
     *
     * scala> ciris.arg[Int](Array("a"))(0)
-    * res2: ciris.ConfigValue[Int] = ConfigValue(Left(WrongType(0, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a"))))
+    * res2: ciris.ConfigEntry[Int, String, Int] = ConfigEntry(0, Argument, Right(a), Left(WrongType(0, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a"))))
     * }}}
     */
-  def arg[Value](args: IndexedSeq[String])(index: Int)(implicit decoder: ConfigDecoder[String, Value]): ConfigValue[Value] =
-    ConfigValue(index)(ConfigSource.byIndex(ConfigKeyType.Argument)(args), decoder)
-
-  /**
-    * Reads from an implicit source, and tries to convert the value
-    * to type `Value`, wrapping the result in a [[ConfigValue]].
-    *
-    * @tparam Value the type to convert the value to
-    * @return a [[ConfigValue]] with the result
-    * @note this method uses partial type application via the intermediate
-    *       class [[ConfigValue.PartiallyApplied]]. You do not really need
-    *       to know anything about it, except how its used, so see the example.
-    * @example {{{
-    * scala> implicit val source = ciris.ConfigSource.Environment
-    * source: ciris.ConfigSource.Environment.type = Environment
-    *
-    * scala> ciris.read[Int]("key")
-    * res0: ciris.ConfigValue[Int] = ConfigValue(Left(MissingKey(key, Environment)))
-    * }}}
-    */
-  def read[Value]: ConfigValue.PartiallyApplied[Value] =
-    new ConfigValue.PartiallyApplied[Value]
+  def arg[Value](args: IndexedSeq[String])(index: Int)(
+    implicit decoder: ConfigDecoder[String, Value]
+  ): ConfigEntry[Int, String, Value] = {
+    ConfigSource
+      .byIndex(ConfigKeyType.Argument)(args)
+      .read(index)
+      .decodeValue[Value]
+  }
 }
