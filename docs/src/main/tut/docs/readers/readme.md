@@ -38,20 +38,20 @@ implicit def oddConfigDecoder(implicit decoder: ConfigDecoder[String, Int]) =
 We can then try to read `Odd` values from a custom [configuration source](/docs/sources).
 
 ```tut:book
-implicit val source = {
+val source = {
   val keyType = ConfigKeyType[String]("int key")
   ConfigSource.fromMap(keyType)(Map("a" -> "abc", "b" -> "6", "c" -> "3"))
 }
 
-val a = read[Odd]("a")
+val a = source.read("a").decodeValue[Odd]
 
 a.value.left.map(_.message)
 
-val b = read[Odd]("b")
+val b = source.read("b").decodeValue[Odd]
 
 b.value.left.map(_.message)
 
-read[Odd]("c")
+source.read("c").decodeValue[Odd]
 ```
 
 While this demonstrates how to create custom `ConfigDecoder`s, a better way to represent `Odd` values is by using the `Odd` predicate from [refined][refined]. The [Encoding Validation](/docs/validation) section has more information on the `ciris-refined` module and how you can use it to read refined types.

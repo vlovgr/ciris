@@ -2,7 +2,7 @@ package ciris
 
 /**
   * A value class representing one or more [[ConfigError]] errors that occurred
-  * while reading one or more [[ConfigValue]] configuration values. To create a
+  * while reading one or more [[ConfigEntry]] configuration values. To create a
   * [[ConfigErrors]] instance, use the [[ConfigErrors#apply]] method in the
   * companion object.
   *

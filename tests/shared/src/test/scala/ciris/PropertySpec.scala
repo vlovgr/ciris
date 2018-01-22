@@ -28,14 +28,14 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks with Eithe
 
   def fails[A](f: => A): Boolean = Try(f).isFailure
 
-  def readConfigValue[A](value: String)(implicit decoder: ConfigDecoder[String, A]): ConfigValue[A] =
-    ConfigValue("key")(sourceWith("key" -> value), decoder)
+  def readConfigEntry[A](value: String)(implicit decoder: ConfigDecoder[String, A]): ConfigEntry[String, String, A] =
+    sourceWith("key" -> value).read("key").decodeValue[A]
 
   def readValue[A](value: String)(implicit decoder: ConfigDecoder[String, A]): Either[ConfigError, A] =
-    readConfigValue[A](value).value
+    readConfigEntry[A](value).value
 
-  def readNonExistingConfigValue[A](implicit decoder: ConfigDecoder[String, A]): ConfigValue[A] =
-    ConfigValue("key")(emptySource, decoder)
+  def readNonExistingConfigEntry[A](implicit decoder: ConfigDecoder[String, A]): ConfigEntry[String, String, A] =
+    emptySource.read("key").decodeValue[A]
 
   def readNonExistingValue[A](implicit decoder: ConfigDecoder[String, A]): Either[ConfigError, A] =
     decoder.decode(emptySource.read("key"))
