@@ -92,7 +92,7 @@ final class ConfigEntry[K, S, V] private (
     *
     * @param value the value to replace the existing one
     * @tparam A the type of the new value
-    * @return a new [[ConfigEntry]] with the new value
+    * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
     * entry: ConfigEntry[String, String, String] = ConfigEntry(key, Environment, Right(value))
@@ -112,10 +112,10 @@ final class ConfigEntry[K, S, V] private (
     *
     * @param f the function to apply to the value
     * @tparam A the type of the new value
-    * @return a new [[ConfigEntry]] with the new value
+    * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value "))
-    * entry: ConfigEntry[String, String, String] = ConfigEntry(key, Environment, Right(value ), Right(value ))
+    * entry: ConfigEntry[String, String, String] = ConfigEntry(key, Environment, Right(value ))
     *
     * scala> entry.transformValue(_.right.map(_.trim))
     * res0: ConfigEntry[String, String, String] = ConfigEntry(key, Environment, Right(value ), Right(value))
@@ -173,10 +173,7 @@ final class ConfigEntry[K, S, V] private (
   }
 
   override def toString: String = {
-    val sourceValueString = sourceValue.toString
-    val valueString = value.toString
-
-    if (sourceValueString == valueString) s"ConfigEntry($key, $keyType, $value)"
+    if (sourceValue.toString == value.toString) s"ConfigEntry($key, $keyType, $value)"
     else s"ConfigEntry($key, $keyType, $sourceValue, $value)"
   }
 }
