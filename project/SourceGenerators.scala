@@ -139,9 +139,9 @@ object SourceGenerators extends AutoPlugin {
         |  /**
         |    * Loads a configuration using the specified [[ConfigEntry]].
         |    *
-        |    * @param a1 the configuration value
+        |    * @param a1 the configuration entry
         |    * @param f the function to create the configuration
-        |    * @tparam A1 the type of the configuration value
+        |    * @tparam A1 the type of the configuration entry
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
@@ -154,9 +154,9 @@ object SourceGenerators extends AutoPlugin {
         |    * methods, requiring the provided [[ConfigEntry]] to be
         |    * available in order to use the `loadConfig` methods.
         |    *
-        |    * @param a1 the configuration value
+        |    * @param a1 the configuration entry
         |    * @param f the function to create the configuration
-        |    * @tparam A1 the type of the configuration value
+        |    * @tparam A1 the type of the configuration entry
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
@@ -169,9 +169,9 @@ object SourceGenerators extends AutoPlugin {
         |    * methods, requiring the provided [[ConfigEntry]] to be
         |    * available in order to use the `loadConfig` methods.
         |    *
-        |    * @param a1 the configuration value
+        |    * @param a1 the configuration entry
         |    * @param f the function to create the configuration
-        |    * @tparam A1 the type of the configuration value
+        |    * @tparam A1 the type of the configuration entry
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */

@@ -1,10 +1,11 @@
 package ciris
 
 /**
-  * Used to denote that a configuration value is secret, and that it should not
-  * be included in any log output. By wrapping a value with `Secret`, the value
-  * will not be printed, but a `Secret(***)` placeholder will take its place.
-  *
+  * [[Secret]] is used to denote that a configuration value is secret, and
+  * that it should not be included in any log output. By wrapping a value
+  * with `Secret`, the value will not be printed, but a `Secret(***)`
+  * placeholder will take its place.<br>
+  * <br>
   * To create a new `Secret`, use the apply method in the companion object.
   * {{{
   * scala> Secret(123)
@@ -42,8 +43,8 @@ final class Secret[A] private (val value: A) {
       case _         => false
     }
 
-  override def hashCode(): Int =
-    value.hashCode()
+  override def hashCode: Int =
+    value.hashCode
 
   def copy[B](value: B = value): Secret[B] =
     new Secret(value = value)
