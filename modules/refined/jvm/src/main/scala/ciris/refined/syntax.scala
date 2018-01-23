@@ -38,7 +38,7 @@ object syntax {
       * entry: ConfigEntry[String, String, String] = ConfigEntry(key, Property, Right(value))
       *
       * scala> entry.refineValue[NonEmpty]
-      * res0: ConfigEntry[String, String, Refined[String,NonEmpty]] = ConfigEntry(key, Property, Right(value))
+      * res0: ConfigEntry[String, String, Refined[String, NonEmpty]] = ConfigEntry(key, Property, Right(value))
       * }}}
       */
     def refineValue[P](

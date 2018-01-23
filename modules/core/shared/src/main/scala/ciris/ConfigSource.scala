@@ -5,46 +5,38 @@ import ciris.ConfigError.{missingKey, readException}
 import scala.util.{Failure, Success, Try}
 
 /**
-  * A [[ConfigSource]] represents the ability to read keys of type `K`,
-  * retrieving a value of type `V`, from some source; for example from,
-  * environment variables, system properties, command-line arguments,
-  * or a vault service.
+  * [[ConfigSource]] represents the ability to read values of type `V` for
+  * keys of type `K` from some source; for example, environment variables,
+  * system properties, command-line arguments, or some vault service.<br>
+  * <br>
+  * You can create a [[ConfigSource]] by directly extending the class and
+  * implementing [[ConfigSource#read]], or by using any of the helpers in
+  * the companion object, like [[ConfigSource#apply]].
   *
-  * You can create a [[ConfigSource]] by directly extending the class, or
-  * by using the [[ConfigSource#apply]] method in the companion object.
-  *
-  * {{{
+  * @param keyType the name and type of keys the source supports
+  * @tparam K the type of keys the source supports
+  * @tparam V the type of values the source reads
+  * @example {{{
   * scala> val source = ConfigSource(ConfigKeyType[String]("identity key"))(key => Right(key))
-  * source: ConfigSource[String] = ConfigSource(ConfigKeyType(identity key))
+  * source: ConfigSource[String, String] = ConfigSource(ConfigKeyType(identity key))
   *
   * scala> source.read("key")
   * res0: ConfigEntry[String, String, String] = ConfigEntry(key, ConfigKeyType(identity key), Right(key))
   * }}}
-  *
-  * There are also convenience methods in the companion object for creating
-  * sources from some different constructs, like [[ConfigSource#fromOption]],
-  * [[ConfigSource#fromMap]], [[ConfigSource#fromTry]], and more.
-  *
-  * The [[read]] method returns a [[ConfigEntry]], which is the key-value
-  * pair that was read, along with the [[ConfigKeyType]] of the [[ConfigSource]].
-  *
-  * @param keyType the [[ConfigKeyType]] representing the key type and name
-  * @tparam K the type of keys the source can read
-  * @tparam V the type of values the source retrieves
   */
 abstract class ConfigSource[K, V](val keyType: ConfigKeyType[K]) {
 
   /**
-    * Reads the specified key of type `K` and returns the key along
-    * with the value in a [[ConfigEntry]]. If there was an error
-    * while reading the value, [[ConfigEntry#value]] will have
-    * a [[ConfigError]] instead of the value.
+    * Reads the value of type `V` for the specified key of type `K`,
+    * and returns a [[ConfigEntry]] with the result. If there was an
+    * error while reading the value, [[ConfigEntry#value]] will have
+    * details on what went wrong.
     *
-    * @param key the key to read from the configuration source
-    * @return a [[ConfigEntry]] containing the key-value pair
+    * @param key the key for which to read the value
+    * @return a [[ConfigEntry]] with the result
     * @example {{{
-    * scala> ConfigSource.Environment.read("key")
-    * res0: ConfigEntry[String, String, String] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
+    * scala> val entry = ConfigSource.Environment.read("key")
+    * entry: ConfigEntry[String, String, String] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
     * }}}
     */
   def read(key: K): ConfigEntry[K, V, V]
@@ -53,18 +45,18 @@ abstract class ConfigSource[K, V](val keyType: ConfigKeyType[K]) {
 object ConfigSource extends ConfigSourcePlatformSpecific {
 
   /**
-    * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]] and
-    * read function, reading keys of the type `K`, and either returning a
-    * [[ConfigError]] or a `String` value.
+    * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
+    * and read function, reading values of type `V` for keys of type `K`,
+    * returning either a [[ConfigError]] or a value.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param read function reading keys, returning an error or a String value
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new [[ConfigSource]] using the specified arguments
+    * @param keyType the name and type of keys the source supports
+    * @param read a function returning an error or value for a key
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource(ConfigKeyType[String]("identity key"))(key => Right(key))
-    * source: ConfigSource[String] = ConfigSource(ConfigKeyType(identity key))
+    * source: ConfigSource[String, String] = ConfigSource(ConfigKeyType(identity key))
     *
     * scala> source.read("key")
     * res0: ConfigEntry[String, String, String] = ConfigEntry(key, ConfigKeyType(identity key), Right(key))
@@ -82,55 +74,73 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
-    * and read function, reading keys of the type `K`, and returning
-    * an optional `String` value.
+    * and read function, reading values of type `V` for keys of type `K`,
+    * returning an optional value.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param read function reading keys, returning an optional `String` value
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new [[ConfigSource]] using the specified arguments
+    * @param keyType the name and type of keys the source supports
+    * @param read a function returning an optional value for a key
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromOption(ConfigKeyType.Environment)(sys.env.get)
-    * source: ConfigSource[String] = ConfigSource(Environment)
+    * source: ConfigSource[String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key")
     * res0: ConfigEntry[String, String, String] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
     * }}}
     */
-  def fromOption[K, V](keyType: ConfigKeyType[K])(read: K => Option[V]): ConfigSource[K, V] =
-    ConfigSource(keyType)(key =>
+  def fromOption[K, V](keyType: ConfigKeyType[K])(
+    read: K => Option[V]
+  ): ConfigSource[K, V] = {
+    ConfigSource(keyType) { key =>
       read(key) match {
         case Some(value) => Right(value)
         case None        => Left(missingKey(key, keyType))
-    })
+      }
+    }
+  }
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]],
-    * where the source is always empty - that is, it has no value for any
+    * where the source is always empty -- that is, it has no value for any
     * key of type `K`.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new empty [[ConfigSource]] without any entries
+    * @param keyType the name and type of keys the source supports
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     */
   def empty[K, V](keyType: ConfigKeyType[K]): ConfigSource[K, V] =
     ConfigSource.fromOption(keyType)(_ => Option.empty[V])
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]],
-    * where the specified [[ConfigError]] will be returned for every read
-    * key of type `K`.
+    * where the source always returns the specified value -- that is, for
+    * every key of type `K`, the specified value is returned.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param error the error which will be returned for every read key
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new failed [[ConfigSource]] always returning the specified error
+    * @param keyType the name and type of keys the source supports
+    * @param value the value to always return for every key
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
+    */
+  def always[K, V](keyType: ConfigKeyType[K])(value: V): ConfigSource[K, V] =
+    ConfigSource(keyType)(_ => Right(value))
+
+  /**
+    * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]],
+    * where the source always return the specified [[ConfigError]] -- that
+    * is, for every key of type `K`, the specified error is returned.
+    *
+    * @param keyType the name and type of keys the source supports
+    * @param error the error to always return for every key
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.failed[String, String](ConfigKeyType.Environment)(ConfigError("error"))
-    * source: ConfigSource[String] = ConfigSource(Environment)
+    * source: ConfigSource[String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key1")
     * res0: ConfigEntry[String, String, String] = ConfigEntry(key1, Environment, Left(ConfigError(error)))
@@ -144,16 +154,17 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
-    * and `Map` with keys of type `K`.
+    * and `Map` with keys of type `K` and values of type `V`. For every
+    * key `K` in the `Map`, the corresponding value `V` is returned.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param map the Map from which to read keys, keys are of type K
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new [[ConfigSource]] using the specified arguments
+    * @param keyType the name and type of keys the source supports
+    * @param map the map which entries the source should contain
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromMap(ConfigKeyType.Environment)(sys.env)
-    * source: ConfigSource[String] = ConfigSource(Environment)
+    * source: ConfigSource[String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key")
     * res0: ConfigEntry[String, String, String] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
@@ -164,18 +175,19 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
-    * and entries with keys of type `K`. If the same key appears more
-    * than once in the entries, the last one will be chosen to be
-    * included in the source.
+    * and entries with keys of type `K` and values of type `V`. For every
+    * key `K` in the entries, the corresponding value `V` is returned. If
+    * there is more than one entry with the same key, the value in the
+    * last entry is the one returned.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param entries the entries to be included in the source
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new [[ConfigSource]] using the specified arguments
+    * @param keyType the name and type of keys the source supports
+    * @param entries the entries which the source should contain
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromEntries(ConfigKeyType.Argument)(0 -> "abc", 0 -> "def", 1 -> "ghi")
-    * source: ConfigSource[Int] = ConfigSource(Argument)
+    * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0)
     * res0: ConfigEntry[Int, String, String] = ConfigEntry(0, Argument, Right(def))
@@ -192,18 +204,18 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
-    * and read function, reading keys of the type `K`, and returning
-    * a value wrapped in a `Try`. The source will only successfully
-    * read values for keys where the function returns `Success`.
+    * and read function, reading values of type `V` for keys of type `K`,
+    * returning a `Try[V]`. The source will only contain entries where
+    * the specified function returns `Success[V]` for the key `K`.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param read function reading keys, returning a `String` value in a `Try`
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new [[ConfigSource]] using the specified arguments
+    * @param keyType the name and type of keys the source supports
+    * @param read a function returning `Try[V]` for a key
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromTry(ConfigKeyType.Argument)(index => scala.util.Try(Vector("a")(index)))
-    * source: ConfigSource[Int] = ConfigSource(Argument)
+    * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0)
     * res0: ConfigEntry[Int, String, String] = ConfigEntry(0, Argument, Right(a))
@@ -212,28 +224,32 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     * res1: ConfigEntry[Int, String, String] = ConfigEntry(1, Argument, Left(ReadException(1, Argument, java.lang.IndexOutOfBoundsException: 1)))
     * }}}
     */
-  def fromTry[K, V](keyType: ConfigKeyType[K])(read: K => Try[V]): ConfigSource[K, V] =
-    ConfigSource(keyType)(key =>
+  def fromTry[K, V](keyType: ConfigKeyType[K])(
+    read: K => Try[V]
+  ): ConfigSource[K, V] = {
+    ConfigSource(keyType) { key =>
       read(key) match {
         case Success(value) => Right(value)
         case Failure(cause) => Left(readException(key, keyType, cause))
-    })
+      }
+    }
+  }
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
-    * and read function, reading keys of the type `K`, and returning
-    * a value wrapped in a `Try` and `Option`. The source will only
-    * successfully read value for keys where the read function
-    * returns both a `Success` and a `Some`.
+    * and read function, reading values of type `V` for keys of type `K`,
+    * returning a `Try[Option[V]]`. The source will only contain entries
+    * where the specified function returns `Success[Some[V]]` for the
+    * key `K`.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param read function reading keys, returning a `String` value in a `Try` and `Option`
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new [[ConfigSource]] using the specified arguments
+    * @param keyType the name and type of keys the source supports
+    * @param read a function returning `Try[Option[V]]` for a key
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromTryOption(ConfigKeyType.Property)(key => scala.util.Try(sys.props.get(key)))
-    * source: ConfigSource[String] = ConfigSource(Property)
+    * source: ConfigSource[String, String] = ConfigSource(Property)
     *
     * scala> source.read("key")
     * res0: ConfigEntry[String, String, String] = ConfigEntry(key, Property, Left(MissingKey(key, Property)))
@@ -244,28 +260,31 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
     */
   def fromTryOption[K, V](keyType: ConfigKeyType[K])(
     read: K => Try[Option[V]]
-  ): ConfigSource[K, V] =
-    ConfigSource(keyType)(key =>
+  ): ConfigSource[K, V] = {
+    ConfigSource(keyType) { key =>
       read(key) match {
         case Success(Some(value)) => Right(value)
         case Success(None)        => Left(missingKey(key, keyType))
         case Failure(cause)       => Left(readException(key, keyType, cause))
-    })
+      }
+    }
+  }
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
-    * and read function, reading keys of the type `K`, and returning
-    * `String` values. The read function will be wrapped in a `Try` and
-    * only the successful cases will result in values for the source.
+    * and read function, reading values of type `V` for keys of type `K`,
+    * catching any non-fatal exceptions. The source will only contain
+    * entries for keys `K` where the specified function does not
+    * throw an exception.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param read function reading keys, returning String values
-    * @tparam K the type of keys which the source supports
-    * @tparam V the type of values which the source returns
-    * @return a new [[ConfigSource]] using the specified arguments
+    * @param keyType the name and type of keys the source supports
+    * @param read a function returning a value for a key
+    * @tparam K the type of keys the source supports
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.catchNonFatal(ConfigKeyType.Argument)(Vector("a"))
-    * source: ConfigSource[Int] = ConfigSource(Argument)
+    * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0)
     * res0: ConfigEntry[Int, String, String] = ConfigEntry(0, Argument, Right(a))
@@ -279,17 +298,16 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
 
   /**
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
-    * and `IndexedSeq`, where values are read by specifying indexes in
-    * the collection. Only values for which the key index exist in the
-    * collection will be in the configuration source.
+    * and `IndexedSeq[V]`. The source will only contain entries for keys
+    * where the index exist in the specified sequence.
     *
-    * @param keyType the [[ConfigKeyType]] representing the key type and name
-    * @param indexedSeq the collection from which to read `String` values
-    * @tparam V the type of values which the source returns
-    * @return a new [[ConfigSource]] using the specified arguments
+    * @param keyType the name and type of keys the source supports
+    * @param indexedSeq the sequence of indexed values
+    * @tparam V the type of values the source reads
+    * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("a"))
-    * source: ConfigSource[Int] = ConfigSource(Argument)
+    * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0)
     * res0: ConfigEntry[Int, String, String] = ConfigEntry(0, Argument, Right(a))
