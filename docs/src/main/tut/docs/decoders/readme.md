@@ -28,11 +28,14 @@ We would now like to load `Odd` values using Ciris. If we try and do this straig
 env[Odd]("ODD_VALUE")
 ```
 
-This means we'll have to define a custom implicit `ConfigDecoder[String, Odd]` instance. The [`ConfigDecoder`](https://cir.is/api/ciris/ConfigDecoder$.html) companion object provides some helper methods for creating `ConfigDecoder`s. In this case, we'll rely on the existing `ConfigDecoder[String, Int]` instance to decode an `Int`, and we will then try to convert the `Int` to an `Odd` instance using the `mapOption` method. Most `ConfigDecoder` methods accept a `typeName` argument which is the name of the type you're reading. Depending on which Scala version and which platform (Scala, Scala.js, Scala Native) you run on, you may be able to use [type tags](http://docs.scala-lang.org/overviews/reflection/typetags-manifests.html). In this case, and cases where you don't have type parameters, it's simple enough to just provide the type name.
+This means we'll have to define a custom implicit `ConfigDecoder[String, Odd]` instance. The [`ConfigDecoder`](https://cir.is/api/ciris/ConfigDecoder$.html) companion object provides some helper methods for creating `ConfigDecoder`s. In this case, we'll go one step further and define a `ConfigDecoder[A, Odd]` by relying on an existing `ConfigDecoder[A, Int]` to first decode to an `Int`. We'll then use `mapOption` to convert the `Int` to an `Odd`. Most `ConfigDecoder` methods accept a `typeName` argument which is the name of the type you're decoding. Depending on which Scala version and which platform (Scala, Scala.js, Scala Native) you run on, you may be able to use [type tags](http://docs.scala-lang.org/overviews/reflection/typetags-manifests.html). In this case, and cases where you don't have type parameters, it's simple enough to just provide the type name.
 
 ```tut:book
-implicit def oddConfigDecoder(implicit decoder: ConfigDecoder[String, Int]) =
+implicit def oddConfigDecoder[A](
+  implicit decoder: ConfigDecoder[A, Int]
+): ConfigDecoder[A, Odd] = {
   decoder.mapOption("Odd")(odd)
+}
 ```
 
 We can then try to read `Odd` values from a custom [configuration source](/docs/sources).
