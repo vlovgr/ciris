@@ -11,23 +11,22 @@ Ciris configuration loading is done in two parts: define what to load and what t
 The configuration can be modeled with nested case classes. Here we'll define a small example configuration for an HTTP service, binding at a certain port, using an API key for request authorization, and using a maximum timeout when making HTTP requests to other services.
 
 ```tut:book
+import ciris._
 import scala.concurrent.duration._
 
 final case class Config(
-  apiKey: String,
+  apiKey: Secret[String],
   timeout: Duration,
   port: Int
 )
 ```
 
-In this case, the API key is a secret and we would like to load it from the environment. The same goes for the port, which needs to be dynamic depending on the environment. We can read environment variables using the `env` method and system properties using the `prop` method, both returning a `ConfigValue`. The `loadConfig` method then accepts `ConfigValue`s and expects a function creating the configuration using the loaded values. If there are errors while reading values, Ciris will deal with them and accumulate them as `ConfigErrors`. You can read more about `ConfigValue` and `ConfigErrors` in [Core Concepts](/docs/concepts).
+In this case, the API key is a secret and we would like to load it from the environment. We wrap the type in `Secret` to denote that it shouldn't be included in log output. For the port, we need it to be dynamic depending on the environment. We can read environment variables using the `env` method and system properties using the `prop` method, both returning a `ConfigEntry`. The `loadConfig` method then accepts `ConfigEntry`s and expects a function creating the configuration using the loaded values. If there are errors while reading values, Ciris will deal with them and accumulate them as `ConfigErrors`. You can read more about `ConfigEntry` and `ConfigErrors` in [Core Concepts](/docs/concepts).
 
 ```tut:book
-import ciris._
-
 val config =
   loadConfig(
-    env[String]("API_KEY"), // Reads environment variable API_KEY
+    env[Secret[String]]("API_KEY"), // Reads environment variable API_KEY
     prop[Option[Int]]("http.port") // Reads system property http.port
   ) { (apiKey, port) =>
     Config(
