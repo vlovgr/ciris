@@ -6,9 +6,9 @@ permalink: /docs/sources
 ---
 
 # Configuration Sources
-Ciris provides support for reading environment variables and system properties. If you're looking for a common configuration source not yet supported, please [file an issue](https://github.com/vlovgr/ciris/issues/new) or, even better, submit a pull-request. If you require other configurations sources, you can easily define your own. You'll find helper methods for creating custom configuration sources in the companion object of [`ConfigSource`](https://cir.is/api/ciris/ConfigSource$.html). Let's illustrate this by writing a configuration source which captures the current system properties at a certain point in time, ignoring any later changes.
+Ciris provides support for reading environment variables, system properties, command-line arguments, and files. If you're looking for a common configuration source not yet supported, please [file an issue](https://github.com/vlovgr/ciris/issues/new) or, even better, submit a pull-request. If you require other configurations sources, you can easily define your own. You'll find helper methods for creating custom configuration sources in the companion object of [`ConfigSource`](https://cir.is/api/ciris/ConfigSource$.html). Let's illustrate this by writing a configuration source which captures the current system properties at a certain point in time, ignoring any later changes.
 
-To create a configuration source, we need to provide a `ConfigKeyType` which is the name of the type of key the source reads (to support sensible error messages). We can convert the current system properties to a `Map` and create a `ConfigSource` from it using the `fromMap` method. If we make the source implicit and have it in scope, the `read` method will read `ConfigValue` configuration values from it. We can convert a `ConfigValue[T]` to an `Either[ConfigError, T]` by calling the `value` method.
+To create a configuration source, we need to provide a `ConfigKeyType` which is the name of the type of key the source reads (to support sensible error messages). We can convert the current system properties to a `Map` and create a `ConfigSource` from it using the `fromMap` method.
 
 ```tut:invisible
 if(!sys.props.get("file.encoding").isDefined)
