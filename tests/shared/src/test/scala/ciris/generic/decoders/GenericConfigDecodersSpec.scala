@@ -1,6 +1,6 @@
 package ciris.generic.decoders
 
-import ciris.PropertySpec
+import ciris.{ConfigError, PropertySpec}
 import ciris.generic._
 import shapeless._
 import shapeless.test.illTyped
@@ -108,6 +108,13 @@ final class GenericConfigDecodersSpec extends PropertySpec {
               readValue[DoubleOrBooleanCoproduct](string) shouldBe a[Left[_, _]]
             }
           }
+        }
+      }
+
+      "return a failure for CNil" in {
+        forAll { string: String =>
+          readValue[CNil](string).left.get.message shouldBe
+            "Could not find any valid coproduct choice while decoding test key [key]"
         }
       }
 
