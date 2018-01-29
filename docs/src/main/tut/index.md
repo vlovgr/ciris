@@ -145,8 +145,10 @@ s"""
 Below is an incomplete list of third-party libraries that integrate with Ciris.  
 If your library is not included in the list, then please open a pull request.
 
+* [`ciris-aiven-kafka`](https://github.com/ovotech/ciris-aiven-kafka)
 * [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm)
 * [`ciris-credstash`](https://github.com/ovotech/ciris-credstash)
+* [`ciris-kubernetes`](https://github.com/ovotech/ciris-kubernetes)
 
 ### <a name="documentation" href="#documentation">Documentation</a>
 For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs/basics).  
