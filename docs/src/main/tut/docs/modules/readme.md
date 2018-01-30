@@ -60,7 +60,7 @@ source.read("invalidEnv").decodeValue[AppEnvironment]
 Dealing with multiple environments is a common use case for configurations, explained in greater detail in the [Multiple Environments](/docs/environments) section.
 
 ## Generic
-The `ciris-generic` module provides the ability to read unary products, and coproducts using [shapeless][shapeless]. This allows you to load case classes with one argument, including [value classes](http://docs.scala-lang.org/overviews/core/value-classes.html), and shapeless coproducts, plus anything else that shapeless' `Generic` supports. Let's take a brief look at these cases to see how it works in practice. We start by defining a source from which we can read configuration values.
+The `ciris-generic` module provides the ability to decode products and coproducts using [shapeless][shapeless]. This allows you to decode case classes, [value classes](http://docs.scala-lang.org/overviews/core/value-classes.html), and shapeless coproducts, plus anything else that shapeless' `Generic` supports. Let's take a brief look at these cases to see how it works in practice. We start by defining a source from which we can read configuration values.
 
 ```tut:book:reset
 import ciris._
@@ -104,13 +104,30 @@ If we define a product with more than one value:
 final case class TwoValues(value1: Double, value2: Float)
 ```
 
-we will not be able to load it, resulting in an error at compile-time.
+we will try to decode it twice, once as a `Double`, and once as a `Float`.
 
-```tut:fail:book
+```tut:book
 source.read("key").decodeValue[TwoValues]
 ```
 
-Also, if there's no public constructor or apply method:
+You also customize the decoding on a per-type basis. For example, if you have a `ConfigSource` which reads `Map[String, String]` values, you can customize which key gets decoded for which type, like in the following example.
+
+```tut:book
+val mapSource = {
+  val keyType = ConfigKeyType[String]("generic key")
+  ConfigSource.fromMap(keyType)(Map("key" -> Map("key1" -> "1.0", "key2" -> "2.0")))
+}
+
+implicit val decodeDouble: ConfigDecoder[Map[String, String], Double] =
+  ConfigDecoder.catchNonFatal[Map[String, String]]("Double")(map => map("key1").toDouble)
+
+implicit val decodeFloat: ConfigDecoder[Map[String, String], Float] =
+  ConfigDecoder.catchNonFatal[Map[String, String]]("Float")(map => map("key2").toFloat)
+
+mapSource.read("key").decodeValue[TwoValues]
+```
+
+If there is no public constructor or apply method:
 
 ```tut:book
 object PrivateValues {
@@ -124,7 +141,7 @@ object PrivateValues {
 import PrivateValues._
 ```
 
-we will not be able to load it, again resulting in an error at compile-time.
+we will not be able to decode a value, resulting in an error at compile-time.
 
 ```tut:fail:book
 source.read("key").decodeValue[PrivateFloatValue]
