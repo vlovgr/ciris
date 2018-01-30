@@ -74,7 +74,7 @@ val source = {
 
 We can then define and load a unary product, for example a case class with one value.
 
-```scala
+```tut:book
 final case class DoubleValue(value: Double)
 
 source.read("key").decodeValue[DoubleValue]
@@ -82,7 +82,7 @@ source.read("key").decodeValue[DoubleValue]
 
 It also works for value classes and any other unary products shapeless' `Generic` supports.
 
-```scala
+```tut:book
 final class FloatValue(val value: Float) extends AnyVal
 
 source.read("key").decodeValue[FloatValue]
@@ -90,7 +90,7 @@ source.read("key").decodeValue[FloatValue]
 
 We can also define a shapeless coproduct and load it.
 
-```scala
+```tut:book
 import shapeless.{:+:, CNil}
 
 type DoubleOrFloat = DoubleValue :+: FloatValue :+: CNil
