@@ -25,3 +25,6 @@ matrix:
       - curl https://raw.githubusercontent.com/scala-native/scala-native/v0.3.6/bin/travis_setup.sh | bash -x
     script:
       - sbt ++$TRAVIS_SCALA_VERSION validateNative
+      - if [[ $TRAVIS_SCALA_VERSION == 2.12* ]]; then
+          sbt ++$TRAVIS_SCALA_VERSION validateDocs
+        fi
