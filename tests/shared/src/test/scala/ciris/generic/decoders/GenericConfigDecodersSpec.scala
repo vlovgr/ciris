@@ -1,9 +1,10 @@
 package ciris.generic.decoders
 
-import ciris.{ConfigError, PropertySpec}
+import ciris.{ConfigDecoder, ConfigError, PropertySpec}
 import ciris.generic._
 import shapeless._
 import shapeless.test.illTyped
+import org.scalacheck.Gen
 
 final class FloatValue(val value: Float) extends AnyVal
 
@@ -28,6 +29,8 @@ final case class DoubleValue(value: Double) extends DoubleOrBoolean
 final case class BooleanValue(value: Boolean) extends DoubleOrBoolean
 
 final case class IntValue(value: Int)
+
+final case class TwoValues(value1: Double, value2: Float)
 
 final class GenericConfigDecodersSpec extends PropertySpec {
   "GenericConfigDecoders" when {
@@ -153,6 +156,38 @@ final class GenericConfigDecodersSpec extends PropertySpec {
           whenever(fails(string.toInt)) {
             readValue[IntValue](string) shouldBe a[Left[_, _]]
           }
+        }
+      }
+    }
+
+    "reading products with arity 2" should {
+      "successfully read the value twice" in {
+        forAll { int: Int =>
+          readValue[TwoValues](int.toString) shouldBe Right(TwoValues(int.toDouble, int.toFloat))
+        }
+      }
+
+      "fail if the first of the two values fail to decode" in {
+        implicit val doubleDecoder: ConfigDecoder[String, Double] =
+          ConfigDecoder.fromOption[String]("Double")(_ => None)
+
+        forAll { int: Int =>
+          readValue[TwoValues](int.toString) shouldBe a[Left[_, _]]
+        }
+      }
+
+      "fail if the second of the two values fail to decode" in {
+        implicit val floatDecoder: ConfigDecoder[String, Float] =
+          ConfigDecoder.fromOption[String]("Float")(_ => None)
+
+        forAll { int: Int =>
+          readValue[TwoValues](int.toString) shouldBe a[Left[_, _]]
+        }
+      }
+
+      "fail if both values fail to decode" in {
+        forAll(Gen.alphaStr) { string =>
+          readValue[TwoValues](string) shouldBe a [Left[_, _]]
         }
       }
     }
