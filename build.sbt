@@ -593,6 +593,7 @@ addCommandsAlias("validate", List(
   "coverage",
   "testsJVM/test",
   "coverageReport",
+  "coverageAggregate",
   "mimaReportBinaryIssues"
 ))
 
