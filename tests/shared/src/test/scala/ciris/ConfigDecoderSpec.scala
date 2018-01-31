@@ -5,7 +5,11 @@ import scala.util.Try
 final class ConfigDecoderSpec extends PropertySpec {
   "ConfigDecoder" when {
     "using mapBoth" should {
-      val decoder = ConfigDecoder.mapBoth[String](_ => Right("error"), value => Right(value + "123"))
+      val decoder =
+        ConfigDecoder.mapBoth[String, String](
+          _ => Right("error"),
+          value => Right(value + "123")
+        )
 
       "map the error if there is one" in {
         decoder.decode(nonExistingEntry) shouldBe Right("error")
@@ -15,28 +19,6 @@ final class ConfigDecoderSpec extends PropertySpec {
         forAll { value: String =>
           decoder.decode(existingEntry(value)) shouldBe Right(value + "123")
         }
-      }
-    }
-
-    "using fromTryOption[A]" should {
-      val decoder = ConfigDecoder.fromTryOption[String]("typeName")(value => Try {
-        value match {
-          case "some" => Some("ok")
-          case "none" => None
-          case _ => throw new Error
-        }
-      })
-
-      "succeed for Success[Some]" in {
-        decoder.decode(existingEntry("some")) shouldBe a[Right[_, _]]
-      }
-
-      "fail for Success[None]" in {
-        decoder.decode(existingEntry("none")) shouldBe a[Left[_, _]]
-      }
-
-      "fail for Failure" in {
-        decoder.decode(existingEntry("error")) shouldBe a[Left[_, _]]
       }
     }
 
@@ -157,20 +139,6 @@ final class ConfigDecoderSpec extends PropertySpec {
 
       "fail if the partial function is undefined" in {
         decoder.decode(existingEntry("error")) shouldBe a [Left[_, _]]
-      }
-    }
-
-    "using map[A]" should {
-      val decoder = ConfigDecoder.map[String](value => Right(value + "123"))
-
-      "keep the error if there is one" in {
-        decoder.decode(nonExistingEntry) shouldBe a[Left[_, _]]
-      }
-
-      "map the value if there is one" in {
-        forAll { value: String =>
-          decoder.decode(existingEntry(value)) shouldBe Right(value + "123")
-        }
       }
     }
 

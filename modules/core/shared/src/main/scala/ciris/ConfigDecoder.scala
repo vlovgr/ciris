@@ -335,13 +335,8 @@ object ConfigDecoder extends ConfigDecoders {
     }
 
   /**
-    * Creates a new [[ConfigDecoder]] by applying a function for both the
-    * error case and the value case, directly on the [[ConfigEntry]],
-    * without any intermediate type conversions.<br>
-    * <br>
-    * There is also a partially applied version of this function,
-    * `mapBoth[A]`, to be able to infer `B`. See the example for
-    * how it can be used.
+    * Creates a new [[ConfigDecoder]] by applying a function in both
+    * the error case and in the value case.
     *
     * @param onError the function to apply in the case of an error
     * @param onValue the function to apply in case of a value
@@ -352,7 +347,7 @@ object ConfigDecoder extends ConfigDecoders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456", "abc"))
     * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
-    * scala> val decoder = ConfigDecoder.mapBoth[String](error => Left(error), value => Right(value + "/789"))
+    * scala> val decoder = ConfigDecoder.mapBoth(error => Left(error), (value: String) => Right(value + "/789"))
     * decoder: ConfigDecoder[String, String] = ConfigDecoder$$$$anon$$4@76e4848f
     *
     * scala> decoder.decode(source.read(0))
@@ -368,40 +363,16 @@ object ConfigDecoder extends ConfigDecoders {
   def mapBoth[A, B](
     onError: ConfigError => Either[ConfigError, B],
     onValue: A => Either[ConfigError, B]
-  ): ConfigDecoder[A, B] =
-    mapBoth[A](onError, onValue)
-
-  /**
-    * Partially applied version of `mapBoth[A, B]`, so that
-    * it is possible to infer `B` from the specified function.
-    * An intermediate class, `MapBothPartiallyApplied` is used
-    * to achieve partial application.
-    *
-    * @tparam A the type from which to convert values
-    * @return a partially applied version of `mapBoth[A, B]`
-    */
-  def mapBoth[A]: MapBothPartiallyApplied[A] =
-    new MapBothPartiallyApplied[A]
-
-  final class MapBothPartiallyApplied[A] private[ciris] {
-    def apply[B](
-      onError: ConfigError => Either[ConfigError, B],
-      onValue: A => Either[ConfigError, B]
-    ): ConfigDecoder[A, B] = {
-      new ConfigDecoder[A, B] {
-        override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-          entry.value.fold(onError, onValue)
-      }
+  ): ConfigDecoder[A, B] = {
+    new ConfigDecoder[A, B] {
+      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
+        entry.value.fold(onError, onValue)
     }
   }
 
   /**
     * Creates a new [[ConfigDecoder]] by applying a function in the case
-    * when a value was successfully read from the configuration source.<br>
-    * <br>
-    * There is also a partially applied version of this function,
-    * `map[A]`, to be able to infer `B`. See the example for how
-    * it can be used.
+    * when a value was successfully read from the configuration source.
     *
     * @param f the function to apply in case of a value
     * @tparam A the type from which to convert the value
@@ -411,7 +382,7 @@ object ConfigDecoder extends ConfigDecoders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456"))
     * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
-    * scala> val decoder = ConfigDecoder.map[String](value => Right(value.take(2)))
+    * scala> val decoder = ConfigDecoder.map { value: String => Right(value.take(2)) }
     * decoder: ConfigDecoder[String, String] = ConfigDecoder$$$$anon$$4@77f11239
     *
     * scala> decoder.decode(source.read(0))
@@ -422,34 +393,13 @@ object ConfigDecoder extends ConfigDecoders {
     * }}}
     */
   def map[A, B](f: A => Either[ConfigError, B]): ConfigDecoder[A, B] =
-    map[A](f)
-
-  /**
-    * Partially applied version of `map[A, B]`, so that it
-    * is possible to infer `B` from the specified function.
-    * An intermediate class, `MapPartiallyApplied` is used
-    * to achieve partial application.
-    *
-    * @tparam A the type from which to convert values
-    * @return a partially applied version of `map[A, B]`
-    */
-  def map[A]: MapPartiallyApplied[A] =
-    new MapPartiallyApplied[A]
-
-  final class MapPartiallyApplied[A] private[ciris] {
-    def apply[B](f: A => Either[ConfigError, B]): ConfigDecoder[A, B] =
-      ConfigDecoder.mapBoth[A, B](Left.apply, f)
-  }
+    ConfigDecoder.mapBoth[A, B](Left.apply, f)
 
   /**
     * Creates a new [[ConfigDecoder]] by applying a function in the case
     * when a value was successfully read from the configuration source,
     * returning an `Option[B]`. If the function returns `None`, it will
-    * be interpreted as if the conversion to type `B` failed.<br>
-    * <br>
-    * There is also a partially applied version of this function,
-    * `fromOption[A]`, to be able to infer `B`. See the example
-    * for how it can be used.
+    * be interpreted as if the conversion to type `B` failed.
     *
     * @param typeName the name of the type `B`
     * @param f the function to apply on the value, returning `Option[B]`
@@ -460,7 +410,7 @@ object ConfigDecoder extends ConfigDecoders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("1", "25"))
     * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
-    * scala> val decoder = ConfigDecoder.fromOption[String]("String")(Some(_).filter(_.length == 1))
+    * scala> val decoder = ConfigDecoder.fromOption("String") { s: String => Some(s).filter(_.length == 1) }
     * decoder: ConfigDecoder[String, String] = ConfigDecoder$$$$anon$$5@4826b7ae
     *
     * scala> decoder.decode(source.read(0))
@@ -471,43 +421,22 @@ object ConfigDecoder extends ConfigDecoders {
     * }}}
     */
   def fromOption[A, B](typeName: String)(f: A => Option[B]): ConfigDecoder[A, B] =
-    fromOption[A](typeName)(f)
-
-  /**
-    * Partially applied version of `fromOption[A, B]`, so that
-    * it is possible to infer `B` from the specified function.
-    * An intermediate class, `FromOptionPartiallyApplied` is
-    * used to achieve partial application.
-    *
-    * @tparam A the type from which to convert values
-    * @return a partially applied version of `fromOption[A, B]`
-    */
-  def fromOption[A]: FromOptionPartiallyApplied[A] =
-    new FromOptionPartiallyApplied[A]
-
-  final class FromOptionPartiallyApplied[A] private[ciris] {
-    def apply[B](typeName: String)(f: A => Option[B]): ConfigDecoder[A, B] =
-      new ConfigDecoder[A, B] {
-        override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-          entry.value.right.flatMap { value =>
-            f(value) match {
-              case Some(t) => Right(t)
-              case None =>
-                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
-            }
+    new ConfigDecoder[A, B] {
+      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
+        entry.value.right.flatMap { value =>
+          f(value) match {
+            case Some(t) => Right(t)
+            case None =>
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
           }
-      }
-  }
+        }
+    }
 
   /**
     * Creates a new [[ConfigDecoder]] by applying a function in the case
     * when a value was successfully read from the configuration source,
     * returning a `Try[B]`. If the function returns `Failure`, it will
-    * be interpreted as if the conversion to type `B` failed.<br>
-    * <br>
-    * There is also a partially applied version of this function,
-    * `fromTry[A]`, to be able to infer `B`. See the example
-    * for how it can be used.
+    * be interpreted as if the conversion to type `B` failed.
     *
     * @param typeName the name of the type `B`
     * @param f the function to apply on the value, returning `Try[B]`
@@ -517,7 +446,7 @@ object ConfigDecoder extends ConfigDecoders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("1", "a"))
     * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
-    * scala> val decoder = ConfigDecoder.fromTry[String]("Int")(value => scala.util.Try(value.toInt))
+    * scala> val decoder = ConfigDecoder.fromTry("Int") { value: String => scala.util.Try(value.toInt) }
     * decoder: ConfigDecoder[String, Int] = ConfigDecoder$$$$anon$$6@26db094b
     *
     * scala> decoder.decode(source.read(0))
@@ -528,43 +457,22 @@ object ConfigDecoder extends ConfigDecoders {
     * }}}
     */
   def fromTry[A, B](typeName: String)(f: A => Try[B]): ConfigDecoder[A, B] =
-    fromTry[A](typeName)(f)
-
-  /**
-    * Partially applied version of `fromTry[A, B]`, so that it
-    * is possible to infer `B` from the specified function. An
-    * intermediate class, `FromTryPartiallyApplied` is used to
-    * achieve partial application.
-    *
-    * @tparam A the type from which to convert values
-    * @return a partially applied version of `fromTry[A, B]`
-    */
-  def fromTry[A]: FromTryPartiallyApplied[A] =
-    new FromTryPartiallyApplied[A]
-
-  final class FromTryPartiallyApplied[A] private[ciris] {
-    def apply[B](typeName: String)(f: A => Try[B]): ConfigDecoder[A, B] =
-      new ConfigDecoder[A, B] {
-        override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-          entry.value.right.flatMap { value =>
-            f(value) match {
-              case Success(a) => Right(a)
-              case Failure(cause) =>
-                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
-            }
+    new ConfigDecoder[A, B] {
+      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
+        entry.value.right.flatMap { value =>
+          f(value) match {
+            case Success(a) => Right(a)
+            case Failure(cause) =>
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
           }
-      }
-  }
+        }
+    }
 
   /**
     * Creates a new [[ConfigDecoder]] by applying a function in the case
     * when a value was successfully read from the configuration source,
     * returning a `Try[Option[B]]`. The conversion will only succeed
-    * if the function returns `Success[Some[B]]`.<br>
-    * <br>
-    * There is also a partially applied version of this function,
-    * `fromTryOption[A]`, to be able to infer `B`. See the example
-    * for how it can be used.
+    * if the function returns `Success[Some[B]]`.
     *
     * @param typeName the name of the type `B`
     * @param f the function to apply on the value, returning `Try[Option[B]]`
@@ -574,7 +482,7 @@ object ConfigDecoder extends ConfigDecoders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("1", "1234", "a"))
     * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
-    * scala> val decoder = ConfigDecoder.fromTryOption[String]("Int")(value => scala.util.Try(if(value.length < 4) Some(value.toInt) else None))
+    * scala> val decoder = ConfigDecoder.fromTryOption("Int") { value: String => scala.util.Try(if(value.length < 4) Some(value.toInt) else None) }
     * decoder: ConfigDecoder[String, Int] = ConfigDecoder$$$$anon$$9@7d20803b
     *
     * scala> decoder.decode(source.read(0))
@@ -591,46 +499,26 @@ object ConfigDecoder extends ConfigDecoders {
     * }}}
     */
   def fromTryOption[A, B](typeName: String)(f: A => Try[Option[B]]): ConfigDecoder[A, B] =
-    fromTryOption[A](typeName)(f)
-
-  /**
-    * Partially applied version of `fromTryOption[A, B]`, so that
-    * it is possible to infer `B` from the specified function. An
-    * intermediate class, `FromTryOptionPartiallyApplied` is used
-    * to achieve partial application.
-    *
-    * @tparam A the type from which to convert values
-    * @return a partially applied version of `fromTryOption[A, B]`
-    */
-  def fromTryOption[A]: FromTryOptionPartiallyApplied[A] =
-    new FromTryOptionPartiallyApplied[A]
-
-  final class FromTryOptionPartiallyApplied[A] private[ciris] {
-    def apply[B](typeName: String)(f: A => Try[Option[B]]): ConfigDecoder[A, B] =
-      new ConfigDecoder[A, B] {
-        override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-          entry.value.right.flatMap { value =>
-            f(value) match {
-              case Success(Some(value)) => Right(value)
-              case Success(None) =>
-                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
-              case Failure(cause) =>
-                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
-            }
+    new ConfigDecoder[A, B] {
+      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
+        entry.value.right.flatMap { value =>
+          f(value) match {
+            case Success(Some(value)) =>
+              Right(value)
+            case Success(None) =>
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
+            case Failure(cause) =>
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
           }
-      }
-  }
+        }
+    }
 
   /**
     * Creates a new [[ConfigDecoder]] by applying a function in the case
     * when a value was successfully read from the configuration source,
     * wrapping the function in a `Try`. If the function, for any
     * reason, throws an exception, it will be interpreted as if
-    * the conversion to type `B` failed.<br>
-    * <br>
-    * There is also a partially applied version of this function,
-    * `catchNonFatal[A]`, to be able to infer `B`. See the example
-    * for how it can be used.
+    * the conversion to type `B` failed.
     *
     * @param typeName the name of the type `B`
     * @param f the function to apply on the value, returning `B`
@@ -640,7 +528,7 @@ object ConfigDecoder extends ConfigDecoders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("1", "a"))
     * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
-    * scala> val decoder = ConfigDecoder.catchNonFatal[String]("Int")(_.toInt)
+    * scala> val decoder = ConfigDecoder.catchNonFatal("Int") { s: String => s.toInt }
     * decoder: ConfigDecoder[String, Int] = ConfigDecoder$$$$anon$$7@4fee5a39
     *
     * scala> decoder.decode(source.read(0))
@@ -651,31 +539,14 @@ object ConfigDecoder extends ConfigDecoders {
     * }}}
     */
   def catchNonFatal[A, B](typeName: String)(f: A => B): ConfigDecoder[A, B] =
-    catchNonFatal[A](typeName)(f)
-
-  /**
-    * Partially applied version of `catchNonFatal[A, B]`, so that
-    * it is possible to infer `B` from the specified function. An
-    * intermediate class, `CatchNonFatalPartiallyApplied` is used
-    * to achieve partial application.
-    *
-    * @tparam A the type from which to convert values
-    * @return a partially applied version of `catchNonFatal[A, B]`
-    */
-  def catchNonFatal[A]: CatchNonFatalPartiallyApplied[A] =
-    new CatchNonFatalPartiallyApplied[A]
-
-  final class CatchNonFatalPartiallyApplied[A] private[ciris] {
-    def apply[B](typeName: String)(f: A => B): ConfigDecoder[A, B] =
-      new ConfigDecoder[A, B] {
-        override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-          entry.value.right.flatMap { value =>
-            Try(f(value)) match {
-              case Success(t) => Right(t)
-              case Failure(cause) =>
-                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
-            }
+    new ConfigDecoder[A, B] {
+      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
+        entry.value.right.flatMap { value =>
+          Try(f(value)) match {
+            case Success(t) => Right(t)
+            case Failure(cause) =>
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
           }
-      }
-  }
+        }
+    }
 }

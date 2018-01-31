@@ -6,5 +6,5 @@ import ciris.ConfigDecoder
 
 trait JavaIoConfigDecoders {
   implicit val fileConfigDecoder: ConfigDecoder[String, File] =
-    ConfigDecoder.catchNonFatal[String]("File")(new File(_))
+    ConfigDecoder.catchNonFatal("File")(new File(_))
 }

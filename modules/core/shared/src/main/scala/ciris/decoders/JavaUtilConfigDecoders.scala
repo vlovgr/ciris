@@ -7,8 +7,8 @@ import ciris.ConfigDecoder
 
 trait JavaUtilConfigDecoders {
   implicit val regexPatternConfigDecoder: ConfigDecoder[String, Pattern] =
-    ConfigDecoder.catchNonFatal[String]("Pattern")(Pattern.compile)
+    ConfigDecoder.catchNonFatal("Pattern")(Pattern.compile)
 
   implicit val uuidConfigDecoder: ConfigDecoder[String, UUID] =
-    ConfigDecoder.catchNonFatal[String]("UUID")(UUID.fromString)
+    ConfigDecoder.catchNonFatal("UUID")(UUID.fromString)
 }
