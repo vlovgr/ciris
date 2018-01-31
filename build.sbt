@@ -589,17 +589,17 @@ def addCommandsAlias(name: String, values: List[String]) =
 
 addCommandsAlias("validate", List(
   "clean",
-  "docTests",
-  "docs/unidoc",
-  "docs/tut",
   "testsJS/test",
   "coverage",
   "testsJVM/test",
   "coverageReport",
+  "coverageAggregate",
   "mimaReportBinaryIssues"
 ))
 
 addCommandsAlias("validateNative", nativeModuleNames.map(_ + "/test"))
+
+addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))
 
 lazy val scalaTestVersion = "3.0.4"
 
