@@ -6,5 +6,5 @@ import ciris.ConfigDecoder
 
 trait JavaNioFileConfigDecoders {
   implicit val pathConfigDecoder: ConfigDecoder[String, Path] =
-    ConfigDecoder.catchNonFatal[String]("Path")(Paths.get(_))
+    ConfigDecoder.catchNonFatal("Path")(Paths.get(_))
 }

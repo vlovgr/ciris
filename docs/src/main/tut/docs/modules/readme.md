@@ -119,10 +119,10 @@ val mapSource = {
 }
 
 implicit val decodeDouble: ConfigDecoder[Map[String, String], Double] =
-  ConfigDecoder.catchNonFatal[Map[String, String]]("Double")(map => map("key1").toDouble)
+  ConfigDecoder.catchNonFatal("Double")(map => map("key1").toDouble)
 
 implicit val decodeFloat: ConfigDecoder[Map[String, String], Float] =
-  ConfigDecoder.catchNonFatal[Map[String, String]]("Float")(map => map("key2").toFloat)
+  ConfigDecoder.catchNonFatal("Float")(map => map("key2").toFloat)
 
 mapSource.read("key").decodeValue[TwoValues]
 ```
