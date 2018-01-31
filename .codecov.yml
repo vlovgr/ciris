@@ -1,0 +1,3 @@
+ignore:
+  - "modules/*/js/**/*"
+  - "modules/*/native/**/*"
