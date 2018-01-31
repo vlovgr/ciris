@@ -169,7 +169,7 @@ final class GenericConfigDecodersSpec extends PropertySpec {
 
       "fail if the first of the two values fail to decode" in {
         implicit val doubleDecoder: ConfigDecoder[String, Double] =
-          ConfigDecoder.fromOption[String]("Double")(_ => None)
+          ConfigDecoder.fromOption("Double")(_ => None)
 
         forAll { int: Int =>
           readValue[TwoValues](int.toString) shouldBe a[Left[_, _]]
@@ -178,7 +178,7 @@ final class GenericConfigDecodersSpec extends PropertySpec {
 
       "fail if the second of the two values fail to decode" in {
         implicit val floatDecoder: ConfigDecoder[String, Float] =
-          ConfigDecoder.fromOption[String]("Float")(_ => None)
+          ConfigDecoder.fromOption("Float")(_ => None)
 
         forAll { int: Int =>
           readValue[TwoValues](int.toString) shouldBe a[Left[_, _]]

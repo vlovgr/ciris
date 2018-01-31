@@ -7,13 +7,13 @@ import scala.util.{Success, Try}
 
 trait SpireConfigDecoders {
   implicit val algebraicConfigDecoder: ConfigDecoder[String, Algebraic] =
-    ConfigDecoder.catchNonFatal[String]("Algebraic")(Algebraic.apply)
+    ConfigDecoder.catchNonFatal("Algebraic")(Algebraic.apply)
 
   implicit val intervalRationalConfigDecoder: ConfigDecoder[String, Interval[Rational]] =
-    ConfigDecoder.catchNonFatal[String]("Interval[Rational]")(Interval.apply)
+    ConfigDecoder.catchNonFatal("Interval[Rational]")(Interval.apply)
 
   implicit val naturalConfigDecoder: ConfigDecoder[String, Natural] =
-    ConfigDecoder.fromTryOption[String]("Natural") { value =>
+    ConfigDecoder.fromTryOption("Natural") { value =>
       if (value.forall(_.isDigit))
         Try(Some(Natural(value)))
       else
@@ -21,16 +21,16 @@ trait SpireConfigDecoders {
     }
 
   implicit val numberConfigDecoder: ConfigDecoder[String, Number] =
-    ConfigDecoder.catchNonFatal[String]("Number")(Number.apply)
+    ConfigDecoder.catchNonFatal("Number")(Number.apply)
 
   implicit val polynomialRationalConfigDecoder: ConfigDecoder[String, Polynomial[Rational]] =
-    ConfigDecoder.catchNonFatal[String]("Polynomial[Rational]")(Polynomial.apply)
+    ConfigDecoder.catchNonFatal("Polynomial[Rational]")(Polynomial.apply)
 
   implicit val rationalConfigDecoder: ConfigDecoder[String, Rational] =
-    ConfigDecoder.catchNonFatal[String]("Rational")(Rational.apply)
+    ConfigDecoder.catchNonFatal("Rational")(Rational.apply)
 
   implicit val realConfigDecoder: ConfigDecoder[String, Real] =
-    ConfigDecoder.catchNonFatal[String]("Real")(Real.apply)
+    ConfigDecoder.catchNonFatal("Real")(Real.apply)
 
   implicit def safeLongConfigDecoder[A](
     implicit decoder: ConfigDecoder[A, BigInt]
