@@ -7,7 +7,7 @@
 
 package ciris
 
-private[ciris] trait LoadConfigs {
+private[ciris] class LoadConfigs {
 
   /**
     * Wraps the specified value in an `Either[ConfigErrors, Z]`. Useful
