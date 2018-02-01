@@ -2,7 +2,7 @@ package ciris.decoders
 
 import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
 
-trait DerivedConfigDecoders {
+private[ciris] trait DerivedConfigDecoders {
   implicit def optionConfigDecoder[A, B](
     implicit decoder: ConfigDecoder[A, B]
   ): ConfigDecoder[A, Option[B]] =

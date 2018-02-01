@@ -5,7 +5,7 @@ import eu.timepit.refined.api.{RefType, Validate}
 
 import scala.reflect.ClassTag
 
-trait RefinedConfigDecoders {
+private[ciris] trait RefinedConfigDecoders {
   implicit def refTypeConfigDecoder[F[_, _], A, T, P](
     implicit decoder: ConfigDecoder[A, T],
     refType: RefType[F],

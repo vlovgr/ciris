@@ -4,7 +4,7 @@ import ciris.ConfigDecoder
 
 import scala.util.Try
 
-trait SquantsConfigDecoders {
+private[ciris] trait SquantsConfigDecoders {
   import squants.electro._
 
   implicit val capacitanceConfigDecoder: ConfigDecoder[String, Capacitance] =

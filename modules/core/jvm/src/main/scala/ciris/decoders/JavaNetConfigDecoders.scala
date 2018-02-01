@@ -4,7 +4,7 @@ import java.net._
 
 import ciris.ConfigDecoder
 
-trait JavaNetConfigDecoders {
+private[ciris] trait JavaNetConfigDecoders {
   implicit val inetAddressConfigDecoder: ConfigDecoder[String, InetAddress] =
     ConfigDecoder.catchNonFatal("InetAddress")(InetAddress.getByName)
 
