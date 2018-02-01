@@ -88,7 +88,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError, Int] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, None))
+    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(abc), abc, Int))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError, Int] = Left(MissingKey(2, Argument))
@@ -102,7 +102,7 @@ abstract class ConfigDecoder[A, B] { self =>
           .fold(Left.apply, value => {
             f(value) match {
               case Some(a) => Right(a)
-              case None    => Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
+              case None    => Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
             }
           })
     }
@@ -128,7 +128,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError, Int] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, Some(java.lang.NumberFormatException: For input string: "abc")))
+    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, java.lang.NumberFormatException: For input string: "abc"))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError, Int] = Left(MissingKey(2, Argument))
@@ -169,7 +169,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError, Int] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, Some(java.lang.NumberFormatException: For input string: "abc")))
+    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, java.lang.NumberFormatException: For input string: "abc"))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError, Int] = Left(MissingKey(2, Argument))
@@ -197,7 +197,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError, scala.math.BigInt] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError, scala.math.BigInt] = Left(WrongType(1, Argument, Right(-123), -123, PosBigInt, None))
+    * res1: Either[ConfigError, scala.math.BigInt] = Left(WrongType(1, Argument, Right(-123), -123, PosBigInt))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError, scala.math.BigInt] = Left(MissingKey(2, Argument))
@@ -232,7 +232,7 @@ abstract class ConfigDecoder[A, B] { self =>
     * res0: Either[ConfigError,Int] = Right(123456)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, Some(java.lang.NumberFormatException: For input string: "abc")))
+    * res1: Either[ConfigError,Int] = Left(WrongType(1, Argument, Right(abc), abc, Int, java.lang.NumberFormatException: For input string: "abc"))
     *
     * scala> decoder.decode(source.read(2))
     * res2: Either[ConfigError,Int] = Left(MissingKey(2, Argument))
@@ -347,7 +347,7 @@ object ConfigDecoder extends ConfigDecoders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456", "abc"))
     * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
-    * scala> val decoder = ConfigDecoder.mapBoth(error => Left(error), (value: String) => Right(value + "/789"))
+    * scala> val decoder = ConfigDecoder.fold(error => Left(error), (value: String) => Right(value + "/789"))
     * decoder: ConfigDecoder[String, String] = ConfigDecoder$$$$anon$$4@76e4848f
     *
     * scala> decoder.decode(source.read(0))
@@ -360,7 +360,7 @@ object ConfigDecoder extends ConfigDecoders {
     * res2: Either[ConfigError, String] = Left(MissingKey(2, Argument))
     * }}}
     */
-  def mapBoth[A, B](
+  def fold[A, B](
     onError: ConfigError => Either[ConfigError, B],
     onValue: A => Either[ConfigError, B]
   ): ConfigDecoder[A, B] = {
@@ -382,7 +382,7 @@ object ConfigDecoder extends ConfigDecoders {
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123456"))
     * source: ConfigSource[Int, String] = ConfigSource(Argument)
     *
-    * scala> val decoder = ConfigDecoder.map { value: String => Right(value.take(2)) }
+    * scala> val decoder = ConfigDecoder.flatMap { value: String => Right(value.take(2)) }
     * decoder: ConfigDecoder[String, String] = ConfigDecoder$$$$anon$$4@77f11239
     *
     * scala> decoder.decode(source.read(0))
@@ -392,8 +392,8 @@ object ConfigDecoder extends ConfigDecoders {
     * res1: Either[ConfigError, String] = Left(MissingKey(1, Argument))
     * }}}
     */
-  def map[A, B](f: A => Either[ConfigError, B]): ConfigDecoder[A, B] =
-    ConfigDecoder.mapBoth[A, B](Left.apply, f)
+  def flatMap[A, B](f: A => Either[ConfigError, B]): ConfigDecoder[A, B] =
+    ConfigDecoder.fold[A, B](Left.apply, f)
 
   /**
     * Creates a new [[ConfigDecoder]] by applying a function in the case
@@ -417,7 +417,7 @@ object ConfigDecoder extends ConfigDecoders {
     * res0: Either[ConfigError, String] = Right(1)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError, String] = Left(WrongType(1, Argument, Right(25), 25, String, None))
+    * res1: Either[ConfigError, String] = Left(WrongType(1, Argument, Right(25), 25, String))
     * }}}
     */
   def fromOption[A, B](typeName: String)(f: A => Option[B]): ConfigDecoder[A, B] =
@@ -427,7 +427,7 @@ object ConfigDecoder extends ConfigDecoders {
           f(value) match {
             case Some(t) => Right(t)
             case None =>
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
           }
         }
     }
@@ -453,7 +453,7 @@ object ConfigDecoder extends ConfigDecoders {
     * res0: Either[ConfigError, Int] = Right(1)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a")))
+    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(a), a, Int, java.lang.NumberFormatException: For input string: "a"))
     * }}}
     */
   def fromTry[A, B](typeName: String)(f: A => Try[B]): ConfigDecoder[A, B] =
@@ -489,10 +489,10 @@ object ConfigDecoder extends ConfigDecoders {
     * res0: Either[ConfigError, Int] = Right(1)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(1234), 1234, Int, None))
+    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(1234), 1234, Int))
     *
     * scala> decoder.decode(source.read(2))
-    * res2: Either[ConfigError, Int] = Left(WrongType(2, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a")))
+    * res2: Either[ConfigError, Int] = Left(WrongType(2, Argument, Right(a), a, Int, java.lang.NumberFormatException: For input string: "a"))
     *
     * scala> decoder.decode(source.read(3))
     * res3: Either[ConfigError, Int] = Left(MissingKey(3, Argument))
@@ -506,7 +506,7 @@ object ConfigDecoder extends ConfigDecoders {
             case Success(Some(value)) =>
               Right(value)
             case Success(None) =>
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
             case Failure(cause) =>
               Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
           }
@@ -535,7 +535,7 @@ object ConfigDecoder extends ConfigDecoders {
     * res0: Either[ConfigError, Int] = Right(1)
     *
     * scala> decoder.decode(source.read(1))
-    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(a), a, Int, Some(java.lang.NumberFormatException: For input string: "a")))
+    * res1: Either[ConfigError, Int] = Left(WrongType(1, Argument, Right(a), a, Int, java.lang.NumberFormatException: For input string: "a"))
     * }}}
     */
   def catchNonFatal[A, B](typeName: String)(f: A => B): ConfigDecoder[A, B] =
