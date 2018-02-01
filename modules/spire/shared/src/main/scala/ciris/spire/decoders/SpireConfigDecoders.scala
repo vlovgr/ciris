@@ -5,7 +5,7 @@ import spire.math._
 
 import scala.util.{Success, Try}
 
-private[ciris] trait SpireConfigDecoders {
+trait SpireConfigDecoders {
   implicit val algebraicConfigDecoder: ConfigDecoder[String, Algebraic] =
     ConfigDecoder.catchNonFatal("Algebraic")(Algebraic.apply)
 

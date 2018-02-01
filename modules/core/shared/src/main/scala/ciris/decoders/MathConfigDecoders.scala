@@ -6,7 +6,7 @@ import java.math.{BigInteger => JBigInteger}
 
 import scala.util.Try
 
-private[ciris] trait MathConfigDecoders {
+trait MathConfigDecoders {
   implicit val bigIntConfigDecoder: ConfigDecoder[String, BigInt] =
     ConfigDecoder.fromTry("BigInt")(value => Try(BigInt(value)))
 

@@ -2,7 +2,7 @@ package ciris.decoders
 
 import ciris.ConfigDecoder
 
-private[ciris] trait PrimitiveConfigDecoders {
+trait PrimitiveConfigDecoders {
   implicit val booleanConfigDecoder: ConfigDecoder[String, Boolean] =
     ConfigDecoder.catchNonFatal("Boolean")(_.toBoolean)
 

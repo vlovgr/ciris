@@ -3,7 +3,7 @@ package ciris.generic.decoders
 import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
 import shapeless.{:+:, ::, CNil, Coproduct, Generic, HList, HNil, Inl, Inr, Lazy}
 
-private[ciris] trait GenericConfigDecoders {
+trait GenericConfigDecoders {
   implicit def cNilConfigDecoder[A]: ConfigDecoder[A, CNil] =
     new ConfigDecoder[A, CNil] {
       override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, CNil] =

@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 
 import ciris.ConfigDecoder
 
-private[ciris] trait JavaUtilConfigDecoders {
+trait JavaUtilConfigDecoders {
   implicit val regexPatternConfigDecoder: ConfigDecoder[String, Pattern] =
     ConfigDecoder.catchNonFatal("Pattern")(Pattern.compile)
 
