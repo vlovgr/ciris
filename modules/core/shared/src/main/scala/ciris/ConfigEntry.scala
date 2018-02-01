@@ -145,7 +145,7 @@ final class ConfigEntry[K, S, V] private (
     * scala> val entry =
     *      |  ConfigEntry[String, Int]("key", ConfigKeyType.Environment, Left(ConfigError("error1"))).
     *      |    orElse(ConfigEntry[String, Int]("key2", ConfigKeyType.Property, Left(ConfigError("error2"))))
-    * error: ConfigEntry[String, Int, Int] = ConfigEntry(key, Environment, Left(ConfigError("error1"), Left(Combined(Vector(ConfigError(error1), ConfigError(error2)))))
+    * error: ConfigEntry[String, Int, Int] = ConfigEntry(key, Environment, Left(ConfigError("error1"), Left(Combined(ConfigError(error1), ConfigError(error2))))
     *
     * scala> entry.value.left.map(_.message).toString
     * res0: String = Left(error1, error2)
