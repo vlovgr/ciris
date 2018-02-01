@@ -2,6 +2,12 @@ package ciris
 
 final class CirisPlatformSpecificSpec extends JvmPropertySpec {
   "CirisPlatformSpecific" when {
+    "converting to String" should {
+      "be File for ConfigSource.File" in {
+        ConfigSource.File.toString shouldBe "File"
+      }
+    }
+
     "reading a file" when {
       "the file exists" when {
         "the type can be read" should {

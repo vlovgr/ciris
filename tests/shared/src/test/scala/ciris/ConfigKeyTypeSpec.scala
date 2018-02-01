@@ -9,5 +9,23 @@ final class ConfigKeyTypeSpec extends PropertySpec {
         }
       }
     }
+
+    "converting Argument to String" should {
+      "be Argument" in {
+        ConfigKeyType.Argument.toString shouldBe "Argument"
+      }
+    }
+
+    "converting Environment to String" should {
+      "be Environment" in {
+        ConfigKeyType.Environment.toString shouldBe "Environment"
+      }
+    }
+
+    "converting Property to String" should {
+      "be Property" in {
+        ConfigKeyType.Property.toString shouldBe "Property"
+      }
+    }
   }
 }
