@@ -7,7 +7,7 @@ import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
 
 import scala.reflect.ClassTag
 
-private[ciris] trait EnumeratumConfigDecoders {
+trait EnumeratumConfigDecoders {
   private def fromOption[From, To: ClassTag](f: From => Option[To])(
     implicit decoder: ConfigDecoder[String, From]
   ): ConfigDecoder[String, To] =

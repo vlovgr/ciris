@@ -4,7 +4,7 @@ import java.nio.file._
 
 import ciris.ConfigDecoder
 
-private[ciris] trait JavaNioFileConfigDecoders {
+trait JavaNioFileConfigDecoders {
   implicit val pathConfigDecoder: ConfigDecoder[String, Path] =
     ConfigDecoder.catchNonFatal("Path")(Paths.get(_))
 }

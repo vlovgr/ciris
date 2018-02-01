@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter
 
 import ciris.ConfigDecoder
 
-private[ciris] trait JavaTimeConfigDecoders {
+trait JavaTimeConfigDecoders {
   import java.time._
 
   implicit val dayOfWeekConfigDecoder: ConfigDecoder[String, DayOfWeek] =

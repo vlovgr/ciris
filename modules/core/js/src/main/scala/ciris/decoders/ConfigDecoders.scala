@@ -1,6 +1,6 @@
 package ciris.decoders
 
-private[ciris] trait ConfigDecoders
+trait ConfigDecoders
     extends CirisConfigDecoders
     with DerivedConfigDecoders
     with DurationConfigDecoders
