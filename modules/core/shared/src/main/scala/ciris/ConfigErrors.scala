@@ -43,7 +43,7 @@ package ciris
   * res4: Int = 3
   * }}}
   *
-  * @param toVector a non-empty Vector of [[ConfigError]] errors
+  * @param toVector a non-empty `Vector` of [[ConfigError]] errors
   */
 final class ConfigErrors private (val toVector: Vector[ConfigError]) extends AnyVal {
 

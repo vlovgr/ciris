@@ -4,9 +4,9 @@ import scala.util.Try
 
 final class ConfigDecoderSpec extends PropertySpec {
   "ConfigDecoder" when {
-    "using mapBoth" should {
+    "using fold" should {
       val decoder =
-        ConfigDecoder.mapBoth[String, String](
+        ConfigDecoder.fold[String, String](
           _ => Right("error"),
           value => Right(value + "123")
         )
@@ -142,8 +142,8 @@ final class ConfigDecoderSpec extends PropertySpec {
       }
     }
 
-    "using map[A, B]" should {
-      val decoder = ConfigDecoder.map[String, String](value => Right(value + "123"))
+    "using flatMap[A, B]" should {
+      val decoder = ConfigDecoder.flatMap[String, String](value => Right(value + "123"))
 
       "keep the error if there is one" in {
         decoder.decode(nonExistingEntry) shouldBe a[Left[_, _]]

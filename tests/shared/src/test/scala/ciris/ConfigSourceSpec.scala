@@ -14,6 +14,14 @@ final class ConfigSourceSpec extends PropertySpec {
           ConfigSource(configKey)(Right.apply).toString shouldBe s"ConfigSource($configKey)"
         }
       }
+
+      "be Environment for ConfigSource.Environment"in {
+        ConfigSource.Environment.toString shouldBe "Environment"
+      }
+
+      "be Properties for ConfigSource.Properties"in {
+        ConfigSource.Properties.toString shouldBe "Properties"
+      }
     }
 
     "created with a single value" should {

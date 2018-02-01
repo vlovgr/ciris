@@ -51,15 +51,21 @@ object ConfigKeyType extends ConfigKeyTypePlatformSpecific {
   /**
     * [[ConfigKeyType]] for an environment variable of type `String`.
     */
-  case object Environment extends ConfigKeyType[String]("environment variable")
+  object Environment extends ConfigKeyType[String]("environment variable") {
+    override def toString: String = "Environment"
+  }
 
   /**
     * [[ConfigKeyType]] for a system property of type `String`.
     */
-  case object Property extends ConfigKeyType[String]("system property")
+  object Property extends ConfigKeyType[String]("system property") {
+    override def toString: String = "Property"
+  }
 
   /**
     * [[ConfigKeyType]] for a command-line argument of type `Int`.
     */
-  case object Argument extends ConfigKeyType[Int]("command-line argument")
+  object Argument extends ConfigKeyType[Int]("command-line argument") {
+    override def toString: String = "Argument"
+  }
 }

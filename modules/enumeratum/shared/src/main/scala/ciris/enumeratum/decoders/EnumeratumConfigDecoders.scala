@@ -18,7 +18,7 @@ trait EnumeratumConfigDecoders {
             case Some(to) => Right(to)
             case None =>
               val typeName = implicitly[ClassTag[To]].runtimeClass.getName
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
           }
         }
     }

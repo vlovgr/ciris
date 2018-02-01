@@ -11,7 +11,13 @@ import scala.util.{Failure, Success, Try}
   * <br>
   * You can create a [[ConfigSource]] by directly extending the class and
   * implementing [[ConfigSource#read]], or by using any of the helpers in
-  * the companion object, like [[ConfigSource#apply]].
+  * the companion object, like [[ConfigSource#apply]].<br>
+  * <br>
+  * The [[ConfigSource]]s already defined in the Ciris core module
+  * include the following:<br>
+  * - [[ConfigSource#Environment]]: for reading environment variables,<br>
+  * - [[ConfigSource#Properties]]: for reading system properties, and<br>
+  * - `ConfigSource.File`: for reading file contents.
   *
   * @param keyType the name and type of keys the source supports
   * @tparam K the type of keys the source supports
@@ -327,22 +333,28 @@ object ConfigSource extends ConfigSourcePlatformSpecific {
   /**
     * [[ConfigSource]] reading environment variables from `String` keys.
     */
-  case object Environment extends ConfigSource[String, String](ConfigKeyType.Environment) {
+  object Environment extends ConfigSource[String, String](ConfigKeyType.Environment) {
     private val delegate: ConfigSource[String, String] =
       ConfigSource.fromMap(keyType)(sys.env)
 
     override def read(key: String): ConfigEntry[String, String, String] =
       delegate.read(key)
+
+    override def toString: String =
+      "Environment"
   }
 
   /**
     * [[ConfigSource]] reading system properties from `String` keys.
     */
-  case object Properties extends ConfigSource[String, String](ConfigKeyType.Property) {
+  object Properties extends ConfigSource[String, String](ConfigKeyType.Property) {
     private val delegate: ConfigSource[String, String] =
       ConfigSource.fromTryOption(keyType)(key => Try(sys.props.get(key)))
 
     override def read(key: String): ConfigEntry[String, String, String] =
       delegate.read(key)
+
+    override def toString: String =
+      "Properties"
   }
 }
