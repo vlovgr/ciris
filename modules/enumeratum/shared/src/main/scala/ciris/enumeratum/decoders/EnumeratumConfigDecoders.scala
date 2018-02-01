@@ -7,7 +7,7 @@ import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
 
 import scala.reflect.ClassTag
 
-trait EnumeratumConfigDecoders {
+private[ciris] trait EnumeratumConfigDecoders {
   private def fromOption[From, To: ClassTag](f: From => Option[To])(
     implicit decoder: ConfigDecoder[String, From]
   ): ConfigDecoder[String, To] =
@@ -18,7 +18,7 @@ trait EnumeratumConfigDecoders {
             case Some(to) => Right(to)
             case None =>
               val typeName = implicitly[ClassTag[To]].runtimeClass.getName
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName))
+              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
           }
         }
     }

@@ -4,7 +4,7 @@ import ciris.ConfigDecoder
 
 import scala.concurrent.duration.{Duration, FiniteDuration}
 
-trait DurationConfigDecoders {
+private[ciris] trait DurationConfigDecoders {
   implicit val durationConfigDecoder: ConfigDecoder[String, Duration] =
     ConfigDecoder.catchNonFatal("Duration")(Duration.apply)
 

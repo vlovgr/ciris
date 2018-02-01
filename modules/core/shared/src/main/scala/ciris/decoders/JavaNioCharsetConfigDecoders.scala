@@ -4,7 +4,7 @@ import java.nio.charset._
 
 import ciris.ConfigDecoder
 
-trait JavaNioCharsetConfigDecoders {
+private[ciris] trait JavaNioCharsetConfigDecoders {
   implicit val charsetConfigDecoder: ConfigDecoder[String, Charset] =
     ConfigDecoder.catchNonFatal("Charset")(Charset.forName)
 }

@@ -4,7 +4,7 @@ import java.io.File
 
 import ciris.ConfigDecoder
 
-trait JavaIoConfigDecoders {
+private[ciris] trait JavaIoConfigDecoders {
   implicit val fileConfigDecoder: ConfigDecoder[String, File] =
     ConfigDecoder.catchNonFatal("File")(new File(_))
 }
