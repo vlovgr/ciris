@@ -20,7 +20,7 @@ package ciris
   *
   * {{{
   * scala> error combine ConfigError("error2")
-  * res1: ConfigError = Combined(Vector(ConfigError(error), ConfigError(error2)))
+  * res1: ConfigError = Combined(ConfigError(error), ConfigError(error2))
   * }}}
   *
   * There is also a convenience method [[append]] for creating [[ConfigErrors]].
@@ -63,7 +63,7 @@ sealed abstract class ConfigError {
     * @return a new [[ConfigError]] with both errors' messages
     * @example {{{
     * scala> ConfigError("error1") combine ConfigError("error2")
-    * res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))
+    * res0: ConfigError = Combined(ConfigError(error1), ConfigError(error2))
     * }}}
     */
   final def combine(that: ConfigError): ConfigError =
@@ -72,8 +72,8 @@ sealed abstract class ConfigError {
   /**
     * Appends that [[ConfigError]] to this [[ConfigError]] to create a
     * new [[ConfigErrors]] instance. This is useful for when reading or
-    * decoding more than one value and errors need to be accumulated.
-    *
+    * decoding more than one value and errors need to be accumulated.<br>
+    * <br>
     * [[ConfigError]]s are appended in order so that this [[ConfigError]]
     * is before that [[ConfigError]] in the resulting [[ConfigErrors]].
     *
@@ -111,9 +111,9 @@ object ConfigError {
     }
   }
 
-  private final case class Combined(errors: Vector[ConfigError]) extends ConfigError {
+  private final class Combined(errors: Vector[ConfigError]) extends ConfigError {
     override def message: String = errors.map(_.message).mkString(", ")
-    override def toString: String = s"Combined($errors)"
+    override def toString: String = s"Combined(${errors.mkString(", ")})"
   }
 
   /**
@@ -128,18 +128,18 @@ object ConfigError {
     * @example you can use the [[ConfigError#combined]] method.
     * {{{
     * scala> ConfigError.combined(ConfigError("error1"), ConfigError("error2"))
-    * res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))
+    * res0: ConfigError = Combined(ConfigError(error1), ConfigError(error2))
     * }}}
     * @example you can use the [[ConfigError#combine]] method.
     * {{{
     * scala> ConfigError("error1") combine ConfigError("error2")
-    * res1: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))
+    * res1: ConfigError = Combined(ConfigError(error1), ConfigError(error2))
     * }}}
     */
   def combined(first: ConfigError, second: ConfigError, rest: ConfigError*): ConfigError =
-    Combined(Vector(first, second) ++ rest)
+    new Combined(Vector(first, second) ++ rest)
 
-  private final case class MissingKey[K](key: K, keyType: ConfigKeyType[K]) extends ConfigError {
+  private final class MissingKey[K](key: K, keyType: ConfigKeyType[K]) extends ConfigError {
     override def message: String = s"Missing ${keyType.name} [$key]"
     override def toString: String = s"MissingKey($key, $keyType)"
   }
@@ -162,9 +162,9 @@ object ConfigError {
     * }}}
     */
   def missingKey[K](key: K, keyType: ConfigKeyType[K]): ConfigError =
-    MissingKey[K](key, keyType)
+    new MissingKey[K](key, keyType)
 
-  private final case class ReadException[K](
+  private final class ReadException[K](
     key: K,
     keyType: ConfigKeyType[K],
     cause: Throwable
@@ -192,15 +192,15 @@ object ConfigError {
     * }}}
     */
   def readException[K](key: K, keyType: ConfigKeyType[K], cause: Throwable): ConfigError =
-    ReadException[K](key, keyType, cause)
+    new ReadException[K](key, keyType, cause)
 
-  private final case class WrongType[K, S, V, C](
+  private final class WrongType[K, S, V, C](
     key: K,
     keyType: ConfigKeyType[K],
     sourceValue: Either[ConfigError, S],
     value: V,
     typeName: String,
-    cause: Option[C] = None
+    cause: Option[C]
   ) extends ConfigError {
     override def message: String = {
       val causeMessage =
@@ -217,8 +217,10 @@ object ConfigError {
       s"${keyType.name.capitalize} [$key] with value [$value]$sourceValueMessage cannot be converted to type [$typeName]$causeMessage"
     }
 
-    override def toString: String =
-      s"WrongType($key, $keyType, $sourceValue, $value, $typeName, $cause)"
+    override def toString: String = cause match {
+      case Some(cause) => s"WrongType($key, $keyType, $sourceValue, $value, $typeName, $cause)"
+      case None => s"WrongType($key, $keyType, $sourceValue, $value, $typeName)"
+    }
   }
 
   /**
@@ -237,8 +239,8 @@ object ConfigError {
     * @tparam C the type of the cause
     * @return a new error using the specified arguments
     * @example {{{
-    * scala> val error = ConfigError.wrongType("key", ConfigKeyType.Environment, Right("1.5"), 1.5, "Int")
-    * error: ConfigError = WrongType(key, Environment, Right(1.5), 1.5, Int, None)
+    * scala> val error = ConfigError.wrongType("key", ConfigKeyType.Environment, Right("1.5"), 1.5, "Int", None)
+    * error: ConfigError = WrongType(key, Environment, Right(1.5), 1.5, Int)
     *
     * scala> error.message
     * res0: String = Environment variable [key] with value [1.5] cannot be converted to type [Int]
@@ -250,7 +252,7 @@ object ConfigError {
     sourceValue: Either[ConfigError, S],
     value: V,
     typeName: String,
-    cause: Option[C] = None
+    cause: Option[C]
   ): ConfigError = {
     new WrongType[K, S, V, C](key, keyType, sourceValue, value, typeName, cause)
   }
