@@ -122,7 +122,7 @@ object SourceGenerators extends AutoPlugin {
         |
         |package $rootPackage
         |
-        |private[$rootPackage] trait LoadConfigs {
+        |private[$rootPackage] class LoadConfigs {
         |
         |  /**
         |    * Wraps the specified value in an `Either[ConfigErrors, Z]`. Useful
