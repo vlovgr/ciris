@@ -6,7 +6,7 @@ import java.nio.charset.Charset
 import scala.io.Source
 
 private[ciris] trait ConfigSourcePlatformSpecific {
-  case object File extends ConfigSource[(JFile, Charset), String](ConfigKeyType.File) {
+  object File extends ConfigSource[(JFile, Charset), String](ConfigKeyType.File) {
     private val delegate: ConfigSource[(JFile, Charset), String] =
       ConfigSource.catchNonFatal(keyType) {
         case (file, charset) =>
@@ -15,5 +15,8 @@ private[ciris] trait ConfigSourcePlatformSpecific {
 
     override def read(key: (JFile, Charset)): ConfigEntry[(JFile, Charset), String, String] =
       delegate.read(key)
+
+    override def toString: String =
+      "File"
   }
 }
