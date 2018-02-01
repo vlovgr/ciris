@@ -5,10 +5,14 @@ import java.time.format.DateTimeFormatter
 
 import ciris.PropertySpec
 import ciris.generators.LimitedJavaTimeGenerators
+import org.scalacheck.Shrink
 
 final class JavaTimeFormattedConfigDecodersSpec
     extends PropertySpec
     with LimitedJavaTimeGenerators {
+
+  implicit def noShrink[A]: Shrink[A] =
+    Shrink(_ => Stream.empty)
 
   "JavaTimeFormattedConfigDecoders" when {
     "reading a LocalDate" should {
