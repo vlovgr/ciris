@@ -60,7 +60,7 @@ final class ConfigEntrySpec extends PropertySpec {
           "accumulate the errors of both values" in {
             val (first, second) = (nonExistingEntry, nonExistingEntry)
             val (error1, error2) = (first.value.left.get, second.value.left.get)
-            first.orElse(second).value shouldBe Left(error1 combine error2)
+            first.orElse(second).value.left.get.message shouldBe (error1 combine error2).message
           }
         }
       }

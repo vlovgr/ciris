@@ -26,7 +26,7 @@ final class ConfigErrorSpec extends PropertySpec {
 
       "have a String representation for combined errors" in {
         ConfigError.combined(ConfigError("a"), ConfigError("b")).toString shouldBe
-          "Combined(Vector(ConfigError(a), ConfigError(b)))"
+          "Combined(ConfigError(a), ConfigError(b))"
       }
 
       "have a String representation for missing key errors" in {
@@ -43,14 +43,14 @@ final class ConfigErrorSpec extends PropertySpec {
 
       "have a String representation for wrong type errors without cause" in {
         val keyType = ConfigKeyType[String]("keyType")
-        ConfigError.wrongType("key", keyType, Right("sourceValue"), "value", "typeName").toString shouldBe
-          "WrongType(key, ConfigKeyType(keyType), Right(sourceValue), value, typeName, None)"
+        ConfigError.wrongType("key", keyType, Right("sourceValue"), "value", "typeName", None).toString shouldBe
+          "WrongType(key, ConfigKeyType(keyType), Right(sourceValue), value, typeName)"
       }
 
       "have a String representation for wrong type errors with cause" in {
         val keyType = ConfigKeyType[String]("keyType")
         ConfigError.wrongType("key", keyType, Right("value"), "value", "typeName", Some("cause")).toString shouldBe
-          "WrongType(key, ConfigKeyType(keyType), Right(value), value, typeName, Some(cause))"
+          "WrongType(key, ConfigKeyType(keyType), Right(value), value, typeName, cause)"
       }
     }
   }

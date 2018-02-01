@@ -19,8 +19,8 @@ final class ConfigErrorsSpec extends PropertySpec {
         val configErrors =
           ConfigErrors(missingKey("key", ConfigKeyType.Environment))
             .append(readException("key2", ConfigKeyType.Property, new Error("error")))
-            .append(wrongType("key3", ConfigKeyType.Environment, Right("value3"), "value3", "Int"))
-            .append(wrongType("key4", ConfigKeyType.Environment, Right("value4"), "value5", "Int"))
+            .append(wrongType("key3", ConfigKeyType.Environment, Right("value3"), "value3", "Int", None))
+            .append(wrongType("key4", ConfigKeyType.Environment, Right("value4"), "value5", "Int", None))
             .append(ConfigError("a"))
             .append(ConfigError.combined(ConfigError("b"), ConfigError("c")))
 
