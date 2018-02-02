@@ -2,6 +2,8 @@ package ciris.enumeratum.decoders
 
 import _root_.enumeratum._
 import _root_.enumeratum.values._
+import ciris.api._
+import ciris.api.syntax._
 import ciris.ConfigError.wrongType
 import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
 
@@ -12,15 +14,23 @@ trait EnumeratumConfigDecoders {
     implicit decoder: ConfigDecoder[String, From]
   ): ConfigDecoder[String, To] =
     new ConfigDecoder[String, To] {
-      override def decode[K, S](entry: ConfigEntry[K, S, String]): Either[ConfigError, To] =
-        decoder.decode(entry).right.flatMap { value =>
-          f(value) match {
-            case Some(to) => Right(to)
-            case None =>
-              val typeName = implicitly[ClassTag[To]].runtimeClass.getName
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, String]
+      ): F[Either[ConfigError, To]] = {
+        for {
+          sourceValue <- entry.sourceValue
+          decoded <- decoder.decode(entry)
+        } yield {
+          decoded.right.flatMap { value =>
+            f(value) match {
+              case Some(to) => Right(to)
+              case None =>
+                val typeName = implicitly[ClassTag[To]].runtimeClass.getName
+                Left(wrongType(entry.key, entry.keyType, sourceValue, value, typeName, None))
+            }
           }
         }
+      }
     }
 
   implicit def byteEnumEntryConfigDecoder[A <: ByteEnumEntry: ClassTag](
