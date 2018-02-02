@@ -1,15 +1,20 @@
 package ciris.generic.decoders
 
+import ciris.api._
+import ciris.api.syntax._
 import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
 import shapeless.{:+:, ::, CNil, Coproduct, Generic, HList, HNil, Inl, Inr, Lazy}
 
 trait GenericConfigDecoders {
   implicit def cNilConfigDecoder[A]: ConfigDecoder[A, CNil] =
     new ConfigDecoder[A, CNil] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, CNil] =
-        Left(ConfigError {
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, CNil]] = {
+        (Left(ConfigError {
           s"Could not find any valid coproduct choice while decoding ${entry.keyType.name} [${entry.key}]"
-        })
+        }): Either[ConfigError, CNil]).pure[F]
+      }
     }
 
   implicit def coproductConfigDecoder[A, B <: Coproduct, C](
@@ -17,23 +22,27 @@ trait GenericConfigDecoders {
     decodeB: ConfigDecoder[A, B]
   ): ConfigDecoder[A, C :+: B] =
     new ConfigDecoder[A, C :+: B] {
-      override def decode[K, S](
-        entry: ConfigEntry[K, S, A]
-      ): Either[ConfigError, C :+: B] =
-        decodeC.value.decode(entry) match {
-          case Right(a) => Right(Inl(a))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, C :+: B]] = {
+        decodeC.value.decode(entry).flatMap {
+          case Right(a) => (Right(Inl(a)): Either[ConfigError, C :+: B]).pure[F]
           case Left(aError) =>
-            decodeB.decode(entry) match {
+            decodeB.decode(entry).map {
               case Right(b)     => Right(Inr(b))
               case Left(bError) => Left(aError combine bError)
             }
         }
+      }
     }
 
   implicit def hNilConfigDecoder[A]: ConfigDecoder[A, HNil] =
     new ConfigDecoder[A, HNil] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, HNil] =
-        Right(HNil)
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, HNil]] = {
+        (Right(HNil): Either[ConfigError, HNil]).pure[F]
+      }
     }
 
   implicit def hListConfigDecoder[A, B, C <: HList](
@@ -41,11 +50,13 @@ trait GenericConfigDecoders {
     decodeC: ConfigDecoder[A, C]
   ): ConfigDecoder[A, B :: C] =
     new ConfigDecoder[A, B :: C] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B :: C] = {
-        (decodeB.value.decode(entry), decodeC.decode(entry)) match {
-          case (Right(b), Right(c)) => Right(b :: c)
-          case (Left(error1), Right(_)) => Left(error1)
-          case (Right(_), Left(error2)) => Left(error2)
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, B :: C]] = {
+        (decodeB.value.decode(entry) product decodeC.decode(entry)).map {
+          case (Right(b), Right(c))         => Right(b :: c)
+          case (Left(error1), Right(_))     => Left(error1)
+          case (Right(_), Left(error2))     => Left(error2)
           case (Left(error1), Left(error2)) => Left(error1 combine error2)
         }
       }
