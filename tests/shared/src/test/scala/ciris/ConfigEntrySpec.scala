@@ -21,6 +21,22 @@ final class ConfigEntrySpec extends PropertySpec {
       }
     }
 
+    "using withValue" should {
+      "replace the existing value" in {
+        existingEntry("value").withValue(Right("value2")).value shouldBe Right("value2")
+      }
+    }
+
+    "using flatMapValue" should {
+      "keep this error" in {
+        nonExistingEntry.flatMapValue(_ => Right("value")).value shouldBe a[Left[_, _]]
+      }
+
+      "replace the value" in {
+        existingEntry("value").flatMapValue(_ => Right("value2")).value shouldBe Right("value2")
+      }
+    }
+
     "using mapValue" when {
       "the value was read successfully" should {
         "apply the function on the value" in {
@@ -42,8 +58,10 @@ final class ConfigEntrySpec extends PropertySpec {
 
     "using orElse" when {
       "this value was read successfully" should {
-        "not attempt to use the other value" in {
-          existingEntry("value").orElse(fail("orElse"))
+        "use this value and not the other one" in {
+          existingEntry("value")
+            .orElse(existingEntry("value2"))
+            .value shouldBe Right("value")
         }
       }
 

@@ -1,5 +1,6 @@
 package ciris
 
+import ciris.api._
 import org.scalacheck.Gen
 import org.scalatest.prop.PropertyChecks
 import org.scalatest.{EitherValues, Matchers, WordSpec}
@@ -28,27 +29,27 @@ class PropertySpec extends WordSpec with Matchers with PropertyChecks with Eithe
 
   def fails[A](f: => A): Boolean = Try(f).isFailure
 
-  def readConfigEntry[A](value: String)(implicit decoder: ConfigDecoder[String, A]): ConfigEntry[String, String, A] =
+  def readConfigEntry[A](value: String)(implicit decoder: ConfigDecoder[String, A]): ConfigEntry[Id, String, String, A] =
     sourceWith("key" -> value).read("key").decodeValue[A]
 
   def readValue[A](value: String)(implicit decoder: ConfigDecoder[String, A]): Either[ConfigError, A] =
     readConfigEntry[A](value).value
 
-  def readNonExistingConfigEntry[A](implicit decoder: ConfigDecoder[String, A]): ConfigEntry[String, String, A] =
+  def readNonExistingConfigEntry[A](implicit decoder: ConfigDecoder[String, A]): ConfigEntry[Id, String, String, A] =
     emptySource.read("key").decodeValue[A]
 
   def readNonExistingValue[A](implicit decoder: ConfigDecoder[String, A]): Either[ConfigError, A] =
     decoder.decode(emptySource.read("key"))
 
-  def existingEntry(value: String): ConfigEntry[String, String, String] =
+  def existingEntry(value: String): ConfigEntry[Id, String, String, String] =
     sourceWith("key" -> value).read("key")
 
-  val emptySource: ConfigSource[String, String] =
+  val emptySource: ConfigSource[Id, String, String] =
     sourceWith()
 
-  val nonExistingEntry: ConfigEntry[String, String, String] =
+  val nonExistingEntry: ConfigEntry[Id, String, String, String] =
     emptySource.read("key")
 
-  def sourceWith(entries: (String, String)*): ConfigSource[String, String] =
+  def sourceWith(entries: (String, String)*): ConfigSource[Id, String, String] =
     ConfigSource.fromMap(ConfigKeyType[String]("test key"))(entries.toMap)
 }
