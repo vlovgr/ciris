@@ -1,5 +1,7 @@
 package ciris
 
+import ciris.api._
+
 import java.io.File
 import java.nio.charset.Charset
 
@@ -22,14 +24,14 @@ private[ciris] trait CirisPlatformSpecific {
     * @see [[fileWithName]]
     * @example {{{
     * scala> file[Double](new java.io.File("/number.txt"))
-    * res0: ConfigEntry[(java.io.File,java.nio.charset.Charset), String, Double] = ConfigEntry((/number.txt,UTF-8), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
+    * res0: ConfigEntry[api.Id, (java.io.File,java.nio.charset.Charset), String, Double] = ConfigEntry((/number.txt,UTF-8), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
     * }}}
     */
   def file[Value](
     file: File,
     modifyFileContents: String => String = identity,
     charset: Charset = Charset.defaultCharset
-  )(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[(File, Charset), String, Value] = {
+  )(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[Id, (File, Charset), String, Value] = {
     ConfigSource.File
       .read((file, charset))
       .mapValue(modifyFileContents)
@@ -53,14 +55,14 @@ private[ciris] trait CirisPlatformSpecific {
     * @see [[file]]
     * @example {{{
     * scala> fileWithName[Double]("/number.txt")
-    * res0: ConfigEntry[(java.io.File,java.nio.charset.Charset), String, Double] = ConfigEntry((/number.txt,UTF-8), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
+    * res0: ConfigEntry[api.Id, (java.io.File,java.nio.charset.Charset), String, Double] = ConfigEntry((/number.txt,UTF-8), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
     * }}}
     */
   def fileWithName[Value](
     name: String,
     modifyFileContents: String => String = identity,
     charset: Charset = Charset.defaultCharset
-  )(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[(File, Charset), String, Value] = {
+  )(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[Id, (File, Charset), String, Value] = {
     this.file(new File(name), modifyFileContents, charset)
   }
 }
