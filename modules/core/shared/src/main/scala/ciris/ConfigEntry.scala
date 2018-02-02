@@ -217,32 +217,4 @@ object ConfigEntry {
   ): ConfigEntry[Id, K, S, S] = {
     new ConfigEntry[Id, K, S, S](key, keyType, sourceValue, sourceValue)
   }
-
-  /**
-    * Creates a new [[ConfigEntry]] representing an entry (key-value pair) from a
-    * configuration source. The value might not have been retrieved successfully,
-    * represented by wrapping the value in `Either[ConfigError, S]`. The key is
-    * of type `K` and the source value is of type `S`. Both the source value
-    * and the value are in a context of type `F`. The type of the key is
-    * described with the [[ConfigKeyType]].
-    *
-    * @param key the key which was retrieved from the configuration source
-    * @param keyType the type of keys which the configuration source supports
-    * @param sourceValue the value for the key from the configuration source
-    * @tparam F the context for the value
-    * @tparam K the type of the key
-    * @tparam S the type of the source value
-    * @return a new [[ConfigEntry]]
-    * @example {{{
-    * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
-    * }}}
-    */
-  def applyF[F[_]: Apply, K, S](
-    key: K,
-    keyType: ConfigKeyType[K],
-    sourceValue: F[Either[ConfigError, S]]
-  ): ConfigEntry[F, K, S, S] = {
-    new ConfigEntry[F, K, S, S](key, keyType, sourceValue, sourceValue)
-  }
 }
