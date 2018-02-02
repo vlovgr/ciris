@@ -13,20 +13,20 @@ final class RefinedConfigEntrySyntaxSpec extends PropertySpec {
     "using refine" should {
       "successfully refine values conforming to predicate" in {
         forAll(Gen.chooseNum(1, Int.MaxValue)) { n: Int =>
-          ConfigEntry[Id, String, Int]("key", ConfigKeyType.Property, Right(n))
+          ConfigEntry("key", ConfigKeyType.Property, Right(n))
             .refineValue[Positive].value shouldBe a[Right[_, _]]
         }
       }
 
       "return an error when refining values not confirming to predicate" in {
         forAll(Gen.chooseNum(Int.MinValue, 0)) { n: Int =>
-          ConfigEntry[Id, String, Int]("key", ConfigKeyType.Property, Right(n))
+          ConfigEntry("key", ConfigKeyType.Property, Right(n))
             .refineValue[Positive].value shouldBe a[Left[_, _]]
         }
       }
 
       "return an error when refining unavailable values" in {
-        ConfigEntry[Id, String, Int]("key", ConfigKeyType.Property, Left(ConfigError("error")))
+        ConfigEntry[String, Int]("key", ConfigKeyType.Property, Left(ConfigError("error")))
           .refineValue[Positive].value shouldBe a[Left[_, _]]
       }
     }
@@ -34,20 +34,20 @@ final class RefinedConfigEntrySyntaxSpec extends PropertySpec {
     "using mapRefine" should {
       "successfully refine value conforming to predicate" in {
         forAll(Gen.chooseNum(1, Int.MaxValue)) { n: Int =>
-          ConfigEntry[Id, String, Int]("key", ConfigKeyType.Property, Right(n))
+          ConfigEntry("key", ConfigKeyType.Property, Right(n))
             .mapRefineValue[Positive](identity).value shouldBe a[Right[_, _]]
         }
       }
 
       "return an error when refining value not confirming to predicate" in {
         forAll(Gen.chooseNum(Int.MinValue, 0)) { n: Int =>
-          ConfigEntry[Id, String, Int]("key", ConfigKeyType.Property, Right(n))
+          ConfigEntry("key", ConfigKeyType.Property, Right(n))
             .mapRefineValue[Positive](identity).value shouldBe a[Left[_, _]]
         }
       }
 
       "return an error when refining unavailable values" in {
-        ConfigEntry[Id, String, Int]("key", ConfigKeyType.Property, Left(ConfigError("error")))
+        ConfigEntry[String, Int]("key", ConfigKeyType.Property, Left(ConfigError("error")))
           .mapRefineValue[Positive](identity)
           .value shouldBe a[Left[_, _]]
       }
