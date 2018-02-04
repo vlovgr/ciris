@@ -256,4 +256,28 @@ object ConfigError {
   ): ConfigError = {
     new WrongType[K, S, V, C](key, keyType, sourceValue, value, typeName, cause)
   }
+
+  /**
+    * Wraps the specified [[ConfigError]] in an `Either[ConfigError, A]`.
+    * Useful in cases where it is necessary to guide type inference and
+    * widen a `Left` into an `Either[ConfigError, A]`.
+    *
+    * @param error the error which should be wrapped
+    * @tparam A the right side value of the `Either`
+    * @return the specified error as an `Either[ConfigError, A]`
+    */
+  def left[A](error: ConfigError): Either[ConfigError, A] =
+    Left(error)
+
+  /**
+    * Wraps the specified value in an `Either[ConfigError, A]`. Useful
+    * in cases where it is necessary to guide type inference and widen
+    * a `Right` into an `Either[ConfigError, A]`.
+    *
+    * @param value the value which should be wrapped
+    * @tparam A the type of the value
+    * @return the specified value as an `Either[ConfigError, A]`
+    */
+  def right[A](value: A): Either[ConfigError, A] =
+    Right(value)
 }
