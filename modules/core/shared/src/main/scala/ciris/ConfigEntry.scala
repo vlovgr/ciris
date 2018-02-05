@@ -163,6 +163,17 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
   }
 
   /**
+    * Transforms the context `F` for the source value and value
+    * of this [[ConfigEntry]] into another context `G`.
+    *
+    * @param f the natural transformation from `F` to `G`
+    * @tparam G the context to which `F` should be transformed
+    * @return a new [[ConfigEntry]]
+    */
+  def liftF[G[_]: Apply](implicit f: F ~> G): ConfigEntry[G, K, S, V] =
+    new ConfigEntry(key, keyType, f(sourceValue), f(value))
+
+  /**
     * If the value of this [[ConfigEntry]] is unavailable, tries to
     * use the value of that [[ConfigEntry]], accumulating errors if
     * both values are unavailable. Returns a new [[ConfigEntry]],
