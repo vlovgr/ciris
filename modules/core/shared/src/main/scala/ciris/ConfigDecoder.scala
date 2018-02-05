@@ -1,5 +1,7 @@
 package ciris
 
+import ciris.api._
+import ciris.api.syntax._
 import ciris.ConfigError.wrongType
 import ciris.decoders.ConfigDecoders
 
@@ -9,7 +11,8 @@ import scala.util.{Failure, Success, Try}
   * [[ConfigDecoder]] represents the ability to convert the value
   * of a [[ConfigEntry]] to a different type. A [[ConfigDecoder]]
   * supports converting values of type `A` to values of type `B`,
-  * while supporting sensible error messages.<br>
+  * within a context `F`, while also supporting sensible error
+  * messages.<br>
   *<br>
   * To create a new [[ConfigDecoder]], simply extended the class
   * and implement the [[decode]] method. Alternatively, refer to
@@ -26,15 +29,18 @@ abstract class ConfigDecoder[A, B] { self =>
 
   /**
     * Decodes the value of the specified [[ConfigEntry]], converting
-    * the value from type `A` to type `B`, while supporting sensible
-    * error messages.
+    * the value from type `A` to type `B`, within a context `F`,
+    * while also supporting sensible error messages.
     *
     * @param entry the [[ConfigEntry]] for which to decode the value
+    * @tparam F the context in which to decode the configuration value
     * @tparam K the type of the key read from the configuration source
     * @tparam S the type of the original configuration source value
     * @return the decoded value or a [[ConfigError]] if decoding failed
     */
-  def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B]
+  def decode[F[_]: Monad, K, S](
+    entry: ConfigEntry[F, K, S, A]
+  ): F[Either[ConfigError, B]]
 
   /**
     * Applies a function to the converted value from this [[ConfigDecoder]].
@@ -63,8 +69,11 @@ abstract class ConfigDecoder[A, B] { self =>
     */
   final def map[C](f: B => C): ConfigDecoder[A, C] =
     new ConfigDecoder[A, C] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, C] =
-        self.decode(entry).fold(Left.apply, value => Right(f(value)))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, C]] = {
+        self.decode(entry).map(_.fold(Left.apply, value => Right(f(value))))
+      }
     }
 
   /**
@@ -96,15 +105,22 @@ abstract class ConfigDecoder[A, B] { self =>
     */
   final def mapOption[C](typeName: String)(f: B => Option[C]): ConfigDecoder[A, C] =
     new ConfigDecoder[A, C] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, C] =
-        self
-          .decode(entry)
-          .fold(Left.apply, value => {
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, C]] = {
+        for {
+          sourceValue <- entry.sourceValue
+          decoded <- self.decode(entry)
+        } yield {
+          decoded.fold(Left.apply, value => {
             f(value) match {
               case Some(a) => Right(a)
-              case None    => Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
+              case None =>
+                Left(wrongType(entry.key, entry.keyType, sourceValue, value, typeName, None))
             }
           })
+        }
+      }
     }
 
   /**
@@ -136,16 +152,33 @@ abstract class ConfigDecoder[A, B] { self =>
     */
   final def mapTry[C](typeName: String)(f: B => Try[C]): ConfigDecoder[A, C] =
     new ConfigDecoder[A, C] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, C] =
-        self
-          .decode(entry)
-          .fold(Left.apply, value => {
-            f(value) match {
-              case Success(a) => Right(a)
-              case Failure(cause) =>
-                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, C]] = {
+        for {
+          sourceValue <- entry.sourceValue
+          decoded <- self.decode(entry)
+        } yield {
+          decoded.fold(
+            Left.apply,
+            value => {
+              f(value) match {
+                case Success(a) => Right(a)
+                case Failure(cause) =>
+                  Left(
+                    wrongType(
+                      entry.key,
+                      entry.keyType,
+                      sourceValue,
+                      value,
+                      typeName,
+                      Some(cause)
+                    ))
+              }
             }
-          })
+          )
+        }
+      }
     }
 
   /**
@@ -240,16 +273,33 @@ abstract class ConfigDecoder[A, B] { self =>
     */
   final def mapEither[L, R](typeName: String)(f: B => Either[L, R]): ConfigDecoder[A, R] =
     new ConfigDecoder[A, R] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, R] =
-        self
-          .decode(entry)
-          .fold(Left.apply, value => {
-            f(value) match {
-              case Right(r) => Right(r)
-              case Left(cause) =>
-                Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, R]] = {
+        for {
+          sourceValue <- entry.sourceValue
+          decoded <- self.decode(entry)
+        } yield {
+          decoded.fold(
+            Left.apply,
+            value => {
+              f(value) match {
+                case Right(r) => Right(r)
+                case Left(cause) =>
+                  Left(
+                    wrongType(
+                      entry.key,
+                      entry.keyType,
+                      sourceValue,
+                      value,
+                      typeName,
+                      Some(cause)
+                    ))
+              }
             }
-          })
+          )
+        }
+      }
     }
 
   /**
@@ -273,8 +323,11 @@ abstract class ConfigDecoder[A, B] { self =>
     */
   final def mapEntryValue(f: A => A): ConfigDecoder[A, B] =
     new ConfigDecoder[A, B] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, B]] = {
         self.decode(entry.mapValue(f))
+      }
     }
 }
 
@@ -330,7 +383,9 @@ object ConfigDecoder extends ConfigDecoders {
     */
   def identity[A]: ConfigDecoder[A, A] =
     new ConfigDecoder[A, A] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, A] =
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, A]] =
         entry.value
     }
 
@@ -365,8 +420,10 @@ object ConfigDecoder extends ConfigDecoders {
     onValue: A => Either[ConfigError, B]
   ): ConfigDecoder[A, B] = {
     new ConfigDecoder[A, B] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-        entry.value.fold(onError, onValue)
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, B]] =
+        entry.value.map(_.fold(onError, onValue))
     }
   }
 
@@ -422,14 +479,22 @@ object ConfigDecoder extends ConfigDecoders {
     */
   def fromOption[A, B](typeName: String)(f: A => Option[B]): ConfigDecoder[A, B] =
     new ConfigDecoder[A, B] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-        entry.value.right.flatMap { value =>
-          f(value) match {
-            case Some(t) => Right(t)
-            case None =>
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, B]] = {
+        for {
+          sourceValue <- entry.sourceValue
+          errorOrValue <- entry.value
+        } yield {
+          errorOrValue.right.flatMap { value =>
+            f(value) match {
+              case Some(t) => Right(t)
+              case None =>
+                Left(wrongType(entry.key, entry.keyType, sourceValue, value, typeName, None))
+            }
           }
         }
+      }
     }
 
   /**
@@ -458,14 +523,22 @@ object ConfigDecoder extends ConfigDecoders {
     */
   def fromTry[A, B](typeName: String)(f: A => Try[B]): ConfigDecoder[A, B] =
     new ConfigDecoder[A, B] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-        entry.value.right.flatMap { value =>
-          f(value) match {
-            case Success(a) => Right(a)
-            case Failure(cause) =>
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, B]] = {
+        for {
+          sourceValue <- entry.sourceValue
+          errorOrValue <- entry.value
+        } yield {
+          errorOrValue.right.flatMap { value =>
+            f(value) match {
+              case Success(a) => Right(a)
+              case Failure(cause) =>
+                Left(wrongType(entry.key, entry.keyType, sourceValue, value, typeName, Some(cause)))
+            }
           }
         }
+      }
     }
 
   /**
@@ -500,17 +573,25 @@ object ConfigDecoder extends ConfigDecoders {
     */
   def fromTryOption[A, B](typeName: String)(f: A => Try[Option[B]]): ConfigDecoder[A, B] =
     new ConfigDecoder[A, B] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-        entry.value.right.flatMap { value =>
-          f(value) match {
-            case Success(Some(value)) =>
-              Right(value)
-            case Success(None) =>
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, None))
-            case Failure(cause) =>
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, B]] = {
+        for {
+          sourceValue <- entry.sourceValue
+          errorOrValue <- entry.value
+        } yield {
+          errorOrValue.right.flatMap { value =>
+            f(value) match {
+              case Success(Some(value)) =>
+                Right(value)
+              case Success(None) =>
+                Left(wrongType(entry.key, entry.keyType, sourceValue, value, typeName, None))
+              case Failure(cause) =>
+                Left(wrongType(entry.key, entry.keyType, sourceValue, value, typeName, Some(cause)))
+            }
           }
         }
+      }
     }
 
   /**
@@ -540,13 +621,21 @@ object ConfigDecoder extends ConfigDecoders {
     */
   def catchNonFatal[A, B](typeName: String)(f: A => B): ConfigDecoder[A, B] =
     new ConfigDecoder[A, B] {
-      override def decode[K, S](entry: ConfigEntry[K, S, A]): Either[ConfigError, B] =
-        entry.value.right.flatMap { value =>
-          Try(f(value)) match {
-            case Success(t) => Right(t)
-            case Failure(cause) =>
-              Left(wrongType(entry.key, entry.keyType, entry.sourceValue, value, typeName, Some(cause)))
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, B]] = {
+        for {
+          sourceValue <- entry.sourceValue
+          errorOrValue <- entry.value
+        } yield {
+          errorOrValue.right.flatMap { value =>
+            Try(f(value)) match {
+              case Success(t) => Right(t)
+              case Failure(cause) =>
+                Left(wrongType(entry.key, entry.keyType, sourceValue, value, typeName, Some(cause)))
+            }
           }
         }
+      }
     }
 }

@@ -1,14 +1,15 @@
 package ciris.refined
 
-import ciris.refined.syntax._
 import ciris._
+import ciris.api._
+import ciris.refined.syntax._
 import eu.timepit.refined.numeric.Positive
 import org.scalacheck.{Gen, Shrink}
 
 final class RefinedConfigEntrySyntaxSpec extends PropertySpec {
   implicit def noShrink[T]: Shrink[T] = Shrink(_ => Stream.empty)
 
-  "RefinedConfigValueSyntax" when {
+  "RefinedConfigEntrySyntax" when {
     "using refine" should {
       "successfully refine values conforming to predicate" in {
         forAll(Gen.chooseNum(1, Int.MaxValue)) { n: Int =>

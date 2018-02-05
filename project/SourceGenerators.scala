@@ -56,10 +56,10 @@ object SourceGenerators extends AutoPlugin {
       (2 until maximumNumberOfParams)
         .map { current =>
           val params = typeParams(current)
-          val firstArgs = args(current, arg => s"ConfigEntry[_, _, ${typeParam(arg)}]")
+          val firstArgs = args(current, arg => s"ConfigEntry[F, _, _, ${typeParam(arg)}]")
 
           val loadConfigSecondArgs = s"f: (${typeParams(current)}) => Z"
-          val withValuesSecondArgs = s"f: (${typeParams(current)}) => Either[ConfigErrors, Z]"
+          val withValuesSecondArgs = s"f: (${typeParams(current)}) => F[Either[ConfigErrors, Z]]"
 
           val valueParamsDoc = (1 to current).map(n => s"  * @param ${valueParam(n)} configuration entry $n").mkString("\n")
           val typeParamsDoc = (1 to current).map(n => s"  * @tparam ${typeParam(n)} the type for configuration value $n").mkString("\n")
@@ -74,6 +74,7 @@ object SourceGenerators extends AutoPlugin {
               |$valueParamsDoc
               |  * @param f the function to create the configuration
               |$typeParamsDoc
+              |  * @tparam F the [[ConfigEntry]] context
               |  * @tparam Z the type of the configuration
               |  * @return the configuration or errors
               |  */
@@ -93,6 +94,7 @@ object SourceGenerators extends AutoPlugin {
                |$valueParamsDoc
                |  * @param f the function to create the configuration
                |$typeParamsDoc
+               |  * @tparam F the [[ConfigEntry]] context
                |  * @tparam Z the type of the configuration
                |  * @return the configuration or errors
                |  */
@@ -101,14 +103,17 @@ object SourceGenerators extends AutoPlugin {
           {
             loadConfigDoc ++
               Seq(
-                s"def loadConfig[$params, Z]($firstArgs)($loadConfigSecondArgs): Either[ConfigErrors, Z] =",
-                s"  (${valueParams(current, sep = " append ")}).value.right.map(f.tupled)",
+                s"def loadConfig[F[_]: Functor, $params, Z]($firstArgs)($loadConfigSecondArgs): F[Either[ConfigErrors, Z]] =",
+                s"  (${valueParams(current, sep = " append ")}).value.map(_.right.map(f.tupled))",
                 ""
               ) ++
               withValuesDoc ++
               Seq(
-                s"def withValues[$params, Z]($firstArgs)($withValuesSecondArgs): Either[ConfigErrors, Z] =",
-                s"  (${valueParams(current, sep = " append ")}).value.right.flatMap(f.tupled)"
+                s"def withValues[F[_]: Monad, $params, Z]($firstArgs)($withValuesSecondArgs): F[Either[ConfigErrors, Z]] =",
+                s"  (${valueParams(current, sep = " append ")}).value.flatMap {",
+                "     case Left(errors) => (Left(errors): Either[ConfigErrors, Z]).pure[F]",
+                "     case Right(values) => f.tupled.apply(values)",
+                "   }"
               )
           }.map("  " + _).mkString("\n")
         }
@@ -122,31 +127,36 @@ object SourceGenerators extends AutoPlugin {
         |
         |package $rootPackage
         |
+        |import $rootPackage.api._
+        |import $rootPackage.api.syntax._
+        |
         |private[$rootPackage] class LoadConfigs {
         |
         |  /**
-        |    * Wraps the specified value in an `Either[ConfigErrors, Z]`. Useful
+        |    * Wraps the specified value in an `F[Either[ConfigErrors, Z]]`. Useful
         |    * when you want to use a static configuration inside a `withValues`
         |    * block, requiring you to wrap it with this method.
         |    *
         |    * @param z the value to wrap
+        |    * @tparam F the [[ConfigEntry]] context
         |    * @tparam Z the type of the value to wrap
-        |    * @return the value wrapped in an `Either[ConfigErrors, Z]`
+        |    * @return the value wrapped in an `F[Either[ConfigErrors, Z]]`
         |    */
-        |  def loadConfig[Z](z: Z): Either[ConfigErrors, Z] =
-        |    Right(z)
+        |  def loadConfig[F[_]: Applicative, Z](z: Z): F[Either[ConfigErrors, Z]] =
+        |    (Right(z) : Either[ConfigErrors, Z]).pure[F]
         |
         |  /**
         |    * Loads a configuration using the specified [[ConfigEntry]].
         |    *
         |    * @param a1 the configuration entry
         |    * @param f the function to create the configuration
+        |    * @tparam F the [[ConfigEntry]] context
         |    * @tparam A1 the type of the configuration entry
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def loadConfig[A1, Z](a1: ConfigEntry[_, _, A1])(f: A1 => Z): Either[ConfigErrors, Z] =
-        |    a1.value.fold(error => Left(ConfigErrors(error)), a1 => Right(f(a1)))
+        |  def loadConfig[F[_]: Functor, A1, Z](a1: ConfigEntry[F, _, _, A1])(f: A1 => Z): F[Either[ConfigErrors, Z]] =
+        |    a1.value.map(_.fold(error => Left(ConfigErrors(error)), a1 => Right(f(a1))))
         |
         |  /**
         |    * Defines a requirement on a single [[ConfigEntry]] in order to be
@@ -156,12 +166,13 @@ object SourceGenerators extends AutoPlugin {
         |    *
         |    * @param a1 the configuration entry
         |    * @param f the function to create the configuration
+        |    * @tparam F the [[ConfigEntry]] context
         |    * @tparam A1 the type of the configuration entry
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def withValue[A1, Z](a1: ConfigEntry[_, _, A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
-        |   withValues(a1)(f)
+        |  def withValue[F[_]: Monad, A1, Z](a1: ConfigEntry[F, _, _, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
+        |    withValues(a1)(f)
         |
         |  /**
         |    * Defines a requirement on a single [[ConfigEntry]] in order to be
@@ -171,12 +182,16 @@ object SourceGenerators extends AutoPlugin {
         |    *
         |    * @param a1 the configuration entry
         |    * @param f the function to create the configuration
+        |    * @tparam F the [[ConfigEntry]] context
         |    * @tparam A1 the type of the configuration entry
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def withValues[A1, Z](a1: ConfigEntry[_, _, A1])(f: A1 => Either[ConfigErrors, Z]): Either[ConfigErrors, Z] =
-        |    a1.value.fold(error => Left(ConfigErrors(error)), f)
+        |  def withValues[F[_]: Monad, A1, Z](a1: ConfigEntry[F, _, _, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
+        |    a1.value.flatMap {
+        |      case Left(error) => (Left(ConfigErrors(error)): Either[ConfigErrors, Z]).pure[F]
+        |      case Right(value) => f(value)
+        |    }
         |
         |$defs
         |}
@@ -200,13 +215,13 @@ object SourceGenerators extends AutoPlugin {
             // format: off
             s"""
                |{
-               |  def append[$nextTypeParam](next: ConfigEntry[_, _, $nextTypeParam]): ConfigValue$next[${typeParams(next)}] = {
-               |    (value, next.value) match {
-               |      case (Right((${valueParams(current)})), Right(${valueParam(next)})) => new ConfigValue$next(Right((${valueParams(next)})))
-               |      case (Left(errors), Right(_)) => new ConfigValue$next(Left(errors))
-               |      case (Right(_), Left(error)) => new ConfigValue$next(Left(ConfigErrors(error)))
-               |      case (Left(errors), Left(error)) => new ConfigValue$next(Left(errors append error))
-               |    }
+               |  def append[$nextTypeParam](next: ConfigEntry[F, _, _, $nextTypeParam]): ConfigValue$next[F, ${typeParams(next)}] = {
+               |    new ConfigValue$next((value product next.value).map {
+               |      case (Right((${valueParams(current)})), Right(${valueParam(next)})) => Right((${valueParams(next)}))
+               |      case (Left(errors), Right(_)) => Left(errors)
+               |      case (Right(_), Left(error)) => Left(ConfigErrors(error))
+               |      case (Left(errors), Left(error)) => Left(errors append error)
+               |    })
                |  }
                |}
                """.stripMargin.trim
@@ -214,7 +229,7 @@ object SourceGenerators extends AutoPlugin {
           }
 
         val signature =
-          s"private[$rootPackage] final class ConfigValue$current[$currentTypeParams](val value: Either[ConfigErrors, ($currentTypeParams)]) extends AnyVal"
+          s"private[$rootPackage] final class ConfigValue$current[F[_]: Apply, $currentTypeParams](val value: F[Either[ConfigErrors, ($currentTypeParams)]])"
 
         s"$signature $defs"
       }
@@ -227,6 +242,9 @@ object SourceGenerators extends AutoPlugin {
          |$autoGeneratedNotice
          |
          |package $rootPackage
+         |
+         |import $rootPackage.api._
+         |import $rootPackage.api.syntax._
          |
          |$classes
        """.stripMargin.trim + "\n"
@@ -362,12 +380,14 @@ object SourceGenerators extends AutoPlugin {
         |
         |package $rootPackage
         |
+        |import $rootPackage.api._
+        |
         |final class LoadConfigsSpec extends PropertySpec {
         |  "LoadConfigs" when {
         |    "loading configurations" when {
-        |      implicit val source: ConfigSource[String, String] = sourceWith("key1" -> "value1", "key2" -> "value2", "key3" -> "value3", "key4" -> "value4", "key5" -> "value5", "key6" -> "value6", "key7" -> "value7", "key8" -> "value8", "key9" -> "value9", "key10" -> "value10", "key11" -> "value11", "key12" -> "value12", "key13" -> "value13", "key14" -> "value14", "key15" -> "value15", "key16" -> "value16", "key17" -> "value17", "key18" -> "value18", "key19" -> "value19", "key20" -> "value20", "key21" -> "value21", "key22" -> "value22")
+        |      implicit val source: ConfigSource[Id, String, String] = sourceWith("key1" -> "value1", "key2" -> "value2", "key3" -> "value3", "key4" -> "value4", "key5" -> "value5", "key6" -> "value6", "key7" -> "value7", "key8" -> "value8", "key9" -> "value9", "key10" -> "value10", "key11" -> "value11", "key12" -> "value12", "key13" -> "value13", "key14" -> "value14", "key15" -> "value15", "key16" -> "value16", "key17" -> "value17", "key18" -> "value18", "key19" -> "value19", "key20" -> "value20", "key21" -> "value21", "key22" -> "value22")
         |
-        |      def read[Value](key: String)(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[String, String, Value] =
+        |      def read[Value](key: String)(implicit decoder: ConfigDecoder[String, Value]): ConfigEntry[Id, String, String, Value] =
         |        source.read(key).decodeValue[Value]
         |
         |$tests

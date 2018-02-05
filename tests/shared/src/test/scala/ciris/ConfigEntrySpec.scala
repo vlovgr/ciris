@@ -1,5 +1,7 @@
 package ciris
 
+import ciris.api._
+
 final class ConfigEntrySpec extends PropertySpec {
   "ConfigEntry" when {
     "converting to String" should {
@@ -18,6 +20,22 @@ final class ConfigEntrySpec extends PropertySpec {
             s"ConfigEntry(key, ConfigKeyType(test key), Right($value), Right(${value}2))"
           }
         }
+      }
+    }
+
+    "using withValue" should {
+      "replace the existing value" in {
+        existingEntry("value").withValue(Right("value2")).value shouldBe Right("value2")
+      }
+    }
+
+    "using flatMapValue" should {
+      "keep this error" in {
+        nonExistingEntry.flatMapValue(_ => Right("value")).value shouldBe a[Left[_, _]]
+      }
+
+      "replace the value" in {
+        existingEntry("value").flatMapValue(_ => Right("value2")).value shouldBe Right("value2")
       }
     }
 
@@ -40,10 +58,24 @@ final class ConfigEntrySpec extends PropertySpec {
       }
     }
 
+    "using liftF" when {
+      "transforming Id to Id" should {
+        "leave the values unmodified" in {
+          val entry = existingEntry("value")
+          val lifted = entry.liftF[Id]
+
+          lifted.value shouldBe entry.value
+          lifted.sourceValue shouldBe entry.sourceValue
+        }
+      }
+    }
+
     "using orElse" when {
       "this value was read successfully" should {
-        "not attempt to use the other value" in {
-          existingEntry("value").orElse(fail("orElse"))
+        "use this value and not the other one" in {
+          existingEntry("value")
+            .orElse(existingEntry("value2"))
+            .value shouldBe Right("value")
         }
       }
 
