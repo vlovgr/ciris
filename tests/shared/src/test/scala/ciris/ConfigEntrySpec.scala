@@ -1,5 +1,7 @@
 package ciris
 
+import ciris.api._
+
 final class ConfigEntrySpec extends PropertySpec {
   "ConfigEntry" when {
     "converting to String" should {
@@ -52,6 +54,18 @@ final class ConfigEntrySpec extends PropertySpec {
         "leave the value as it is" in {
           val entry = nonExistingEntry.mapValue(_.take(1))
           entry.value shouldBe nonExistingEntry.value
+        }
+      }
+    }
+
+    "using liftF" when {
+      "transforming Id to Id" should {
+        "leave the values unmodified" in {
+          val entry = existingEntry("value")
+          val lifted = entry.liftF[Id]
+
+          lifted.value shouldBe entry.value
+          lifted.sourceValue shouldBe entry.sourceValue
         }
       }
     }
