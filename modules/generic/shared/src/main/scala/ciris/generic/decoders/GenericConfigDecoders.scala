@@ -3,6 +3,7 @@ package ciris.generic.decoders
 import ciris.api._
 import ciris.api.syntax._
 import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
+import ciris.ConfigError.{left, right}
 import shapeless.{:+:, ::, CNil, Coproduct, Generic, HList, HNil, Inl, Inr, Lazy}
 
 trait GenericConfigDecoders {
@@ -11,9 +12,9 @@ trait GenericConfigDecoders {
       override def decode[F[_]: Monad, K, S](
         entry: ConfigEntry[F, K, S, A]
       ): F[Either[ConfigError, CNil]] = {
-        (Left(ConfigError {
+        left[CNil](ConfigError {
           s"Could not find any valid coproduct choice while decoding ${entry.keyType.name} [${entry.key}]"
-        }): Either[ConfigError, CNil]).pure[F]
+        }).pure[F]
       }
     }
 
@@ -26,11 +27,11 @@ trait GenericConfigDecoders {
         entry: ConfigEntry[F, K, S, A]
       ): F[Either[ConfigError, C :+: B]] = {
         decodeC.value.decode(entry).flatMap {
-          case Right(a) => (Right(Inl(a)): Either[ConfigError, C :+: B]).pure[F]
+          case Right(a) => right[C :+: B](Inl(a)).pure[F]
           case Left(aError) =>
             decodeB.decode(entry).map {
-              case Right(b)     => Right(Inr(b))
-              case Left(bError) => Left(aError combine bError)
+              case Right(b)     => right[C :+: B](Inr(b))
+              case Left(bError) => left(aError combine bError)
             }
         }
       }
@@ -41,7 +42,7 @@ trait GenericConfigDecoders {
       override def decode[F[_]: Monad, K, S](
         entry: ConfigEntry[F, K, S, A]
       ): F[Either[ConfigError, HNil]] = {
-        (Right(HNil): Either[ConfigError, HNil]).pure[F]
+        right[HNil](HNil).pure[F]
       }
     }
 
