@@ -14,6 +14,7 @@ lazy val ciris = project
     console in Test := (console in (coreJVM, Test)).value
   )
   .aggregate(
+    catsJS, catsJVM,
     coreJS, coreJVM, coreNative,
     enumeratumJS, enumeratumJVM,
     genericJS, genericJVM, genericNative,
@@ -22,6 +23,21 @@ lazy val ciris = project
     squantsJS, squantsJVM,
     testsJS, testsJVM
   )
+
+lazy val cats =
+  crossProject(JSPlatform, JVMPlatform)
+    .in(file("modules/cats"))
+    .settings(moduleName := "ciris-cats", name := "Ciris cats")
+    .settings(libraryDependencies += "org.typelevel" %%% "cats-core" % "1.0.1")
+    .settings(scalaSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .jvmSettings(jvmModuleSettings)
+    .settings(releaseSettings)
+    .dependsOn(core)
+
+lazy val catsJS = cats.js
+lazy val catsJVM = cats.jvm
 
 lazy val core =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -124,7 +140,7 @@ lazy val tests =
     .settings(noPublishSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
-    .dependsOn(core, enumeratum, generic, refined, spire, squants)
+    .dependsOn(cats, core, enumeratum, generic, refined, spire, squants)
 
 lazy val testsJS = tests.js
 lazy val testsJVM = tests.jvm
@@ -165,12 +181,15 @@ lazy val docs = project
       organization,
       latestVersion in ThisBuild,
       crossScalaVersions,
+      BuildInfoKey.map(moduleName in catsJVM) { case (k, v) => "cats" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in coreJVM) { case (k, v) => "core" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) => "enumeratum" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) => "refined" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in spireJVM) { case (k, v) => "spire" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in catsJVM) { case (k, v) => "catsJvm" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in catsJS) { case (k, v) => "catsJs" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in coreJVM) { case (k, v) => "coreJvm" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in coreJS) { case (k, v) => "coreJs" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in coreNative) { case (k, v) => "coreNative" + k.capitalize -> v },
@@ -201,6 +220,7 @@ lazy val docs = project
           |
           |Ciris is divided into the following set of modules.
           |
+          | - The [[ciris.cats cats]] module integrates with [[https://github.com/typelevel/cats cats]] for typeclasses and typeclass instances.
           | - The [[ciris core]] module provides basic functionality and support for reading standard library types.
           | - The [[ciris.enumeratum enumeratum]] module integrates with [[https://github.com/lloydmeta/enumeratum enumeratum]] to be able to read enumerations.
           | - The [[ciris.generic generic]] module uses [[https://github.com/milessabin/shapeless shapeless]] to be able to read unary products, and coproducts.
@@ -226,7 +246,7 @@ lazy val docs = project
       "-doc-root-content", (generateApiIndexFile.value).getAbsolutePath
     )
   )
-  .dependsOn(coreJVM, enumeratumJVM, genericJVM, refinedJVM, spireJVM, squantsJVM)
+  .dependsOn(catsJVM, coreJVM, enumeratumJVM, genericJVM, refinedJVM, spireJVM, squantsJVM)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin, ScalaUnidocPlugin)
 
 lazy val scala210 = "2.10.7"
@@ -469,6 +489,7 @@ generateScripts in ThisBuild := {
        |
        |~/.coursier/coursier launch -q -P \\
        |  com.lihaoyi:ammonite_2.12.4:1.0.3 \\$coursierArgs
+       |  $organizationId:${(moduleName in catsJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
@@ -478,6 +499,7 @@ generateScripts in ThisBuild := {
        |  -- --predef-code "\\$predefCode
        |        import ciris._,\\
        |        ciris.syntax._,\\
+       |        ciris.cats._,\\
        |        ciris.enumeratum._,\\
        |        ciris.generic._,\\
        |        ciris.refined._,\\
@@ -551,7 +573,7 @@ addDateToReleaseNotes in ThisBuild := {
   }
 }
 
-lazy val moduleNames = List[String]("core", "enumeratum", "generic", "refined", "spire", "squants")
+lazy val moduleNames = List[String]("cats", "core", "enumeratum", "generic", "refined", "spire", "squants")
 lazy val jsModuleNames = moduleNames.map(_ + "JS")
 lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
 lazy val nativeModuleNames = List("core", "generic").map(_ + "Native")
@@ -563,6 +585,7 @@ addCommandsAlias("publishSignedAll", allModuleNames.map(m => s"+$m/publishSigned
 
 lazy val crossModules: Seq[(Project, Project, Option[Project])] =
   Seq(
+    (catsJVM, catsJS, None),
     (coreJVM, coreJS, Some(coreNative)),
     (enumeratumJVM, enumeratumJS, None),
     (genericJVM, genericJS, Some(genericNative)),

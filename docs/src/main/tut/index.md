@@ -35,7 +35,7 @@ Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https:
 Ciris is a new project under active development. Feedback and contributions are welcome.
 
 ### <a name="introduction" href="#introduction">Introduction</a>
-Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
+Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [cats][cats], [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
 
 Ciris is intended as an alternative to configuration files, and libraries like [Typesafe Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
 
@@ -58,6 +58,7 @@ s"""
  |val cirisVersion = "$latestVersion"
  |
  |libraryDependencies ++= Seq(
+ |  "$organization" %% "$catsModuleName",
  |  "$organization" %% "$coreModuleName",
  |  "$organization" %% "$enumeratumModuleName",
  |  "$organization" %% "$genericModuleName",
@@ -79,8 +80,9 @@ s"""
  |
  |Refer to the table below for platform and version support across modules.
  |
- || Module                | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
- ||-----------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+ || Module                  | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
+ ||-------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+ || `$catsModuleName`       | &#10003; ${catsJvmCrossScalaVersions.map(minorVersion).mkString(", ")}       | &#10003; 0.6 (${catsJsCrossScalaVersions.map(minorVersion).mkString(", ")})       | &#65794;                                                                           |
  || `$coreModuleName`       | &#10003; ${coreJvmCrossScalaVersions.map(minorVersion).mkString(", ")}       | &#10003; 0.6 (${coreJsCrossScalaVersions.map(minorVersion).mkString(", ")})       | &#10003; 0.3 (${coreNativeCrossScalaVersions.map(minorVersion).mkString(", ")})    |
  || `$enumeratumModuleName` | &#10003; ${enumeratumJvmCrossScalaVersions.map(minorVersion).mkString(", ")} | &#10003; 0.6 (${enumeratumJsCrossScalaVersions.map(minorVersion).mkString(", ")}) | &#65794;                                                                           |
  || `$genericModuleName`    | &#10003; ${genericJvmCrossScalaVersions.map(minorVersion).mkString(", ")}    | &#10003; 0.6 (${genericJsCrossScalaVersions.map(minorVersion).mkString(", ")})    | &#10003; 0.3 (${genericNativeCrossScalaVersions.map(minorVersion).mkString(", ")}) |
@@ -98,6 +100,7 @@ s"""
 The only required module is `ciris-core`, the rest are optional library integrations.  
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
 
+- The `ciris-cats` module provides typeclasses and typeclass instances from [cats][cats].
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
@@ -130,6 +133,7 @@ If you already have the Ammonite REPL installed, you can load Ciris using the fo
 println(
 s"""
  |```scala
+ |import $$ivy.`$organization::$catsModuleName:$latestVersion`, ciris.cats._
  |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._, ciris.syntax._
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
  |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
@@ -162,6 +166,7 @@ If you would like to be involved in building Ciris, check out the [contributing 
 ### <a name="license" href="#license">License</a>
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
+[cats]: https://github.com/typelevel/cats
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
 [shapeless]: https://github.com/milessabin/shapeless
