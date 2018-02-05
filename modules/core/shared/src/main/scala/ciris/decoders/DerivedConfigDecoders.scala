@@ -3,6 +3,7 @@ package ciris.decoders
 import ciris._
 import ciris.api._
 import ciris.api.syntax._
+import ciris.ConfigError.right
 
 trait DerivedConfigDecoders {
   implicit def optionConfigDecoder[A, B](
@@ -13,7 +14,7 @@ trait DerivedConfigDecoders {
         entry: ConfigEntry[F, K, S, A]
       ): F[Either[ConfigError, Option[B]]] = {
         entry.value.flatMap {
-          case Left(_) => (Right(None): Either[ConfigError, Option[B]]).pure[F]
+          case Left(_) => right(Option.empty[B]).pure[F]
           case Right(_) => decoder.decode(entry).map(_.right.map(Some.apply))
         }
       }
