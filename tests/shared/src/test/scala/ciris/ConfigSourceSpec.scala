@@ -94,6 +94,22 @@ final class ConfigSourceSpec extends PropertySpec {
       }
     }
 
+    "created from an Option" should {
+      "succeed for a Some" in {
+        forAll { (keyType: String, key: String) =>
+          val source = ConfigSource.fromOption(ConfigKeyType[String](keyType))(key => Some(key))
+          source.read(key).value shouldBe Right(key)
+        }
+      }
+
+      "fail for a None" in {
+        forAll { (keyType: String, key: String) =>
+          val source = ConfigSource.fromOption(ConfigKeyType[String](keyType))(_ => None)
+          source.read(key).value shouldBe a[Left[_, _]]
+        }
+      }
+    }
+
     "always empty" should {
       "fail for any key" in {
         val source = ConfigSource.empty(ConfigKeyType[String]("key"))
