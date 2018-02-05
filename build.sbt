@@ -140,7 +140,7 @@ lazy val tests =
     .settings(noPublishSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
-    .dependsOn(cats, core, enumeratum, generic, refined, spire, squants)
+    .dependsOn(cats, core, enumeratum, generic, refined, squants)
 
 lazy val testsJS = tests.js
 lazy val testsJVM = tests.jvm
@@ -613,8 +613,10 @@ def addCommandsAlias(name: String, values: List[String]) =
 addCommandsAlias("validate", List(
   "clean",
   "testsJS/test",
+  "spireJS/test",
   "coverage",
   "testsJVM/test",
+  "spireJVM/test",
   "coverageReport",
   "coverageAggregate",
   "mimaReportBinaryIssues"
