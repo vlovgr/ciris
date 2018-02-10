@@ -173,43 +173,6 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
   def transformF[G[_]: Apply](implicit f: F ~> G): ConfigEntry[G, K, S, V] =
     new ConfigEntry(key, keyType, f(sourceValue), f(value))
 
-  /**
-    * If the value of this [[ConfigEntry]] is unavailable, tries to
-    * use the value of that [[ConfigEntry]], accumulating errors if
-    * both values are unavailable. Returns a new [[ConfigEntry]],
-    * and the existing [[ConfigEntry]] and all other properties
-    * are left unmodified.
-    *
-    * @param that the [[ConfigEntry]] to use if this value is unavailable
-    * @tparam A the value type of that [[ConfigEntry]]
-    * @return a new [[ConfigEntry]]
-    * @example {{{
-    * scala> val entry =
-    *      |  ConfigEntry[String, Int]("key", ConfigKeyType.Environment, Left(ConfigError("error1"))).
-    *      |    orElse(ConfigEntry[String, Int]("key2", ConfigKeyType.Property, Left(ConfigError("error2"))))
-    * error: ConfigEntry[api.Id, String, Int, Int] = ConfigEntry(key, Environment, Left(ConfigError("error1"), Left(Combined(ConfigError(error1), ConfigError(error2))))
-    *
-    * scala> entry.value.left.map(_.message).toString
-    * res0: String = Left(error1, error2)
-    *
-    * scala> ConfigEntry[String, Int]("key", ConfigKeyType.Environment, Left(ConfigError("error1"))).
-    *      |   orElse(ConfigEntry("key2", ConfigKeyType.Property, Right(123)))
-    * res1: ConfigEntry[api.Id, String, Int, Int] = ConfigEntry(key, Environment, Left(ConfigError(error1)), Right(123))
-    * }}}
-    */
-  def orElse[A >: V](that: ConfigEntry[F, _, _, A]): ConfigEntry[F, K, S, A] =
-    new ConfigEntry(
-      key,
-      keyType,
-      sourceValue, {
-        (this.value product that.value).map {
-          case (Right(v), _)                      => Right(v)
-          case (Left(_), Right(a))                => Right(a)
-          case (Left(thisError), Left(thatError)) => Left(thisError combine thatError)
-        }
-      }
-    )
-
   override def toString: String = {
     val sourceValueString = sourceValue.toString
     val valueString = value.toString
