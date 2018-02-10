@@ -1,0 +1,66 @@
+### Changes
+- Add `ciris.api` with simplified typeclasses `Applicative`, `Apply`, `FlatMap`, `FunctionK`, `Functor`, and `Monad` from [cats][cats]. There is also `Id`, `~>` (`FunctionK`), and a `ciris.api.syntax` package with syntax imports. ([#102][#102])
+
+- Add a `ciris-cats` module with implicit conversions from [cats][cats] typeclasses to Ciris typeclasses. There is also an initial set of typeclass instances for Ciris types and cats typeclasses. See the [usage guide](https://cir.is/docs/modules#cats) for an example of how the module can be used. ([#103][#103])
+
+- `ConfigSource` has been parameterised on `F[_]` and the type of values it can return `V`; the type signature is now `ConfigSource[F[_], K, V]`. `ConfigSource#applyF`, `fromOptionF`, `emptyF`, `alwaysF`, `failedF` (and `failed`), `fromMapF`, `fromEntriesF`, `fromTryF`, `fromTryOptionF`, `catchNonFatalF`, and `byIndexF` have been added for creating `ConfigSource`s with context `F`. ([#84][#84], [#102][#102])
+
+- `ConfigEntry` has been created to combine the functionality of `ConfigSourceEntry` and `ConfigValue`; the type signature is `ConfigEntry[F[_]: Apply, K, S, V]` for context `F`, key `K`, unmodified source value `S`, and transformed value `V`. `ConfigEntry#applyF` has been added to create `ConfigEntry`s with context `F`. Most functions previously using `ConfigValue` now make use of `ConfigEntry` instead. `ConfigSourceEntry` has been removed. `ConfigValue` still exists, but as `ConfigValue[F[_]: Apply, V]` to support `orElse` and error accumulation; `ConfigEntry` also directly extends `ConfigValue`. ([#89][#89], [#91][#91], [#95][#95], [#102][#102])
+
+- The `ciris.refined.syntax` package now works on `ConfigEntry`s instead, and functions have been renamed `refineValue` (previously `refine`) and `mapRefineValue` (previously `mapRefine`). The error messages for these functions have been improved thanks to operating on `ConfigEntry`s. ([#95][#95])
+
+  For example, previously we would get an error message like the following, which is missing details like the key, key type, and unmodified source value.
+
+  ```scala
+  scala> env[Int]("NUMBER").mapRefine[Negative](_ + 1).value.left.map(_.message)
+  res0: Either[String, eu.timepit.refined.api.Refined[Int, Negative]] = Left("Converted value [0] to [1] but was unable to refine: Predicate failed: (1 < 0).")
+  ```
+
+  But when working with `ConfigEntry`s, we now get more detailed error messages.
+
+  ```scala
+  scala> env[Int]("NUMBER").mapRefineValue[Negative](_ + 1).value.left.map(_.message)
+  res0: scala.util.Either[String,eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Negative]] = Left(Environment variable [NUMBER] with value [1] (and unmodified value [0]) cannot be converted to type [eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Negative]]: Predicate failed: (1 < 0).)
+  ```
+
+- `ConfigEntry` keeps the original unmodified source value, while also keeping a second copy of the value, with additional transformations applied to it, through functions `decodeValue`, `mapValue`, `flatMapValue`, `withValue`, `withValueF`, `transformValue`, and `transformF`. `ConfigEntry`s can be chained together to create a new `ConfigValue` with `orElse`. The `String` representation includes both the source value and the modified value, but only if they themselves have different `String` representations. ([#92][#92], [#95][#95], [#102][#102])
+
+- `ConfigReader` has been renamed to `ConfigDecoder` and has been parameterised on `F[_]: Monad`, unmodified source value `S`, and value `A`; the type signature is now `ConfigDecoder[A, B]`, decoding entries via `decode` (previously `read`) from `ConfigEntry[F, K, S, A]` to `F[Either[ConfigError, B]]`. The `readers` package has been renamed `decoders`, and traits ending with `ConfigReaders` have been renamed to end in `ConfigDecoders`. ([#93][#93], [#94][#94], [#102][#102])
+
+- `ConfigReader#mapBoth` has been renamed to `ConfigDecoder#fold`. ([#101][#101])
+
+- `ConfigReader#map` has been renamed to `ConfigDecoder#flatMap`. ([#101][#101])
+
+- With both `ConfigSource` and `ConfigDecoder` being generic in the value type `V` and context `F`, there is now support for sources and decoders of arbitrary value types and contexts. However, most `ConfigDecoder`s provided by Ciris still only support decoding `String`s. ([#95][#95])
+
+- The `ciris-generic` module now supports decoding products of any arity. See the [usage guide](https://cir.is/docs/modules#generic) for an example of how this works. ([#98][#98])
+
+- `ConfigError#wrongType` now accepts the unmodified source value and includes it in the error message, but only if the value and the unmodified source value have different `String` representations. The `cause` parameter no longer has a default value, and is only included in `toString` if it is available. ([#95][#95], [#101][#101])
+
+- `ConfigError#combined` no longer includes `Vector` in its `String` representation. ([#101][#101])
+
+- The `read[Value](key: String)` function has been removed, as it can no longer work as intended. It can be replaced with a custom definition, or by using `source.read(key).decodeValue[Value]` directly on the `ConfigSource`. ([#95][#95])
+
+- Change to prevent double trailing dots in `ConfigException` message. ([#88][#88])
+
+- Add `ConfigError#left` and `right`, and `ConfigErrors#left` and `right`. ([#102][#102])
+
+### Updates
+- Update Scala.js to 0.6.22. ([#96][#96])
+- Updated refined to 0.8.7. ([#97][#97])
+
+[cats]: https://github.com/typelevel/cats
+[#84]: https://github.com/vlovgr/ciris/pull/84
+[#88]: https://github.com/vlovgr/ciris/pull/88
+[#89]: https://github.com/vlovgr/ciris/pull/89
+[#91]: https://github.com/vlovgr/ciris/pull/91
+[#92]: https://github.com/vlovgr/ciris/pull/92
+[#93]: https://github.com/vlovgr/ciris/pull/93
+[#94]: https://github.com/vlovgr/ciris/pull/94
+[#95]: https://github.com/vlovgr/ciris/pull/95
+[#96]: https://github.com/vlovgr/ciris/pull/96
+[#97]: https://github.com/vlovgr/ciris/pull/97
+[#98]: https://github.com/vlovgr/ciris/pull/98
+[#101]: https://github.com/vlovgr/ciris/pull/101
+[#102]: https://github.com/vlovgr/ciris/pull/102
+[#103]: https://github.com/vlovgr/ciris/pull/103
