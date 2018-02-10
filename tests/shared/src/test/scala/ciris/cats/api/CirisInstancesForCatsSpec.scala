@@ -37,6 +37,9 @@ final class CirisInstancesForCatsSpec extends PropertySpec {
           ConfigValue.applyF[List, Int](List(right(123)))
         ) shouldBe "ConfigValue(List(Right(123)))"
 
+        Show[_root_.ciris.api.Id[Int]]
+          .show(123) shouldBe "123"
+
         Show[ConfigError].show(
           ConfigError("error")
         ) shouldBe "ConfigError(error)"
