@@ -11,6 +11,7 @@ final class CirisInstancesForCatsSpec extends PropertySpec {
         import ciris._
         import ciris.api._
         import ciris.cats._
+        import ciris.ConfigError.right
 
         Show[ConfigEntry[List, String, String, Int]].show(
           ConfigEntry
@@ -31,6 +32,10 @@ final class CirisInstancesForCatsSpec extends PropertySpec {
           )
             .mapValue(s => (s + "4").toInt)
         ) shouldBe "ConfigEntry(key, ConfigKeyType(keyType), List(Right(123)), List(Right(1234)))"
+
+        Show[ConfigValue[List, Int]].show(
+          ConfigValue.applyF[List, Int](List(right(123)))
+        ) shouldBe "ConfigValue(List(Right(123)))"
 
         Show[ConfigError].show(
           ConfigError("error")

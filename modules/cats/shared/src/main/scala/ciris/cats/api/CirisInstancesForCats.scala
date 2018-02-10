@@ -18,6 +18,12 @@ trait CirisInstancesForCats {
     else s"ConfigEntry($key, $keyType, $sourceValue, $value)"
   }
 
+  implicit def showConfigValue[F[_], V](
+    implicit show: Show[F[Either[ConfigError, V]]]
+  ): Show[ConfigValue[F, V]] = Show.show { value =>
+    s"ConfigValue(${show.show(value.value)})"
+  }
+
   implicit val showConfigError: Show[ConfigError] =
     Show.fromToString
 

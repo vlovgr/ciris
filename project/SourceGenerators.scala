@@ -56,25 +56,25 @@ object SourceGenerators extends AutoPlugin {
       (2 until maximumNumberOfParams)
         .map { current =>
           val params = typeParams(current)
-          val firstArgs = args(current, arg => s"ConfigEntry[F, _, _, ${typeParam(arg)}]")
+          val firstArgs = args(current, arg => s"ConfigValue[F, ${typeParam(arg)}]")
 
           val loadConfigSecondArgs = s"f: (${typeParams(current)}) => Z"
           val withValuesSecondArgs = s"f: (${typeParams(current)}) => F[Either[ConfigErrors, Z]]"
 
-          val valueParamsDoc = (1 to current).map(n => s"  * @param ${valueParam(n)} configuration entry $n").mkString("\n")
+          val valueParamsDoc = (1 to current).map(n => s"  * @param ${valueParam(n)} configuration value $n").mkString("\n")
           val typeParamsDoc = (1 to current).map(n => s"  * @tparam ${typeParam(n)} the type for configuration value $n").mkString("\n")
 
           val loadConfigDoc =
             s"""
               |/**
-              |  * Loads a configuration using the $current specified [[ConfigEntry]]s.
+              |  * Loads a configuration using the $current specified [[ConfigValue]]s.
               |  * Deals with error accumulation if there are any errors in the
-              |  * provided [[ConfigEntry]]s.
+              |  * provided [[ConfigValue]]s.
               |  *
               |$valueParamsDoc
               |  * @param f the function to create the configuration
               |$typeParamsDoc
-              |  * @tparam F the [[ConfigEntry]] context
+              |  * @tparam F the [[ConfigValue]] context
               |  * @tparam Z the type of the configuration
               |  * @return the configuration or errors
               |  */
@@ -83,18 +83,18 @@ object SourceGenerators extends AutoPlugin {
           val withValuesDoc =
             s"""
                |/**
-               |  * Defines a requirement on $current [[ConfigEntry]]s in order to be
+               |  * Defines a requirement on $current [[ConfigValue]]s in order to be
                |  * able to load a configuration. The method wraps `loadConfig`
-               |  * methods, requiring the provided [[ConfigEntry]]s to be
+               |  * methods, requiring the provided [[ConfigValue]]s to be
                |  * available in order to use the `loadConfig` methods.
                |  *
                |  * Deals with error accumulation if there are any errors in
-               |  * the provided [[ConfigEntry]]s.
+               |  * the provided [[ConfigValue]]s.
                |  *
                |$valueParamsDoc
                |  * @param f the function to create the configuration
                |$typeParamsDoc
-               |  * @tparam F the [[ConfigEntry]] context
+               |  * @tparam F the [[ConfigValue]] context
                |  * @tparam Z the type of the configuration
                |  * @return the configuration or errors
                |  */
@@ -138,7 +138,7 @@ object SourceGenerators extends AutoPlugin {
         |    * block, requiring you to wrap it with this method.
         |    *
         |    * @param z the value to wrap
-        |    * @tparam F the [[ConfigEntry]] context
+        |    * @tparam F the [[ConfigValue]] context
         |    * @tparam Z the type of the value to wrap
         |    * @return the value wrapped in an `F[Either[ConfigErrors, Z]]`
         |    */
@@ -146,48 +146,48 @@ object SourceGenerators extends AutoPlugin {
         |    (Right(z) : Either[ConfigErrors, Z]).pure[F]
         |
         |  /**
-        |    * Loads a configuration using the specified [[ConfigEntry]].
+        |    * Loads a configuration using the specified [[ConfigValue]].
         |    *
-        |    * @param a1 the configuration entry
+        |    * @param a1 the configuration value
         |    * @param f the function to create the configuration
-        |    * @tparam F the [[ConfigEntry]] context
-        |    * @tparam A1 the type of the configuration entry
+        |    * @tparam F the [[ConfigValue]] context
+        |    * @tparam A1 the type of the configuration value
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def loadConfig[F[_]: Functor, A1, Z](a1: ConfigEntry[F, _, _, A1])(f: A1 => Z): F[Either[ConfigErrors, Z]] =
+        |  def loadConfig[F[_]: Functor, A1, Z](a1: ConfigValue[F, A1])(f: A1 => Z): F[Either[ConfigErrors, Z]] =
         |    a1.value.map(_.fold(error => Left(ConfigErrors(error)), a1 => Right(f(a1))))
         |
         |  /**
-        |    * Defines a requirement on a single [[ConfigEntry]] in order to be
+        |    * Defines a requirement on a single [[ConfigValue]] in order to be
         |    * able to load a configuration. The method wraps `loadConfig`
-        |    * methods, requiring the provided [[ConfigEntry]] to be
+        |    * methods, requiring the provided [[ConfigValue]] to be
         |    * available in order to use the `loadConfig` methods.
         |    *
-        |    * @param a1 the configuration entry
+        |    * @param a1 the configuration value
         |    * @param f the function to create the configuration
-        |    * @tparam F the [[ConfigEntry]] context
-        |    * @tparam A1 the type of the configuration entry
+        |    * @tparam F the [[ConfigValue]] context
+        |    * @tparam A1 the type of the configuration value
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def withValue[F[_]: Monad, A1, Z](a1: ConfigEntry[F, _, _, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
+        |  def withValue[F[_]: Monad, A1, Z](a1: ConfigValue[F, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
         |    withValues(a1)(f)
         |
         |  /**
-        |    * Defines a requirement on a single [[ConfigEntry]] in order to be
+        |    * Defines a requirement on a single [[ConfigValue]] in order to be
         |    * able to load a configuration. The method wraps any `loadConfig`
-        |    * methods, requiring the provided [[ConfigEntry]] to be
+        |    * methods, requiring the provided [[ConfigValue]] to be
         |    * available in order to use the `loadConfig` methods.
         |    *
-        |    * @param a1 the configuration entry
+        |    * @param a1 the configuration value
         |    * @param f the function to create the configuration
-        |    * @tparam F the [[ConfigEntry]] context
-        |    * @tparam A1 the type of the configuration entry
+        |    * @tparam F the [[ConfigValue]] context
+        |    * @tparam A1 the type of the configuration value
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def withValues[F[_]: Monad, A1, Z](a1: ConfigEntry[F, _, _, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
+        |  def withValues[F[_]: Monad, A1, Z](a1: ConfigValue[F, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
         |    a1.value.flatMap {
         |      case Left(error) => (Left(ConfigErrors(error)): Either[ConfigErrors, Z]).pure[F]
         |      case Right(value) => f(value)
@@ -215,7 +215,7 @@ object SourceGenerators extends AutoPlugin {
             // format: off
             s"""
                |{
-               |  def append[$nextTypeParam](next: ConfigEntry[F, _, _, $nextTypeParam]): ConfigValue$next[F, ${typeParams(next)}] = {
+               |  def append[$nextTypeParam](next: ConfigValue[F, $nextTypeParam]): ConfigValue$next[F, ${typeParams(next)}] = {
                |    new ConfigValue$next((value product next.value).map {
                |      case (Right((${valueParams(current)})), Right(${valueParam(next)})) => Right((${valueParams(next)}))
                |      case (Left(errors), Right(_)) => Left(errors)

@@ -33,7 +33,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
   val keyType: ConfigKeyType[K],
   val sourceValue: F[Either[ConfigError, S]],
   val value: F[Either[ConfigError, V]]
-) {
+) extends ConfigValue[F, V] {
 
   /**
     * Transforms the value of this [[ConfigEntry]] into type `A`, by
@@ -209,15 +209,6 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
         }
       }
     )
-
-  private[ciris] def append[A](next: ConfigEntry[F, _, _, A]): ConfigValue2[F, V, A] = {
-    new ConfigValue2((this.value product next.value).map {
-      case (Right(v), Right(a))         => Right((v, a))
-      case (Left(error1), Right(_))     => Left(ConfigErrors(error1))
-      case (Right(_), Left(error2))     => Left(ConfigErrors(error2))
-      case (Left(error1), Left(error2)) => Left(error1 append error2)
-    })
-  }
 
   override def toString: String = {
     if (sourceValue.toString == value.toString) s"ConfigEntry($key, $keyType, $value)"
