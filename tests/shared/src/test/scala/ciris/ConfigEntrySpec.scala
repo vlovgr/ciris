@@ -58,14 +58,14 @@ final class ConfigEntrySpec extends PropertySpec {
       }
     }
 
-    "using liftF" when {
+    "using transformF" when {
       "transforming Id to Id" should {
         "leave the values unmodified" in {
           val entry = existingEntry("value")
-          val lifted = entry.liftF[Id]
+          val transformed = entry.transformF[Id]
 
-          lifted.value shouldBe entry.value
-          lifted.sourceValue shouldBe entry.sourceValue
+          transformed.value shouldBe entry.value
+          transformed.sourceValue shouldBe entry.sourceValue
         }
       }
     }

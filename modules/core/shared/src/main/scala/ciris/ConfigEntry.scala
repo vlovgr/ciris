@@ -170,7 +170,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     * @tparam G the context to which `F` should be transformed
     * @return a new [[ConfigEntry]]
     */
-  def liftF[G[_]: Apply](implicit f: F ~> G): ConfigEntry[G, K, S, V] =
+  def transformF[G[_]: Apply](implicit f: F ~> G): ConfigEntry[G, K, S, V] =
     new ConfigEntry(key, keyType, f(sourceValue), f(value))
 
   /**
