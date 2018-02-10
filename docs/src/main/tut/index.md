@@ -37,7 +37,7 @@ Ciris is a new project under active development. Feedback and contributions are 
 ### <a name="introduction" href="#introduction">Introduction</a>
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [cats][cats], [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
 
-Ciris is intended as an alternative to configuration files, and libraries like [Typesafe Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
+Ciris is intended as an alternative to configuration files, and libraries like [Lightbend Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
 
 The [usage guide](https://cir.is/docs/basics) provides a more detailed introduction to Ciris. See also the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) and follow-up blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for a short introduction to the library and configurations with refined types.
 
