@@ -111,7 +111,7 @@ object SourceGenerators extends AutoPlugin {
               Seq(
                 s"def withValues[F[_]: Monad, $params, Z]($firstArgs)($withValuesSecondArgs): F[Either[ConfigErrors, Z]] =",
                 s"  (${valueParams(current, sep = " append ")}).value.flatMap {",
-                "     case Left(errors) => (Left(errors): Either[ConfigErrors, Z]).pure[F]",
+                "     case Left(errors) => left[Z](errors).pure[F]",
                 "     case Right(values) => f.tupled.apply(values)",
                 "   }"
               )
@@ -129,6 +129,7 @@ object SourceGenerators extends AutoPlugin {
         |
         |import $rootPackage.api._
         |import $rootPackage.api.syntax._
+        |import $rootPackage.ConfigErrors.{left, right}
         |
         |private[$rootPackage] class LoadConfigs {
         |
@@ -143,7 +144,7 @@ object SourceGenerators extends AutoPlugin {
         |    * @return the value wrapped in an `F[Either[ConfigErrors, Z]]`
         |    */
         |  def loadConfig[F[_]: Applicative, Z](z: Z): F[Either[ConfigErrors, Z]] =
-        |    (Right(z) : Either[ConfigErrors, Z]).pure[F]
+        |    right(z).pure[F]
         |
         |  /**
         |    * Loads a configuration using the specified [[ConfigValue]].
@@ -189,7 +190,7 @@ object SourceGenerators extends AutoPlugin {
         |    */
         |  def withValues[F[_]: Monad, A1, Z](a1: ConfigValue[F, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
         |    a1.value.flatMap {
-        |      case Left(error) => (Left(ConfigErrors(error)): Either[ConfigErrors, Z]).pure[F]
+        |      case Left(error) => left[Z](ConfigErrors(error)).pure[F]
         |      case Right(value) => f(value)
         |    }
         |

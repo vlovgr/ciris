@@ -124,4 +124,28 @@ object ConfigErrors {
     */
   def apply(first: ConfigError, rest: ConfigError*): ConfigErrors =
     new ConfigErrors(first +: rest.toVector)
+
+  /**
+    * Wraps the specified [[ConfigErrors]] in an `Either[ConfigErrors, A]`.
+    * Useful in cases where it is necessary to guide type inference and
+    * widen a `Left` into an `Either[ConfigErrors, A]`.
+    *
+    * @param errors the errors which should be wrapped
+    * @tparam A the right side value of the `Either`
+    * @return the specified error as an `Either[ConfigErrors, A]`
+    */
+  def left[A](errors: ConfigErrors): Either[ConfigErrors, A] =
+    Left(errors)
+
+  /**
+    * Wraps the specified value in an `Either[ConfigErrors, A]`. Useful
+    * in cases where it is necessary to guide type inference and widen
+    * a `Right` into an `Either[ConfigErrors, A]`.
+    *
+    * @param value the value which should be wrapped
+    * @tparam A the type of the value
+    * @return the specified value as an `Either[ConfigErrors, A]`
+    */
+  def right[A](value: A): Either[ConfigErrors, A] =
+    Right(value)
 }
