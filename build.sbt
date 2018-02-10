@@ -156,6 +156,7 @@ lazy val docs = project
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
     micrositeDocumentationUrl := "api",
     micrositeKazariEnabled := false,
+    micrositeShareOnSocial := false,
     micrositeAuthor := "Viktor Lövgren",
     micrositeOrganizationHomepage := "https://vlovgr.se",
     micrositeAnalyticsToken := "UA-37804684-4",
@@ -315,12 +316,7 @@ lazy val releaseSettings =
         url = url("https://vlovgr.se")
       )
     ),
-    publishTo := Some {
-      if(isSnapshot.value)
-        Opts.resolver.sonatypeSnapshots
-      else
-        Opts.resolver.sonatypeStaging
-    },
+    publishTo :=  sonatypePublishTo.value,
     releaseCrossBuild := false, // See https://github.com/sbt/sbt-release/issues/214
     releaseTagName := s"v${(version in ThisBuild).value}",
     releaseTagComment := s"Release version ${(version in ThisBuild).value}",

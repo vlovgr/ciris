@@ -4,7 +4,7 @@ import ciris.api._
   * The main namespace of Ciris is `ciris`, and the easiest way to
   * get started is to bring it into scope with an import.<br>
   * If you are looking for a getting started guide, with examples
-  * and explanations, please refer to the [[https://cir.is/docs/basics usage guide]].
+  * and explanations, please refer to the [[https://cir.is/docs usage guide]].
   */
 package object ciris extends LoadConfigs with CirisPlatformSpecific {
 
