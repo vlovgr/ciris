@@ -38,7 +38,7 @@ Ciris encourages compile-time safety by defining as much as possible of your con
 
 Ciris is intended as an alternative to configuration files, and libraries like [Lightbend Config](https://github.com/typesafehub/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
 
-The [usage guide](https://cir.is/docs/basics) provides a more detailed introduction to Ciris. See also the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) and follow-up blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for a short introduction to the library and configurations with refined types.
+The [usage guide](https://cir.is/docs) provides a more detailed introduction to Ciris. See also the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) and follow-up blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for a short introduction to the library and configurations with refined types.
 
 <p align="center">
   <a href="https://asciinema.org/a/151742">
@@ -48,7 +48,7 @@ The [usage guide](https://cir.is/docs/basics) provides a more detailed introduct
 
 ### <a name="getting-started" href="#getting-started">Getting Started</a>
 To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.  
-For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs/basics).
+For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs).
 
 ```tut:passthrough
 println(
@@ -154,7 +154,7 @@ If your library is not included in the list, then please open a pull request.
 * [`ciris-kubernetes`](https://github.com/ovotech/ciris-kubernetes)
 
 ### <a name="documentation" href="#documentation">Documentation</a>
-For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs/basics).  
+For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs).  
 If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).
 
 ### <a name="participation" href="#participation">Participation</a>

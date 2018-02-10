@@ -229,7 +229,7 @@ lazy val docs = project
           | - The [[ciris.spire spire]] module integrates with [[https://github.com/non/spire spire]] to be able to read more number types.
           | - The [[ciris.squants squants]] module integrates with [[https://github.com/typelevel/squants squants]] to read values with unit of measure.
           |
-          |If you're looking for usage instructions, please refer to the [[https://cir.is/docs/basics usage guide]].
+          |If you're looking for usage instructions, please refer to the [[https://cir.is/docs usage guide]].
         """.stripMargin.trim
 
       IO.write(target, content)
