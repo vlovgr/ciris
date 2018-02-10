@@ -3,7 +3,7 @@ package ciris.api.syntax
 import ciris.api.Functor
 
 trait FunctorSyntax {
-  implicit def functorSyntax[F[_]: Functor, A](fa: F[A]): FunctorSyntaxOps[F, A] =
+  implicit def functorSyntaxOps[F[_]: Functor, A](fa: F[A]): FunctorSyntaxOps[F, A] =
     new FunctorSyntaxOps[F, A](fa)
 
   final class FunctorSyntaxOps[F[_]: Functor, A](val fa: F[A]) {

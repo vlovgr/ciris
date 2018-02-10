@@ -3,7 +3,7 @@ package ciris.api.syntax
 import ciris.api.FlatMap
 
 trait FlatMapSyntax {
-  implicit def flatMapSyntax[F[_]: FlatMap, A](fa: F[A]): FlatMapSyntaxOps[F, A] =
+  implicit def flatMapSyntaxOps[F[_]: FlatMap, A](fa: F[A]): FlatMapSyntaxOps[F, A] =
     new FlatMapSyntaxOps(fa)
 
   final class FlatMapSyntaxOps[F[_]: FlatMap, A](fa: F[A]) {

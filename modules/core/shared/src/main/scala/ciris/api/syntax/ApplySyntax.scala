@@ -3,7 +3,7 @@ package ciris.api.syntax
 import ciris.api.Apply
 
 trait ApplySyntax {
-  implicit def applySyntax[F[_]: Apply, A](fa: F[A]): ApplySyntaxOps[F, A] =
+  implicit def applySyntaxOps[F[_]: Apply, A](fa: F[A]): ApplySyntaxOps[F, A] =
     new ApplySyntaxOps(fa)
 
   final class ApplySyntaxOps[F[_]: Apply, A](val fa: F[A]) {
