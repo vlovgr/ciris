@@ -211,8 +211,11 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     )
 
   override def toString: String = {
-    if (sourceValue.toString == value.toString) s"ConfigEntry($key, $keyType, $value)"
-    else s"ConfigEntry($key, $keyType, $sourceValue, $value)"
+    val sourceValueString = sourceValue.toString
+    val valueString = value.toString
+
+    if (sourceValueString == valueString) s"ConfigEntry($key, $keyType, $valueString)"
+    else s"ConfigEntry($key, $keyType, $sourceValueString, $valueString)"
   }
 }
 
