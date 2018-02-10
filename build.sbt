@@ -626,6 +626,6 @@ addCommandsAlias("validateNative", nativeModuleNames.map(_ + "/test"))
 
 addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))
 
-lazy val scalaTestVersion = "3.0.4"
+lazy val scalaTestVersion = "3.0.5"
 
 lazy val scalaCheckVersion = "1.13.5"
