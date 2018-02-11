@@ -493,6 +493,7 @@ generateScripts in ThisBuild := {
        |  $organizationId:${(moduleName in spireJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
        |  -- --predef-code "\\$predefCode
+       |        repl.compiler.settings.YpartialUnification.value = true;\\
        |        import ciris._,\\
        |        ciris.syntax._,\\
        |        ciris.cats._,\\
