@@ -112,6 +112,18 @@ If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Mac
 libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.patch)
 ```
 
+If you're using `ciris-cats` with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
+
+```scala
+scalacOptions += "-Ypartial-unification"
+```
+
+or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification#sbt-partial-unification) plugin.
+
+```scala
+addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.0")
+```
+
 #### <a name="ammonite" href="#ammonite">Ammonite</a>
 To start an [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) with Ciris loaded and imported, simply run the following.
 ```bash
