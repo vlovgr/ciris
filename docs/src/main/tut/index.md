@@ -36,7 +36,7 @@ Ciris is a new project under active development. Feedback and contributions are 
 ### <a name="introduction" href="#introduction">Introduction</a>
 Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [cats][cats], [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
 
-Ciris is intended as an alternative to configuration files, and libraries like [Lightbend Config](https://github.com/lightbend/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.
+Ciris is intended as an alternative to configuration files, and libraries like [Lightbend Config](https://github.com/lightbend/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services (like, for example, [Kubernetes Secrets][ciris-kubernetes] and [AWS Systems Manager][ciris-aws-ssm]).
 
 The [usage guide](https://cir.is/docs) provides a more detailed introduction to Ciris. See also the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) and follow-up blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for a short introduction to the library and configurations with refined types.
 
@@ -160,10 +160,10 @@ s"""
 Below is an incomplete list of third-party libraries that integrate with Ciris.  
 If your library is not included in the list, then please open a pull request.
 
-* [`ciris-aiven-kafka`](https://github.com/ovotech/ciris-aiven-kafka)
-* [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm)
-* [`ciris-credstash`](https://github.com/ovotech/ciris-credstash)
-* [`ciris-kubernetes`](https://github.com/ovotech/ciris-kubernetes)
+* [`ciris-aiven-kafka`][ciris-aiven-kafka]
+* [`ciris-aws-ssm`][ciris-aws-ssm]
+* [`ciris-credstash`][ciris-credstash]
+* [`ciris-kubernetes`][ciris-kubernetes]
 
 ### <a name="documentation" href="#documentation">Documentation</a>
 For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs).  
@@ -178,6 +178,10 @@ If you would like to be involved in building Ciris, check out the [contributing 
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
 [cats]: https://github.com/typelevel/cats
+[ciris-aiven-kafka]: https://github.com/ovotech/ciris-aiven-kafka
+[ciris-aws-ssm]: https://github.com/ovotech/ciris-aws-ssm
+[ciris-credstash]: https://github.com/ovotech/ciris-credstash
+[ciris-kubernetes]: https://github.com/ovotech/ciris-kubernetes
 [enumeratum]: https://github.com/lloydmeta/enumeratum
 [refined]: https://github.com/fthomas/refined
 [shapeless]: https://github.com/milessabin/shapeless
