@@ -8,6 +8,38 @@ permalink: /docs/modules
 # Modules Overview
 Ciris core module, `ciris-core`, provides basic functionality and decoders for many standard library types. See [Core Concepts](/docs/concepts) for an explanation of the concepts in the core module. Remaining sections mostly cover the core module in greater detail, in particular [Configuration Sources](/docs/sources) and [Custom Decoders](/docs/decoders). In the sections below, Ciris' other modules are explained briefly.
 
+## Cats
+The `ciris-cats` module provides typeclass instances for contexts `F[_]` when used together with Ciris. `Id` is the default context, and is used when no explicit context is desired. The `ciris-cats` module is useful in cases when `F` is not `Id`, but for example `Future`, like in the following example.
+
+```tut:book:reset
+import cats.implicits._
+import ciris._
+import ciris.cats._
+import ciris.ConfigError.right
+import scala.concurrent._
+import scala.concurrent.duration._
+
+implicit val executionContext: ExecutionContext =
+  ExecutionContext.Implicits.global
+
+val source: ConfigSource[Future, String, String] = {
+  val keyType = ConfigKeyType[String]("example key")
+  ConfigSource.applyF(keyType) { key: String =>
+    Future.successful(right(key.length.toString))
+  }
+}
+
+final case class Config(value1: Int, value2: Int)
+
+val futureConfig =
+  loadConfig(
+    source.read("key1").decodeValue[Int],
+    source.read("key2").decodeValue[Int]
+  )(Config)
+
+val config = Await.result(futureConfig, 1.second)
+```
+
 ## Enumeratum
 The `ciris-enumeratum` module provides support for reading [enumeratum][enumeratum] enumerations. You can refer to the [documentation](/api/ciris/enumeratum) for a complete list of supported enumerations. As an example, let's define an `Enum` and see how we can load values of that enumeration using Ciris. Enumeratum provides mixins, like `Lowercase` below, which we can use to customize the name of our enumerations, and in turn, what values we will be able to load with Ciris.
 
