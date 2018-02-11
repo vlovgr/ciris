@@ -49,6 +49,10 @@
 - Update Scala.js to 0.6.22. ([#96][#96])
 - Updated refined to 0.8.7. ([#97][#97])
 
+### External Libraries
+- [`ciris-aiven-kafka`](https://github.com/ovotech/ciris-aiven-kafka) for [Aiven](https://aiven.io/) Kafka support.
+- [`ciris-kubernetes`](https://github.com/ovotech/ciris-kubernetes) for [Kubernetes](https://kubernetes.io) secrets support.
+
 [cats]: https://github.com/typelevel/cats
 [#84]: https://github.com/vlovgr/ciris/pull/84
 [#88]: https://github.com/vlovgr/ciris/pull/88
