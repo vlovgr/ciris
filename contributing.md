@@ -33,7 +33,8 @@ Below is a list of some useful sbt commands to help you get started.
 * `generateReadme`: generates the readme from the [index page](https://github.com/vlovgr/ciris/blob/master/docs/src/main/tut/index.md).
 * `generateScripts`: generates the script files in the [`scripts`](https://github.com/vlovgr/ciris/tree/master/scripts) directory.
 * `test`: run tests for the application sources.
-* `validate`: compile documentation and run tests.
+* `validate`: compile and run the tests with code coverage enabled.
+* `validateDocs`: run `docTests`, `docs/unidoc`, and `docs/tut` as described above.
 * `validateNative`: run tests for Scala Native modules (requires [Scala Native](http://www.scala-native.org) setup).
 
 ## Submit a pull request
