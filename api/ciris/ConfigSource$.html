@@ -65,14 +65,14 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.6.2 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.7.0 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
 Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
-Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for typeclasses and typeclass instances.</li><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -90,10 +90,61 @@ Note that the API documentation targets the JVM, and there may be differences on
       
       <p class="shortcomment cmt">The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="ciris.api" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="api"></a><a id="api:api"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#api" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="api/index.html"><span class="name">api</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.cats" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="cats"></a><a id="cats:cats"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#cats" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with cats." href="cats/index.html"><span class="name">cats</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.decoders" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#decoders" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="decoders/index.html"><span class="name">decoders</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.enumeratum" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enumeratum"></a><a id="enumeratum:enumeratum"></a>
       <span class="permalink">
@@ -123,27 +174,13 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Module using shapeless for generic derivation of ConfigReaders." href="generic/index.html"><span class="name">generic</span></a>
+        <a title="Module using shapeless for generic derivation of ConfigDecoders." href="generic/index.html"><span class="name">generic</span></a>
       </span>
       
-      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.
+      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.readers" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
-      <span class="permalink">
-      <a href="../ciris/index.html#readers" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="readers/index.html"><span class="name">readers</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.refined" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="refined"></a><a id="refined:refined"></a>
       <span class="permalink">
@@ -196,41 +233,41 @@ If you are looking for a getting started guide, with examples and explanations, 
       <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li class="current-entities indented1">
+                        <a class="object" href="ConfigDecoder$.html" title=""></a>
+                        <a class="class" href="ConfigDecoder.html" title="ConfigDecoder represents the ability to convert the value of a ConfigEntry to a different type."></a>
+                        <a href="ConfigDecoder.html" title="ConfigDecoder represents the ability to convert the value of a ConfigEntry to a different type.">ConfigDecoder</a>
+                      </li><li class="current-entities indented1">
+                        <a class="object" href="ConfigEntry$.html" title=""></a>
+                        <a class="class" href="ConfigEntry.html" title="ConfigEntry represents an entry (key-value pair) from a configuration source, with support for transforming the value."></a>
+                        <a href="ConfigEntry.html" title="ConfigEntry represents an entry (key-value pair) from a configuration source, with support for transforming the value.">ConfigEntry</a>
+                      </li><li class="current-entities indented1">
                         <a class="object" href="ConfigError$.html" title=""></a>
-                        <a class="class" href="ConfigError.html" title="A class representing one or more errors that occurred while reading a single ConfigValue configuration value."></a>
-                        <a href="ConfigError.html" title="A class representing one or more errors that occurred while reading a single ConfigValue configuration value.">ConfigError</a>
+                        <a class="class" href="ConfigError.html" title="ConfigError represents one or more errors that occurred while reading or decoding a single ConfigEntry configuration entry value."></a>
+                        <a href="ConfigError.html" title="ConfigError represents one or more errors that occurred while reading or decoding a single ConfigEntry configuration entry value.">ConfigError</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigErrors$.html" title=""></a>
-                        <a class="class" href="ConfigErrors.html" title="A value class representing one or more ConfigError errors that occurred while reading one or more ConfigValue configuration values."></a>
-                        <a href="ConfigErrors.html" title="A value class representing one or more ConfigError errors that occurred while reading one or more ConfigValue configuration values.">ConfigErrors</a>
+                        <a class="class" href="ConfigErrors.html" title="ConfigErrors represents one or more ConfigError errors that occurred while reading one or more ConfigEntry configuration entries."></a>
+                        <a href="ConfigErrors.html" title="ConfigErrors represents one or more ConfigError errors that occurred while reading one or more ConfigEntry configuration entries.">ConfigErrors</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigException$.html" title=""></a>
-                        <a class="class" href="ConfigException.html" title="A Throwable representation of ConfigErrors."></a>
-                        <a href="ConfigException.html" title="A Throwable representation of ConfigErrors.">ConfigException</a>
+                        <a class="class" href="ConfigException.html" title="ConfigException is a Throwable representation of ConfigErrors."></a>
+                        <a href="ConfigException.html" title="ConfigException is a Throwable representation of ConfigErrors.">ConfigException</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigKeyType$.html" title=""></a>
-                        <a class="class" href="ConfigKeyType.html" title="Represents the name and type of keys that can be read from a ConfigSource."></a>
-                        <a href="ConfigKeyType.html" title="Represents the name and type of keys that can be read from a ConfigSource.">ConfigKeyType</a>
-                      </li><li class="current-entities indented1">
-                        <a class="object" href="ConfigReader$.html" title=""></a>
-                        <a class="class" href="ConfigReader.html" title="ConfigReader represents the ability to convert the value of a ConfigSourceEntry (a value read from a ConfigSource) to a different type."></a>
-                        <a href="ConfigReader.html" title="ConfigReader represents the ability to convert the value of a ConfigSourceEntry (a value read from a ConfigSource) to a different type.">ConfigReader</a>
+                        <a class="class" href="ConfigKeyType.html" title="ConfigKeyType represents the name and type of keys that can be read from a ConfigSource."></a>
+                        <a href="ConfigKeyType.html" title="ConfigKeyType represents the name and type of keys that can be read from a ConfigSource.">ConfigKeyType</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="" title=""></a>
-                        <a class="class" href="ConfigSource.html" title="A ConfigSource represents the ability to read keys of type Key from some source, for example environment variables, system properties, command-line arguments, or a vault service."></a>
-                        <a href="ConfigSource.html" title="A ConfigSource represents the ability to read keys of type Key from some source, for example environment variables, system properties, command-line arguments, or a vault service.">ConfigSource</a>
-                      </li><li class="current-entities indented1">
-                        <a class="object" href="ConfigSourceEntry$.html" title=""></a>
-                        <a class="class" href="ConfigSourceEntry.html" title="Represents an entry (key-value pair) that has been read from a configuration source."></a>
-                        <a href="ConfigSourceEntry.html" title="Represents an entry (key-value pair) that has been read from a configuration source.">ConfigSourceEntry</a>
+                        <a class="class" href="ConfigSource.html" title="ConfigSource represents the ability to read values of type V for keys of type K from some source: for example, environment variables, system properties, command-line arguments, or some vault service."></a>
+                        <a href="ConfigSource.html" title="ConfigSource represents the ability to read values of type V for keys of type K from some source: for example, environment variables, system properties, command-line arguments, or some vault service.">ConfigSource</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigValue$.html" title=""></a>
-                        <a class="class" href="ConfigValue.html" title="A value which has been read from a ConfigSource, and converted to the specified type Value using a ConfigReader."></a>
-                        <a href="ConfigValue.html" title="A value which has been read from a ConfigSource, and converted to the specified type Value using a ConfigReader.">ConfigValue</a>
+                        <a class="class" href="ConfigValue.html" title="ConfigValue represents the value part of a ConfigEntry, without any other details like the key, key type, or original source value."></a>
+                        <a href="ConfigValue.html" title="ConfigValue represents the value part of a ConfigEntry, without any other details like the key, key type, or original source value.">ConfigValue</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="Secret$.html" title=""></a>
-                        <a class="class" href="Secret.html" title="Used to denote that a configuration value is secret, and that it should not be included in any log output."></a>
-                        <a href="Secret.html" title="Used to denote that a configuration value is secret, and that it should not be included in any log output.">Secret</a>
+                        <a class="class" href="Secret.html" title="Secret is used to denote that a configuration value is secret, and that it should not be included in any log output."></a>
+                        <a href="Secret.html" title="Secret is used to denote that a configuration value is secret, and that it should not be included in any log output.">Secret</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="object" href="syntax$.html" title=""></a>
@@ -265,7 +302,7 @@ If you are looking for a getting started guide, with examples and explanations, 
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.6.2/modules/core/shared/src/main/scala/ciris/ConfigSource.scala" target="_blank">ConfigSource.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.7.0/modules/core/shared/src/main/scala/ciris/ConfigSource.scala" target="_blank">ConfigSource.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -370,10 +407,10 @@ If you are looking for a getting started guide, with examples and explanations, 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="ciris.ConfigSource#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;Either[ciris.ConfigError,String]):ciris.ConfigSource[Key]"></a><a id="apply[Key](ConfigKeyType[Key])((Key)⇒Either[ConfigError,String]):ConfigSource[Key]"></a>
+    </li><li name="ciris.ConfigSource#always" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="always[K,V](keyType:ciris.ConfigKeyType[K])(value:V):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="always[K,V](ConfigKeyType[K])(V):ConfigSource[Id,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#apply[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;Either[ciris.ConfigError,String]):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#always[K,V](keyType:ciris.ConfigKeyType[K])(value:V):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -382,20 +419,95 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.apply.Key">Key</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.apply.Key">Key</span>) ⇒ <span class="extype" name="scala.Either">Either</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.apply.Key">Key</span>]</span>
+        <span class="name">always</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.always.K">K</span>]</span>)</span><span class="params">(<span name="value">value: <span class="extype" name="ciris.ConfigSource.always.V">V</span></span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.always.K">K</span>, <span class="extype" name="ciris.ConfigSource.always.V">V</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> and
-read function, reading keys of the type <code>Key</code>, and either returning a
-<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> or a <code>String</code> value.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> and
-read function, reading keys of the type <code>Key</code>, and either returning a
-<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> or a <code>String</code> value.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">read</dt><dd class="cmt"><p>function reading keys, returning an error or a String value</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source always returns the specified value -- that is, for
+every key of type <code>K</code>, the specified value is returned.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source always returns the specified value -- that is, for
+every key of type <code>K</code>, the specified value is returned.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to always return for every key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl></div>
+    </li><li name="ciris.ConfigSource#alwaysF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="alwaysF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(value:F[V])(implicitevidence$4:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]"></a><a id="alwaysF[F[_],K,V](ConfigKeyType[K])(F[V])(Apply[F]):ConfigSource[F,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#alwaysF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(value:F[V])(implicitevidence$4:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">alwaysF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.alwaysF.K">K</span>]</span>)</span><span class="params">(<span name="value">value: <span class="extype" name="ciris.ConfigSource.alwaysF.F">F</span>[<span class="extype" name="ciris.ConfigSource.alwaysF.V">V</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.alwaysF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.alwaysF.F">F</span>, <span class="extype" name="ciris.ConfigSource.alwaysF.K">K</span>, <span class="extype" name="ciris.ConfigSource.alwaysF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source always returns the specified value -- that is, for
+every key of type <code>K</code>, the specified value is returned.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source always returns the specified value -- that is, for
+every key of type <code>K</code>, the specified value is returned. The value
+is wrapped in a context of type <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if
+no context is desired. There exists a <a href="#always[K,V](keyType:ciris.ConfigKeyType[K])(value:V):ciris.ConfigSource[ciris.api.Id,K,V]" class="extmbr" name="ciris.ConfigSource#always">ConfigSource#always</a>
+for the case where <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the value is wrapped</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to always return for every key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl></div>
+    </li><li name="ciris.ConfigSource#apply" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="apply[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;Either[ciris.ConfigError,V]):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="apply[K,V](ConfigKeyType[K])((K)⇒Either[ConfigError,V]):ConfigSource[Id,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#apply[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;Either[ciris.ConfigError,V]):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">apply</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.apply.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.apply.K">K</span>) ⇒ <span class="extype" name="scala.Either">Either</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.ConfigSource.apply.V">V</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.apply.K">K</span>, <span class="extype" name="ciris.ConfigSource.apply.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning either a <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> or a value.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning either a <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> or a value.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning an error or value for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource(ConfigKeyType[<span class="std">String</span>](<span class="lit">"identity key"</span>))(key <span class="kw">=&gt;</span> Right(key))
-source: ConfigSource[<span class="std">String</span>] = ConfigSource(ConfigKeyType(identity key))
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(ConfigKeyType(identity key))
 
 scala&gt; source.read(<span class="lit">"key"</span>)
-res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key, ConfigKeyType(identity key), Right(key))</pre></li></ol>
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, ConfigKeyType(identity key), Right(key))</pre></li></ol>
+            </div></dl></div>
+    </li><li name="ciris.ConfigSource#applyF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="applyF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[Either[ciris.ConfigError,V]])(implicitevidence$1:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]"></a><a id="applyF[F[_],K,V](ConfigKeyType[K])((K)⇒F[Either[ConfigError,V]])(Apply[F]):ConfigSource[F,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#applyF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[Either[ciris.ConfigError,V]])(implicitevidence$1:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">applyF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.applyF.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.applyF.K">K</span>) ⇒ <span class="extype" name="ciris.ConfigSource.applyF.F">F</span>[<span class="extype" name="scala.Either">Either</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.ConfigSource.applyF.V">V</span>]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.applyF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.applyF.F">F</span>, <span class="extype" name="ciris.ConfigSource.applyF.K">K</span>, <span class="extype" name="ciris.ConfigSource.applyF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning either a <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> or a value, wrapped in a context
+of type <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if no context is desired.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning either a <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> or a value, wrapped in a context
+of type <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if no context is desired.
+<a href="#apply[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;Either[ciris.ConfigError,V]):ciris.ConfigSource[ciris.api.Id,K,V]" class="extmbr" name="ciris.ConfigSource#apply">ConfigSource#apply</a> exists for the case where <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the values exists</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning an error or value for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.applyF[api.Id, <span class="std">String</span>, <span class="std">String</span>](ConfigKeyType[<span class="std">String</span>](<span class="lit">"identity key"</span>))(key <span class="kw">=&gt;</span> Right(key))
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(ConfigKeyType(identity key))
+
+scala&gt; source.read(<span class="lit">"key"</span>)
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, ConfigKeyType(identity key), Right(key))</pre></li></ol>
             </div></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
@@ -414,9 +526,9 @@ res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="ciris.ConfigSource#byIndex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="byIndex(keyType:ciris.ConfigKeyType[Int])(indexedSeq:IndexedSeq[String]):ciris.ConfigSource[Int]"></a><a id="byIndex(ConfigKeyType[Int])(IndexedSeq[String]):ConfigSource[Int]"></a>
+      <a id="byIndex[V](keyType:ciris.ConfigKeyType[Int])(indexedSeq:IndexedSeq[V]):ciris.ConfigSource[ciris.api.Id,Int,V]"></a><a id="byIndex[V](ConfigKeyType[Int])(IndexedSeq[V]):ConfigSource[Id,Int,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#byIndex(keyType:ciris.ConfigKeyType[Int])(indexedSeq:IndexedSeq[String]):ciris.ConfigSource[Int]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#byIndex[V](keyType:ciris.ConfigKeyType[Int])(indexedSeq:IndexedSeq[V]):ciris.ConfigSource[ciris.api.Id,Int,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -425,29 +537,59 @@ res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">byIndex</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>)</span><span class="params">(<span name="indexedSeq">indexedSeq: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>
+        <span class="name">byIndex</span><span class="tparams">[<span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>)</span><span class="params">(<span name="indexedSeq">indexedSeq: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="ciris.ConfigSource.byIndex.V">V</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>, <span class="extype" name="ciris.ConfigSource.byIndex.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and <code>IndexedSeq</code>, where values are read by specifying indexes in
-the collection.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and <code>IndexedSeq</code>, where values are read by specifying indexes in
-the collection. Only values for which the key index exist in the
-collection will be in the configuration source.
-</p></div><dl class="paramcmts block"><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">indexedSeq</dt><dd class="cmt"><p>the collection from which to read <code>String</code> values</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+and <code>IndexedSeq[V]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and <code>IndexedSeq[V]</code>. The source will only contain entries for keys
+where the index exist in the specified sequence.
+</p></div><dl class="paramcmts block"><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">indexedSeq</dt><dd class="cmt"><p>the sequence of indexed values</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector(<span class="lit">"a"</span>))
-source: ConfigSource[<span class="std">Int</span>] = ConfigSource(Argument)
+source: ConfigSource[api.Id, <span class="std">Int</span>, <span class="std">String</span>] = ConfigSource(Argument)
 
 scala&gt; source.read(<span class="num">0</span>)
-res0: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">0</span>, Argument, Right(a))
+res0: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">0</span>, Argument, Right(a))
 
 scala&gt; source.read(<span class="num">1</span>)
-res1: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">1</span>, Argument, Left(MissingKey(<span class="num">1</span>, Argument)))</pre></li></ol>
+res1: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">1</span>, Argument, Left(MissingKey(<span class="num">1</span>, Argument)))</pre></li></ol>
+            </div></dl></div>
+    </li><li name="ciris.ConfigSource#byIndexF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="byIndexF[F[_],V](keyType:ciris.ConfigKeyType[Int])(indexedSeq:F[IndexedSeq[V]])(implicitevidence$11:ciris.api.Apply[F]):ciris.ConfigSource[F,Int,V]"></a><a id="byIndexF[F[_],V](ConfigKeyType[Int])(F[IndexedSeq[V]])(Apply[F]):ConfigSource[F,Int,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#byIndexF[F[_],V](keyType:ciris.ConfigKeyType[Int])(indexedSeq:F[IndexedSeq[V]])(implicitevidence$11:ciris.api.Apply[F]):ciris.ConfigSource[F,Int,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">byIndexF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>)</span><span class="params">(<span name="indexedSeq">indexedSeq: <span class="extype" name="ciris.ConfigSource.byIndexF.F">F</span>[<span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="ciris.ConfigSource.byIndexF.V">V</span>]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.byIndexF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.byIndexF.F">F</span>, <a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>, <span class="extype" name="ciris.ConfigSource.byIndexF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and <code>IndexedSeq[V]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and <code>IndexedSeq[V]</code>. The source will only contain entries for keys
+where the index exist in the specified sequence. The values are
+wrapped in context <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if no context
+is desired. <a href="#byIndex[V](keyType:ciris.ConfigKeyType[Int])(indexedSeq:IndexedSeq[V]):ciris.ConfigSource[ciris.api.Id,Int,V]" class="extmbr" name="ciris.ConfigSource#byIndex">ConfigSource#byIndex</a> also exists for the case
+where <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which values are wrapped</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">indexedSeq</dt><dd class="cmt"><p>the sequence of indexed values</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.byIndexF[api.Id, <span class="std">String</span>](ConfigKeyType.Argument)(Vector(<span class="lit">"a"</span>))
+source: ConfigSource[api.Id, <span class="std">Int</span>, <span class="std">String</span>] = ConfigSource(Argument)
+
+scala&gt; source.read(<span class="num">0</span>)
+res0: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">0</span>, Argument, Right(a))
+
+scala&gt; source.read(<span class="num">1</span>)
+res1: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">1</span>, Argument, Left(MissingKey(<span class="num">1</span>, Argument)))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris.ConfigSource#catchNonFatal" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="catchNonFatal[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;String):ciris.ConfigSource[Key]"></a><a id="catchNonFatal[Key](ConfigKeyType[Key])((Key)⇒String):ConfigSource[Key]"></a>
+      <a id="catchNonFatal[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;V):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="catchNonFatal[K,V](ConfigKeyType[K])((K)⇒V):ConfigSource[Id,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#catchNonFatal[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;String):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#catchNonFatal[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;V):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -456,25 +598,53 @@ res1: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">catchNonFatal</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.catchNonFatal.Key">Key</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.catchNonFatal.Key">Key</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.catchNonFatal.Key">Key</span>]</span>
+        <span class="name">catchNonFatal</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.catchNonFatal.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.catchNonFatal.K">K</span>) ⇒ <span class="extype" name="ciris.ConfigSource.catchNonFatal.V">V</span></span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.catchNonFatal.K">K</span>, <span class="extype" name="ciris.ConfigSource.catchNonFatal.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and read function, reading keys of the type <code>Key</code>, and returning
-<code>String</code> values.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and read function, reading keys of the type <code>Key</code>, and returning
-<code>String</code> values. The read function will be wrapped in a <code>Try</code> and
-only the successful cases will result in values for the source.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">read</dt><dd class="cmt"><p>function reading keys, returning String values</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+catching any non-fatal exceptions.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+catching any non-fatal exceptions. The source will only contain
+entries for keys <code>K</code> where the specified function does not
+throw an exception.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning a value for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.catchNonFatal(ConfigKeyType.Argument)(Vector(<span class="lit">"a"</span>))
-source: ConfigSource[<span class="std">Int</span>] = ConfigSource(Argument)
+source: ConfigSource[api.Id, <span class="std">Int</span>, <span class="std">String</span>] = ConfigSource(Argument)
 
 scala&gt; source.read(<span class="num">0</span>)
-res0: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">0</span>, Argument, Right(a))
+res0: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">0</span>, Argument, Right(a))
 
 scala&gt; source.read(<span class="num">1</span>)
-res1: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">1</span>, Argument, Left(ReadException(<span class="num">1</span>, Argument, java.lang.IndexOutOfBoundsException: <span class="num">1</span>)))</pre></li></ol>
+res1: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">1</span>, Argument, Left(ReadException(<span class="num">1</span>, Argument, java.lang.IndexOutOfBoundsException: <span class="num">1</span>)))</pre></li></ol>
             </div></dl></div>
+    </li><li name="ciris.ConfigSource#catchNonFatalF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="catchNonFatalF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[V])(implicitevidence$10:ciris.api.Applicative[F]):ciris.ConfigSource[F,K,V]"></a><a id="catchNonFatalF[F[_],K,V](ConfigKeyType[K])((K)⇒F[V])(Applicative[F]):ConfigSource[F,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#catchNonFatalF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[V])(implicitevidence$10:ciris.api.Applicative[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">catchNonFatalF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.catchNonFatalF.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.catchNonFatalF.K">K</span>) ⇒ <span class="extype" name="ciris.ConfigSource.catchNonFatalF.F">F</span>[<span class="extype" name="ciris.ConfigSource.catchNonFatalF.V">V</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Applicative.html" class="extype" name="ciris.api.Applicative">Applicative</a>[<span class="extype" name="ciris.ConfigSource.catchNonFatalF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.catchNonFatalF.F">F</span>, <span class="extype" name="ciris.ConfigSource.catchNonFatalF.K">K</span>, <span class="extype" name="ciris.ConfigSource.catchNonFatalF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+catching any non-fatal exceptions.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+catching any non-fatal exceptions. The source will only contain
+entries for keys <code>K</code> where the specified function does not
+throw an exception.<br>
+<br>
+Values will be wrapped in the context <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a>
+if no context is desired. <a href="#catchNonFatal[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;V):ciris.ConfigSource[ciris.api.Id,K,V]" class="extmbr" name="ciris.ConfigSource#catchNonFatal">ConfigSource#catchNonFatal</a> exists for
+the case where <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which values are wrapped</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning a value for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
@@ -500,9 +670,9 @@ res1: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span 
               
         </dd></dl></div>
     </li><li name="ciris.ConfigSource#empty" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="empty[Key](keyType:ciris.ConfigKeyType[Key]):ciris.ConfigSource[Key]"></a><a id="empty[Key](ConfigKeyType[Key]):ConfigSource[Key]"></a>
+      <a id="empty[K,V](keyType:ciris.ConfigKeyType[K]):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="empty[K,V](ConfigKeyType[K]):ConfigSource[Id,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#empty[Key](keyType:ciris.ConfigKeyType[Key]):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#empty[K,V](keyType:ciris.ConfigKeyType[K]):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -511,15 +681,39 @@ res1: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">empty</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.empty.Key">Key</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.empty.Key">Key</span>]</span>
+        <span class="name">empty</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.empty.K">K</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.empty.K">K</span>, <span class="extype" name="ciris.ConfigSource.empty.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
-where the source is always empty - that is, it has no value for any
-key of type <code>Key</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
-where the source is always empty - that is, it has no value for any
-key of type <code>Key</code>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt>returns</dt><dd class="cmt"><p>a new empty <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> without any entries</p></dd></dl></div>
+where the source is always empty -- that is, it has no value for any
+key of type <code>K</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source is always empty -- that is, it has no value for any
+key of type <code>K</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl></div>
+    </li><li name="ciris.ConfigSource#emptyF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="emptyF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(implicitevidence$3:ciris.api.Applicative[F]):ciris.ConfigSource[F,K,V]"></a><a id="emptyF[F[_],K,V](ConfigKeyType[K])(Applicative[F]):ConfigSource[F,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#emptyF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(implicitevidence$3:ciris.api.Applicative[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">emptyF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.emptyF.K">K</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Applicative.html" class="extype" name="ciris.api.Applicative">Applicative</a>[<span class="extype" name="ciris.ConfigSource.emptyF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.emptyF.F">F</span>, <span class="extype" name="ciris.ConfigSource.emptyF.K">K</span>, <span class="extype" name="ciris.ConfigSource.emptyF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source is always empty -- that is, it has no value for any
+key of type <code>K</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source is always empty -- that is, it has no value for any
+key of type <code>K</code>. The errors for the missing keys will be wrapped in
+a context of type <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if no context is
+desired. There exists a <a href="#empty[K,V](keyType:ciris.ConfigKeyType[K]):ciris.ConfigSource[ciris.api.Id,K,V]" class="extmbr" name="ciris.ConfigSource#empty">ConfigSource#empty</a> for the case
+where <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the errors are wrapped</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -553,9 +747,9 @@ key of type <code>Key</code>.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="ciris.ConfigSource#failed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="failed[Key](keyType:ciris.ConfigKeyType[Key])(error:ciris.ConfigError):ciris.ConfigSource[Key]"></a><a id="failed[Key](ConfigKeyType[Key])(ConfigError):ConfigSource[Key]"></a>
+      <a id="failed[K,V](keyType:ciris.ConfigKeyType[K])(error:ciris.ConfigError):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="failed[K,V](ConfigKeyType[K])(ConfigError):ConfigSource[Id,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#failed[Key](keyType:ciris.ConfigKeyType[Key])(error:ciris.ConfigError):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#failed[K,V](keyType:ciris.ConfigKeyType[K])(error:ciris.ConfigError):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -564,23 +758,56 @@ key of type <code>Key</code>.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">failed</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.failed.Key">Key</span>]</span>)</span><span class="params">(<span name="error">error: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.failed.Key">Key</span>]</span>
+        <span class="name">failed</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.failed.K">K</span>]</span>)</span><span class="params">(<span name="error">error: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.failed.K">K</span>, <span class="extype" name="ciris.ConfigSource.failed.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
-where the specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> will be returned for every read
-key of type <code>Key</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
-where the specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> will be returned for every read
-key of type <code>Key</code>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">error</dt><dd class="cmt"><p>the error which will be returned for every read key</p></dd><dt>returns</dt><dd class="cmt"><p>a new failed <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> always returning the specified error</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.failed(ConfigKeyType.Environment)(ConfigError(<span class="lit">"error"</span>))
-source: ConfigSource[<span class="std">String</span>] = ConfigSource(Environment)
+where the source always return the specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> -- that
+is, for every key of type <code>K</code>, the specified error is returned.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source always return the specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> -- that
+is, for every key of type <code>K</code>, the specified error is returned.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">error</dt><dd class="cmt"><p>the error to always return for every key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.failed[<span class="std">String</span>, <span class="std">String</span>](ConfigKeyType.Environment)(ConfigError(<span class="lit">"error"</span>))
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(Environment)
 
 scala&gt; source.read(<span class="lit">"key1"</span>)
-res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key1, Environment, Left(ConfigError(error)))
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key1, Environment, Left(ConfigError(error)))
 
 scala&gt; source.read(<span class="lit">"key2"</span>)
-res1: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key2, Environment, Left(ConfigError(error)))</pre></li></ol>
+res1: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key2, Environment, Left(ConfigError(error)))</pre></li></ol>
+            </div></dl></div>
+    </li><li name="ciris.ConfigSource#failedF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="failedF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(error:F[ciris.ConfigError])(implicitevidence$5:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]"></a><a id="failedF[F[_],K,V](ConfigKeyType[K])(F[ConfigError])(Apply[F]):ConfigSource[F,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#failedF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(error:F[ciris.ConfigError])(implicitevidence$5:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">failedF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.failedF.K">K</span>]</span>)</span><span class="params">(<span name="error">error: <span class="extype" name="ciris.ConfigSource.failedF.F">F</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.failedF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.failedF.F">F</span>, <span class="extype" name="ciris.ConfigSource.failedF.K">K</span>, <span class="extype" name="ciris.ConfigSource.failedF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source always return the specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> -- that
+is, for every key of type <code>K</code>, the specified error is returned.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>,
+where the source always return the specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> -- that
+is, for every key of type <code>K</code>, the specified error is returned. The
+error is wrapped in the context <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if
+no context is desired. <a href="#failed[K,V](keyType:ciris.ConfigKeyType[K])(error:ciris.ConfigError):ciris.ConfigSource[ciris.api.Id,K,V]" class="extmbr" name="ciris.ConfigSource#failed">ConfigSource#failed</a> exists for the
+case when <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the error is wrapped</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">error</dt><dd class="cmt"><p>the error to always return for every key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.failedF[api.Id, <span class="std">String</span>, <span class="std">String</span>](ConfigKeyType.Environment)(ConfigError(<span class="lit">"error"</span>))
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(Environment)
+
+scala&gt; source.read(<span class="lit">"key1"</span>)
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key1, Environment, Left(ConfigError(error)))
+
+scala&gt; source.read(<span class="lit">"key2"</span>)
+res1: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key2, Environment, Left(ConfigError(error)))</pre></li></ol>
             </div></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
@@ -605,9 +832,9 @@ res1: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key
               
         </dd></dl></div>
     </li><li name="ciris.ConfigSource#fromEntries" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromEntries[Key](keyType:ciris.ConfigKeyType[Key])(entries:(Key,String)*):ciris.ConfigSource[Key]"></a><a id="fromEntries[Key](ConfigKeyType[Key])((Key,String)*):ConfigSource[Key]"></a>
+      <a id="fromEntries[K,V](keyType:ciris.ConfigKeyType[K])(entries:(K,V)*):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="fromEntries[K,V](ConfigKeyType[K])((K,V)*):ConfigSource[Id,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#fromEntries[Key](keyType:ciris.ConfigKeyType[Key])(entries:(Key,String)*):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#fromEntries[K,V](keyType:ciris.ConfigKeyType[K])(entries:(K,V)*):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -616,31 +843,32 @@ res1: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromEntries</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromEntries.Key">Key</span>]</span>)</span><span class="params">(<span name="entries">entries: (<span class="extype" name="ciris.ConfigSource.fromEntries.Key">Key</span>, <span class="extype" name="scala.Predef.String">String</span>)*</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromEntries.Key">Key</span>]</span>
+        <span class="name">fromEntries</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromEntries.K">K</span>]</span>)</span><span class="params">(<span name="entries">entries: (<span class="extype" name="ciris.ConfigSource.fromEntries.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromEntries.V">V</span>)*</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.fromEntries.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromEntries.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and entries with keys of type <code>Key</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and entries with keys of type <code>Key</code>. If the same key appears more
-than once in the entries, the last one will be chosen to be
-included in the source.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">entries</dt><dd class="cmt"><p>the entries to be included in the source</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+and entries with keys of type <code>K</code> and values of type <code>V</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and entries with keys of type <code>K</code> and values of type <code>V</code>. For every
+key <code>K</code> in the entries, the corresponding value <code>V</code> is returned. If
+there is more than one entry with the same key, the value in the
+last entry is the one returned.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">entries</dt><dd class="cmt"><p>the entries which the source should contain</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.fromEntries(ConfigKeyType.Argument)(<span class="num">0</span> -&gt; <span class="lit">"abc"</span>, <span class="num">0</span> -&gt; <span class="lit">"def"</span>, <span class="num">1</span> -&gt; <span class="lit">"ghi"</span>)
-source: ConfigSource[<span class="std">Int</span>] = ConfigSource(Argument)
+source: ConfigSource[api.Id, <span class="std">Int</span>, <span class="std">String</span>] = ConfigSource(Argument)
 
 scala&gt; source.read(<span class="num">0</span>)
-res0: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">0</span>, Argument, Right(<span class="kw">def</span>))
+res0: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">0</span>, Argument, Right(<span class="kw">def</span>))
 
 scala&gt; source.read(<span class="num">1</span>)
-res1: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">1</span>, Argument, Right(ghi))
+res1: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">1</span>, Argument, Right(ghi))
 
 scala&gt; source.read(<span class="num">2</span>)
-res2: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">2</span>, Argument, Left(MissingKey(<span class="num">2</span>, Argument)))</pre></li></ol>
+res2: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">2</span>, Argument, Left(MissingKey(<span class="num">2</span>, Argument)))</pre></li></ol>
             </div></dl></div>
-    </li><li name="ciris.ConfigSource#fromMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromMap[Key](keyType:ciris.ConfigKeyType[Key])(map:Map[Key,String]):ciris.ConfigSource[Key]"></a><a id="fromMap[Key](ConfigKeyType[Key])(Map[Key,String]):ConfigSource[Key]"></a>
+    </li><li name="ciris.ConfigSource#fromEntriesF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromEntriesF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(entries:F[Seq[(K,V)]])(implicitevidence$7:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]"></a><a id="fromEntriesF[F[_],K,V](ConfigKeyType[K])(F[Seq[(K,V)]])(Apply[F]):ConfigSource[F,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#fromMap[Key](keyType:ciris.ConfigKeyType[Key])(map:Map[Key,String]):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#fromEntriesF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(entries:F[Seq[(K,V)]])(implicitevidence$7:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -649,23 +877,79 @@ res2: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromMap</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromMap.Key">Key</span>]</span>)</span><span class="params">(<span name="map">map: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="ciris.ConfigSource.fromMap.Key">Key</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromMap.Key">Key</span>]</span>
+        <span class="name">fromEntriesF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromEntriesF.K">K</span>]</span>)</span><span class="params">(<span name="entries">entries: <span class="extype" name="ciris.ConfigSource.fromEntriesF.F">F</span>[<span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="ciris.ConfigSource.fromEntriesF.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromEntriesF.V">V</span>)]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.fromEntriesF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromEntriesF.F">F</span>, <span class="extype" name="ciris.ConfigSource.fromEntriesF.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromEntriesF.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and <code>Map</code> with keys of type <code>Key</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and <code>Map</code> with keys of type <code>Key</code>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">map</dt><dd class="cmt"><p>the Map from which to read keys, keys are of type Key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+and entries with keys of type <code>K</code> and values of type <code>V</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and entries with keys of type <code>K</code> and values of type <code>V</code>. For every
+key <code>K</code> in the entries, the corresponding value <code>V</code> is returned. If
+there is more than one entry with the same key, the value in the
+last entry is the one returned.<br>
+<br>
+The entries are wrapped in a context <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a>
+if no context is desired. <a href="#fromEntries[K,V](keyType:ciris.ConfigKeyType[K])(entries:(K,V)*):ciris.ConfigSource[ciris.api.Id,K,V]" class="extmbr" name="ciris.ConfigSource#fromEntries">ConfigSource#fromEntries</a> also exists
+for the case where <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the values are wrapped</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">entries</dt><dd class="cmt"><p>the entries which the source should contain</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl></div>
+    </li><li name="ciris.ConfigSource#fromMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromMap[K,V](keyType:ciris.ConfigKeyType[K])(map:Map[K,V]):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="fromMap[K,V](ConfigKeyType[K])(Map[K,V]):ConfigSource[Id,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#fromMap[K,V](keyType:ciris.ConfigKeyType[K])(map:Map[K,V]):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromMap</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromMap.K">K</span>]</span>)</span><span class="params">(<span name="map">map: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="ciris.ConfigSource.fromMap.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromMap.V">V</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.fromMap.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromMap.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and <code>Map</code> with keys of type <code>K</code> and values of type <code>V</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and <code>Map</code> with keys of type <code>K</code> and values of type <code>V</code>. For every
+key <code>K</code> in the <code>Map</code>, the corresponding value <code>V</code> is returned.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">map</dt><dd class="cmt"><p>the map which entries the source should contain</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.fromMap(ConfigKeyType.Environment)(sys.env)
-source: ConfigSource[<span class="std">String</span>] = ConfigSource(Environment)
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(Environment)
 
 scala&gt; source.read(<span class="lit">"key"</span>)
-res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key, Environment, Left(MissingKey(key, Environment)))</pre></li></ol>
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))</pre></li></ol>
+            </div></dl></div>
+    </li><li name="ciris.ConfigSource#fromMapF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromMapF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(map:F[Map[K,V]])(implicitevidence$6:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]"></a><a id="fromMapF[F[_],K,V](ConfigKeyType[K])(F[Map[K,V]])(Apply[F]):ConfigSource[F,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#fromMapF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(map:F[Map[K,V]])(implicitevidence$6:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromMapF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromMapF.K">K</span>]</span>)</span><span class="params">(<span name="map">map: <span class="extype" name="ciris.ConfigSource.fromMapF.F">F</span>[<span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="ciris.ConfigSource.fromMapF.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromMapF.V">V</span>]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.fromMapF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromMapF.F">F</span>, <span class="extype" name="ciris.ConfigSource.fromMapF.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromMapF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and <code>Map</code> with keys of type <code>K</code> and values of type <code>V</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and <code>Map</code> with keys of type <code>K</code> and values of type <code>V</code>. For every
+key <code>K</code> in the <code>Map</code>, the corresponding value <code>V</code> is returned,
+wrapped in the context <code>F</code> -- which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if no
+context is desired. <a href="#fromMap[K,V](keyType:ciris.ConfigKeyType[K])(map:Map[K,V]):ciris.ConfigSource[ciris.api.Id,K,V]" class="extmbr" name="ciris.ConfigSource#fromMap">ConfigSource#fromMap</a> also exists
+for the case when <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the map values are wrapped</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">map</dt><dd class="cmt"><p>the map which entries the source should contain</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.fromMapF[api.Id, <span class="std">String</span>, <span class="std">String</span>](ConfigKeyType.Environment)(sys.env)
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(Environment)
+
+scala&gt; source.read(<span class="lit">"key"</span>)
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris.ConfigSource#fromOption" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromOption[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;Option[String]):ciris.ConfigSource[Key]"></a><a id="fromOption[Key](ConfigKeyType[Key])((Key)⇒Option[String]):ConfigSource[Key]"></a>
+      <a id="fromOption[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;Option[V]):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="fromOption[K,V](ConfigKeyType[K])((K)⇒Option[V]):ConfigSource[Id,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#fromOption[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;Option[String]):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#fromOption[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;Option[V]):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -674,25 +958,55 @@ res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromOption</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromOption.Key">Key</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromOption.Key">Key</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromOption.Key">Key</span>]</span>
+        <span class="name">fromOption</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromOption.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromOption.K">K</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigSource.fromOption.V">V</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.fromOption.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromOption.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and read function, reading keys of the type <code>Key</code>, and returning
-an optional <code>String</code> value.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and read function, reading keys of the type <code>Key</code>, and returning
-an optional <code>String</code> value.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">read</dt><dd class="cmt"><p>function reading keys, returning an optional <code>String</code> value</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning an optional value.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning an optional value.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning an optional value for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.fromOption(ConfigKeyType.Environment)(sys.env.get)
-source: ConfigSource[<span class="std">String</span>] = ConfigSource(Environment)
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(Environment)
 
 scala&gt; source.read(<span class="lit">"key"</span>)
-res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key, Environment, Left(MissingKey(key, Environment)))</pre></li></ol>
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))</pre></li></ol>
+            </div></dl></div>
+    </li><li name="ciris.ConfigSource#fromOptionF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromOptionF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[Option[V]])(implicitevidence$2:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]"></a><a id="fromOptionF[F[_],K,V](ConfigKeyType[K])((K)⇒F[Option[V]])(Apply[F]):ConfigSource[F,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#fromOptionF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[Option[V]])(implicitevidence$2:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromOptionF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromOptionF.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromOptionF.K">K</span>) ⇒ <span class="extype" name="ciris.ConfigSource.fromOptionF.F">F</span>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigSource.fromOptionF.V">V</span>]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.fromOptionF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromOptionF.F">F</span>, <span class="extype" name="ciris.ConfigSource.fromOptionF.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromOptionF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning an optional value, wrapped in a context of type <code>F</code> --
+which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if no context is desired.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning an optional value, wrapped in a context of type <code>F</code> --
+which can be <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a> if no context is desired. There exists
+a <a href="#fromOption[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;Option[V]):ciris.ConfigSource[ciris.api.Id,K,V]" class="extmbr" name="ciris.ConfigSource#fromOption">ConfigSource#fromOption</a> for the case where <code>F</code> is <code>Id</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the values exists</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning an optional value for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.fromOptionF[api.Id, <span class="std">String</span>, <span class="std">String</span>](ConfigKeyType.Environment)(sys.env.get)
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(Environment)
+
+scala&gt; source.read(<span class="lit">"key"</span>)
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris.ConfigSource#fromTry" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromTry[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;scala.util.Try[String]):ciris.ConfigSource[Key]"></a><a id="fromTry[Key](ConfigKeyType[Key])((Key)⇒Try[String]):ConfigSource[Key]"></a>
+      <a id="fromTry[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;scala.util.Try[V]):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="fromTry[K,V](ConfigKeyType[K])((K)⇒Try[V]):ConfigSource[Id,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#fromTry[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;scala.util.Try[String]):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#fromTry[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;scala.util.Try[V]):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -701,29 +1015,29 @@ res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromTry</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromTry.Key">Key</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromTry.Key">Key</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/util/Try.html#scala.util.Try" class="extype" name="scala.util.Try">Try</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromTry.Key">Key</span>]</span>
+        <span class="name">fromTry</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromTry.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromTry.K">K</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/util/Try.html#scala.util.Try" class="extype" name="scala.util.Try">Try</a>[<span class="extype" name="ciris.ConfigSource.fromTry.V">V</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.fromTry.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromTry.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and read function, reading keys of the type <code>Key</code>, and returning
-a value wrapped in a <code>Try</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and read function, reading keys of the type <code>Key</code>, and returning
-a value wrapped in a <code>Try</code>. The source will only successfully
-read values for keys where the function returns <code>Success</code>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">read</dt><dd class="cmt"><p>function reading keys, returning a <code>String</code> value in a <code>Try</code></p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning a <code>Try[V]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning a <code>Try[V]</code>. The source will only contain entries where
+the specified function returns <code>Success[V]</code> for the key <code>K</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning <code>Try[V]</code> for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.fromTry(ConfigKeyType.Argument)(index <span class="kw">=&gt;</span> scala.util.Try(Vector(<span class="lit">"a"</span>)(index)))
-source: ConfigSource[<span class="std">Int</span>] = ConfigSource(Argument)
+source: ConfigSource[api.Id, <span class="std">Int</span>, <span class="std">String</span>] = ConfigSource(Argument)
 
 scala&gt; source.read(<span class="num">0</span>)
-res0: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">0</span>, Argument, Right(a))
+res0: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">0</span>, Argument, Right(a))
 
 scala&gt; source.read(<span class="num">1</span>)
-res1: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span class="num">1</span>, Argument, Left(ReadException(<span class="num">1</span>, Argument, java.lang.IndexOutOfBoundsException: <span class="num">1</span>)))</pre></li></ol>
+res1: ConfigEntry[api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(<span class="num">1</span>, Argument, Left(ReadException(<span class="num">1</span>, Argument, java.lang.IndexOutOfBoundsException: <span class="num">1</span>)))</pre></li></ol>
             </div></dl></div>
-    </li><li name="ciris.ConfigSource#fromTryOption" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="fromTryOption[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;scala.util.Try[Option[String]]):ciris.ConfigSource[Key]"></a><a id="fromTryOption[Key](ConfigKeyType[Key])((Key)⇒Try[Option[String]]):ConfigSource[Key]"></a>
+    </li><li name="ciris.ConfigSource#fromTryF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromTryF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[scala.util.Try[V]])(implicitevidence$8:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]"></a><a id="fromTryF[F[_],K,V](ConfigKeyType[K])((K)⇒F[Try[V]])(Apply[F]):ConfigSource[F,K,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigSource$.html#fromTryOption[Key](keyType:ciris.ConfigKeyType[Key])(read:Key=&gt;scala.util.Try[Option[String]]):ciris.ConfigSource[Key]" title="Permalink">
+      <a href="../ciris/ConfigSource$.html#fromTryF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[scala.util.Try[V]])(implicitevidence$8:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -732,25 +1046,78 @@ res1: ConfigSourceEntry[<span class="std">Int</span>] = ConfigSourceEntry(<span 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromTryOption</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromTryOption.Key">Key</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromTryOption.Key">Key</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/util/Try.html#scala.util.Try" class="extype" name="scala.util.Try">Try</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromTryOption.Key">Key</span>]</span>
+        <span class="name">fromTryF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromTryF.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromTryF.K">K</span>) ⇒ <span class="extype" name="ciris.ConfigSource.fromTryF.F">F</span>[<a href="http://www.scala-lang.org/api/2.12.4/scala/util/Try.html#scala.util.Try" class="extype" name="scala.util.Try">Try</a>[<span class="extype" name="ciris.ConfigSource.fromTryF.V">V</span>]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.fromTryF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromTryF.F">F</span>, <span class="extype" name="ciris.ConfigSource.fromTryF.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromTryF.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and read function, reading keys of the type <code>Key</code>, and returning
-a value wrapped in a <code>Try</code> and <code>Option</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
-and read function, reading keys of the type <code>Key</code>, and returning
-a value wrapped in a <code>Try</code> and <code>Option</code>. The source will only
-successfully read value for keys where the read function
-returns both a <code>Success</code> and a <code>Some</code>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of keys which the source supports</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a> representing the key type and name</p></dd><dt class="param">read</dt><dd class="cmt"><p>function reading keys, returning a <code>String</code> value in a <code>Try</code> and <code>Option</code></p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning a <code>F[Try[V]]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning a <code>F[Try[V]]</code>. The source will only contain entries where
+the specified function returns <code>Success[V]</code> for the key <code>K</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which values are wrapped</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning <code>Try[V]</code> for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl></div>
+    </li><li name="ciris.ConfigSource#fromTryOption" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromTryOption[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;scala.util.Try[Option[V]]):ciris.ConfigSource[ciris.api.Id,K,V]"></a><a id="fromTryOption[K,V](ConfigKeyType[K])((K)⇒Try[Option[V]]):ConfigSource[Id,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#fromTryOption[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;scala.util.Try[Option[V]]):ciris.ConfigSource[ciris.api.Id,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromTryOption</span><span class="tparams">[<span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromTryOption.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromTryOption.K">K</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.4/scala/util/Try.html#scala.util.Try" class="extype" name="scala.util.Try">Try</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigSource.fromTryOption.V">V</span>]]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="ciris.ConfigSource.fromTryOption.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromTryOption.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning a <code>Try[Option[V]]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning a <code>Try[Option[V]]</code>. The source will only contain entries
+where the specified function returns <code>Success[Some[V]]</code> for the
+key <code>K</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning <code>Try[Option[V]]</code> for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.fromTryOption(ConfigKeyType.Property)(key <span class="kw">=&gt;</span> scala.util.Try(sys.props.get(key)))
-source: ConfigSource[<span class="std">String</span>] = ConfigSource(Property)
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(Property)
 
 scala&gt; source.read(<span class="lit">"key"</span>)
-res0: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(key, Property, Left(MissingKey(key, Property)))
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Property, Left(MissingKey(key, Property)))
 
 scala&gt; source.read(<span class="lit">""</span>)
-res1: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(, Property, Left(ReadException(, Property, java.lang.IllegalArgumentException: key can't be empty)))</pre></li></ol>
+res1: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(, Property, Left(ReadException(, Property, java.lang.IllegalArgumentException: key can't be empty)))</pre></li></ol>
+            </div></dl></div>
+    </li><li name="ciris.ConfigSource#fromTryOptionF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromTryOptionF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[scala.util.Try[Option[V]]])(implicitevidence$9:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]"></a><a id="fromTryOptionF[F[_],K,V](ConfigKeyType[K])((K)⇒F[Try[Option[V]]])(Apply[F]):ConfigSource[F,K,V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigSource$.html#fromTryOptionF[F[_],K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;F[scala.util.Try[Option[V]]])(implicitevidence$9:ciris.api.Apply[F]):ciris.ConfigSource[F,K,V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromTryOptionF</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="V">V</span>]</span><span class="params">(<span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigSource.fromTryOptionF.K">K</span>]</span>)</span><span class="params">(<span name="read">read: (<span class="extype" name="ciris.ConfigSource.fromTryOptionF.K">K</span>) ⇒ <span class="extype" name="ciris.ConfigSource.fromTryOptionF.F">F</span>[<a href="http://www.scala-lang.org/api/2.12.4/scala/util/Try.html#scala.util.Try" class="extype" name="scala.util.Try">Try</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigSource.fromTryOptionF.V">V</span>]]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.ConfigSource.fromTryOptionF.F">F</span>]</span>)</span><span class="result">: <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="ciris.ConfigSource.fromTryOptionF.F">F</span>, <span class="extype" name="ciris.ConfigSource.fromTryOptionF.K">K</span>, <span class="extype" name="ciris.ConfigSource.fromTryOptionF.V">V</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning a <code>F[Try[Option[V]]]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> from the specified <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>
+and read function, reading values of type <code>V</code> for keys of type <code>K</code>,
+returning a <code>F[Try[Option[V]]]</code>. The source will only contain entries
+where the specified function returns <code>Success[Some[V]]</code>for the key <code>K</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which values are wrapped</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of keys the source supports</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of values the source reads</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">read</dt><dd class="cmt"><p>a function returning <code>Try[Option[V]]</code> for a key</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource.fromTryOptionF[api.Id, <span class="std">String</span>, <span class="std">String</span>](ConfigKeyType.Property)(key <span class="kw">=&gt;</span> scala.util.Try(sys.props.get(key)))
+source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(Property)
+
+scala&gt; source.read(<span class="lit">"key"</span>)
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Property, Left(MissingKey(key, Property)))
+
+scala&gt; source.read(<span class="lit">""</span>)
+res1: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(, Property, Left(ReadException(, Property, java.lang.IllegalArgumentException: key can't be empty)))</pre></li></ol>
             </div></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
@@ -972,7 +1339,7 @@ res1: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(, P
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="ConfigSource reading environment variables from String keys." href="ConfigSource$$Environment$.html"><span class="name">Environment</span></a><span class="result"> extends <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="scala.Predef.String">String</span>] with <a href="http://www.scala-lang.org/api/2.12.4/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="http://www.scala-lang.org/api/2.12.4/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <a title="ConfigSource reading environment variables from String keys." href="ConfigSource$$Environment$.html"><span class="name">Environment</span></a><span class="result"> extends <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       <p class="shortcomment cmt"><a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> reading environment variables from <code>String</code> keys.</p>
@@ -988,7 +1355,7 @@ res1: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(, P
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">File</span><span class="result"> extends <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[(<span class="extype" name="java.io.File">File</span>, <span class="extype" name="java.nio.charset.Charset">Charset</span>)] with <a href="http://www.scala-lang.org/api/2.12.4/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="http://www.scala-lang.org/api/2.12.4/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <span class="name">File</span><span class="result"> extends <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, (<span class="extype" name="java.io.File">File</span>, <span class="extype" name="java.nio.charset.Charset">Charset</span>), <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       <p class="shortcomment cmt"><a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> reading file contents from <code>File</code> and <code>Charset</code> keys.</p><div class="fullcomment"><div class="comment cmt"><p><a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> reading file contents from <code>File</code> and <code>Charset</code> keys.
@@ -1005,7 +1372,7 @@ res1: ConfigSourceEntry[<span class="std">String</span>] = ConfigSourceEntry(, P
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="ConfigSource reading system properties from String keys." href="ConfigSource$$Properties$.html"><span class="name">Properties</span></a><span class="result"> extends <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<span class="extype" name="scala.Predef.String">String</span>] with <a href="http://www.scala-lang.org/api/2.12.4/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="http://www.scala-lang.org/api/2.12.4/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <a title="ConfigSource reading system properties from String keys." href="ConfigSource$$Properties$.html"><span class="name">Properties</span></a><span class="result"> extends <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>[<a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
       <p class="shortcomment cmt"><a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a> reading system properties from <code>String</code> keys.</p>

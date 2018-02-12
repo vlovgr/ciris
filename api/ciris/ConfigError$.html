@@ -65,14 +65,14 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.6.2 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.7.0 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
 Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
-Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for typeclasses and typeclass instances.</li><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -90,10 +90,61 @@ Note that the API documentation targets the JVM, and there may be differences on
       
       <p class="shortcomment cmt">The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="ciris.api" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="api"></a><a id="api:api"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#api" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="api/index.html"><span class="name">api</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.cats" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="cats"></a><a id="cats:cats"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#cats" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with cats." href="cats/index.html"><span class="name">cats</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.decoders" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#decoders" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="decoders/index.html"><span class="name">decoders</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.enumeratum" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enumeratum"></a><a id="enumeratum:enumeratum"></a>
       <span class="permalink">
@@ -123,27 +174,13 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Module using shapeless for generic derivation of ConfigReaders." href="generic/index.html"><span class="name">generic</span></a>
+        <a title="Module using shapeless for generic derivation of ConfigDecoders." href="generic/index.html"><span class="name">generic</span></a>
       </span>
       
-      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.
+      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.readers" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
-      <span class="permalink">
-      <a href="../ciris/index.html#readers" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="readers/index.html"><span class="name">readers</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.refined" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="refined"></a><a id="refined:refined"></a>
       <span class="permalink">
@@ -196,41 +233,41 @@ If you are looking for a getting started guide, with examples and explanations, 
       <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li class="current-entities indented1">
+                        <a class="object" href="ConfigDecoder$.html" title=""></a>
+                        <a class="class" href="ConfigDecoder.html" title="ConfigDecoder represents the ability to convert the value of a ConfigEntry to a different type."></a>
+                        <a href="ConfigDecoder.html" title="ConfigDecoder represents the ability to convert the value of a ConfigEntry to a different type.">ConfigDecoder</a>
+                      </li><li class="current-entities indented1">
+                        <a class="object" href="ConfigEntry$.html" title=""></a>
+                        <a class="class" href="ConfigEntry.html" title="ConfigEntry represents an entry (key-value pair) from a configuration source, with support for transforming the value."></a>
+                        <a href="ConfigEntry.html" title="ConfigEntry represents an entry (key-value pair) from a configuration source, with support for transforming the value.">ConfigEntry</a>
+                      </li><li class="current-entities indented1">
                         <a class="object" href="" title=""></a>
-                        <a class="class" href="ConfigError.html" title="A class representing one or more errors that occurred while reading a single ConfigValue configuration value."></a>
-                        <a href="ConfigError.html" title="A class representing one or more errors that occurred while reading a single ConfigValue configuration value.">ConfigError</a>
+                        <a class="class" href="ConfigError.html" title="ConfigError represents one or more errors that occurred while reading or decoding a single ConfigEntry configuration entry value."></a>
+                        <a href="ConfigError.html" title="ConfigError represents one or more errors that occurred while reading or decoding a single ConfigEntry configuration entry value.">ConfigError</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigErrors$.html" title=""></a>
-                        <a class="class" href="ConfigErrors.html" title="A value class representing one or more ConfigError errors that occurred while reading one or more ConfigValue configuration values."></a>
-                        <a href="ConfigErrors.html" title="A value class representing one or more ConfigError errors that occurred while reading one or more ConfigValue configuration values.">ConfigErrors</a>
+                        <a class="class" href="ConfigErrors.html" title="ConfigErrors represents one or more ConfigError errors that occurred while reading one or more ConfigEntry configuration entries."></a>
+                        <a href="ConfigErrors.html" title="ConfigErrors represents one or more ConfigError errors that occurred while reading one or more ConfigEntry configuration entries.">ConfigErrors</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigException$.html" title=""></a>
-                        <a class="class" href="ConfigException.html" title="A Throwable representation of ConfigErrors."></a>
-                        <a href="ConfigException.html" title="A Throwable representation of ConfigErrors.">ConfigException</a>
+                        <a class="class" href="ConfigException.html" title="ConfigException is a Throwable representation of ConfigErrors."></a>
+                        <a href="ConfigException.html" title="ConfigException is a Throwable representation of ConfigErrors.">ConfigException</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigKeyType$.html" title=""></a>
-                        <a class="class" href="ConfigKeyType.html" title="Represents the name and type of keys that can be read from a ConfigSource."></a>
-                        <a href="ConfigKeyType.html" title="Represents the name and type of keys that can be read from a ConfigSource.">ConfigKeyType</a>
-                      </li><li class="current-entities indented1">
-                        <a class="object" href="ConfigReader$.html" title=""></a>
-                        <a class="class" href="ConfigReader.html" title="ConfigReader represents the ability to convert the value of a ConfigSourceEntry (a value read from a ConfigSource) to a different type."></a>
-                        <a href="ConfigReader.html" title="ConfigReader represents the ability to convert the value of a ConfigSourceEntry (a value read from a ConfigSource) to a different type.">ConfigReader</a>
+                        <a class="class" href="ConfigKeyType.html" title="ConfigKeyType represents the name and type of keys that can be read from a ConfigSource."></a>
+                        <a href="ConfigKeyType.html" title="ConfigKeyType represents the name and type of keys that can be read from a ConfigSource.">ConfigKeyType</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigSource$.html" title=""></a>
-                        <a class="class" href="ConfigSource.html" title="A ConfigSource represents the ability to read keys of type Key from some source, for example environment variables, system properties, command-line arguments, or a vault service."></a>
-                        <a href="ConfigSource.html" title="A ConfigSource represents the ability to read keys of type Key from some source, for example environment variables, system properties, command-line arguments, or a vault service.">ConfigSource</a>
-                      </li><li class="current-entities indented1">
-                        <a class="object" href="ConfigSourceEntry$.html" title=""></a>
-                        <a class="class" href="ConfigSourceEntry.html" title="Represents an entry (key-value pair) that has been read from a configuration source."></a>
-                        <a href="ConfigSourceEntry.html" title="Represents an entry (key-value pair) that has been read from a configuration source.">ConfigSourceEntry</a>
+                        <a class="class" href="ConfigSource.html" title="ConfigSource represents the ability to read values of type V for keys of type K from some source: for example, environment variables, system properties, command-line arguments, or some vault service."></a>
+                        <a href="ConfigSource.html" title="ConfigSource represents the ability to read values of type V for keys of type K from some source: for example, environment variables, system properties, command-line arguments, or some vault service.">ConfigSource</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="ConfigValue$.html" title=""></a>
-                        <a class="class" href="ConfigValue.html" title="A value which has been read from a ConfigSource, and converted to the specified type Value using a ConfigReader."></a>
-                        <a href="ConfigValue.html" title="A value which has been read from a ConfigSource, and converted to the specified type Value using a ConfigReader.">ConfigValue</a>
+                        <a class="class" href="ConfigValue.html" title="ConfigValue represents the value part of a ConfigEntry, without any other details like the key, key type, or original source value."></a>
+                        <a href="ConfigValue.html" title="ConfigValue represents the value part of a ConfigEntry, without any other details like the key, key type, or original source value.">ConfigValue</a>
                       </li><li class="current-entities indented1">
                         <a class="object" href="Secret$.html" title=""></a>
-                        <a class="class" href="Secret.html" title="Used to denote that a configuration value is secret, and that it should not be included in any log output."></a>
-                        <a href="Secret.html" title="Used to denote that a configuration value is secret, and that it should not be included in any log output.">Secret</a>
+                        <a class="class" href="Secret.html" title="Secret is used to denote that a configuration value is secret, and that it should not be included in any log output."></a>
+                        <a href="Secret.html" title="Secret is used to denote that a configuration value is secret, and that it should not be included in any log output.">Secret</a>
                       </li><li class="current-entities indented1">
                         <span class="separator"></span>
                         <a class="object" href="syntax$.html" title=""></a>
@@ -265,7 +302,7 @@ If you are looking for a getting started guide, with examples and explanations, 
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.6.2/modules/core/shared/src/main/scala/ciris/ConfigError.scala" target="_blank">ConfigError.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.7.0/modules/core/shared/src/main/scala/ciris/ConfigError.scala" target="_blank">ConfigError.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -447,11 +484,12 @@ res0: ConfigError = ConfigError(error1)</pre></li></ol>
       </span>
       
       <p class="shortcomment cmt">Combines two or more <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s into a single <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Combines two or more <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s into a single <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>.
-This is useful when there is more than one error when reading a value.
-</p></div><dl class="paramcmts block"><dt class="param">first</dt><dd class="cmt"><p>the first <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> to combine</p></dd><dt class="param">second</dt><dd class="cmt"><p>the second <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> to combine</p></dd><dt class="param">rest</dt><dd class="cmt"><p>any remaining <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s to combine</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> combining all specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s</p></dd></dl><dl class="attributes block"> <div class="block">Examples:
+This is useful when there is more than one error when reading or
+decoding a value.
+</p></div><dl class="paramcmts block"><dt class="param">first</dt><dd class="cmt"><p>the first <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> to combine</p></dd><dt class="param">second</dt><dd class="cmt"><p>the second <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> to combine</p></dd><dt class="param">rest</dt><dd class="cmt"><p>any remaining <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>s to combine</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> combining all specified errors</p></dd></dl><dl class="attributes block"> <div class="block">Examples:
                <ol><li class="cmt"><p>you can use the <a href="ConfigError.html#combine(that:ciris.ConfigError):ciris.ConfigError" class="extmbr" name="ciris.ConfigError#combine">ConfigError#combine</a> method.</p><pre>scala&gt; ConfigError(<span class="lit">"error1"</span>) combine ConfigError(<span class="lit">"error2"</span>)
-res1: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</pre></li>, <li class="cmt"><p>you can use the <a href="#combined(first:ciris.ConfigError,second:ciris.ConfigError,rest:ciris.ConfigError*):ciris.ConfigError" class="extmbr" name="ciris.ConfigError#combined">ConfigError#combined</a> method.</p><pre>scala&gt; ConfigError.combined(ConfigError(<span class="lit">"error1"</span>), ConfigError(<span class="lit">"error2"</span>))
-res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</pre></li></ol>
+res1: ConfigError = Combined(ConfigError(error1), ConfigError(error2))</pre></li>, <li class="cmt"><p>you can use the <a href="#combined(first:ciris.ConfigError,second:ciris.ConfigError,rest:ciris.ConfigError*):ciris.ConfigError" class="extmbr" name="ciris.ConfigError#combined">ConfigError#combined</a> method.</p><pre>scala&gt; ConfigError.combined(ConfigError(<span class="lit">"error1"</span>), ConfigError(<span class="lit">"error2"</span>))
+res0: ConfigError = Combined(ConfigError(error1), ConfigError(error2))</pre></li></ol>
             </div></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
@@ -561,10 +599,10 @@ res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="ciris.ConfigError#missingKey" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="missingKey[Key](key:Key,keyType:ciris.ConfigKeyType[Key]):ciris.ConfigError"></a><a id="missingKey[Key](Key,ConfigKeyType[Key]):ConfigError"></a>
+    </li><li name="ciris.ConfigError#left" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="left[A](error:ciris.ConfigError):Either[ciris.ConfigError,A]"></a><a id="left[A](ConfigError):Either[ConfigError,A]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#missingKey[Key](key:Key,keyType:ciris.ConfigKeyType[Key]):ciris.ConfigError" title="Permalink">
+      <a href="../ciris/ConfigError$.html#left[A](error:ciris.ConfigError):Either[ciris.ConfigError,A]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -573,14 +611,33 @@ res0: ConfigError = Combined(Vector(ConfigError(error1), ConfigError(error2)))</
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">missingKey</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.missingKey.Key">Key</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.missingKey.Key">Key</span>]</span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
+        <span class="name">left</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="error">error: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.ConfigError.left.A">A</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Wraps the specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> in an <code>Either[ConfigError, A]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Wraps the specified <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> in an <code>Either[ConfigError, A]</code>.
+Useful in cases where it is necessary to guide type inference and
+widen a <code>Left</code> into an <code>Either[ConfigError, A]</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the right side value of the <code>Either</code></p></dd><dt class="param">error</dt><dd class="cmt"><p>the error which should be wrapped</p></dd><dt>returns</dt><dd class="cmt"><p>the specified error as an <code>Either[ConfigError, A]</code></p></dd></dl></div>
+    </li><li name="ciris.ConfigError#missingKey" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="missingKey[K](key:K,keyType:ciris.ConfigKeyType[K]):ciris.ConfigError"></a><a id="missingKey[K](K,ConfigKeyType[K]):ConfigError"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigError$.html#missingKey[K](key:K,keyType:ciris.ConfigKeyType[K]):ciris.ConfigError" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">missingKey</span><span class="tparams">[<span name="K">K</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.missingKey.K">K</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.missingKey.K">K</span>]</span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
       </span>
       
       <p class="shortcomment cmt">Creates a new error representing the fact that a key is missing from the
 configuration source, that is, that there is no value for a specified key.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new error representing the fact that a key is missing from the
 configuration source, that is, that there is no value for a specified key.
-Accepts a key value of type <code>Key</code> and a matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key which is missing from the configuration source</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the type of keys the configuration source reads</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified key and key type</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+Accepts a key value of type <code>K</code> and a matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key which is missing from the configuration source</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified key and key type</p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError.missingKey(<span class="lit">"key"</span>, ConfigKeyType.Environment)
 error: ConfigError = MissingKey(key, Environment)
 
@@ -642,9 +699,9 @@ res0: <span class="std">String</span> = Missing environment variable [key]</pre>
               
         </dd></dl></div>
     </li><li name="ciris.ConfigError#readException" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readException[Key](key:Key,keyType:ciris.ConfigKeyType[Key],cause:Throwable):ciris.ConfigError"></a><a id="readException[Key](Key,ConfigKeyType[Key],Throwable):ConfigError"></a>
+      <a id="readException[K](key:K,keyType:ciris.ConfigKeyType[K],cause:Throwable):ciris.ConfigError"></a><a id="readException[K](K,ConfigKeyType[K],Throwable):ConfigError"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#readException[Key](key:Key,keyType:ciris.ConfigKeyType[Key],cause:Throwable):ciris.ConfigError" title="Permalink">
+      <a href="../ciris/ConfigError$.html#readException[K](key:K,keyType:ciris.ConfigKeyType[K],cause:Throwable):ciris.ConfigError" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -653,20 +710,39 @@ res0: <span class="std">String</span> = Missing environment variable [key]</pre>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">readException</span><span class="tparams">[<span name="Key">Key</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.readException.Key">Key</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.readException.Key">Key</span>]</span>, <span name="cause">cause: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
+        <span class="name">readException</span><span class="tparams">[<span name="K">K</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.readException.K">K</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.readException.K">K</span>]</span>, <span name="cause">cause: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
       </span>
       
       <p class="shortcomment cmt">Creates a new error representing the fact that there was an exception while
-reading a key from a configuration source.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new error representing the fact that there was an exception while
-reading a key from a configuration source. Accepts a key value of type
-<code>Key</code>, a matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>, and the <code>Throwable</code> cause.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key for which there was a read exception</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the type of keys the configuration source reads</p></dd><dt class="param">cause</dt><dd class="cmt"><p>the reason why there was an exception while reading</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+reading a key from some configuration source.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new error representing the fact that there was an exception while
+reading a key from some configuration source. Accepts a key of type <code>K</code>, a
+matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>, and the <code>Throwable</code> cause.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key for which there was a read exception</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the name and type of keys the source supports</p></dd><dt class="param">cause</dt><dd class="cmt"><p>the reason why there was an exception while reading</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError.readException(<span class="lit">"key"</span>, ConfigKeyType.Environment, <span class="kw">new</span> Error(<span class="lit">"error"</span>))
 error: ConfigError = ReadException(key, Environment, java.lang.Error: error)
 
 scala&gt; error.message
 res0: <span class="std">String</span> = Exception <span class="kw">while</span> reading environment variable [key]: java.lang.Error: error</pre></li></ol>
             </div></dl></div>
+    </li><li name="ciris.ConfigError#right" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="right[A](value:A):Either[ciris.ConfigError,A]"></a><a id="right[A](A):Either[ConfigError,A]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigError$.html#right[A](value:A):Either[ciris.ConfigError,A]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">right</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="value">value: <span class="extype" name="ciris.ConfigError.right.A">A</span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.ConfigError.right.A">A</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Wraps the specified value in an <code>Either[ConfigError, A]</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Wraps the specified value in an <code>Either[ConfigError, A]</code>. Useful
+in cases where it is necessary to guide type inference and widen
+a <code>Right</code> into an <code>Either[ConfigError, A]</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of the value</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value which should be wrapped</p></dd><dt>returns</dt><dd class="cmt"><p>the specified value as an <code>Either[ConfigError, A]</code></p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -768,9 +844,9 @@ res0: <span class="std">String</span> = Exception <span class="kw">while</span> 
               
         </dd></dl></div>
     </li><li name="ciris.ConfigError#wrongType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wrongType[Key,Value,Cause](key:Key,value:Value,typeName:String,keyType:ciris.ConfigKeyType[Key],cause:Option[Cause]):ciris.ConfigError"></a><a id="wrongType[Key,Value,Cause](Key,Value,String,ConfigKeyType[Key],Option[Cause]):ConfigError"></a>
+      <a id="wrongType[K,S,V,C](key:K,keyType:ciris.ConfigKeyType[K],sourceValue:Either[ciris.ConfigError,S],value:V,typeName:String,cause:Option[C]):ciris.ConfigError"></a><a id="wrongType[K,S,V,C](K,ConfigKeyType[K],Either[ConfigError,S],V,String,Option[C]):ConfigError"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigError$.html#wrongType[Key,Value,Cause](key:Key,value:Value,typeName:String,keyType:ciris.ConfigKeyType[Key],cause:Option[Cause]):ciris.ConfigError" title="Permalink">
+      <a href="../ciris/ConfigError$.html#wrongType[K,S,V,C](key:K,keyType:ciris.ConfigKeyType[K],sourceValue:Either[ciris.ConfigError,S],value:V,typeName:String,cause:Option[C]):ciris.ConfigError" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -779,17 +855,17 @@ res0: <span class="std">String</span> = Exception <span class="kw">while</span> 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wrongType</span><span class="tparams">[<span name="Key">Key</span>, <span name="Value">Value</span>, <span name="Cause">Cause</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.wrongType.Key">Key</span></span>, <span name="value">value: <span class="extype" name="ciris.ConfigError.wrongType.Value">Value</span></span>, <span name="typeName">typeName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.wrongType.Key">Key</span>]</span>, <span name="cause">cause: <a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigError.wrongType.Cause">Cause</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
+        <span class="name">wrongType</span><span class="tparams">[<span name="K">K</span>, <span name="S">S</span>, <span name="V">V</span>, <span name="C">C</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="ciris.ConfigError.wrongType.K">K</span></span>, <span name="keyType">keyType: <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.ConfigError.wrongType.K">K</span>]</span>, <span name="sourceValue">sourceValue: <span class="extype" name="scala.Either">Either</span>[<a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.ConfigError.wrongType.S">S</span>]</span>, <span name="value">value: <span class="extype" name="ciris.ConfigError.wrongType.V">V</span></span>, <span name="typeName">typeName: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="cause">cause: <a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigError.wrongType.C">C</span>]</span>)</span><span class="result">: <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a></span>
       </span>
       
       <p class="shortcomment cmt">Creates a new error representing the fact that there was an error while trying to
 convert a configuration value to a type with name <code>typeName</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new error representing the fact that there was an error while trying to
 convert a configuration value to a type with name <code>typeName</code>. Accepts a key of type
-<code>Key</code>, a matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>, a value of type <code>Value</code>, the name of the type
-for which conversion was attempted, and an optional cause of type <code>Cause</code>.
-</p></div><dl class="paramcmts block"><dt class="tparam">Key</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="tparam">Value</dt><dd class="cmt"><p>the type of the value</p></dd><dt class="tparam">Cause</dt><dd class="cmt"><p>the type of the cause</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key for which the value was of the wrong type</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value which could not be converted to the expected type</p></dd><dt class="param">typeName</dt><dd class="cmt"><p>the name of the type for which conversion was attempted</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the type of keys the configuration source reads</p></dd><dt class="param">cause</dt><dd class="cmt"><p>optionally, the reason why the conversion failed</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError.wrongType(<span class="lit">"key"</span>, <span class="num">1.5</span>, <span class="lit">"Int"</span>, ConfigKeyType.Environment)
-error: ConfigError = WrongType(key, <span class="num">1.5</span>, <span class="std">Int</span>, Environment, <span class="std">None</span>)
+<code>K</code>, a matching <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>, an unmodified source value of type <code>S</code>, a value
+of type <code>V</code>, and an optional cause of type <code>C</code>.
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd><dt class="tparam">C</dt><dd class="cmt"><p>the type of the cause</p></dd><dt class="param">key</dt><dd class="cmt"><p>the key for which the value was of the wrong type</p></dd><dt class="param">keyType</dt><dd class="cmt"><p>the type of keys the configuration source reads</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value which could not be converted to the expected type</p></dd><dt class="param">typeName</dt><dd class="cmt"><p>the name of the type for which conversion was attempted</p></dd><dt class="param">cause</dt><dd class="cmt"><p>optionally, the reason why the conversion failed</p></dd><dt>returns</dt><dd class="cmt"><p>a new error using the specified arguments</p></dd></dl><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError.wrongType(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"1.5"</span>), <span class="num">1.5</span>, <span class="lit">"Int"</span>, <span class="std">None</span>)
+error: ConfigError = WrongType(key, Environment, Right(<span class="num">1.5</span>), <span class="num">1.5</span>, <span class="std">Int</span>)
 
 scala&gt; error.message
 res0: <span class="std">String</span> = Environment variable [key] <span class="kw">with</span> value [<span class="num">1.5</span>] cannot be converted to <span class="kw">type</span> [<span class="std">Int</span>]</pre></li></ol>

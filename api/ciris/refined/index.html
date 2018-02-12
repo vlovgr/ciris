@@ -65,14 +65,14 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.6.2 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.7.0 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
 Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
-Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for typeclasses and typeclass instances.</li><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -90,10 +90,61 @@ Note that the API documentation targets the JVM, and there may be differences on
       
       <p class="shortcomment cmt">The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="ciris.api" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="api"></a><a id="api:api"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#api" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../api/index.html"><span class="name">api</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.cats" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="cats"></a><a id="cats:cats"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#cats" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with cats." href="../cats/index.html"><span class="name">cats</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.decoders" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#decoders" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../decoders/index.html"><span class="name">decoders</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.enumeratum" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enumeratum"></a><a id="enumeratum:enumeratum"></a>
       <span class="permalink">
@@ -123,27 +174,13 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Module using shapeless for generic derivation of ConfigReaders." href="../generic/index.html"><span class="name">generic</span></a>
+        <a title="Module using shapeless for generic derivation of ConfigDecoders." href="../generic/index.html"><span class="name">generic</span></a>
       </span>
       
-      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.
+      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.readers" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
-      <span class="permalink">
-      <a href="../ciris/index.html#readers" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="../readers/index.html"><span class="name">readers</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.refined" visbl="pub" class="indented2 current" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="refined"></a><a id="refined:refined"></a>
       <span class="permalink">
@@ -161,10 +198,10 @@ If you are looking for a getting started guide, with examples and explanations, 
       
       <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.refined.readers" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
+    </li><li name="ciris.refined.decoders" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
       <span class="permalink">
-      <a href="../../ciris/refined/index.html#readers" title="Permalink">
+      <a href="../../ciris/refined/index.html#decoders" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -173,7 +210,7 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="" href="readers/index.html"><span class="name">readers</span></a>
+        <a title="" href="decoders/index.html"><span class="name">decoders</span></a>
       </span>
       
       
@@ -244,11 +281,11 @@ If you are looking for a getting started guide, with examples and explanations, 
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.6.2/modules/refined/shared/src/main/scala/ciris/refined/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.7.0/modules/refined/shared/src/main/scala/ciris/refined/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="readers/RefinedConfigReaders.html" class="extype" name="ciris.refined.readers.RefinedConfigReaders">RefinedConfigReaders</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="decoders/RefinedConfigDecoders.html" class="extype" name="ciris.refined.decoders.RefinedConfigDecoders">RefinedConfigDecoders</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -274,7 +311,7 @@ If you are looking for a getting started guide, with examples and explanations, 
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="ciris.refined"><span>refined</span></li><li class="in" name="ciris.refined.readers.RefinedConfigReaders"><span>RefinedConfigReaders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="ciris.refined"><span>refined</span></li><li class="in" name="ciris.refined.decoders.RefinedConfigDecoders"><span>RefinedConfigDecoders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -301,10 +338,10 @@ If you are looking for a getting started guide, with examples and explanations, 
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="ciris.refined.readers.RefinedConfigReaders#refTypeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="refTypeConfigReader[F[_,_],T,P](implicitreader:ciris.ConfigReader[T],implicitrefType:eu.timepit.refined.api.RefType[F],implicitvalidate:eu.timepit.refined.api.Validate[T,P],implicittypeTag:reflect.runtime.universe.WeakTypeTag[F[T,P]]):ciris.ConfigReader[F[T,P]]"></a><a id="refTypeConfigReader[F[_,_],T,P](ConfigReader[T],RefType[F],Validate[T,P],scala.reflect.api.JavaUniverse.WeakTypeTag[F[T,P]]):ConfigReader[F[T,P]]"></a>
+                <li name="ciris.refined.decoders.RefinedConfigDecoders#refTypeConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="refTypeConfigDecoder[F[_,_],A,T,P](implicitdecoder:ciris.ConfigDecoder[A,T],implicitrefType:eu.timepit.refined.api.RefType[F],implicitvalidate:eu.timepit.refined.api.Validate[T,P],implicittypeTag:reflect.runtime.universe.WeakTypeTag[F[T,P]]):ciris.ConfigDecoder[A,F[T,P]]"></a><a id="refTypeConfigDecoder[F[_,_],A,T,P](ConfigDecoder[A,T],RefType[F],Validate[T,P],scala.reflect.api.JavaUniverse.WeakTypeTag[F[T,P]]):ConfigDecoder[A,F[T,P]]"></a>
       <span class="permalink">
-      <a href="../../ciris/refined/index.html#refTypeConfigReader[F[_,_],T,P](implicitreader:ciris.ConfigReader[T],implicitrefType:eu.timepit.refined.api.RefType[F],implicitvalidate:eu.timepit.refined.api.Validate[T,P],implicittypeTag:reflect.runtime.universe.WeakTypeTag[F[T,P]]):ciris.ConfigReader[F[T,P]]" title="Permalink">
+      <a href="../../ciris/refined/index.html#refTypeConfigDecoder[F[_,_],A,T,P](implicitdecoder:ciris.ConfigDecoder[A,T],implicitrefType:eu.timepit.refined.api.RefType[F],implicitvalidate:eu.timepit.refined.api.Validate[T,P],implicittypeTag:reflect.runtime.universe.WeakTypeTag[F[T,P]]):ciris.ConfigDecoder[A,F[T,P]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -313,10 +350,10 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">refTypeConfigReader</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>, <span name="_">_</span>]</span></span>, <span name="T">T</span>, <span name="P">P</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="reader">reader: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.T">T</span>]</span>, <span name="refType">refType: <a href="https://static.javadoc.io/eu.timepit/refined_2.12/0.8.6/eu/timepit/refined/eu/timepit/refined/api/RefType.html#eu.timepit.refined.api.RefType" class="extype" name="eu.timepit.refined.api.RefType">RefType</a>[<span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.F">F</span>]</span>, <span name="validate">validate: <a href="https://static.javadoc.io/eu.timepit/refined_2.12/0.8.6/eu/timepit/refined/eu/timepit/refined/api/Validate.html#eu.timepit.refined.api.Validate" class="extype" name="eu.timepit.refined.api.Validate">Validate</a>[<span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.T">T</span>, <span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.P">P</span>]</span>, <span name="typeTag">typeTag: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.F">F</span>[<span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.T">T</span>, <span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.P">P</span>]]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.F">F</span>[<span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.T">T</span>, <span class="extype" name="ciris.refined.readers.RefinedConfigReaders.refTypeConfigReader.P">P</span>]]</span>
+        <span class="name">refTypeConfigDecoder</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>, <span name="_">_</span>]</span></span>, <span name="A">A</span>, <span name="T">T</span>, <span name="P">P</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="decoder">decoder: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.A">A</span>, <span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.T">T</span>]</span>, <span name="refType">refType: <a href="https://static.javadoc.io/eu.timepit/refined_2.12/0.8.7/eu/timepit/refined/eu/timepit/refined/api/RefType.html#eu.timepit.refined.api.RefType" class="extype" name="eu.timepit.refined.api.RefType">RefType</a>[<span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.F">F</span>]</span>, <span name="validate">validate: <a href="https://static.javadoc.io/eu.timepit/refined_2.12/0.8.7/eu/timepit/refined/eu/timepit/refined/api/Validate.html#eu.timepit.refined.api.Validate" class="extype" name="eu.timepit.refined.api.Validate">Validate</a>[<span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.T">T</span>, <span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.P">P</span>]</span>, <span name="typeTag">typeTag: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.F">F</span>[<span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.T">T</span>, <span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.P">P</span>]]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.A">A</span>, <span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.F">F</span>[<span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.T">T</span>, <span class="extype" name="ciris.refined.decoders.RefinedConfigDecoders.refTypeConfigDecoder.P">P</span>]]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/RefinedConfigReaders.html" class="extype" name="ciris.refined.readers.RefinedConfigReaders">RefinedConfigReaders</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/RefinedConfigDecoders.html" class="extype" name="ciris.refined.decoders.RefinedConfigDecoders">RefinedConfigDecoders</a></dd></dl></div>
     </li><li name="ciris.refined.syntax" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="syntax"></a><a id="syntax:syntax"></a>
       <span class="permalink">
@@ -343,8 +380,8 @@ If you are looking for a getting started guide, with examples and explanations, 
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="ciris.refined.readers.RefinedConfigReaders">
-              <h3>Inherited from <a href="readers/RefinedConfigReaders.html" class="extype" name="ciris.refined.readers.RefinedConfigReaders">RefinedConfigReaders</a></h3>
+        <div class="parent" name="ciris.refined.decoders.RefinedConfigDecoders">
+              <h3>Inherited from <a href="decoders/RefinedConfigDecoders.html" class="extype" name="ciris.refined.decoders.RefinedConfigDecoders">RefinedConfigDecoders</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

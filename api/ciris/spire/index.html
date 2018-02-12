@@ -65,14 +65,14 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.6.2 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.7.0 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
 Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
-Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for typeclasses and typeclass instances.</li><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -90,10 +90,61 @@ Note that the API documentation targets the JVM, and there may be differences on
       
       <p class="shortcomment cmt">The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="ciris.api" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="api"></a><a id="api:api"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#api" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../api/index.html"><span class="name">api</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.cats" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="cats"></a><a id="cats:cats"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#cats" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with cats." href="../cats/index.html"><span class="name">cats</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.decoders" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#decoders" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../decoders/index.html"><span class="name">decoders</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.enumeratum" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enumeratum"></a><a id="enumeratum:enumeratum"></a>
       <span class="permalink">
@@ -123,27 +174,13 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Module using shapeless for generic derivation of ConfigReaders." href="../generic/index.html"><span class="name">generic</span></a>
+        <a title="Module using shapeless for generic derivation of ConfigDecoders." href="../generic/index.html"><span class="name">generic</span></a>
       </span>
       
-      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.
+      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.readers" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
-      <span class="permalink">
-      <a href="../ciris/index.html#readers" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="../readers/index.html"><span class="name">readers</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.refined" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="refined"></a><a id="refined:refined"></a>
       <span class="permalink">
@@ -178,10 +215,10 @@ If you are looking for a getting started guide, with examples and explanations, 
       
       <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/non/spire" target="_blank">spire</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/non/spire" target="_blank">spire</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.spire.readers" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
+    </li><li name="ciris.spire.decoders" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#readers" title="Permalink">
+      <a href="../../ciris/spire/index.html#decoders" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -190,7 +227,7 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="" href="readers/index.html"><span class="name">readers</span></a>
+        <a title="" href="decoders/index.html"><span class="name">decoders</span></a>
       </span>
       
       
@@ -240,11 +277,11 @@ If you are looking for a getting started guide, with examples and explanations, 
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/non/spire" target="_blank">spire</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.6.2/modules/spire/shared/src/main/scala/ciris/spire/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.7.0/modules/spire/shared/src/main/scala/ciris/spire/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -270,7 +307,7 @@ If you are looking for a getting started guide, with examples and explanations, 
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="ciris.spire"><span>spire</span></li><li class="in" name="ciris.spire.readers.SpireConfigReaders"><span>SpireConfigReaders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="ciris.spire"><span>spire</span></li><li class="in" name="ciris.spire.decoders.SpireConfigDecoders"><span>SpireConfigDecoders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -297,10 +334,10 @@ If you are looking for a getting started guide, with examples and explanations, 
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="ciris.spire.readers.SpireConfigReaders#algebraicConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="algebraicConfigReader:ciris.ConfigReader[spire.math.Algebraic]"></a><a id="algebraicConfigReader:ConfigReader[Algebraic]"></a>
+                <li name="ciris.spire.decoders.SpireConfigDecoders#algebraicConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="algebraicConfigDecoder:ciris.ConfigDecoder[String,spire.math.Algebraic]"></a><a id="algebraicConfigDecoder:ConfigDecoder[String,Algebraic]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#algebraicConfigReader:ciris.ConfigReader[spire.math.Algebraic]" title="Permalink">
+      <a href="../../ciris/spire/index.html#algebraicConfigDecoder:ciris.ConfigDecoder[String,spire.math.Algebraic]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -309,14 +346,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">algebraicConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.Algebraic">Algebraic</span>]</span>
+        <span class="name">algebraicConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="spire.math.Algebraic">Algebraic</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#intervalRationalConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="intervalRationalConfigReader:ciris.ConfigReader[spire.math.Interval[spire.math.Rational]]"></a><a id="intervalRationalConfigReader:ConfigReader[Interval[Rational]]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#intervalRationalConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="intervalRationalConfigDecoder:ciris.ConfigDecoder[String,spire.math.Interval[spire.math.Rational]]"></a><a id="intervalRationalConfigDecoder:ConfigDecoder[String,Interval[Rational]]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#intervalRationalConfigReader:ciris.ConfigReader[spire.math.Interval[spire.math.Rational]]" title="Permalink">
+      <a href="../../ciris/spire/index.html#intervalRationalConfigDecoder:ciris.ConfigDecoder[String,spire.math.Interval[spire.math.Rational]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -325,14 +362,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">intervalRationalConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.Interval">Interval</span>[<span class="extype" name="spire.math.Rational">Rational</span>]]</span>
+        <span class="name">intervalRationalConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="spire.math.Interval">Interval</span>[<span class="extype" name="spire.math.Rational">Rational</span>]]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#naturalConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="naturalConfigReader:ciris.ConfigReader[spire.math.Natural]"></a><a id="naturalConfigReader:ConfigReader[Natural]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#naturalConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="naturalConfigDecoder:ciris.ConfigDecoder[String,spire.math.Natural]"></a><a id="naturalConfigDecoder:ConfigDecoder[String,Natural]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#naturalConfigReader:ciris.ConfigReader[spire.math.Natural]" title="Permalink">
+      <a href="../../ciris/spire/index.html#naturalConfigDecoder:ciris.ConfigDecoder[String,spire.math.Natural]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -341,14 +378,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">naturalConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.Natural">Natural</span>]</span>
+        <span class="name">naturalConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="spire.math.Natural">Natural</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#numberConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="numberConfigReader:ciris.ConfigReader[spire.math.Number]"></a><a id="numberConfigReader:ConfigReader[Number]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#numberConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="numberConfigDecoder:ciris.ConfigDecoder[String,spire.math.Number]"></a><a id="numberConfigDecoder:ConfigDecoder[String,Number]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#numberConfigReader:ciris.ConfigReader[spire.math.Number]" title="Permalink">
+      <a href="../../ciris/spire/index.html#numberConfigDecoder:ciris.ConfigDecoder[String,spire.math.Number]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -357,14 +394,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">numberConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.Number">Number</span>]</span>
+        <span class="name">numberConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="spire.math.Number">Number</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#polynomialRationalConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="polynomialRationalConfigReader:ciris.ConfigReader[spire.math.Polynomial[spire.math.Rational]]"></a><a id="polynomialRationalConfigReader:ConfigReader[Polynomial[Rational]]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#polynomialRationalConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="polynomialRationalConfigDecoder:ciris.ConfigDecoder[String,spire.math.Polynomial[spire.math.Rational]]"></a><a id="polynomialRationalConfigDecoder:ConfigDecoder[String,Polynomial[Rational]]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#polynomialRationalConfigReader:ciris.ConfigReader[spire.math.Polynomial[spire.math.Rational]]" title="Permalink">
+      <a href="../../ciris/spire/index.html#polynomialRationalConfigDecoder:ciris.ConfigDecoder[String,spire.math.Polynomial[spire.math.Rational]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -373,14 +410,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">polynomialRationalConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.Polynomial">Polynomial</span>[<span class="extype" name="spire.math.Rational">Rational</span>]]</span>
+        <span class="name">polynomialRationalConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="spire.math.Polynomial">Polynomial</span>[<span class="extype" name="spire.math.Rational">Rational</span>]]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#rationalConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="rationalConfigReader:ciris.ConfigReader[spire.math.Rational]"></a><a id="rationalConfigReader:ConfigReader[Rational]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#rationalConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="rationalConfigDecoder:ciris.ConfigDecoder[String,spire.math.Rational]"></a><a id="rationalConfigDecoder:ConfigDecoder[String,Rational]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#rationalConfigReader:ciris.ConfigReader[spire.math.Rational]" title="Permalink">
+      <a href="../../ciris/spire/index.html#rationalConfigDecoder:ciris.ConfigDecoder[String,spire.math.Rational]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -389,14 +426,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">rationalConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.Rational">Rational</span>]</span>
+        <span class="name">rationalConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="spire.math.Rational">Rational</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#realConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="realConfigReader:ciris.ConfigReader[spire.math.Real]"></a><a id="realConfigReader:ConfigReader[Real]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#realConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="realConfigDecoder:ciris.ConfigDecoder[String,spire.math.Real]"></a><a id="realConfigDecoder:ConfigDecoder[String,Real]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#realConfigReader:ciris.ConfigReader[spire.math.Real]" title="Permalink">
+      <a href="../../ciris/spire/index.html#realConfigDecoder:ciris.ConfigDecoder[String,spire.math.Real]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -405,14 +442,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">realConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.Real">Real</span>]</span>
+        <span class="name">realConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="spire.math.Real">Real</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#safeLongConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="safeLongConfigReader(implicitreader:ciris.ConfigReader[BigInt]):ciris.ConfigReader[spire.math.SafeLong]"></a><a id="safeLongConfigReader(ConfigReader[BigInt]):ConfigReader[SafeLong]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#safeLongConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="safeLongConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,BigInt]):ciris.ConfigDecoder[A,spire.math.SafeLong]"></a><a id="safeLongConfigDecoder[A](ConfigDecoder[A,BigInt]):ConfigDecoder[A,SafeLong]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#safeLongConfigReader(implicitreader:ciris.ConfigReader[BigInt]):ciris.ConfigReader[spire.math.SafeLong]" title="Permalink">
+      <a href="../../ciris/spire/index.html#safeLongConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,BigInt]):ciris.ConfigDecoder[A,spire.math.SafeLong]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -421,14 +458,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">safeLongConfigReader</span><span class="params">(<span class="implicit">implicit </span><span name="reader">reader: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="scala.BigInt">BigInt</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.SafeLong">SafeLong</span>]</span>
+        <span class="name">safeLongConfigDecoder</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="decoder">decoder: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.safeLongConfigDecoder.A">A</span>, <span class="extype" name="scala.BigInt">BigInt</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.safeLongConfigDecoder.A">A</span>, <span class="extype" name="spire.math.SafeLong">SafeLong</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#trileanConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="trileanConfigReader(implicitreader:ciris.ConfigReader[Option[Boolean]]):ciris.ConfigReader[spire.math.Trilean]"></a><a id="trileanConfigReader(ConfigReader[Option[Boolean]]):ConfigReader[Trilean]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#trileanConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="trileanConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,Option[Boolean]]):ciris.ConfigDecoder[A,spire.math.Trilean]"></a><a id="trileanConfigDecoder[A](ConfigDecoder[A,Option[Boolean]]):ConfigDecoder[A,Trilean]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#trileanConfigReader(implicitreader:ciris.ConfigReader[Option[Boolean]]):ciris.ConfigReader[spire.math.Trilean]" title="Permalink">
+      <a href="../../ciris/spire/index.html#trileanConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,Option[Boolean]]):ciris.ConfigDecoder[A,spire.math.Trilean]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -437,14 +474,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">trileanConfigReader</span><span class="params">(<span class="implicit">implicit </span><span name="reader">reader: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a>]]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.Trilean">Trilean</span>]</span>
+        <span class="name">trileanConfigDecoder</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="decoder">decoder: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.trileanConfigDecoder.A">A</span>, <a href="http://www.scala-lang.org/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a>]]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.trileanConfigDecoder.A">A</span>, <span class="extype" name="spire.math.Trilean">Trilean</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#ubyteConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ubyteConfigReader(implicitreader:ciris.ConfigReader[Int]):ciris.ConfigReader[spire.math.UByte]"></a><a id="ubyteConfigReader(ConfigReader[Int]):ConfigReader[UByte]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#ubyteConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ubyteConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,Int]):ciris.ConfigDecoder[A,spire.math.UByte]"></a><a id="ubyteConfigDecoder[A](ConfigDecoder[A,Int]):ConfigDecoder[A,UByte]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#ubyteConfigReader(implicitreader:ciris.ConfigReader[Int]):ciris.ConfigReader[spire.math.UByte]" title="Permalink">
+      <a href="../../ciris/spire/index.html#ubyteConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,Int]):ciris.ConfigDecoder[A,spire.math.UByte]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -453,14 +490,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ubyteConfigReader</span><span class="params">(<span class="implicit">implicit </span><span name="reader">reader: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.UByte">UByte</span>]</span>
+        <span class="name">ubyteConfigDecoder</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="decoder">decoder: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.ubyteConfigDecoder.A">A</span>, <a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.ubyteConfigDecoder.A">A</span>, <span class="extype" name="spire.math.UByte">UByte</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#uintConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="uintConfigReader(implicitreader:ciris.ConfigReader[Long]):ciris.ConfigReader[spire.math.UInt]"></a><a id="uintConfigReader(ConfigReader[Long]):ConfigReader[UInt]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#uintConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="uintConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,Long]):ciris.ConfigDecoder[A,spire.math.UInt]"></a><a id="uintConfigDecoder[A](ConfigDecoder[A,Long]):ConfigDecoder[A,UInt]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#uintConfigReader(implicitreader:ciris.ConfigReader[Long]):ciris.ConfigReader[spire.math.UInt]" title="Permalink">
+      <a href="../../ciris/spire/index.html#uintConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,Long]):ciris.ConfigDecoder[A,spire.math.UInt]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -469,14 +506,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">uintConfigReader</span><span class="params">(<span class="implicit">implicit </span><span name="reader">reader: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.UInt">UInt</span>]</span>
+        <span class="name">uintConfigDecoder</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="decoder">decoder: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.uintConfigDecoder.A">A</span>, <a href="http://www.scala-lang.org/api/2.12.4/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.uintConfigDecoder.A">A</span>, <span class="extype" name="spire.math.UInt">UInt</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#ulongConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ulongConfigReader(implicitreader:ciris.ConfigReader[BigInt]):ciris.ConfigReader[spire.math.ULong]"></a><a id="ulongConfigReader(ConfigReader[BigInt]):ConfigReader[ULong]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#ulongConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ulongConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,BigInt]):ciris.ConfigDecoder[A,spire.math.ULong]"></a><a id="ulongConfigDecoder[A](ConfigDecoder[A,BigInt]):ConfigDecoder[A,ULong]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#ulongConfigReader(implicitreader:ciris.ConfigReader[BigInt]):ciris.ConfigReader[spire.math.ULong]" title="Permalink">
+      <a href="../../ciris/spire/index.html#ulongConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,BigInt]):ciris.ConfigDecoder[A,spire.math.ULong]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -485,14 +522,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ulongConfigReader</span><span class="params">(<span class="implicit">implicit </span><span name="reader">reader: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="scala.BigInt">BigInt</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.ULong">ULong</span>]</span>
+        <span class="name">ulongConfigDecoder</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="decoder">decoder: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.ulongConfigDecoder.A">A</span>, <span class="extype" name="scala.BigInt">BigInt</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.ulongConfigDecoder.A">A</span>, <span class="extype" name="spire.math.ULong">ULong</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.spire.readers.SpireConfigReaders#ushortConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ushortConfigReader(implicitreader:ciris.ConfigReader[Int]):ciris.ConfigReader[spire.math.UShort]"></a><a id="ushortConfigReader(ConfigReader[Int]):ConfigReader[UShort]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.spire.decoders.SpireConfigDecoders#ushortConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ushortConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,Int]):ciris.ConfigDecoder[A,spire.math.UShort]"></a><a id="ushortConfigDecoder[A](ConfigDecoder[A,Int]):ConfigDecoder[A,UShort]"></a>
       <span class="permalink">
-      <a href="../../ciris/spire/index.html#ushortConfigReader(implicitreader:ciris.ConfigReader[Int]):ciris.ConfigReader[spire.math.UShort]" title="Permalink">
+      <a href="../../ciris/spire/index.html#ushortConfigDecoder[A](implicitdecoder:ciris.ConfigDecoder[A,Int]):ciris.ConfigDecoder[A,spire.math.UShort]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -501,10 +538,10 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ushortConfigReader</span><span class="params">(<span class="implicit">implicit </span><span name="reader">reader: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="spire.math.UShort">UShort</span>]</span>
+        <span class="name">ushortConfigDecoder</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="decoder">decoder: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.ushortConfigDecoder.A">A</span>, <a href="http://www.scala-lang.org/api/2.12.4/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="ciris.spire.decoders.SpireConfigDecoders.ushortConfigDecoder.A">A</span>, <span class="extype" name="spire.math.UShort">UShort</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></dd></dl></div>
     </li>
               </ol>
             </div>
@@ -515,8 +552,8 @@ If you are looking for a getting started guide, with examples and explanations, 
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="ciris.spire.readers.SpireConfigReaders">
-              <h3>Inherited from <a href="readers/SpireConfigReaders.html" class="extype" name="ciris.spire.readers.SpireConfigReaders">SpireConfigReaders</a></h3>
+        <div class="parent" name="ciris.spire.decoders.SpireConfigDecoders">
+              <h3>Inherited from <a href="decoders/SpireConfigDecoders.html" class="extype" name="ciris.spire.decoders.SpireConfigDecoders">SpireConfigDecoders</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

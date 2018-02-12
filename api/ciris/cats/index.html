@@ -1,0 +1,608 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <title></title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="../../lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="../../lib/index.js"></script>
+      <script type="text/javascript" src="../../index.js"></script>
+      <script type="text/javascript" src="../../lib/scheduler.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '../../';
+      </script>
+    
+        </head>
+        <body>
+      <div id="search">
+        <span id="doc-title"><span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
+    </div>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="index.html#_root_" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.7.0 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for typeclasses and typeclass instances.</li><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ciris"></a><a id="ciris:ciris"></a>
+      <span class="permalink">
+      <a href="index.html#ciris" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="The main namespace of Ciris is ciris, and the easiest way to get started is to bring it into scope with an import. If you are looking for a getting started guide, with examples and explanations, please refer to the usage guide." href="../index.html"><span class="name">ciris</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+get started is to bring it into scope with an import.<br>
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+get started is to bring it into scope with an import.<br>
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="ciris.api" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="api"></a><a id="api:api"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#api" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../api/index.html"><span class="name">api</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.cats" visbl="pub" class="indented2 current" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="cats"></a><a id="cats:cats"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#cats" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">cats</span>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.cats.api" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="api"></a><a id="api:api"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#api" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="api/index.html"><span class="name">api</span></a>
+      </span>
+      
+      
+    </li><li name="ciris.decoders" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#decoders" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../decoders/index.html"><span class="name">decoders</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.enumeratum" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="enumeratum"></a><a id="enumeratum:enumeratum"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#enumeratum" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with enumeratum." href="../enumeratum/index.html"><span class="name">enumeratum</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.generic" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="generic"></a><a id="generic:generic"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#generic" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module using shapeless for generic derivation of ConfigDecoders." href="../generic/index.html"><span class="name">generic</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.refined" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="refined"></a><a id="refined:refined"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#refined" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with refined." href="../refined/index.html"><span class="name">refined</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.spire" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="spire"></a><a id="spire:spire"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#spire" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with spire." href="../spire/index.html"><span class="name">spire</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/non/spire" target="_blank">spire</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/non/spire" target="_blank">spire</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.squants" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="squants"></a><a id="squants:squants"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#squants" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with squants." href="../squants/index.html"><span class="name">squants</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="package value">
+      <div id="definition">
+        <div class="big-circle package">p</div>
+        <p id="owner"><a href="../index.html" class="extype" name="ciris">ciris</a></p>
+        <h1>cats<span class="permalink">
+      <a href="../../ciris/cats/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">cats</span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.7.0/modules/cats/shared/src/main/scala/ciris/cats/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+          <span class="toggle">
+            Linear Supertypes
+          </span>
+          <div class="superTypes hiddenContent"><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a>, <a href="api/CatsInstancesForCiris.html" class="extype" name="ciris.cats.api.CatsInstancesForCiris">CatsInstancesForCiris</a>, <span class="extype" name="ciris.cats.api.CatsInstancesForCiris1">CatsInstancesForCiris1</span>, <span class="extype" name="ciris.cats.api.CatsInstancesForCiris2">CatsInstancesForCiris2</span>, <span class="extype" name="ciris.cats.api.CatsInstancesForCiris3">CatsInstancesForCiris3</span>, <span class="extype" name="ciris.cats.api.CatsInstancesForCiris4">CatsInstancesForCiris4</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              <li class="inherit out"><span>By Inheritance</span></li>
+            </ol>
+          </div>
+          <div class="ancestors">
+                  <span class="filtertype">Inherited<br />
+                  </span>
+                  <ol id="linearization">
+                    <li class="in" name="ciris.cats"><span>cats</span></li><li class="in" name="ciris.cats.api.CirisInstancesForCats"><span>CirisInstancesForCats</span></li><li class="in" name="ciris.cats.api.CatsInstancesForCiris"><span>CatsInstancesForCiris</span></li><li class="in" name="ciris.cats.api.CatsInstancesForCiris1"><span>CatsInstancesForCiris1</span></li><li class="in" name="ciris.cats.api.CatsInstancesForCiris2"><span>CatsInstancesForCiris2</span></li><li class="in" name="ciris.cats.api.CatsInstancesForCiris3"><span>CatsInstancesForCiris3</span></li><li class="in" name="ciris.cats.api.CatsInstancesForCiris4"><span>CatsInstancesForCiris4</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  </ol>
+                </div><div class="ancestors">
+              <span class="filtertype"></span>
+              <ol>
+                <li class="hideall out"><span>Hide All</span></li>
+                <li class="showall in"><span>Show All</span></li>
+              </ol>
+            </div>
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        
+
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="ciris.cats.api.CatsInstancesForCiris2#catsApplicativeToCiris" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="catsApplicativeToCiris[F[_]](implicita:cats.Applicative[F]):ciris.api.Applicative[F]"></a><a id="catsApplicativeToCiris[F[_]](Applicative[F]):Applicative[F]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#catsApplicativeToCiris[F[_]](implicita:cats.Applicative[F]):ciris.api.Applicative[F]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">catsApplicativeToCiris</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="a">a: <a href="http://typelevel.org/cats/api/cats/Applicative.html#cats.Applicative" class="extype" name="cats.Applicative">Applicative</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris2.catsApplicativeToCiris.F">F</span>]</span>)</span><span class="result">: <a href="../api/Applicative.html" class="extype" name="ciris.api.Applicative">Applicative</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris2.catsApplicativeToCiris.F">F</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CatsInstancesForCiris2</dd></dl></div>
+    </li><li name="ciris.cats.api.CatsInstancesForCiris3#catsApplyToCiris" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="catsApplyToCiris[F[_]](implicita:cats.Apply[F]):ciris.api.Apply[F]"></a><a id="catsApplyToCiris[F[_]](Apply[F]):Apply[F]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#catsApplyToCiris[F[_]](implicita:cats.Apply[F]):ciris.api.Apply[F]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">catsApplyToCiris</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="a">a: <a href="http://typelevel.org/cats/api/cats/Apply.html#cats.Apply" class="extype" name="cats.Apply">Apply</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris3.catsApplyToCiris.F">F</span>]</span>)</span><span class="result">: <a href="../api/Apply.html" class="extype" name="ciris.api.Apply">Apply</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris3.catsApplyToCiris.F">F</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CatsInstancesForCiris3</dd></dl></div>
+    </li><li name="ciris.cats.api.CatsInstancesForCiris1#catsFlatMapToCiris" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="catsFlatMapToCiris[F[_]](implicitfm:cats.FlatMap[F]):ciris.api.FlatMap[F]"></a><a id="catsFlatMapToCiris[F[_]](FlatMap[F]):FlatMap[F]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#catsFlatMapToCiris[F[_]](implicitfm:cats.FlatMap[F]):ciris.api.FlatMap[F]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">catsFlatMapToCiris</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="fm">fm: <a href="http://typelevel.org/cats/api/cats/FlatMap.html#cats.FlatMap" class="extype" name="cats.FlatMap">FlatMap</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris1.catsFlatMapToCiris.F">F</span>]</span>)</span><span class="result">: <a href="../api/FlatMap.html" class="extype" name="ciris.api.FlatMap">FlatMap</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris1.catsFlatMapToCiris.F">F</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CatsInstancesForCiris1</dd></dl></div>
+    </li><li name="ciris.cats.api.CatsInstancesForCiris#catsFunctionKToCiris" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="catsFunctionKToCiris[F[_],G[_]](implicitfk:F~&gt;G):ciris.api.FunctionK[F,G]"></a><a id="catsFunctionKToCiris[F[_],G[_]](~&gt;[F,G]):FunctionK[F,G]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#catsFunctionKToCiris[F[_],G[_]](implicitfk:F~&gt;G):ciris.api.FunctionK[F,G]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">catsFunctionKToCiris</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="G">G<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="fk">fk: <span class="extype" name="cats.~&gt;">~&gt;</span>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris.catsFunctionKToCiris.F">F</span>, <span class="extype" name="ciris.cats.api.CatsInstancesForCiris.catsFunctionKToCiris.G">G</span>]</span>)</span><span class="result">: <a href="../api/FunctionK.html" class="extype" name="ciris.api.FunctionK">FunctionK</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris.catsFunctionKToCiris.F">F</span>, <span class="extype" name="ciris.cats.api.CatsInstancesForCiris.catsFunctionKToCiris.G">G</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CatsInstancesForCiris.html" class="extype" name="ciris.cats.api.CatsInstancesForCiris">CatsInstancesForCiris</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CatsInstancesForCiris4#catsFunctorToCiris" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="catsFunctorToCiris[F[_]](implicitfu:cats.Functor[F]):ciris.api.Functor[F]"></a><a id="catsFunctorToCiris[F[_]](Functor[F]):Functor[F]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#catsFunctorToCiris[F[_]](implicitfu:cats.Functor[F]):ciris.api.Functor[F]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">catsFunctorToCiris</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="fu">fu: <a href="http://typelevel.org/cats/api/cats/Functor.html#cats.Functor" class="extype" name="cats.Functor">Functor</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris4.catsFunctorToCiris.F">F</span>]</span>)</span><span class="result">: <a href="../api/Functor.html" class="extype" name="ciris.api.Functor">Functor</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris4.catsFunctorToCiris.F">F</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CatsInstancesForCiris4</dd></dl></div>
+    </li><li name="ciris.cats.api.CatsInstancesForCiris#catsMonadToCiris" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="catsMonadToCiris[F[_]](implicitm:cats.Monad[F]):ciris.api.Monad[F]"></a><a id="catsMonadToCiris[F[_]](Monad[F]):Monad[F]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#catsMonadToCiris[F[_]](implicitm:cats.Monad[F]):ciris.api.Monad[F]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">catsMonadToCiris</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="m">m: <a href="http://typelevel.org/cats/api/cats/Monad.html#cats.Monad" class="extype" name="cats.Monad">Monad</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris.catsMonadToCiris.F">F</span>]</span>)</span><span class="result">: <a href="../api/Monad.html" class="extype" name="ciris.api.Monad">Monad</a>[<span class="extype" name="ciris.cats.api.CatsInstancesForCiris.catsMonadToCiris.F">F</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CatsInstancesForCiris.html" class="extype" name="ciris.cats.api.CatsInstancesForCiris">CatsInstancesForCiris</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CirisInstancesForCats#showConfigEntry" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showConfigEntry[F[_],K,S,V](implicitshowK:cats.Show[K],implicitshowS:cats.Show[F[Either[ciris.ConfigError,S]]],implicitshowV:cats.Show[F[Either[ciris.ConfigError,V]]]):cats.Show[ciris.ConfigEntry[F,K,S,V]]"></a><a id="showConfigEntry[F[_],K,S,V](Show[K],Show[F[Either[ConfigError,S]]],Show[F[Either[ConfigError,V]]]):Show[ConfigEntry[F,K,S,V]]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#showConfigEntry[F[_],K,S,V](implicitshowK:cats.Show[K],implicitshowS:cats.Show[F[Either[ciris.ConfigError,S]]],implicitshowV:cats.Show[F[Either[ciris.ConfigError,V]]]):cats.Show[ciris.ConfigEntry[F,K,S,V]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showConfigEntry</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="S">S</span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="showK">showK: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.K">K</span>]</span>, <span name="showS">showS: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.F">F</span>[<span class="extype" name="scala.Either">Either</span>[<a href="../ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.S">S</span>]]]</span>, <span name="showV">showV: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.F">F</span>[<span class="extype" name="scala.Either">Either</span>[<a href="../ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.V">V</span>]]]</span>)</span><span class="result">: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<a href="../ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.F">F</span>, <span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.K">K</span>, <span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.S">S</span>, <span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigEntry.V">V</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CirisInstancesForCats#showConfigError" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showConfigError:cats.Show[ciris.ConfigError]"></a><a id="showConfigError:Show[ConfigError]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#showConfigError:cats.Show[ciris.ConfigError]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showConfigError</span><span class="result">: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<a href="../ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CirisInstancesForCats#showConfigErrors" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showConfigErrors:cats.Show[ciris.ConfigErrors]"></a><a id="showConfigErrors:Show[ConfigErrors]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#showConfigErrors:cats.Show[ciris.ConfigErrors]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showConfigErrors</span><span class="result">: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<a href="../ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CirisInstancesForCats#showConfigException" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showConfigException:cats.Show[ciris.ConfigException]"></a><a id="showConfigException:Show[ConfigException]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#showConfigException:cats.Show[ciris.ConfigException]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showConfigException</span><span class="result">: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<a href="../ConfigException.html" class="extype" name="ciris.ConfigException">ConfigException</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CirisInstancesForCats#showConfigKeyType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showConfigKeyType[K]:cats.Show[ciris.ConfigKeyType[K]]"></a><a id="showConfigKeyType[K]:Show[ConfigKeyType[K]]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#showConfigKeyType[K]:cats.Show[ciris.ConfigKeyType[K]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showConfigKeyType</span><span class="tparams">[<span name="K">K</span>]</span><span class="result">: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<a href="../ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigKeyType.K">K</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CirisInstancesForCats#showConfigValue" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showConfigValue[F[_],V](implicitshow:cats.Show[F[Either[ciris.ConfigError,V]]]):cats.Show[ciris.ConfigValue[F,V]]"></a><a id="showConfigValue[F[_],V](Show[F[Either[ConfigError,V]]]):Show[ConfigValue[F,V]]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#showConfigValue[F[_],V](implicitshow:cats.Show[F[Either[ciris.ConfigError,V]]]):cats.Show[ciris.ConfigValue[F,V]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showConfigValue</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="V">V</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="show">show: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigValue.F">F</span>[<span class="extype" name="scala.Either">Either</span>[<a href="../ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a>, <span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigValue.V">V</span>]]]</span>)</span><span class="result">: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<a href="../ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigValue.F">F</span>, <span class="extype" name="ciris.cats.api.CirisInstancesForCats.showConfigValue.V">V</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CirisInstancesForCats#showId" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showId[F[_],A](implicitshow:cats.Show[A]):cats.Show[ciris.api.Id[A]]"></a><a id="showId[F[_],A](Show[A]):Show[Id[A]]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#showId[F[_],A](implicitshow:cats.Show[A]):cats.Show[ciris.api.Id[A]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showId</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="show">show: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showId.A">A</span>]</span>)</span><span class="result">: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<a href="../api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">Id</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showId.A">A</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></dd></dl></div>
+    </li><li name="ciris.cats.api.CirisInstancesForCats#showSecret" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showSecret[A]:cats.Show[ciris.Secret[A]]"></a><a id="showSecret[A]:Show[Secret[A]]"></a>
+      <span class="permalink">
+      <a href="../../ciris/cats/index.html#showSecret[A]:cats.Show[ciris.Secret[A]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showSecret</span><span class="tparams">[<span name="A">A</span>]</span><span class="result">: <a href="http://typelevel.org/cats/api/cats/Show.html#cats.Show" class="extype" name="cats.Show">Show</a>[<a href="../Secret.html" class="extype" name="ciris.Secret">Secret</a>[<span class="extype" name="ciris.cats.api.CirisInstancesForCats.showSecret.A">A</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></dd></dl></div>
+    </li>
+              </ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="ciris.cats.api.CirisInstancesForCats">
+              <h3>Inherited from <a href="api/CirisInstancesForCats.html" class="extype" name="ciris.cats.api.CirisInstancesForCats">CirisInstancesForCats</a></h3>
+            </div><div class="parent" name="ciris.cats.api.CatsInstancesForCiris">
+              <h3>Inherited from <a href="api/CatsInstancesForCiris.html" class="extype" name="ciris.cats.api.CatsInstancesForCiris">CatsInstancesForCiris</a></h3>
+            </div><div class="parent" name="ciris.cats.api.CatsInstancesForCiris1">
+              <h3>Inherited from <span class="extype" name="ciris.cats.api.CatsInstancesForCiris1">CatsInstancesForCiris1</span></h3>
+            </div><div class="parent" name="ciris.cats.api.CatsInstancesForCiris2">
+              <h3>Inherited from <span class="extype" name="ciris.cats.api.CatsInstancesForCiris2">CatsInstancesForCiris2</span></h3>
+            </div><div class="parent" name="ciris.cats.api.CatsInstancesForCiris3">
+              <h3>Inherited from <span class="extype" name="ciris.cats.api.CatsInstancesForCiris3">CatsInstancesForCiris3</span></h3>
+            </div><div class="parent" name="ciris.cats.api.CatsInstancesForCiris4">
+              <h3>Inherited from <span class="extype" name="ciris.cats.api.CatsInstancesForCiris4">CatsInstancesForCiris4</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
+    </body>
+      </html>

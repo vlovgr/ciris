@@ -65,14 +65,14 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.6.2 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.7.0 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
 Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
-Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for typeclasses and typeclass instances.</li><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -90,10 +90,61 @@ Note that the API documentation targets the JVM, and there may be differences on
       
       <p class="shortcomment cmt">The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="ciris.api" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="api"></a><a id="api:api"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#api" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../api/index.html"><span class="name">api</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.cats" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="cats"></a><a id="cats:cats"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#cats" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with cats." href="../cats/index.html"><span class="name">cats</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.decoders" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#decoders" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../decoders/index.html"><span class="name">decoders</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.enumeratum" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enumeratum"></a><a id="enumeratum:enumeratum"></a>
       <span class="permalink">
@@ -123,27 +174,13 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Module using shapeless for generic derivation of ConfigReaders." href="../generic/index.html"><span class="name">generic</span></a>
+        <a title="Module using shapeless for generic derivation of ConfigDecoders." href="../generic/index.html"><span class="name">generic</span></a>
       </span>
       
-      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.
+      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.readers" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
-      <span class="permalink">
-      <a href="../ciris/index.html#readers" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="../readers/index.html"><span class="name">readers</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.refined" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="refined"></a><a id="refined:refined"></a>
       <span class="permalink">
@@ -195,10 +232,10 @@ If you are looking for a getting started guide, with examples and explanations, 
       
       <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.squants.readers" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
+    </li><li name="ciris.squants.decoders" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#readers" title="Permalink">
+      <a href="../../ciris/squants/index.html#decoders" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -207,7 +244,7 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="" href="readers/index.html"><span class="name">readers</span></a>
+        <a title="" href="decoders/index.html"><span class="name">decoders</span></a>
       </span>
       
       
@@ -240,11 +277,11 @@ If you are looking for a getting started guide, with examples and explanations, 
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/squants" target="_blank">squants</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.6.2/modules/squants/shared/src/main/scala/ciris/squants/squants.scala" target="_blank">squants.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.7.0/modules/squants/shared/src/main/scala/ciris/squants/squants.scala" target="_blank">squants.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -270,7 +307,7 @@ If you are looking for a getting started guide, with examples and explanations, 
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="ciris.squants"><span>squants</span></li><li class="in" name="ciris.squants.readers.SquantsConfigReaders"><span>SquantsConfigReaders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="ciris.squants"><span>squants</span></li><li class="in" name="ciris.squants.decoders.SquantsConfigDecoders"><span>SquantsConfigDecoders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -297,10 +334,10 @@ If you are looking for a getting started guide, with examples and explanations, 
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="ciris.squants.readers.SquantsConfigReaders#accelerationConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="accelerationConfigReader:ciris.ConfigReader[squants.motion.Acceleration]"></a><a id="accelerationConfigReader:ConfigReader[Acceleration]"></a>
+                <li name="ciris.squants.decoders.SquantsConfigDecoders#accelerationConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="accelerationConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Acceleration]"></a><a id="accelerationConfigDecoder:ConfigDecoder[String,Acceleration]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#accelerationConfigReader:ciris.ConfigReader[squants.motion.Acceleration]" title="Permalink">
+      <a href="../../ciris/squants/index.html#accelerationConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Acceleration]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -309,14 +346,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">accelerationConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Acceleration">Acceleration</span>]</span>
+        <span class="name">accelerationConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.Acceleration">Acceleration</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#angleConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="angleConfigReader:ciris.ConfigReader[squants.space.Angle]"></a><a id="angleConfigReader:ConfigReader[Angle]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#angleConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="angleConfigDecoder:ciris.ConfigDecoder[String,squants.space.Angle]"></a><a id="angleConfigDecoder:ConfigDecoder[String,Angle]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#angleConfigReader:ciris.ConfigReader[squants.space.Angle]" title="Permalink">
+      <a href="../../ciris/squants/index.html#angleConfigDecoder:ciris.ConfigDecoder[String,squants.space.Angle]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -325,14 +362,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">angleConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.Angle">Angle</span>]</span>
+        <span class="name">angleConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.space.Angle">Angle</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#angularAccelerationConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="angularAccelerationConfigReader:ciris.ConfigReader[squants.motion.AngularAcceleration]"></a><a id="angularAccelerationConfigReader:ConfigReader[AngularAcceleration]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#angularAccelerationConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="angularAccelerationConfigDecoder:ciris.ConfigDecoder[String,squants.motion.AngularAcceleration]"></a><a id="angularAccelerationConfigDecoder:ConfigDecoder[String,AngularAcceleration]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#angularAccelerationConfigReader:ciris.ConfigReader[squants.motion.AngularAcceleration]" title="Permalink">
+      <a href="../../ciris/squants/index.html#angularAccelerationConfigDecoder:ciris.ConfigDecoder[String,squants.motion.AngularAcceleration]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -341,14 +378,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">angularAccelerationConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.AngularAcceleration">AngularAcceleration</span>]</span>
+        <span class="name">angularAccelerationConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.AngularAcceleration">AngularAcceleration</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#angularVelocityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="angularVelocityConfigReader:ciris.ConfigReader[squants.motion.AngularVelocity]"></a><a id="angularVelocityConfigReader:ConfigReader[AngularVelocity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#angularVelocityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="angularVelocityConfigDecoder:ciris.ConfigDecoder[String,squants.motion.AngularVelocity]"></a><a id="angularVelocityConfigDecoder:ConfigDecoder[String,AngularVelocity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#angularVelocityConfigReader:ciris.ConfigReader[squants.motion.AngularVelocity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#angularVelocityConfigDecoder:ciris.ConfigDecoder[String,squants.motion.AngularVelocity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -357,14 +394,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">angularVelocityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.AngularVelocity">AngularVelocity</span>]</span>
+        <span class="name">angularVelocityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.AngularVelocity">AngularVelocity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#areaConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="areaConfigReader:ciris.ConfigReader[squants.space.Area]"></a><a id="areaConfigReader:ConfigReader[Area]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#areaConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="areaConfigDecoder:ciris.ConfigDecoder[String,squants.space.Area]"></a><a id="areaConfigDecoder:ConfigDecoder[String,Area]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#areaConfigReader:ciris.ConfigReader[squants.space.Area]" title="Permalink">
+      <a href="../../ciris/squants/index.html#areaConfigDecoder:ciris.ConfigDecoder[String,squants.space.Area]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -373,14 +410,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">areaConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.Area">Area</span>]</span>
+        <span class="name">areaConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.space.Area">Area</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#areaDensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="areaDensityConfigReader:ciris.ConfigReader[squants.mass.AreaDensity]"></a><a id="areaDensityConfigReader:ConfigReader[AreaDensity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#areaDensityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="areaDensityConfigDecoder:ciris.ConfigDecoder[String,squants.mass.AreaDensity]"></a><a id="areaDensityConfigDecoder:ConfigDecoder[String,AreaDensity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#areaDensityConfigReader:ciris.ConfigReader[squants.mass.AreaDensity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#areaDensityConfigDecoder:ciris.ConfigDecoder[String,squants.mass.AreaDensity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -389,14 +426,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">areaDensityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.AreaDensity">AreaDensity</span>]</span>
+        <span class="name">areaDensityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.mass.AreaDensity">AreaDensity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#capacitanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="capacitanceConfigReader:ciris.ConfigReader[squants.electro.Capacitance]"></a><a id="capacitanceConfigReader:ConfigReader[Capacitance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#capacitanceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="capacitanceConfigDecoder:ciris.ConfigDecoder[String,squants.electro.Capacitance]"></a><a id="capacitanceConfigDecoder:ConfigDecoder[String,Capacitance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#capacitanceConfigReader:ciris.ConfigReader[squants.electro.Capacitance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#capacitanceConfigDecoder:ciris.ConfigDecoder[String,squants.electro.Capacitance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -405,14 +442,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">capacitanceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.Capacitance">Capacitance</span>]</span>
+        <span class="name">capacitanceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.Capacitance">Capacitance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#chemicalAmountConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="chemicalAmountConfigReader:ciris.ConfigReader[squants.mass.ChemicalAmount]"></a><a id="chemicalAmountConfigReader:ConfigReader[ChemicalAmount]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#chemicalAmountConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="chemicalAmountConfigDecoder:ciris.ConfigDecoder[String,squants.mass.ChemicalAmount]"></a><a id="chemicalAmountConfigDecoder:ConfigDecoder[String,ChemicalAmount]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#chemicalAmountConfigReader:ciris.ConfigReader[squants.mass.ChemicalAmount]" title="Permalink">
+      <a href="../../ciris/squants/index.html#chemicalAmountConfigDecoder:ciris.ConfigDecoder[String,squants.mass.ChemicalAmount]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -421,14 +458,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">chemicalAmountConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.ChemicalAmount">ChemicalAmount</span>]</span>
+        <span class="name">chemicalAmountConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.mass.ChemicalAmount">ChemicalAmount</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#conductivityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="conductivityConfigReader:ciris.ConfigReader[squants.electro.Conductivity]"></a><a id="conductivityConfigReader:ConfigReader[Conductivity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#conductivityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="conductivityConfigDecoder:ciris.ConfigDecoder[String,squants.electro.Conductivity]"></a><a id="conductivityConfigDecoder:ConfigDecoder[String,Conductivity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#conductivityConfigReader:ciris.ConfigReader[squants.electro.Conductivity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#conductivityConfigDecoder:ciris.ConfigDecoder[String,squants.electro.Conductivity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -437,14 +474,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">conductivityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.Conductivity">Conductivity</span>]</span>
+        <span class="name">conductivityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.Conductivity">Conductivity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#dataRateConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="dataRateConfigReader:ciris.ConfigReader[squants.information.DataRate]"></a><a id="dataRateConfigReader:ConfigReader[DataRate]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#dataRateConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dataRateConfigDecoder:ciris.ConfigDecoder[String,squants.information.DataRate]"></a><a id="dataRateConfigDecoder:ConfigDecoder[String,DataRate]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#dataRateConfigReader:ciris.ConfigReader[squants.information.DataRate]" title="Permalink">
+      <a href="../../ciris/squants/index.html#dataRateConfigDecoder:ciris.ConfigDecoder[String,squants.information.DataRate]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -453,14 +490,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">dataRateConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.information.DataRate">DataRate</span>]</span>
+        <span class="name">dataRateConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.information.DataRate">DataRate</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#densityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="densityConfigReader:ciris.ConfigReader[squants.mass.Density]"></a><a id="densityConfigReader:ConfigReader[Density]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#densityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="densityConfigDecoder:ciris.ConfigDecoder[String,squants.mass.Density]"></a><a id="densityConfigDecoder:ConfigDecoder[String,Density]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#densityConfigReader:ciris.ConfigReader[squants.mass.Density]" title="Permalink">
+      <a href="../../ciris/squants/index.html#densityConfigDecoder:ciris.ConfigDecoder[String,squants.mass.Density]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -469,14 +506,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">densityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.Density">Density</span>]</span>
+        <span class="name">densityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.mass.Density">Density</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricChargeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="electricChargeConfigReader:ciris.ConfigReader[squants.electro.ElectricCharge]"></a><a id="electricChargeConfigReader:ConfigReader[ElectricCharge]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#electricChargeConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="electricChargeConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricCharge]"></a><a id="electricChargeConfigDecoder:ConfigDecoder[String,ElectricCharge]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#electricChargeConfigReader:ciris.ConfigReader[squants.electro.ElectricCharge]" title="Permalink">
+      <a href="../../ciris/squants/index.html#electricChargeConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricCharge]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -485,14 +522,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">electricChargeConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricCharge">ElectricCharge</span>]</span>
+        <span class="name">electricChargeConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.ElectricCharge">ElectricCharge</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricCurrentConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="electricCurrentConfigReader:ciris.ConfigReader[squants.electro.ElectricCurrent]"></a><a id="electricCurrentConfigReader:ConfigReader[ElectricCurrent]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#electricCurrentConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="electricCurrentConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricCurrent]"></a><a id="electricCurrentConfigDecoder:ConfigDecoder[String,ElectricCurrent]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#electricCurrentConfigReader:ciris.ConfigReader[squants.electro.ElectricCurrent]" title="Permalink">
+      <a href="../../ciris/squants/index.html#electricCurrentConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricCurrent]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -501,14 +538,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">electricCurrentConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricCurrent">ElectricCurrent</span>]</span>
+        <span class="name">electricCurrentConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.ElectricCurrent">ElectricCurrent</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricPotentialConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="electricPotentialConfigReader:ciris.ConfigReader[squants.electro.ElectricPotential]"></a><a id="electricPotentialConfigReader:ConfigReader[ElectricPotential]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#electricPotentialConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="electricPotentialConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricPotential]"></a><a id="electricPotentialConfigDecoder:ConfigDecoder[String,ElectricPotential]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#electricPotentialConfigReader:ciris.ConfigReader[squants.electro.ElectricPotential]" title="Permalink">
+      <a href="../../ciris/squants/index.html#electricPotentialConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricPotential]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -517,14 +554,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">electricPotentialConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricPotential">ElectricPotential</span>]</span>
+        <span class="name">electricPotentialConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.ElectricPotential">ElectricPotential</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricalConductanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="electricalConductanceConfigReader:ciris.ConfigReader[squants.electro.ElectricalConductance]"></a><a id="electricalConductanceConfigReader:ConfigReader[ElectricalConductance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#electricalConductanceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="electricalConductanceConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricalConductance]"></a><a id="electricalConductanceConfigDecoder:ConfigDecoder[String,ElectricalConductance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#electricalConductanceConfigReader:ciris.ConfigReader[squants.electro.ElectricalConductance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#electricalConductanceConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricalConductance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -533,14 +570,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">electricalConductanceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricalConductance">ElectricalConductance</span>]</span>
+        <span class="name">electricalConductanceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.ElectricalConductance">ElectricalConductance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#electricalResistanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="electricalResistanceConfigReader:ciris.ConfigReader[squants.electro.ElectricalResistance]"></a><a id="electricalResistanceConfigReader:ConfigReader[ElectricalResistance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#electricalResistanceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="electricalResistanceConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricalResistance]"></a><a id="electricalResistanceConfigDecoder:ConfigDecoder[String,ElectricalResistance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#electricalResistanceConfigReader:ciris.ConfigReader[squants.electro.ElectricalResistance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#electricalResistanceConfigDecoder:ciris.ConfigDecoder[String,squants.electro.ElectricalResistance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -549,14 +586,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">electricalResistanceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.ElectricalResistance">ElectricalResistance</span>]</span>
+        <span class="name">electricalResistanceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.ElectricalResistance">ElectricalResistance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#energyConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="energyConfigReader:ciris.ConfigReader[squants.energy.Energy]"></a><a id="energyConfigReader:ConfigReader[Energy]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#energyConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="energyConfigDecoder:ciris.ConfigDecoder[String,squants.energy.Energy]"></a><a id="energyConfigDecoder:ConfigDecoder[String,Energy]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#energyConfigReader:ciris.ConfigReader[squants.energy.Energy]" title="Permalink">
+      <a href="../../ciris/squants/index.html#energyConfigDecoder:ciris.ConfigDecoder[String,squants.energy.Energy]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -565,14 +602,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">energyConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.Energy">Energy</span>]</span>
+        <span class="name">energyConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.energy.Energy">Energy</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#energyDensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="energyDensityConfigReader:ciris.ConfigReader[squants.energy.EnergyDensity]"></a><a id="energyDensityConfigReader:ConfigReader[EnergyDensity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#energyDensityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="energyDensityConfigDecoder:ciris.ConfigDecoder[String,squants.energy.EnergyDensity]"></a><a id="energyDensityConfigDecoder:ConfigDecoder[String,EnergyDensity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#energyDensityConfigReader:ciris.ConfigReader[squants.energy.EnergyDensity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#energyDensityConfigDecoder:ciris.ConfigDecoder[String,squants.energy.EnergyDensity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -581,14 +618,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">energyDensityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.EnergyDensity">EnergyDensity</span>]</span>
+        <span class="name">energyDensityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.energy.EnergyDensity">EnergyDensity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#forceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="forceConfigReader:ciris.ConfigReader[squants.motion.Force]"></a><a id="forceConfigReader:ConfigReader[Force]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#forceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="forceConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Force]"></a><a id="forceConfigDecoder:ConfigDecoder[String,Force]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#forceConfigReader:ciris.ConfigReader[squants.motion.Force]" title="Permalink">
+      <a href="../../ciris/squants/index.html#forceConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Force]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -597,14 +634,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">forceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Force">Force</span>]</span>
+        <span class="name">forceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.Force">Force</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#frequencyConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="frequencyConfigReader:ciris.ConfigReader[squants.time.Frequency]"></a><a id="frequencyConfigReader:ConfigReader[Frequency]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#frequencyConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="frequencyConfigDecoder:ciris.ConfigDecoder[String,squants.time.Frequency]"></a><a id="frequencyConfigDecoder:ConfigDecoder[String,Frequency]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#frequencyConfigReader:ciris.ConfigReader[squants.time.Frequency]" title="Permalink">
+      <a href="../../ciris/squants/index.html#frequencyConfigDecoder:ciris.ConfigDecoder[String,squants.time.Frequency]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -613,14 +650,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">frequencyConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.time.Frequency">Frequency</span>]</span>
+        <span class="name">frequencyConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.time.Frequency">Frequency</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#illuminanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="illuminanceConfigReader:ciris.ConfigReader[squants.photo.Illuminance]"></a><a id="illuminanceConfigReader:ConfigReader[Illuminance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#illuminanceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="illuminanceConfigDecoder:ciris.ConfigDecoder[String,squants.photo.Illuminance]"></a><a id="illuminanceConfigDecoder:ConfigDecoder[String,Illuminance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#illuminanceConfigReader:ciris.ConfigReader[squants.photo.Illuminance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#illuminanceConfigDecoder:ciris.ConfigDecoder[String,squants.photo.Illuminance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -629,14 +666,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">illuminanceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.Illuminance">Illuminance</span>]</span>
+        <span class="name">illuminanceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.photo.Illuminance">Illuminance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#inductanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="inductanceConfigReader:ciris.ConfigReader[squants.electro.Inductance]"></a><a id="inductanceConfigReader:ConfigReader[Inductance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#inductanceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="inductanceConfigDecoder:ciris.ConfigDecoder[String,squants.electro.Inductance]"></a><a id="inductanceConfigDecoder:ConfigDecoder[String,Inductance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#inductanceConfigReader:ciris.ConfigReader[squants.electro.Inductance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#inductanceConfigDecoder:ciris.ConfigDecoder[String,squants.electro.Inductance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -645,14 +682,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">inductanceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.Inductance">Inductance</span>]</span>
+        <span class="name">inductanceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.Inductance">Inductance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#informationConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="informationConfigReader:ciris.ConfigReader[squants.information.Information]"></a><a id="informationConfigReader:ConfigReader[Information]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#informationConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="informationConfigDecoder:ciris.ConfigDecoder[String,squants.information.Information]"></a><a id="informationConfigDecoder:ConfigDecoder[String,Information]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#informationConfigReader:ciris.ConfigReader[squants.information.Information]" title="Permalink">
+      <a href="../../ciris/squants/index.html#informationConfigDecoder:ciris.ConfigDecoder[String,squants.information.Information]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -661,14 +698,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">informationConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.information.Information">Information</span>]</span>
+        <span class="name">informationConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.information.Information">Information</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#irradianceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="irradianceConfigReader:ciris.ConfigReader[squants.radio.Irradiance]"></a><a id="irradianceConfigReader:ConfigReader[Irradiance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#irradianceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="irradianceConfigDecoder:ciris.ConfigDecoder[String,squants.radio.Irradiance]"></a><a id="irradianceConfigDecoder:ConfigDecoder[String,Irradiance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#irradianceConfigReader:ciris.ConfigReader[squants.radio.Irradiance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#irradianceConfigDecoder:ciris.ConfigDecoder[String,squants.radio.Irradiance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -677,14 +714,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">irradianceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.Irradiance">Irradiance</span>]</span>
+        <span class="name">irradianceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.radio.Irradiance">Irradiance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#jerkConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="jerkConfigReader:ciris.ConfigReader[squants.motion.Jerk]"></a><a id="jerkConfigReader:ConfigReader[Jerk]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#jerkConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="jerkConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Jerk]"></a><a id="jerkConfigDecoder:ConfigDecoder[String,Jerk]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#jerkConfigReader:ciris.ConfigReader[squants.motion.Jerk]" title="Permalink">
+      <a href="../../ciris/squants/index.html#jerkConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Jerk]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -693,14 +730,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">jerkConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Jerk">Jerk</span>]</span>
+        <span class="name">jerkConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.Jerk">Jerk</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#lengthConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="lengthConfigReader:ciris.ConfigReader[squants.space.Length]"></a><a id="lengthConfigReader:ConfigReader[Length]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#lengthConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lengthConfigDecoder:ciris.ConfigDecoder[String,squants.space.Length]"></a><a id="lengthConfigDecoder:ConfigDecoder[String,Length]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#lengthConfigReader:ciris.ConfigReader[squants.space.Length]" title="Permalink">
+      <a href="../../ciris/squants/index.html#lengthConfigDecoder:ciris.ConfigDecoder[String,squants.space.Length]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -709,14 +746,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">lengthConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.Length">Length</span>]</span>
+        <span class="name">lengthConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.space.Length">Length</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminanceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="luminanceConfigReader:ciris.ConfigReader[squants.photo.Luminance]"></a><a id="luminanceConfigReader:ConfigReader[Luminance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#luminanceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="luminanceConfigDecoder:ciris.ConfigDecoder[String,squants.photo.Luminance]"></a><a id="luminanceConfigDecoder:ConfigDecoder[String,Luminance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#luminanceConfigReader:ciris.ConfigReader[squants.photo.Luminance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#luminanceConfigDecoder:ciris.ConfigDecoder[String,squants.photo.Luminance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -725,14 +762,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">luminanceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.Luminance">Luminance</span>]</span>
+        <span class="name">luminanceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.photo.Luminance">Luminance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminousEnergyConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="luminousEnergyConfigReader:ciris.ConfigReader[squants.photo.LuminousEnergy]"></a><a id="luminousEnergyConfigReader:ConfigReader[LuminousEnergy]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#luminousEnergyConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="luminousEnergyConfigDecoder:ciris.ConfigDecoder[String,squants.photo.LuminousEnergy]"></a><a id="luminousEnergyConfigDecoder:ConfigDecoder[String,LuminousEnergy]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#luminousEnergyConfigReader:ciris.ConfigReader[squants.photo.LuminousEnergy]" title="Permalink">
+      <a href="../../ciris/squants/index.html#luminousEnergyConfigDecoder:ciris.ConfigDecoder[String,squants.photo.LuminousEnergy]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -741,14 +778,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">luminousEnergyConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.LuminousEnergy">LuminousEnergy</span>]</span>
+        <span class="name">luminousEnergyConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.photo.LuminousEnergy">LuminousEnergy</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminousExposureConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="luminousExposureConfigReader:ciris.ConfigReader[squants.photo.LuminousExposure]"></a><a id="luminousExposureConfigReader:ConfigReader[LuminousExposure]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#luminousExposureConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="luminousExposureConfigDecoder:ciris.ConfigDecoder[String,squants.photo.LuminousExposure]"></a><a id="luminousExposureConfigDecoder:ConfigDecoder[String,LuminousExposure]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#luminousExposureConfigReader:ciris.ConfigReader[squants.photo.LuminousExposure]" title="Permalink">
+      <a href="../../ciris/squants/index.html#luminousExposureConfigDecoder:ciris.ConfigDecoder[String,squants.photo.LuminousExposure]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -757,14 +794,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">luminousExposureConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.LuminousExposure">LuminousExposure</span>]</span>
+        <span class="name">luminousExposureConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.photo.LuminousExposure">LuminousExposure</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminousFluxConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="luminousFluxConfigReader:ciris.ConfigReader[squants.photo.LuminousFlux]"></a><a id="luminousFluxConfigReader:ConfigReader[LuminousFlux]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#luminousFluxConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="luminousFluxConfigDecoder:ciris.ConfigDecoder[String,squants.photo.LuminousFlux]"></a><a id="luminousFluxConfigDecoder:ConfigDecoder[String,LuminousFlux]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#luminousFluxConfigReader:ciris.ConfigReader[squants.photo.LuminousFlux]" title="Permalink">
+      <a href="../../ciris/squants/index.html#luminousFluxConfigDecoder:ciris.ConfigDecoder[String,squants.photo.LuminousFlux]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -773,14 +810,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">luminousFluxConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.LuminousFlux">LuminousFlux</span>]</span>
+        <span class="name">luminousFluxConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.photo.LuminousFlux">LuminousFlux</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#luminousIntensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="luminousIntensityConfigReader:ciris.ConfigReader[squants.photo.LuminousIntensity]"></a><a id="luminousIntensityConfigReader:ConfigReader[LuminousIntensity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#luminousIntensityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="luminousIntensityConfigDecoder:ciris.ConfigDecoder[String,squants.photo.LuminousIntensity]"></a><a id="luminousIntensityConfigDecoder:ConfigDecoder[String,LuminousIntensity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#luminousIntensityConfigReader:ciris.ConfigReader[squants.photo.LuminousIntensity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#luminousIntensityConfigDecoder:ciris.ConfigDecoder[String,squants.photo.LuminousIntensity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -789,14 +826,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">luminousIntensityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.photo.LuminousIntensity">LuminousIntensity</span>]</span>
+        <span class="name">luminousIntensityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.photo.LuminousIntensity">LuminousIntensity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#magneticFluxConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="magneticFluxConfigReader:ciris.ConfigReader[squants.electro.MagneticFlux]"></a><a id="magneticFluxConfigReader:ConfigReader[MagneticFlux]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#magneticFluxConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="magneticFluxConfigDecoder:ciris.ConfigDecoder[String,squants.electro.MagneticFlux]"></a><a id="magneticFluxConfigDecoder:ConfigDecoder[String,MagneticFlux]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#magneticFluxConfigReader:ciris.ConfigReader[squants.electro.MagneticFlux]" title="Permalink">
+      <a href="../../ciris/squants/index.html#magneticFluxConfigDecoder:ciris.ConfigDecoder[String,squants.electro.MagneticFlux]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -805,14 +842,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">magneticFluxConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.MagneticFlux">MagneticFlux</span>]</span>
+        <span class="name">magneticFluxConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.MagneticFlux">MagneticFlux</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#magneticFluxDensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="magneticFluxDensityConfigReader:ciris.ConfigReader[squants.electro.MagneticFluxDensity]"></a><a id="magneticFluxDensityConfigReader:ConfigReader[MagneticFluxDensity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#magneticFluxDensityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="magneticFluxDensityConfigDecoder:ciris.ConfigDecoder[String,squants.electro.MagneticFluxDensity]"></a><a id="magneticFluxDensityConfigDecoder:ConfigDecoder[String,MagneticFluxDensity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#magneticFluxDensityConfigReader:ciris.ConfigReader[squants.electro.MagneticFluxDensity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#magneticFluxDensityConfigDecoder:ciris.ConfigDecoder[String,squants.electro.MagneticFluxDensity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -821,14 +858,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">magneticFluxDensityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.MagneticFluxDensity">MagneticFluxDensity</span>]</span>
+        <span class="name">magneticFluxDensityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.MagneticFluxDensity">MagneticFluxDensity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#massConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="massConfigReader:ciris.ConfigReader[squants.mass.Mass]"></a><a id="massConfigReader:ConfigReader[Mass]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#massConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="massConfigDecoder:ciris.ConfigDecoder[String,squants.mass.Mass]"></a><a id="massConfigDecoder:ConfigDecoder[String,Mass]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#massConfigReader:ciris.ConfigReader[squants.mass.Mass]" title="Permalink">
+      <a href="../../ciris/squants/index.html#massConfigDecoder:ciris.ConfigDecoder[String,squants.mass.Mass]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -837,14 +874,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">massConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.Mass">Mass</span>]</span>
+        <span class="name">massConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.mass.Mass">Mass</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#massFlowConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="massFlowConfigReader:ciris.ConfigReader[squants.motion.MassFlow]"></a><a id="massFlowConfigReader:ConfigReader[MassFlow]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#massFlowConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="massFlowConfigDecoder:ciris.ConfigDecoder[String,squants.motion.MassFlow]"></a><a id="massFlowConfigDecoder:ConfigDecoder[String,MassFlow]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#massFlowConfigReader:ciris.ConfigReader[squants.motion.MassFlow]" title="Permalink">
+      <a href="../../ciris/squants/index.html#massFlowConfigDecoder:ciris.ConfigDecoder[String,squants.motion.MassFlow]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -853,14 +890,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">massFlowConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.MassFlow">MassFlow</span>]</span>
+        <span class="name">massFlowConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.MassFlow">MassFlow</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#momentOfInertiaConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="momentOfInertiaConfigReader:ciris.ConfigReader[squants.mass.MomentOfInertia]"></a><a id="momentOfInertiaConfigReader:ConfigReader[MomentOfInertia]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#momentOfInertiaConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="momentOfInertiaConfigDecoder:ciris.ConfigDecoder[String,squants.mass.MomentOfInertia]"></a><a id="momentOfInertiaConfigDecoder:ConfigDecoder[String,MomentOfInertia]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#momentOfInertiaConfigReader:ciris.ConfigReader[squants.mass.MomentOfInertia]" title="Permalink">
+      <a href="../../ciris/squants/index.html#momentOfInertiaConfigDecoder:ciris.ConfigDecoder[String,squants.mass.MomentOfInertia]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -869,14 +906,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">momentOfInertiaConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.mass.MomentOfInertia">MomentOfInertia</span>]</span>
+        <span class="name">momentOfInertiaConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.mass.MomentOfInertia">MomentOfInertia</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#momentumConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="momentumConfigReader:ciris.ConfigReader[squants.motion.Momentum]"></a><a id="momentumConfigReader:ConfigReader[Momentum]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#momentumConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="momentumConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Momentum]"></a><a id="momentumConfigDecoder:ConfigDecoder[String,Momentum]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#momentumConfigReader:ciris.ConfigReader[squants.motion.Momentum]" title="Permalink">
+      <a href="../../ciris/squants/index.html#momentumConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Momentum]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -885,14 +922,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">momentumConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Momentum">Momentum</span>]</span>
+        <span class="name">momentumConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.Momentum">Momentum</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#moneyDensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="moneyDensityConfigReader:ciris.ConfigReader[squants.market.Money]"></a><a id="moneyDensityConfigReader:ConfigReader[Money]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#moneyDensityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="moneyDensityConfigDecoder:ciris.ConfigDecoder[String,squants.market.Money]"></a><a id="moneyDensityConfigDecoder:ConfigDecoder[String,Money]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#moneyDensityConfigReader:ciris.ConfigReader[squants.market.Money]" title="Permalink">
+      <a href="../../ciris/squants/index.html#moneyDensityConfigDecoder:ciris.ConfigDecoder[String,squants.market.Money]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -901,14 +938,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">moneyDensityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.market.Money">Money</span>]</span>
+        <span class="name">moneyDensityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.market.Money">Money</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#powerConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="powerConfigReader:ciris.ConfigReader[squants.energy.Power]"></a><a id="powerConfigReader:ConfigReader[Power]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#powerConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="powerConfigDecoder:ciris.ConfigDecoder[String,squants.energy.Power]"></a><a id="powerConfigDecoder:ConfigDecoder[String,Power]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#powerConfigReader:ciris.ConfigReader[squants.energy.Power]" title="Permalink">
+      <a href="../../ciris/squants/index.html#powerConfigDecoder:ciris.ConfigDecoder[String,squants.energy.Power]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -917,14 +954,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">powerConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.Power">Power</span>]</span>
+        <span class="name">powerConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.energy.Power">Power</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#powerRampConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="powerRampConfigReader:ciris.ConfigReader[squants.energy.PowerRamp]"></a><a id="powerRampConfigReader:ConfigReader[PowerRamp]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#powerRampConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="powerRampConfigDecoder:ciris.ConfigDecoder[String,squants.energy.PowerRamp]"></a><a id="powerRampConfigDecoder:ConfigDecoder[String,PowerRamp]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#powerRampConfigReader:ciris.ConfigReader[squants.energy.PowerRamp]" title="Permalink">
+      <a href="../../ciris/squants/index.html#powerRampConfigDecoder:ciris.ConfigDecoder[String,squants.energy.PowerRamp]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -933,14 +970,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">powerRampConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.PowerRamp">PowerRamp</span>]</span>
+        <span class="name">powerRampConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.energy.PowerRamp">PowerRamp</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#pressureChangeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="pressureChangeConfigReader:ciris.ConfigReader[squants.motion.PressureChange]"></a><a id="pressureChangeConfigReader:ConfigReader[PressureChange]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#pressureChangeConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pressureChangeConfigDecoder:ciris.ConfigDecoder[String,squants.motion.PressureChange]"></a><a id="pressureChangeConfigDecoder:ConfigDecoder[String,PressureChange]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#pressureChangeConfigReader:ciris.ConfigReader[squants.motion.PressureChange]" title="Permalink">
+      <a href="../../ciris/squants/index.html#pressureChangeConfigDecoder:ciris.ConfigDecoder[String,squants.motion.PressureChange]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -949,14 +986,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">pressureChangeConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.PressureChange">PressureChange</span>]</span>
+        <span class="name">pressureChangeConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.PressureChange">PressureChange</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#pressureConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="pressureConfigReader:ciris.ConfigReader[squants.motion.Pressure]"></a><a id="pressureConfigReader:ConfigReader[Pressure]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#pressureConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pressureConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Pressure]"></a><a id="pressureConfigDecoder:ConfigDecoder[String,Pressure]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#pressureConfigReader:ciris.ConfigReader[squants.motion.Pressure]" title="Permalink">
+      <a href="../../ciris/squants/index.html#pressureConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Pressure]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -965,14 +1002,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">pressureConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Pressure">Pressure</span>]</span>
+        <span class="name">pressureConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.Pressure">Pressure</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#radianceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="radianceConfigReader:ciris.ConfigReader[squants.radio.Radiance]"></a><a id="radianceConfigReader:ConfigReader[Radiance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#radianceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="radianceConfigDecoder:ciris.ConfigDecoder[String,squants.radio.Radiance]"></a><a id="radianceConfigDecoder:ConfigDecoder[String,Radiance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#radianceConfigReader:ciris.ConfigReader[squants.radio.Radiance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#radianceConfigDecoder:ciris.ConfigDecoder[String,squants.radio.Radiance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -981,14 +1018,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">radianceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.Radiance">Radiance</span>]</span>
+        <span class="name">radianceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.radio.Radiance">Radiance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#radiantIntensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="radiantIntensityConfigReader:ciris.ConfigReader[squants.radio.RadiantIntensity]"></a><a id="radiantIntensityConfigReader:ConfigReader[RadiantIntensity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#radiantIntensityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="radiantIntensityConfigDecoder:ciris.ConfigDecoder[String,squants.radio.RadiantIntensity]"></a><a id="radiantIntensityConfigDecoder:ConfigDecoder[String,RadiantIntensity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#radiantIntensityConfigReader:ciris.ConfigReader[squants.radio.RadiantIntensity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#radiantIntensityConfigDecoder:ciris.ConfigDecoder[String,squants.radio.RadiantIntensity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -997,14 +1034,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">radiantIntensityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.RadiantIntensity">RadiantIntensity</span>]</span>
+        <span class="name">radiantIntensityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.radio.RadiantIntensity">RadiantIntensity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#resistivityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="resistivityConfigReader:ciris.ConfigReader[squants.electro.Resistivity]"></a><a id="resistivityConfigReader:ConfigReader[Resistivity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#resistivityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="resistivityConfigDecoder:ciris.ConfigDecoder[String,squants.electro.Resistivity]"></a><a id="resistivityConfigDecoder:ConfigDecoder[String,Resistivity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#resistivityConfigReader:ciris.ConfigReader[squants.electro.Resistivity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#resistivityConfigDecoder:ciris.ConfigDecoder[String,squants.electro.Resistivity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1013,14 +1050,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">resistivityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.electro.Resistivity">Resistivity</span>]</span>
+        <span class="name">resistivityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.electro.Resistivity">Resistivity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#solidAngleConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="solidAngleConfigReader:ciris.ConfigReader[squants.space.SolidAngle]"></a><a id="solidAngleConfigReader:ConfigReader[SolidAngle]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#solidAngleConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="solidAngleConfigDecoder:ciris.ConfigDecoder[String,squants.space.SolidAngle]"></a><a id="solidAngleConfigDecoder:ConfigDecoder[String,SolidAngle]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#solidAngleConfigReader:ciris.ConfigReader[squants.space.SolidAngle]" title="Permalink">
+      <a href="../../ciris/squants/index.html#solidAngleConfigDecoder:ciris.ConfigDecoder[String,squants.space.SolidAngle]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1029,14 +1066,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">solidAngleConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.SolidAngle">SolidAngle</span>]</span>
+        <span class="name">solidAngleConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.space.SolidAngle">SolidAngle</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#specificEnergyConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="specificEnergyConfigReader:ciris.ConfigReader[squants.energy.SpecificEnergy]"></a><a id="specificEnergyConfigReader:ConfigReader[SpecificEnergy]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#specificEnergyConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="specificEnergyConfigDecoder:ciris.ConfigDecoder[String,squants.energy.SpecificEnergy]"></a><a id="specificEnergyConfigDecoder:ConfigDecoder[String,SpecificEnergy]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#specificEnergyConfigReader:ciris.ConfigReader[squants.energy.SpecificEnergy]" title="Permalink">
+      <a href="../../ciris/squants/index.html#specificEnergyConfigDecoder:ciris.ConfigDecoder[String,squants.energy.SpecificEnergy]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1045,14 +1082,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">specificEnergyConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.energy.SpecificEnergy">SpecificEnergy</span>]</span>
+        <span class="name">specificEnergyConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.energy.SpecificEnergy">SpecificEnergy</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#spectralIntensityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="spectralIntensityConfigReader:ciris.ConfigReader[squants.radio.SpectralIntensity]"></a><a id="spectralIntensityConfigReader:ConfigReader[SpectralIntensity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#spectralIntensityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="spectralIntensityConfigDecoder:ciris.ConfigDecoder[String,squants.radio.SpectralIntensity]"></a><a id="spectralIntensityConfigDecoder:ConfigDecoder[String,SpectralIntensity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#spectralIntensityConfigReader:ciris.ConfigReader[squants.radio.SpectralIntensity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#spectralIntensityConfigDecoder:ciris.ConfigDecoder[String,squants.radio.SpectralIntensity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1061,14 +1098,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">spectralIntensityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.SpectralIntensity">SpectralIntensity</span>]</span>
+        <span class="name">spectralIntensityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.radio.SpectralIntensity">SpectralIntensity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#spectralIrradianceConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="spectralIrradianceConfigReader:ciris.ConfigReader[squants.radio.SpectralIrradiance]"></a><a id="spectralIrradianceConfigReader:ConfigReader[SpectralIrradiance]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#spectralIrradianceConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="spectralIrradianceConfigDecoder:ciris.ConfigDecoder[String,squants.radio.SpectralIrradiance]"></a><a id="spectralIrradianceConfigDecoder:ConfigDecoder[String,SpectralIrradiance]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#spectralIrradianceConfigReader:ciris.ConfigReader[squants.radio.SpectralIrradiance]" title="Permalink">
+      <a href="../../ciris/squants/index.html#spectralIrradianceConfigDecoder:ciris.ConfigDecoder[String,squants.radio.SpectralIrradiance]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1077,14 +1114,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">spectralIrradianceConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.SpectralIrradiance">SpectralIrradiance</span>]</span>
+        <span class="name">spectralIrradianceConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.radio.SpectralIrradiance">SpectralIrradiance</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#spectralPowerConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="spectralPowerConfigReader:ciris.ConfigReader[squants.radio.SpectralPower]"></a><a id="spectralPowerConfigReader:ConfigReader[SpectralPower]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#spectralPowerConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="spectralPowerConfigDecoder:ciris.ConfigDecoder[String,squants.radio.SpectralPower]"></a><a id="spectralPowerConfigDecoder:ConfigDecoder[String,SpectralPower]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#spectralPowerConfigReader:ciris.ConfigReader[squants.radio.SpectralPower]" title="Permalink">
+      <a href="../../ciris/squants/index.html#spectralPowerConfigDecoder:ciris.ConfigDecoder[String,squants.radio.SpectralPower]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1093,14 +1130,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">spectralPowerConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.radio.SpectralPower">SpectralPower</span>]</span>
+        <span class="name">spectralPowerConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.radio.SpectralPower">SpectralPower</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#temperatureConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="temperatureConfigReader:ciris.ConfigReader[squants.thermal.Temperature]"></a><a id="temperatureConfigReader:ConfigReader[Temperature]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#temperatureConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="temperatureConfigDecoder:ciris.ConfigDecoder[String,squants.thermal.Temperature]"></a><a id="temperatureConfigDecoder:ConfigDecoder[String,Temperature]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#temperatureConfigReader:ciris.ConfigReader[squants.thermal.Temperature]" title="Permalink">
+      <a href="../../ciris/squants/index.html#temperatureConfigDecoder:ciris.ConfigDecoder[String,squants.thermal.Temperature]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1109,14 +1146,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">temperatureConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.thermal.Temperature">Temperature</span>]</span>
+        <span class="name">temperatureConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.thermal.Temperature">Temperature</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#thermalCapacityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="thermalCapacityConfigReader:ciris.ConfigReader[squants.thermal.ThermalCapacity]"></a><a id="thermalCapacityConfigReader:ConfigReader[ThermalCapacity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#thermalCapacityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="thermalCapacityConfigDecoder:ciris.ConfigDecoder[String,squants.thermal.ThermalCapacity]"></a><a id="thermalCapacityConfigDecoder:ConfigDecoder[String,ThermalCapacity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#thermalCapacityConfigReader:ciris.ConfigReader[squants.thermal.ThermalCapacity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#thermalCapacityConfigDecoder:ciris.ConfigDecoder[String,squants.thermal.ThermalCapacity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1125,14 +1162,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">thermalCapacityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.thermal.ThermalCapacity">ThermalCapacity</span>]</span>
+        <span class="name">thermalCapacityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.thermal.ThermalCapacity">ThermalCapacity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#timeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="timeConfigReader:ciris.ConfigReader[squants.time.Time]"></a><a id="timeConfigReader:ConfigReader[Time]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#timeConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="timeConfigDecoder:ciris.ConfigDecoder[String,squants.time.Time]"></a><a id="timeConfigDecoder:ConfigDecoder[String,Time]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#timeConfigReader:ciris.ConfigReader[squants.time.Time]" title="Permalink">
+      <a href="../../ciris/squants/index.html#timeConfigDecoder:ciris.ConfigDecoder[String,squants.time.Time]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1141,14 +1178,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">timeConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.time.Time">Time</span>]</span>
+        <span class="name">timeConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.time.Time">Time</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#torqueConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="torqueConfigReader:ciris.ConfigReader[squants.motion.Torque]"></a><a id="torqueConfigReader:ConfigReader[Torque]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#torqueConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="torqueConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Torque]"></a><a id="torqueConfigDecoder:ConfigDecoder[String,Torque]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#torqueConfigReader:ciris.ConfigReader[squants.motion.Torque]" title="Permalink">
+      <a href="../../ciris/squants/index.html#torqueConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Torque]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1157,14 +1194,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">torqueConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Torque">Torque</span>]</span>
+        <span class="name">torqueConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.Torque">Torque</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#velocityConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="velocityConfigReader:ciris.ConfigReader[squants.motion.Velocity]"></a><a id="velocityConfigReader:ConfigReader[Velocity]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#velocityConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="velocityConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Velocity]"></a><a id="velocityConfigDecoder:ConfigDecoder[String,Velocity]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#velocityConfigReader:ciris.ConfigReader[squants.motion.Velocity]" title="Permalink">
+      <a href="../../ciris/squants/index.html#velocityConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Velocity]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1173,14 +1210,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">velocityConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Velocity">Velocity</span>]</span>
+        <span class="name">velocityConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.Velocity">Velocity</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#volumeConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="volumeConfigReader:ciris.ConfigReader[squants.space.Volume]"></a><a id="volumeConfigReader:ConfigReader[Volume]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#volumeConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="volumeConfigDecoder:ciris.ConfigDecoder[String,squants.space.Volume]"></a><a id="volumeConfigDecoder:ConfigDecoder[String,Volume]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#volumeConfigReader:ciris.ConfigReader[squants.space.Volume]" title="Permalink">
+      <a href="../../ciris/squants/index.html#volumeConfigDecoder:ciris.ConfigDecoder[String,squants.space.Volume]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1189,14 +1226,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">volumeConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.space.Volume">Volume</span>]</span>
+        <span class="name">volumeConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.space.Volume">Volume</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#volumeFlowConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="volumeFlowConfigReader:ciris.ConfigReader[squants.motion.VolumeFlow]"></a><a id="volumeFlowConfigReader:ConfigReader[VolumeFlow]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#volumeFlowConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="volumeFlowConfigDecoder:ciris.ConfigDecoder[String,squants.motion.VolumeFlow]"></a><a id="volumeFlowConfigDecoder:ConfigDecoder[String,VolumeFlow]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#volumeFlowConfigReader:ciris.ConfigReader[squants.motion.VolumeFlow]" title="Permalink">
+      <a href="../../ciris/squants/index.html#volumeFlowConfigDecoder:ciris.ConfigDecoder[String,squants.motion.VolumeFlow]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1205,14 +1242,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">volumeFlowConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.VolumeFlow">VolumeFlow</span>]</span>
+        <span class="name">volumeFlowConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.VolumeFlow">VolumeFlow</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.squants.readers.SquantsConfigReaders#yankConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="yankConfigReader:ciris.ConfigReader[squants.motion.Yank]"></a><a id="yankConfigReader:ConfigReader[Yank]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.squants.decoders.SquantsConfigDecoders#yankConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="yankConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Yank]"></a><a id="yankConfigDecoder:ConfigDecoder[String,Yank]"></a>
       <span class="permalink">
-      <a href="../../ciris/squants/index.html#yankConfigReader:ciris.ConfigReader[squants.motion.Yank]" title="Permalink">
+      <a href="../../ciris/squants/index.html#yankConfigDecoder:ciris.ConfigDecoder[String,squants.motion.Yank]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1221,10 +1258,10 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">yankConfigReader</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="squants.motion.Yank">Yank</span>]</span>
+        <span class="name">yankConfigDecoder</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="squants.motion.Yank">Yank</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></dd></dl></div>
     </li>
               </ol>
             </div>
@@ -1235,8 +1272,8 @@ If you are looking for a getting started guide, with examples and explanations, 
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="ciris.squants.readers.SquantsConfigReaders">
-              <h3>Inherited from <a href="readers/SquantsConfigReaders.html" class="extype" name="ciris.squants.readers.SquantsConfigReaders">SquantsConfigReaders</a></h3>
+        <div class="parent" name="ciris.squants.decoders.SquantsConfigDecoders">
+              <h3>Inherited from <a href="decoders/SquantsConfigDecoders.html" class="extype" name="ciris.squants.decoders.SquantsConfigDecoders">SquantsConfigDecoders</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

@@ -65,14 +65,14 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.6.2 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.7.0 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
 Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
-Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for typeclasses and typeclass instances.</li><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="../refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -90,10 +90,61 @@ Note that the API documentation targets the JVM, and there may be differences on
       
       <p class="shortcomment cmt">The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="ciris.api" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="api"></a><a id="api:api"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#api" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../api/index.html"><span class="name">api</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.cats" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="cats"></a><a id="cats:cats"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#cats" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Module providing an integration with cats." href="../cats/index.html"><span class="name">cats</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/typelevel/cats" target="_blank">cats</a>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
+    </li><li name="ciris.decoders" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
+      <span class="permalink">
+      <a href="../ciris/index.html#decoders" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../decoders/index.html"><span class="name">decoders</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.enumeratum" visbl="pub" class="indented2 current" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enumeratum"></a><a id="enumeratum:enumeratum"></a>
       <span class="permalink">
@@ -111,10 +162,10 @@ If you are looking for a getting started guide, with examples and explanations, 
       
       <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.enumeratum.readers" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
+    </li><li name="ciris.enumeratum.decoders" visbl="pub" class="indented3 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
       <span class="permalink">
-      <a href="../../ciris/enumeratum/index.html#readers" title="Permalink">
+      <a href="../../ciris/enumeratum/index.html#decoders" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -123,7 +174,7 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="" href="readers/index.html"><span class="name">readers</span></a>
+        <a title="" href="decoders/index.html"><span class="name">decoders</span></a>
       </span>
       
       
@@ -139,27 +190,13 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Module using shapeless for generic derivation of ConfigReaders." href="../generic/index.html"><span class="name">generic</span></a>
+        <a title="Module using shapeless for generic derivation of ConfigDecoders." href="../generic/index.html"><span class="name">generic</span></a>
       </span>
       
-      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> for generic derivation of ConfigReaders.
+      <p class="shortcomment cmt">Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.</p><div class="fullcomment"><div class="comment cmt"><p>Module using <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a>
+for generic derivation of ConfigDecoders.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.readers" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
-      <span class="permalink">
-      <a href="../ciris/index.html#readers" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a title="" href="../readers/index.html"><span class="name">readers</span></a>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
     </li><li name="ciris.refined" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="refined"></a><a id="refined:refined"></a>
       <span class="permalink">
@@ -240,11 +277,11 @@ If you are looking for a getting started guide, with examples and explanations, 
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.6.2/modules/enumeratum/shared/src/main/scala/ciris/enumeratum/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.7.0/modules/enumeratum/shared/src/main/scala/ciris/enumeratum/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -270,7 +307,7 @@ If you are looking for a getting started guide, with examples and explanations, 
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="ciris.enumeratum"><span>enumeratum</span></li><li class="in" name="ciris.enumeratum.readers.EnumeratumConfigReaders"><span>EnumeratumConfigReaders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="ciris.enumeratum"><span>enumeratum</span></li><li class="in" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders"><span>EnumeratumConfigDecoders</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -297,10 +334,10 @@ If you are looking for a getting started guide, with examples and explanations, 
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="ciris.enumeratum.readers.EnumeratumConfigReaders#byteEnumEntryConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="byteEnumEntryConfigReader[A&lt;:enumeratum.values.ByteEnumEntry](implicitevidence$3:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.ByteEnum[A]):ciris.ConfigReader[A]"></a><a id="byteEnumEntryConfigReader[A&lt;:ByteEnumEntry](ClassTag[A],ByteEnum[A]):ConfigReader[A]"></a>
+                <li name="ciris.enumeratum.decoders.EnumeratumConfigDecoders#byteEnumEntryConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="byteEnumEntryConfigDecoder[A&lt;:enumeratum.values.ByteEnumEntry](implicitevidence$3:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.ByteEnum[A]):ciris.ConfigDecoder[String,A]"></a><a id="byteEnumEntryConfigDecoder[A&lt;:ByteEnumEntry](ClassTag[A],ByteEnum[A]):ConfigDecoder[String,A]"></a>
       <span class="permalink">
-      <a href="../../ciris/enumeratum/index.html#byteEnumEntryConfigReader[A&lt;:enumeratum.values.ByteEnumEntry](implicitevidence$3:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.ByteEnum[A]):ciris.ConfigReader[A]" title="Permalink">
+      <a href="../../ciris/enumeratum/index.html#byteEnumEntryConfigDecoder[A&lt;:enumeratum.values.ByteEnumEntry](implicitevidence$3:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.ByteEnum[A]):ciris.ConfigDecoder[String,A]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -309,14 +346,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">byteEnumEntryConfigReader</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.ByteEnumEntry">ByteEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.byteEnumEntryConfigReader.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.ByteEnum">ByteEnum</span>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.byteEnumEntryConfigReader.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.byteEnumEntryConfigReader.A">A</span>]</span>
+        <span class="name">byteEnumEntryConfigDecoder</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.ByteEnumEntry">ByteEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.byteEnumEntryConfigDecoder.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.ByteEnum">ByteEnum</span>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.byteEnumEntryConfigDecoder.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.byteEnumEntryConfigDecoder.A">A</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.enumeratum.readers.EnumeratumConfigReaders#charEnumEntryConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="charEnumEntryConfigReader[A&lt;:enumeratum.values.CharEnumEntry](implicitevidence$4:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.CharEnum[A]):ciris.ConfigReader[A]"></a><a id="charEnumEntryConfigReader[A&lt;:CharEnumEntry](ClassTag[A],CharEnum[A]):ConfigReader[A]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.enumeratum.decoders.EnumeratumConfigDecoders#charEnumEntryConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="charEnumEntryConfigDecoder[A&lt;:enumeratum.values.CharEnumEntry](implicitevidence$4:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.CharEnum[A]):ciris.ConfigDecoder[String,A]"></a><a id="charEnumEntryConfigDecoder[A&lt;:CharEnumEntry](ClassTag[A],CharEnum[A]):ConfigDecoder[String,A]"></a>
       <span class="permalink">
-      <a href="../../ciris/enumeratum/index.html#charEnumEntryConfigReader[A&lt;:enumeratum.values.CharEnumEntry](implicitevidence$4:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.CharEnum[A]):ciris.ConfigReader[A]" title="Permalink">
+      <a href="../../ciris/enumeratum/index.html#charEnumEntryConfigDecoder[A&lt;:enumeratum.values.CharEnumEntry](implicitevidence$4:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.CharEnum[A]):ciris.ConfigDecoder[String,A]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -325,14 +362,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">charEnumEntryConfigReader</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.CharEnumEntry">CharEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.charEnumEntryConfigReader.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.CharEnum">CharEnum</span>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.charEnumEntryConfigReader.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.charEnumEntryConfigReader.A">A</span>]</span>
+        <span class="name">charEnumEntryConfigDecoder</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.CharEnumEntry">CharEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.charEnumEntryConfigDecoder.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.CharEnum">CharEnum</span>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.charEnumEntryConfigDecoder.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.charEnumEntryConfigDecoder.A">A</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.enumeratum.readers.EnumeratumConfigReaders#enumEntryConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="enumEntryConfigReader[A&lt;:enumeratum.EnumEntry](implicitevidence$5:scala.reflect.ClassTag[A],implicitenum:enumeratum.Enum[A]):ciris.ConfigReader[A]"></a><a id="enumEntryConfigReader[A&lt;:EnumEntry](ClassTag[A],Enum[A]):ConfigReader[A]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.enumeratum.decoders.EnumeratumConfigDecoders#enumEntryConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="enumEntryConfigDecoder[A&lt;:enumeratum.EnumEntry](implicitevidence$5:scala.reflect.ClassTag[A],implicitenum:enumeratum.Enum[A]):ciris.ConfigDecoder[String,A]"></a><a id="enumEntryConfigDecoder[A&lt;:EnumEntry](ClassTag[A],Enum[A]):ConfigDecoder[String,A]"></a>
       <span class="permalink">
-      <a href="../../ciris/enumeratum/index.html#enumEntryConfigReader[A&lt;:enumeratum.EnumEntry](implicitevidence$5:scala.reflect.ClassTag[A],implicitenum:enumeratum.Enum[A]):ciris.ConfigReader[A]" title="Permalink">
+      <a href="../../ciris/enumeratum/index.html#enumEntryConfigDecoder[A&lt;:enumeratum.EnumEntry](implicitevidence$5:scala.reflect.ClassTag[A],implicitenum:enumeratum.Enum[A]):ciris.ConfigDecoder[String,A]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -341,14 +378,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">enumEntryConfigReader</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.EnumEntry">EnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.enumEntryConfigReader.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.Enum">Enum</span>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.enumEntryConfigReader.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.enumEntryConfigReader.A">A</span>]</span>
+        <span class="name">enumEntryConfigDecoder</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.EnumEntry">EnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.enumEntryConfigDecoder.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.Enum">Enum</span>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.enumEntryConfigDecoder.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.enumEntryConfigDecoder.A">A</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.enumeratum.readers.EnumeratumConfigReaders#intEnumEntryConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="intEnumEntryConfigReader[A&lt;:enumeratum.values.IntEnumEntry](implicitevidence$6:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.IntEnum[A]):ciris.ConfigReader[A]"></a><a id="intEnumEntryConfigReader[A&lt;:IntEnumEntry](ClassTag[A],IntEnum[A]):ConfigReader[A]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.enumeratum.decoders.EnumeratumConfigDecoders#intEnumEntryConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="intEnumEntryConfigDecoder[A&lt;:enumeratum.values.IntEnumEntry](implicitevidence$6:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.IntEnum[A]):ciris.ConfigDecoder[String,A]"></a><a id="intEnumEntryConfigDecoder[A&lt;:IntEnumEntry](ClassTag[A],IntEnum[A]):ConfigDecoder[String,A]"></a>
       <span class="permalink">
-      <a href="../../ciris/enumeratum/index.html#intEnumEntryConfigReader[A&lt;:enumeratum.values.IntEnumEntry](implicitevidence$6:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.IntEnum[A]):ciris.ConfigReader[A]" title="Permalink">
+      <a href="../../ciris/enumeratum/index.html#intEnumEntryConfigDecoder[A&lt;:enumeratum.values.IntEnumEntry](implicitevidence$6:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.IntEnum[A]):ciris.ConfigDecoder[String,A]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -357,14 +394,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">intEnumEntryConfigReader</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.IntEnumEntry">IntEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.intEnumEntryConfigReader.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.IntEnum">IntEnum</span>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.intEnumEntryConfigReader.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.intEnumEntryConfigReader.A">A</span>]</span>
+        <span class="name">intEnumEntryConfigDecoder</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.IntEnumEntry">IntEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.intEnumEntryConfigDecoder.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.IntEnum">IntEnum</span>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.intEnumEntryConfigDecoder.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.intEnumEntryConfigDecoder.A">A</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.enumeratum.readers.EnumeratumConfigReaders#longEnumEntryConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="longEnumEntryConfigReader[A&lt;:enumeratum.values.LongEnumEntry](implicitevidence$7:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.LongEnum[A]):ciris.ConfigReader[A]"></a><a id="longEnumEntryConfigReader[A&lt;:LongEnumEntry](ClassTag[A],LongEnum[A]):ConfigReader[A]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.enumeratum.decoders.EnumeratumConfigDecoders#longEnumEntryConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="longEnumEntryConfigDecoder[A&lt;:enumeratum.values.LongEnumEntry](implicitevidence$7:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.LongEnum[A]):ciris.ConfigDecoder[String,A]"></a><a id="longEnumEntryConfigDecoder[A&lt;:LongEnumEntry](ClassTag[A],LongEnum[A]):ConfigDecoder[String,A]"></a>
       <span class="permalink">
-      <a href="../../ciris/enumeratum/index.html#longEnumEntryConfigReader[A&lt;:enumeratum.values.LongEnumEntry](implicitevidence$7:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.LongEnum[A]):ciris.ConfigReader[A]" title="Permalink">
+      <a href="../../ciris/enumeratum/index.html#longEnumEntryConfigDecoder[A&lt;:enumeratum.values.LongEnumEntry](implicitevidence$7:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.LongEnum[A]):ciris.ConfigDecoder[String,A]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -373,14 +410,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">longEnumEntryConfigReader</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.LongEnumEntry">LongEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.longEnumEntryConfigReader.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.LongEnum">LongEnum</span>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.longEnumEntryConfigReader.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.longEnumEntryConfigReader.A">A</span>]</span>
+        <span class="name">longEnumEntryConfigDecoder</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.LongEnumEntry">LongEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.longEnumEntryConfigDecoder.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.LongEnum">LongEnum</span>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.longEnumEntryConfigDecoder.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.longEnumEntryConfigDecoder.A">A</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.enumeratum.readers.EnumeratumConfigReaders#shortEnumEntryConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="shortEnumEntryConfigReader[A&lt;:enumeratum.values.ShortEnumEntry](implicitevidence$8:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.ShortEnum[A]):ciris.ConfigReader[A]"></a><a id="shortEnumEntryConfigReader[A&lt;:ShortEnumEntry](ClassTag[A],ShortEnum[A]):ConfigReader[A]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.enumeratum.decoders.EnumeratumConfigDecoders#shortEnumEntryConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="shortEnumEntryConfigDecoder[A&lt;:enumeratum.values.ShortEnumEntry](implicitevidence$8:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.ShortEnum[A]):ciris.ConfigDecoder[String,A]"></a><a id="shortEnumEntryConfigDecoder[A&lt;:ShortEnumEntry](ClassTag[A],ShortEnum[A]):ConfigDecoder[String,A]"></a>
       <span class="permalink">
-      <a href="../../ciris/enumeratum/index.html#shortEnumEntryConfigReader[A&lt;:enumeratum.values.ShortEnumEntry](implicitevidence$8:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.ShortEnum[A]):ciris.ConfigReader[A]" title="Permalink">
+      <a href="../../ciris/enumeratum/index.html#shortEnumEntryConfigDecoder[A&lt;:enumeratum.values.ShortEnumEntry](implicitevidence$8:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.ShortEnum[A]):ciris.ConfigDecoder[String,A]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -389,14 +426,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">shortEnumEntryConfigReader</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.ShortEnumEntry">ShortEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.shortEnumEntryConfigReader.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.ShortEnum">ShortEnum</span>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.shortEnumEntryConfigReader.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.shortEnumEntryConfigReader.A">A</span>]</span>
+        <span class="name">shortEnumEntryConfigDecoder</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.ShortEnumEntry">ShortEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.shortEnumEntryConfigDecoder.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.ShortEnum">ShortEnum</span>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.shortEnumEntryConfigDecoder.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.shortEnumEntryConfigDecoder.A">A</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a></dd></dl></div>
-    </li><li name="ciris.enumeratum.readers.EnumeratumConfigReaders#stringEnumEntryConfigReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="stringEnumEntryConfigReader[A&lt;:enumeratum.values.StringEnumEntry](implicitevidence$9:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.StringEnum[A]):ciris.ConfigReader[A]"></a><a id="stringEnumEntryConfigReader[A&lt;:StringEnumEntry](ClassTag[A],StringEnum[A]):ConfigReader[A]"></a>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a></dd></dl></div>
+    </li><li name="ciris.enumeratum.decoders.EnumeratumConfigDecoders#stringEnumEntryConfigDecoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stringEnumEntryConfigDecoder[A&lt;:enumeratum.values.StringEnumEntry](implicitevidence$9:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.StringEnum[A]):ciris.ConfigDecoder[String,A]"></a><a id="stringEnumEntryConfigDecoder[A&lt;:StringEnumEntry](ClassTag[A],StringEnum[A]):ConfigDecoder[String,A]"></a>
       <span class="permalink">
-      <a href="../../ciris/enumeratum/index.html#stringEnumEntryConfigReader[A&lt;:enumeratum.values.StringEnumEntry](implicitevidence$9:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.StringEnum[A]):ciris.ConfigReader[A]" title="Permalink">
+      <a href="../../ciris/enumeratum/index.html#stringEnumEntryConfigDecoder[A&lt;:enumeratum.values.StringEnumEntry](implicitevidence$9:scala.reflect.ClassTag[A],implicitenum:enumeratum.values.StringEnum[A]):ciris.ConfigDecoder[String,A]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -405,10 +442,10 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">stringEnumEntryConfigReader</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.StringEnumEntry">StringEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.stringEnumEntryConfigReader.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.StringEnum">StringEnum</span>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.stringEnumEntryConfigReader.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigReader.html" class="extype" name="ciris.ConfigReader">ConfigReader</a>[<span class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders.stringEnumEntryConfigReader.A">A</span>]</span>
+        <span class="name">stringEnumEntryConfigDecoder</span><span class="tparams">[<span name="A">A &lt;: <span class="extype" name="enumeratum.values.StringEnumEntry">StringEnumEntry</span></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.stringEnumEntryConfigDecoder.A">A</span>]</span>, <span name="enum">enum: <span class="extype" name="enumeratum.values.StringEnum">StringEnum</span>[<span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.stringEnumEntryConfigDecoder.A">A</span>]</span>)</span><span class="result">: <a href="../ConfigDecoder.html" class="extype" name="ciris.ConfigDecoder">ConfigDecoder</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders.stringEnumEntryConfigDecoder.A">A</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a></dd></dl></div>
     </li>
               </ol>
             </div>
@@ -419,8 +456,8 @@ If you are looking for a getting started guide, with examples and explanations, 
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="ciris.enumeratum.readers.EnumeratumConfigReaders">
-              <h3>Inherited from <a href="readers/EnumeratumConfigReaders.html" class="extype" name="ciris.enumeratum.readers.EnumeratumConfigReaders">EnumeratumConfigReaders</a></h3>
+        <div class="parent" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">
+              <h3>Inherited from <a href="decoders/EnumeratumConfigDecoders.html" class="extype" name="ciris.enumeratum.decoders.EnumeratumConfigDecoders">EnumeratumConfigDecoders</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

@@ -65,14 +65,14 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.6.2 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.7.0 on Scala 2.12. Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
 Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.6.2" target="_blank">v0.6.2</a> on Scala 2.12.<br>
-Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read unary products, and coproducts.</li><li>The <a href="index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.7.0" target="_blank">v0.7.0</a> on Scala 2.12.<br>
+Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="../cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for typeclasses and typeclass instances.</li><li>The <a href="../index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for reading standard library types.</li><li>The <a href="../enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="../generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="../spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="../squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
       <span class="permalink">
@@ -90,9 +90,11 @@ Note that the API documentation targets the JVM, and there may be differences on
       
       <p class="shortcomment cmt">The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p><div class="fullcomment"><div class="comment cmt"><p>The main namespace of Ciris is <code>ciris</code>, and the easiest way to
 get started is to bring it into scope with an import.<br>
-If you are looking for a getting started guide, with examples and explanations, please refer to the <a href="https://cir.is/docs/basics" target="_blank">usage guide</a>.
+If you are looking for a getting started guide, with examples
+and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="ciris.refined" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="refined"></a><a id="refined:refined"></a>
@@ -111,10 +113,10 @@ If you are looking for a getting started guide, with examples and explanations, 
       
       <p class="shortcomment cmt">Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Module providing an integration with <a href="https://github.com/fthomas/refined" target="_blank">refined</a>.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="ciris">ciris</a></dd></dl></div>
-    </li><li name="ciris.refined.readers" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="readers"></a><a id="readers:readers"></a>
+    </li><li name="ciris.refined.decoders" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="decoders"></a><a id="decoders:decoders"></a>
       <span class="permalink">
-      <a href="../../ciris/refined/index.html#readers" title="Permalink">
+      <a href="../../ciris/refined/index.html#decoders" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -123,7 +125,7 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="" href="readers/index.html"><span class="name">readers</span></a>
+        <a title="" href="decoders/index.html"><span class="name">decoders</span></a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="ciris.refined">refined</a></dd></dl></div>
@@ -159,7 +161,7 @@ If you are looking for a getting started guide, with examples and explanations, 
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.6.2/modules/refined/shared/src/main/scala/ciris/refined/syntax.scala" target="_blank">syntax.scala</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.7.0/modules/refined/jvm/src/main/scala/ciris/refined/syntax.scala" target="_blank">syntax.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -211,10 +213,10 @@ If you are looking for a getting started guide, with examples and explanations, 
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="ciris.refined.syntax.MapRefinePartiallyApplied" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="MapRefinePartiallyApplied[T,P]extendsAnyRef"></a><a id="MapRefinePartiallyApplied[T,P]:MapRefinePartiallyApplied[T,P]"></a>
+              <ol><li name="ciris.refined.syntax.MapRefineValuePartiallyApplied" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MapRefineValuePartiallyApplied[F[_],K,S,V,P]extendsAnyRef"></a><a id="MapRefineValuePartiallyApplied[F[_],K,S,V,P]:MapRefineValuePartiallyApplied[F,K,S,V,P]"></a>
       <span class="permalink">
-      <a href="../../ciris/refined/syntax$.html#MapRefinePartiallyApplied[T,P]extendsAnyRef" title="Permalink">
+      <a href="../../ciris/refined/syntax$.html#MapRefineValuePartiallyApplied[F[_],K,S,V,P]extendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -223,14 +225,14 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="syntax$$MapRefinePartiallyApplied.html"><span class="name">MapRefinePartiallyApplied</span></a><span class="tparams">[<span name="T">T</span>, <span name="P">P</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="syntax$$MapRefineValuePartiallyApplied.html"><span class="name">MapRefineValuePartiallyApplied</span></a><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="S">S</span>, <span name="V">V</span>, <span name="P">P</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       
       
-    </li><li name="ciris.refined.syntax.RefinedConfigValueSyntax" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="RefinedConfigValueSyntax[T]extendsAnyRef"></a><a id="RefinedConfigValueSyntax[T]:RefinedConfigValueSyntax[T]"></a>
+    </li><li name="ciris.refined.syntax.RefinedConfigEntrySyntax" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RefinedConfigEntrySyntax[F[_],K,S,V]extendsAnyRef"></a><a id="RefinedConfigEntrySyntax[F[_],K,S,V]:RefinedConfigEntrySyntax[F,K,S,V]"></a>
       <span class="permalink">
-      <a href="../../ciris/refined/syntax$.html#RefinedConfigValueSyntax[T]extendsAnyRef" title="Permalink">
+      <a href="../../ciris/refined/syntax$.html#RefinedConfigEntrySyntax[F[_],K,S,V]extendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -239,7 +241,7 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="syntax$$RefinedConfigValueSyntax.html"><span class="name">RefinedConfigValueSyntax</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <a title="" href="syntax$$RefinedConfigEntrySyntax.html"><span class="name">RefinedConfigEntrySyntax</span></a><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="S">S</span>, <span name="V">V</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       
       
@@ -501,10 +503,10 @@ If you are looking for a getting started guide, with examples and explanations, 
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="ciris.refined.syntax#refinedConfigValueSyntax" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="refinedConfigValueSyntax[T](config:ciris.ConfigValue[T]):ciris.refined.syntax.RefinedConfigValueSyntax[T]"></a><a id="refinedConfigValueSyntax[T](ConfigValue[T]):RefinedConfigValueSyntax[T]"></a>
+    </li><li name="ciris.refined.syntax#refinedConfigEntrySyntax" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="refinedConfigEntrySyntax[F[_],K,S,V](entry:ciris.ConfigEntry[F,K,S,V])(implicitevidence$1:ciris.api.Monad[F]):ciris.refined.syntax.RefinedConfigEntrySyntax[F,K,S,V]"></a><a id="refinedConfigEntrySyntax[F[_],K,S,V](ConfigEntry[F,K,S,V])(Monad[F]):RefinedConfigEntrySyntax[F,K,S,V]"></a>
       <span class="permalink">
-      <a href="../../ciris/refined/syntax$.html#refinedConfigValueSyntax[T](config:ciris.ConfigValue[T]):ciris.refined.syntax.RefinedConfigValueSyntax[T]" title="Permalink">
+      <a href="../../ciris/refined/syntax$.html#refinedConfigEntrySyntax[F[_],K,S,V](entry:ciris.ConfigEntry[F,K,S,V])(implicitevidence$1:ciris.api.Monad[F]):ciris.refined.syntax.RefinedConfigEntrySyntax[F,K,S,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -513,7 +515,7 @@ If you are looking for a getting started guide, with examples and explanations, 
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">refinedConfigValueSyntax</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="config">config: <a href="../ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.refined.syntax.refinedConfigValueSyntax.T">T</span>]</span>)</span><span class="result">: <a href="syntax$$RefinedConfigValueSyntax.html" class="extype" name="ciris.refined.syntax.RefinedConfigValueSyntax">RefinedConfigValueSyntax</a>[<span class="extype" name="ciris.refined.syntax.refinedConfigValueSyntax.T">T</span>]</span>
+        <span class="name">refinedConfigEntrySyntax</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="K">K</span>, <span name="S">S</span>, <span name="V">V</span>]</span><span class="params">(<span name="entry">entry: <a href="../ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a>[<span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.F">F</span>, <span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.K">K</span>, <span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.S">S</span>, <span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.V">V</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="../api/Monad.html" class="extype" name="ciris.api.Monad">Monad</a>[<span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.F">F</span>]</span>)</span><span class="result">: <a href="syntax$$RefinedConfigEntrySyntax.html" class="extype" name="ciris.refined.syntax.RefinedConfigEntrySyntax">RefinedConfigEntrySyntax</a>[<span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.F">F</span>, <span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.K">K</span>, <span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.S">S</span>, <span class="extype" name="ciris.refined.syntax.refinedConfigEntrySyntax.V">V</span>]</span>
       </span>
       
       

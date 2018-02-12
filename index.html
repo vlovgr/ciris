@@ -6,7 +6,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', 'UA-37804684-4' , 'auto');
 ga('send', 'pageview');
-      </script></head><body><header id="site-header"><div class="navbar-wrapper"><div class="container"><div class="row"><div class="col-xs-6"><a href="/" class="brand"><div class="icon-wrapper"><span>Ciris</span></div></a></div><div class="col-xs-6"><nav class="text-right"><ul class=""><li><a href="https://github.com/vlovgr/ciris"><i class="fa fa-github"></i><span class="hidden-xs">GitHub</span></a></li><li><a href="api"><i class="fa fa-file-text"></i><span class="hidden-xs">Documentation</span></a></li></ul></nav></div></div></div></div><div class="jumbotron"><div class="container"><h1 class="text-center">Lightweight, extensible, and validated configuration loading in Scala</h1><h2></h2><p class="text-center"><a href="https://github.com/vlovgr/ciris" class="btn btn-outline-inverse">View on GitHub</a></p></div></div><div><ul class="horizontalNav">       <li><a class="" href="/docs/basics">Usage Basics</a></li>  <li><a class="" href="/docs/concepts">Core Concepts</a></li>  <li><a class="" href="/docs/modules">Modules Overview</a></li>  <li><a class="" href="/docs/validation">Encoding Validation</a></li>  <li><a class="" href="/docs/environments">Multiple Environments</a></li>  <li><a class="" href="/docs/sources">Configuration Sources</a></li>  <li><a class="" href="/docs/readers">Custom Readers</a></li>  <li><a class="" href="/docs/contributing">Contributing Guide</a></li> </ul></div></header><main id="site-main"><section class="use"><div class="container"><div id="content"><p><a href="https://typelevel.org/projects/#ciris"><img src="https://img.shields.io/badge/typelevel-library-fd3d50.svg" alt="Typelevel" /></a> <a href="https://travis-ci.org/vlovgr/ciris"><img src="https://img.shields.io/travis/vlovgr/ciris/master.svg" alt="Travis" /></a> <a href="https://codecov.io/gh/vlovgr/ciris"><img src="https://img.shields.io/codecov/c/github/vlovgr/ciris.svg" alt="Codecov" /></a> <a href="https://gitter.im/vlovgr/ciris"><img src="https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97" alt="Gitter" /></a> <a href="https://index.scala-lang.org/vlovgr/ciris"><img src="https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?color=blue&amp;label=version" alt="Version" /></a></p>
+      </script></head><body><header id="site-header"><div class="navbar-wrapper"><div class="container"><div class="row"><div class="col-xs-6"><a href="/" class="brand"><div class="icon-wrapper"><span>Ciris</span></div></a></div><div class="col-xs-6"><nav class="text-right"><ul class=""><li><a href="https://github.com/vlovgr/ciris"><i class="fa fa-github"></i><span class="hidden-xs">GitHub</span></a></li><li><a href="api"><i class="fa fa-file-text"></i><span class="hidden-xs">Documentation</span></a></li></ul></nav></div></div></div></div><div class="jumbotron"><div class="container"><h1 class="text-center">Lightweight, extensible, and validated configuration loading in Scala</h1><h2></h2><p class="text-center"><a href="https://github.com/vlovgr/ciris" class="btn btn-outline-inverse">View on GitHub</a></p></div></div><div><ul class="horizontalNav">       <li><a class="" href="/docs/basics">Usage Basics</a></li>  <li><a class="" href="/docs/concepts">Core Concepts</a></li>  <li><a class="" href="/docs/modules">Modules Overview</a></li>  <li><a class="" href="/docs/validation">Encoding Validation</a></li>  <li><a class="" href="/docs/environments">Multiple Environments</a></li>  <li><a class="" href="/docs/sources">Configuration Sources</a></li>  <li><a class="" href="/docs/decoders">Custom Decoders</a></li>  <li><a class="" href="/docs/contributing">Contributing Guide</a></li> </ul></div></header><main id="site-main"><section class="use"><div class="container"><div id="content"><p><a href="https://typelevel.org/projects/#ciris"><img src="https://img.shields.io/badge/typelevel-library-fd3d50.svg" alt="Typelevel" /></a> <a href="https://travis-ci.org/vlovgr/ciris"><img src="https://img.shields.io/travis/vlovgr/ciris/master.svg" alt="Travis" /></a> <a href="https://codecov.io/gh/vlovgr/ciris"><img src="https://img.shields.io/codecov/c/github/vlovgr/ciris.svg" alt="Codecov" /></a> <a href="https://gitter.im/vlovgr/ciris"><img src="https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97" alt="Gitter" /></a> <a href="https://index.scala-lang.org/vlovgr/ciris"><img src="https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?label=version" alt="Version" /></a></p>
 
 <h2 id="ciris"><a name="ciris" href="#ciris">Ciris</a></h2>
 <p>Lightweight, extensible, and validated configuration loading in <a href="https://www.scala-lang.org">Scala</a>, <a href="https://www.scala-js.org">Scala.js</a>, and <a href="http://scala-native.org">Scala Native</a>.<br />
@@ -23,11 +23,11 @@ After the city falls and Scylla is taken prisoner on the Cretan ships, Amphitrit
 <p>Ciris is a new project under active development. Feedback and contributions are welcome.</p>
 
 <h3 id="introduction"><a name="introduction" href="#introduction">Introduction</a></h3>
-<p>Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a>, <a href="https://github.com/fthomas/refined">refined</a>, <a href="https://github.com/non/spire">spire</a>, and <a href="https://github.com/typelevel/squants">squants</a>.</p>
+<p>Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as <a href="https://github.com/typelevel/cats">cats</a>, <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a>, <a href="https://github.com/fthomas/refined">refined</a>, <a href="https://github.com/non/spire">spire</a>, and <a href="https://github.com/typelevel/squants">squants</a>.</p>
 
-<p>Ciris is intended as an alternative to configuration files, and libraries like <a href="https://github.com/typesafehub/config">Typesafe Config</a>, in situations where it’s easy to change and deploy software. Ciris aims to make it easy and safe to work with configurations by completely eliminating many common configuration errors, and by preventing errors from occurring as early as possible.</p>
+<p>Ciris is intended as an alternative to configuration files, and libraries like <a href="https://github.com/lightbend/config">Lightbend Config</a>, in situations where it’s easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services (like, for example, <a href="https://github.com/ovotech/ciris-kubernetes">Kubernetes Secrets</a> and <a href="https://github.com/ovotech/ciris-aws-ssm">AWS Systems Manager</a>).</p>
 
-<p>The <a href="https://cir.is/docs/basics">usage guide</a> provides a more detailed introduction to Ciris. See also the presentation <a href="https://www.youtube.com/watch?v=C3ciegxMAqA">Refined types for validated configurations</a> and follow-up blog post <a href="https://typelevel.org/blog/2017/06/21/ciris.html">Validated Configurations with Ciris</a> for a short introduction to the library and configurations with refined types.</p>
+<p>The <a href="https://cir.is/docs">usage guide</a> provides a more detailed introduction to Ciris. See also the presentation <a href="https://www.youtube.com/watch?v=C3ciegxMAqA">Refined types for validated configurations</a> and follow-up blog post <a href="https://typelevel.org/blog/2017/06/21/ciris.html">Validated Configurations with Ciris</a> for a short introduction to the library and configurations with refined types.</p>
 
 <p align="center">
   <a href="https://asciinema.org/a/151742">
@@ -37,11 +37,12 @@ After the city falls and Scylla is taken prisoner on the Cretan ships, Amphitrit
 
 <h3 id="getting-started"><a name="getting-started" href="#getting-started">Getting Started</a></h3>
 <p>To get started with <a href="https://www.scala-sbt.org">SBT</a>, simply add the following lines to your <code class="highlighter-rouge">build.sbt</code> file.<br />
-For an overview, usage instructions, and examples, please see the <a href="https://cir.is/docs/basics">usage guide</a>.</p>
+For an overview, usage instructions, and examples, please see the <a href="https://cir.is/docs">usage guide</a>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">cirisVersion</span> <span class="k">=</span> <span class="s">"0.6.2"</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">cirisVersion</span> <span class="k">=</span> <span class="s">"0.7.0"</span>
 
 <span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-cats"</span><span class="o">,</span>
   <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-core"</span><span class="o">,</span>
   <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-enumeratum"</span><span class="o">,</span>
   <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-generic"</span><span class="o">,</span>
@@ -68,6 +69,12 @@ For changes between versions, please see the <a href="https://github.com/vlovgr/
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">ciris-cats</code></td>
+      <td>✓ 2.10, 2.11, 2.12</td>
+      <td>✓ 0.6 (2.10, 2.11, 2.12)</td>
+      <td>𐄂</td>
+    </tr>
     <tr>
       <td><code class="highlighter-rouge">ciris-core</code></td>
       <td>✓ 2.10, 2.11, 2.12</td>
@@ -108,13 +115,14 @@ For changes between versions, please see the <a href="https://github.com/vlovgr/
 </table>
 
 <p>Backwards binary compatibility for the library is guaranteed between minor versions.<br />
-For example, <code class="highlighter-rouge">0.6.x</code> is backwards binary compatible with <code class="highlighter-rouge">0.6.y</code> for any <code class="highlighter-rouge">x &gt; y</code>.<br />
+For example, <code class="highlighter-rouge">0.7.x</code> is backwards binary compatible with <code class="highlighter-rouge">0.7.y</code> for any <code class="highlighter-rouge">x &gt; y</code>.<br />
 More recent minor versions are drop-in replacements for earlier minor versions.</p>
 
 <p>The only required module is <code class="highlighter-rouge">ciris-core</code>, the rest are optional library integrations.<br />
 For an explanation of how to use the modules, see the <a href="https://cir.is/docs/modules">Modules Overview</a> section.</p>
 
 <ul>
+  <li>The <code class="highlighter-rouge">ciris-cats</code> module provides typeclasses and typeclass instances from <a href="https://github.com/typelevel/cats">cats</a>.</li>
   <li>The <code class="highlighter-rouge">ciris-enumeratum</code> module allows loading <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations.</li>
   <li>The <code class="highlighter-rouge">ciris-generic</code> module allows loading more types with <a href="https://github.com/milessabin/shapeless">shapeless</a>.</li>
   <li>The <code class="highlighter-rouge">ciris-refined</code> module allows loading <a href="https://github.com/fthomas/refined">refined</a> refinement types.</li>
@@ -125,6 +133,18 @@ For an explanation of how to use the modules, see the <a href="https://cir.is/do
 <p>If you’re using <code class="highlighter-rouge">ciris-generic</code> with Scala 2.10, you’ll need to include the <a href="https://docs.scala-lang.org/overviews/macros/paradise.html">Macro Paradise</a> compiler plugin.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="n">compilerPlugin</span><span class="o">(</span><span class="s">"org.scalamacros"</span> <span class="o">%</span> <span class="s">"paradise"</span> <span class="o">%</span> <span class="s">"2.1.1"</span> <span class="n">cross</span> <span class="nc">CrossVersion</span><span class="o">.</span><span class="n">patch</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>If you’re using <code class="highlighter-rouge">ciris-cats</code> with Scala 2.11.9 or later, you should enable <a href="https://github.com/scala/bug/issues/2712">partial unification</a>:</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">scalacOptions</span> <span class="o">+=</span> <span class="s">"-Ypartial-unification"</span>
+</code></pre>
+</div>
+
+<p>or, if you need to support Scala 2.10.6 or later, you can use the <a href="https://github.com/fiadliel/sbt-partial-unification#sbt-partial-unification">sbt-partial-unification</a> plugin.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">"org.lyranthe.sbt"</span> <span class="o">%</span> <span class="s">"partial-unification"</span> <span class="o">%</span> <span class="s">"1.1.0"</span><span class="o">)</span>
 </code></pre>
 </div>
 
@@ -147,12 +167,13 @@ For an explanation of how to use the modules, see the <a href="https://cir.is/do
 
 <p>If you already have the Ammonite REPL installed, you can load Ciris using the following commands.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-core:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="k">_</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">syntax</span><span class="o">.</span><span class="k">_</span>
-<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-enumeratum:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">enumeratum</span><span class="o">.</span><span class="k">_</span>
-<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-generic:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="k">_</span>
-<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-refined:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="k">_</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="n">syntax</span><span class="o">.</span><span class="k">_</span>
-<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-spire:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">spire</span><span class="o">.</span><span class="k">_</span>
-<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-squants:0.6.2`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">squants</span><span class="o">.</span><span class="k">_</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-cats:0.7.0`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">cats</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-core:0.7.0`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="k">_</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">syntax</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-enumeratum:0.7.0`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">enumeratum</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-generic:0.7.0`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-refined:0.7.0`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="k">_</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="n">syntax</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-spire:0.7.0`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">spire</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-squants:0.7.0`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">squants</span><span class="o">.</span><span class="k">_</span>
 </code></pre>
 </div>
 
@@ -168,7 +189,7 @@ If your library is not included in the list, then please open a pull request.</p
 </ul>
 
 <h3 id="documentation"><a name="documentation" href="#documentation">Documentation</a></h3>
-<p>For an overview, with examples and explanations of the most common use cases, please refer to the <a href="https://cir.is/docs/basics">usage guide</a>.<br />
+<p>For an overview, with examples and explanations of the most common use cases, please refer to the <a href="https://cir.is/docs">usage guide</a>.<br />
 If you’re looking for a more detailed code-centric overview, you can instead take a look at the <a href="https://cir.is/api">API documentation</a>.</p>
 
 <h3 id="participation"><a name="participation" href="#participation">Participation</a></h3>
