@@ -91,14 +91,14 @@ final class CirisSpec extends PropertySpec {
         }
       }
 
-      "be able to lift arguments with argF" in {
-        import _root_.cats.implicits._
-        import ciris.cats._
+      "be able to suspend the reading with argF" in {
+        import _root_.cats.effect.IO
+        import ciris.cats.effect._
 
         forAll(sized(arbitrary[immutable.IndexedSeq[String]])) { args =>
           whenever(args.nonEmpty) {
             forAll(Gen.chooseNum(0, args.length - 1), minSuccessful(10)) { index =>
-              argF[List, String](args)(index).value shouldBe a[List[_]]
+              argF[IO, String](args)(index).value.unsafeRunSync() shouldBe a[Right[_, _]]
             }
           }
         }

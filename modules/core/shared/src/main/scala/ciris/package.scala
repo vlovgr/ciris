@@ -1,7 +1,5 @@
 import ciris.api._
 
-import scala.collection.immutable
-
 /**
   * The main namespace of Ciris is `ciris`, and the easiest way to
   * get started is to bring it into scope with an import.<br>
@@ -93,7 +91,7 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * <br>
     * Note that system properties are mutable. If you never
     * modify them during runtime, and you are sure that you
-    * do not want to suspend the reading in a context `F`,
+    * do not want to suspend the reading to a context `F`,
     * you can instead use [[prop]].
     *
     * @param key the system property to read
@@ -114,9 +112,13 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
   /**
     * Reads the command-line argument with the specified index,
     * and tries to convert the value to type `Value`, wrapping
-    * the result in a [[ConfigEntry]].
+    * the result in a [[ConfigEntry]].<br>
+    * <br>
+    * Note that the underlying arguments may be mutable. There
+    * is also an alternative pure version [[argF]] with which
+    * the reading is suspended into a context `F`.
     *
-    * @param args the immutable command-line arguments
+    * @param args the command-line arguments
     * @param index the index of the argument to read
     * @param decoder the decoder with which to decode the value
     * @tparam Value the type to convert the value to
@@ -132,31 +134,39 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * res2: ciris.ConfigEntry[ciris.api.Id, Int, String, Int] = ConfigEntry(0, Argument, Right(a), Left(WrongType(0, Argument, Right(a), a, Int, java.lang.NumberFormatException: For input string: "a")))
     * }}}
     */
-  def arg[Value](args: immutable.IndexedSeq[String])(index: Int)(
+  def arg[Value](args: IndexedSeq[String])(index: Int)(
     implicit decoder: ConfigDecoder[String, Value]
   ): ConfigEntry[Id, Int, String, Value] = {
-    argF[Id, Value](args)(index)
-  }
-
-  /**
-    * Reads the command-line argument with the specified index,
-    * and tries to convert the value to type `Value`, lifting
-    * the value to the specified context `F`.
-    *
-    * @param args the immutable command-line arguments
-    * @param index the index of the argument to read
-    * @param decoder the decoder with which to decode the value
-    * @tparam F the context in which to lift the value
-    * @tparam Value the type to convert the value to
-    * @return a [[ConfigEntry]] with the result
-    */
-  def argF[F[_]: Applicative, Value](args: immutable.IndexedSeq[String])(index: Int)(
-    implicit decoder: ConfigDecoder[String, Value]
-  ): ConfigEntry[F, Int, String, Value] = {
     ConfigSource
       .byIndex(ConfigKeyType.Argument)(args)
       .read(index)
       .decodeValue[Value]
-      .transformF[F]
+  }
+
+  /**
+    * Reads the command-line argument with the specified index,
+    * and tries to convert the value to type `Value`. Note that
+    * the underlying arguments may be mutable, so this function
+    * suspends the reading into context `F`.<br>
+    * <br>
+    * If you're sure that the underlying arguments are never
+    * modified at runtime, and do not want to suspend reading,
+    * there is also [[arg]] which reads the argument directly.
+    *
+    * @param args the command-line arguments
+    * @param index the index of the argument to read
+    * @param decoder the decoder with which to decode the value
+    * @tparam F the context in which to suspend the reading
+    * @tparam Value the type to convert the value to
+    * @return a [[ConfigEntry]] with the result
+    */
+  def argF[F[_]: Sync, Value](args: IndexedSeq[String])(index: Int)(
+    implicit decoder: ConfigDecoder[String, Value]
+  ): ConfigEntry[F, Int, String, Value] = {
+    ConfigSource
+      .byIndex(ConfigKeyType.Argument)(args)
+      .suspendF[F]
+      .read(index)
+      .decodeValue[Value]
   }
 }
