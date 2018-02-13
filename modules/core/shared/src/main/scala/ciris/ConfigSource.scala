@@ -34,7 +34,7 @@ import scala.util.{Failure, Success, Try}
   * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, ConfigKeyType(identity key), Right(key))
   * }}}
   */
-abstract class ConfigSource[F[_], K, V](val keyType: ConfigKeyType[K]) {
+abstract class ConfigSource[F[_], K, V](val keyType: ConfigKeyType[K]) { self =>
 
   /**
     * Reads the value of type `V` for the specified key of type `K`,
@@ -50,6 +50,34 @@ abstract class ConfigSource[F[_], K, V](val keyType: ConfigKeyType[K]) {
     * }}}
     */
   def read(key: K): ConfigEntry[F, K, V, V]
+
+  /***
+    * Suspends the reading of this configuration source into context `G`.
+    *
+    * @param f the natural transformation from `F` to `G`
+    * @tparam G the context in which to suspend the reading
+    * @return a new [[ConfigSource]]
+    */
+  final def suspendF[G[_]: Sync](implicit f: F ~> G): ConfigSource[G, K, V] =
+    new ConfigSource[G, K, V](keyType) {
+      override def read(key: K): ConfigEntry[G, K, V, V] =
+        ConfigEntry.applyF[G, K, V](key, keyType, {
+          Sync[G].suspend(f(self.read(key).value))
+        })
+    }
+
+  /**
+    * Transforms the context `F`, for the source, to context `G`.
+    *
+    * @param f the natural transformation from `F` to `G`
+    * @tparam G the context to which `F` should be transformed
+    * @return a new [[ConfigSource]]
+    */
+  final def transformF[G[_]: Apply](implicit f: F ~> G): ConfigSource[G, K, V] =
+    new ConfigSource[G, K, V](keyType) {
+      override def read(key: K): ConfigEntry[G, K, V, V] =
+        self.read(key).transformF[G]
+    }
 }
 
 object ConfigSource extends ConfigSourcePlatformSpecific {
