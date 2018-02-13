@@ -3,8 +3,8 @@ package ciris.cats.api
 import cats.arrow
 import ciris.PropertySpec
 
-import scala.concurrent.{ExecutionContext, Future}
 import scala.collection.immutable.Queue
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 
 final class CatsInstancesForCirisSpec extends PropertySpec {

@@ -10,7 +10,14 @@ final class CatsEffectInstancesForCirisSpec extends PropertySpec {
         import _root_.cats.effect.IO
         import ciris.cats.effect._
 
-        Sync[IO]
+        val s = Sync[IO]
+        s.suspend(IO(1)).unsafeRunSync() shouldBe 1
+        s.flatMap(IO(1))(_ => IO(2)).unsafeRunSync() shouldBe 2
+        s.raiseError(new Error("message")).attempt.unsafeRunSync() shouldBe a[Left[_, _]]
+        s.handleErrorWith(IO.raiseError(new Error("message")))(_ => IO(1)).unsafeRunSync() shouldBe 1
+        s.pure(1).unsafeRunSync() shouldBe 1
+        s.product(IO(1), IO(2)).unsafeRunSync() shouldBe ((1, 2))
+        s.map(IO(1))(a => 2 + a).unsafeRunSync() shouldBe 3
       }
     }
   }

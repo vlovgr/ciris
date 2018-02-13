@@ -19,6 +19,21 @@ final class CirisPlatformSpecificSpec extends JvmPropertySpec {
               }
             }
           }
+
+          "return the expected value, suspending reading" in {
+            import _root_.cats.effect.IO
+            import ciris.cats.effect._
+
+            forAll { value: Int =>
+              withFile(s"$value\n") { (file, charset) =>
+                val fileName = file.toPath.toAbsolutePath.toString
+                val contents = fileWithNameSync[IO, Int](fileName, _.trim).value
+                withFileOverwritten(file)(s"${value + 1}\n") {
+                  contents.unsafeRunSync() shouldBe Right(value + 1)
+                }
+              }
+            }
+          }
         }
 
         "the type cannot be read" should {

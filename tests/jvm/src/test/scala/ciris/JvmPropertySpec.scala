@@ -13,4 +13,10 @@ class JvmPropertySpec extends PropertySpec {
     try { writer.write(fileContents) } finally { writer.close() }
     try { f(file, Charset.defaultCharset) } finally { file.delete(); () }
   }
+
+  def withFileOverwritten[T](file: JFile)(fileContents: String)(f: => T): T = {
+    val writer = new FileWriter(file)
+    try { writer.write(fileContents) } finally { writer.close() }
+    f
+  }
 }
