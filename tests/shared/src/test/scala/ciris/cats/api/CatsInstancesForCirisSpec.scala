@@ -19,11 +19,14 @@ final class CatsInstancesForCirisSpec extends PropertySpec {
           ExecutionContext.Implicits.global
 
         Applicative[Future]
+        ApplicativeError[Future, Throwable]
+        catsApplicativeErrorToCiris[Future, Throwable]
         Apply[Future]
         FlatMap[Future]
         FunctionK[Id, Future]
         Functor[Future]
         Monad[Future]
+        MonadError[Future, Throwable]
       }
     }
 
@@ -104,11 +107,14 @@ final class CatsInstancesForCirisSpec extends PropertySpec {
         import ciris.cats._
 
         Applicative[Try]
+        ApplicativeError[Try, Throwable]
+        catsApplicativeErrorToCiris[Try, Throwable]
         Apply[Try]
         FlatMap[Try]
         FunctionK[Id, Try]
         Functor[Try]
         Monad[Try]
+        MonadError[Try, Throwable]
       }
     }
 
