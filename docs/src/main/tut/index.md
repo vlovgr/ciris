@@ -58,6 +58,7 @@ s"""
  |
  |libraryDependencies ++= Seq(
  |  "$organization" %% "$catsModuleName",
+ |  "$organization" %% "$catsEffectModuleName",
  |  "$organization" %% "$coreModuleName",
  |  "$organization" %% "$enumeratumModuleName",
  |  "$organization" %% "$genericModuleName",
@@ -82,6 +83,7 @@ s"""
  || Module                  | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
  ||-------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
  || `$catsModuleName`       | &#10003; ${catsJvmCrossScalaVersions.map(minorVersion).mkString(", ")}       | &#10003; 0.6 (${catsJsCrossScalaVersions.map(minorVersion).mkString(", ")})       | &#65794;                                                                           |
+ || `$catsEffectModuleName` | &#10003; ${catsEffectJvmCrossScalaVersions.map(minorVersion).mkString(", ")} | &#10003; 0.6 (${catsEffectJsCrossScalaVersions.map(minorVersion).mkString(", ")}) | &#65794;                                                                           |
  || `$coreModuleName`       | &#10003; ${coreJvmCrossScalaVersions.map(minorVersion).mkString(", ")}       | &#10003; 0.6 (${coreJsCrossScalaVersions.map(minorVersion).mkString(", ")})       | &#10003; 0.3 (${coreNativeCrossScalaVersions.map(minorVersion).mkString(", ")})    |
  || `$enumeratumModuleName` | &#10003; ${enumeratumJvmCrossScalaVersions.map(minorVersion).mkString(", ")} | &#10003; 0.6 (${enumeratumJsCrossScalaVersions.map(minorVersion).mkString(", ")}) | &#65794;                                                                           |
  || `$genericModuleName`    | &#10003; ${genericJvmCrossScalaVersions.map(minorVersion).mkString(", ")}    | &#10003; 0.6 (${genericJsCrossScalaVersions.map(minorVersion).mkString(", ")})    | &#10003; 0.3 (${genericNativeCrossScalaVersions.map(minorVersion).mkString(", ")}) |
@@ -100,6 +102,7 @@ The only required module is `ciris-core`, the rest are optional library integrat
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
 
 - The `ciris-cats` module provides typeclasses and typeclass instances from [cats][cats].
+- The `ciris-cats-effect` module provides `IO` and typeclasses for effect types from [cats-effect][cats-effect].
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
@@ -112,7 +115,7 @@ If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Mac
 libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.patch)
 ```
 
-If you're using `ciris-cats` with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
+If you're using `ciris-cats` or `ciris-cats-effect` with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
 
 ```scala
 scalacOptions += "-Ypartial-unification"
@@ -145,6 +148,7 @@ println(
 s"""
  |```scala
  |import $$ivy.`$organization::$catsModuleName:$latestVersion`, ciris.cats._
+ |import $$ivy.`$organization::$catsEffectModuleName:$latestVersion`, ciris.cats.effect._
  |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._, ciris.syntax._
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
  |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
@@ -178,6 +182,7 @@ If you would like to be involved in building Ciris, check out the [contributing 
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
 [cats]: https://github.com/typelevel/cats
+[cats-effect]: https://github.com/typelevel/cats-effect
 [ciris-aiven-kafka]: https://github.com/ovotech/ciris-aiven-kafka
 [ciris-aws-ssm]: https://github.com/ovotech/ciris-aws-ssm
 [ciris-credstash]: https://github.com/ovotech/ciris-credstash
