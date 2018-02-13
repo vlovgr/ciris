@@ -1,5 +1,7 @@
 import ciris.api._
 
+import scala.collection.immutable
+
 /**
   * The main namespace of Ciris is `ciris`, and the easiest way to
   * get started is to bring it into scope with an import.<br>
@@ -70,12 +72,31 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * res2: ciris.ConfigEntry[ciris.api.Id, Int, String, Int] = ConfigEntry(0, Argument, Right(a), Left(WrongType(0, Argument, Right(a), a, Int, java.lang.NumberFormatException: For input string: "a")))
     * }}}
     */
-  def arg[Value](args: IndexedSeq[String])(index: Int)(
+  def arg[Value](args: immutable.IndexedSeq[String])(index: Int)(
     implicit decoder: ConfigDecoder[String, Value]
   ): ConfigEntry[Id, Int, String, Value] = {
+    argF[Id, Value](args)(index)
+  }
+
+  /**
+    * Reads the command-line argument with the specified index,
+    * and tries to convert the value to type `Value`, lifting
+    * the value to the specified context `F`.
+    *
+    * @param args the immutable command-line arguments
+    * @param index the index of the argument to read
+    * @param decoder the decoder with which to decode the value
+    * @tparam F the context in which to lift the value
+    * @tparam Value the type to convert the value to
+    * @return a [[ConfigEntry]] with the result
+    */
+  def argF[F[_]: Applicative, Value](args: immutable.IndexedSeq[String])(index: Int)(
+    implicit decoder: ConfigDecoder[String, Value]
+  ): ConfigEntry[F, Int, String, Value] = {
     ConfigSource
       .byIndex(ConfigKeyType.Argument)(args)
       .read(index)
       .decodeValue[Value]
+      .transformF[F]
   }
 }
