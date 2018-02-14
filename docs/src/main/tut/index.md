@@ -102,7 +102,7 @@ The only required module is `ciris-core`, the rest are optional library integrat
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
 
 - The `ciris-cats` module provides typeclasses and typeclass instances from [cats][cats].
-- The `ciris-cats-effect` module provides `IO` and typeclasses for effect types from [cats-effect][cats-effect].
+- The `ciris-cats-effect` module provides typeclasses for effect types from [cats-effect][cats-effect].
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.

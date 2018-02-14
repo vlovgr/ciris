@@ -51,7 +51,7 @@ abstract class ConfigSource[F[_], K, V](val keyType: ConfigKeyType[K]) { self =>
     */
   def read(key: K): ConfigEntry[F, K, V, V]
 
-  /***
+  /**
     * Suspends the reading of this configuration source into context `G`.
     *
     * @param f the natural transformation from `F` to `G`
