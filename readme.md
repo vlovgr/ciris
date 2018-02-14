@@ -31,10 +31,11 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 
 
 ```scala
-val cirisVersion = "0.7.0"
+val cirisVersion = "0.7.1"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-cats",
+  "is.cir" %% "ciris-cats-effect",
   "is.cir" %% "ciris-core",
   "is.cir" %% "ciris-enumeratum",
   "is.cir" %% "ciris-generic",
@@ -55,6 +56,7 @@ Refer to the table below for platform and version support across modules.
  Module                  | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
 -------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
  `ciris-cats`       | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#65794;                                                                           |
+ `ciris-cats-effect` | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
  `ciris-core`       | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11)    |
  `ciris-enumeratum` | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
  `ciris-generic`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
@@ -71,6 +73,7 @@ The only required module is `ciris-core`, the rest are optional library integrat
 For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
 
 - The `ciris-cats` module provides typeclasses and typeclass instances from [cats][cats].
+- The `ciris-cats-effect` module provides typeclasses for effect types from [cats-effect][cats-effect].
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
@@ -83,7 +86,7 @@ If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Mac
 libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.patch)
 ```
 
-If you're using `ciris-cats` with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
+If you're using `ciris-cats` or `ciris-cats-effect` with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
 
 ```scala
 scalacOptions += "-Ypartial-unification"
@@ -113,13 +116,14 @@ curl -Ls try.cir.is/typelevel | sh
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
 ```scala
-import $ivy.`is.cir::ciris-cats:0.7.0`, ciris.cats._
-import $ivy.`is.cir::ciris-core:0.7.0`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.7.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.7.0`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.7.0`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.7.0`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.7.0`, ciris.squants._
+import $ivy.`is.cir::ciris-cats:0.7.1`, ciris.cats._
+import $ivy.`is.cir::ciris-cats-effect:0.7.1`, ciris.cats.effect._
+import $ivy.`is.cir::ciris-core:0.7.1`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.7.1`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.7.1`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.7.1`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.7.1`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.7.1`, ciris.squants._
 ```
 
 
@@ -145,6 +149,7 @@ If you would like to be involved in building Ciris, check out the [contributing 
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
 [cats]: https://github.com/typelevel/cats
+[cats-effect]: https://github.com/typelevel/cats-effect
 [ciris-aiven-kafka]: https://github.com/ovotech/ciris-aiven-kafka
 [ciris-aws-ssm]: https://github.com/ovotech/ciris-aws-ssm
 [ciris-credstash]: https://github.com/ovotech/ciris-credstash
