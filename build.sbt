@@ -15,6 +15,7 @@ lazy val ciris = project
   )
   .aggregate(
     catsJS, catsJVM,
+    catsEffectJS, catsEffectJVM,
     coreJS, coreJVM, coreNative,
     enumeratumJS, enumeratumJVM,
     genericJS, genericJVM, genericNative,
@@ -38,6 +39,21 @@ lazy val cats =
 
 lazy val catsJS = cats.js
 lazy val catsJVM = cats.jvm
+
+lazy val catsEffect =
+  crossProject(JSPlatform, JVMPlatform)
+    .in(file("modules/cats-effect"))
+    .settings(moduleName := "ciris-cats-effect", name := "Ciris cats effect")
+    .settings(libraryDependencies += "org.typelevel" %%% "cats-effect" % "0.8")
+    .settings(scalaSettings)
+    .settings(testSettings)
+    .jsSettings(jsModuleSettings)
+    .jvmSettings(jvmModuleSettings)
+    .settings(releaseSettings)
+    .dependsOn(core)
+
+lazy val catsEffectJS = catsEffect.js
+lazy val catsEffectJVM = catsEffect.jvm
 
 lazy val core =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -140,7 +156,7 @@ lazy val tests =
     .settings(noPublishSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
-    .dependsOn(cats, core, enumeratum, generic, refined, squants)
+    .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, squants)
 
 lazy val testsJS = tests.js
 lazy val testsJVM = tests.jvm
@@ -183,6 +199,7 @@ lazy val docs = project
       latestVersion in ThisBuild,
       crossScalaVersions,
       BuildInfoKey.map(moduleName in catsJVM) { case (k, v) => "cats" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in catsEffectJVM) { case (k, v) => "catsEffect" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in coreJVM) { case (k, v) => "core" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) => "enumeratum" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
@@ -191,6 +208,8 @@ lazy val docs = project
       BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in catsJVM) { case (k, v) => "catsJvm" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in catsJS) { case (k, v) => "catsJs" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in catsEffectJVM) { case (k, v) => "catsEffectJvm" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in catsEffectJS) { case (k, v) => "catsEffectJs" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in coreJVM) { case (k, v) => "coreJvm" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in coreJS) { case (k, v) => "coreJs" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in coreNative) { case (k, v) => "coreNative" + k.capitalize -> v },
@@ -222,6 +241,7 @@ lazy val docs = project
           |Ciris is divided into the following set of modules.
           |
           | - The [[ciris.cats cats]] module integrates with [[https://github.com/typelevel/cats cats]] for typeclasses and typeclass instances.
+          | - The [[ciris.cats.effect cats-effect]] module integrates with [[https://github.com/typelevel/cats-effect cats-effect]] for typeclasses for effect types.
           | - The [[ciris core]] module provides basic functionality and support for reading standard library types.
           | - The [[ciris.enumeratum enumeratum]] module integrates with [[https://github.com/lloydmeta/enumeratum enumeratum]] to be able to read enumerations.
           | - The [[ciris.generic generic]] module uses [[https://github.com/milessabin/shapeless shapeless]] to be able to read products and coproducts.
@@ -247,7 +267,7 @@ lazy val docs = project
       "-doc-root-content", (generateApiIndexFile.value).getAbsolutePath
     )
   )
-  .dependsOn(catsJVM, coreJVM, enumeratumJVM, genericJVM, refinedJVM, spireJVM, squantsJVM)
+  .dependsOn(catsJVM, catsEffectJVM, coreJVM, enumeratumJVM, genericJVM, refinedJVM, spireJVM, squantsJVM)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin, ScalaUnidocPlugin)
 
 lazy val scala210 = "2.10.7"
@@ -369,6 +389,29 @@ lazy val mimaSettings = Seq(
       case _ =>
         Set.empty
     }
+  },
+  mimaBinaryIssueFilters ++= {
+    import com.typesafe.tools.mima.core._
+    Seq(
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.CirisPlatformSpecific.fileSync$default$2"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.CirisPlatformSpecific.fileSync"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.CirisPlatformSpecific.fileWithNameSync$default$3"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.CirisPlatformSpecific.fileSync$default$3"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.CirisPlatformSpecific.fileWithNameSync$default$2"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.CirisPlatformSpecific.fileWithNameSync"),
+      ProblemFilters.exclude[UpdateForwarderBodyProblem]("ciris.cats.api.CatsInstancesForCiris2.catsApplicativeToCiris"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris2.catsMonadToCiris"),
+      ProblemFilters.exclude[UpdateForwarderBodyProblem]("ciris.cats.api.CatsInstancesForCiris1.catsFlatMapToCiris"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris1.catsApplicativeErrorToCiris"),
+      ProblemFilters.exclude[UpdateForwarderBodyProblem]("ciris.cats.api.CatsInstancesForCiris4.catsFunctorToCiris"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris4.catsApplyToCiris"),
+      ProblemFilters.exclude[UpdateForwarderBodyProblem]("ciris.cats.api.CatsInstancesForCiris.catsMonadToCiris"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris.catsMonadErrorToCiris"),
+      ProblemFilters.exclude[UpdateForwarderBodyProblem]("ciris.cats.api.CatsInstancesForCiris3.catsApplyToCiris"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris3.catsFlatMapToCiris"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris3.catsApplicativeToCiris")
+
+    )
   }
 )
 
@@ -486,6 +529,7 @@ generateScripts in ThisBuild := {
        |~/.coursier/coursier launch -q -P \\
        |  com.lihaoyi:ammonite_2.12.4:1.0.3 \\$coursierArgs
        |  $organizationId:${(moduleName in catsJVM).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in catsEffectJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
@@ -497,6 +541,7 @@ generateScripts in ThisBuild := {
        |        import ciris._,\\
        |        ciris.syntax._,\\
        |        ciris.cats._,\\
+       |        ciris.cats.effect._,\\
        |        ciris.enumeratum._,\\
        |        ciris.generic._,\\
        |        ciris.refined._,\\
@@ -570,7 +615,7 @@ addDateToReleaseNotes in ThisBuild := {
   }
 }
 
-lazy val moduleNames = List[String]("cats", "core", "enumeratum", "generic", "refined", "spire", "squants")
+lazy val moduleNames = List[String]("cats", "catsEffect", "core", "enumeratum", "generic", "refined", "spire", "squants")
 lazy val jsModuleNames = moduleNames.map(_ + "JS")
 lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
 lazy val nativeModuleNames = List("core", "generic").map(_ + "Native")
@@ -583,6 +628,7 @@ addCommandsAlias("publishSignedAll", allModuleNames.map(m => s"+$m/publishSigned
 lazy val crossModules: Seq[(Project, Project, Option[Project])] =
   Seq(
     (catsJVM, catsJS, None),
+    (catsEffectJVM, catsEffectJS, None),
     (coreJVM, coreJS, Some(coreNative)),
     (enumeratumJVM, enumeratumJS, None),
     (genericJVM, genericJS, Some(genericNative)),

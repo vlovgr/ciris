@@ -1,15 +1,30 @@
 package ciris
 
-import org.scalacheck.Gen
+import org.scalacheck.{Gen, Shrink}
 import org.scalacheck.Arbitrary.arbitrary
 
+import scala.collection.immutable
+
 final class CirisSpec extends PropertySpec {
+  implicit def noShrink[A]: Shrink[A] = Shrink.apply(_ => Stream.empty)
+
   "Ciris" when {
     "loading environment variables" should {
       "be able to load all variables as string" in {
         if (sys.env.nonEmpty) {
           forAll(Gen.oneOf(sys.env.keys.toList)) { key =>
             env[String](key).value shouldBe Right(sys.env(key))
+          }
+        }
+      }
+
+      "be able to lift variables with envF" in {
+        import _root_.cats.implicits._
+        import ciris.cats._
+
+        if(sys.env.nonEmpty) {
+          forAll(Gen.oneOf(sys.env.keys.toList)) { key =>
+            envF[List, String](key).value shouldBe List(Right(sys.env(key)))
           }
         }
       }
@@ -43,11 +58,31 @@ final class CirisSpec extends PropertySpec {
           }
         }
       }
+
+      "should be able to suspend the reading with propF" in {
+        import _root_.cats.effect.IO
+        import ciris.cats.effect._
+
+        if(sys.props.nonEmpty) {
+          forAll(Gen.oneOf(sys.props.keys.toList)) { key =>
+            val value = sys.props(key)
+
+            try {
+              val value = propF[IO, String](key).value
+              sys.props.remove(key)
+              value.unsafeRunSync() shouldBe a[Left[_, _]]
+            } finally {
+              sys.props.put(key, value)
+              ()
+            }
+          }
+        }
+      }
     }
 
     "loading command-line arguments" should {
       "be able to load all arguments as string" in {
-        forAll(sized(arbitrary[IndexedSeq[String]])) { args =>
+        forAll(sized(arbitrary[immutable.IndexedSeq[String]])) { args =>
           whenever(args.nonEmpty) {
             forAll(Gen.chooseNum(0, args.length - 1), minSuccessful(10)) { index =>
               arg[String](args)(index).value shouldBe a[Right[_, _]]
@@ -56,8 +91,21 @@ final class CirisSpec extends PropertySpec {
         }
       }
 
+      "be able to suspend the reading with argF" in {
+        import _root_.cats.effect.IO
+        import ciris.cats.effect._
+
+        forAll(sized(arbitrary[immutable.IndexedSeq[String]])) { args =>
+          whenever(args.nonEmpty) {
+            forAll(Gen.chooseNum(0, args.length - 1), minSuccessful(10)) { index =>
+              argF[IO, String](args)(index).value.unsafeRunSync() shouldBe a[Right[_, _]]
+            }
+          }
+        }
+      }
+
       "return a failure for non-existing indexes" in {
-        forAll(sized(arbitrary[IndexedSeq[String]])) { args =>
+        forAll(sized(arbitrary[immutable.IndexedSeq[String]])) { args =>
           forAll({
             Gen.oneOf(
               Gen.chooseNum(Int.MinValue, -1),

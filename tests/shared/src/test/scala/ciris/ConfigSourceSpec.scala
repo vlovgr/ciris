@@ -2,6 +2,7 @@ package ciris
 
 import org.scalacheck.Gen
 import org.scalacheck.Arbitrary.arbitrary
+import org.scalatest.exceptions.TestFailedException
 
 import scala.util.Try
 
@@ -21,6 +22,31 @@ final class ConfigSourceSpec extends PropertySpec {
 
       "be Properties for ConfigSource.Properties"in {
         ConfigSource.Properties.toString shouldBe "Properties"
+      }
+    }
+
+    "using transformF" should {
+      "return values in the new context" in {
+        import _root_.cats.implicits._
+        import ciris.cats._
+
+        val source = ConfigSource.always(ConfigKeyType.Environment)("value")
+        source.transformF[List].read("key").value shouldBe List(Right("value"))
+      }
+    }
+
+    "using suspendF" should {
+      "suspend the reading into the new context" in {
+        import _root_.cats.implicits._
+        import _root_.cats.effect.IO
+        import ciris.cats.effect._
+
+        val source = ConfigSource(ConfigKeyType.Environment)(_ => fail("did not suspend"))
+        val value = source.suspendF[IO].read("key").value
+
+        a[TestFailedException] shouldBe thrownBy {
+          value.unsafeRunSync()
+        }
       }
     }
 
