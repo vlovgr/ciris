@@ -1,6 +1,8 @@
 package ciris.cats.effect.api
 
-trait CatsEffectInstancesForCiris {
+import ciris.cats.api.CatsInstancesForCiris
+
+trait CatsEffectInstancesForCiris extends CatsInstancesForCiris {
   implicit def catsEffectSyncToCiris[F[_]](
     implicit s: _root_.cats.effect.Sync[F]
   ): _root_.ciris.api.Sync[F] = new _root_.ciris.api.Sync[F] {

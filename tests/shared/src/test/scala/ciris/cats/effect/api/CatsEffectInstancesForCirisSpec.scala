@@ -19,6 +19,21 @@ final class CatsEffectInstancesForCirisSpec extends PropertySpec {
         s.product(IO(1), IO(2)).unsafeRunSync() shouldBe ((1, 2))
         s.map(IO(1))(a => 2 + a).unsafeRunSync() shouldBe 3
       }
+
+      "be able to use it together with ciris-cats" in {
+        import ciris._
+        import ciris.cats._
+        import ciris.cats.effect._
+        import _root_.cats.effect.IO
+
+        case class TestConfig(env: String, prop: String)
+
+        val config =
+          loadConfig(
+            envF[IO, String]("TEST"),
+            propF[IO, String]("file.encoding")
+          )(TestConfig)
+      }
     }
   }
 }
