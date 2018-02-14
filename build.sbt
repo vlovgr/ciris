@@ -540,8 +540,6 @@ generateScripts in ThisBuild := {
        |        repl.compiler.settings.YpartialUnification.value = true;\\
        |        import ciris._,\\
        |        ciris.syntax._,\\
-       |        ciris.cats._,\\
-       |        ciris.cats.effect._,\\
        |        ciris.enumeratum._,\\
        |        ciris.generic._,\\
        |        ciris.refined._,\\
