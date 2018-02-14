@@ -2,3 +2,5 @@
 - Fix ambiguous implicits between `ciris-cats` and `ciris-cats-effect`. ([#105][#105])
 
 [#105]: https://github.com/vlovgr/ciris/pull/105
+
+Released on 2018-02-14.
