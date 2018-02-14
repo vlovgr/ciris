@@ -409,8 +409,15 @@ lazy val mimaSettings = Seq(
       ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris.catsMonadErrorToCiris"),
       ProblemFilters.exclude[UpdateForwarderBodyProblem]("ciris.cats.api.CatsInstancesForCiris3.catsApplyToCiris"),
       ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris3.catsFlatMapToCiris"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris3.catsApplicativeToCiris")
-
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.cats.api.CatsInstancesForCiris3.catsApplicativeToCiris"),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("ciris.cats.api.CatsInstancesForCiris2.catsMonadToCiris"),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("ciris.cats.api.CatsInstancesForCiris5.catsFunctorToCiris"),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("ciris.cats.api.CatsInstancesForCiris1.catsApplicativeErrorToCiris"),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("ciris.cats.api.CatsInstancesForCiris4.catsApplyToCiris"),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("ciris.cats.api.CatsInstancesForCiris.catsFunctionKToCiris"),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("ciris.cats.api.CatsInstancesForCiris.catsMonadErrorToCiris"),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("ciris.cats.api.CatsInstancesForCiris3.catsFlatMapToCiris"),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("ciris.cats.api.CatsInstancesForCiris3.catsApplicativeToCiris")
     )
   }
 )
