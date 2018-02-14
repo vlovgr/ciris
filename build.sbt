@@ -50,7 +50,7 @@ lazy val catsEffect =
     .jsSettings(jsModuleSettings)
     .jvmSettings(jvmModuleSettings)
     .settings(releaseSettings)
-    .dependsOn(core)
+    .dependsOn(core, cats)
 
 lazy val catsEffectJS = catsEffect.js
 lazy val catsEffectJVM = catsEffect.jvm
