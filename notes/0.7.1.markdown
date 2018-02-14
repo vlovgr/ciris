@@ -9,3 +9,5 @@
 [cats]: https://github.com/typelevel/cats
 [cats-effect]: https://github.com/typelevel/cats-effect
 [#104]: https://github.com/vlovgr/ciris/pull/104
+
+Released on 2018-02-14.
