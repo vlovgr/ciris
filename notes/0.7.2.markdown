@@ -1,6 +1,8 @@
 ### Changes
 - Fix ambiguous implicits between `ciris-cats` and `ciris-cats-effect`. ([#105][#105])
 
+This is a hotfix released very shortly after v0.7.1. If you were quick enough to grab v0.7.1, be aware that v0.7.2 breaks binary backwards compatibility for `ciris-cats-effect` on Scala 2.10 and 2.11, and you should instead update to use v0.7.2.
+
 [#105]: https://github.com/vlovgr/ciris/pull/105
 
 Released on 2018-02-14.
