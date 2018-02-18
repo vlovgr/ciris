@@ -236,13 +236,13 @@ lazy val docs = project
         s"""
           |This is the API documentation for [[https://cir.is Ciris]]: lightweight, extensible, and validated configuration loading in Scala.<br>
           |The documentation is kept up-to-date with new releases, currently documenting release [[https://github.com/vlovgr/ciris/releases/tag/v$version v$version]] on Scala $scalaTargetVersion.<br>
-          |Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.
+          |Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.
           |
           |Ciris is divided into the following set of modules.
           |
           | - The [[ciris.cats cats]] module integrates with [[https://github.com/typelevel/cats cats]] for typeclasses and typeclass instances.
           | - The [[ciris.cats.effect cats-effect]] module integrates with [[https://github.com/typelevel/cats-effect cats-effect]] for typeclasses for effect types.
-          | - The [[ciris core]] module provides basic functionality and support for reading standard library types.
+          | - The [[ciris core]] module provides basic functionality and support for standard library types.
           | - The [[ciris.enumeratum enumeratum]] module integrates with [[https://github.com/lloydmeta/enumeratum enumeratum]] to be able to read enumerations.
           | - The [[ciris.generic generic]] module uses [[https://github.com/milessabin/shapeless shapeless]] to be able to read products and coproducts.
           | - The [[ciris.refined refined]] module integrates with [[https://github.com/fthomas/refined refined]] to be able to read refinement types.
