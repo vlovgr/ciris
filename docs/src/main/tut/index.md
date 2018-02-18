@@ -38,7 +38,7 @@ Ciris is a _configuration as code_ library for compile-time safe configurations.
 
 Ciris is an alternative to configuration files in situations where it's easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services.
 
-For a detailed introduction, please refer to the [usage guide](https://cir.is/docs).
+For a more detailed introduction, please refer to the [usage guide](https://cir.is/docs).
 
 <p align="center">
   <a href="https://asciinema.org/a/151742">
