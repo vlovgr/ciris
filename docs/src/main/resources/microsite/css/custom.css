@@ -41,6 +41,15 @@ pre.highlight code.hljs {
   color: #f3f3f3;
 }
 
+#site-main .use .container {
+  max-width: 845px;
+}
+
+#site-main .use .container img {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 .technologies {
   display: none;
 }
