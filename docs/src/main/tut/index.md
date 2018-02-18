@@ -34,11 +34,11 @@ Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https:
 Ciris is a new project under active development. Feedback and contributions are welcome.
 
 ### <a name="introduction" href="#introduction">Introduction</a>
-Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [cats][cats], [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
+Ciris is a _configuration as code_ library for compile-time safe configurations. For the configuration values which cannot reside in code, Ciris helps you to load and decode values from various sources, while dealing with effects and errors. Validation is encoded by using appropriate data types, with integrations to libraries such as [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
 
-Ciris is intended as an alternative to configuration files, and libraries like [Lightbend Config](https://github.com/lightbend/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services (like, for example, [Kubernetes Secrets][ciris-kubernetes] and [AWS Systems Manager][ciris-aws-ssm]).
+Ciris is an alternative to configuration files in situations where it's easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services.
 
-The [usage guide](https://cir.is/docs) provides a more detailed introduction to Ciris. See also the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) and follow-up blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for a short introduction to the library and configurations with refined types.
+For a detailed introduction, please refer to the [usage guide](https://cir.is/docs).
 
 <p align="center">
   <a href="https://asciinema.org/a/151742">
@@ -99,7 +99,7 @@ s"""
 ```
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
-For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
+For an explanation of how to use the modules, refer to the [modules overview](https://cir.is/docs/modules) section.
 
 - The `ciris-cats` module provides typeclasses and typeclass instances from [cats][cats].
 - The `ciris-cats-effect` module provides typeclasses for effect types from [cats-effect][cats-effect].
@@ -121,7 +121,7 @@ If you're using `ciris-cats` or `ciris-cats-effect` with Scala 2.11.9 or later, 
 scalacOptions += "-Ypartial-unification"
 ```
 
-or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification#sbt-partial-unification) plugin.
+or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin.
 
 ```scala
 addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.0")
