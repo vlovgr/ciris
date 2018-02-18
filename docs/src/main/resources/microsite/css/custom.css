@@ -20,6 +20,13 @@ table, .highlight {
   margin-bottom: 12.5px !important;
 }
 
+pre.highlight code.hljs {
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+  overflow: auto;
+}
+
 /* Home layout */
 
 .jumbotron {
