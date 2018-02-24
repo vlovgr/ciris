@@ -112,7 +112,33 @@ object ConfigError {
   }
 
   private final class Combined(errors: Vector[ConfigError]) extends ConfigError {
-    override def message: String = errors.map(_.message).mkString(", ")
+    private def uncapitalize(s: String): String =
+      if (s.length == 0 || s.charAt(0).isLower) s
+      else {
+        val chars = s.toCharArray
+        chars(0) = chars(0).toLower
+        new String(chars)
+      }
+
+    override def message: String = {
+      val messages =
+        errors
+          .map(_.message)
+          .filter(_.nonEmpty)
+          .zipWithIndex
+          .map {
+            case (m, 0) => m.capitalize
+            case (m, _) => uncapitalize(m)
+          }
+
+      messages match {
+        case Vector()       => ""
+        case Vector(m1)     => m1
+        case Vector(m1, m2) => m1 ++ " and " ++ m2
+        case ms             => ms.init.mkString(", ") ++ ", and " ++ ms.last
+      }
+    }
+
     override def toString: String = s"Combined(${errors.mkString(", ")})"
   }
 
@@ -219,7 +245,7 @@ object ConfigError {
 
     override def toString: String = cause match {
       case Some(cause) => s"WrongType($key, $keyType, $sourceValue, $value, $typeName, $cause)"
-      case None => s"WrongType($key, $keyType, $sourceValue, $value, $typeName)"
+      case None        => s"WrongType($key, $keyType, $sourceValue, $value, $typeName)"
     }
   }
 
