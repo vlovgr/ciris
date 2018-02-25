@@ -22,7 +22,11 @@ final class ConfigErrorsSpec extends PropertySpec {
             .append(wrongType("key3", ConfigKeyType.Environment, Right("value3"), "value3", "Int", None))
             .append(wrongType("key4", ConfigKeyType.Environment, Right("value4"), "value5", "Int", None))
             .append(ConfigError("a"))
-            .append(ConfigError.combined(ConfigError("b"), ConfigError("c")))
+            .append(ConfigError.combined(ConfigError("bb"), ConfigError("CC")))
+            .append(ConfigError.combined(ConfigError("dd"), ConfigError("EE"), ConfigError("FF")))
+            .append(ConfigError.combined(ConfigError(""), ConfigError("g")))
+            .append(ConfigError.combined(ConfigError(""), ConfigError("")))
+            .append(ConfigError.combined(ConfigError(""), ConfigError("hh"), ConfigError("II")))
 
         configErrors.messages shouldBe Vector(
           "Missing environment variable [key]",
@@ -30,7 +34,11 @@ final class ConfigErrorsSpec extends PropertySpec {
           "Environment variable [key3] with value [value3] cannot be converted to type [Int]",
           "Environment variable [key4] with value [value5] (and unmodified value [value4]) cannot be converted to type [Int]",
           "a",
-          "b, c"
+          "Bb and cC",
+          "Dd, eE, and fF",
+          "G",
+          "",
+          "Hh and iI"
         )
       }
     }

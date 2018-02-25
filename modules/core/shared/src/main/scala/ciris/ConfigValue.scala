@@ -30,7 +30,7 @@ abstract class ConfigValue[F[_]: Apply, V] {
     * combined: ConfigValue[api.Id, Int] = ConfigValue(Left(Combined(ConfigError(error1), ConfigError(error2))))
     *
     * scala> combined.value.left.map(_.message).toString
-    * res0: String = Left(error1, error2)
+    * res0: String = Left(Error1 and error2)
     *
     * scala> ConfigEntry[String, Int]("key", ConfigKeyType.Environment, Left(ConfigError("error1"))).
     *      |   orElse(ConfigEntry("key2", ConfigKeyType.Property, Right(123)))
