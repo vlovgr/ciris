@@ -25,5 +25,19 @@ final class ConfigValueSpec extends PropertySpec {
         ConfigValue.applyF[Id, Int](right(123)).toString shouldBe "ConfigValue(Right(123))"
       }
     }
+
+    "using orNone" should {
+      "wrap existing values in Some" in {
+        nonExistingEntry
+          .orElse(existingEntry("value"))
+          .orNone.value shouldBe Right(Some("value"))
+      }
+
+      "discard errors and return None" in {
+        nonExistingEntry
+          .orElse(nonExistingEntry)
+          .orNone.value shouldBe Right(None)
+      }
+    }
   }
 }

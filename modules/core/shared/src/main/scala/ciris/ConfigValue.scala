@@ -46,6 +46,28 @@ abstract class ConfigValue[F[_]: Apply, V] {
       }
     }
 
+  /**
+    * If the value of this [[ConfigValue]] is available, wraps the
+    * value in a `Some`; otherwise, uses `None` as the value, and
+    * discards the [[ConfigError]]. This function is particularly
+    * useful when combined with [[orElse]] as in the example.
+    *
+    * @return a new [[ConfigValue]]
+    * @example {{{
+    * scala> env[String]("API_KEY").
+    *      |   orElse(prop[String]("api.key")).
+    *      |   orNone
+    * res0: ConfigValue[api.Id,Option[String]] = ConfigValue(Right(None))
+    * }}}
+    */
+  final def orNone: ConfigValue[F, Option[V]] =
+    ConfigValue.applyF[F, Option[V]] {
+      this.value.map {
+        case Right(v) => Right(Some(v))
+        case Left(_)  => Right(None)
+      }
+    }
+
   private[ciris] final def append[A](next: ConfigValue[F, A]): ConfigValue2[F, V, A] = {
     new ConfigValue2((this.value product next.value).map {
       case (Right(v), Right(a))         => Right((v, a))
