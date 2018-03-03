@@ -121,7 +121,7 @@ lazy val spire =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/spire"))
     .settings(moduleName := "ciris-spire", name := "Ciris spire")
-    .settings(libraryDependencies += "org.typelevel" %%% "spire" % "0.14.1")
+    .settings(libraryDependencies += "org.typelevel" %%% "spire" % "0.15.0")
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -156,7 +156,7 @@ lazy val tests =
     .settings(noPublishSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
-    .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, squants)
+    .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
 
 lazy val testsJS = tests.js
 lazy val testsJVM = tests.jvm
@@ -637,10 +637,8 @@ def addCommandsAlias(name: String, values: List[String]) =
 addCommandsAlias("validate", List(
   "clean",
   "testsJS/test",
-  "spireJS/test",
   "coverage",
   "testsJVM/test",
-  "spireJVM/test",
   "coverageReport",
   "coverageAggregate",
   "mimaReportBinaryIssues"
