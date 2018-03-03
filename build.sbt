@@ -156,7 +156,7 @@ lazy val tests =
     .settings(noPublishSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
-    .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, squants)
+    .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
 
 lazy val testsJS = tests.js
 lazy val testsJVM = tests.jvm
