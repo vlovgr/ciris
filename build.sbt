@@ -637,10 +637,8 @@ def addCommandsAlias(name: String, values: List[String]) =
 addCommandsAlias("validate", List(
   "clean",
   "testsJS/test",
-  "spireJS/test",
   "coverage",
   "testsJVM/test",
-  "spireJVM/test",
   "coverageReport",
   "coverageAggregate",
   "mimaReportBinaryIssues"
