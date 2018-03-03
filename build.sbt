@@ -121,7 +121,7 @@ lazy val spire =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/spire"))
     .settings(moduleName := "ciris-spire", name := "Ciris spire")
-    .settings(libraryDependencies += "org.typelevel" %%% "spire" % "0.14.1")
+    .settings(libraryDependencies += "org.typelevel" %%% "spire" % "0.15.0")
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
