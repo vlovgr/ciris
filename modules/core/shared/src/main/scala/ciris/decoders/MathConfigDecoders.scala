@@ -1,21 +1,37 @@
 package ciris.decoders
 
-import ciris.ConfigDecoder
-import java.math.{BigDecimal => JBigDecimal}
-import java.math.{BigInteger => JBigInteger}
+import java.math.{
+  MathContext,
+  RoundingMode,
+  BigDecimal => JavaBigDecimal,
+  BigInteger => JavaBigInteger
+}
 
-import scala.util.Try
+import ciris.ConfigDecoder
+
+import scala.math.BigDecimal
 
 trait MathConfigDecoders {
   implicit val bigIntConfigDecoder: ConfigDecoder[String, BigInt] =
-    ConfigDecoder.fromTry("BigInt")(value => Try(BigInt(value)))
+    ConfigDecoder.catchNonFatal("BigInt")(BigInt(_))
 
-  implicit val bigDecimalConfigDecoder: ConfigDecoder[String, BigDecimal] =
-    ConfigDecoder.fromTry("BigDecimal")(value => Try(BigDecimal(value)))
+  implicit val bigDecimalConfigDecoder: ConfigDecoder[String, BigDecimal] = {
+    // Workaround loss of precision on Scala 2.10
+    def exact(d: JavaBigDecimal): BigDecimal =
+      new BigDecimal(
+        d, {
+          if (d.precision <= BigDecimal.defaultMathContext.getPrecision)
+            BigDecimal.defaultMathContext
+          else new MathContext(d.precision, RoundingMode.HALF_EVEN)
+        }
+      )
 
-  implicit val javaBigDecimalConfigDecoder: ConfigDecoder[String, JBigDecimal] =
-    bigDecimalConfigDecoder.map(_.underlying)
+    ConfigDecoder.catchNonFatal("BigDecimal")(s => exact(new JavaBigDecimal(s)))
+  }
 
-  implicit val javaBigIntegerConfigDecoder: ConfigDecoder[String, JBigInteger] =
-    bigIntConfigDecoder.map(_.underlying)
+  implicit val javaBigDecimalConfigDecoder: ConfigDecoder[String, JavaBigDecimal] =
+    ConfigDecoder.catchNonFatal("BigDecimal")(new JavaBigDecimal(_))
+
+  implicit val javaBigIntegerConfigDecoder: ConfigDecoder[String, JavaBigInteger] =
+    ConfigDecoder.catchNonFatal("BigInteger")(new JavaBigInteger(_))
 }

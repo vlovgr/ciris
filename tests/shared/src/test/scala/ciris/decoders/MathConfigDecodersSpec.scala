@@ -31,6 +31,11 @@ final class MathConfigDecodersSpec extends PropertySpec {
         }
       }
 
+      "successfully read decimal values with precision above default" in {
+        val decimal = "1." + ("0" * (BigDecimal.defaultMathContext.getPrecision - 1)) + "1"
+        readValue[BigDecimal](decimal).right.map(_.toString) shouldBe Right(decimal)
+      }
+
       "return a failure for other values" in {
         forAll { string: String =>
           whenever(fails(BigDecimal(string))) {

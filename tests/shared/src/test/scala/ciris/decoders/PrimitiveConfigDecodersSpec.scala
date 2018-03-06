@@ -2,17 +2,21 @@ package ciris.decoders
 
 import ciris.PropertySpec
 
+import org.scalacheck.Gen
+
 final class PrimitiveConfigDecodersSpec extends PropertySpec {
   "PrimitiveConfigDecoders" when {
     "reading a Boolean" should {
       "successfully read true values" in {
-        forAll(mixedCase("true")) { string =>
+        val gen = Gen.oneOf("true", "yes", "on").flatMap(mixedCase)
+        forAll(gen) { string =>
           readValue[Boolean](string) shouldBe Right(true)
         }
       }
 
       "successfully read false values" in {
-        forAll(mixedCase("false")) { string =>
+        val gen = Gen.oneOf("false", "no", "off").flatMap(mixedCase)
+        forAll(gen) { string =>
           readValue[Boolean](string) shouldBe Right(false)
         }
       }
