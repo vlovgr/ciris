@@ -11,3 +11,4 @@ trait ConfigDecoders
     with JavaUtilConfigDecoders
     with MathConfigDecoders
     with PrimitiveConfigDecoders
+    with ScalaUtilConfigDecoders
