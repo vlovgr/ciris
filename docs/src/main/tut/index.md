@@ -148,7 +148,7 @@ println(
 s"""
  |```scala
  |import $$ivy.`$organization::$catsModuleName:$latestVersion`, ciris.cats._
- |import $$ivy.`$organization::$catsEffectModuleName:$latestVersion`, ciris.cats.effect._
+ |import $$ivy.`$organization::$catsEffectModuleName:$latestVersion`, ciris.cats.effect._, ciris.cats.effect.syntax._
  |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._, ciris.syntax._
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
  |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._

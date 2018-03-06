@@ -523,6 +523,7 @@ generateScripts in ThisBuild := {
        |        ciris.syntax._,\\
        |        ciris.cats._,\\
        |        ciris.cats.effect._,\\
+       |        ciris.cats.effect.syntax._,\\
        |        ciris.enumeratum._,\\
        |        ciris.generic._,\\
        |        ciris.refined._,\\
