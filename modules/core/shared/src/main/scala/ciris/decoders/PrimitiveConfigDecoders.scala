@@ -4,7 +4,13 @@ import ciris.ConfigDecoder
 
 trait PrimitiveConfigDecoders {
   implicit val booleanConfigDecoder: ConfigDecoder[String, Boolean] =
-    ConfigDecoder.catchNonFatal("Boolean")(_.toBoolean)
+    ConfigDecoder.catchNonFatal("Boolean") { s =>
+      s.toLowerCase match {
+        case "yes" | "on" => true
+        case "no" | "off" => false
+        case sLowerCase   => sLowerCase.toBoolean
+      }
+    }
 
   implicit val byteConfigDecoder: ConfigDecoder[String, Byte] =
     ConfigDecoder.catchNonFatal("Byte")(_.toByte)
