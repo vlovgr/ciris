@@ -59,11 +59,8 @@ abstract class ConfigSource[F[_], K, V](val keyType: ConfigKeyType[K]) { self =>
     * @return a new [[ConfigSource]]
     */
   final def suspendF[G[_]: Sync](implicit f: F ~> G): ConfigSource[G, K, V] =
-    new ConfigSource[G, K, V](keyType) {
-      override def read(key: K): ConfigEntry[G, K, V, V] =
-        ConfigEntry.applyF[G, K, V](key, keyType, {
-          Sync[G].suspend(f(self.read(key).value))
-        })
+    ConfigSource.applyF(keyType) { key =>
+      Sync[G].suspend(f(self.read(key).value))
     }
 
   /**
@@ -74,9 +71,8 @@ abstract class ConfigSource[F[_], K, V](val keyType: ConfigKeyType[K]) { self =>
     * @return a new [[ConfigSource]]
     */
   final def transformF[G[_]: Apply](implicit f: F ~> G): ConfigSource[G, K, V] =
-    new ConfigSource[G, K, V](keyType) {
-      override def read(key: K): ConfigEntry[G, K, V, V] =
-        self.read(key).transformF[G]
+    ConfigSource.applyF(keyType) { key =>
+      self.read(key).transformF[G].value
     }
 }
 
