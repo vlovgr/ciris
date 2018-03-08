@@ -106,7 +106,7 @@ lazy val refined =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/refined"))
     .settings(moduleName := "ciris-refined", name := "Ciris refined")
-    .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.7")
+    .settings(libraryDependencies += "eu.timepit" %%% "refined" % refinedVersion)
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -255,6 +255,10 @@ lazy val docs = project
       IO.write(target, content)
       target
     },
+    libraryDependencies ++= Seq(
+      "org.typelevel" %% "kittens" % "1.0.0-RC3",
+      "eu.timepit" %% "refined-cats" % refinedVersion
+    ),
     scalacOptions --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(noDocumentationModules: _*),
     siteSubdirName in ScalaUnidoc := micrositeDocumentationUrl.value,
@@ -439,7 +443,6 @@ generateReadme in ThisBuild := {
   val source = IO.read((tutTargetDirectory in docs).value / "index.md")
   val readme =
     source
-      .replaceAll("""\n(#+) <a[^>]+>(.+)<\/a>""", "\n$1 $2") // Remove header links
       .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
   val target = (baseDirectory in ciris).value / "readme.md"
   IO.write(target, readme)
@@ -458,10 +461,9 @@ updateReadme in ThisBuild := {
 val generateContributing = taskKey[File]("Generates the contributing guide")
 generateContributing in ThisBuild := {
   (tut in docs).value
-  val source = IO.read((tutTargetDirectory in docs).value / "docs" / "contributing" / "readme.md")
+  val source = IO.read((tutTargetDirectory in docs).value / "docs" / "contributing.md")
   val contributing =
     source
-      .replaceAll("""\n(#+) <a[^>]+>(.+)<\/a>""", "\n$1 $2") // Remove header links
       .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
   val target = (baseDirectory in ciris).value / "contributing.md"
   IO.write(target, contributing)
@@ -652,3 +654,5 @@ addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))
 lazy val scalaTestVersion = "3.0.5"
 
 lazy val scalaCheckVersion = "1.13.5"
+
+lazy val refinedVersion = "0.8.7"
