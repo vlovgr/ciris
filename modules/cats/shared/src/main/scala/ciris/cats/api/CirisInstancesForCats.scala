@@ -24,10 +24,6 @@ trait CirisInstancesForCats {
     s"ConfigValue(${show.show(value.value)})"
   }
 
-  implicit def showId[F[_], A](
-    implicit show: Show[A]
-  ): Show[_root_.ciris.api.Id[A]] = show
-
   implicit val showConfigError: Show[ConfigError] =
     Show.fromToString
 
