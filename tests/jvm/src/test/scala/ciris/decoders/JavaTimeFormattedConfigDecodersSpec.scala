@@ -7,6 +7,8 @@ import ciris.PropertySpec
 import ciris.generators.LimitedJavaTimeGenerators
 import org.scalacheck.Shrink
 
+import scala.util.Try
+
 final class JavaTimeFormattedConfigDecodersSpec
     extends PropertySpec
     with LimitedJavaTimeGenerators {
@@ -97,7 +99,10 @@ final class JavaTimeFormattedConfigDecodersSpec
           DateTimeFormatter.ofPattern("yyyy")
 
         forAll { year: Year =>
-          readValue[Year](year.format(formatter)) shouldBe Right(year)
+          val value = year.format(formatter)
+          whenever(Try(Year.parse(value, formatter)).isSuccess) {
+            readValue[Year](value) shouldBe Right(year)
+          }
         }
       }
     }
