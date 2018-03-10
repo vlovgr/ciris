@@ -519,7 +519,7 @@ generateScripts in ThisBuild := {
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
        |  -- --predef-code "\\$predefCode
        |        repl.compiler.settings.YpartialUnification.value = true;\\
-       |        import ciris._,\\
+       |        import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\\
        |        ciris.syntax._,\\
        |        ciris.cats._,\\
        |        ciris.cats.effect._,\\
