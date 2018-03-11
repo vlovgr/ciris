@@ -240,8 +240,8 @@ lazy val docs = project
           |
           |Ciris is divided into the following set of modules.
           |
-          | - The [[ciris.cats cats]] module integrates with [[https://github.com/typelevel/cats cats]] for typeclasses and typeclass instances.
-          | - The [[ciris.cats.effect cats-effect]] module integrates with [[https://github.com/typelevel/cats-effect cats-effect]] for typeclasses for effect types.
+          | - The [[ciris.cats cats]] module integrates with [[https://github.com/typelevel/cats cats]] for type classes and type class instances.
+          | - The [[ciris.cats.effect cats-effect]] module integrates with [[https://github.com/typelevel/cats-effect cats-effect]] for type classes for effect types.
           | - The [[ciris core]] module provides basic functionality and support for standard library types.
           | - The [[ciris.enumeratum enumeratum]] module integrates with [[https://github.com/lloydmeta/enumeratum enumeratum]] to be able to read enumerations.
           | - The [[ciris.generic generic]] module uses [[https://github.com/milessabin/shapeless shapeless]] to be able to read products and coproducts.
