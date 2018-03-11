@@ -6,28 +6,29 @@ test -e ~/.coursier/coursier || ( \
 )
 
 ~/.coursier/coursier launch -q -P \
-  com.lihaoyi:ammonite_2.12.4:1.0.3 \
+  com.lihaoyi:ammonite_2.12.4:1.0.5 \
   -E org.scala-lang:scala-library \
   -E org.scala-lang:scala-compiler \
   -E org.scala-lang:scala-reflect \
   org.typelevel:scala-compiler:2.12.4-bin-typelevel-4 \
   org.typelevel:scala-library:2.12.4-bin-typelevel-4 \
   org.typelevel:scala-reflect:2.12.4-bin-typelevel-4 \
-  is.cir:ciris-cats_2.12:0.7.2 \
-  is.cir:ciris-cats-effect_2.12:0.7.2 \
-  is.cir:ciris-core_2.12:0.7.2 \
-  is.cir:ciris-enumeratum_2.12:0.7.2 \
-  is.cir:ciris-generic_2.12:0.7.2 \
-  is.cir:ciris-refined_2.12:0.7.2 \
-  is.cir:ciris-spire_2.12:0.7.2 \
-  is.cir:ciris-squants_2.12:0.7.2 \
+  is.cir:ciris-cats_2.12:0.8.0 \
+  is.cir:ciris-cats-effect_2.12:0.8.0 \
+  is.cir:ciris-core_2.12:0.8.0 \
+  is.cir:ciris-enumeratum_2.12:0.8.0 \
+  is.cir:ciris-generic_2.12:0.8.0 \
+  is.cir:ciris-refined_2.12:0.8.0 \
+  is.cir:ciris-spire_2.12:0.8.0 \
+  is.cir:ciris-squants_2.12:0.8.0 \
   -- --predef-code "\
         repl.compiler.settings.YliteralTypes.value = true;\
         repl.compiler.settings.YpartialUnification.value = true;\
-        import ciris._,\
+        import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\
         ciris.syntax._,\
         ciris.cats._,\
         ciris.cats.effect._,\
+        ciris.cats.effect.syntax._,\
         ciris.enumeratum._,\
         ciris.generic._,\
         ciris.refined._,\
