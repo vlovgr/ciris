@@ -21,7 +21,7 @@ val latestMinorVersion =
 
 [![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/maven-central/v/is.cir/ciris-core_2.12.svg?label=version)](https://index.scala-lang.org/vlovgr/ciris)
 
-## <a name="ciris" href="#ciris">Ciris</a>
+## Ciris
 Lightweight, extensible, and validated configuration loading in [Scala][scala], [Scala.js][scalajs], and [Scala Native][scalanative].  
 The core library is dependency-free, while modules provide integrations with external libraries.
 
@@ -33,12 +33,12 @@ Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https:
 
 Ciris is a new project under active development. Feedback and contributions are welcome.
 
-### <a name="introduction" href="#introduction">Introduction</a>
-Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [cats][cats], [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
+### Introduction
+Ciris is a _configuration as code_ library for compile-time safe configurations. For the configuration values which cannot reside in code, Ciris helps you to load and decode values from various sources, while dealing with effects and errors. Validation is encoded by using appropriate data types, with integrations to libraries such as [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
 
-Ciris is intended as an alternative to configuration files, and libraries like [Lightbend Config](https://github.com/lightbend/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services (like, for example, [Kubernetes Secrets][ciris-kubernetes] and [AWS Systems Manager][ciris-aws-ssm]).
+Ciris is an alternative to configuration files in situations where it's easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services.
 
-The [usage guide](https://cir.is/docs) provides a more detailed introduction to Ciris. See also the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) and follow-up blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for a short introduction to the library and configurations with refined types.
+For a more detailed introduction, please refer to the [usage guide](https://cir.is/docs).
 
 <p align="center">
   <a href="https://asciinema.org/a/151742">
@@ -46,7 +46,7 @@ The [usage guide](https://cir.is/docs) provides a more detailed introduction to 
   </a>
 </p>
 
-### <a name="getting-started" href="#getting-started">Getting Started</a>
+### Getting Started
 To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.  
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs).
 
@@ -99,10 +99,10 @@ s"""
 ```
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
-For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
+For an explanation of how to use the modules, refer to the [modules overview](https://cir.is/docs/modules) section.
 
-- The `ciris-cats` module provides typeclasses and typeclass instances from [cats][cats].
-- The `ciris-cats-effect` module provides typeclasses for effect types from [cats-effect][cats-effect].
+- The `ciris-cats` module provides type classes and type class instances from [cats][cats].
+- The `ciris-cats-effect` module provides effect type classes from [cats-effect][cats-effect].
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
@@ -121,13 +121,13 @@ If you're using `ciris-cats` or `ciris-cats-effect` with Scala 2.11.9 or later, 
 scalacOptions += "-Ypartial-unification"
 ```
 
-or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification#sbt-partial-unification) plugin.
+or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin.
 
 ```scala
 addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.0")
 ```
 
-#### <a name="ammonite" href="#ammonite">Ammonite</a>
+#### Ammonite
 To start an [Ammonite REPL](http://www.lihaoyi.com/Ammonite/#Ammonite-REPL) with Ciris loaded and imported, simply run the following.
 ```bash
 curl -Ls try.cir.is | sh
@@ -160,7 +160,7 @@ s"""
 )
 ```
 
-#### <a name="external-libraries" href="#external-libraries">External Libraries</a>
+#### External Libraries
 Below is an incomplete list of third-party libraries that integrate with Ciris.  
 If your library is not included in the list, then please open a pull request.
 
@@ -169,16 +169,16 @@ If your library is not included in the list, then please open a pull request.
 * [`ciris-credstash`][ciris-credstash]
 * [`ciris-kubernetes`][ciris-kubernetes]
 
-### <a name="documentation" href="#documentation">Documentation</a>
+### Documentation
 For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs).  
 If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).
 
-### <a name="participation" href="#participation">Participation</a>
+### Participation
 Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Typelevel Code of Conduct](https://typelevel.org/conduct.html). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
 If you would like to be involved in building Ciris, check out the [contributing guide](https://cir.is/docs/contributing).
 
-### <a name="license" href="#license">License</a>
+### License
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
 [cats]: https://github.com/typelevel/cats

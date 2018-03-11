@@ -106,7 +106,7 @@ lazy val refined =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/refined"))
     .settings(moduleName := "ciris-refined", name := "Ciris refined")
-    .settings(libraryDependencies += "eu.timepit" %%% "refined" % "0.8.7")
+    .settings(libraryDependencies += "eu.timepit" %%% "refined" % refinedVersion)
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -236,13 +236,13 @@ lazy val docs = project
         s"""
           |This is the API documentation for [[https://cir.is Ciris]]: lightweight, extensible, and validated configuration loading in Scala.<br>
           |The documentation is kept up-to-date with new releases, currently documenting release [[https://github.com/vlovgr/ciris/releases/tag/v$version v$version]] on Scala $scalaTargetVersion.<br>
-          |Note that the API documentation targets the JVM, and there may be differences on Scala.js and Scala Native.
+          |Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.
           |
           |Ciris is divided into the following set of modules.
           |
           | - The [[ciris.cats cats]] module integrates with [[https://github.com/typelevel/cats cats]] for typeclasses and typeclass instances.
           | - The [[ciris.cats.effect cats-effect]] module integrates with [[https://github.com/typelevel/cats-effect cats-effect]] for typeclasses for effect types.
-          | - The [[ciris core]] module provides basic functionality and support for reading standard library types.
+          | - The [[ciris core]] module provides basic functionality and support for standard library types.
           | - The [[ciris.enumeratum enumeratum]] module integrates with [[https://github.com/lloydmeta/enumeratum enumeratum]] to be able to read enumerations.
           | - The [[ciris.generic generic]] module uses [[https://github.com/milessabin/shapeless shapeless]] to be able to read products and coproducts.
           | - The [[ciris.refined refined]] module integrates with [[https://github.com/fthomas/refined refined]] to be able to read refinement types.
@@ -255,6 +255,10 @@ lazy val docs = project
       IO.write(target, content)
       target
     },
+    libraryDependencies ++= Seq(
+      "org.typelevel" %% "kittens" % "1.0.0-RC3",
+      "eu.timepit" %% "refined-cats" % refinedVersion
+    ),
     scalacOptions --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(noDocumentationModules: _*),
     siteSubdirName in ScalaUnidoc := micrositeDocumentationUrl.value,
@@ -439,7 +443,6 @@ generateReadme in ThisBuild := {
   val source = IO.read((tutTargetDirectory in docs).value / "index.md")
   val readme =
     source
-      .replaceAll("""\n(#+) <a[^>]+>(.+)<\/a>""", "\n$1 $2") // Remove header links
       .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
   val target = (baseDirectory in ciris).value / "readme.md"
   IO.write(target, readme)
@@ -458,10 +461,9 @@ updateReadme in ThisBuild := {
 val generateContributing = taskKey[File]("Generates the contributing guide")
 generateContributing in ThisBuild := {
   (tut in docs).value
-  val source = IO.read((tutTargetDirectory in docs).value / "docs" / "contributing" / "readme.md")
+  val source = IO.read((tutTargetDirectory in docs).value / "docs" / "contributing.md")
   val contributing =
     source
-      .replaceAll("""\n(#+) <a[^>]+>(.+)<\/a>""", "\n$1 $2") // Remove header links
       .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
   val target = (baseDirectory in ciris).value / "contributing.md"
   IO.write(target, contributing)
@@ -652,3 +654,5 @@ addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))
 lazy val scalaTestVersion = "3.0.5"
 
 lazy val scalaCheckVersion = "1.13.5"
+
+lazy val refinedVersion = "0.8.7"

@@ -1,7 +1,7 @@
 ---
 layout: docs
 title: "Contributing Guide"
-position: 8
+position: 6
 permalink: /docs/contributing
 ---
 
