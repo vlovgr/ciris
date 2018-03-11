@@ -23,7 +23,7 @@ object syntax {
       * not being read more than once for the same reading.
       *
       * @tparam F the context in which to suspend and memoize reading
-      * @return a new [[ConfigSource]]
+      * @return a new `ConfigSource`
       */
     def suspendMemoizeF[F[_]: Apply: LiftIO]: ConfigSource[F, K, V] =
       ConfigSource.applyF(source.keyType) { key =>
