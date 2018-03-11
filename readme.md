@@ -13,11 +13,11 @@ Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https:
 Ciris is a new project under active development. Feedback and contributions are welcome.
 
 ### Introduction
-Ciris encourages compile-time safety by defining as much as possible of your configurations in Scala. For the data which cannot reside in code, Ciris helps you to load and decode values, while dealing with errors. Validation is encoded by using appropriate data types, with available integrations to libraries such as [cats][cats], [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
+Ciris is a _configuration as code_ library for compile-time safe configurations. For the configuration values which cannot reside in code, Ciris helps you to load and decode values from various sources, while dealing with effects and errors. Validation is encoded by using appropriate data types, with integrations to libraries such as [enumeratum][enumeratum], [refined][refined], [spire][spire], and [squants][squants].
 
-Ciris is intended as an alternative to configuration files, and libraries like [Lightbend Config](https://github.com/lightbend/config), in situations where it's easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services (like, for example, [Kubernetes Secrets][ciris-kubernetes] and [AWS Systems Manager][ciris-aws-ssm]).
+Ciris is an alternative to configuration files in situations where it's easy to change and deploy software. Ciris aims to make it easy, safe, and secure to work with configurations, by eliminating many common configuration errors, by preventing errors from occurring as early as possible, and by loading secret configuration values directly from vault services.
 
-The [usage guide](https://cir.is/docs) provides a more detailed introduction to Ciris. See also the presentation [Refined types for validated configurations](https://www.youtube.com/watch?v=C3ciegxMAqA) and follow-up blog post [Validated Configurations with Ciris](https://typelevel.org/blog/2017/06/21/ciris.html) for a short introduction to the library and configurations with refined types.
+For a more detailed introduction, please refer to the [usage guide](https://cir.is/docs).
 
 <p align="center">
   <a href="https://asciinema.org/a/151742">
@@ -31,7 +31,7 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 
 
 ```scala
-val cirisVersion = "0.7.2"
+val cirisVersion = "0.8.0"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-cats",
@@ -65,15 +65,15 @@ Refer to the table below for platform and version support across modules.
  `ciris-squants`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
 
 Backwards binary compatibility for the library is guaranteed between minor versions.  
-For example, `0.7.x` is backwards binary compatible with `0.7.y` for any `x > y`.  
+For example, `0.8.x` is backwards binary compatible with `0.8.y` for any `x > y`.  
 More recent minor versions are drop-in replacements for earlier minor versions.
 
 
 The only required module is `ciris-core`, the rest are optional library integrations.  
-For an explanation of how to use the modules, see the [Modules Overview](https://cir.is/docs/modules) section.
+For an explanation of how to use the modules, refer to the [modules overview](https://cir.is/docs/modules) section.
 
-- The `ciris-cats` module provides typeclasses and typeclass instances from [cats][cats].
-- The `ciris-cats-effect` module provides typeclasses for effect types from [cats-effect][cats-effect].
+- The `ciris-cats` module provides type classes and type class instances from [cats][cats].
+- The `ciris-cats-effect` module provides effect type classes from [cats-effect][cats-effect].
 - The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
 - The `ciris-generic` module allows loading more types with [shapeless][shapeless].
 - The `ciris-refined` module allows loading [refined][refined] refinement types.
@@ -92,7 +92,7 @@ If you're using `ciris-cats` or `ciris-cats-effect` with Scala 2.11.9 or later, 
 scalacOptions += "-Ypartial-unification"
 ```
 
-or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification#sbt-partial-unification) plugin.
+or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin.
 
 ```scala
 addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.0")
@@ -116,14 +116,14 @@ curl -Ls try.cir.is/typelevel | sh
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
 ```scala
-import $ivy.`is.cir::ciris-cats:0.7.2`, ciris.cats._
-import $ivy.`is.cir::ciris-cats-effect:0.7.2`, ciris.cats.effect._
-import $ivy.`is.cir::ciris-core:0.7.2`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.7.2`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.7.2`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.7.2`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.7.2`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.7.2`, ciris.squants._
+import $ivy.`is.cir::ciris-cats:0.8.0`, ciris.cats._
+import $ivy.`is.cir::ciris-cats-effect:0.8.0`, ciris.cats.effect._, ciris.cats.effect.syntax._
+import $ivy.`is.cir::ciris-core:0.8.0`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.8.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.8.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.8.0`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.8.0`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.8.0`, ciris.squants._
 ```
 
 
