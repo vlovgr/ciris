@@ -259,6 +259,7 @@ lazy val docs = project
       "org.typelevel" %% "kittens" % "1.0.0-RC3",
       "eu.timepit" %% "refined-cats" % refinedVersion
     ),
+    crossScalaVersions := Seq(scalaVersion.value),
     scalacOptions --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(noDocumentationModules: _*),
     siteSubdirName in ScalaUnidoc := micrositeDocumentationUrl.value,
@@ -365,8 +366,7 @@ lazy val releaseSettings =
       setNextVersion,
       commitNextVersion,
       pushChanges,
-      releaseStepCommand("project docs"),
-      releaseStepCommand("publishMicrosite")
+      releaseStepCommand("+docs/publishMicrosite")
     )
   )
 
