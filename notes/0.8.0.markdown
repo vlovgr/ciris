@@ -1,0 +1,54 @@
+This release arrives with a much rewritten and expanded [usage guide](https://cir.is/docs). ([#116][#116])  
+Some of the notable changes to the usage guide include the following.
+
+- Most references to types and functions are now hyperlinked to the [API documentation](https://cir.is/api).
+- [Usage Basics](https://cir.is/docs/basics) includes guidance on when configuration files are appropriate, and when configuration as code is a better fit. Working with [configuration values](https://cir.is/docs/basics#configuration-values) is covered in more detail, and there is a section on [suspending effects](https://cir.is/docs/basics#suspending-effects).
+- [Encoding Validation](https://cir.is/docs/validation) covers refined types in greater depth, including [useable configurations](https://cir.is/docs/validation#useable-configurations) and [external libraries](https://cir.is/docs/validation#external-libraries).
+- [Multiple Environments](https://cir.is/docs/environments) better explains when to use [`withValues`][withValues] (and [`withValue`][withValue]) and how to deal with different values, and different configuration loading, across environments, while eliminating duplicated configuration values.
+- [Logging Configurations](https://cir.is/docs/logging) shows how to use [`Secret`][Secret] for avoiding logging secret configuration values. There is also a section on how to use [`Show`][Show] from [cats][cats] together with [kittens][kittens], for improved [configuration logging](https://cir.is/docs/logging#logging-improvements) over `toString`.
+- [Configuration sources](https://cir.is/docs/sources) and [source transformations](https://cir.is/docs/sources#source-transformations) are covered in more detail, including [current supported sources](https://cir.is/docs/supported-sources).
+- There is a new section on how to [support new sources](https://cir.is/docs/supporting-new-sources), including a detailed example of supporting [property files](https://en.wikipedia.org/wiki/.properties).
+- [Configuration decoders](https://cir.is/docs/decoders) are covered in more detail, including [current supported types](https://cir.is/docs/supported-types) and [supporting new types](https://cir.is/docs/supporting-new-types).
+- The [modules overview](https://cir.is/docs/modules) has been split into separate pages.
+
+### Changes
+- Add `orNone` function on `ConfigValue` for optional fallback values. ([#107][#107])  
+  The updated usage guide provides more details on [configuration values](https://cir.is/docs/basics#configuration-values).
+  ```scala
+  env[ApiKey]("API_KEY")
+    .orElse(prop[ApiKey]("api.key"))
+    .orNone
+  ```
+- Add cats-effect `suspendMemoizeF` syntax for `ConfigSource`. ([#110][#110])  
+  The usage guide has more information on [source transformations](https://cir.is/docs/sources#source-transformations).
+- Add `ConfigDecoder[String, scala.util.matching.Regex]`. ([#111][#111])  
+  The usage guide provides a list of all the [current supported types](https://cir.is/docs/supported-types).
+- Fix `BigDecimal` decoding using fixed precision on Scala 2.10. ([#111][#111])
+- Add support for decoding `yes`/`no` and `on`/`off` `Boolean` values. ([#111][#111])  
+  The usage guide provides a list of all the [current supported types](https://cir.is/docs/supported-types).
+- Remove unnecessary `Show[Id[A]]` derivation causing ambiguous implicits. ([#112][#112])  
+  The usage guide explains how `Show` can be used for [logging configurations](https://cir.is/docs/logging#logging-improvements).
+- Improve the error message for combined configuration errors. ([#106][#106])
+- Try scripts no longer shadow other libraries' namespaces. ([#114][#114])
+
+### Updates
+- Update ammonite to 1.0.5. ([#115][#115])
+- Update cats-effect to 0.9. ([#109][#109])
+- Update spire to 0.15.0. ([#108][#108])
+
+[#106]: https://github.com/vlovgr/ciris/pull/106
+[#107]: https://github.com/vlovgr/ciris/pull/107
+[#108]: https://github.com/vlovgr/ciris/pull/108
+[#109]: https://github.com/vlovgr/ciris/pull/109
+[#110]: https://github.com/vlovgr/ciris/pull/110
+[#111]: https://github.com/vlovgr/ciris/pull/111
+[#112]: https://github.com/vlovgr/ciris/pull/112
+[#114]: https://github.com/vlovgr/ciris/pull/114
+[#115]: https://github.com/vlovgr/ciris/pull/115
+[#116]: https://github.com/vlovgr/ciris/pull/116
+[Show]: https://typelevel.org/cats/typeclasses/show.html
+[Secret]: https://cir.is/api/ciris/Secret.html
+[kittens]: https://github.com/milessabin/kittens
+[cats]: https://typelevel.org/cats/
+[withValues]: https://cir.is/api/ciris/index.html#withValues[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=>F[Either[ciris.ConfigErrors,Z]])(implicitevidence$6:ciris.api.Monad[F]):F[Either[ciris.ConfigErrors,Z]]
+[withValue]: https://cir.is/api/ciris/index.html#withValue[F[_],A1,Z](a1:ciris.ConfigValue[F,A1])(f:A1=>F[Either[ciris.ConfigErrors,Z]])(implicitevidence$3:ciris.api.Monad[F]):F[Either[ciris.ConfigErrors,Z]]
