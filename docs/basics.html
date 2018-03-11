@@ -42,7 +42,7 @@ ga('send', 'pageview');
 </span>
 <span class="c1">// Read the file, trim the file contents, and convert to Int
 </span><span class="n">file</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-6740373985999292560.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
+<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2648064243413478787.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
 </span></code></pre>
 </div>
 
@@ -118,11 +118,11 @@ ga('send', 'pageview');
 </span>
 <span class="c1">// Suspend reading of system property file.encoding as a String
 </span><span class="n">propF</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"file.encoding"</span><span class="o">)</span>
-<span class="c1">// res19: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$282796306)
+<span class="c1">// res19: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$2070729547)
 </span>
 <span class="c1">// Suspend reading the file, trim the file contents, and convert to Int
 </span><span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res21: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-6740373985999292560.tmp,UTF-8), ConfigKeyType(file), IO$778285582, IO$1920632202)
+<span class="c1">// res21: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2648064243413478787.tmp,UTF-8), ConfigKeyType(file), IO$49102447, IO$1494940802)
 </span></code></pre>
 </div>
 

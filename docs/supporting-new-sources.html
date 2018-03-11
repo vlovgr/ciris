@@ -112,10 +112,10 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.refined._
 </span>
 <span class="k">val</span> <span class="n">propFile</span> <span class="k">=</span> <span class="n">propFileAt</span><span class="o">(</span><span class="n">tempFileName</span><span class="o">)</span>
-<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-7312159455914508907.properties, UTF-8)
+<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4191767334749790308.properties, UTF-8)
 </span>
 <span class="n">propFile</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-7312159455914508907.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), Right(9000))
+<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4191767334749790308.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), Right(9000))
 </span></code></pre>
 </div>
 
@@ -212,10 +212,10 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.cats.effect._
 </span>
 <span class="k">val</span> <span class="n">propFileF</span> <span class="k">=</span> <span class="n">propFileAtF</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">tempFileName</span><span class="o">)</span>
-<span class="c1">// propFileF: PropFileAt[cats.effect.IO] = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-7312159455914508907.properties, UTF-8, IO$679562680)
+<span class="c1">// propFileF: PropFileAt[cats.effect.IO] = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4191767334749790308.properties, UTF-8, IO$1460843650)
 </span>
 <span class="n">propFileF</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
-<span class="c1">// res6: ciris.ConfigEntry[cats.effect.IO,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-7312159455914508907.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), &lt;function1&gt;, IO$1028291434)
+<span class="c1">// res6: ciris.ConfigEntry[cats.effect.IO,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4191767334749790308.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), &lt;function1&gt;, IO$1760365646)
 </span></code></pre>
 </div>
 
