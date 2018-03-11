@@ -1,0 +1,2 @@
+Some modules were not published correctly during the release of v0.8.0.  
+This release simply adresses that issue, and no other changes are made.
