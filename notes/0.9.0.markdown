@@ -1,0 +1,18 @@
+### Changes
+- Change [`ConfigValue#orElse`][orElse] to not evaluate the alternative value unless necessary. ([#121][#121])
+
+### Updates
+- Update cats to 1.1.0. ([#119][#119])
+- Update cats-effect to 0.10. ([#120][#120])
+- Update Scala to 2.12.5. ([#118][#118])
+
+### Miscellaneous
+- There is a new [demo][demo] on the index/readme page. ([#117][#117])
+
+[#117]: https://github.com/vlovgr/ciris/pull/117
+[#118]: https://github.com/vlovgr/ciris/pull/118
+[#119]: https://github.com/vlovgr/ciris/pull/119
+[#120]: https://github.com/vlovgr/ciris/pull/120
+[#121]: https://github.com/vlovgr/ciris/pull/121
+[demo]: https://asciinema.org/a/170215
+[orElse]: https://cir.is/api/ciris/ConfigValue.html#orElse[A>:V](that:=>ciris.ConfigValue[F,A])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,A]
