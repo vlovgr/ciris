@@ -18,7 +18,10 @@ abstract class ConfigValue[F[_]: Apply, V] {
   /**
     * If the value of this [[ConfigValue]] is unavailable, tries to
     * use the value of that [[ConfigValue]], accumulating errors if
-    * both values are unavailable.
+    * both values are unavailable.<br>
+    * <br>
+    * Note that the alternative value is passed by reference, and it
+    * will only be evaluated if this [[ConfigValue]] is unavailable.
     *
     * @param that the [[ConfigValue]] to use if this value is unavailable
     * @tparam A the value type of that [[ConfigValue]]
@@ -37,12 +40,16 @@ abstract class ConfigValue[F[_]: Apply, V] {
     * res1: ConfigValue[api.Id, Int] = ConfigValue(Right(123))
     * }}}
     */
-  final def orElse[A >: V](that: ConfigValue[F, A]): ConfigValue[F, A] =
+  final def orElse[A >: V](that: => ConfigValue[F, A])(implicit m: Monad[F]): ConfigValue[F, A] =
     ConfigValue.applyF[F, A] {
-      (this.value product that.value).map {
-        case (Right(v), _)                      => Right(v)
-        case (Left(_), Right(a))                => Right(a)
-        case (Left(thisError), Left(thatError)) => Left(thisError combine thatError)
+      this.value.flatMap {
+        case right @ Right(_) =>
+          (right: Either[ConfigError, A]).pure[F]
+        case Left(thisError) =>
+          that.value.map {
+            case right @ Right(_) => right
+            case Left(thatError)  => Left(thisError combine thatError)
+          }
       }
     }
 
