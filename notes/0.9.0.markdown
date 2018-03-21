@@ -16,3 +16,5 @@
 [#121]: https://github.com/vlovgr/ciris/pull/121
 [demo]: https://asciinema.org/a/170215
 [orElse]: https://cir.is/api/ciris/ConfigValue.html#orElse[A>:V](that:=>ciris.ConfigValue[F,A])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,A]
+
+Released on 2018-03-21.
