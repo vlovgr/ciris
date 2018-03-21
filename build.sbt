@@ -44,7 +44,7 @@ lazy val catsEffect =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/cats-effect"))
     .settings(moduleName := "ciris-cats-effect", name := "Ciris cats effect")
-    .settings(libraryDependencies += "org.typelevel" %%% "cats-effect" % "0.9")
+    .settings(libraryDependencies += "org.typelevel" %%% "cats-effect" % "0.10")
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
