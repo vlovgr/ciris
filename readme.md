@@ -31,7 +31,7 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 
 
 ```scala
-val cirisVersion = "0.8.1"
+val cirisVersion = "0.9.0"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-cats",
@@ -65,7 +65,7 @@ Refer to the table below for platform and version support across modules.
  `ciris-squants`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
 
 Backwards binary compatibility for the library is guaranteed between minor versions.  
-For example, `0.8.x` is backwards binary compatible with `0.8.y` for any `x > y`.  
+For example, `0.9.x` is backwards binary compatible with `0.9.y` for any `x > y`.  
 More recent minor versions are drop-in replacements for earlier minor versions.
 
 
@@ -116,14 +116,14 @@ curl -Ls try.cir.is/typelevel | sh
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
 ```scala
-import $ivy.`is.cir::ciris-cats:0.8.1`, ciris.cats._
-import $ivy.`is.cir::ciris-cats-effect:0.8.1`, ciris.cats.effect._, ciris.cats.effect.syntax._
-import $ivy.`is.cir::ciris-core:0.8.1`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.8.1`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.8.1`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.8.1`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.8.1`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.8.1`, ciris.squants._
+import $ivy.`is.cir::ciris-cats:0.9.0`, ciris.cats._
+import $ivy.`is.cir::ciris-cats-effect:0.9.0`, ciris.cats.effect._, ciris.cats.effect.syntax._
+import $ivy.`is.cir::ciris-core:0.9.0`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.9.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.9.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.9.0`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.9.0`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.9.0`, ciris.squants._
 ```
 
 
