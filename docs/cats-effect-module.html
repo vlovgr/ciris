@@ -20,11 +20,11 @@ ga('send', 'pageview');
 </span>
 <span class="c1">// Suspend reading of system property file.encoding as a String
 </span><span class="n">propF</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"file.encoding"</span><span class="o">)</span>
-<span class="c1">// res1: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$1782690351)
+<span class="c1">// res1: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$1923272020)
 </span>
 <span class="c1">// Suspend reading the file, trim the file contents, and convert to Int
 </span><span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-86167797414865456.tmp,UTF-8), ConfigKeyType(file), IO$1873037890, IO$1023775557)
+<span class="c1">// res3: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-5273455744894010242.tmp,UTF-8), ConfigKeyType(file), IO$1476665204, IO$1836534933)
 </span></code></pre>
 </div>
 
