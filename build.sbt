@@ -29,7 +29,7 @@ lazy val cats =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/cats"))
     .settings(moduleName := "ciris-cats", name := "Ciris cats")
-    .settings(libraryDependencies += "org.typelevel" %%% "cats-core" % "1.0.1")
+    .settings(libraryDependencies += "org.typelevel" %%% "cats-core" % "1.1.0")
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
