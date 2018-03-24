@@ -53,40 +53,40 @@ For changes between versions, please see the [release notes](https://github.com/
 
 Refer to the table below for platform and version support across modules.
 
- Module                  | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
--------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
- `ciris-cats`       | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#65794;                                                                           |
- `ciris-cats-effect` | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
- `ciris-core`       | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11)    |
- `ciris-enumeratum` | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
- `ciris-generic`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
- `ciris-refined`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
- `ciris-spire`      | &#10003; 2.10, 2.11, 2.12      | &#10003; 0.6 (2.10, 2.11, 2.12)      | &#65794;                                                                           |
- `ciris-squants`    | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
+ Module                                        | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
+-----------------------------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+ [`ciris-cats`][cats-module]              | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#65794;                                                                           |
+ [`ciris-cats-effect`][cats-effect-module] | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
+ [`ciris-core`](https://cir.is/docs)      | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11)    |
+ [`ciris-enumeratum`][enumeratum-module]  | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
+ [`ciris-generic`][generic-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
+ [`ciris-refined`][refined-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
+ [`ciris-spire`][spire-module]            | &#10003; 2.10, 2.11, 2.12      | &#10003; 0.6 (2.10, 2.11, 2.12)      | &#65794;                                                                           |
+ [`ciris-squants`][squants-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
 
 Backwards binary compatibility for the library is guaranteed between minor versions.  
 For example, `0.9.x` is backwards binary compatible with `0.9.y` for any `x > y`.  
 More recent minor versions are drop-in replacements for earlier minor versions.
 
 
-The only required module is `ciris-core`, the rest are optional library integrations.  
+The only required module is [`ciris-core`](https://cir.is/docs), the rest are optional library integrations.  
 For an explanation of how to use the modules, refer to the [modules overview](https://cir.is/docs/modules) section.
 
-- The `ciris-cats` module provides type classes and type class instances from [cats][cats].
-- The `ciris-cats-effect` module provides effect type classes from [cats-effect][cats-effect].
-- The `ciris-enumeratum` module allows loading [enumeratum][enumeratum] enumerations.
-- The `ciris-generic` module allows loading more types with [shapeless][shapeless].
-- The `ciris-refined` module allows loading [refined][refined] refinement types.
-- The `ciris-spire` module allows loading [spire][spire] number types.
-- The `ciris-squants` module allows loading [squants][squants] data types.
+- The [`ciris-cats`][cats-module] module provides type classes and type class instances from [cats][cats].
+- The [`ciris-cats-effect`][cats-effect-module] module provides effect type classes from [cats-effect][cats-effect].
+- The [`ciris-enumeratum`][enumeratum-module] module allows loading [enumeratum][enumeratum] enumerations.
+- The [`ciris-generic`][generic-module] module allows loading more types with [shapeless][shapeless].
+- The [`ciris-refined`][refined-module] module allows loading [refined][refined] refinement types.
+- The [`ciris-spire`][spire-module] module allows loading [spire][spire] number types.
+- The [`ciris-squants`][squants-module] module allows loading [squants][squants] data types.
 
-If you're using `ciris-generic` with Scala 2.10, you'll need to include the [Macro Paradise](https://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
+If you're using [`ciris-generic`][generic-module] with Scala 2.10, you'll need to include the [Macro Paradise](https://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
 
 ```scala
 libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.patch)
 ```
 
-If you're using `ciris-cats` or `ciris-cats-effect` with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
+If you're using [`ciris-cats`][cats-module] or [`ciris-cats-effect`][cats-effect-module] with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
 
 ```scala
 scalacOptions += "-Ypartial-unification"
@@ -148,18 +148,25 @@ If you would like to be involved in building Ciris, check out the [contributing 
 ### License
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
-[cats]: https://github.com/typelevel/cats
+[cats-effect-module]: https://cir.is/docs/cats-effect-module
 [cats-effect]: https://github.com/typelevel/cats-effect
+[cats-module]: https://cir.is/docs/cats-module
+[cats]: https://github.com/typelevel/cats
 [ciris-aiven-kafka]: https://github.com/ovotech/ciris-aiven-kafka
 [ciris-aws-ssm]: https://github.com/ovotech/ciris-aws-ssm
 [ciris-credstash]: https://github.com/ovotech/ciris-credstash
 [ciris-kubernetes]: https://github.com/ovotech/ciris-kubernetes
+[enumeratum-module]: https://cir.is/docs/enumeratum-module
 [enumeratum]: https://github.com/lloydmeta/enumeratum
+[generic-module]: https://cir.is/docs/generic-module
+[refined-module]: https://cir.is/docs/refined-module
 [refined]: https://github.com/fthomas/refined
-[shapeless]: https://github.com/milessabin/shapeless
-[spire]: https://github.com/non/spire
-[squants]: https://github.com/typelevel/squants
 [sbt]: https://www.scala-sbt.org
 [scala]: https://www.scala-lang.org
 [scalajs]: https://www.scala-js.org
 [scalanative]: http://scala-native.org
+[shapeless]: https://github.com/milessabin/shapeless
+[spire-module]: https://cir.is/docs/spire-module
+[spire]: https://github.com/non/spire
+[squants-module]: https://cir.is/docs/squants-module
+[squants]: https://github.com/typelevel/squants
