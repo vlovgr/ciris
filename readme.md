@@ -48,7 +48,7 @@ libraryDependencies ++= Seq(
 
 
 Make sure to replace `%%` with `%%%` above if you are using Scala.js or Scala Native.  
-Libraries are published for Scala , and 2.12, and Java 8 where possible.  
+Libraries are published for Scala 2.10, 2.11, and 2.12, and Java 8 where possible.  
 For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
 
 Refer to the table below for platform and version support across modules.
