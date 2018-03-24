@@ -197,7 +197,7 @@ lazy val docs = project
     buildInfoKeys := Seq[BuildInfoKey](
       organization,
       latestVersion in ThisBuild,
-      crossScalaVersions,
+      crossScalaVersions in coreJVM,
       BuildInfoKey.map(moduleName in catsJVM) { case (k, v) => "cats" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in catsEffectJVM) { case (k, v) => "catsEffect" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in coreJVM) { case (k, v) => "core" + k.capitalize -> v },
