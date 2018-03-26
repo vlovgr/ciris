@@ -42,7 +42,7 @@ ga('send', 'pageview');
 </span>
 <span class="c1">// Read the file, trim the file contents, and convert to Int
 </span><span class="n">file</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-6828366903869084252.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
+<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-8044149037599853742.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
 </span></code></pre>
 </div>
 
@@ -67,7 +67,7 @@ ga('send', 'pageview');
 </span></code></pre>
 </div>
 
-<p>You can also use <a href="/api/ciris/ConfigValue.html#orElse[A&gt;:V](that:ciris.ConfigValue[F,A]):ciris.ConfigValue[F,A]"><code class="highlighter-rouge">orElse</code></a> to fall back to other values.</p>
+<p>You can also use <a href="/api/ciris/ConfigValue.html#orElse[A&gt;:V](that:ciris.ConfigValue[F,A]):ciris.ConfigValue[F,A]"><code class="highlighter-rouge">orElse</code></a> to fall back to other values if the key is missing from the source.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="c1">// Uses the value of the file.encoding system property as
 // the FILE_ENCODING environment variable has not been set
@@ -79,7 +79,7 @@ ga('send', 'pageview');
 
 <p>When using <a href="/api/ciris/ConfigValue.html#orElse[A&gt;:V](that:ciris.ConfigValue[F,A]):ciris.ConfigValue[F,A]"><code class="highlighter-rouge">orElse</code></a>, we get a <a href="/api/ciris/ConfigValue.html"><code class="highlighter-rouge">ConfigValue</code></a> back, since we’ve combined the values of multiple <a href="/api/ciris/ConfigEntry.html"><code class="highlighter-rouge">ConfigEntry</code></a>s.</p>
 
-<p>You can also combine <a href="/api/ciris/ConfigValue.html#orElse[A&gt;:V](that:ciris.ConfigValue[F,A]):ciris.ConfigValue[F,A]"><code class="highlighter-rouge">orElse</code></a> and <a href="/api/ciris/ConfigValue.html#orNone:ciris.ConfigValue[F,Option[V]]"><code class="highlighter-rouge">orNone</code></a> to fall back to other values, but not require any of them to be available.</p>
+<p>You can also combine <a href="/api/ciris/ConfigValue.html#orElse[A&gt;:V](that:ciris.ConfigValue[F,A]):ciris.ConfigValue[F,A]"><code class="highlighter-rouge">orElse</code></a> and <a href="/api/ciris/ConfigValue.html#orNone:ciris.ConfigValue[F,Option[V]]"><code class="highlighter-rouge">orNone</code></a> to fall back to other values, but not require any of them to be set.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">env</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"api.key"</span><span class="o">)).</span>
@@ -118,11 +118,11 @@ ga('send', 'pageview');
 </span>
 <span class="c1">// Suspend reading of system property file.encoding as a String
 </span><span class="n">propF</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"file.encoding"</span><span class="o">)</span>
-<span class="c1">// res19: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$724117674)
+<span class="c1">// res19: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$1558127653)
 </span>
 <span class="c1">// Suspend reading the file, trim the file contents, and convert to Int
 </span><span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res21: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-6828366903869084252.tmp,UTF-8), ConfigKeyType(file), IO$1836285075, IO$1728048787)
+<span class="c1">// res21: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-8044149037599853742.tmp,UTF-8), ConfigKeyType(file), IO$763860026, IO$1529763832)
 </span></code></pre>
 </div>
 
