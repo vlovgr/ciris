@@ -6,3 +6,5 @@
 
 [#124]: https://github.com/vlovgr/ciris/pull/124
 [#125]: https://github.com/vlovgr/ciris/pull/125
+
+Released on 2018-03-26.
