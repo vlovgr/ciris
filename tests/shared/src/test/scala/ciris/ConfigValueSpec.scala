@@ -28,21 +28,24 @@ final class ConfigValueSpec extends PropertySpec {
 
     "using orElse" should {
       "not evaluate the alternative when this value is available" in {
-        var read = false
-
         readConfigEntry[String]("value")
-          .orElse({
-            read = true
-            readConfigEntry[String]("value2")
-          })
-
-        withClue("alternative was evaluated although it should not:") {
-          read shouldBe false
-        }
+          .orElse(fail("evaluated alternative"))
       }
 
-      "use the alternative if it is available, when this value is not" in {
+      "not evaluate the alternative when this value is not a missing key error" in {
+        ConfigValue(ConfigError.left[String](ConfigError("error")))
+          .orElse(fail("evaluated alternative"))
+      }
+
+      "use the alternative value if the first key is missing" in {
         readNonExistingConfigEntry[String]
+          .orElse(readConfigEntry[String]("value"))
+          .value shouldBe Right("value")
+      }
+
+      "use the alternative value if the first keys are missing" in {
+        readNonExistingConfigEntry[String]
+          .orElse(readNonExistingConfigEntry[String])
           .orElse(readConfigEntry[String]("value"))
           .value shouldBe Right("value")
       }
@@ -57,18 +60,40 @@ final class ConfigValueSpec extends PropertySpec {
     }
 
     "using orNone" should {
-      "wrap existing values in Some" in {
+      "use None for a missing key" in {
+        readNonExistingConfigEntry[String]
+          .orNone
+          .value shouldBe Right(None)
+      }
+
+      "use None for combined missing keys" in {
+        readNonExistingConfigEntry[String]
+          .orElse(readNonExistingConfigEntry[String])
+          .orNone
+          .value shouldBe Right(None)
+      }
+
+      "keep an error that is not a missing key" in {
+        ConfigValue(ConfigError.left[String](ConfigError("error")))
+          .orNone
+          .value
+          .left.map(_.message) shouldBe Left("error")
+      }
+
+      "keep a combined error that is not only missing keys" in {
+        readNonExistingConfigEntry[String]
+          .orElse(ConfigValue(ConfigError.left[String](ConfigError("error"))))
+          .orNone
+          .value
+          .left
+          .map(_.message) shouldBe Left("Missing test key [key] and error")
+      }
+
+      "wrap available values in Some" in {
         nonExistingEntry
           .orElse(existingEntry("value"))
           .orNone
           .value shouldBe Right(Some("value"))
-      }
-
-      "discard errors and return None" in {
-        nonExistingEntry
-          .orElse(nonExistingEntry)
-          .orNone
-          .value shouldBe Right(None)
       }
     }
   }

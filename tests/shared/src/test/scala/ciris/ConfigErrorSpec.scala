@@ -19,6 +19,29 @@ final class ConfigErrorSpec extends PropertySpec {
       }
     }
 
+    "using isMissingKey" should {
+      val missingKey =
+        ConfigError.missingKey("key", ConfigKeyType[String]("keyType"))
+
+      "return true for MissingKey" in {
+        missingKey.isMissingKey shouldBe true
+      }
+
+      "return true for a combination of MissingKeys" in {
+        ConfigError.combined(missingKey, missingKey)
+          .isMissingKey shouldBe true
+      }
+
+      "return false for a combination of not only MissingKeys" in {
+        ConfigError.combined(missingKey, ConfigError("other"))
+          .isMissingKey shouldBe false
+      }
+
+      "return false for other errors" in {
+        ConfigError("other").isMissingKey shouldBe false
+      }
+    }
+
     "converting to String" should {
       "have a String representation for custom errors" in {
         ConfigError("abc").toString shouldBe "ConfigError(abc)"

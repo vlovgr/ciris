@@ -71,7 +71,7 @@ fileEncoding.sourceValue
 fileEncoding.value
 ```
 
-You can also use [`orElse`][orElse] to fall back to other values.
+You can also use [`orElse`][orElse] to fall back to other values if the key is missing from the source.
 
 ```tut:book
 // Uses the value of the file.encoding system property as
@@ -82,7 +82,7 @@ env[String]("FILE_ENCODING").
 
 When using [`orElse`][orElse], we get a [`ConfigValue`][ConfigValue] back, since we've combined the values of multiple [`ConfigEntry`][ConfigEntry]s.
 
-You can also combine [`orElse`][orElse] and [`orNone`][orNone] to fall back to other values, but not require any of them to be available.
+You can also combine [`orElse`][orElse] and [`orNone`][orNone] to fall back to other values, but not require any of them to be set.
 
 ```tut:book
 env[String]("API_KEY").
