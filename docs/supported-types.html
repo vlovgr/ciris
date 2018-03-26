@@ -74,7 +74,7 @@ For an explanation of how you can write decoders to support new types, refer to 
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">localDateDecoder</span><span class="k">:</span> <span class="kt">ConfigDecoder</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">LocalDate</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">ConfigDecoder</span><span class="o">.</span><span class="n">localDateConfigDecoder</span><span class="o">(</span><span class="n">format</span><span class="o">)</span>
-<span class="c1">// localDateDecoder: ciris.ConfigDecoder[String,java.time.LocalDate] = ciris.ConfigDecoder$$anon$11@714aee23
+<span class="c1">// localDateDecoder: ciris.ConfigDecoder[String,java.time.LocalDate] = ciris.ConfigDecoder$$anon$11@142cc0c
 </span>
 <span class="n">entry</span><span class="o">.</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">LocalDate</span><span class="o">]</span>
 <span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,java.time.LocalDate] = ConfigEntry(key, ConfigKeyType(key type), Right(20180307), Right(2018-03-07))
