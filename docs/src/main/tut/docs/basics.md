@@ -296,7 +296,7 @@ val config =
 [ConfigEntry]: /api/ciris/ConfigEntry.html
 [ConfigSource]: /api/ciris/ConfigSource.html
 [ConfigDecoder]: /api/ciris/ConfigDecoder.html
-[orElse]: /api/ciris/ConfigValue.html#orElse[A>:V](that:ciris.ConfigValue[F,A]):ciris.ConfigValue[F,A]
+[orElse]: /api/ciris/ConfigValue.html#orElse[A>:V](that:=>ciris.ConfigValue[F,A])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,A]
 [ConfigValue]: /api/ciris/ConfigValue.html
 [Secret]: /api/ciris/Secret.html
 [cats-effect]: https://github.com/typelevel/cats-effect
