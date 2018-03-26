@@ -31,7 +31,7 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 
 
 ```scala
-val cirisVersion = "0.9.0"
+val cirisVersion = "0.9.1"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-cats",
@@ -116,14 +116,14 @@ curl -Ls try.cir.is/typelevel | sh
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
 ```scala
-import $ivy.`is.cir::ciris-cats:0.9.0`, ciris.cats._
-import $ivy.`is.cir::ciris-cats-effect:0.9.0`, ciris.cats.effect._, ciris.cats.effect.syntax._
-import $ivy.`is.cir::ciris-core:0.9.0`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.9.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.9.0`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.9.0`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.9.0`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.9.0`, ciris.squants._
+import $ivy.`is.cir::ciris-cats:0.9.1`, ciris.cats._
+import $ivy.`is.cir::ciris-cats-effect:0.9.1`, ciris.cats.effect._, ciris.cats.effect.syntax._
+import $ivy.`is.cir::ciris-core:0.9.1`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.9.1`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.9.1`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.9.1`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.9.1`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.9.1`, ciris.squants._
 ```
 
 
