@@ -74,7 +74,7 @@ lazy val enumeratum =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/enumeratum"))
     .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
-    .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.12")
+    .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.13")
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
