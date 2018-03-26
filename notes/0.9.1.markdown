@@ -1,0 +1,8 @@
+### Changes
+- Change `ConfigValue#orElse` and `orNone` to work on missing keys. ([#124][#124])
+
+### Updates
+- Update enumeratum to 1.5.13. ([#125][#125])
+
+[#124]: https://github.com/vlovgr/ciris/pull/124
+[#125]: https://github.com/vlovgr/ciris/pull/125
