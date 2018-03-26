@@ -1,5 +1,7 @@
 package ciris
 
+import ciris.ConfigError.{Combined, MissingKey}
+
 /**
   * [[ConfigError]] represents one or more errors that occurred while reading
   * or decoding a single [[ConfigEntry]] configuration entry value. An error
@@ -49,6 +51,21 @@ sealed abstract class ConfigError {
     * }}}
     */
   def message: String
+
+  /**
+    * Checks whether this error occurred because the key for the value
+    * was missing from the [[ConfigSource]]. If this error is in fact
+    * a combination of different errors, checks whether all of them
+    * are because of the keys were missing.
+    *
+    * @return `true` if the key was missing from the source;
+    *         `false` otherwise
+    */
+  final def isMissingKey: Boolean = this match {
+    case MissingKey(_, _) => true
+    case Combined(errors) => errors.forall(_.isMissingKey)
+    case _                => false
+  }
 
   /**
     * Combines this [[ConfigError]] with that [[ConfigError]] to create
@@ -111,7 +128,7 @@ object ConfigError {
     }
   }
 
-  private final class Combined(errors: Vector[ConfigError]) extends ConfigError {
+  private final class Combined(val errors: Vector[ConfigError]) extends ConfigError {
     private def uncapitalize(s: String): String =
       if (s.length == 0 || s.charAt(0).isLower) s
       else {
@@ -142,6 +159,11 @@ object ConfigError {
     override def toString: String = s"Combined(${errors.mkString(", ")})"
   }
 
+  private object Combined {
+    def unapply(combined: Combined): Option[Vector[ConfigError]] =
+      Some(combined.errors)
+  }
+
   /**
     * Combines two or more [[ConfigError]]s into a single [[ConfigError]].
     * This is useful when there is more than one error when reading or
@@ -165,9 +187,14 @@ object ConfigError {
   def combined(first: ConfigError, second: ConfigError, rest: ConfigError*): ConfigError =
     new Combined(Vector(first, second) ++ rest)
 
-  private final class MissingKey[K](key: K, keyType: ConfigKeyType[K]) extends ConfigError {
+  private final class MissingKey[K](val key: K, val keyType: ConfigKeyType[K]) extends ConfigError {
     override def message: String = s"Missing ${keyType.name} [$key]"
     override def toString: String = s"MissingKey($key, $keyType)"
+  }
+
+  private object MissingKey {
+    def unapply[K](missingKey: MissingKey[K]): Option[(K, ConfigKeyType[K])] =
+      Some((missingKey.key, missingKey.keyType))
   }
 
   /**
