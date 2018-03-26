@@ -16,62 +16,87 @@ abstract class ConfigValue[F[_]: Apply, V] {
   def value: F[Either[ConfigError, V]]
 
   /**
-    * If the value of this [[ConfigValue]] is unavailable, tries to
-    * use the value of that [[ConfigValue]], accumulating errors if
-    * both values are unavailable.<br>
-    * <br>
+    * If the key for this value was missing from the [[ConfigSource]],
+    * as determined by [[ConfigError.isMissingKey]], then uses `that`
+    * [[ConfigValue]] instead. If `that` value is not available due
+    * to an error, then the errors are accumulated.
+    *
+    * {{{
+    * scala> val apiKey =
+    *      |  env[String]("API_KEY").
+    *      |    orElse(prop[String]("api.key"))
+    * apiKey: ConfigValue[api.Id, String] =  ConfigValue(Left(Combined(MissingKey(API_KEY, Environment), MissingKey(api.key, Property))))
+    *
+    * scala> apiKey.value.left.map(_.message).toString
+    * res0: String = Left(Missing environment variable [API_KEY] and missing system property [api.key])
+    *
+    * scala> env[String]("FILE_ENCODING").
+    *      |   orElse(prop[String]("file.encoding"))
+    * res1: ConfigValue[api.Id, String] = ConfigValue(Right(UTF8))
+    * }}}
+    *
+    * If the value is unavailable due to a different error than the
+    * key missing from the [[ConfigSource]], then the alternative
+    * value will not be used.
+    *
+    * {{{
+    * scala> prop[Int]("file.encoding").
+    *      |   orElse(env[Int]("FILE_ENCODING"))
+    * res2: ConfigValue[api.Id, Int] = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8")))
+    * }}}
+    *
     * Note that the alternative value is passed by reference, and it
-    * will only be evaluated if this [[ConfigValue]] is unavailable.
+    * will only be evaluated if this [[ConfigValue]] is unavailable
+    * due to the key missing from the [[ConfigSource]].
     *
     * @param that the [[ConfigValue]] to use if this value is unavailable
+    *             due to the key missing from the [[ConfigSource]]
     * @tparam A the value type of that [[ConfigValue]]
     * @return a new [[ConfigValue]]
-    * @example {{{
-    * scala> val combined =
-    *      |  ConfigEntry[String, Int]("key", ConfigKeyType.Environment, Left(ConfigError("error1"))).
-    *      |    orElse(ConfigEntry[String, Int]("key2", ConfigKeyType.Property, Left(ConfigError("error2"))))
-    * combined: ConfigValue[api.Id, Int] = ConfigValue(Left(Combined(ConfigError(error1), ConfigError(error2))))
-    *
-    * scala> combined.value.left.map(_.message).toString
-    * res0: String = Left(Error1 and error2)
-    *
-    * scala> ConfigEntry[String, Int]("key", ConfigKeyType.Environment, Left(ConfigError("error1"))).
-    *      |   orElse(ConfigEntry("key2", ConfigKeyType.Property, Right(123)))
-    * res1: ConfigValue[api.Id, Int] = ConfigValue(Right(123))
-    * }}}
     */
   final def orElse[A >: V](that: => ConfigValue[F, A])(implicit m: Monad[F]): ConfigValue[F, A] =
     ConfigValue.applyF[F, A] {
       this.value.flatMap {
-        case right @ Right(_) =>
-          (right: Either[ConfigError, A]).pure[F]
-        case Left(thisError) =>
+        case Left(thisError) if thisError.isMissingKey =>
           that.value.map {
             case right @ Right(_) => right
             case Left(thatError)  => Left(thisError combine thatError)
           }
+
+        case other =>
+          (other: Either[ConfigError, A]).pure[F]
       }
     }
 
   /**
-    * If the value of this [[ConfigValue]] is available, wraps the
-    * value in a `Some`; otherwise, uses `None` as the value, and
-    * discards the [[ConfigError]]. This function is particularly
-    * useful when combined with [[orElse]] as in the example.
+    * If the key for this value was missing from the [[ConfigSource]],
+    * as determined by [[ConfigError.isMissingKey]], then uses `None`
+    * as value instead. If the value is available, it gets wrapped
+    * in a `Some`.
     *
-    * @return a new [[ConfigValue]]
-    * @example {{{
+    * {{{
     * scala> env[String]("API_KEY").
     *      |   orElse(prop[String]("api.key")).
     *      |   orNone
     * res0: ConfigValue[api.Id,Option[String]] = ConfigValue(Right(None))
     * }}}
+    *
+    * If the value is unavailable due to a different error than the
+    * key missing from the [[ConfigSource]], then the error will
+    * not be replaced with `None`.
+    *
+    * {{{
+    * scala> prop[Int]("file.encoding").orNone
+    * res1: ConfigValue[api.Id, Option[Int]] = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8")))
+    * }}}
+    *
+    * @return a new [[ConfigValue]]
     */
   final def orNone: ConfigValue[F, Option[V]] =
     ConfigValue.applyF[F, Option[V]] {
       this.value.map {
-        case Right(v) => Right(Some(v))
-        case Left(_)  => Right(None)
+        case Left(error) if error.isMissingKey => Right(None)
+        case other                             => other.right.map(Some.apply)
       }
     }
 
