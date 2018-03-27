@@ -55,7 +55,7 @@ file[Int](tempFile, _.trim)
 
 Ciris handles errors when reading values, for example if the environment variable or file doesn't exist, or if the value couldn't be converted to the specified type. In the background, these functions are loading values from a [configuration source](/docs/sources) (represented by [`ConfigSource`][ConfigSource]) and converting the value to the specified type with a [configuration decoder](/docs/decoders) (represented by [`ConfigDecoder`][ConfigDecoder]). For a list of currently supported types, refer to the [current supported types](/docs/supported-types) section.
 
-If you want a value to be optional, and want to use a default value, you can use `Option`.
+If you want a value to be optional, you can use `Option`.
 
 ```tut:book
 // Read environment variable FILE_ENCODING as a String
@@ -77,7 +77,7 @@ fileEncoding.value
 prop[Option[Int]]("file.encoding")
 ```
 
-You can also use [`orElse`][orElse] to fall back to other values if the key is missing.
+Alternatively, you can use [`orElse`][orElse] to fall back to other values if keys are missing.
 
 ```tut:book
 // Uses the value of the file.encoding system property as
@@ -88,7 +88,7 @@ env[String]("FILE_ENCODING").
 
 When using [`orElse`][orElse], we get a [`ConfigValue`][ConfigValue] back, since we've combined the values of multiple [`ConfigEntry`][ConfigEntry]s.
 
-You can also combine [`orElse`][orElse] and [`orNone`][orNone] to fall back to other values, but not require any keys to be set.
+You can also combine [`orElse`][orElse] and [`orNone`][orNone] to fall back to other values, but use `None` if all keys are missing.
 
 ```tut:book
 env[String]("API_KEY").
