@@ -54,6 +54,8 @@ val propFileSource: ConfigSource[Id, (File, Charset), Map[String, String]] =
 
 The [`ConfigSource`][ConfigSource] is using the existing [`ConfigKeyType.File`][ConfigKeyTypeFile], which uses `(File, Charset)` as the key type. The source also makes use of [`ConfigSource.catchNonFatal`][ConfigSourceCatchNonFatal] to catch any exceptions when reading the properties file. Finally, the properties are converted to a `Map`, and the `FileInputStream` is closed, ignoring any closing exceptions.
 
+If you're creating a custom [`ConfigSource`][ConfigSource] by directly extending [`ConfigSource`][ConfigSource], rather than by using any of the helper functions in the companion object, you need to make sure you provide appropriate [`ConfigError`][ConfigError]s. In particular, you should return [`missingKey`][missingKey] if a key is not available from the source. This error is used by various functions, like [`orElse`][orElse] and [`orNone`][orNone], to fall back to other values if the previous keys have not been set.
+
 The `PropFileKey` case class fully identifies a property file key. It is a combination of the `File`, `Charset`, and `String` key which we are retrieving. The `toString` function has been overridden to provide the `String` representation we would like in error messages. We'll also describe the name and type of the key by creating a [`ConfigKeyType`][ConfigKeyType].
 
 ```tut:silent
@@ -228,6 +230,10 @@ propFileF[UserPortNumber]("port")
 
 [decodeValue]: /api/ciris/ConfigEntry.html#decodeValue[A](implicitdecoder:ciris.ConfigDecoder[V,A],implicitmonad:ciris.api.Monad[F]):ciris.ConfigEntry[F,K,S,A]
 [ConfigDecoder]: /api/ciris/ConfigDecoder.html
+[ConfigError]: /api/ciris/ConfigError.html
+[missingKey]: /api/ciris/ConfigError$.html#missingKey[K](key:K,keyType:ciris.ConfigKeyType[K]):ciris.ConfigError
+[orElse]: /api/ciris/ConfigValue.html#orElse[A>:V](that:=>ciris.ConfigValue[F,A])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,A]
+[orNone]: /api/ciris/ConfigValue.html#orNone:ciris.ConfigValue[F,Option[V]]
 [Monad]: /api/ciris/api/Monad.html
 [env]: /api/ciris/index.html#env[Value](key:String)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,String,String,Value]
 [prop]: /api/ciris/index.html#prop[Value](key:String)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,String,String,Value]
