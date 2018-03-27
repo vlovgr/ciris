@@ -510,7 +510,7 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P \\
-       |  com.lihaoyi:ammonite_2.12.4:1.0.5 \\$coursierArgs
+       |  com.lihaoyi:ammonite_2.12.4:1.1.0 \\$coursierArgs
        |  $organizationId:${(moduleName in catsJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in catsEffectJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
