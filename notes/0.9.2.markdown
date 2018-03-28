@@ -11,6 +11,7 @@
 ### Miscellaneous
 - Remove `ciris-generic` default import in try scripts. ([#129][#129])
 - Update Ammonite in try scripts to 1.1.0. ([#126][#126])
+- Update SBT plugins to latest versions. ([#131][#131])
 - Update SBT to 1.1.2. ([#127][#127])
 
 [#126]: https://github.com/vlovgr/ciris/pull/126
@@ -18,3 +19,4 @@
 [#128]: https://github.com/vlovgr/ciris/pull/128
 [#129]: https://github.com/vlovgr/ciris/pull/129
 [#130]: https://github.com/vlovgr/ciris/pull/130
+[#131]: https://github.com/vlovgr/ciris/pull/131
