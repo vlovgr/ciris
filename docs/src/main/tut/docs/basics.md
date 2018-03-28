@@ -77,13 +77,14 @@ fileEncoding.value
 prop[Option[Int]]("file.encoding")
 ```
 
-Alternatively, you can use [`orElse`][orElse] to fall back to other values if keys are missing.
+Alternatively, you can use [`orElse`][orElse] to fall back to other values if keys are missing.  
+Note that you do not have to specify the type to decode again in the [`orElse`][orElse].
 
 ```tut:book
 // Uses the value of the file.encoding system property as
 // the FILE_ENCODING environment variable has not been set
 env[String]("FILE_ENCODING").
-  orElse(prop[String]("file.encoding"))
+  orElse(prop("file.encoding"))
 ```
 
 When using [`orElse`][orElse], we get a [`ConfigValue`][ConfigValue] back, since we've combined the values of multiple [`ConfigEntry`][ConfigEntry]s.
@@ -92,7 +93,7 @@ You can also combine [`orElse`][orElse] and [`orNone`][orNone] to fall back to o
 
 ```tut:book
 env[String]("API_KEY").
-  orElse(prop[String]("api.key")).
+  orElse(prop("api.key")).
   orNone
 ```
 
@@ -160,7 +161,7 @@ import eu.timepit.refined.auto._
 val config =
   loadConfig(
     env[Secret[ApiKey]]("API_KEY").
-      orElse(prop[Secret[ApiKey]]("api.key")),
+      orElse(prop("api.key")),
     prop[Option[UserPortNumber]]("http.port")
   ) { (apiKey, port) =>
     Config(
@@ -182,7 +183,7 @@ import ciris.{envF, propF}
 val configF =
   loadConfig(
     envF[IO, Secret[ApiKey]]("API_KEY").
-      orElse(propF[IO, Secret[ApiKey]]("api.key")),
+      orElse(propF("api.key")),
     propF[IO, Option[UserPortNumber]]("http.port")
   ) { (apiKey, port) =>
     Config(
@@ -253,7 +254,7 @@ val config =
     case Production =>
       loadConfig(
         env[Secret[ApiKey]]("API_KEY").
-          orElse(prop[Secret[ApiKey]]("api.key")),
+          orElse(prop("api.key")),
         prop[Option[UserPortNumber]]("http.port")
       ) { (apiKey, port) =>
         Config(
@@ -275,7 +276,7 @@ val config =
   loadConfig(
     env[AppEnvironment]("APP_ENV"),
     env[Secret[ApiKey]]("API_KEY").
-      orElse(prop[Secret[ApiKey]]("api.key")),
+      orElse(prop("api.key")),
     prop[Option[UserPortNumber]]("http.port")
   ) { (environment, apiKey, port) =>
     Config(
@@ -302,7 +303,7 @@ val config =
 [ConfigEntry]: /api/ciris/ConfigEntry.html
 [ConfigSource]: /api/ciris/ConfigSource.html
 [ConfigDecoder]: /api/ciris/ConfigDecoder.html
-[orElse]: /api/ciris/ConfigValue.html#orElse[A>:V](that:=>ciris.ConfigValue[F,A])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,A]
+[orElse]: /api/ciris/ConfigValue.html#orElse(that:=>ciris.ConfigValue[F,V])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,V]
 [ConfigValue]: /api/ciris/ConfigValue.html
 [Secret]: /api/ciris/Secret.html
 [cats-effect]: https://github.com/typelevel/cats-effect

@@ -33,7 +33,7 @@ import ciris.{env, prop}
 import ciris.refined._
 
 env[ApiKey]("API_KEY").
-  orElse(prop[ApiKey]("api.key")).
+  orElse(prop("api.key")).
   orNone
 ```
 
@@ -63,7 +63,7 @@ Also, if we want to avoid accidentally logging secrets, we can use [`Secret`][Se
 import ciris.Secret
 
 env[Secret[ApiKey]]("API_KEY").
-  orElse(prop[Secret[ApiKey]]("api.key")).
+  orElse(prop("api.key")).
   orNone
 ```
 
@@ -75,7 +75,7 @@ Refinement types are not limited to `String`s, and [refined](/docs/refined-modul
 import eu.timepit.refined.types.net.UserPortNumber
 
 env[UserPortNumber]("PORT").
-  orElse(prop[UserPortNumber]("http.port")).
+  orElse(prop("http.port")).
   orNone
 ```
 
@@ -105,7 +105,7 @@ import ciris.loadConfig
 val config =
   loadConfig(
     env[Secret[ApiKey]]("API_KEY").
-      orElse(prop[Secret[ApiKey]]("api.key")),
+      orElse(prop("api.key")),
     prop[Option[UserPortNumber]]("http.port")
   ) { (apiKey, port) =>
     Config(
