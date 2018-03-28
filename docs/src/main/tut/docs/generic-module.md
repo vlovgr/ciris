@@ -5,7 +5,9 @@ permalink: /docs/generic-module
 ---
 
 # Generic Module
-The `ciris-generic` module provides the ability to decode products and coproducts using [shapeless][shapeless]. This allows you to decode case classes, [value classes](http://docs.scala-lang.org/overviews/core/value-classes.html), and shapeless coproducts, plus anything else that shapeless `Generic` supports. Let's take a look at these cases to see how it works. We start by defining a source from which we can read configuration values.
+The `ciris-generic` module provides the ability to decode products and coproducts using [shapeless][shapeless]. This allows you to decode case classes, [value classes](http://docs.scala-lang.org/overviews/core/value-classes.html), and shapeless coproducts, plus anything else that shapeless `Generic` supports. Note that this also includes constructs like `Option`, potentially overriding behaviour already defined in other modules.
+
+Let's take a look at some examples. We start by defining a source from which we can read configuration values.
 
 ```tut:silent
 import ciris.{ConfigKeyType, ConfigSource}
