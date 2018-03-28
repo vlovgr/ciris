@@ -55,11 +55,13 @@ file[Int](tempFile, _.trim)
 
 Ciris handles errors when reading values, for example if the environment variable or file doesn't exist, or if the value couldn't be converted to the specified type. In the background, these functions are loading values from a [configuration source](/docs/sources) (represented by [`ConfigSource`][ConfigSource]) and converting the value to the specified type with a [configuration decoder](/docs/decoders) (represented by [`ConfigDecoder`][ConfigDecoder]). For a list of currently supported types, refer to the [current supported types](/docs/supported-types) section.
 
-It is also possible to optionally read values with `Option`.
+If you want a value to be optional, you can use `Option`.
 
 ```tut:book
-val fileEncoding =
-  env[Option[String]]("FILE_ENCODING")
+// Read environment variable FILE_ENCODING as a String
+// but if it has not been set, return None instead of
+// an error saying it is missing
+val fileEncoding = env[Option[String]]("FILE_ENCODING")
 
 // The unmodified source value is available in the entry,
 // and here we can see that the environment variable has
@@ -69,9 +71,13 @@ fileEncoding.sourceValue
 // We get None back as the value, since the environment
 // variable has not been set
 fileEncoding.value
+
+// If the key has been set, but could not be decoded
+// to the specified type, we keep the error as it is
+prop[Option[Int]]("file.encoding")
 ```
 
-You can also use [`orElse`][orElse] to fall back to other values if the key is missing from the source.
+Alternatively, you can use [`orElse`][orElse] to fall back to other values if keys are missing.
 
 ```tut:book
 // Uses the value of the file.encoding system property as
@@ -82,7 +88,7 @@ env[String]("FILE_ENCODING").
 
 When using [`orElse`][orElse], we get a [`ConfigValue`][ConfigValue] back, since we've combined the values of multiple [`ConfigEntry`][ConfigEntry]s.
 
-You can also combine [`orElse`][orElse] and [`orNone`][orNone] to fall back to other values, but not require any of them to be set.
+You can also combine [`orElse`][orElse] and [`orNone`][orNone] to fall back to other values, but use `None` if all keys are missing.
 
 ```tut:book
 env[String]("API_KEY").

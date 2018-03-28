@@ -14,8 +14,10 @@ trait DerivedConfigDecoders {
         entry: ConfigEntry[F, K, S, A]
       ): F[Either[ConfigError, Option[B]]] = {
         entry.value.flatMap {
-          case Left(_) => right(Option.empty[B]).pure[F]
-          case Right(_) => decoder.decode(entry).map(_.right.map(Some.apply))
+          case Left(error) if error.isMissingKey =>
+            right(Option.empty[B]).pure[F]
+          case _ =>
+            decoder.decode(entry).map(_.right.map(Some.apply))
         }
       }
     }
