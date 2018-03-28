@@ -232,7 +232,7 @@ propFileF[UserPortNumber]("port")
 [ConfigDecoder]: /api/ciris/ConfigDecoder.html
 [ConfigError]: /api/ciris/ConfigError.html
 [missingKey]: /api/ciris/ConfigError$.html#missingKey[K](key:K,keyType:ciris.ConfigKeyType[K]):ciris.ConfigError
-[orElse]: /api/ciris/ConfigValue.html#orElse[A>:V](that:=>ciris.ConfigValue[F,A])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,A]
+[orElse]: /api/ciris/ConfigValue.html#orElse(that:=>ciris.ConfigValue[F,V])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,V]
 [orNone]: /api/ciris/ConfigValue.html#orNone:ciris.ConfigValue[F,Option[V]]
 [Monad]: /api/ciris/api/Monad.html
 [env]: /api/ciris/index.html#env[Value](key:String)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,String,String,Value]

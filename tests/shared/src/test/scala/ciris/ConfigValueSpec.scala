@@ -39,20 +39,20 @@ final class ConfigValueSpec extends PropertySpec {
 
       "use the alternative value if the first key is missing" in {
         readNonExistingConfigEntry[String]
-          .orElse(readConfigEntry[String]("value"))
+          .orElse(readConfigEntry("value"))
           .value shouldBe Right("value")
       }
 
       "use the alternative value if the first keys are missing" in {
         readNonExistingConfigEntry[String]
-          .orElse(readNonExistingConfigEntry[String])
-          .orElse(readConfigEntry[String]("value"))
+          .orElse(readNonExistingConfigEntry)
+          .orElse(readConfigEntry("value"))
           .value shouldBe Right("value")
       }
 
       "accumulate errors if both values are unavailable" in {
         readNonExistingConfigEntry[String]
-          .orElse(readNonExistingConfigEntry[String])
+          .orElse(readNonExistingConfigEntry)
           .value
           .left
           .map(_.message) shouldBe Left("Missing test key [key] and missing test key [key]")
@@ -68,7 +68,7 @@ final class ConfigValueSpec extends PropertySpec {
 
       "use None for combined missing keys" in {
         readNonExistingConfigEntry[String]
-          .orElse(readNonExistingConfigEntry[String])
+          .orElse(readNonExistingConfigEntry)
           .orNone
           .value shouldBe Right(None)
       }
@@ -82,7 +82,7 @@ final class ConfigValueSpec extends PropertySpec {
 
       "keep a combined error that is not only missing keys" in {
         readNonExistingConfigEntry[String]
-          .orElse(ConfigValue(ConfigError.left[String](ConfigError("error"))))
+          .orElse(ConfigValue(ConfigError.left(ConfigError("error"))))
           .orNone
           .value
           .left

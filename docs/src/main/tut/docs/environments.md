@@ -67,7 +67,7 @@ val config =
   loadConfig(
     env[AppEnvironment]("APP_ENV"),
     env[Secret[ApiKey]]("API_KEY").
-      orElse(prop[Secret[ApiKey]]("api.key")),
+      orElse(prop("api.key")),
     prop[Option[UserPortNumber]]("http.port")
   ) { (environment, apiKey, port) =>
     Config(
@@ -106,7 +106,7 @@ val config =
     case Production =>
       loadConfig(
         env[Secret[ApiKey]]("API_KEY").
-          orElse(prop[Secret[ApiKey]]("api.key")),
+          orElse(prop("api.key")),
         prop[Option[UserPortNumber]]("http.port")
       ) { (apiKey, port) =>
         Config(
@@ -152,7 +152,7 @@ val config =
     case Production =>
       loadConfig(
         env[Secret[ApiKey]]("API_KEY").
-          orElse(prop[Secret[ApiKey]]("api.key")),
+          orElse(prop("api.key")),
         prop[Option[UserPortNumber]]("http.port")
       )(configWithDefaults)
   }
