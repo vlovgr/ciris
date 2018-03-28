@@ -37,6 +37,8 @@ ga('send', 'pageview');
 
 <p>The <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> is using the existing <a href="/api/ciris/ConfigKeyType$.html#File:ciris.ConfigKeyType[(java.io.File,java.nio.charset.Charset)]"><code class="highlighter-rouge">ConfigKeyType.File</code></a>, which uses <code class="highlighter-rouge">(File, Charset)</code> as the key type. The source also makes use of <a href="/api/ciris/ConfigSource$.html#catchNonFatal[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;V):ciris.ConfigSource[ciris.api.Id,K,V]"><code class="highlighter-rouge">ConfigSource.catchNonFatal</code></a> to catch any exceptions when reading the properties file. Finally, the properties are converted to a <code class="highlighter-rouge">Map</code>, and the <code class="highlighter-rouge">FileInputStream</code> is closed, ignoring any closing exceptions.</p>
 
+<p>If you’re creating a custom <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> by directly extending <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a>, rather than by using any of the helper functions in the companion object, you need to make sure you provide appropriate <a href="/api/ciris/ConfigError.html"><code class="highlighter-rouge">ConfigError</code></a>s. In particular, you should return <a href="/api/ciris/ConfigError$.html#missingKey[K](key:K,keyType:ciris.ConfigKeyType[K]):ciris.ConfigError"><code class="highlighter-rouge">missingKey</code></a> if a key is not available from the source. This error is used by various functions, like <a href="/api/ciris/ConfigValue.html#orElse(that:=&gt;ciris.ConfigValue[F,V])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,V]"><code class="highlighter-rouge">orElse</code></a> and <a href="/api/ciris/ConfigValue.html#orNone:ciris.ConfigValue[F,Option[V]]"><code class="highlighter-rouge">orNone</code></a>, to fall back to other values if the previous keys have not been set.</p>
+
 <p>The <code class="highlighter-rouge">PropFileKey</code> case class fully identifies a property file key. It is a combination of the <code class="highlighter-rouge">File</code>, <code class="highlighter-rouge">Charset</code>, and <code class="highlighter-rouge">String</code> key which we are retrieving. The <code class="highlighter-rouge">toString</code> function has been overridden to provide the <code class="highlighter-rouge">String</code> representation we would like in error messages. We’ll also describe the name and type of the key by creating a <a href="/api/ciris/ConfigKeyType.html"><code class="highlighter-rouge">ConfigKeyType</code></a>.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">PropFileKey</span><span class="o">(</span>
@@ -112,10 +114,10 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.refined._
 </span>
 <span class="k">val</span> <span class="n">propFile</span> <span class="k">=</span> <span class="n">propFileAt</span><span class="o">(</span><span class="n">tempFileName</span><span class="o">)</span>
-<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-8191066951147054634.properties, UTF-8)
+<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4761356102204323961.properties, UTF-8)
 </span>
 <span class="n">propFile</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-8191066951147054634.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), Right(9000))
+<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4761356102204323961.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), Right(9000))
 </span></code></pre>
 </div>
 
@@ -212,10 +214,10 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.cats.effect._
 </span>
 <span class="k">val</span> <span class="n">propFileF</span> <span class="k">=</span> <span class="n">propFileAtF</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">tempFileName</span><span class="o">)</span>
-<span class="c1">// propFileF: PropFileAt[cats.effect.IO] = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-8191066951147054634.properties, UTF-8, IO$1372005321)
+<span class="c1">// propFileF: PropFileAt[cats.effect.IO] = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4761356102204323961.properties, UTF-8, IO$1063185870)
 </span>
 <span class="n">propFileF</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
-<span class="c1">// res6: ciris.ConfigEntry[cats.effect.IO,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-8191066951147054634.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), &lt;function1&gt;, IO$1718734975)
+<span class="c1">// res6: ciris.ConfigEntry[cats.effect.IO,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4761356102204323961.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), &lt;function1&gt;, IO$836164766)
 </span></code></pre>
 </div>
 

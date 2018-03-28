@@ -75,7 +75,7 @@ ga('send', 'pageview');
   <span class="n">loadConfig</span><span class="o">(</span>
     <span class="n">env</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"APP_ENV"</span><span class="o">),</span>
     <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
-      <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"api.key"</span><span class="o">)),</span>
+      <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)),</span>
     <span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">]](</span><span class="s">"http.port"</span><span class="o">)</span>
   <span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">environment</span><span class="o">,</span> <span class="n">apiKey</span><span class="o">,</span> <span class="n">port</span><span class="o">)</span> <span class="k">=&gt;</span>
     <span class="nc">Config</span><span class="o">(</span>
@@ -116,7 +116,7 @@ ga('send', 'pageview');
     <span class="k">case</span> <span class="nc">Production</span> <span class="k">=&gt;</span>
       <span class="n">loadConfig</span><span class="o">(</span>
         <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
-          <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"api.key"</span><span class="o">)),</span>
+          <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)),</span>
         <span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">]](</span><span class="s">"http.port"</span><span class="o">)</span>
       <span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">apiKey</span><span class="o">,</span> <span class="n">port</span><span class="o">)</span> <span class="k">=&gt;</span>
         <span class="nc">Config</span><span class="o">(</span>
@@ -164,7 +164,7 @@ ga('send', 'pageview');
     <span class="k">case</span> <span class="nc">Production</span> <span class="k">=&gt;</span>
       <span class="n">loadConfig</span><span class="o">(</span>
         <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
-          <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"api.key"</span><span class="o">)),</span>
+          <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)),</span>
         <span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">]](</span><span class="s">"http.port"</span><span class="o">)</span>
       <span class="o">)(</span><span class="n">configWithDefaults</span><span class="o">)</span>
   <span class="o">}</span>

@@ -65,13 +65,13 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.9.1 on Scala 2.12. Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.9.2 on Scala 2.12. Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.9.1" target="_blank">v0.9.1</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.9.2" target="_blank">v0.9.2</a> on Scala 2.12.<br>
 Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.9.1" target="_blank">v0.9.1</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.9.2" target="_blank">v0.9.2</a> on Scala 2.12.<br>
 Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for type classes and type class instances.</li><li>The <a href="cats/effect/index.html" class="extype" name="ciris.cats.effect">cats-effect</a> module integrates with <a href="https://github.com/typelevel/cats-effect" target="_blank">cats-effect</a> for type classes for effect types.</li><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
@@ -306,7 +306,7 @@ for generic derivation of ConfigDecoders.
 without any other details like the key, key type, or original
 source value. <a href="ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> extends <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>, but
 you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ciris.ConfigError,V]):ciris.ConfigValue[ciris.api.Id,V]" class="extmbr" name="ciris.ConfigValue#apply">ConfigValue#apply</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the value exists</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.9.1/modules/core/shared/src/main/scala/ciris/ConfigValue.scala" target="_blank">ConfigValue.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the value exists</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.9.2/modules/core/shared/src/main/scala/ciris/ConfigValue.scala" target="_blank">ConfigValue.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -657,9 +657,9 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
               
         </dd></dl></div>
     </li><li name="ciris.ConfigValue#orElse" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="orElse[A&gt;:V](that:=&gt;ciris.ConfigValue[F,A])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,A]"></a><a id="orElse[A&gt;:V](⇒ConfigValue[F,A])(Monad[F]):ConfigValue[F,A]"></a>
+      <a id="orElse(that:=&gt;ciris.ConfigValue[F,V])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,V]"></a><a id="orElse(⇒ConfigValue[F,V])(Monad[F]):ConfigValue[F,V]"></a>
       <span class="permalink">
-      <a href="../ciris/ConfigValue.html#orElse[A&gt;:V](that:=&gt;ciris.ConfigValue[F,A])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,A]" title="Permalink">
+      <a href="../ciris/ConfigValue.html#orElse(that:=&gt;ciris.ConfigValue[F,V])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -668,7 +668,7 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">orElse</span><span class="tparams">[<span name="A">A &gt;: <span class="extype" name="ciris.ConfigValue.V">V</span></span>]</span><span class="params">(<span name="that">that: ⇒ <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <span class="extype" name="ciris.ConfigValue.orElse.A">A</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="m">m: <a href="api/Monad.html" class="extype" name="ciris.api.Monad">Monad</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>]</span>)</span><span class="result">: <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <span class="extype" name="ciris.ConfigValue.orElse.A">A</span>]</span>
+        <span class="name">orElse</span><span class="params">(<span name="that">that: ⇒ <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <span class="extype" name="ciris.ConfigValue.V">V</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="m">m: <a href="api/Monad.html" class="extype" name="ciris.api.Monad">Monad</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>]</span>)</span><span class="result">: <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <span class="extype" name="ciris.ConfigValue.V">V</span>]</span>
       </span>
       
       <p class="shortcomment cmt">If the key for this value was missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>,
@@ -678,22 +678,22 @@ as determined by <a href="ConfigError.html#isMissingKey:Boolean" class="extmbr" 
 <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> instead. If <code>that</code> value is not available due
 to an error, then the errors are accumulated.</p><pre>scala&gt; <span class="kw">val</span> apiKey =
      |  env[<span class="std">String</span>](<span class="lit">"API_KEY"</span>).
-     |    orElse(prop[<span class="std">String</span>](<span class="lit">"api.key"</span>))
-apiKey: ConfigValue[api.Id, <span class="std">String</span>] =  ConfigValue(Left(Combined(MissingKey(API_KEY, Environment), MissingKey(api.key, Property))))
+     |    orElse(prop(<span class="lit">"api.key"</span>))
+apiKey: ConfigValue[api.Id, <span class="std">String</span>] = ConfigValue(Left(Combined(MissingKey(API_KEY, Environment), MissingKey(api.key, Property))))
 
 scala&gt; apiKey.value.left.map(_.message).toString
 res0: <span class="std">String</span> = Left(Missing environment variable [API_KEY] and missing system property [api.key])
 
 scala&gt; env[<span class="std">String</span>](<span class="lit">"FILE_ENCODING"</span>).
-     |   orElse(prop[<span class="std">String</span>](<span class="lit">"file.encoding"</span>))
+     |   orElse(prop(<span class="lit">"file.encoding"</span>))
 res1: ConfigValue[api.Id, <span class="std">String</span>] = ConfigValue(Right(UTF8))</pre><p>If the value is unavailable due to a different error than the
 key missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>, then the alternative
 value will not be used.</p><pre>scala&gt; prop[<span class="std">Int</span>](<span class="lit">"file.encoding"</span>).
-     |   orElse(env[<span class="std">Int</span>](<span class="lit">"FILE_ENCODING"</span>))
+     |   orElse(env(<span class="lit">"FILE_ENCODING"</span>))
 res2: ConfigValue[api.Id, <span class="std">Int</span>] = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, <span class="std">Int</span>, java.lang.NumberFormatException: For input string: <span class="lit">"UTF8"</span>)))</pre><p>Note that the alternative value is passed by reference, and it
 will only be evaluated if this <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> is unavailable
 due to the key missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the value type of that <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a></p></dd><dt class="param">that</dt><dd class="cmt"><p>the <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> to use if this value is unavailable
+</p></div><dl class="paramcmts block"><dt class="param">that</dt><dd class="cmt"><p>the <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> to use if this value is unavailable
             due to the key missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a></p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a></p></dd></dl></div>
     </li><li name="ciris.ConfigValue#orNone" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="orNone:ciris.ConfigValue[F,Option[V]]"></a><a id="orNone:ConfigValue[F,Option[V]]"></a>
@@ -716,7 +716,7 @@ as value instead.</p><div class="fullcomment"><div class="comment cmt"><p>If the
 as determined by <a href="ConfigError.html#isMissingKey:Boolean" class="extmbr" name="ciris.ConfigError#isMissingKey">ConfigError.isMissingKey</a>, then uses <code>None</code>
 as value instead. If the value is available, it gets wrapped
 in a <code>Some</code>.</p><pre>scala&gt; env[<span class="std">String</span>](<span class="lit">"API_KEY"</span>).
-     |   orElse(prop[<span class="std">String</span>](<span class="lit">"api.key"</span>)).
+     |   orElse(prop(<span class="lit">"api.key"</span>)).
      |   orNone
 res0: ConfigValue[api.Id,<span class="std">Option</span>[<span class="std">String</span>]] = ConfigValue(Right(<span class="std">None</span>))</pre><p>If the value is unavailable due to a different error than the
 key missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>, then the error will

@@ -37,7 +37,7 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.refined._
 </span>
 <span class="n">env</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
-  <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">](</span><span class="s">"api.key"</span><span class="o">)).</span>
+  <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
 <span class="c1">// res1: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue(Right(None))
 </span></code></pre>
@@ -75,7 +75,7 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.Secret
 </span>
 <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
-  <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"api.key"</span><span class="o">)).</span>
+  <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
 <span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue(Right(None))
 </span></code></pre>
@@ -89,7 +89,7 @@ ga('send', 'pageview');
 <span class="c1">// import eu.timepit.refined.types.net.UserPortNumber
 </span>
 <span class="n">env</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"PORT"</span><span class="o">).</span>
-  <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"http.port"</span><span class="o">)).</span>
+  <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"http.port"</span><span class="o">)).</span>
   <span class="n">orNone</span>
 <span class="c1">// res4: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue(Right(None))
 </span></code></pre>
@@ -121,7 +121,7 @@ ga('send', 'pageview');
 <span class="k">val</span> <span class="n">config</span> <span class="k">=</span>
   <span class="n">loadConfig</span><span class="o">(</span>
     <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
-      <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"api.key"</span><span class="o">)),</span>
+      <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)),</span>
     <span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">]](</span><span class="s">"http.port"</span><span class="o">)</span>
   <span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">apiKey</span><span class="o">,</span> <span class="n">port</span><span class="o">)</span> <span class="k">=&gt;</span>
     <span class="nc">Config</span><span class="o">(</span>
