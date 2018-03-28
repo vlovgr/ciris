@@ -1,0 +1,17 @@
+### Changes
+- Change `Option` decoder to work on missing keys. ([#128][#128])
+
+### Documentation
+- Change to clarify `Option` decoding, and use of `ConfigValue#orElse` and `orNone`. ([#128][#128])
+- Add note on which `ConfigError`s to return for custom configuration sources. ([#128][#128])
+- Add note on `ciris-generic` potentially overriding other behaviours. ([#129][#129])
+
+### Miscellaneous
+- Remove `ciris-generic` default import in try scripts. ([#129][#129])
+- Update Ammonite in try scripts to 1.1.0. ([#126][#126])
+- Update SBT to 1.1.2. ([#127][#127])
+
+[#126]: https://github.com/vlovgr/ciris/pull/126
+[#127]: https://github.com/vlovgr/ciris/pull/127
+[#128]: https://github.com/vlovgr/ciris/pull/128
+[#129]: https://github.com/vlovgr/ciris/pull/129
