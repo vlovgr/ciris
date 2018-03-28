@@ -30,7 +30,6 @@ test -e ~/.coursier/coursier || ( \
         ciris.cats.effect._,\
         ciris.cats.effect.syntax._,\
         ciris.enumeratum._,\
-        ciris.generic._,\
         ciris.refined._,\
         ciris.refined.syntax._,\
         ciris.spire._,\
