@@ -171,7 +171,8 @@ If your library is not included in the list, then please open a pull request.
 
 ### Documentation
 For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs).  
-If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).
+If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).  
+There is also a small [example application](https://github.com/vlovgr/ciris-example) available to exemplify how to use the library in an application context.
 
 ### Participation
 Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Typelevel Code of Conduct](https://typelevel.org/conduct.html). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
