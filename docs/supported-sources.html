@@ -30,7 +30,7 @@ ga('send', 'pageview');
 <span class="c1">// res2: ciris.ConfigEntry[ciris.api.Id,Int,String,Int] = ConfigEntry(0, Argument, Right(10))
 </span>
 <span class="n">argF</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">args</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigEntry[cats.effect.IO,Int,String,Int] = ConfigEntry(0, Argument, IO$633235067, IO$1509412844)
+<span class="c1">// res3: ciris.ConfigEntry[cats.effect.IO,Int,String,Int] = ConfigEntry(0, Argument, IO$1410086441, IO$374601989)
 </span></code></pre>
 </div>
 
@@ -57,16 +57,16 @@ ga('send', 'pageview');
 <span class="c1">// import ciris.{file, fileSync, fileWithName, fileWithNameSync}
 </span>
 <span class="n">file</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res6: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-370494862483546304.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
+<span class="c1">// res6: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2818184122265774225.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
 </span>
 <span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res7: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-370494862483546304.tmp,UTF-8), ConfigKeyType(file), IO$1240885749, IO$1978170025)
+<span class="c1">// res7: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2818184122265774225.tmp,UTF-8), ConfigKeyType(file), IO$200147161, IO$1976356129)
 </span>
 <span class="n">fileWithName</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="n">tempFileName</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res8: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-370494862483546304.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
+<span class="c1">// res8: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2818184122265774225.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
 </span>
 <span class="n">fileWithNameSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFileName</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res9: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-370494862483546304.tmp,UTF-8), ConfigKeyType(file), IO$1707633991, IO$1091457893)
+<span class="c1">// res9: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2818184122265774225.tmp,UTF-8), ConfigKeyType(file), IO$2096579714, IO$2134325452)
 </span></code></pre>
 </div>
 
@@ -81,7 +81,7 @@ ga('send', 'pageview');
 <span class="c1">// res10: ciris.ConfigEntry[ciris.api.Id,String,String,String] = ConfigEntry(file.encoding, Property, Right(UTF8))
 </span>
 <span class="n">propF</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"file.encoding"</span><span class="o">)</span>
-<span class="c1">// res11: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$683174742)
+<span class="c1">// res11: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$1287727971)
 </span></code></pre>
 </div>
 
