@@ -91,9 +91,9 @@ s"""
  || [`$spireModuleName`][spire-module]            | &#10003; ${spireJvmCrossScalaVersions.map(minorVersion).mkString(", ")}      | &#10003; 0.6 (${spireJsCrossScalaVersions.map(minorVersion).mkString(", ")})      | &#65794;                                                                           |
  || [`$squantsModuleName`][squants-module]        | &#10003; ${squantsJvmCrossScalaVersions.map(minorVersion).mkString(", ")}    | &#10003; 0.6 (${squantsJsCrossScalaVersions.map(minorVersion).mkString(", ")})    | &#65794;                                                                           |
  |
- |Backwards binary compatibility for the library is guaranteed between minor versions.  
+ |Backwards binary compatibility for the library is guaranteed between patch versions.  
  |For example, `$latestMinorVersion.x` is backwards binary compatible with `$latestMinorVersion.y` for any `x > y`.  
- |More recent minor versions are drop-in replacements for earlier minor versions.
+ |More recent patch versions are drop-in replacements for earlier patch versions.
  """.stripMargin.trim
 )
 ```
