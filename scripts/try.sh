@@ -16,7 +16,7 @@ test -e ~/.coursier/coursier || ( \
   is.cir:ciris-spire_2.12:0.9.2 \
   is.cir:ciris-squants_2.12:0.9.2 \
   -- --predef-code "\
-        repl.compiler.settings.YpartialUnification.value = true;\
+        interp.configureCompiler(_.settings.YpartialUnification.value = true);\
         import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\
         ciris.syntax._,\
         ciris.cats._,\
