@@ -520,7 +520,7 @@ generateScripts in ThisBuild := {
        |  $organizationId:${(moduleName in spireJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
        |  -- --predef-code "\\$predefCode
-       |        repl.compiler.settings.YpartialUnification.value = true;\\
+       |        interp.configureCompiler(_.settings.YpartialUnification.value = true);\\
        |        import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\\
        |        ciris.syntax._,\\
        |        ciris.cats._,\\
@@ -547,7 +547,7 @@ generateScripts in ThisBuild := {
       "org.typelevel:scala-reflect:2.12.4-bin-typelevel-4"
     ),
     extraPredefCode = Seq(
-      "repl.compiler.settings.YliteralTypes.value = true"
+      "interp.configureCompiler(_.settings.YliteralTypes.value = true)"
     )
   ))
 }
