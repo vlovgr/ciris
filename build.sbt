@@ -175,7 +175,6 @@ lazy val docs = project
     micrositeShareOnSocial := false,
     micrositeAuthor := "Viktor Lövgren",
     micrositeOrganizationHomepage := "https://vlovgr.se",
-    micrositeAnalyticsToken := "UA-37804684-4",
     micrositeGithubOwner := "vlovgr",
     micrositeGithubRepo := "ciris",
     micrositeTwitterCreator := "@vlovgr",
