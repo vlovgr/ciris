@@ -651,6 +651,6 @@ addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))
 
 lazy val scalaTestVersion = "3.0.5"
 
-lazy val scalaCheckVersion = "1.13.5"
+lazy val scalaCheckVersion = "1.14.0"
 
 lazy val refinedVersion = "0.8.7"
