@@ -19,7 +19,7 @@ lazy val ciris = project
     coreJS, coreJVM, coreNative,
     enumeratumJS, enumeratumJVM,
     genericJS, genericJVM, genericNative,
-    refinedJS, refinedJVM,
+    refinedJS, refinedJVM, refinedNative,
     spireJS, spireJVM,
     squantsJS, squantsJVM,
     testsJS, testsJVM
@@ -103,7 +103,7 @@ lazy val genericJVM = generic.jvm
 lazy val genericNative = generic.native
 
 lazy val refined =
-  crossProject(JSPlatform, JVMPlatform)
+  crossProject(JSPlatform, JVMPlatform, NativePlatform)
     .in(file("modules/refined"))
     .settings(moduleName := "ciris-refined", name := "Ciris refined")
     .settings(libraryDependencies += "eu.timepit" %%% "refined" % refinedVersion)
@@ -111,11 +111,13 @@ lazy val refined =
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
     .jvmSettings(jvmModuleSettings)
+    .nativeSettings(nativeModuleSettings)
     .settings(releaseSettings)
     .dependsOn(core)
 
 lazy val refinedJS = refined.js
 lazy val refinedJVM = refined.jvm
+lazy val refinedNative = refined.native
 
 lazy val spire =
   crossProject(JSPlatform, JVMPlatform)
@@ -219,6 +221,7 @@ lazy val docs = project
       BuildInfoKey.map(crossScalaVersions in genericNative) { case (k, v) => "genericNative" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in refinedJVM) { case (k, v) => "refinedJvm" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in refinedJS) { case (k, v) => "refinedJs" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in refinedNative) { case (k, v) => "refinedNative" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in spireJVM) { case (k, v) => "spireJvm" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in spireJS) { case (k, v) => "spireJs" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in squantsJVM) { case (k, v) => "squantsJvm" + k.capitalize -> v },
@@ -600,7 +603,7 @@ addDateToReleaseNotes in ThisBuild := {
 lazy val moduleNames = List[String]("cats", "catsEffect", "core", "enumeratum", "generic", "refined", "spire", "squants")
 lazy val jsModuleNames = moduleNames.map(_ + "JS")
 lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
-lazy val nativeModuleNames = List("core", "generic").map(_ + "Native")
+lazy val nativeModuleNames = List("core", "generic", "refined").map(_ + "Native")
 lazy val allModuleNames = (jsModuleNames ++ jvmModuleNames ++ nativeModuleNames)
 
 addCommandsAlias("docTests", jvmModuleNames.map(_ + "/test"))
@@ -614,7 +617,7 @@ lazy val crossModules: Seq[(Project, Project, Option[Project])] =
     (coreJVM, coreJS, Some(coreNative)),
     (enumeratumJVM, enumeratumJS, None),
     (genericJVM, genericJS, Some(genericNative)),
-    (refinedJVM, refinedJS, None),
+    (refinedJVM, refinedJS, Some(refinedNative)),
     (spireJVM, spireJS, None),
     (squantsJVM, squantsJS, None)
   )
@@ -653,4 +656,4 @@ lazy val scalaTestVersion = "3.0.5"
 
 lazy val scalaCheckVersion = "1.13.5"
 
-lazy val refinedVersion = "0.8.7"
+lazy val refinedVersion = "0.9.0"
