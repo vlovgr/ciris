@@ -279,7 +279,7 @@ lazy val docs = project
 
 lazy val scala210 = "2.10.7"
 lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.5"
+lazy val scala212 = "2.12.6"
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
