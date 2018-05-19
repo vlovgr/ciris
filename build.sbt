@@ -511,8 +511,8 @@ generateScripts in ThisBuild := {
        |  chmod +x ~/.coursier/coursier \\
        |)
        |
-       |~/.coursier/coursier launch -q -P \\
-       |  com.lihaoyi:ammonite_2.12.4:1.1.0 \\$coursierArgs
+       |~/.coursier/coursier launch -q -P -M ammonite.Main \\
+       |  com.lihaoyi:ammonite_2.12.6:1.1.2 \\$coursierArgs
        |  $organizationId:${(moduleName in catsJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in catsEffectJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
