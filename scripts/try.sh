@@ -5,8 +5,8 @@ test -e ~/.coursier/coursier || ( \
   chmod +x ~/.coursier/coursier \
 )
 
-~/.coursier/coursier launch -q -P \
-  com.lihaoyi:ammonite_2.12.4:1.1.0 \
+~/.coursier/coursier launch -q -P -M ammonite.Main \
+  com.lihaoyi:ammonite_2.12.6:1.1.2 \
   is.cir:ciris-cats_2.12:0.9.2 \
   is.cir:ciris-cats-effect_2.12:0.9.2 \
   is.cir:ciris-core_2.12:0.9.2 \
