@@ -79,35 +79,29 @@ Below is a list of some useful sbt commands to help you get started.</p>
 </code></pre>
     </div>
 
-    <ul>
-      <li>
-        <p>If the module won’t support Scala.js or Scala Native, remove the unsupported platforms from <code class="highlighter-rouge">crossProject</code>, along with <code class="highlighter-rouge">jsSettings</code> and <code class="highlighter-rouge">nativeSettings</code>, and the <code class="highlighter-rouge">fooJS</code> and <code class="highlighter-rouge">fooNative</code> projects, respectively.</p>
-      </li>
-      <li>
-        <p>If the module won’t support the default <code class="highlighter-rouge">crossScalaVersions</code> (Scala 2.10, 2.11, and 2.12), remove those versions from the project definition. Below is an example of how to remove support for Scala 2.10 (<code class="highlighter-rouge">scala210</code>, <code class="highlighter-rouge">scala211</code>, <code class="highlighter-rouge">scala212</code> are variables for the Scala versions used in the build).</p>
+    <p>If the module won’t support Scala.js or Scala Native, remove the unsupported platforms from <code class="highlighter-rouge">crossProject</code>, along with <code class="highlighter-rouge">jsSettings</code> and <code class="highlighter-rouge">nativeSettings</code>, and the <code class="highlighter-rouge">fooJS</code> and <code class="highlighter-rouge">fooNative</code> projects, respectively.</p>
 
-        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">scalaSettings</span> <span class="o">++</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">crossScalaVersions</span> <span class="o">-=</span> <span class="n">scala210</span><span class="o">))</span>
+    <p>If the module won’t support the default <code class="highlighter-rouge">crossScalaVersions</code> (Scala 2.10, 2.11, and 2.12), remove those versions from the project definition. Below is an example of how to remove support for Scala 2.10 (<code class="highlighter-rouge">scala210</code>, <code class="highlighter-rouge">scala211</code>, <code class="highlighter-rouge">scala212</code> are variables for the Scala versions used in the build).</p>
+
+    <div class="language-scala highlighter-rouge"><pre class="highlight"><code> <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">scalaSettings</span> <span class="o">++</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">crossScalaVersions</span> <span class="o">-=</span> <span class="n">scala210</span><span class="o">))</span>
 </code></pre>
-        </div>
-      </li>
-      <li>
-        <p>If the module has a dependency on another library, add the dependency version to the variables section:</p>
+    </div>
 
-        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="cm">/* Variables */</span>
+    <p>If the module has a dependency on another library, add the dependency version to the variables section:</p>
 
-<span class="c1">// ...
+    <div class="language-scala highlighter-rouge"><pre class="highlight"><code> <span class="cm">/* Variables */</span>
+
+ <span class="c1">// ...
 </span>
-<span class="k">lazy</span> <span class="k">val</span> <span class="n">fooDependencyVersion</span> <span class="k">=</span> <span class="s">"1.0.0"</span>
+ <span class="k">lazy</span> <span class="k">val</span> <span class="n">fooDependencyVersion</span> <span class="k">=</span> <span class="s">"1.0.0"</span>
 </code></pre>
-        </div>
+    </div>
 
-        <p>and include the dependency in the project definition (use <code class="highlighter-rouge">%%%</code> instead of <code class="highlighter-rouge">%%</code> for Scala.js or Scala Native).</p>
+    <p>and include the dependency in the project definition (use <code class="highlighter-rouge">%%%</code> instead of <code class="highlighter-rouge">%%</code> for Scala.js or Scala Native).</p>
 
-        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.foo"</span> <span class="o">%%%</span> <span class="s">"foo-dependency"</span> <span class="o">%</span> <span class="n">fooDependencyVersion</span><span class="o">)</span>
+    <div class="language-scala highlighter-rouge"><pre class="highlight"><code> <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.foo"</span> <span class="o">%%%</span> <span class="s">"foo-dependency"</span> <span class="o">%</span> <span class="n">fooDependencyVersion</span><span class="o">)</span>
 </code></pre>
-        </div>
-      </li>
-    </ul>
+    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, add the new projects <code class="highlighter-rouge">fooJS</code>, <code class="highlighter-rouge">fooJVM</code>, and <code class="highlighter-rouge">fooNative</code> to the aggregate <code class="highlighter-rouge">ciris</code> project.</p>
@@ -195,7 +189,7 @@ Below is a list of some useful sbt commands to help you get started.</p>
     <p>In <code class="highlighter-rouge">build.sbt</code>, also in the <code class="highlighter-rouge">docs</code> project, locate <code class="highlighter-rouge">generateApiIndexFile</code> and include an entry for the module.</p>
   </li>
   <li>
-    <p>In <code class="highlighter-rouge">build.sbt</code>, for the <code class="highlighter-rouge">docs</code> project, include the module in <code class="highlighter-rouge">dependsOn</code> so that module documentation is generated.</p>
+    <p>In <code class="highlighter-rouge">build.sbt</code>, for the <code class="highlighter-rouge">docs</code> project, include the module in <code class="highlighter-rouge">dependsOn</code> so that documentation is generated.</p>
 
     <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span>
   <span class="n">catsJVM</span><span class="o">,</span> <span class="n">catsEffectJVM</span><span class="o">,</span> <span class="n">coreJVM</span><span class="o">,</span> <span class="n">enumeratumJVM</span><span class="o">,</span> <span class="n">fooJVM</span><span class="o">,</span> <span class="c1">// ...
@@ -204,7 +198,7 @@ Below is a list of some useful sbt commands to help you get started.</p>
     </div>
   </li>
   <li>
-    <p>In <code class="highlighter-rouge">build.sbt</code>, for the <code class="highlighter-rouge">tests</code> project, include the module in <code class="highlighter-rouge">dependsOn</code>, so that tests can make use of the module.</p>
+    <p>In <code class="highlighter-rouge">build.sbt</code>, for the <code class="highlighter-rouge">tests</code> project, include the module in <code class="highlighter-rouge">dependsOn</code>, so tests can use the module.</p>
 
     <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span>
   <span class="n">cats</span><span class="o">,</span> <span class="n">catsEffect</span><span class="o">,</span> <span class="n">core</span><span class="o">,</span> <span class="n">enumeratum</span><span class="o">,</span> <span class="n">foo</span> <span class="c1">// ...
