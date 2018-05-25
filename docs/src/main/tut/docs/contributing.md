@@ -78,29 +78,29 @@ Following is a step-by-step guide on how to add a new module.
    lazy val fooNative = foo.native
    ```
 
-   - If the module won't support Scala.js or Scala Native, remove the unsupported platforms from `crossProject`, along with `jsSettings` and `nativeSettings`, and the `fooJS` and `fooNative` projects, respectively.
+   If the module won't support Scala.js or Scala Native, remove the unsupported platforms from `crossProject`, along with `jsSettings` and `nativeSettings`, and the `fooJS` and `fooNative` projects, respectively.
 
-   - If the module won't support the default `crossScalaVersions` (Scala 2.10, 2.11, and 2.12), remove those versions from the project definition. Below is an example of how to remove support for Scala 2.10 (`scala210`, `scala211`, `scala212` are variables for the Scala versions used in the build).
+   If the module won't support the default `crossScalaVersions` (Scala 2.10, 2.11, and 2.12), remove those versions from the project definition. Below is an example of how to remove support for Scala 2.10 (`scala210`, `scala211`, `scala212` are variables for the Scala versions used in the build).
 
-     ```scala
-     .settings(scalaSettings ++ Seq(crossScalaVersions -= scala210))
-     ```
+    ```scala
+    .settings(scalaSettings ++ Seq(crossScalaVersions -= scala210))
+    ```
 
-   - If the module has a dependency on another library, add the dependency version to the variables section:
+   If the module has a dependency on another library, add the dependency version to the variables section:
 
-     ```scala
-     /* Variables */
+    ```scala
+    /* Variables */
 
-     // ...
+    // ...
 
-     lazy val fooDependencyVersion = "1.0.0"
-     ```
+    lazy val fooDependencyVersion = "1.0.0"
+    ```
 
-     and include the dependency in the project definition (use `%%%` instead of `%%` for Scala.js or Scala Native).
+   and include the dependency in the project definition (use `%%%` instead of `%%` for Scala.js or Scala Native).
 
-     ```scala
-     .settings(libraryDependencies += "com.foo" %%% "foo-dependency" % fooDependencyVersion)
-     ```
+    ```scala
+    .settings(libraryDependencies += "com.foo" %%% "foo-dependency" % fooDependencyVersion)
+    ```
 
 2. In `build.sbt`, add the new projects `fooJS`, `fooJVM`, and `fooNative` to the aggregate `ciris` project.
 
@@ -180,7 +180,7 @@ Following is a step-by-step guide on how to add a new module.
 
 8. In `build.sbt`, also in the `docs` project, locate `generateApiIndexFile` and include an entry for the module.
 
-9. In `build.sbt`, for the `docs` project, include the module in `dependsOn` so that module documentation is generated.
+9. In `build.sbt`, for the `docs` project, include the module in `dependsOn` so that documentation is generated.
 
    ```scala
    .dependsOn(
@@ -188,7 +188,7 @@ Following is a step-by-step guide on how to add a new module.
    )
    ```
 
-10. In `build.sbt`, for the `tests` project, include the module in `dependsOn`, so that tests can make use of the module.
+10. In `build.sbt`, for the `tests` project, include the module in `dependsOn`, so tests can use the module.
 
     ```scala
     .dependsOn(
