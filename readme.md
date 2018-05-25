@@ -26,7 +26,7 @@ For a more detailed introduction, please refer to the [usage guide](https://cir.
 </p>
 
 ### Getting Started
-To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.  
+To get started with [sbt][sbt], simply add the following lines to your `build.sbt` file.  
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs).
 
 
@@ -60,7 +60,7 @@ Refer to the table below for platform and version support across modules.
  [`ciris-core`](https://cir.is/docs)      | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11)    |
  [`ciris-enumeratum`][enumeratum-module]  | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
  [`ciris-generic`][generic-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
- [`ciris-refined`][refined-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
+ [`ciris-refined`][refined-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
  [`ciris-spire`][spire-module]            | &#10003; 2.10, 2.11, 2.12      | &#10003; 0.6 (2.10, 2.11, 2.12)      | &#65794;                                                                           |
  [`ciris-squants`][squants-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
 
