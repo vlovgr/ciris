@@ -26,7 +26,7 @@ First you'll need to checkout a local copy of the code base.
 git clone https://github.com/vlovgr/ciris.git
 ```
 
-To build the project, you'll need to have [SBT](https://www.scala-sbt.org) installed.
+To build the project, you'll need to have [sbt](https://www.scala-sbt.org) installed.
 
 Run `sbt`, and then `validate` to ensure everything is setup correctly.  
 Below is a list of some useful sbt commands to help you get started.
@@ -42,12 +42,173 @@ Below is a list of some useful sbt commands to help you get started.
 * `test`: run tests for the application sources.
 * `validate`: compile and run the tests with code coverage enabled.
 * `validateDocs`: run `docTests`, `docs/unidoc`, and `docs/tut` as described above.
-* `validateNative`: run tests for Scala Native modules (requires [Scala Native](http://www.scala-native.org) setup).
+* `validateNative`: run tests for Scala Native modules (requires setup for [Scala Native](http://www.scala-native.org)).
 
 ## Submit a pull request
 Before you open a pull request, you should make sure that `sbt +validate` runs successfully. [Travis CI](https://travis-ci.org/vlovgr/ciris) will run this as well, but it may save you some time to be alerted to problems earlier on. Once Travis CI has run, [Codecov](https://codecov.io/gh/vlovgr/ciris) will check the code coverage and comment on your pull request with the results.
 
 If your pull request addresses an existing issue, please include the issue number in the pull request message, or as part of your commit message. For example, if your pull request addresses issue number 52, then please include `fixes #52` in your pull request message, or in the commit message.
+
+## Creating new modules
+Following are some general guidelines when creating new modules.
+
+- Make use of the `ciris` namespace, for example `ciris.vault` for a [Vault](https://www.vaultproject.io) module.
+- Prefer dependencies which support pure, typeful, idiomatic functional programming.
+- If there's not too much effort involved, try to support both Scala.js and Scala Native.
+
+Following is a step-by-step guide on how to add a new module.
+
+1. In `build.sbt`, define a new project `foo` which will be published as `ciris-foo`, similar to the existing ones.
+
+   ```scala
+   lazy val foo =
+     crossProject(JSPlatform, JVMPlatform, NativePlatform)
+       .in(file("modules/foo"))
+       .settings(moduleName := "ciris-foo", name := "Ciris foo")
+       .settings(scalaSettings)
+       .settings(testSettings)
+       .jsSettings(jsModuleSettings)
+       .jvmSettings(jvmModuleSettings)
+       .nativeSettings(nativeModuleSettings)
+       .settings(releaseSettings)
+       .dependsOn(core)
+
+   lazy val fooJS = foo.js
+   lazy val fooJVM = foo.jvm
+   lazy val fooNative = foo.native
+   ```
+
+   - If the module won't support Scala.js or Scala Native, remove the unsupported platforms from `crossProject`, along with `jsSettings` and `nativeSettings`, and the `fooJS` and `fooNative` projects, respectively.
+
+   - If the module won't support the default `crossScalaVersions` (Scala 2.10, 2.11, and 2.12), remove those versions from the project definition. Below is an example of how to remove support for Scala 2.10 (`scala210`, `scala211`, `scala212` are variables for the Scala versions used in the build).
+
+     ```scala
+     .settings(scalaSettings ++ Seq(crossScalaVersions -= scala210))
+     ```
+
+   - If the module has a dependency on another library, add the dependency version to the variables section:
+
+     ```scala
+     /* Variables */
+
+     // ...
+
+     lazy val fooDependencyVersion = "1.0.0"
+     ```
+
+     and include the dependency in the project definition (use `%%%` instead of `%%` for Scala.js or Scala Native).
+
+     ```scala
+     .settings(libraryDependencies += "com.foo" %%% "foo-dependency" % fooDependencyVersion)
+     ```
+
+2. In `build.sbt`, add the new projects `fooJS`, `fooJVM`, and `fooNative` to the aggregate `ciris` project.
+
+   ```scala
+   lazy val ciris = project
+     .in(file("."))
+     .settings(moduleName := "ciris", name := "Ciris")
+     // ...
+     .aggregate(
+       catsJS, catsJVM,
+       catsEffectJS, catsEffectJVM,
+       coreJS, coreJVM, coreNative,
+       enumeratumJS, enumeratumJVM,
+       fooJS, fooJVM, fooNative,
+       // ...
+     )
+   ```
+
+3. In `build.sbt`, add the module name to the `moduleNames` list.
+
+   ```scala
+   lazy val moduleNames = List(
+     "cats",
+     "catsEffect",
+     "core",
+     "foo",
+     // ...
+   )
+   ```
+
+4. In `build.sbt`, if the module does not support Scala.js, remove it from `jsModuleNames`.
+
+   ```scala
+   lazy val jsModuleNames =
+     moduleNames.map(_ + "JS")
+       .filter(_ != "fooJS")
+   ```
+
+5. In `build.sbt`, if the module supports Scala Native, add it to `nativeModuleNames`.
+
+   ```scala
+   lazy val nativeModuleNames = List(
+     "core",
+     "foo",
+     // ...
+   ).map(_ + "Native")
+   ```
+
+6. In `build.sbt`, add the new projects to `crossModules`, using `None` if Scala.js or Scala Native is unsupported.
+
+   ```scala
+   lazy val crossModules: Seq[(Project, Option[Project], Option[Project])] =
+     Seq(
+       (catsJVM, Some(catsJS), None),
+       (catsEffectJVM, Some(catsEffectJS), None),
+       (coreJVM, Some(coreJS), Some(coreNative)),
+       (fooJVM, Some(fooJS), Some(fooNative)),
+       // ...
+     )
+   ```
+
+7. In `build.sbt`, for the `docs` project, add `BuildInfoKey`s for the `moduleName` and `crossScalaVersions`.
+
+   ```scala
+   buildInfoKeys := Seq[BuildInfoKey](
+     // ...
+     BuildInfoKey.map(moduleName in fooJVM) { case (k, v) => "foo" + k.capitalize -> v },
+     // ...
+     BuildInfoKey.map(crossScalaVersions in fooJVM) { case (k, v) => "fooJvm" + k.capitalize -> v },
+     BuildInfoKey.map(crossScalaVersions in fooJS) { case (k, v) => "fooJs" + k.capitalize -> v },
+     BuildInfoKey.map(crossScalaVersions in fooNative) { case (k, v) => "fooNative" + k.capitalize -> v },
+     // ...
+   )
+   ```
+
+   You can omit `crossScalaVersions` for `fooJS` and `fooNative` if Scala.js or Scala Native is unsupported.
+
+8. In `build.sbt`, also in the `docs` project, locate `generateApiIndexFile` and include an entry for the module.
+
+9. In `build.sbt`, for the `docs` project, include the module in `dependsOn` so that module documentation is generated.
+
+   ```scala
+   .dependsOn(
+     catsJVM, catsEffectJVM, coreJVM, enumeratumJVM, fooJVM, // ...
+   )
+   ```
+
+10. In `build.sbt`, for the `tests` project, include the module in `dependsOn`, so that tests can make use of the module.
+
+    ```scala
+    .dependsOn(
+      cats, catsEffect, core, enumeratum, foo // ...
+    )
+    ```
+
+11. In `build.sbt`, in `generateScripts`, add the module as a dependency, and include the module imports.
+
+12. In `latestVersion.sbt`, add the module name to `unreleasedModuleNames`.
+
+    ```scala
+    unreleasedModuleNames in ThisBuild := Set("ciris-foo")
+    ```
+
+13. In `docs/src/main/tut/index.md`, include the module in the `Getting Started` and `Ammonite` sections.
+
+14. Documentation for the usage guide can be added to `docs/src/main/tut/docs`, similar to existing modules.
+
+At this point, everything should be setup, and module sources go into the `module/foo/{js,jvm,native,shared}` directories. Tests for the module go into the shared `tests` project, and the `tests/{js,jvm}` directories.
 
 ## Grant of license
 Ciris is licensed under the [MIT License](https://opensource.org/licenses/MIT). Opening a pull request signifies your consent to license your contributions under this license.
