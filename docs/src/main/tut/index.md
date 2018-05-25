@@ -47,7 +47,7 @@ For a more detailed introduction, please refer to the [usage guide](https://cir.
 </p>
 
 ### Getting Started
-To get started with [SBT][sbt], simply add the following lines to your `build.sbt` file.  
+To get started with [sbt][sbt], simply add the following lines to your `build.sbt` file.  
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs).
 
 ```tut:passthrough

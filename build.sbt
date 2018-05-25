@@ -2,6 +2,78 @@ import sbtcrossproject.{crossProject, CrossType}
 import com.typesafe.sbt.SbtGit.GitKeys._
 import ReleaseTransformations._
 
+/* Variables */
+
+lazy val scala210 = "2.10.7"
+lazy val scala211 = "2.11.12"
+lazy val scala212 = "2.12.6"
+
+lazy val catsEffectVersion = "0.10.1"
+lazy val catsVersion = "1.1.0"
+lazy val enumeratumVersion = "1.5.13"
+lazy val kittensVersion = "1.0.0-RC3"
+lazy val macroParadiseVerison = "2.1.1"
+lazy val refinedVersion = "0.9.0"
+lazy val scalaCheckVersion = "1.14.0"
+lazy val scalaTestVersion = "3.0.5"
+lazy val shapelessVersion = "2.3.3"
+lazy val spireVersion = "0.15.0"
+lazy val squantsVersion = "1.3.0"
+
+lazy val scriptsDirectory = "scripts"
+
+/* Module Setup */
+
+lazy val moduleNames = List(
+  "cats",
+  "catsEffect",
+  "core",
+  "enumeratum",
+  "generic",
+  "refined",
+  "spire",
+  "squants"
+)
+
+lazy val jsModuleNames = moduleNames.map(_ + "JS")
+
+lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
+
+lazy val nativeModuleNames = List(
+  "core",
+  "generic",
+  "refined"
+).map(_ + "Native")
+
+lazy val allModuleNames = jsModuleNames ++ jvmModuleNames ++ nativeModuleNames
+
+lazy val crossModules: Seq[(Project, Option[Project], Option[Project])] =
+  Seq(
+    (catsJVM, Some(catsJS), None),
+    (catsEffectJVM, Some(catsEffectJS), None),
+    (coreJVM, Some(coreJS), Some(coreNative)),
+    (enumeratumJVM, Some(enumeratumJS), None),
+    (genericJVM, Some(genericJS), Some(genericNative)),
+    (refinedJVM, Some(refinedJS), Some(refinedNative)),
+    (spireJVM, Some(spireJS), None),
+    (squantsJVM, Some(squantsJS), None)
+  )
+
+lazy val noDocumentationModules: Seq[ProjectReference] = {
+  val nonJvmModules =
+    crossModules.flatMap {
+      case (_, js, native) =>
+        js ++ native
+    }
+
+  val testModules = Seq(testsJVM, testsJS)
+
+  (nonJvmModules ++ testModules)
+    .map(module => module: ProjectReference)
+}
+
+/* Module Definitions */
+
 lazy val ciris = project
   .in(file("."))
   .settings(moduleName := "ciris", name := "Ciris")
@@ -29,7 +101,7 @@ lazy val cats =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/cats"))
     .settings(moduleName := "ciris-cats", name := "Ciris cats")
-    .settings(libraryDependencies += "org.typelevel" %%% "cats-core" % "1.1.0")
+    .settings(libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion)
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -44,7 +116,7 @@ lazy val catsEffect =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/cats-effect"))
     .settings(moduleName := "ciris-cats-effect", name := "Ciris cats effect")
-    .settings(libraryDependencies += "org.typelevel" %%% "cats-effect" % "0.10.1")
+    .settings(libraryDependencies += "org.typelevel" %%% "cats-effect" % catsEffectVersion)
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -74,7 +146,7 @@ lazy val enumeratum =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/enumeratum"))
     .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
-    .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % "1.5.13")
+    .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % enumeratumVersion)
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -89,7 +161,7 @@ lazy val generic =
   crossProject(JSPlatform, JVMPlatform, NativePlatform)
     .in(file("modules/generic"))
     .settings(moduleName := "ciris-generic", name := "Ciris generic")
-    .settings(libraryDependencies += "com.chuusai" %%% "shapeless" % "2.3.3")
+    .settings(libraryDependencies += "com.chuusai" %%% "shapeless" % shapelessVersion)
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -123,7 +195,7 @@ lazy val spire =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/spire"))
     .settings(moduleName := "ciris-spire", name := "Ciris spire")
-    .settings(libraryDependencies += "org.typelevel" %%% "spire" % "0.15.0")
+    .settings(libraryDependencies += "org.typelevel" %%% "spire" % spireVersion)
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -138,7 +210,7 @@ lazy val squants =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("modules/squants"))
     .settings(moduleName := "ciris-squants", name := "Ciris squants")
-    .settings(libraryDependencies += "org.typelevel" %%% "squants" % "1.3.0")
+    .settings(libraryDependencies += "org.typelevel" %%% "squants" % squantsVersion)
     .settings(scalaSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
@@ -153,7 +225,7 @@ lazy val tests =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("tests"))
     .settings(moduleName := "ciris-tests", name := "Ciris tests")
-    .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" % Test cross CrossVersion.patch))
+    .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVerison % Test cross CrossVersion.patch))
     .settings(scalaSettings)
     .settings(noPublishSettings)
     .settings(testSettings)
@@ -258,7 +330,7 @@ lazy val docs = project
       target
     },
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "kittens" % "1.0.0-RC3",
+      "org.typelevel" %% "kittens" % kittensVersion,
       "eu.timepit" %% "refined-cats" % refinedVersion
     ),
     crossScalaVersions := Seq(scalaVersion.value),
@@ -277,9 +349,7 @@ lazy val docs = project
   .dependsOn(catsJVM, catsEffectJVM, coreJVM, enumeratumJVM, genericJVM, refinedJVM, spireJVM, squantsJVM)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin, ScalaUnidocPlugin)
 
-lazy val scala210 = "2.10.7"
-lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.6"
+/* Settings */
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
@@ -439,6 +509,8 @@ lazy val sourceGeneratorSettings = Seq(
     )).taskValue
 )
 
+/* Tasks */
+
 val generateReadme = taskKey[File]("Generates the readme")
 generateReadme in ThisBuild := {
   (tut in docs).value
@@ -480,8 +552,6 @@ updateContributing in ThisBuild := {
     vcs.commit("Update contributing guide to latest version", sign = true).!
   }
 }
-
-val scriptsDirectory = "scripts"
 
 val generateScripts = taskKey[Unit]("Generates scripts")
 generateScripts in ThisBuild := {
@@ -600,43 +670,14 @@ addDateToReleaseNotes in ThisBuild := {
   }
 }
 
-lazy val moduleNames = List[String]("cats", "catsEffect", "core", "enumeratum", "generic", "refined", "spire", "squants")
-lazy val jsModuleNames = moduleNames.map(_ + "JS")
-lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
-lazy val nativeModuleNames = List("core", "generic", "refined").map(_ + "Native")
-lazy val allModuleNames = (jsModuleNames ++ jvmModuleNames ++ nativeModuleNames)
+/* Aliases */
+
+def addCommandsAlias(name: String, values: List[String]) =
+  addCommandAlias(name, values.mkString(";", ";", ""))
 
 addCommandsAlias("docTests", jvmModuleNames.map(_ + "/test"))
 
 addCommandsAlias("publishSignedAll", allModuleNames.map(m => s"+$m/publishSigned"))
-
-lazy val crossModules: Seq[(Project, Project, Option[Project])] =
-  Seq(
-    (catsJVM, catsJS, None),
-    (catsEffectJVM, catsEffectJS, None),
-    (coreJVM, coreJS, Some(coreNative)),
-    (enumeratumJVM, enumeratumJS, None),
-    (genericJVM, genericJS, Some(genericNative)),
-    (refinedJVM, refinedJS, Some(refinedNative)),
-    (spireJVM, spireJS, None),
-    (squantsJVM, squantsJS, None)
-  )
-
-lazy val noDocumentationModules: Seq[ProjectReference] = {
-  val nonJvmModules =
-    crossModules.flatMap {
-      case (_, js, native) =>
-        Seq(js) ++ native
-    }
-
-  val testModules = Seq(testsJVM, testsJS)
-
-  (nonJvmModules ++ testModules)
-    .map(module => module: ProjectReference)
-}
-
-def addCommandsAlias(name: String, values: List[String]) =
-  addCommandAlias(name, values.mkString(";", ";", ""))
 
 addCommandsAlias("validate", List(
   "clean",
@@ -648,12 +689,6 @@ addCommandsAlias("validate", List(
   "mimaReportBinaryIssues"
 ))
 
-addCommandsAlias("validateNative", nativeModuleNames.map(_ + "/test"))
-
 addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))
 
-lazy val scalaTestVersion = "3.0.5"
-
-lazy val scalaCheckVersion = "1.14.0"
-
-lazy val refinedVersion = "0.9.0"
+addCommandsAlias("validateNative", nativeModuleNames.map(_ + "/test"))
