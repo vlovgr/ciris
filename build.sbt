@@ -46,6 +46,7 @@ lazy val catsEffect =
     .settings(moduleName := "ciris-cats-effect", name := "Ciris cats effect")
     .settings(libraryDependencies += "org.typelevel" %%% "cats-effect" % "1.0.0-RC")
     .settings(scalaSettings)
+    .settings(crossScalaVersions := Seq(scala211, scala212))
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
     .jvmSettings(jvmModuleSettings)
