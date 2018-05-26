@@ -8,7 +8,7 @@ lazy val scala210 = "2.10.7"
 lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.6"
 
-lazy val catsEffectVersion = "0.10.1"
+lazy val catsEffectVersion = "1.0.0-RC"
 lazy val catsVersion = "1.1.0"
 lazy val enumeratumVersion = "1.5.13"
 lazy val kittensVersion = "1.0.0-RC3"
@@ -118,6 +118,7 @@ lazy val catsEffect =
     .settings(moduleName := "ciris-cats-effect", name := "Ciris cats effect")
     .settings(libraryDependencies += "org.typelevel" %%% "cats-effect" % catsEffectVersion)
     .settings(scalaSettings)
+    .settings(crossScalaVersions := Seq(scala211, scala212))
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
     .jvmSettings(jvmModuleSettings)
