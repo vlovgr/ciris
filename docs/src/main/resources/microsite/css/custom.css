@@ -21,7 +21,7 @@ table {
   margin-bottom: 12.5px;
 }
 
-pre.highlight code.hljs {
+pre.highlight code.hljs, #page-content-wrapper section pre.highlight code.hljs {
   white-space: pre;
   word-break: normal;
   word-wrap: normal;
