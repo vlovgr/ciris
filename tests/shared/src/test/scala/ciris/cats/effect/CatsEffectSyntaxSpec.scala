@@ -10,27 +10,20 @@ final class CatsEffectSyntaxSpec extends PropertySpec {
       "suspend and memoize reading" in {
         var timesRead: Int = 0
 
-        val source: ConfigSource[IO, String, Unit] =
+        val source =
           ConfigSource(ConfigKeyType[String]("key")) { _ =>
             timesRead = timesRead + 1
             Right(())
           }.suspendMemoizeF[IO]
 
-        val entry = source.read("key")
-
-        timesRead shouldBe 0
-
-        entry.value.unsafeRunSync()
-
-        timesRead shouldBe 1
-
-        entry.value.unsafeRunSync()
-
-        timesRead shouldBe 1
-
-        entry.sourceValue.unsafeRunSync()
-
-        timesRead shouldBe 1
+        (for {
+          memoizedValue <- source.read("key").value
+          _ <- IO(timesRead shouldBe 0)
+          value <- memoizedValue
+          _ <- IO(timesRead shouldBe 1)
+          _ <- memoizedValue
+          _ <- IO(timesRead shouldBe 1)
+        } yield ()).unsafeRunSync()
       }
     }
   }

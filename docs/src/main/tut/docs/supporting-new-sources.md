@@ -186,7 +186,7 @@ import ciris.cats.effect.syntax._
 def propFileAtF[F[_]: Monad: LiftIO](
   name: String,
   charset: Charset = Charset.defaultCharset
-): PropFileAt[F] = {
+): F[PropFileAt[F]] = {
   val file = new File(name)
 
   val propFile =
@@ -195,7 +195,7 @@ def propFileAtF[F[_]: Monad: LiftIO](
       .read((file, charset))
       .value
 
-  new PropFileAt(file, charset, propFile)
+  propFile.map(new PropFileAt(file, charset, _))
 }
 ```
 
@@ -225,7 +225,10 @@ import ciris.cats.effect._
 
 val propFileF = propFileAtF[IO](tempFileName)
 
-propFileF[UserPortNumber]("port")
+for {
+  propFile <- propFileF
+  port = propFile[UserPortNumber]("port")
+} yield port
 ```
 
 [decodeValue]: /api/ciris/ConfigEntry.html#decodeValue[A](implicitdecoder:ciris.ConfigDecoder[V,A],implicitmonad:ciris.api.Monad[F]):ciris.ConfigEntry[F,K,S,A]
