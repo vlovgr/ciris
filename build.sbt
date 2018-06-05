@@ -11,6 +11,7 @@ lazy val scala212 = "2.12.6"
 lazy val catsEffectVersion = "0.10.1"
 lazy val catsVersion = "1.1.0"
 lazy val enumeratumVersion = "1.5.13"
+lazy val kindProjectorVersion = "0.9.7"
 lazy val kittensVersion = "1.0.0-RC3"
 lazy val macroParadiseVerison = "2.1.1"
 lazy val refinedVersion = "0.9.0"
@@ -122,6 +123,7 @@ lazy val catsEffect =
     .jsSettings(jsModuleSettings)
     .jvmSettings(jvmModuleSettings)
     .settings(releaseSettings)
+    .settings(kindProjectorSettings)
     .dependsOn(core, cats)
 
 lazy val catsEffectJS = catsEffect.js
@@ -241,6 +243,7 @@ lazy val docs = project
   .settings(scalaSettings)
   .settings(testSettings)
   .settings(noPublishSettings)
+  .settings(kindProjectorSettings)
   .settings(
     micrositeName := "Ciris",
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
@@ -470,6 +473,16 @@ lazy val mimaSettings = Seq(
     import com.typesafe.tools.mima.core._
     Seq()
   }
+)
+
+lazy val kindProjectorSettings = Seq(
+  addCompilerPlugin("org.spire-math" % "kind-projector" % kindProjectorVersion cross CrossVersion.binary),
+  libraryDependencies ++= (scalaBinaryVersion.value match {
+    case "2.10" =>
+      compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVerison cross CrossVersion.full) :: Nil
+    case _ =>
+      Nil
+  })
 )
 
 lazy val jvmModuleSettings =
