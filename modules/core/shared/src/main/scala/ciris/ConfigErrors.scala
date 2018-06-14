@@ -29,6 +29,15 @@ package ciris
   * res2: Int = 2
   * }}}
   *
+  * If you instead want a combined error message, you can use [[message]].
+  *
+  * {{{
+  * scala> errors.message
+  * res0: String =
+  * - error1.
+  * - error2.
+  * }}}
+  *
   * It is also possible to append more [[ConfigError]] errors using the [[append]]
   * method, returning a new [[ConfigErrors]] instance.
   *
@@ -83,6 +92,19 @@ final class ConfigErrors private (val toVector: Vector[ConfigError]) extends Any
     */
   def messages: Vector[String] =
     toVector.map(_.message)
+
+  /**
+    * Returns a combined error message containing the error messages
+    * in this [[ConfigErrors]]. The error messages are guaranteed to
+    * be in the same order as the errors.
+    *
+    * @return a combined error message of the contained errors
+    */
+  def message: String = {
+    toVector
+      .map(error => s"- ${error.message.stripSuffix(".")}.")
+      .mkString("\n")
+  }
 
   /**
     * Returns the number of errors in this [[ConfigErrors]].
