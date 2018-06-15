@@ -329,6 +329,41 @@ abstract class ConfigDecoder[A, B] { self =>
         self.decode(entry.mapValue(f))
       }
     }
+
+  /**
+    * Removes any potentially sensitive details, like configuration
+    * values, from any errors returned as a result of decoding with
+    * this [[ConfigDecoder]].
+    *
+    * @return a new [[ConfigDecoder]]
+    * @example {{{
+    * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("123 "))
+    * source: ConfigSource[Int, String] = ConfigSource(Argument)
+    *
+    * scala> val decoder = ConfigDecoder[String, Int]
+    * decoder: ConfigDecoder[Int] = ciris.ConfigDecoder$$$$anon$$6@7bdb183f
+    *
+    * scala> decoder.decode(source.read(0)).left.map(_.message)
+    * res0: Either[String, Int] = Left(Command-line argument [0] with value [123 ] cannot be converted to type [Int]: java.lang.NumberFormatException: For input string: "123 ")
+    *
+    * scala> val decoderRedacted = decoder.redactSensitive
+    * decoderRedacted: ConfigDecoder[Int] = ciris.ConfigDecoder$$$$anon$$6@28aa7479
+    *
+    * scala> decoderRedacted.decode(source.read(0)).left.map(_.message)
+    * res1: Either[String,Int] = Left(Command-line argument [0] with value [<redacted>] cannot be converted to type [Int])
+    * }}}
+    */
+  final def redactSensitive: ConfigDecoder[A, B] =
+    new ConfigDecoder[A, B] {
+      override def decode[F[_]: Monad, K, S](
+        entry: ConfigEntry[F, K, S, A]
+      ): F[Either[ConfigError, B]] = {
+        self.decode(entry).map {
+          case Left(error)      => Left(error.redactSensitive)
+          case right @ Right(_) => right
+        }
+      }
+    }
 }
 
 object ConfigDecoder extends ConfigDecoders {

@@ -53,6 +53,15 @@ sealed abstract class ConfigError {
   def message: String
 
   /**
+    * Returns a new [[ConfigError]] with any potentially sensitive
+    * details, like secret configuration values, redacted from the
+    * error message.
+    *
+    * @return a new [[ConfigError]]
+    */
+  def redactSensitive: ConfigError
+
+  /**
     * Checks whether this error occurred because the key for the value
     * was missing from the [[ConfigSource]]. If this error is in fact
     * a combination of different errors, checks whether all of them
@@ -109,7 +118,10 @@ sealed abstract class ConfigError {
 object ConfigError {
 
   /**
-    * Creates a new [[ConfigError]] with the specified message.
+    * Creates a new [[ConfigError]] with the specified message. Note that
+    * the specified message should not contain any potentially sensitive
+    * details, like secret configuration values. If that's the case, you
+    * can instead use [[sensitive]] and provide a redacted message.
     *
     * @param message the message to use for the [[ConfigError]]
     * @return a new [[ConfigError]] with the specified message
@@ -121,10 +133,45 @@ object ConfigError {
     * }}}
     */
   def apply(message: => String): ConfigError = {
-    def theMessage = message
+    def theMessage: String = message
+    new ConfigError {
+      override def message: String = theMessage
+      override def redactSensitive: ConfigError = this
+      override def toString: String = s"ConfigError($message)"
+    }
+  }
+
+  /**
+    * Creates a new [[ConfigError]] with the specified message, where the
+    * message might contain sensitive details, like secret configuration
+    * values. For this reason, a redacted message must be provided, where
+    * such details have been removed.
+    *
+    * You can use [[redactedValue]] as a replacement for redacted values.
+    *
+    * @param message the message to use for the [[ConfigError]]
+    * @param redactedMessage the message with any potentially sensitive
+    *                        details replaced with [[redactedValue]]
+    * @return a new [[ConfigError]]
+    * @note note that the messages are passed by reference, meaning they will
+    *       not be evaluated until the [[ConfigError#message]] method is invoked.
+    * @example {{{
+    * scala> ConfigError.sensitive(
+    *      |   message = "value [secret123] is not a valid Int",
+    *      |   redactedMessage = s"value [<redacted>] is not a valid Int"
+    *      | )
+    * res0: ConfigError(value [secret123] is not a valid Int)
+    *
+    * scala> res0.redactSensitive
+    * res1: ConfigError(value [<redacted>] is not a valid Int)
+    * }}}
+    */
+  def sensitive(message: => String, redactedMessage: => String): ConfigError = {
+    def theMessage: String = message
     new ConfigError {
       override def message: String = theMessage
       override def toString: String = s"ConfigError($message)"
+      override def redactSensitive: ConfigError = ConfigError(redactedMessage)
     }
   }
 
@@ -155,6 +202,9 @@ object ConfigError {
         case ms             => ms.init.mkString(", ") ++ ", and " ++ ms.last
       }
     }
+
+    override def redactSensitive: ConfigError =
+      new Combined(errors.map(_.redactSensitive))
 
     override def toString: String = s"Combined(${errors.mkString(", ")})"
   }
@@ -190,6 +240,7 @@ object ConfigError {
   private final class MissingKey[K](val key: K, val keyType: ConfigKeyType[K]) extends ConfigError {
     override def message: String = s"Missing ${keyType.name} [$key]"
     override def toString: String = s"MissingKey($key, $keyType)"
+    override def redactSensitive: ConfigError = this
   }
 
   private object MissingKey {
@@ -224,6 +275,7 @@ object ConfigError {
   ) extends ConfigError {
     override def message: String = s"Exception while reading ${keyType.name} [$key]: $cause"
     override def toString: String = s"ReadException($key, $keyType, $cause)"
+    override def redactSensitive: ConfigError = this
   }
 
   /**
@@ -273,6 +325,18 @@ object ConfigError {
     override def toString: String = cause match {
       case Some(cause) => s"WrongType($key, $keyType, $sourceValue, $value, $typeName, $cause)"
       case None        => s"WrongType($key, $keyType, $sourceValue, $value, $typeName)"
+    }
+
+    override def redactSensitive: ConfigError = {
+      val redactedSourceValue =
+        sourceValue.fold(
+          error => Left(error.redactSensitive),
+          _ => Right(redactedValue)
+        )
+
+      val redactedCause: Option[C] = None
+
+      new WrongType(key, keyType, redactedSourceValue, redactedValue, typeName, redactedCause)
     }
   }
 
@@ -333,4 +397,13 @@ object ConfigError {
     */
   def right[A](value: A): Either[ConfigError, A] =
     Right(value)
+
+  /**
+    * The placeholder to use in case details of error message need to
+    * be redacted with [[ConfigError#redactSensitive]]. In case you
+    * need to create [[ConfigError]]s with potentially sensitive
+    * details, you can use [[sensitive]].
+    */
+  val redactedValue: String =
+    "<redacted>"
 }
