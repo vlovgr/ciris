@@ -382,7 +382,8 @@ lazy val scalaSettings = Seq(
     case _ => true
   },
   scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
-  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
+  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value,
+  makePomConfiguration := makePomConfiguration.value.withConfigurations(Configurations.defaultMavenConfigurations)
 )
 
 lazy val metadataSettings = Seq(
