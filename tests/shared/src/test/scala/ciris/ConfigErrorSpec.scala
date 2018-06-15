@@ -19,6 +19,64 @@ final class ConfigErrorSpec extends PropertySpec {
       }
     }
 
+    "created from a sensitive message" should {
+      "pass both messages by reference" in {
+        forAll { (message: String, redactedMessage: String) =>
+          var messageCreated = false
+          var redactedMessageCreated = false
+
+          val error = ConfigError.sensitive({
+            messageCreated = true
+            message
+          }, {
+            redactedMessageCreated = true
+            redactedMessage
+          })
+
+          messageCreated shouldBe false
+          redactedMessageCreated shouldBe false
+          error.message shouldBe message
+          messageCreated shouldBe true
+          redactedMessageCreated shouldBe false
+          error.toString shouldBe s"ConfigError($message)"
+          redactedMessageCreated shouldBe false
+          val redactedError = error.redactSensitive
+          redactedMessageCreated shouldBe false
+          redactedError.message shouldBe redactedMessage
+          redactedMessageCreated shouldBe true
+          redactedError.toString shouldBe s"ConfigError($redactedMessage)"
+        }
+      }
+    }
+
+    "created from multiple sensitive messages" should {
+      "redact sensitive messages" in {
+        val redactedErrors =
+          ConfigError.combined(
+            ConfigError.sensitive("message", "redactedMessage"),
+            ConfigError("regularMessage")
+          ).redactSensitive
+
+        redactedErrors.message shouldBe "RedactedMessage and regularMessage"
+      }
+    }
+
+    "redacting wrongType" should {
+      "redact source value error, value, and cause" in {
+        val keyType = ConfigKeyType[String]("keyType")
+        val sourceValue = ConfigError.left[String](ConfigError.sensitive("message", ConfigError.redactedValue))
+        val error = ConfigError.wrongType("key", keyType, sourceValue, "value", "typeName", Some("cause"))
+        error.redactSensitive.message shouldBe "KeyType [key] with value [<redacted>] cannot be converted to type [typeName]"
+      }
+
+      "redact source value, value, and cause" in {
+        val keyType = ConfigKeyType[String]("keyType")
+        val sourceValue = ConfigError.right("sourceValue")
+        val error = ConfigError.wrongType("key", keyType, sourceValue, "value", "typeName", Some("cause"))
+        error.redactSensitive.message shouldBe "KeyType [key] with value [<redacted>] cannot be converted to type [typeName]"
+      }
+    }
+
     "using isMissingKey" should {
       val missingKey =
         ConfigError.missingKey("key", ConfigKeyType[String]("keyType"))
