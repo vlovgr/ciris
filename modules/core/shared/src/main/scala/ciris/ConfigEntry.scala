@@ -16,7 +16,7 @@ import ciris.api.syntax._
   * To create a [[ConfigEntry]], use [[ConfigEntry#apply]].
   * {{{
   * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-  * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+  * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
   * }}}
   *
   * @param key the key which was retrieved from the configuration source
@@ -64,10 +64,11 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     *         or a [[ConfigError]] if the value is not available
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value "))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value ))
+    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     *
-    * scala> entry.mapValue(_.trim)
-    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value ), Right(value))
+    * scala> entry.mapValue(_.trim).toStringWithValues
+    * res0: String = ConfigEntry(key, Environment, Right(value ), Right(value))
+    *
     * }}}
     */
   def mapValue[A](f: V => A): ConfigEntry[F, K, S, A] =
@@ -85,10 +86,10 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     *         or a [[ConfigError]] if the value is not available
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     *
-    * scala> entry.flatMapValue(v => if(v.length > 2) Right(v) else Left(ConfigError("error")))
-    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+    * scala> entry.flatMapValue(v => if(v.length > 2) Right(v) else Left(ConfigError("error"))).toStringWithValues
+    * res0: String = ConfigEntry(key, Environment, Right(value))
     * }}}
     */
   def flatMapValue[A](f: V => Either[ConfigError, A]): ConfigEntry[F, K, S, A] =
@@ -104,10 +105,10 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     *
-    * scala> entry.withValue(Right(123))
-    * res0: ConfigEntry[api.Id, String, String, Int] = ConfigEntry(key, Environment, Right(value), Right(123))
+    * scala> entry.withValue(Right(123)).toStringWithValues
+    * res0: String = ConfigEntry(key, Environment, Right(value), Right(123))
     * }}}
     */
   def withValue[A](value: Either[ConfigError, A]): ConfigEntry[F, K, S, A] =
@@ -124,13 +125,13 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     *
-    * scala> entry.withValueF(Right(123))
-    * res0: ConfigEntry[api.Id, String, String, Int] = ConfigEntry(key, Environment, Right(value), Right(123))
+    * scala> entry.withValueF(Right(123)).toStringWithValues
+    * res0: String = ConfigEntry(key, Environment, Right(value), Right(123))
     *
-    * scala> entry.withValue(Right(456))
-    * res0: ConfigEntry[api.Id, String, String, Int] = ConfigEntry(key, Environment, Right(value), Right(456))
+    * scala> entry.withValue(Right(456)).toStringWithValues
+    * res0: String = ConfigEntry(key, Environment, Right(value), Right(456))
     * }}}
     */
   def withValueF[A](value: F[Either[ConfigError, A]]): ConfigEntry[F, K, S, A] =
@@ -147,13 +148,13 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value "))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value ))
+    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     *
-    * scala> entry.transformValue(_.right.map(_.trim))
-    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value ), Right(value))
+    * scala> entry.transformValue(_.right.map(_.trim)).toStringWithValues
+    * res0: String = ConfigEntry(key, Environment, Right(value ), Right(value))
     *
-    * scala> entry.mapValue(_.trim)
-    * res1: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value ), Right(value))
+    * scala> entry.mapValue(_.trim).toStringWithValues
+    * res1: String = ConfigEntry(key, Environment, Right(value ), Right(value))
     * }}}
     */
   def transformValue[A](
@@ -177,22 +178,22 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     s"ConfigEntry($key, $keyType)"
 
   /**
-    * Returns a [[String]] representation of this [[ConfigEntry]]
+    * Returns a `String` representation of this [[ConfigEntry]]
     * including the value. If the value is potentially sensitive,
     * then be careful to not include it in log output.
     *
-    * @return a [[String]] representation with the value
+    * @return a `String` representation with the value
     */
   override def toStringWithValue: String =
     s"ConfigEntry($key, $keyType, $value)"
 
   /**
-    * Returns a [[String]] representation of this [[ConfigEntry]]
+    * Returns a `String` representation of this [[ConfigEntry]]
     * including both the source value and value. If the values
     * include potentially sensitive details, be careful to
     * not include them in log output.
     *
-    * @return a [[String]] representation with values
+    * @return a `String` representation with values
     */
   def toStringWithValues: String = {
     val sourceValueString = sourceValue.toString
@@ -223,10 +224,10 @@ object ConfigEntry {
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     *
     * scala> ConfigEntry.applyF[api.Id, String, String]("key", ConfigKeyType.Environment, Right("value"))
-    * res1: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+    * res1: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     * }}}
     */
   def apply[K, S](
@@ -258,10 +259,10 @@ object ConfigEntry {
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> ConfigEntry.applyF[api.Id, String, String]("key", ConfigKeyType.Environment, Right("value"))
-    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     *
     * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * res1: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, Right(value))
+    * res1: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
     * }}}
     */
   def applyF[F[_]: Apply, K, S](

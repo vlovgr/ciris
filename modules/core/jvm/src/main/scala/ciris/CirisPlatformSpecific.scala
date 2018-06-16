@@ -28,8 +28,8 @@ private[ciris] trait CirisPlatformSpecific {
     * @return a [[ConfigEntry]] with the result
     * @see [[fileWithName]]
     * @example {{{
-    * scala> file[Double](new java.io.File("/number.txt"))
-    * res0: ConfigEntry[api.Id, (java.io.File,java.nio.charset.Charset), String, Double] = ConfigEntry((/number.txt,UTF-8), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
+    * scala> file[Double](new java.io.File("/number.txt")).toStringWithValues
+    * res0: String = ConfigEntry((/number.txt,UTF-8), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
     * }}}
     */
   def file[Value](
@@ -104,8 +104,8 @@ private[ciris] trait CirisPlatformSpecific {
     * @return a [[ConfigEntry]] with the result
     * @see [[file]]
     * @example {{{
-    * scala> fileWithName[Double]("/number.txt")
-    * res0: ConfigEntry[api.Id, (java.io.File,java.nio.charset.Charset), String, Double] = ConfigEntry((/number.txt,UTF-8), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
+    * scala> fileWithName[Double]("/number.txt").toStringWithValues
+    * res0: String = ConfigEntry((/number.txt,UTF-8), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-8), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))
     * }}}
     */
   def fileWithName[Value](
