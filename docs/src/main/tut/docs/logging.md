@@ -49,6 +49,25 @@ The perhaps easiest way to log the configuration is to use `println`. As you can
 println(config)
 ```
 
+When loading configuration values with type [`Secret`][Secret], Ciris will make sure that no sensitive details are included in error messages. In general, potentially sensitive information is only included in results from functions with `value` in the name: for example, [`value`][ConfigEntry#value], [`sourceValue`][ConfigEntry#sourceValue], [`toStringWithValue`][ConfigEntry#toStringWithValue], and [`toStringWithValues`][ConfigEntry#toStringWithValues]. So make sure you are not accidentally logging the results from such functions.
+
+```tut:book
+import ciris.{env, prop}
+
+env[Secret[Int]]("FILE_ENCODING").
+  orElse(prop("file.encoding")).
+  value.left.map(_.message)
+
+val fileEncoding =
+  prop[Secret[String]]("file.encoding")
+
+fileEncoding.sourceValue
+
+fileEncoding.value
+
+fileEncoding.toStringWithValue
+```
+
 ## Logging Improvements
 Relying on `toString` works reasonably well for small configurations, like in the example shown above, but as your configuration grows in size, it can be considerably more difficult to determine which value is which in the output. Making use of `toString` also means we're relying on every type having implemented an appropriate `toString` function, which might not always be the case.
 
@@ -75,3 +94,7 @@ println(config.show)
 [kittens]: https://github.com/milessabin/kittens
 [Show]: https://typelevel.org/cats/typeclasses/show.html
 [shapeless]: https://github.com/milessabin/shapeless
+[ConfigEntry#value]: /api/ciris/ConfigEntry.html#value:F[Either[ciris.ConfigError,V]]
+[ConfigEntry#sourceValue]: /api/ciris/ConfigEntry.html#sourceValue:F[Either[ciris.ConfigError,S]]
+[ConfigEntry#toStringWithValue]: /api/ciris/ConfigEntry.html#toStringWithValue:String
+[ConfigEntry#toStringWithValues]: /api/ciris/ConfigEntry.html#toStringWithValues:String

@@ -74,7 +74,7 @@ fileEncoding.value
 
 // If the key has been set, but could not be decoded
 // to the specified type, we keep the error as it is
-prop[Option[Int]]("file.encoding")
+prop[Option[Int]]("file.encoding").value
 ```
 
 Alternatively, you can use [`orElse`][orElse] to fall back to other values if keys are missing.  
