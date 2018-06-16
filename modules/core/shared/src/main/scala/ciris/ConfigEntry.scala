@@ -173,7 +173,18 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
   def transformF[G[_]: Apply](implicit f: F ~> G): ConfigEntry[G, K, S, V] =
     new ConfigEntry(key, keyType, f(sourceValue), f(value))
 
-  override def toString: String = {
+  override def toString: String =
+    s"ConfigEntry($key, $keyType)"
+
+  /**
+    * Returns a [[String]] representation of this [[ConfigEntry]]
+    * including both the source value and value. If the values
+    * include potentially sensitive details, be careful to
+    * not include them in log output.
+    *
+    * @return a [[String]] representation with values
+    */
+  def toStringWithValues: String = {
     val sourceValueString = sourceValue.toString
     val valueString = value.toString
 
