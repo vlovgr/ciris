@@ -98,6 +98,19 @@ abstract class ConfigValue[F[_]: Apply, V] {
       }
     }
 
+  override def toString: String =
+    "ConfigValue$" + System.identityHashCode(this)
+
+  /**
+    * Returns a [[String]] representation of this [[ConfigValue]]
+    * including the value. If the value is potentially sensitive,
+    * then be careful to not include it in log output.
+    *
+    * @return a [[String]] representation with the value
+    */
+  final def toStringWithValue: String =
+    s"ConfigValue($value)"
+
   private[ciris] final def append[A](next: ConfigValue[F, A]): ConfigValue2[F, V, A] = {
     new ConfigValue2((this.value product next.value).map {
       case (Right(v), Right(a))         => Right((v, a))
@@ -135,7 +148,6 @@ object ConfigValue {
     val theValue = value
     new ConfigValue[F, V] {
       override def value: F[Either[ConfigError, V]] = theValue
-      override def toString: String = s"ConfigValue($value)"
     }
   }
 }
