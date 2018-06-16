@@ -13,6 +13,15 @@ final class ConfigEntrySpec extends PropertySpec {
       }
     }
 
+    "using toStringWithValue" should {
+      "include the value" in {
+        forAll { value: String =>
+          existingEntry(value).toStringWithValue shouldBe
+            s"ConfigEntry(key, ConfigKeyType(test key), Right($value))"
+        }
+      }
+    }
+
     "using toStringWithValues" should {
       "include the key, keyType, and value" in {
         forAll { value: String =>

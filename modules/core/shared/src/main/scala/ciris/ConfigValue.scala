@@ -108,7 +108,7 @@ abstract class ConfigValue[F[_]: Apply, V] {
     *
     * @return a [[String]] representation with the value
     */
-  final def toStringWithValue: String =
+  def toStringWithValue: String =
     s"ConfigValue($value)"
 
   private[ciris] final def append[A](next: ConfigValue[F, A]): ConfigValue2[F, V, A] = {

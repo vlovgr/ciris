@@ -178,6 +178,16 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
 
   /**
     * Returns a [[String]] representation of this [[ConfigEntry]]
+    * including the value. If the value is potentially sensitive,
+    * then be careful to not include it in log output.
+    *
+    * @return a [[String]] representation with the value
+    */
+  override def toStringWithValue: String =
+    s"ConfigEntry($key, $keyType, $value)"
+
+  /**
+    * Returns a [[String]] representation of this [[ConfigEntry]]
     * including both the source value and value. If the values
     * include potentially sensitive details, be careful to
     * not include them in log output.
