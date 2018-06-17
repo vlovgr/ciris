@@ -22,8 +22,8 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * @tparam Value the type to convert the value to
     * @return a [[ConfigEntry]] with the result
     * @example {{{
-    * scala> ciris.env[Int]("key")
-    * res0: ciris.ConfigEntry[ciris.api.Id, String, String, Int] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
+    * scala> ciris.env[Int]("key").toStringWithValues
+    * res0: String = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
     * }}}
     */
   def env[Value](key: String)(
@@ -71,8 +71,8 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * @tparam Value the type to convert the value to
     * @return a [[ConfigEntry]] with the result
     * @example {{{
-    * scala> ciris.prop[Int]("key")
-    * res0: ciris.ConfigEntry[ciris.api.Id, String, String, Int] = ConfigEntry(key, Property, Left(MissingKey(key, Property)))
+    * scala> ciris.prop[Int]("key").toStringWithValues
+    * res0: String = ConfigEntry(key, Property, Left(MissingKey(key, Property)))
     * }}}
     */
   def prop[Value](key: String)(
@@ -124,14 +124,14 @@ package object ciris extends LoadConfigs with CirisPlatformSpecific {
     * @tparam Value the type to convert the value to
     * @return a [[ConfigEntry]] with the result
     * @example {{{
-    * scala> ciris.arg[Int](Array("50"))(0)
-    * res0: ciris.ConfigEntry[ciris.api.Id, Int, String, Int] = ConfigEntry(0, Argument, Right(50))
+    * scala> ciris.arg[Int](Array("50"))(0).toStringWithValues
+    * res0: String = ConfigEntry(0, Argument, Right(50))
     *
-    * scala> ciris.arg[Int](Array("50"))(1)
-    * res1: ciris.ConfigEntry[ciris.api.Id, Int, String, Int] = ConfigEntry(1, Argument, Left(MissingKey(1, Argument)))
+    * scala> ciris.arg[Int](Array("50"))(1).toStringWithValues
+    * res1: String = ConfigEntry(1, Argument, Left(MissingKey(1, Argument)))
     *
-    * scala> ciris.arg[Int](Array("a"))(0)
-    * res2: ciris.ConfigEntry[ciris.api.Id, Int, String, Int] = ConfigEntry(0, Argument, Right(a), Left(WrongType(0, Argument, Right(a), a, Int, java.lang.NumberFormatException: For input string: "a")))
+    * scala> ciris.arg[Int](Array("a"))(0).toStringWithValues
+    * res2: String = ConfigEntry(0, Argument, Right(a), Left(WrongType(0, Argument, Right(a), a, Int, java.lang.NumberFormatException: For input string: "a")))
     * }}}
     */
   def arg[Value](args: IndexedSeq[String])(index: Int)(

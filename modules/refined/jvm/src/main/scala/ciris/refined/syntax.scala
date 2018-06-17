@@ -38,10 +38,10 @@ object syntax {
       * import eu.timepit.refined.collection.NonEmpty
       *
       * scala> val entry = ConfigEntry("key", ConfigKeyType.Property, Right("value"))
-      * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Property, Right(value))
+      * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Property)
       *
       * scala> entry.refineValue[NonEmpty]
-      * res0: ConfigEntry[api.Id, String, String, Refined[String, NonEmpty]] = ConfigEntry(key, Property, Right(value))
+      * res0: ConfigEntry[api.Id, String, String, Refined[String, NonEmpty]] = ConfigEntry(key, Property)
       * }}}
       */
     def refineValue[P](
@@ -94,10 +94,10 @@ object syntax {
       * import eu.timepit.refined.string.Uri
       *
       * scala> val host = ConfigEntry("key", ConfigKeyType.Property, Right("google.com"))
-      * host: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Property, Right(google.com))
+      * host: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Property)
       *
-      * scala> val api = host.mapRefineValue[Uri](_ + "/api")
-      * api: ConfigEntry[api.Id, String, String, Refined[String, Uri]] = ConfigEntry(key, Property, Right(google.com))
+      * scala> host.mapRefineValue[Uri](_ + "/api")
+      * res0: ConfigEntry[api.Id, String, String, Refined[String, Uri]] = ConfigEntry(key, Property)
       * }}}
       */
     def mapRefineValue[P]: MapRefineValuePartiallyApplied[F, K, S, V, P] =

@@ -25,14 +25,15 @@ abstract class ConfigValue[F[_]: Apply, V] {
     * scala> val apiKey =
     *      |  env[String]("API_KEY").
     *      |    orElse(prop("api.key"))
-    * apiKey: ConfigValue[api.Id, String] = ConfigValue(Left(Combined(MissingKey(API_KEY, Environment), MissingKey(api.key, Property))))
+    * apiKey: ConfigValue[api.Id, String] = ConfigValue$$1815631407
     *
     * scala> apiKey.value.left.map(_.message).toString
     * res0: String = Left(Missing environment variable [API_KEY] and missing system property [api.key])
     *
     * scala> env[String]("FILE_ENCODING").
-    *      |   orElse(prop("file.encoding"))
-    * res1: ConfigValue[api.Id, String] = ConfigValue(Right(UTF8))
+    *      |   orElse(prop("file.encoding")).
+    *      |   toStringWithValue
+    * res1: String = ConfigValue(Right(UTF8))
     * }}}
     *
     * If the value is unavailable due to a different error than the
@@ -41,8 +42,9 @@ abstract class ConfigValue[F[_]: Apply, V] {
     *
     * {{{
     * scala> prop[Int]("file.encoding").
-    *      |   orElse(env("FILE_ENCODING"))
-    * res2: ConfigValue[api.Id, Int] = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8")))
+    *      |   orElse(env("FILE_ENCODING")).
+    *      |   toStringWithValue
+    * res2: String = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8")))
     * }}}
     *
     * Note that the alternative value is passed by reference, and it
@@ -75,8 +77,9 @@ abstract class ConfigValue[F[_]: Apply, V] {
     * {{{
     * scala> env[String]("API_KEY").
     *      |   orElse(prop("api.key")).
-    *      |   orNone
-    * res0: ConfigValue[api.Id,Option[String]] = ConfigValue(Right(None))
+    *      |   orNone.
+    *      |   toStringWithValue
+    * res0: String = ConfigValue(Right(None))
     * }}}
     *
     * If the value is unavailable due to a different error than the
@@ -84,8 +87,8 @@ abstract class ConfigValue[F[_]: Apply, V] {
     * not be replaced with `None`.
     *
     * {{{
-    * scala> prop[Int]("file.encoding").orNone
-    * res1: ConfigValue[api.Id, Option[Int]] = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8")))
+    * scala> prop[Int]("file.encoding").orNone.toStringWithValue
+    * res1: String = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8")))
     * }}}
     *
     * @return a new [[ConfigValue]]
@@ -97,6 +100,19 @@ abstract class ConfigValue[F[_]: Apply, V] {
         case other                             => other.right.map(Some.apply)
       }
     }
+
+  override def toString: String =
+    "ConfigValue$" + System.identityHashCode(this)
+
+  /**
+    * Returns a `String` representation of this [[ConfigValue]]
+    * including the value. If the value is potentially sensitive,
+    * then be careful to not include it in log output.
+    *
+    * @return a `String` representation with the value
+    */
+  def toStringWithValue: String =
+    s"ConfigValue($value)"
 
   private[ciris] final def append[A](next: ConfigValue[F, A]): ConfigValue2[F, V, A] = {
     new ConfigValue2((this.value product next.value).map {
@@ -135,7 +151,6 @@ object ConfigValue {
     val theValue = value
     new ConfigValue[F, V] {
       override def value: F[Either[ConfigError, V]] = theValue
-      override def toString: String = s"ConfigValue($value)"
     }
   }
 }

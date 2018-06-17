@@ -170,5 +170,13 @@ final class ConfigDecoderSpec extends PropertySpec {
         }
       }
     }
+
+    "using redactSensitive" should {
+      "redact sensitive error messages" in {
+        val decoder = ConfigDecoder[String].mapCatchNonFatal("Int")(_.toInt)
+        val decoded = decoder.redactSensitive.decode(existingEntry("abc"))
+        decoded.left.map(_.message) shouldBe Left("Test key [key] with value [<redacted>] cannot be converted to type [Int]")
+      }
+    }
   }
 }

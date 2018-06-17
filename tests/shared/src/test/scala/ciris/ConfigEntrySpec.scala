@@ -4,10 +4,28 @@ import ciris.api._
 
 final class ConfigEntrySpec extends PropertySpec {
   "ConfigEntry" when {
-    "converting to String" should {
-      "include the key, keyType, and value" in {
+    "using toString" should {
+      "include the key and keyType" in {
         forAll { value: String =>
           existingEntry(value).toString shouldBe
+            s"ConfigEntry(key, ConfigKeyType(test key))"
+        }
+      }
+    }
+
+    "using toStringWithValue" should {
+      "include the value" in {
+        forAll { value: String =>
+          existingEntry(value).toStringWithValue shouldBe
+            s"ConfigEntry(key, ConfigKeyType(test key), Right($value))"
+        }
+      }
+    }
+
+    "using toStringWithValues" should {
+      "include the key, keyType, and value" in {
+        forAll { value: String =>
+          existingEntry(value).toStringWithValues shouldBe
             s"ConfigEntry(key, ConfigKeyType(test key), Right($value))"
         }
       }
@@ -16,7 +34,7 @@ final class ConfigEntrySpec extends PropertySpec {
         forAll { value: String =>
           existingEntry(value)
             .mapValue(_ + "2")
-            .toString shouldBe {
+            .toStringWithValues shouldBe {
             s"ConfigEntry(key, ConfigKeyType(test key), Right($value), Right(${value}2))"
           }
         }

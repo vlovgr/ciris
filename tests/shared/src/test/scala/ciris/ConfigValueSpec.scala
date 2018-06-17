@@ -11,8 +11,12 @@ final class ConfigValueSpec extends PropertySpec {
         ConfigValue(Right(123)).value shouldBe Right(123)
       }
 
-      "have the expected string representation" in {
-        ConfigValue(Right(123)).toString shouldBe "ConfigValue(Right(123))"
+      "include the value in toStringWithValue" in {
+        ConfigValue(Right(123)).toStringWithValue shouldBe "ConfigValue(Right(123))"
+      }
+
+      "not include the value in toString" in {
+        ConfigValue(Right(123)).toString.contains("123") shouldBe false
       }
     }
 
@@ -21,8 +25,12 @@ final class ConfigValueSpec extends PropertySpec {
         ConfigValue.applyF[Id, Int](right(123)).value shouldBe Right(123)
       }
 
-      "have the expected string representation" in {
-        ConfigValue.applyF[Id, Int](right(123)).toString shouldBe "ConfigValue(Right(123))"
+      "include the value in toStringWithValue" in {
+        ConfigValue.applyF[Id, Int](right(123)).toStringWithValue shouldBe "ConfigValue(Right(123))"
+      }
+
+      "not include the value in toString" in {
+        ConfigValue.applyF[Id, Int](right(123)).toString.contains("123") shouldBe false
       }
     }
 
