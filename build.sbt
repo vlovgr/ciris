@@ -300,7 +300,14 @@ lazy val docs = project
       BuildInfoKey.map(crossScalaVersions in spireJVM) { case (k, v) => "spireJvm" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in spireJS) { case (k, v) => "spireJs" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in squantsJVM) { case (k, v) => "squantsJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in squantsJS) { case (k, v) => "squantsJs" + k.capitalize -> v }
+      BuildInfoKey.map(crossScalaVersions in squantsJS) { case (k, v) => "squantsJs" + k.capitalize -> v },
+      BuildInfoKey("catsVersion" -> catsVersion),
+      BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
+      BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
+      BuildInfoKey("refinedVersion" -> refinedVersion),
+      BuildInfoKey("shapelessVersion" -> shapelessVersion),
+      BuildInfoKey("spireVersion" -> spireVersion),
+      BuildInfoKey("squantsVersion" -> squantsVersion)
     )
   )
   .settings(
