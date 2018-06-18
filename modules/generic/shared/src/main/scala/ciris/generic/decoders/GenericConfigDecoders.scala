@@ -2,9 +2,9 @@ package ciris.generic.decoders
 
 import ciris.api._
 import ciris.api.syntax._
-import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
+import ciris.{ConfigDecoder, ConfigEntry, ConfigError}
 import ciris.ConfigError.{left, right}
-import shapeless.{:+:, ::, CNil, Coproduct, Generic, HList, HNil, Inl, Inr, Lazy}
+import shapeless.{:+:, ::, <:!<, CNil, Coproduct, Generic, HList, HNil, Inl, Inr, Lazy}
 
 trait GenericConfigDecoders {
   implicit def cNilConfigDecoder[A]: ConfigDecoder[A, CNil] =
@@ -64,9 +64,11 @@ trait GenericConfigDecoders {
     }
 
   implicit def genericConfigDecoder[A, B, C](
-    implicit gen: Generic.Aux[C, B],
+    implicit ev: C <:!< Option[_], // Do not override default behaviour for Option
+    gen: Generic.Aux[C, B],
     decodeB: Lazy[ConfigDecoder[A, B]]
   ): ConfigDecoder[A, C] = {
+    val _ = ev // Prevent unused warning
     decodeB.value.map(gen.from)
   }
 }
