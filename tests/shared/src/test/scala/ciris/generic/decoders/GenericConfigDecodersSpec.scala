@@ -1,10 +1,10 @@
 package ciris.generic.decoders
 
-import ciris.{ConfigDecoder, ConfigError, PropertySpec}
 import ciris.generic._
+import ciris.{ConfigDecoder, PropertySpec}
+import org.scalacheck.Gen
 import shapeless._
 import shapeless.test.illTyped
-import org.scalacheck.Gen
 
 final class FloatValue(val value: Float) extends AnyVal
 
@@ -189,6 +189,12 @@ final class GenericConfigDecodersSpec extends PropertySpec {
         forAll(Gen.alphaStr) { string =>
           readValue[TwoValues](string) shouldBe a [Left[_, _]]
         }
+      }
+    }
+
+    "reading an Option" should {
+      "not override the default behaviour" in {
+        readValue[Option[String]]("value") shouldBe Right(Some("value"))
       }
     }
   }
