@@ -12,9 +12,6 @@ cache:
   directories:
   - "$HOME/.ivy2/cache"
   - "$HOME/.sbt/boot/"
-before_script:
-  # Fix issue with dowloading sbt-launch for sbt 1.2.0-M1
-  - curl --create-dirs -Lo $HOME/.sbt/launchers/1.2.0-M1/sbt-launch.jar https://dl.bintray.com/sbt/maven-releases/org/scala-sbt/sbt-launch/1.2.0-M1/sbt-launch-1.2.0-M1.jar
 script:
   - sbt ++$TRAVIS_SCALA_VERSION validate
   - if [[ $TRAVIS_SCALA_VERSION == 2.12* ]]; then sbt ++$TRAVIS_SCALA_VERSION validateDocs; fi
