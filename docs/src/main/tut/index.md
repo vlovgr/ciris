@@ -109,22 +109,10 @@ For an explanation of how to use the modules, refer to the [modules overview](ht
 - The [`ciris-spire`][spire-module] module allows loading [spire][spire] number types.
 - The [`ciris-squants`][squants-module] module allows loading [squants][squants] data types.
 
-If you're using [`ciris-generic`][generic-module] with Scala 2.10, you'll need to include the [Macro Paradise](https://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
-
-```scala
-libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.patch)
-```
-
-If you're using [`ciris-cats`][cats-module] or [`ciris-cats-effect`][cats-effect-module] with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
+If you're using [`ciris-cats`][cats-module] or [`ciris-cats-effect`][cats-effect-module], you should enable [partial unification](https://github.com/scala/bug/issues/2712).
 
 ```scala
 scalacOptions += "-Ypartial-unification"
-```
-
-or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin.
-
-```scala
-addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.0")
 ```
 
 #### Ammonite
