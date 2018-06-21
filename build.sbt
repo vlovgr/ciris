@@ -246,6 +246,7 @@ lazy val docs = project
   .settings(
     micrositeName := "Ciris",
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
+    micrositeDocumentationLabelDescription := "API Documentation",
     micrositeDocumentationUrl := "api",
     micrositeKazariEnabled := false,
     micrositeShareOnSocial := false,
