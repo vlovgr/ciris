@@ -31,7 +31,7 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 
 
 ```scala
-val cirisVersion = "0.9.2"
+val cirisVersion = "0.10.0"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-cats",
@@ -48,24 +48,24 @@ libraryDependencies ++= Seq(
 
 
 Make sure to replace `%%` with `%%%` above if you are using Scala.js or Scala Native.  
-Libraries are published for Scala 2.10, 2.11, and 2.12, and Java 8 where possible.  
+Libraries are published for Scala 2.11 and 2.12, and Java 8 where possible.  
 For changes between versions, please see the [release notes](https://github.com/vlovgr/ciris/releases).
 
 Refer to the table below for platform and version support across modules.
 
- Module                                        | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
------------------------------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
- [`ciris-cats`][cats-module]              | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#65794;                                                                           |
- [`ciris-cats-effect`][cats-effect-module] | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
- [`ciris-core`](https://cir.is/docs)      | &#10003; 2.10, 2.11, 2.12       | &#10003; 0.6 (2.10, 2.11, 2.12)       | &#10003; 0.3 (2.11)    |
- [`ciris-enumeratum`][enumeratum-module]  | &#10003; 2.10, 2.11, 2.12 | &#10003; 0.6 (2.10, 2.11, 2.12) | &#65794;                                                                           |
- [`ciris-generic`][generic-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
- [`ciris-refined`][refined-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#10003; 0.3 (2.11) |
- [`ciris-spire`][spire-module]            | &#10003; 2.10, 2.11, 2.12      | &#10003; 0.6 (2.10, 2.11, 2.12)      | &#65794;                                                                           |
- [`ciris-squants`][squants-module]        | &#10003; 2.10, 2.11, 2.12    | &#10003; 0.6 (2.10, 2.11, 2.12)    | &#65794;                                                                           |
+ Module                                        | Dependency                     | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
+-----------------------------------------------|--------------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+ [`ciris-cats`][cats-module]              | cats 1.1.0              | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#65794;                                                                           |
+ [`ciris-cats-effect`][cats-effect-module] | cats-effect 0.10.1 | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
+ [`ciris-core`](https://cir.is/docs)      | &#65794;                       | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#10003; 0.3 (2.11)    |
+ [`ciris-enumeratum`][enumeratum-module]  | enumeratum 1.5.13  | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
+ [`ciris-generic`][generic-module]        | shapeless 2.3.3    | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
+ [`ciris-refined`][refined-module]        | refined 0.9.0        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
+ [`ciris-spire`][spire-module]            | spire 0.16.0            | &#10003; 2.11, 2.12      | &#10003; 0.6 (2.11, 2.12)      | &#65794;                                                                           |
+ [`ciris-squants`][squants-module]        | squants 1.3.0        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#65794;                                                                           |
 
 Backwards binary compatibility for the library is guaranteed between patch versions.  
-For example, `0.9.x` is backwards binary compatible with `0.9.y` for any `x > y`.  
+For example, `0.10.x` is backwards binary compatible with `0.10.y` for any `x > y`.  
 More recent patch versions are drop-in replacements for earlier patch versions.
 
 
@@ -80,22 +80,10 @@ For an explanation of how to use the modules, refer to the [modules overview](ht
 - The [`ciris-spire`][spire-module] module allows loading [spire][spire] number types.
 - The [`ciris-squants`][squants-module] module allows loading [squants][squants] data types.
 
-If you're using [`ciris-generic`][generic-module] with Scala 2.10, you'll need to include the [Macro Paradise](https://docs.scala-lang.org/overviews/macros/paradise.html) compiler plugin.
-
-```scala
-libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.patch)
-```
-
-If you're using [`ciris-cats`][cats-module] or [`ciris-cats-effect`][cats-effect-module] with Scala 2.11.9 or later, you should enable [partial unification](https://github.com/scala/bug/issues/2712):
+If you're using [`ciris-cats`][cats-module] or [`ciris-cats-effect`][cats-effect-module], you should enable [partial unification](https://github.com/scala/bug/issues/2712).
 
 ```scala
 scalacOptions += "-Ypartial-unification"
-```
-
-or, if you need to support Scala 2.10.6 or later, you can use the [sbt-partial-unification](https://github.com/fiadliel/sbt-partial-unification) plugin.
-
-```scala
-addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.0")
 ```
 
 #### Ammonite
@@ -116,14 +104,14 @@ curl -Ls try.cir.is/typelevel | sh
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
 ```scala
-import $ivy.`is.cir::ciris-cats:0.9.2`, ciris.cats._
-import $ivy.`is.cir::ciris-cats-effect:0.9.2`, ciris.cats.effect._, ciris.cats.effect.syntax._
-import $ivy.`is.cir::ciris-core:0.9.2`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.9.2`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.9.2`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.9.2`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.9.2`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.9.2`, ciris.squants._
+import $ivy.`is.cir::ciris-cats:0.10.0`, ciris.cats._
+import $ivy.`is.cir::ciris-cats-effect:0.10.0`, ciris.cats.effect._, ciris.cats.effect.syntax._
+import $ivy.`is.cir::ciris-core:0.10.0`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.10.0`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.10.0`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.10.0`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.10.0`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.10.0`, ciris.squants._
 ```
 
 
