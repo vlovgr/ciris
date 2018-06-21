@@ -9,11 +9,15 @@ import ciris.build.info._
 def minorVersion(version: String): String =
   version.split('.').init.mkString(".")
 
-val scalaPublishVersions: Seq[String] =
-  crossScalaVersions.map(minorVersion)
+val scalaPublishVersions: List[String] =
+  crossScalaVersions.map(minorVersion).toList
 
-val scalaPublishVersionsString: String =
-  scalaPublishVersions.init.mkString(", ") ++ scalaPublishVersions.lastOption.map(", and " + _).mkString
+val scalaPublishVersionsString: String = scalaPublishVersions match {
+  case Nil               => ""
+  case one :: Nil        => one
+  case one :: two :: Nil => s"$one and $two"
+  case threeOrMore       => threeOrMore.init.mkString(", ") ++ ", and " ++ threeOrMore.last
+}
 
 val latestMinorVersion =
   minorVersion(latestVersion)
