@@ -1,3 +1,3 @@
-latestVersion in ThisBuild := "0.9.2"
-latestBinaryCompatibleVersion in ThisBuild := None
+latestVersion in ThisBuild := "0.10.0"
+latestBinaryCompatibleVersion in ThisBuild := Some("0.10.0")
 unreleasedModuleNames in ThisBuild := Set()
