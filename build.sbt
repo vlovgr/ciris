@@ -4,7 +4,6 @@ import ReleaseTransformations._
 
 /* Variables */
 
-lazy val scala210 = "2.10.7"
 lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.6"
 
@@ -363,7 +362,7 @@ lazy val docs = project
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
-  crossScalaVersions := Seq(scala210, scala211, scala212),
+  crossScalaVersions := Seq(scala211, scala212),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -384,7 +383,6 @@ lazy val scalaSettings = Seq(
     "-Ywarn-unused-import",
     "-Ywarn-unused"
   ).filter {
-    case "-Ywarn-unused-import" if (scalaVersion.value startsWith "2.10") => false
     case "-Ywarn-unused" if !(scalaVersion.value startsWith "2.12") => false
     case _ => true
   },
@@ -484,13 +482,7 @@ lazy val mimaSettings = Seq(
 )
 
 lazy val kindProjectorSettings = Seq(
-  addCompilerPlugin("org.spire-math" % "kind-projector" % kindProjectorVersion cross CrossVersion.binary),
-  libraryDependencies ++= (scalaBinaryVersion.value match {
-    case "2.10" =>
-      compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVerison cross CrossVersion.full) :: Nil
-    case _ =>
-      Nil
-  })
+  addCompilerPlugin("org.spire-math" % "kind-projector" % kindProjectorVersion cross CrossVersion.binary)
 )
 
 lazy val jvmModuleSettings =
