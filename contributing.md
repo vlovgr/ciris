@@ -73,12 +73,6 @@ Following is a step-by-step guide on how to add a new module.
 
    If the module won't support Scala.js or Scala Native, remove the unsupported platforms from `crossProject`, along with `jsSettings` and `nativeSettings`, and the `fooJS` and `fooNative` projects, respectively.
 
-   If the module won't support the default `crossScalaVersions` (Scala 2.10, 2.11, and 2.12), remove those versions from the project definition. Below is an example of how to remove support for Scala 2.10 (`scala210`, `scala211`, `scala212` are variables for the Scala versions used in the build).
-
-    ```scala
-    .settings(scalaSettings ++ Seq(crossScalaVersions -= scala210))
-    ```
-
    If the module has a dependency on another library, add the dependency version to the variables section:
 
     ```scala
