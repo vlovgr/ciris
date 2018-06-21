@@ -82,3 +82,5 @@
 [#161]: https://github.com/vlovgr/ciris/pull/161
 [#162]: https://github.com/vlovgr/ciris/pull/162
 [#163]: https://github.com/vlovgr/ciris/pull/163
+
+Released on 2018-06-21.
