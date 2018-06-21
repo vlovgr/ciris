@@ -343,14 +343,14 @@ abstract class ConfigDecoder[A, B] { self =>
     * scala> val decoder = ConfigDecoder[String, Int]
     * decoder: ConfigDecoder[Int] = ciris.ConfigDecoder$$$$anon$$6@7bdb183f
     *
-    * scala> decoder.decode(source.read(0)).left.map(_.message)
-    * res0: Either[String, Int] = Left(Command-line argument [0] with value [123 ] cannot be converted to type [Int]: java.lang.NumberFormatException: For input string: "123 ")
+    * scala> decoder.decode(source.read(0)).left.map(_.message).toString
+    * res0: String = Left(Command-line argument [0] with value [123 ] cannot be converted to type [Int]: java.lang.NumberFormatException: For input string: "123 ")
     *
     * scala> val decoderRedacted = decoder.redactSensitive
     * decoderRedacted: ConfigDecoder[Int] = ciris.ConfigDecoder$$$$anon$$6@28aa7479
     *
-    * scala> decoderRedacted.decode(source.read(0)).left.map(_.message)
-    * res1: Either[String,Int] = Left(Command-line argument [0] with value [<redacted>] cannot be converted to type [Int])
+    * scala> decoderRedacted.decode(source.read(0)).left.map(_.message).toString
+    * res1: String = Left(Command-line argument [0] with value [<redacted>] cannot be converted to type [Int])
     * }}}
     */
   final def redactSensitive: ConfigDecoder[A, B] =
