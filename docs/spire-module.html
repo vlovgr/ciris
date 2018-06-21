@@ -20,25 +20,25 @@
 <p>We can then read entries from the source and decode values into spire number types.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"natural"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Natural</span><span class="o">]</span>
-<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Natural] = ConfigEntry(natural, ConfigKeyType(spire key), Right(847365894625891365137596378546725))
+<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Natural] = ConfigEntry(natural, ConfigKeyType(spire key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"interval"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Interval</span><span class="o">[</span><span class="kt">Rational</span><span class="o">]]</span>
-<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Interval[spire.math.Rational]] = ConfigEntry(interval, ConfigKeyType(spire key), Right((1/3, 524/51]))
+<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Interval[spire.math.Rational]] = ConfigEntry(interval, ConfigKeyType(spire key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"rational"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Rational</span><span class="o">]</span>
-<span class="c1">// res2: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Rational] = ConfigEntry(rational, ConfigKeyType(spire key), Right(-194712/-129831), Right(64904/43277))
+<span class="c1">// res2: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Rational] = ConfigEntry(rational, ConfigKeyType(spire key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"natural"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Number</span><span class="o">]</span>
-<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Number] = ConfigEntry(natural, ConfigKeyType(spire key), Right(847365894625891365137596378546725))
+<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Number] = ConfigEntry(natural, ConfigKeyType(spire key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"rational"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Real</span><span class="o">]</span>
-<span class="c1">// res4: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Real] = ConfigEntry(rational, ConfigKeyType(spire key), Right(-194712/-129831), Right(64904/43277))
+<span class="c1">// res4: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Real] = ConfigEntry(rational, ConfigKeyType(spire key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"trilean"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Trilean</span><span class="o">]</span>
-<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Trilean] = ConfigEntry(trilean, ConfigKeyType(spire key), Left(MissingKey(trilean, ConfigKeyType(spire key))), Right(unknown))
+<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.Trilean] = ConfigEntry(trilean, ConfigKeyType(spire key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"uint"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">UInt</span><span class="o">]</span>
-<span class="c1">// res6: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.UInt] = ConfigEntry(uint, ConfigKeyType(spire key), Right(2147483648))
+<span class="c1">// res6: ciris.ConfigEntry[ciris.api.Id,String,String,spire.math.UInt] = ConfigEntry(uint, ConfigKeyType(spire key))
 </span></code></pre>
 </div>
 

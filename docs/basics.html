@@ -26,15 +26,15 @@
 </span>
 <span class="c1">// Read environment variable LANG as a String
 </span><span class="n">env</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"LANG"</span><span class="o">)</span>
-<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,String] = ConfigEntry(LANG, Environment, Right(en_GB.UTF-8))
+<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,String] = ConfigEntry(LANG, Environment)
 </span>
 <span class="c1">// Read system property file.encoding as a String
 </span><span class="n">prop</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"file.encoding"</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,String,String] = ConfigEntry(file.encoding, Property, Right(UTF8))
+<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,String,String] = ConfigEntry(file.encoding, Property)
 </span>
 <span class="c1">// Read the file, trim the file contents, and convert to Int
 </span><span class="n">file</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-6541948384580304652.tmp,UTF-8), ConfigKeyType(file), Right(1234 ), Right(1234))
+<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2111325734092455254.tmp,UTF-8), ConfigKeyType(file))
 </span></code></pre>
 </div>
 
@@ -46,7 +46,7 @@
 // but if it has not been set, return None instead of
 // an error saying it is missing
 </span><span class="k">val</span> <span class="n">fileEncoding</span> <span class="k">=</span> <span class="n">env</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]](</span><span class="s">"FILE_ENCODING"</span><span class="o">)</span>
-<span class="c1">// fileEncoding: ciris.ConfigEntry[ciris.api.Id,String,String,Option[String]] = ConfigEntry(FILE_ENCODING, Environment, Left(MissingKey(FILE_ENCODING, Environment)), Right(None))
+<span class="c1">// fileEncoding: ciris.ConfigEntry[ciris.api.Id,String,String,Option[String]] = ConfigEntry(FILE_ENCODING, Environment)
 </span>
 <span class="c1">// The unmodified source value is available in the entry,
 // and here we can see that the environment variable has
@@ -61,8 +61,8 @@
 </span>
 <span class="c1">// If the key has been set, but could not be decoded
 // to the specified type, we keep the error as it is
-</span><span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">]](</span><span class="s">"file.encoding"</span><span class="o">)</span>
-<span class="c1">// res18: ciris.ConfigEntry[ciris.api.Id,String,String,Option[Int]] = ConfigEntry(file.encoding, Property, Right(UTF8), Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8")))
+</span><span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">]](</span><span class="s">"file.encoding"</span><span class="o">).</span><span class="n">value</span>
+<span class="c1">// res18: ciris.api.Id[Either[ciris.ConfigError,Option[Int]]] = Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8"))
 </span></code></pre>
 </div>
 
@@ -73,7 +73,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 // the FILE_ENCODING environment variable has not been set
 </span><span class="n">env</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"FILE_ENCODING"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"file.encoding"</span><span class="o">))</span>
-<span class="c1">// res21: ciris.ConfigValue[ciris.api.Id,String] = ConfigValue(Right(UTF8))
+<span class="c1">// res21: ciris.ConfigValue[ciris.api.Id,String] = ConfigValue$665262274
 </span></code></pre>
 </div>
 
@@ -84,7 +84,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">env</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res22: ciris.ConfigValue[ciris.api.Id,Option[String]] = ConfigValue(Right(None))
+<span class="c1">// res22: ciris.ConfigValue[ciris.api.Id,Option[String]] = ConfigValue$294114809
 </span></code></pre>
 </div>
 
@@ -118,11 +118,11 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 </span>
 <span class="c1">// Suspend reading of system property file.encoding as a String
 </span><span class="n">propF</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">String</span><span class="o">](</span><span class="s">"file.encoding"</span><span class="o">)</span>
-<span class="c1">// res25: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property, IO$1301540541)
+<span class="c1">// res25: ciris.ConfigEntry[cats.effect.IO,String,String,String] = ConfigEntry(file.encoding, Property)
 </span>
 <span class="c1">// Suspend reading the file, trim the file contents, and convert to Int
 </span><span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res27: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-6541948384580304652.tmp,UTF-8), ConfigKeyType(file), IO$905396503, IO$988507868)
+<span class="c1">// res27: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2111325734092455254.tmp,UTF-8), ConfigKeyType(file))
 </span></code></pre>
 </div>
 
@@ -221,11 +221,11 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 //   - Missing environment variable [API_KEY] and missing system property [api.key].
 // 
 //   at ciris.ConfigException$.apply(ConfigException.scala:34)
-//   at ciris.ConfigErrors$.toException$extension(ConfigErrors.scala:106)
-//   at ciris.syntax$EitherConfigErrorsSyntax$.$anonfun$orThrow$1(syntax.scala:22)
-//   at ciris.syntax$EitherConfigErrorsSyntax$.$anonfun$orThrow$1$adapted(syntax.scala:22)
+//   at ciris.ConfigErrors$.toException$extension(ConfigErrors.scala:128)
+//   at ciris.syntax$EitherConfigErrorsSyntax$.$anonfun$orThrow$1(syntax.scala:27)
+//   at ciris.syntax$EitherConfigErrorsSyntax$.$anonfun$orThrow$1$adapted(syntax.scala:27)
 //   at scala.util.Either.fold(Either.scala:189)
-//   at ciris.syntax$EitherConfigErrorsSyntax$.orThrow$extension(syntax.scala:23)
+//   at ciris.syntax$EitherConfigErrorsSyntax$.orThrow$extension(syntax.scala:28)
 //   ... 43 elided
 </span></code></pre>
 </div>

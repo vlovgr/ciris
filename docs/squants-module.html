@@ -19,13 +19,13 @@
 <p>We can then read entries from the source and decode values as <code class="highlighter-rouge">Time</code>.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">seconds</span> <span class="k">=</span> <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"seconds"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Time</span><span class="o">]</span>
-<span class="c1">// seconds: ciris.ConfigEntry[ciris.api.Id,String,String,squants.time.Time] = ConfigEntry(seconds, ConfigKeyType(squants key), Right(3 s), Right(3.0 s))
+<span class="c1">// seconds: ciris.ConfigEntry[ciris.api.Id,String,String,squants.time.Time] = ConfigEntry(seconds, ConfigKeyType(squants key))
 </span>
 <span class="k">val</span> <span class="n">minutes</span> <span class="k">=</span> <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"minutes"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Time</span><span class="o">]</span>
-<span class="c1">// minutes: ciris.ConfigEntry[ciris.api.Id,String,String,squants.time.Time] = ConfigEntry(minutes, ConfigKeyType(squants key), Right(23 m), Right(23.0 m))
+<span class="c1">// minutes: ciris.ConfigEntry[ciris.api.Id,String,String,squants.time.Time] = ConfigEntry(minutes, ConfigKeyType(squants key))
 </span>
 <span class="k">val</span> <span class="n">hours</span> <span class="k">=</span> <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"hours"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Time</span><span class="o">]</span>
-<span class="c1">// hours: ciris.ConfigEntry[ciris.api.Id,String,String,squants.time.Time] = ConfigEntry(hours, ConfigKeyType(squants key), Right(12 h), Right(12.0 h))
+<span class="c1">// hours: ciris.ConfigEntry[ciris.api.Id,String,String,squants.time.Time] = ConfigEntry(hours, ConfigKeyType(squants key))
 </span></code></pre>
 </div>
 

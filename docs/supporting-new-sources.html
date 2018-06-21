@@ -106,10 +106,10 @@
 <span class="c1">// import ciris.refined._
 </span>
 <span class="k">val</span> <span class="n">propFile</span> <span class="k">=</span> <span class="n">propFileAt</span><span class="o">(</span><span class="n">tempFileName</span><span class="o">)</span>
-<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-3411430224004427863.properties, UTF-8)
+<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-1248738429934343606.properties, UTF-8)
 </span>
 <span class="n">propFile</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
-<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-3411430224004427863.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), Right(9000))
+<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-1248738429934343606.properties, charset = UTF-8, key = port, ConfigKeyType(property file key))
 </span></code></pre>
 </div>
 
@@ -165,7 +165,7 @@
 <span class="k">def</span> <span class="n">propFileAtF</span><span class="o">[</span><span class="kt">F</span><span class="o">[</span><span class="k">_</span><span class="o">]</span><span class="kt">:</span> <span class="kt">Monad:</span> <span class="kt">LiftIO</span><span class="o">](</span>
   <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
   <span class="n">charset</span><span class="k">:</span> <span class="kt">Charset</span> <span class="o">=</span> <span class="nc">Charset</span><span class="o">.</span><span class="n">defaultCharset</span>
-<span class="o">)</span><span class="k">:</span> <span class="kt">PropFileAt</span><span class="o">[</span><span class="kt">F</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+<span class="o">)</span><span class="k">:</span> <span class="kt">F</span><span class="o">[</span><span class="kt">PropFileAt</span><span class="o">[</span><span class="kt">F</span><span class="o">]]</span> <span class="k">=</span> <span class="o">{</span>
   <span class="k">val</span> <span class="n">file</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
 
   <span class="k">val</span> <span class="n">propFile</span> <span class="k">=</span>
@@ -174,7 +174,7 @@
       <span class="o">.</span><span class="n">read</span><span class="o">((</span><span class="n">file</span><span class="o">,</span> <span class="n">charset</span><span class="o">))</span>
       <span class="o">.</span><span class="n">value</span>
 
-  <span class="k">new</span> <span class="nc">PropFileAt</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">charset</span><span class="o">,</span> <span class="n">propFile</span><span class="o">)</span>
+  <span class="n">propFile</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">new</span> <span class="nc">PropFileAt</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">charset</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -206,10 +206,13 @@
 <span class="c1">// import ciris.cats.effect._
 </span>
 <span class="k">val</span> <span class="n">propFileF</span> <span class="k">=</span> <span class="n">propFileAtF</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">tempFileName</span><span class="o">)</span>
-<span class="c1">// propFileF: PropFileAt[cats.effect.IO] = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-3411430224004427863.properties, UTF-8, IO$1057900385)
+<span class="c1">// propFileF: cats.effect.IO[PropFileAt[cats.effect.IO]] = &lt;function1&gt;
 </span>
-<span class="n">propFileF</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
-<span class="c1">// res1: ciris.ConfigEntry[cats.effect.IO,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-3411430224004427863.properties, charset = UTF-8, key = port, ConfigKeyType(property file key), &lt;function1&gt;, IO$532269636)
+<span class="k">for</span> <span class="o">{</span>
+  <span class="n">propFile</span> <span class="k">&lt;-</span> <span class="n">propFileF</span>
+  <span class="n">port</span> <span class="k">=</span> <span class="n">propFile</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
+<span class="o">}</span> <span class="k">yield</span> <span class="n">port</span>
+<span class="c1">// res1: cats.effect.IO[ciris.ConfigEntry[cats.effect.IO,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber]] = &lt;function1&gt;
 </span></code></pre>
 </div>
 

@@ -48,14 +48,14 @@ For an explanation of how you can write decoders to support new types, refer to 
 <span class="c1">// import java.time.LocalDate
 </span>
 <span class="k">val</span> <span class="n">entry</span> <span class="k">=</span> <span class="nc">ConfigEntry</span><span class="o">(</span><span class="s">"key"</span><span class="o">,</span> <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"key type"</span><span class="o">),</span> <span class="nc">Right</span><span class="o">(</span><span class="s">"20180307"</span><span class="o">))</span>
-<span class="c1">// entry: ciris.ConfigEntry[ciris.api.Id,String,String,String] = ConfigEntry(key, ConfigKeyType(key type), Right(20180307))
+<span class="c1">// entry: ciris.ConfigEntry[ciris.api.Id,String,String,String] = ConfigEntry(key, ConfigKeyType(key type))
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">format</span><span class="k">:</span> <span class="kt">DateTimeFormatter</span> <span class="o">=</span>
   <span class="nc">DateTimeFormatter</span><span class="o">.</span><span class="n">ofPattern</span><span class="o">(</span><span class="s">"yyyyMMdd"</span><span class="o">)</span>
 <span class="c1">// format: java.time.format.DateTimeFormatter = Value(YearOfEra,4,19,EXCEEDS_PAD)Value(MonthOfYear,2)Value(DayOfMonth,2)
 </span>
 <span class="n">entry</span><span class="o">.</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">LocalDate</span><span class="o">]</span>
-<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,String,String,java.time.LocalDate] = ConfigEntry(key, ConfigKeyType(key type), Right(20180307), Right(2018-03-07))
+<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,String,String,java.time.LocalDate] = ConfigEntry(key, ConfigKeyType(key type))
 </span></code></pre>
 </div>
 
@@ -66,10 +66,10 @@ For an explanation of how you can write decoders to support new types, refer to 
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">localDateDecoder</span><span class="k">:</span> <span class="kt">ConfigDecoder</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">LocalDate</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">ConfigDecoder</span><span class="o">.</span><span class="n">localDateConfigDecoder</span><span class="o">(</span><span class="n">format</span><span class="o">)</span>
-<span class="c1">// localDateDecoder: ciris.ConfigDecoder[String,java.time.LocalDate] = ciris.ConfigDecoder$$anon$11@750477bc
+<span class="c1">// localDateDecoder: ciris.ConfigDecoder[String,java.time.LocalDate] = ciris.ConfigDecoder$$anon$12@47f6e0c0
 </span>
 <span class="n">entry</span><span class="o">.</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">LocalDate</span><span class="o">]</span>
-<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,java.time.LocalDate] = ConfigEntry(key, ConfigKeyType(key type), Right(20180307), Right(2018-03-07))
+<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,java.time.LocalDate] = ConfigEntry(key, ConfigKeyType(key type))
 </span></code></pre>
 </div>
 

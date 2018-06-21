@@ -65,13 +65,13 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.9.2 on Scala 2.12. Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.10.0 on Scala 2.12. Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.9.2" target="_blank">v0.9.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.10.0" target="_blank">v0.10.0</a> on Scala 2.12.<br>
 Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.9.2" target="_blank">v0.9.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.10.0" target="_blank">v0.10.0</a> on Scala 2.12.<br>
 Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for type classes and type class instances.</li><li>The <a href="cats/effect/index.html" class="extype" name="ciris.cats.effect">cats-effect</a> module integrates with <a href="https://github.com/typelevel/cats-effect" target="_blank">cats-effect</a> for type classes for effect types.</li><li>The <a href="" class="extype" name="ciris">core</a> module provides basic functionality and support for standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 current" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
@@ -297,7 +297,7 @@ for generic derivation of ConfigDecoders.</p>
 get started is to bring it into scope with an import.<br>
 If you are looking for a getting started guide, with examples
 and explanations, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.
-</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.9.2/modules/core/shared/src/main/scala/ciris/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.10.0/modules/core/shared/src/main/scala/ciris/package.scala" target="_blank">package.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -405,7 +405,7 @@ context of type <code>F</code>. The type of the key is described with the
 included <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>.<br>
 <br>
 To create a <a href="ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a>, use <a href="ConfigEntry$.html#apply[K,S](key:K,keyType:ciris.ConfigKeyType[K],sourceValue:Either[ciris.ConfigError,S]):ciris.ConfigEntry[ciris.api.Id,K,S,S]" class="extmbr" name="ciris.ConfigEntry#apply">ConfigEntry#apply</a>.</p><pre>scala&gt; ConfigEntry(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"value"</span>))
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value))</pre></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the values exists</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="tparam">S</dt><dd class="cmt"><p>the type of the source value</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd></dl></div>
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment)</pre></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the values exists</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="tparam">S</dt><dd class="cmt"><p>the type of the source value</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd></dl></div>
     </li><li name="ciris.ConfigError" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="ConfigErrorextendsAnyRef"></a><a id="ConfigError:ConfigError"></a>
       <span class="permalink">
@@ -466,7 +466,10 @@ res0: Vector[ConfigError] = Vector(ConfigError(error1), ConfigError(error2))</pr
 res1: Vector[<span class="std">String</span>] = Vector(error1, error2)
 
 scala&gt; errors.size
-res2: <span class="std">Int</span> = <span class="num">2</span></pre><p>It is also possible to append more <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> errors using the <a href="ConfigErrors.html#append(error:ciris.ConfigError):ciris.ConfigErrors" class="extmbr" name="ciris.ConfigErrors#append">append</a>
+res2: <span class="std">Int</span> = <span class="num">2</span></pre><p>If you instead want a combined error message, you can use <a href="ConfigErrors.html#message:String" class="extmbr" name="ciris.ConfigErrors#message">message</a>.</p><pre>scala&gt; errors.message
+res0: <span class="std">String</span> =
+- error1.
+- error2.</pre><p>It is also possible to append more <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> errors using the <a href="ConfigErrors.html#append(error:ciris.ConfigError):ciris.ConfigErrors" class="extmbr" name="ciris.ConfigErrors#append">append</a>
 method, returning a new <a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a> instance.</p><pre>scala&gt; <span class="kw">val</span> errors2 = errors append ConfigError(<span class="lit">"error3"</span>)
 errors2: ConfigErrors = ConfigErrors(ConfigError(error1), ConfigError(error2), ConfigError(error3))
 
@@ -565,8 +568,8 @@ include the following:<br>
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> source = ConfigSource(ConfigKeyType[<span class="std">String</span>](<span class="lit">"identity key"</span>))(key <span class="kw">=&gt;</span> Right(key))
 source: ConfigSource[api.Id, <span class="std">String</span>, <span class="std">String</span>] = ConfigSource(ConfigKeyType(identity key))
 
-scala&gt; source.read(<span class="lit">"key"</span>)
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, ConfigKeyType(identity key), Right(key))</pre></li></ol>
+scala&gt; source.read(<span class="lit">"key"</span>).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, ConfigKeyType(identity key), Right(key))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris.ConfigValue" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="ConfigValue[F[_],V]extendsAnyRef"></a><a id="ConfigValue[F[_],V]:ConfigValue[F,V]"></a>
@@ -656,14 +659,14 @@ Note that the underlying arguments may be mutable. There
 is also an alternative pure version <a href="#argF[F[_],Value](args:IndexedSeq[String])(index:Int)(implicitevidence$3:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,Int,String,Value]" class="extmbr" name="ciris#argF">argF</a> with which
 the reading is suspended into a context <code>F</code>.
 </p></div><dl class="paramcmts block"><dt class="tparam">Value</dt><dd class="cmt"><p>the type to convert the value to</p></dd><dt class="param">args</dt><dd class="cmt"><p>the command-line arguments</p></dd><dt class="param">index</dt><dd class="cmt"><p>the index of the argument to read</p></dd><dt class="param">decoder</dt><dd class="cmt"><p>the decoder with which to decode the value</p></dd><dt>returns</dt><dd class="cmt"><p>a <a href="ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> with the result</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; ciris.arg[<span class="std">Int</span>](<span class="std">Array</span>(<span class="lit">"50"</span>))(<span class="num">0</span>)
-res0: ciris.ConfigEntry[ciris.api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">Int</span>] = ConfigEntry(<span class="num">0</span>, Argument, Right(<span class="num">50</span>))
+               <ol><li class="cmt"><p></p><pre>scala&gt; ciris.arg[<span class="std">Int</span>](<span class="std">Array</span>(<span class="lit">"50"</span>))(<span class="num">0</span>).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(<span class="num">0</span>, Argument, Right(<span class="num">50</span>))
 
-scala&gt; ciris.arg[<span class="std">Int</span>](<span class="std">Array</span>(<span class="lit">"50"</span>))(<span class="num">1</span>)
-res1: ciris.ConfigEntry[ciris.api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">Int</span>] = ConfigEntry(<span class="num">1</span>, Argument, Left(MissingKey(<span class="num">1</span>, Argument)))
+scala&gt; ciris.arg[<span class="std">Int</span>](<span class="std">Array</span>(<span class="lit">"50"</span>))(<span class="num">1</span>).toStringWithValues
+res1: <span class="std">String</span> = ConfigEntry(<span class="num">1</span>, Argument, Left(MissingKey(<span class="num">1</span>, Argument)))
 
-scala&gt; ciris.arg[<span class="std">Int</span>](<span class="std">Array</span>(<span class="lit">"a"</span>))(<span class="num">0</span>)
-res2: ciris.ConfigEntry[ciris.api.Id, <span class="std">Int</span>, <span class="std">String</span>, <span class="std">Int</span>] = ConfigEntry(<span class="num">0</span>, Argument, Right(a), Left(WrongType(<span class="num">0</span>, Argument, Right(a), a, <span class="std">Int</span>, java.lang.NumberFormatException: For input string: <span class="lit">"a"</span>)))</pre></li></ol>
+scala&gt; ciris.arg[<span class="std">Int</span>](<span class="std">Array</span>(<span class="lit">"a"</span>))(<span class="num">0</span>).toStringWithValues
+res2: <span class="std">String</span> = ConfigEntry(<span class="num">0</span>, Argument, Right(a), Left(WrongType(<span class="num">0</span>, Argument, Right(a), a, <span class="std">Int</span>, java.lang.NumberFormatException: For input string: <span class="lit">"a"</span>)))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris#argF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="argF[F[_],Value](args:IndexedSeq[String])(index:Int)(implicitevidence$3:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,Int,String,Value]"></a><a id="argF[F[_],Value](IndexedSeq[String])(Int)(Sync[F],ConfigDecoder[String,Value]):ConfigEntry[F,Int,String,Value]"></a>
@@ -719,8 +722,8 @@ If you want the value returned in a context, that is not
 <a href="api/index.html#Id[A]=A" class="extmbr" name="ciris.api.Id">api.Id</a>, you can use <a href="#envF[F[_],Value](key:String)(implicitevidence$1:ciris.api.Applicative[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,String,String,Value]" class="extmbr" name="ciris#envF">envF</a> and explicitly specify
 the context to use.
 </p></div><dl class="paramcmts block"><dt class="tparam">Value</dt><dd class="cmt"><p>the type to convert the value to</p></dd><dt class="param">key</dt><dd class="cmt"><p>the name of the environment variable to read</p></dd><dt class="param">decoder</dt><dd class="cmt"><p>the decoder with which to decode the value</p></dd><dt>returns</dt><dd class="cmt"><p>a <a href="ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> with the result</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; ciris.env[<span class="std">Int</span>](<span class="lit">"key"</span>)
-res0: ciris.ConfigEntry[ciris.api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">Int</span>] = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))</pre></li></ol>
+               <ol><li class="cmt"><p></p><pre>scala&gt; ciris.env[<span class="std">Int</span>](<span class="lit">"key"</span>).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris#envF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="envF[F[_],Value](key:String)(implicitevidence$1:ciris.api.Applicative[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,String,String,Value]"></a><a id="envF[F[_],Value](String)(Applicative[F],ConfigDecoder[String,Value]):ConfigEntry[F,String,String,Value]"></a>
@@ -781,8 +784,8 @@ alternative pure version of this function available as
                           before trying to convert to type <code>Value</code>;
                           defaults to not modify the file contents</p></dd><dt class="param">charset</dt><dd class="cmt"><p>the charset of the file to read;
                defaults to <code>Charset.defaultCharset</code></p></dd><dt class="param">decoder</dt><dd class="cmt"><p>the decoder with which to decode the value</p></dd><dt>returns</dt><dd class="cmt"><p>a <a href="ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> with the result</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>CirisPlatformSpecific</dd><div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; file[<span class="std">Double</span>](<span class="kw">new</span> java.io.File(<span class="lit">"/number.txt"</span>))
-res0: ConfigEntry[api.Id, (java.io.File,java.nio.charset.Charset), <span class="std">String</span>, <span class="std">Double</span>] = ConfigEntry((/number.txt,UTF-<span class="num">8</span>), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-<span class="num">8</span>), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))</pre></li></ol>
+               <ol><li class="cmt"><p></p><pre>scala&gt; file[<span class="std">Double</span>](<span class="kw">new</span> java.io.File(<span class="lit">"/number.txt"</span>)).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry((/number.txt,UTF-<span class="num">8</span>), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-<span class="num">8</span>), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))</pre></li></ol>
             </div><dt>See also</dt><dd><span class="cmt"><p><a href="#fileWithName[Value](name:String,modifyFileContents:String=&gt;String,charset:java.nio.charset.Charset)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,(java.io.File,java.nio.charset.Charset),String,Value]" class="extmbr" name="ciris#fileWithName">fileWithName</a></p></span></dd></dl></div>
     </li><li name="ciris.CirisPlatformSpecific#fileSync" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fileSync[F[_],Value](file:java.io.File,modifyFileContents:String=&gt;String,charset:java.nio.charset.Charset)(implicitevidence$1:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,(java.io.File,java.nio.charset.Charset),String,Value]"></a><a id="fileSync[F[_],Value](File,(String)⇒String,Charset)(Sync[F],ConfigDecoder[String,Value]):ConfigEntry[F,(File,Charset),String,Value]"></a>
@@ -845,8 +848,8 @@ the file.
                           before trying to convert to type <code>Value</code>;
                           defaults to not modify the file contents</p></dd><dt class="param">charset</dt><dd class="cmt"><p>the charset of the file to read;
                defaults to <code>Charset.defaultCharset</code></p></dd><dt class="param">decoder</dt><dd class="cmt"><p>the decoder with which to decode the value</p></dd><dt>returns</dt><dd class="cmt"><p>a <a href="ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> with the result</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd>CirisPlatformSpecific</dd><div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; fileWithName[<span class="std">Double</span>](<span class="lit">"/number.txt"</span>)
-res0: ConfigEntry[api.Id, (java.io.File,java.nio.charset.Charset), <span class="std">String</span>, <span class="std">Double</span>] = ConfigEntry((/number.txt,UTF-<span class="num">8</span>), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-<span class="num">8</span>), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))</pre></li></ol>
+               <ol><li class="cmt"><p></p><pre>scala&gt; fileWithName[<span class="std">Double</span>](<span class="lit">"/number.txt"</span>).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry((/number.txt,UTF-<span class="num">8</span>), ConfigKeyType(file), Left(ReadException((/number.txt,UTF-<span class="num">8</span>), ConfigKeyType(file), java.io.FileNotFoundException: /number.txt (No such file or directory))))</pre></li></ol>
             </div><dt>See also</dt><dd><span class="cmt"><p><a href="#file[Value](file:java.io.File,modifyFileContents:String=&gt;String,charset:java.nio.charset.Charset)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,(java.io.File,java.nio.charset.Charset),String,Value]" class="extmbr" name="ciris#file">file</a></p></span></dd></dl></div>
     </li><li name="ciris.CirisPlatformSpecific#fileWithNameSync" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fileWithNameSync[F[_],Value](name:String,modifyFileContents:String=&gt;String,charset:java.nio.charset.Charset)(implicitevidence$2:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,(java.io.File,java.nio.charset.Charset),String,Value]"></a><a id="fileWithNameSync[F[_],Value](String,(String)⇒String,Charset)(Sync[F],ConfigDecoder[String,Value]):ConfigEntry[F,(File,Charset),String,Value]"></a>
@@ -1317,8 +1320,8 @@ them during runtime, this function is not pure.<br>
 You might want to use <a href="#propF[F[_],Value](key:String)(implicitevidence$2:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,String,String,Value]" class="extmbr" name="ciris#propF">propF</a> to suspend the actual
 reading in a context <code>F</code>, like <code>IO</code>.
 </p></div><dl class="paramcmts block"><dt class="tparam">Value</dt><dd class="cmt"><p>the type to convert the value to</p></dd><dt class="param">key</dt><dd class="cmt"><p>the system property to read</p></dd><dt class="param">decoder</dt><dd class="cmt"><p>the decoder with which to decode the value</p></dd><dt>returns</dt><dd class="cmt"><p>a <a href="ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> with the result</p></dd></dl><dl class="attributes block"> <div class="block">Example:
-               <ol><li class="cmt"><p></p><pre>scala&gt; ciris.prop[<span class="std">Int</span>](<span class="lit">"key"</span>)
-res0: ciris.ConfigEntry[ciris.api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">Int</span>] = ConfigEntry(key, Property, Left(MissingKey(key, Property)))</pre></li></ol>
+               <ol><li class="cmt"><p></p><pre>scala&gt; ciris.prop[<span class="std">Int</span>](<span class="lit">"key"</span>).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, Property, Left(MissingKey(key, Property)))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris#propF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="propF[F[_],Value](key:String)(implicitevidence$2:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,String,String,Value]"></a><a id="propF[F[_],Value](String)(Sync[F],ConfigDecoder[String,Value]):ConfigEntry[F,String,String,Value]"></a>

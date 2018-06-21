@@ -65,13 +65,13 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.9.2 on Scala 2.12. Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.10.0 on Scala 2.12. Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.9.2" target="_blank">v0.9.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.10.0" target="_blank">v0.10.0</a> on Scala 2.12.<br>
 Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.9.2" target="_blank">v0.9.2</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.10.0" target="_blank">v0.10.0</a> on Scala 2.12.<br>
 Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for type classes and type class instances.</li><li>The <a href="cats/effect/index.html" class="extype" name="ciris.cats.effect">cats-effect</a> module integrates with <a href="https://github.com/typelevel/cats-effect" target="_blank">cats-effect</a> for type classes for effect types.</li><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
@@ -312,7 +312,7 @@ context of type <code>F</code>. The type of the key is described with the
 included <a href="ConfigKeyType.html" class="extype" name="ciris.ConfigKeyType">ConfigKeyType</a>.<br>
 <br>
 To create a <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a>, use <a href="ConfigEntry$.html#apply[K,S](key:K,keyType:ciris.ConfigKeyType[K],sourceValue:Either[ciris.ConfigError,S]):ciris.ConfigEntry[ciris.api.Id,K,S,S]" class="extmbr" name="ciris.ConfigEntry#apply">ConfigEntry#apply</a>.</p><pre>scala&gt; ConfigEntry(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"value"</span>))
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value))</pre></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the values exists</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="tparam">S</dt><dd class="cmt"><p>the type of the source value</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.9.2/modules/core/shared/src/main/scala/ciris/ConfigEntry.scala" target="_blank">ConfigEntry.scala</a></dd></dl><div class="toggleContainer block">
+res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment)</pre></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the values exists</p></dd><dt class="tparam">K</dt><dd class="cmt"><p>the type of the key</p></dd><dt class="tparam">S</dt><dd class="cmt"><p>the type of the source value</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.10.0/modules/core/shared/src/main/scala/ciris/ConfigEntry.scala" target="_blank">ConfigEntry.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -557,10 +557,10 @@ and all other properties are left unmodified.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of the new value</p></dd><dt class="param">f</dt><dd class="cmt"><p>the function to apply to the value, if it is available</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> with the new value;
         or a <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> if the value is not available</p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> entry = ConfigEntry(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"value"</span>))
-entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value))
+entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment)
 
-scala&gt; entry.flatMapValue(v <span class="kw">=&gt;</span> <span class="kw">if</span>(v.length &gt; <span class="num">2</span>) Right(v) <span class="kw">else</span> Left(ConfigError(<span class="lit">"error"</span>)))
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value))</pre></li></ol>
+scala&gt; entry.flatMapValue(v <span class="kw">=&gt;</span> <span class="kw">if</span>(v.length &gt; <span class="num">2</span>) Right(v) <span class="kw">else</span> Left(ConfigError(<span class="lit">"error"</span>))).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, Environment, Right(value))</pre></li></ol>
             </div></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
@@ -672,10 +672,10 @@ other properties are left unmodified.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of the new value</p></dd><dt class="param">f</dt><dd class="cmt"><p>the function to apply to the value</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> with the modified value;
         or a <a href="ConfigError.html" class="extype" name="ciris.ConfigError">ConfigError</a> if the value is not available</p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> entry = ConfigEntry(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"value "</span>))
-entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value ))
+entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment)
 
-scala&gt; entry.mapValue(_.trim)
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value ), Right(value))</pre></li></ol>
+scala&gt; entry.mapValue(_.trim).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, Environment, Right(value ), Right(value))</pre></li></ol>
             </div></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
@@ -754,18 +754,20 @@ as determined by <a href="ConfigError.html#isMissingKey:Boolean" class="extmbr" 
 to an error, then the errors are accumulated.</p><pre>scala&gt; <span class="kw">val</span> apiKey =
      |  env[<span class="std">String</span>](<span class="lit">"API_KEY"</span>).
      |    orElse(prop(<span class="lit">"api.key"</span>))
-apiKey: ConfigValue[api.Id, <span class="std">String</span>] = ConfigValue(Left(Combined(MissingKey(API_KEY, Environment), MissingKey(api.key, Property))))
+apiKey: ConfigValue[api.Id, <span class="std">String</span>] = ConfigValue$$1815631407
 
 scala&gt; apiKey.value.left.map(_.message).toString
 res0: <span class="std">String</span> = Left(Missing environment variable [API_KEY] and missing system property [api.key])
 
 scala&gt; env[<span class="std">String</span>](<span class="lit">"FILE_ENCODING"</span>).
-     |   orElse(prop(<span class="lit">"file.encoding"</span>))
-res1: ConfigValue[api.Id, <span class="std">String</span>] = ConfigValue(Right(UTF8))</pre><p>If the value is unavailable due to a different error than the
+     |   orElse(prop(<span class="lit">"file.encoding"</span>)).
+     |   toStringWithValue
+res1: <span class="std">String</span> = ConfigValue(Right(UTF8))</pre><p>If the value is unavailable due to a different error than the
 key missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>, then the alternative
 value will not be used.</p><pre>scala&gt; prop[<span class="std">Int</span>](<span class="lit">"file.encoding"</span>).
-     |   orElse(env(<span class="lit">"FILE_ENCODING"</span>))
-res2: ConfigValue[api.Id, <span class="std">Int</span>] = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, <span class="std">Int</span>, java.lang.NumberFormatException: For input string: <span class="lit">"UTF8"</span>)))</pre><p>Note that the alternative value is passed by reference, and it
+     |   orElse(env(<span class="lit">"FILE_ENCODING"</span>)).
+     |   toStringWithValue
+res2: <span class="std">String</span> = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, <span class="std">Int</span>, java.lang.NumberFormatException: For input string: <span class="lit">"UTF8"</span>)))</pre><p>Note that the alternative value is passed by reference, and it
 will only be evaluated if this <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a> is unavailable
 due to the key missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>.
 </p></div><dl class="paramcmts block"><dt class="param">that</dt><dd class="cmt"><p>the <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a> to use if this value is unavailable
@@ -792,11 +794,12 @@ as determined by <a href="ConfigError.html#isMissingKey:Boolean" class="extmbr" 
 as value instead. If the value is available, it gets wrapped
 in a <code>Some</code>.</p><pre>scala&gt; env[<span class="std">String</span>](<span class="lit">"API_KEY"</span>).
      |   orElse(prop(<span class="lit">"api.key"</span>)).
-     |   orNone
-res0: ConfigValue[api.Id,<span class="std">Option</span>[<span class="std">String</span>]] = ConfigValue(Right(<span class="std">None</span>))</pre><p>If the value is unavailable due to a different error than the
+     |   orNone.
+     |   toStringWithValue
+res0: <span class="std">String</span> = ConfigValue(Right(<span class="std">None</span>))</pre><p>If the value is unavailable due to a different error than the
 key missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>, then the error will
-not be replaced with <code>None</code>.</p><pre>scala&gt; prop[<span class="std">Int</span>](<span class="lit">"file.encoding"</span>).orNone
-res1: ConfigValue[api.Id, <span class="std">Option</span>[<span class="std">Int</span>]] = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, <span class="std">Int</span>, java.lang.NumberFormatException: For input string: <span class="lit">"UTF8"</span>)))</pre></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a></dd></dl></div>
+not be replaced with <code>None</code>.</p><pre>scala&gt; prop[<span class="std">Int</span>](<span class="lit">"file.encoding"</span>).orNone.toStringWithValue
+res1: <span class="std">String</span> = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, <span class="std">Int</span>, java.lang.NumberFormatException: For input string: <span class="lit">"UTF8"</span>)))</pre></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a new <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a></dd></dl></div>
     </li><li name="ciris.ConfigEntry#sourceValue" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="sourceValue:F[Either[ciris.ConfigError,S]]"></a><a id="sourceValue:F[Either[ConfigError,S]]"></a>
       <span class="permalink">
@@ -844,7 +847,48 @@ res1: ConfigValue[api.Id, <span class="std">Option</span>[<span class="std">Int<
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> → AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> → <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a> → AnyRef → Any</dd></dl></div>
+    </li><li name="ciris.ConfigEntry#toStringWithValue" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toStringWithValue:String"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigEntry.html#toStringWithValue:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toStringWithValue</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns a <code>String</code> representation of this <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a>
+including the value.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a <code>String</code> representation of this <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a>
+including the value. If the value is potentially sensitive,
+then be careful to not include it in log output.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a <code>String</code> representation with the value</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> → <a href="ConfigValue.html" class="extype" name="ciris.ConfigValue">ConfigValue</a></dd></dl></div>
+    </li><li name="ciris.ConfigEntry#toStringWithValues" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toStringWithValues:String"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigEntry.html#toStringWithValues:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toStringWithValues</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns a <code>String</code> representation of this <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a>
+including both the source value and value.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a <code>String</code> representation of this <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a>
+including both the source value and value. If the values
+include potentially sensitive details, be careful to
+not include them in log output.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a <code>String</code> representation with values</p></dd></dl></div>
     </li><li name="ciris.ConfigEntry#transformF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transformF[G[_]](implicitevidence$2:ciris.api.Apply[G],implicitf:F~&gt;G):ciris.ConfigEntry[G,K,S,V]"></a><a id="transformF[G[_]](Apply[G],~&gt;[F,G]):ConfigEntry[G,K,S,V]"></a>
       <span class="permalink">
@@ -887,13 +931,13 @@ the new value. The existing <a href="" class="extype" name="ciris.ConfigEntry">C
 are left unmodified.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of the new value</p></dd><dt class="param">f</dt><dd class="cmt"><p>the function to apply to the value</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> entry = ConfigEntry(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"value "</span>))
-entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value ))
+entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment)
 
-scala&gt; entry.transformValue(_.right.map(_.trim))
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value ), Right(value))
+scala&gt; entry.transformValue(_.right.map(_.trim)).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, Environment, Right(value ), Right(value))
 
-scala&gt; entry.mapValue(_.trim)
-res1: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value ), Right(value))</pre></li></ol>
+scala&gt; entry.mapValue(_.trim).toStringWithValues
+res1: <span class="std">String</span> = ConfigEntry(key, Environment, Right(value ), Right(value))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris.ConfigEntry#value" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="value:F[Either[ciris.ConfigError,V]]"></a><a id="value:F[Either[ConfigError,V]]"></a>
@@ -1000,10 +1044,10 @@ by returning a new <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntr
 <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> and all other properties are left unmodified.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of the new value</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to replace the existing one</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> entry = ConfigEntry(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"value"</span>))
-entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value))
+entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment)
 
-scala&gt; entry.withValue(Right(<span class="num">123</span>))
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">Int</span>] = ConfigEntry(key, Environment, Right(value), Right(<span class="num">123</span>))</pre></li></ol>
+scala&gt; entry.withValue(Right(<span class="num">123</span>)).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, Environment, Right(value), Right(<span class="num">123</span>))</pre></li></ol>
             </div></dl></div>
     </li><li name="ciris.ConfigEntry#withValueF" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="withValueF[A](value:F[Either[ciris.ConfigError,A]]):ciris.ConfigEntry[F,K,S,A]"></a><a id="withValueF[A](F[Either[ConfigError,A]]):ConfigEntry[F,K,S,A]"></a>
@@ -1027,13 +1071,13 @@ with the specified value. The existing <a href="" class="extype" name="ciris.Con
 other properties ar left unmodified.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the type of the new value</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to replace the existing one</p></dd><dt>returns</dt><dd class="cmt"><p>a new <a href="" class="extype" name="ciris.ConfigEntry">ConfigEntry</a></p></dd></dl><dl class="attributes block"> <div class="block">Example:
                <ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> entry = ConfigEntry(<span class="lit">"key"</span>, ConfigKeyType.Environment, Right(<span class="lit">"value"</span>))
-entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment, Right(value))
+entry: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">String</span>] = ConfigEntry(key, Environment)
 
-scala&gt; entry.withValueF(Right(<span class="num">123</span>))
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">Int</span>] = ConfigEntry(key, Environment, Right(value), Right(<span class="num">123</span>))
+scala&gt; entry.withValueF(Right(<span class="num">123</span>)).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, Environment, Right(value), Right(<span class="num">123</span>))
 
-scala&gt; entry.withValue(Right(<span class="num">456</span>))
-res0: ConfigEntry[api.Id, <span class="std">String</span>, <span class="std">String</span>, <span class="std">Int</span>] = ConfigEntry(key, Environment, Right(value), Right(<span class="num">456</span>))</pre></li></ol>
+scala&gt; entry.withValue(Right(<span class="num">456</span>)).toStringWithValues
+res0: <span class="std">String</span> = ConfigEntry(key, Environment, Right(value), Right(<span class="num">456</span>))</pre></li></ol>
             </div></dl></div>
     </li>
               </ol>

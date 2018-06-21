@@ -39,16 +39,16 @@
 <p>Finally, we can read values from the source and decode them as enumeration values.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"localEnv"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]</span>
-<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,String,String,environments.AppEnvironment] = ConfigEntry(localEnv, ConfigKeyType(enumeratum key), Right(local), Right(Local))
+<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,String,String,environments.AppEnvironment] = ConfigEntry(localEnv, ConfigKeyType(enumeratum key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"testingEnv"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]</span>
-<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,environments.AppEnvironment] = ConfigEntry(testingEnv, ConfigKeyType(enumeratum key), Right(testing), Right(Testing))
+<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,environments.AppEnvironment] = ConfigEntry(testingEnv, ConfigKeyType(enumeratum key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"TestingEnv"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]</span>
-<span class="c1">// res2: ciris.ConfigEntry[ciris.api.Id,String,String,environments.AppEnvironment] = ConfigEntry(TestingEnv, ConfigKeyType(enumeratum key), Right(Testing), Left(WrongType(TestingEnv, ConfigKeyType(enumeratum key), Right(Testing), Testing, environments$AppEnvironment)))
+<span class="c1">// res2: ciris.ConfigEntry[ciris.api.Id,String,String,environments.AppEnvironment] = ConfigEntry(TestingEnv, ConfigKeyType(enumeratum key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"invalidEnv"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">]</span>
-<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,String,environments.AppEnvironment] = ConfigEntry(invalidEnv, ConfigKeyType(enumeratum key), Right(invalid), Left(WrongType(invalidEnv, ConfigKeyType(enumeratum key), Right(invalid), invalid, environments$AppEnvironment)))
+<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,String,environments.AppEnvironment] = ConfigEntry(invalidEnv, ConfigKeyType(enumeratum key))
 </span></code></pre>
 </div>
 

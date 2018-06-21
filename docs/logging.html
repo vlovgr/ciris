@@ -44,6 +44,31 @@
 </span></code></pre>
 </div>
 
+<p>When loading configuration values with type <a href="/api/ciris/Secret.html"><code class="highlighter-rouge">Secret</code></a>, Ciris will make sure that no sensitive details are included in error messages. In general, potentially sensitive information is only included in results from functions with <code class="highlighter-rouge">value</code> in the name: for example, <a href="/api/ciris/ConfigEntry.html#value:F[Either[ciris.ConfigError,V]]"><code class="highlighter-rouge">value</code></a>, <a href="/api/ciris/ConfigEntry.html#sourceValue:F[Either[ciris.ConfigError,S]]"><code class="highlighter-rouge">sourceValue</code></a>, <a href="/api/ciris/ConfigEntry.html#toStringWithValue:String"><code class="highlighter-rouge">toStringWithValue</code></a>, and <a href="/api/ciris/ConfigEntry.html#toStringWithValues:String"><code class="highlighter-rouge">toStringWithValues</code></a>. So make sure you are not accidentally logging the results from such functions.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="n">env</span><span class="o">,</span> <span class="n">prop</span><span class="o">}</span>
+<span class="c1">// import ciris.{env, prop}
+</span>
+<span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">Int</span><span class="o">]](</span><span class="s">"FILE_ENCODING"</span><span class="o">).</span>
+  <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"file.encoding"</span><span class="o">)).</span>
+  <span class="n">value</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">message</span><span class="o">)</span>
+<span class="c1">// res1: scala.util.Either[String,ciris.Secret[Int]] = Left(Missing environment variable [FILE_ENCODING] and system property [file.encoding] with value [&lt;redacted&gt;] cannot be converted to type [Int])
+</span>
+<span class="k">val</span> <span class="n">fileEncoding</span> <span class="k">=</span>
+  <span class="n">prop</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">String</span><span class="o">]](</span><span class="s">"file.encoding"</span><span class="o">)</span>
+<span class="c1">// fileEncoding: ciris.ConfigEntry[ciris.api.Id,String,String,ciris.Secret[String]] = ConfigEntry(file.encoding, Property)
+</span>
+<span class="n">fileEncoding</span><span class="o">.</span><span class="n">sourceValue</span>
+<span class="c1">// res2: ciris.api.Id[Either[ciris.ConfigError,String]] = Right(UTF8)
+</span>
+<span class="n">fileEncoding</span><span class="o">.</span><span class="n">value</span>
+<span class="c1">// res3: ciris.api.Id[Either[ciris.ConfigError,ciris.Secret[String]]] = Right(Secret(***))
+</span>
+<span class="n">fileEncoding</span><span class="o">.</span><span class="n">toStringWithValue</span>
+<span class="c1">// res4: String = ConfigEntry(file.encoding, Property, Right(Secret(***)))
+</span></code></pre>
+</div>
+
 <h2 id="logging-improvements">Logging Improvements</h2>
 <p>Relying on <code class="highlighter-rouge">toString</code> works reasonably well for small configurations, like in the example shown above, but as your configuration grows in size, it can be considerably more difficult to determine which value is which in the output. Making use of <code class="highlighter-rouge">toString</code> also means we’re relying on every type having implemented an appropriate <code class="highlighter-rouge">toString</code> function, which might not always be the case.</p>
 

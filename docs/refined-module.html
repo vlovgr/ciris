@@ -22,16 +22,16 @@
 <span class="c1">// import eu.timepit.refined.types.numeric.PosInt
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"negative"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">]</span>
-<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,String,String,eu.timepit.refined.types.numeric.PosInt] = ConfigEntry(negative, ConfigKeyType(refined key), Right(-1), Left(WrongType(negative, ConfigKeyType(refined key), Right(-1), -1, eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive], Predicate failed: (-1 &gt; 0).)))
+<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,String,String,eu.timepit.refined.types.numeric.PosInt] = ConfigEntry(negative, ConfigKeyType(refined key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"zero"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">]</span>
-<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,eu.timepit.refined.types.numeric.PosInt] = ConfigEntry(zero, ConfigKeyType(refined key), Right(0), Left(WrongType(zero, ConfigKeyType(refined key), Right(0), 0, eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive], Predicate failed: (0 &gt; 0).)))
+<span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,eu.timepit.refined.types.numeric.PosInt] = ConfigEntry(zero, ConfigKeyType(refined key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"positive"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">]</span>
-<span class="c1">// res2: ciris.ConfigEntry[ciris.api.Id,String,String,eu.timepit.refined.types.numeric.PosInt] = ConfigEntry(positive, ConfigKeyType(refined key), Right(1))
+<span class="c1">// res2: ciris.ConfigEntry[ciris.api.Id,String,String,eu.timepit.refined.types.numeric.PosInt] = ConfigEntry(positive, ConfigKeyType(refined key))
 </span>
 <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"other"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">PosInt</span><span class="o">]</span>
-<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,String,eu.timepit.refined.types.numeric.PosInt] = ConfigEntry(other, ConfigKeyType(refined key), Right(abc), Left(WrongType(other, ConfigKeyType(refined key), Right(abc), abc, Int, java.lang.NumberFormatException: For input string: "abc")))
+<span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,String,eu.timepit.refined.types.numeric.PosInt] = ConfigEntry(other, ConfigKeyType(refined key))
 </span></code></pre>
 </div>
 
