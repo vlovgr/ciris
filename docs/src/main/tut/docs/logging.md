@@ -90,6 +90,19 @@ implicit val showConfig: Show[Config] = {
 println(config.show)
 ```
 
+There is also a `showPretty` derivation in [kittens][kittens], which uses pretty printing instead of simply rendering everything on one line. If your configuration is somewhat big, it might be preferable to instead use this kind of derivation over the one shown above.
+
+```tut:silent
+implicit val showConfig: Show[Config] = {
+  import auto.showPretty._
+  semi.showPretty
+}
+```
+
+```tut:book
+println(config.show)
+```
+
 [Secret]: /api/ciris/Secret.html
 [kittens]: https://github.com/milessabin/kittens
 [Show]: https://typelevel.org/cats/typeclasses/show.html
