@@ -92,6 +92,27 @@
 </span></code></pre>
 </div>
 
+<p>There is also a <code class="highlighter-rouge">showPretty</code> derivation in <a href="https://github.com/milessabin/kittens">kittens</a>, which uses pretty printing instead of simply rendering everything on one line. If your configuration is somewhat big, it might be preferable to instead use this kind of derivation over the one shown above.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">showConfig</span><span class="k">:</span> <span class="kt">Show</span><span class="o">[</span><span class="kt">Config</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">auto.showPretty._</span>
+  <span class="n">semi</span><span class="o">.</span><span class="n">showPretty</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">println</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">show</span><span class="o">)</span>
+<span class="c1">// Config(
+//   appName = my-api,
+//   api = ApiConfig(
+//     key = Secret(***),
+//     port = 4000,
+//     timeoutSeconds = 10
+//   )
+// )
+</span></code></pre>
+</div>
+
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
 languages:['scala','java','bash']
 });
