@@ -1,13 +1,20 @@
 package ciris
 
+import org.apache.commons.codec.digest.DigestUtils.sha1Hex
 import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
 
 final class SecretSpec extends PropertySpec {
   "Secret" should {
-    "use a placeholder when represented as a string" in {
+    "use the short hash when represented as a string" in {
       forAll { secret: Secret[Int] =>
         secret.toString shouldBe s"Secret(${secret.valueShortHash})"
+      }
+    }
+
+    "calculate the expected hash" in {
+      forAll { secret: Secret[String] =>
+        secret.valueHash shouldBe sha1Hex(secret.value.toString.getBytes("UTF-8"))
       }
     }
 
