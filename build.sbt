@@ -527,7 +527,7 @@ lazy val sourceGeneratorSettings = Seq(
 
 val generateReadme = taskKey[File]("Generates the readme")
 generateReadme in ThisBuild := {
-  (tut in docs).value
+  (tutOnly in docs).toTask(" index.md").value
   val source = IO.read((tutTargetDirectory in docs).value / "index.md")
   val readme =
     source
@@ -548,7 +548,7 @@ updateReadme in ThisBuild := {
 
 val generateContributing = taskKey[File]("Generates the contributing guide")
 generateContributing in ThisBuild := {
-  (tut in docs).value
+  (tutOnly in docs).toTask(" docs/contributing.md").value
   val source = IO.read((tutTargetDirectory in docs).value / "docs" / "contributing.md")
   val contributing =
     source
