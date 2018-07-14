@@ -9,6 +9,7 @@ lazy val scala212 = "2.12.6"
 
 lazy val catsEffectVersion = "0.10.1"
 lazy val catsVersion = "1.1.0"
+lazy val commonsCodecVersion = "1.11"
 lazy val enumeratumVersion = "1.5.13"
 lazy val kindProjectorVersion = "0.9.7"
 lazy val kittensVersion = "1.1.0"
@@ -226,6 +227,7 @@ lazy val tests =
   crossProject(JSPlatform, JVMPlatform)
     .in(file("tests"))
     .settings(moduleName := "ciris-tests", name := "Ciris tests")
+    .settings(libraryDependencies += "commons-codec" % "commons-codec" % commonsCodecVersion % Test)
     .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVerison % Test cross CrossVersion.patch))
     .settings(scalaSettings)
     .settings(noPublishSettings)
@@ -487,7 +489,11 @@ lazy val kindProjectorSettings = Seq(
 )
 
 lazy val jvmModuleSettings =
-  mimaSettings
+  mimaSettings ++ Seq(
+    coverageExcludedPackages := List(
+      "ciris.internal.digest.GeneralDigest"
+    ).mkString(";")
+  )
 
 lazy val nonJvmModuleSettings = Seq(
   doctestGenTests := Seq.empty,

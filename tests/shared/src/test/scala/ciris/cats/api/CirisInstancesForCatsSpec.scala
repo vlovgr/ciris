@@ -72,7 +72,7 @@ final class CirisInstancesForCatsSpec extends PropertySpec {
 
         Show[Secret[Int]].show(
           Secret(123)
-        ) shouldBe "Secret(***)"
+        ) shouldBe "Secret(40bd001)"
       }
     }
   }

@@ -5,9 +5,9 @@ import org.scalacheck.Arbitrary.arbitrary
 
 final class SecretSpec extends PropertySpec {
   "Secret" should {
-    "use a placeholder when represented as a string" in {
+    "use the short hash when represented as a string" in {
       forAll { secret: Secret[Int] =>
-        secret.toString shouldBe "Secret(***)"
+        secret.toString shouldBe s"Secret(${secret.valueShortHash})"
       }
     }
 

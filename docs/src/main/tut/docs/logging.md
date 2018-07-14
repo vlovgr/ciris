@@ -5,7 +5,7 @@ permalink: /docs/logging
 ---
 
 # Logging Configurations
-Configuration logging can quickly help you determine which values are being used by the application, and can aid with debugging whenever things go wrong. Since configurations often contain secret values -- avoiding having secrets in code being one of the main use cases for configurations -- we would like to avoid having these secrets included in any logs. Ciris provides the [`Secret`][Secret] wrapper type for this purpose. By wrapping your secret configuration values in [`Secret`][Secret], we can avoid  accidentally including them in logs.
+Configuration logging can quickly help you determine which values are being used by the application, and can aid with debugging whenever things go wrong. Since configurations often contain secret values -- avoiding having secrets in code being one of the main use cases for configurations -- we would like to avoid having these secrets included in any logs. Ciris provides the [`Secret`][Secret] wrapper type for this purpose. By wrapping your secret configuration values in [`Secret`][Secret], we can avoid accidentally including them in logs.
 
 For example, let's take a look at the following configuration, where the `ApiKey` is secret. We're using refinement types to encode validation in the types of our values, refer to the [encoding validation](/docs/validation) section for more information. Note that the `ApiKey` in the example below would normally be loaded from, for example, a vault service -- unless the value itself is not considered a secret, for example, if it was used for testing purposes.
 
@@ -43,10 +43,17 @@ val config =
   )
 ```
 
-The perhaps easiest way to log the configuration is to use `println`. As you can see in the example below, the secret configuration value is replaced with a `Secret(***)` placeholder when printed, while the remaining values of the configuration are printed with their `toString` representations as expected.
+The perhaps easiest way to log the configuration is to use `println`. As you can see in the example below, the secret configuration value is replaced with a `Secret(0a7425a)` placeholder when printed, while the remaining values of the configuration are printed with their `toString` representations as expected.
 
 ```tut:book
 println(config)
+```
+
+The value `0a7425a` above is a short (first 7 characters) SHA1 hash of the value. This allows you to check whether the expected value is being used or not, without logging the actual value. To calculate the SHA1 short hash for a `String`, you can for example use [`sha1sum`][sha1sum].
+
+```bash
+❯ echo -n "RacrqvWjuu4KVmnTG9b6xyZMTP7jnX" | sha1sum | head -c 7
+0a7425a
 ```
 
 When loading configuration values with type [`Secret`][Secret], Ciris will make sure that no sensitive details are included in error messages. In general, potentially sensitive information is only included in results from functions with `value` in the name: for example, [`value`][ConfigEntry#value], [`sourceValue`][ConfigEntry#sourceValue], [`toStringWithValue`][ConfigEntry#toStringWithValue], and [`toStringWithValues`][ConfigEntry#toStringWithValues]. So make sure you are not accidentally logging the results from such functions.
@@ -103,6 +110,7 @@ implicit val showConfig: Show[Config] = {
 println(config.show)
 ```
 
+[sha1sum]: https://en.wikipedia.org/wiki/Sha1sum
 [Secret]: /api/ciris/Secret.html
 [kittens]: https://github.com/milessabin/kittens
 [Show]: https://typelevel.org/cats/typeclasses/show.html

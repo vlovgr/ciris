@@ -97,12 +97,12 @@ env[String]("API_KEY").
   orNone
 ```
 
-It is also possible to read values with type [`Secret`][Secret], in order to prevent values from being output in logs.
+It is also possible to read values with type [`Secret`][Secret], in order to prevent values from being output in logs. The [`Secret`][Secret] `String` representation includes a short SHA1 hash of the value, so you can check that the expected value is being used.
 
 ```tut:book
 import ciris.Secret
 
-prop[Secret[Option[String]]]("api.key").value
+prop[Secret[String]]("file.encoding").value
 ```
 
 For more information on [`Secret`][Secret], refer to the [logging configurations](/docs/logging) section.
