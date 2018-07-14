@@ -25,3 +25,5 @@ Refer to the [usage guide](https://cir.is/docs/logging) for more details on thes
 [#167]: https://github.com/vlovgr/ciris/pull/167
 [#168]: https://github.com/vlovgr/ciris/pull/168
 [#169]: https://github.com/vlovgr/ciris/pull/169
+
+Released on 2018-07-14.
