@@ -16,7 +16,7 @@ final class ConfigValueSpec extends PropertySpec {
       }
 
       "not include the value in toString" in {
-        ConfigValue(Right(123)).toString.contains("123") shouldBe false
+        ConfigValue(Right(123)).toString shouldNot be ("ConfigValue(123)")
       }
     }
 
@@ -30,7 +30,7 @@ final class ConfigValueSpec extends PropertySpec {
       }
 
       "not include the value in toString" in {
-        ConfigValue.applyF[Id, Int](right(123)).toString.contains("123") shouldBe false
+        ConfigValue.applyF[Id, Int](right(123)).toString shouldNot be ("ConfigValue(123)")
       }
     }
 
