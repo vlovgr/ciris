@@ -22,7 +22,7 @@ package ciris.internal.digest
 
 import ciris.internal.digest.SHA1Digest._
 
-private[ciris] final class SHA1Digest extends GeneralDigest {
+private[digest] final class SHA1Digest extends GeneralDigest {
   private var H1, H2, H3, H4, H5: Int = 0
 
   private val X: Array[Int] = new Array(80)
