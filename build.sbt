@@ -489,7 +489,11 @@ lazy val kindProjectorSettings = Seq(
 )
 
 lazy val jvmModuleSettings =
-  mimaSettings
+  mimaSettings ++ Seq(
+    coverageExcludedPackages := List(
+      "ciris.internal.digest.GeneralDigest"
+    ).mkString(";")
+  )
 
 lazy val nonJvmModuleSettings = Seq(
   doctestGenTests := Seq.empty,
