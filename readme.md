@@ -31,7 +31,7 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 
 
 ```scala
-val cirisVersion = "0.10.0"
+val cirisVersion = "0.10.1"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-cats",
@@ -60,7 +60,7 @@ Refer to the table below for platform and version support across modules.
  [`ciris-core`](https://cir.is/docs)      | &#65794;                       | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#10003; 0.3 (2.11)    |
  [`ciris-enumeratum`][enumeratum-module]  | enumeratum 1.5.13  | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
  [`ciris-generic`][generic-module]        | shapeless 2.3.3    | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
- [`ciris-refined`][refined-module]        | refined 0.9.0        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
+ [`ciris-refined`][refined-module]        | refined 0.9.2        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
  [`ciris-spire`][spire-module]            | spire 0.16.0            | &#10003; 2.11, 2.12      | &#10003; 0.6 (2.11, 2.12)      | &#65794;                                                                           |
  [`ciris-squants`][squants-module]        | squants 1.3.0        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#65794;                                                                           |
 
@@ -104,14 +104,14 @@ curl -Ls try.cir.is/typelevel | sh
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
 ```scala
-import $ivy.`is.cir::ciris-cats:0.10.0`, ciris.cats._
-import $ivy.`is.cir::ciris-cats-effect:0.10.0`, ciris.cats.effect._, ciris.cats.effect.syntax._
-import $ivy.`is.cir::ciris-core:0.10.0`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.10.0`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.10.0`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.10.0`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.10.0`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.10.0`, ciris.squants._
+import $ivy.`is.cir::ciris-cats:0.10.1`, ciris.cats._
+import $ivy.`is.cir::ciris-cats-effect:0.10.1`, ciris.cats.effect._, ciris.cats.effect.syntax._
+import $ivy.`is.cir::ciris-core:0.10.1`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.10.1`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.10.1`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.10.1`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.10.1`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.10.1`, ciris.squants._
 ```
 
 
