@@ -364,6 +364,9 @@ abstract class ConfigDecoder[A, B] { self =>
         }
       }
     }
+
+  override def toString: String =
+    "ConfigDecoder$" + System.identityHashCode(this)
 }
 
 object ConfigDecoder extends ConfigDecoders {

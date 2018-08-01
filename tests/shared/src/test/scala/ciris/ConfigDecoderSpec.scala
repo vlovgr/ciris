@@ -178,5 +178,11 @@ final class ConfigDecoderSpec extends PropertySpec {
         decoded.left.map(_.message) shouldBe Left("Test key [key] with value [<redacted>] cannot be converted to type [Int]")
       }
     }
+
+    "using toString" should {
+      "start with ConfigDecoder$" in {
+        ConfigDecoder[String].toString should startWith ("ConfigDecoder$")
+      }
+    }
   }
 }
