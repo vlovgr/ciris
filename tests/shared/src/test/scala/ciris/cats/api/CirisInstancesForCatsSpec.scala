@@ -75,5 +75,20 @@ final class CirisInstancesForCatsSpec extends PropertySpec {
         ) shouldBe "Secret(40bd001)"
       }
     }
+
+    "providing Semigroup instances" should {
+      "be able to provide all required instances" in {
+        import _root_.cats.Semigroup
+        import _root_.cats.implicits._
+        import ciris._
+        import ciris.api._
+        import ciris.cats._
+
+        val first = ConfigErrors(ConfigError("a"), ConfigError("b"))
+        val second = ConfigErrors(ConfigError("c"), ConfigError("d"))
+        val combined = Semigroup[ConfigErrors].combine(first, second)
+        combined.messages shouldBe ConfigErrors(ConfigError("a"), ConfigError("b"), ConfigError("c"), ConfigError("d")).messages
+      }
+    }
   }
 }

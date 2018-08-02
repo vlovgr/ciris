@@ -170,4 +170,20 @@ object ConfigErrors {
     */
   def right[A](value: A): Either[ConfigErrors, A] =
     Right(value)
+
+  /**
+   * Creates a new [[ConfigErrors]] instance containing all the errors of
+   * both `first` and `second`, in that order.
+   *
+   * @param first the first [[ConfigErrors]]
+   * @param second the second [[ConfigErrors]]
+    * @return a new [[ConfigErrors]] instance
+    * @example {{{
+    * scala> ConfigErrors.combine(ConfigErrors(ConfigError("error1")), ConfigErrors(ConfigError("error2")))
+    * res0: ConfigErrors = ConfigErrors(ConfigError(error1), ConfigError(error2))
+    * }}}
+   */
+  def combine(first: ConfigErrors, second: ConfigErrors): ConfigErrors =
+    new ConfigErrors(first.toVector ++ second.toVector)
+
 }
