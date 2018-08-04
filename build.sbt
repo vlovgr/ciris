@@ -347,6 +347,7 @@ lazy val docs = project
     ),
     crossScalaVersions := Seq(scalaVersion.value),
     scalacOptions --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
+    scalacOptions += "-Ypartial-unification",
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(noDocumentationModules: _*),
     siteSubdirName in ScalaUnidoc := micrositeDocumentationUrl.value,
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
