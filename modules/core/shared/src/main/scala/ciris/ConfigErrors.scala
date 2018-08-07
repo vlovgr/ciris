@@ -81,6 +81,20 @@ final class ConfigErrors private (val toVector: Vector[ConfigError]) extends Any
     new ConfigErrors(toVector :+ error)
 
   /**
+   * Creates a new [[ConfigErrors]] instance containing all the errors of
+   * both `this` and `other`, in that order.
+   *
+   * @param other the other [[ConfigErrors]]
+    * @return a new [[ConfigErrors]] instance
+    * @example {{{
+    * scala> ConfigErrors(ConfigError("error1")).combine(ConfigErrors(ConfigError("error2")))
+    * res0: ConfigErrors = ConfigErrors(ConfigError(error1), ConfigError(error2))
+    * }}}
+   */
+  def combine(other: ConfigErrors): ConfigErrors =
+    new ConfigErrors(this.toVector ++ other.toVector)
+
+  /**
     * Returns the error messages of the errors in this [[ConfigErrors]].
     * The messages are guaranteed to be in the same order as the errors.
     *
@@ -170,20 +184,5 @@ object ConfigErrors {
     */
   def right[A](value: A): Either[ConfigErrors, A] =
     Right(value)
-
-  /**
-   * Creates a new [[ConfigErrors]] instance containing all the errors of
-   * both `first` and `second`, in that order.
-   *
-   * @param first the first [[ConfigErrors]]
-   * @param second the second [[ConfigErrors]]
-    * @return a new [[ConfigErrors]] instance
-    * @example {{{
-    * scala> ConfigErrors.combine(ConfigErrors(ConfigError("error1")), ConfigErrors(ConfigError("error2")))
-    * res0: ConfigErrors = ConfigErrors(ConfigError(error1), ConfigError(error2))
-    * }}}
-   */
-  def combine(first: ConfigErrors, second: ConfigErrors): ConfigErrors =
-    new ConfigErrors(first.toVector ++ second.toVector)
 
 }

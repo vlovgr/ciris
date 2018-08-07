@@ -46,6 +46,9 @@ The `ciris-cats` module also provides [`Show`][Show] type class instances for [l
 
 ## Compositional loading of configuration using `parMapN`
 
+```tut:reset
+```
+
 The `ciris-cats` module provides a [`Semigroup`][Semigroup] instance for
 `ConfigErrors`, because two lists of errors can be combined by concatenating
 them.
@@ -63,8 +66,9 @@ includes DB credentials and an API key. We have separate case classes for the
 different types of configuration.
 
 ```tut:silent
-case class DbConfig(user: String, password: String)
-case class ApiClientConfig(apiKey: String)
+import ciris.Secret
+case class DbConfig(user: String, password: Secret[String])
+case class ApiClientConfig(apiKey: Secret[String])
 case class AppConfig(db: DbConfig, api: ApiClientConfig)
 ```
 
@@ -77,24 +81,31 @@ sys.props.put("api.key", "abc123")
 ```
 
 ```tut:book
+import ciris.{ConfigErrors, loadConfig, prop}
 val dbConfig: Either[ConfigErrors, DbConfig] =
   loadConfig(
     prop[String]("db.user"),
-    prop[String]("db.password")
+    prop[Secret[String]]("db.password")
   )(DbConfig.apply)
 
 val apiConfig: Either[ConfigErrors, ApiClientConfig] =
-  loadConfig(prop[String]("api.key"))(ApiClientConfig.apply)
+  loadConfig(prop[Secret[String]]("api.key"))(ApiClientConfig.apply)
 ```
 
 We can then compose the results into an `Either[ConfigErrors, AppConfig]`:
 
 ```tut:book
-import _root_.cats.instances.parallel._
-import _root_.cats.syntax.parallel._
+import cats.instances.parallel._
+import cats.syntax.parallel._
 import ciris.cats._
 
 (dbConfig, apiConfig).parMapN(AppConfig.apply)
+```
+
+```tut:invisible
+sys.props.remove("db.user")
+sys.props.remove("db.password")
+sys.props.remove("api.key")
 ```
 
 [ConfigSource]: /api/ciris/ConfigSource.html
