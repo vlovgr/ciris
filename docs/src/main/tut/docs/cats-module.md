@@ -45,8 +45,7 @@ val config = Await.result(futureConfig, 1.second)
 The `ciris-cats` module also provides [`Show`][Show] type class instances for [logging configurations](/docs/logging#logging-improvements).
 
 ## Compositional loading of configuration using `parMapN`
-
-```tut:reset
+```tut:invisible:reset
 ```
 
 The `ciris-cats` module provides a [`Semigroup`][Semigroup] instance for
