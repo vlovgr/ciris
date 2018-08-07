@@ -85,7 +85,7 @@ import cats.Show
 import cats.derived._
 import cats.implicits._
 import ciris.cats._
-import eu.timepit.refined.cats._
+import eu.timepit.refined.cats.refTypeShow
 
 implicit val showConfig: Show[Config] = {
   import auto.show._

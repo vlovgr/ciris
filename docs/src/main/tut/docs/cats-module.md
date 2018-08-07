@@ -44,7 +44,72 @@ val config = Await.result(futureConfig, 1.second)
 
 The `ciris-cats` module also provides [`Show`][Show] type class instances for [logging configurations](/docs/logging#logging-improvements).
 
+## Compositional loading of configuration using `parMapN`
+
+```tut:reset
+```
+
+The `ciris-cats` module provides a [`Semigroup`][Semigroup] instance for
+`ConfigErrors`, because two lists of errors can be combined by concatenating
+them.
+
+This means that you can load small parts of your configuration using
+`loadConfig` and then compose the results together using `parMapN`.
+
+If any of the smaller configs failed to load, the final result will be a
+`ConfigErrors` containing all the error messages.
+
+Let's look at an example.
+
+Our app needs to talk to a database and an external API, so its configuration
+includes DB credentials and an API key. We have separate case classes for the
+different types of configuration.
+
+```tut:silent
+import ciris.Secret
+case class DbConfig(user: String, password: Secret[String])
+case class ApiClientConfig(apiKey: Secret[String])
+case class AppConfig(db: DbConfig, api: ApiClientConfig)
+```
+
+We load each of the configurations using `loadConfig`:
+
+```tut:invisible
+sys.props.put("db.user", "myapp")
+sys.props.put("db.password", "secretsauce")
+sys.props.put("api.key", "abc123")
+```
+
+```tut:book
+import ciris.{ConfigErrors, loadConfig, prop}
+val dbConfig: Either[ConfigErrors, DbConfig] =
+  loadConfig(
+    prop[String]("db.user"),
+    prop[Secret[String]]("db.password")
+  )(DbConfig.apply)
+
+val apiConfig: Either[ConfigErrors, ApiClientConfig] =
+  loadConfig(prop[Secret[String]]("api.key"))(ApiClientConfig.apply)
+```
+
+We can then compose the results into an `Either[ConfigErrors, AppConfig]`:
+
+```tut:book
+import cats.instances.parallel._
+import cats.syntax.parallel._
+import ciris.cats._
+
+(dbConfig, apiConfig).parMapN(AppConfig.apply)
+```
+
+```tut:invisible
+sys.props.remove("db.user")
+sys.props.remove("db.password")
+sys.props.remove("api.key")
+```
+
 [ConfigSource]: /api/ciris/ConfigSource.html
 [Show]: https://typelevel.org/cats/typeclasses/show.html
+[Semigroup]: https://typelevel.org/cats/typeclasses/semigroup.html
 [cats]: https://github.com/typelevel/cats
 [Id]: /api/ciris/api/index.html#Id[A]=A
