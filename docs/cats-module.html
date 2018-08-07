@@ -41,6 +41,65 @@
 
 <p>The <code class="highlighter-rouge">ciris-cats</code> module also provides <a href="https://typelevel.org/cats/typeclasses/show.html"><code class="highlighter-rouge">Show</code></a> type class instances for <a href="/docs/logging#logging-improvements">logging configurations</a>.</p>
 
+<h2 id="compositional-loading-of-configuration-using-parmapn">Compositional loading of configuration using <code class="highlighter-rouge">parMapN</code></h2>
+
+<p>The <code class="highlighter-rouge">ciris-cats</code> module provides a <a href="https://typelevel.org/cats/typeclasses/semigroup.html"><code class="highlighter-rouge">Semigroup</code></a> instance for
+<code class="highlighter-rouge">ConfigErrors</code>, because two lists of errors can be combined by concatenating
+them.</p>
+
+<p>This means that you can load small parts of your configuration using
+<code class="highlighter-rouge">loadConfig</code> and then compose the results together using <code class="highlighter-rouge">parMapN</code>.</p>
+
+<p>If any of the smaller configs failed to load, the final result will be a
+<code class="highlighter-rouge">ConfigErrors</code> containing all the error messages.</p>
+
+<p>Let’s look at an example.</p>
+
+<p>Our app needs to talk to a database and an external API, so its configuration
+includes DB credentials and an API key. We have separate case classes for the
+different types of configuration.</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.Secret</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">DbConfig</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">password</span><span class="k">:</span> <span class="kt">Secret</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">ApiClientConfig</span><span class="o">(</span><span class="n">apiKey</span><span class="k">:</span> <span class="kt">Secret</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">AppConfig</span><span class="o">(</span><span class="n">db</span><span class="k">:</span> <span class="kt">DbConfig</span><span class="o">,</span> <span class="n">api</span><span class="k">:</span> <span class="kt">ApiClientConfig</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>We load each of the configurations using <code class="highlighter-rouge">loadConfig</code>:</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="nc">ConfigErrors</span><span class="o">,</span> <span class="n">loadConfig</span><span class="o">,</span> <span class="n">prop</span><span class="o">}</span>
+<span class="c1">// import ciris.{ConfigErrors, loadConfig, prop}
+</span>
+<span class="k">val</span> <span class="n">dbConfig</span><span class="k">:</span> <span class="kt">Either</span><span class="o">[</span><span class="kt">ConfigErrors</span>, <span class="kt">DbConfig</span><span class="o">]</span> <span class="k">=</span>
+  <span class="n">loadConfig</span><span class="o">(</span>
+    <span class="n">prop</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"db.user"</span><span class="o">),</span>
+    <span class="n">prop</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">String</span><span class="o">]](</span><span class="s">"db.password"</span><span class="o">)</span>
+  <span class="o">)(</span><span class="nc">DbConfig</span><span class="o">.</span><span class="n">apply</span><span class="o">)</span>
+<span class="c1">// dbConfig: Either[ciris.ConfigErrors,DbConfig] = Right(DbConfig(myapp,Secret(bd3c707)))
+</span>
+<span class="k">val</span> <span class="n">apiConfig</span><span class="k">:</span> <span class="kt">Either</span><span class="o">[</span><span class="kt">ConfigErrors</span>, <span class="kt">ApiClientConfig</span><span class="o">]</span> <span class="k">=</span>
+  <span class="n">loadConfig</span><span class="o">(</span><span class="n">prop</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">String</span><span class="o">]](</span><span class="s">"api.key"</span><span class="o">))(</span><span class="nc">ApiClientConfig</span><span class="o">.</span><span class="n">apply</span><span class="o">)</span>
+<span class="c1">// apiConfig: Either[ciris.ConfigErrors,ApiClientConfig] = Right(ApiClientConfig(Secret(6367c48)))
+</span></code></pre>
+</div>
+
+<p>We can then compose the results into an <code class="highlighter-rouge">Either[ConfigErrors, AppConfig]</code>:</p>
+
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.instances.parallel._</span>
+<span class="c1">// import cats.instances.parallel._
+</span>
+<span class="k">import</span> <span class="nn">cats.syntax.parallel._</span>
+<span class="c1">// import cats.syntax.parallel._
+</span>
+<span class="k">import</span> <span class="nn">ciris.cats._</span>
+<span class="c1">// import ciris.cats._
+</span>
+<span class="o">(</span><span class="n">dbConfig</span><span class="o">,</span> <span class="n">apiConfig</span><span class="o">).</span><span class="n">parMapN</span><span class="o">(</span><span class="nc">AppConfig</span><span class="o">.</span><span class="n">apply</span><span class="o">)</span>
+<span class="c1">// res3: Either[ciris.ConfigErrors,AppConfig] = Right(AppConfig(DbConfig(myapp,Secret(bd3c707)),ApiClientConfig(Secret(6367c48))))
+</span></code></pre>
+</div>
+
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
 languages:['scala','java','bash']
 });
