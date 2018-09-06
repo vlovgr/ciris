@@ -66,16 +66,14 @@ For an explanation of how you can write decoders to support new types, refer to 
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">localDateDecoder</span><span class="k">:</span> <span class="kt">ConfigDecoder</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">LocalDate</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">ConfigDecoder</span><span class="o">.</span><span class="n">localDateConfigDecoder</span><span class="o">(</span><span class="n">format</span><span class="o">)</span>
-<span class="c1">// localDateDecoder: ciris.ConfigDecoder[String,java.time.LocalDate] = ConfigDecoder$1722226459
+<span class="c1">// localDateDecoder: ciris.ConfigDecoder[String,java.time.LocalDate] = ConfigDecoder$520082096
 </span>
 <span class="n">entry</span><span class="o">.</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">LocalDate</span><span class="o">]</span>
 <span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,java.time.LocalDate] = ConfigEntry(key, ConfigKeyType(key type))
 </span></code></pre>
 </div>
 
-</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
-languages:['scala','java','bash']
-});
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();
-             </script><script src="/js/custom.js"></script><script>((window.gitter = {}).chat = {}).options = {
+              </script><script src="/js/custom.js"></script><script>((window.gitter = {}).chat = {}).options = {
 room: 'vlovgr/ciris'};</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script><script src="/js/main.js"></script></body></html>

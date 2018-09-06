@@ -16,17 +16,24 @@
 </span>
 <span class="c1">// Suspend reading the file, trim the file contents, and convert to Int
 </span><span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-457664296429134130.tmp,UTF-8), ConfigKeyType(file))
+<span class="c1">// res3: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-3156281121010452247.tmp,UTF-8), ConfigKeyType(file))
 </span></code></pre>
 </div>
 
-<p>If we have a <a href="/api/ciris/api/Sync.html"><code class="highlighter-rouge">Sync</code></a> instance for <code class="highlighter-rouge">F[_]</code>, we can take an existing <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> and create a new <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> with suspended reading using the <a href="/api/ciris/ConfigSource.html#suspendF[G[_]](implicitevidence$1:ciris.api.Sync[G],implicitf:F~&gt;G):ciris.ConfigSource[G,K,V]"><code class="highlighter-rouge">suspendF</code></a> function. If we also need to memoize the results, there is a <a href="/api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitevidence$1:ciris.api.Apply[F],implicitevidence$2:cats.effect.LiftIO[F]):ciris.ConfigSource[F,K,V]"><code class="highlighter-rouge">suspendMemoizeF</code></a> function for that purpose.</p>
+<p>If we have a <a href="/api/ciris/api/Sync.html"><code class="highlighter-rouge">Sync</code></a> instance for <code class="highlighter-rouge">F[_]</code>, we can take an existing <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> and create a new <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> with suspended reading using the <a href="/api/ciris/ConfigSource.html#suspendF[G[_]](implicitevidence$1:ciris.api.Sync[G],implicitf:F~&gt;G):ciris.ConfigSource[G,K,V]"><code class="highlighter-rouge">suspendF</code></a> function. If we also need to memoize the results, there is a <a href="/api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitF:cats.effect.Concurrent[F]):ciris.ConfigSource[[v]F[F[v]],K,V]"><code class="highlighter-rouge">suspendMemoizeF</code></a> function for that purpose.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.ConfigSource</span>
 <span class="c1">// import ciris.ConfigSource
 </span>
 <span class="k">import</span> <span class="nn">ciris.cats.effect.syntax._</span>
 <span class="c1">// import ciris.cats.effect.syntax._
+</span>
+<span class="k">import</span> <span class="nn">cats.effect.ContextShift</span>
+<span class="c1">// import cats.effect.ContextShift
+</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">contextShift</span><span class="k">:</span> <span class="kt">ContextShift</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span> <span class="k">=</span>
+  <span class="nc">IO</span><span class="o">.</span><span class="n">contextShift</span><span class="o">(</span><span class="n">concurrent</span><span class="o">.</span><span class="nc">ExecutionContext</span><span class="o">.</span><span class="n">global</span><span class="o">)</span>
+<span class="c1">// contextShift: cats.effect.ContextShift[cats.effect.IO] = cats.effect.internals.IOContextShift@82de04a
 </span>
 <span class="nc">ConfigSource</span><span class="o">.</span><span class="nc">Properties</span><span class="o">.</span><span class="n">suspendF</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span>
 <span class="c1">// res4: ciris.ConfigSource[cats.effect.IO,String,String] = ConfigSource(Property)
@@ -38,9 +45,7 @@
 
 <p>The <a href="/docs/supporting-new-sources#suspending-effects">supporting new sources</a> section contains an example of how these functions can be used.</p>
 
-</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
-languages:['scala','java','bash']
-});
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();
-             </script><script src="/js/custom.js"></script><script>((window.gitter = {}).chat = {}).options = {
+              </script><script src="/js/custom.js"></script><script>((window.gitter = {}).chat = {}).options = {
 room: 'vlovgr/ciris'};</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script><script src="/js/main.js"></script></body></html>

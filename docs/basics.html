@@ -34,7 +34,7 @@
 </span>
 <span class="c1">// Read the file, trim the file contents, and convert to Int
 </span><span class="n">file</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-6184155761915314654.tmp,UTF-8), ConfigKeyType(file))
+<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4019922401242491035.tmp,UTF-8), ConfigKeyType(file))
 </span></code></pre>
 </div>
 
@@ -73,7 +73,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 // the FILE_ENCODING environment variable has not been set
 </span><span class="n">env</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"FILE_ENCODING"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"file.encoding"</span><span class="o">))</span>
-<span class="c1">// res21: ciris.ConfigValue[ciris.api.Id,String] = ConfigValue$1106281603
+<span class="c1">// res21: ciris.ConfigValue[ciris.api.Id,String] = ConfigValue$869678187
 </span></code></pre>
 </div>
 
@@ -84,7 +84,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">env</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res22: ciris.ConfigValue[ciris.api.Id,Option[String]] = ConfigValue$1361741521
+<span class="c1">// res22: ciris.ConfigValue[ciris.api.Id,Option[String]] = ConfigValue$1526703452
 </span></code></pre>
 </div>
 
@@ -122,7 +122,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 </span>
 <span class="c1">// Suspend reading the file, trim the file contents, and convert to Int
 </span><span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res27: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-6184155761915314654.tmp,UTF-8), ConfigKeyType(file))
+<span class="c1">// res27: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-4019922401242491035.tmp,UTF-8), ConfigKeyType(file))
 </span></code></pre>
 </div>
 
@@ -318,9 +318,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 </span></code></pre>
 </div>
 
-</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
-languages:['scala','java','bash']
-});
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();
-             </script><script src="/js/custom.js"></script><script>((window.gitter = {}).chat = {}).options = {
+              </script><script src="/js/custom.js"></script><script>((window.gitter = {}).chat = {}).options = {
 room: 'vlovgr/ciris'};</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js"></script><script src="/js/main.js"></script></body></html>
