@@ -7,14 +7,14 @@ test -e ~/.coursier/coursier || ( \
 
 ~/.coursier/coursier launch -q -P -M ammonite.Main \
   com.lihaoyi:ammonite_2.12.6:1.1.2 \
-  is.cir:ciris-cats_2.12:0.10.2 \
-  is.cir:ciris-cats-effect_2.12:0.10.2 \
-  is.cir:ciris-core_2.12:0.10.2 \
-  is.cir:ciris-enumeratum_2.12:0.10.2 \
-  is.cir:ciris-generic_2.12:0.10.2 \
-  is.cir:ciris-refined_2.12:0.10.2 \
-  is.cir:ciris-spire_2.12:0.10.2 \
-  is.cir:ciris-squants_2.12:0.10.2 \
+  is.cir:ciris-cats_2.12:0.11 \
+  is.cir:ciris-cats-effect_2.12:0.11 \
+  is.cir:ciris-core_2.12:0.11 \
+  is.cir:ciris-enumeratum_2.12:0.11 \
+  is.cir:ciris-generic_2.12:0.11 \
+  is.cir:ciris-refined_2.12:0.11 \
+  is.cir:ciris-spire_2.12:0.11 \
+  is.cir:ciris-squants_2.12:0.11 \
   -- --predef-code "\
         interp.configureCompiler(_.settings.YpartialUnification.value = true);\
         import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\
