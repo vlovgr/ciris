@@ -1,8 +1,7 @@
 package ciris.cats.effect
 
-import cats.Eval
-import cats.effect.{IO, LiftIO}
-import ciris.ConfigSource
+import cats.effect.Concurrent
+import ciris.{ConfigError, ConfigSource}
 import ciris.api.{Apply, Id}
 
 object syntax {
@@ -23,10 +22,15 @@ object syntax {
       * with the first effect being for memoization.
       *
       * {{{
-      * scala> import cats.effect.IO,
+      * scala> import cats.effect._,
       *      |   ciris._,
       *      |   ciris.cats._,
       *      |   ciris.cats.effect.syntax._
+      *
+      * scala> import scala.concurrent.ExecutionContext.global
+      *
+      * scala> implicit val contextShift: ContextShift[IO] = IO.contextShift(global)
+      * contextShift: ContextShift[IO] = cats.effect.internals.IOContextShift@201ac0ef
       *
       * scala> val source = ConfigSource(ConfigKeyType[String]("key type")) { key =>
       *      |   Right(s"$$key: $${new java.util.Random().nextInt()}")
@@ -48,17 +52,11 @@ object syntax {
       * res0: Boolean = true
       * }}}
       *
-      * The implementation relies on `IO` for memoization, so there is
-      * a requirement that there must be a `LiftIO` instance available
-      * for `F`. If you're using `IO`, a `LiftIO` instance is already
-      * available and defined as identity.
-      *
       * @tparam F the context in which to suspend and memoize
       * @return a new `ConfigSource`
       */
     def suspendMemoizeF[F[_]](
-      implicit F: Apply[F],
-      L: LiftIO[F]
+      implicit F: Concurrent[F]
     ): ConfigSource[λ[v => F[F[v]]], K, V] = {
       type FF[A] = F[F[A]]
 
@@ -72,7 +70,10 @@ object syntax {
         }
 
       ConfigSource.applyF[FF, K, V](source.keyType) { key =>
-        IO(IO.eval(Eval.later(source.read(key).value)).to[F]).to[F]
+        val memoized: F[F[Either[ConfigError, V]]] =
+          Concurrent.memoize(F.delay(source.read(key).value))
+
+        memoized
       }
     }
   }

@@ -102,7 +102,7 @@ If we simply want to transform the context of a [`ConfigSource`][ConfigSource], 
 ConfigSource.Environment.transformF[IO]
 ```
 
-Sometimes it's necessary to combine suspended reading and memoization in a context `F`, and the [cats-effect](/docs/cats-effect-module) module provides the [`suspendMemoizeF`][suspendMemoizeF] function on [`ConfigSource`][ConfigSource] for this purpose. The function supports any `F` for which a [`LiftIO`][LiftIO] instance is available. The [supporting new sources](/docs/supporting-new-sources#suspending-effects) section provides an example of how the function can be used.
+Sometimes it's necessary to combine suspended reading and memoization in a context `F`, and the [cats-effect](/docs/cats-effect-module) module provides the [`suspendMemoizeF`][suspendMemoizeF] function on [`ConfigSource`][ConfigSource] for this purpose. The function supports any `F` for which a [`Concurrent`][Concurrent] instance is available. The [supporting new sources](/docs/supporting-new-sources#suspending-effects) section provides an example of how the function can be used.
 
 [cats-effect]: https://github.com/typelevel/cats-effect
 [ConfigSource]: /api/ciris/ConfigSource.html
@@ -123,5 +123,5 @@ Sometimes it's necessary to combine suspended reading and memoization in a conte
 [envF]: /api/ciris/index.html#envF[F[_],Value](key:String)(implicitevidence$1:ciris.api.Applicative[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,String,String,Value]
 [fileSync]: /api/ciris/index.html#fileSync[F[_],Value](file:java.io.File,modifyFileContents:String=>String,charset:java.nio.charset.Charset)(implicitevidence$1:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,(java.io.File,java.nio.charset.Charset),String,Value]
 [propF]: /api/ciris/index.html#propF[F[_],Value](key:String)(implicitevidence$2:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,String,String,Value]
-[suspendMemoizeF]: /api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitevidence$1:ciris.api.Apply[F],implicitevidence$2:cats.effect.LiftIO[F]):ciris.ConfigSource[F,K,V]
-[LiftIO]: https://github.com/typelevel/cats-effect/blob/master/core/shared/src/main/scala/cats/effect/LiftIO.scala
+[suspendMemoizeF]: /api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitF:cats.effect.Concurrent[F]):ciris.ConfigSource[[v]F[F[v]],K,V]
+[Concurrent]: https://typelevel.org/cats-effect/typeclasses/concurrent.html

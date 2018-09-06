@@ -40,6 +40,10 @@ If we have a [`Sync`][Sync] instance for `F[_]`, we can take an existing [`Confi
 ```tut:book
 import ciris.ConfigSource
 import ciris.cats.effect.syntax._
+import cats.effect.ContextShift
+
+implicit val contextShift: ContextShift[IO] =
+  IO.contextShift(concurrent.ExecutionContext.global)
 
 ConfigSource.Properties.suspendF[IO]
 
@@ -54,6 +58,6 @@ The [supporting new sources](/docs/supporting-new-sources#suspending-effects) se
 [fileWithNameSync]: /api/ciris/index.html#fileWithNameSync[F[_],Value](name:String,modifyFileContents:String=>String,charset:java.nio.charset.Charset)(implicitevidence$2:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,(java.io.File,java.nio.charset.Charset),String,Value]
 [propF]: /api/ciris/index.html#propF[F[_],Value](key:String)(implicitevidence$2:ciris.api.Sync[F],implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[F,String,String,Value]
 [suspendF]: /api/ciris/ConfigSource.html#suspendF[G[_]](implicitevidence$1:ciris.api.Sync[G],implicitf:F~>G):ciris.ConfigSource[G,K,V]
-[suspendMemoizeF]: /api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitevidence$1:ciris.api.Apply[F],implicitevidence$2:cats.effect.LiftIO[F]):ciris.ConfigSource[F,K,V]
+[suspendMemoizeF]: /api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitF:cats.effect.Concurrent[F]):ciris.ConfigSource[[v]F[F[v]],K,V]
 [Sync]: /api/ciris/api/Sync.html
 [ConfigSource]: /api/ciris/ConfigSource.html

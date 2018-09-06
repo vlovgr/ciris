@@ -177,13 +177,14 @@ final class PropFileAt[F[_]: Monad](
 }
 ```
 
-With the property file reading extracted, we can now define `propFileAtF`, which suspends the reading of the property file into context `F`. We would also like that the file is not read more than once, so we also need to memoize the result. The [cats-effect](/docs/cats-effect-module) module provides a [`suspendMemoizeF`][suspendMemoizeF] function on [`ConfigSource`][ConfigSource] with a syntax import, which creates a [`ConfigSource`][ConfigSource] with both suspended reading and memoized results. The function works on any context `F` for which there is a [`LiftIO`][LiftIO] instance defined.
+With the property file reading extracted, we can now define `propFileAtF`, which suspends the reading of the property file into context `F`. We would also like that the file is not read more than once, so we also need to memoize the result. The [cats-effect](/docs/cats-effect-module) module provides a [`suspendMemoizeF`][suspendMemoizeF] function on [`ConfigSource`][ConfigSource] with a syntax import, which creates a [`ConfigSource`][ConfigSource] with both suspended reading and memoized results. The function works on any context `F` for which there is a [`Concurrent`][Concurrent] instance defined.
 
 ```tut:silent
-import cats.effect.LiftIO
+import cats.effect.Concurrent
+import ciris.cats.effect._
 import ciris.cats.effect.syntax._
 
-def propFileAtF[F[_]: Monad: LiftIO](
+def propFileAtF[F[_]: Concurrent](
   name: String,
   charset: Charset = Charset.defaultCharset
 ): F[PropFileAt[F]] = {
@@ -199,29 +200,13 @@ def propFileAtF[F[_]: Monad: LiftIO](
 }
 ```
 
-The `propFileAt` function can also be changed to use the new `PropFileAt` class.
-
-```tut:silent
-def propFileAt(
-  name: String,
-  charset: Charset = Charset.defaultCharset
-): PropFileAt[Id] = {
-  val file = new File(name)
-
-  val propFile =
-    propFileSource
-      .read((file, charset))
-      .value
-
-  new PropFileAt(file, charset, propFile)
-}
-```
-
 We can then use `propFileAtF` to read property file keys as follows.
 
 ```tut:book
-import cats.effect.IO
-import ciris.cats.effect._
+import cats.effect.{ContextShift, IO}
+
+implicit val contextShift: ContextShift[IO] =
+  IO.contextShift(concurrent.ExecutionContext.global)
 
 val propFileF = propFileAtF[IO](tempFileName)
 
@@ -249,5 +234,5 @@ for {
 [ConfigSourceCompanion]: /api/ciris/ConfigSource$.html
 [ConfigSourceCatchNonFatal]: /api/ciris/ConfigSource$.html#catchNonFatal[K,V](keyType:ciris.ConfigKeyType[K])(read:K=>V):ciris.ConfigSource[ciris.api.Id,K,V]
 [suspendF]: /api/ciris/ConfigSource.html#suspendF[G[_]](implicitevidence$1:ciris.api.Sync[G],implicitf:F~>G):ciris.ConfigSource[G,K,V]
-[LiftIO]: https://github.com/typelevel/cats-effect/blob/master/core/shared/src/main/scala/cats/effect/LiftIO.scala
-[suspendMemoizeF]: /api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitevidence$1:ciris.api.Apply[F],implicitevidence$2:cats.effect.LiftIO[F]):ciris.ConfigSource[F,K,V]
+[Concurrent]: https://typelevel.org/cats-effect/typeclasses/concurrent.html
+[suspendMemoizeF]: /api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitF:cats.effect.Concurrent[F]):ciris.ConfigSource[[v]F[F[v]],K,V]
