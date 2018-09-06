@@ -1,6 +1,6 @@
 package ciris.cats.api
 
-import cats.Show
+import cats.{Semigroup, Show}
 import ciris._
 
 trait CirisInstancesForCats {
@@ -30,4 +30,7 @@ trait CirisInstancesForCats {
 
   implicit def showSecret[A]: Show[Secret[A]] =
     Show.fromToString
+
+  implicit val semigroupConfigErrors: Semigroup[ConfigErrors] =
+    Semigroup.instance(_ combine _)
 }
