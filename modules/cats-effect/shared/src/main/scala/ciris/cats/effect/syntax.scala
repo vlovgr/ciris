@@ -1,7 +1,7 @@
 package ciris.cats.effect
 
 import cats.effect.Concurrent
-import ciris.ConfigSource
+import ciris.{ConfigError, ConfigSource}
 import ciris.api.{Apply, Id}
 
 object syntax {
@@ -70,7 +70,10 @@ object syntax {
         }
 
       ConfigSource.applyF[FF, K, V](source.keyType) { key =>
-        Concurrent.memoize(F.delay(source.read(key).value))
+        val memoized: F[F[Either[ConfigError, V]]] =
+          Concurrent.memoize(F.delay(source.read(key).value))
+
+        memoized
       }
     }
   }
