@@ -15,3 +15,5 @@
 [#177]: https://github.com/vlovgr/ciris/pull/177
 [#178]: https://github.com/vlovgr/ciris/pull/178
 [#179]: https://github.com/vlovgr/ciris/pull/179
+
+Released on 2018-09-06.
