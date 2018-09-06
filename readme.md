@@ -31,7 +31,7 @@ For an overview, usage instructions, and examples, please see the [usage guide](
 
 
 ```scala
-val cirisVersion = "0.10.2"
+val cirisVersion = "0.11"
 
 libraryDependencies ++= Seq(
   "is.cir" %% "ciris-cats",
@@ -55,8 +55,8 @@ Refer to the table below for platform and version support across modules.
 
  Module                                        | Dependency                     | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
 -----------------------------------------------|--------------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
- [`ciris-cats`][cats-module]              | cats 1.2.0              | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#65794;                                                                           |
- [`ciris-cats-effect`][cats-effect-module] | cats-effect 0.10.1 | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
+ [`ciris-cats`][cats-module]              | cats 1.3.1              | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#65794;                                                                           |
+ [`ciris-cats-effect`][cats-effect-module] | cats-effect 1.0.0 | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
  [`ciris-core`](https://cir.is/docs)      | &#65794;                       | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#10003; 0.3 (2.11)    |
  [`ciris-enumeratum`][enumeratum-module]  | enumeratum 1.5.13  | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
  [`ciris-generic`][generic-module]        | shapeless 2.3.3    | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
@@ -65,7 +65,7 @@ Refer to the table below for platform and version support across modules.
  [`ciris-squants`][squants-module]        | squants 1.3.0        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#65794;                                                                           |
 
 Backwards binary compatibility for the library is guaranteed between patch versions.  
-For example, `0.10.x` is backwards binary compatible with `0.10.y` for any `x > y`.  
+For example, `0.x` is backwards binary compatible with `0.y` for any `x > y`.  
 More recent patch versions are drop-in replacements for earlier patch versions.
 
 
@@ -104,14 +104,14 @@ curl -Ls try.cir.is/typelevel | sh
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
 ```scala
-import $ivy.`is.cir::ciris-cats:0.10.2`, ciris.cats._
-import $ivy.`is.cir::ciris-cats-effect:0.10.2`, ciris.cats.effect._, ciris.cats.effect.syntax._
-import $ivy.`is.cir::ciris-core:0.10.2`, ciris._, ciris.syntax._
-import $ivy.`is.cir::ciris-enumeratum:0.10.2`, ciris.enumeratum._
-import $ivy.`is.cir::ciris-generic:0.10.2`, ciris.generic._
-import $ivy.`is.cir::ciris-refined:0.10.2`, ciris.refined._, ciris.refined.syntax._
-import $ivy.`is.cir::ciris-spire:0.10.2`, ciris.spire._
-import $ivy.`is.cir::ciris-squants:0.10.2`, ciris.squants._
+import $ivy.`is.cir::ciris-cats:0.11`, ciris.cats._
+import $ivy.`is.cir::ciris-cats-effect:0.11`, ciris.cats.effect._, ciris.cats.effect.syntax._
+import $ivy.`is.cir::ciris-core:0.11`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-enumeratum:0.11`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.11`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.11`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.11`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.11`, ciris.squants._
 ```
 
 
