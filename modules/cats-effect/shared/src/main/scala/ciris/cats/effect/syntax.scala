@@ -1,8 +1,9 @@
 package ciris.cats.effect
 
+import cats.Apply
 import cats.effect.Concurrent
 import ciris.{ConfigError, ConfigSource}
-import ciris.api.{Apply, Id}
+import ciris.api.Id
 
 object syntax {
   implicit def catsEffectConfigSourceIdSyntax[K, V](
@@ -61,13 +62,7 @@ object syntax {
       type FF[A] = F[F[A]]
 
       implicit val applyFF: Apply[FF] =
-        new Apply[FF] {
-          override def product[A, B](ffa: FF[A], ffb: FF[B]): FF[(A, B)] =
-            F.map(F.product(ffa, ffb)) { case (fa, fb) => F.product(fa, fb) }
-
-          override def map[A, B](ffa: FF[A])(f: A => B): FF[B] =
-            F.map(ffa)(fa => F.map(fa)(f))
-        }
+        Apply[F].compose[F]
 
       ConfigSource.applyF[FF, K, V](source.keyType) { key =>
         val memoized: F[F[Either[ConfigError, V]]] =
