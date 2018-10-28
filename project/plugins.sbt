@@ -1,7 +1,7 @@
 addSbtPlugin("com.47deg" % "sbt-microsites" % "0.7.23")
 addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.9.0")
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.9")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.10")
 addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.2")
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2")
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.3.0")
