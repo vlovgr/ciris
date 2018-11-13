@@ -17,7 +17,7 @@ final class CirisJsSpec extends PropertySpec {
             ) { (apiKey, httpPort) =>
               (apiKey, httpPort, appEnv)
             }
-        } shouldBe a[Right[_, _]]
+        }.result shouldBe a[Right[_, _]]
       }
     }
   }

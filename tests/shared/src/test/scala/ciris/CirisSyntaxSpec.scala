@@ -15,7 +15,7 @@ final class CirisSyntaxSpec extends PropertySpec {
         )(_ + _)
 
         noException shouldBe thrownBy {
-          config.orThrow()
+          config.result.orThrow()
         }
       }
 
@@ -26,7 +26,7 @@ final class CirisSyntaxSpec extends PropertySpec {
         )(_ + _)
 
         a[ConfigException] shouldBe thrownBy {
-          config.orThrow()
+          config.result.orThrow()
         }
       }
     }
@@ -53,7 +53,7 @@ final class CirisSyntaxSpec extends PropertySpec {
           readConfigEntry[String]("key2").transformF[ErrorsOr]
         )(_ + _)
 
-        config.orRaiseErrors shouldBe a[Right[_, _]]
+        config.result.orRaiseErrors shouldBe a[Right[_, _]]
       }
 
       "raise an error if loading failed" in {
@@ -62,7 +62,7 @@ final class CirisSyntaxSpec extends PropertySpec {
           readNonExistingConfigEntry[String].transformF[ErrorsOr]
         )(_ + _)
 
-        config.orRaiseErrors shouldBe a[Left[_, _]]
+        config.result.orRaiseErrors shouldBe a[Left[_, _]]
       }
     }
 
@@ -74,7 +74,7 @@ final class CirisSyntaxSpec extends PropertySpec {
         )(_ + _)
 
         noException shouldBe thrownBy {
-          config.orRaiseThrowable.unsafeRunSync()
+          config.result.orRaiseThrowable.unsafeRunSync()
         }
       }
 
@@ -85,7 +85,7 @@ final class CirisSyntaxSpec extends PropertySpec {
         )(_ + _)
 
         a[ConfigException] shouldBe thrownBy {
-          config.orRaiseThrowable.unsafeRunSync()
+          config.result.orRaiseThrowable.unsafeRunSync()
         }
       }
     }

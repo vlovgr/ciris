@@ -12,8 +12,18 @@ import ciris.api.syntax._
   * @tparam F the context in which the value exists
   * @tparam V the type of the value
   */
-abstract class ConfigValue[F[_]: Apply, V] {
+abstract class ConfigValue[F[_]: Apply, V] extends ConfigResult[F, V] {
   def value: F[Either[ConfigError, V]]
+
+  /**
+    * Returns the result of having loaded a configuration using
+    * this [[ConfigValue]]. This effectively only wraps errors
+    * from [[value]] in [[ConfigErrors]].
+    *
+    * @return the configuration loading result using this value
+    */
+  final override def result: F[Either[ConfigErrors, V]] =
+    value.map(_.left.map(ConfigErrors(_)))
 
   /**
     * If the key for this value was missing from the [[ConfigSource]],
@@ -114,14 +124,8 @@ abstract class ConfigValue[F[_]: Apply, V] {
   def toStringWithValue: String =
     s"ConfigValue($value)"
 
-  private[ciris] final def append[A](next: ConfigValue[F, A]): ConfigValue2[F, V, A] = {
-    new ConfigValue2((this.value product next.value).map {
-      case (Right(v), Right(a))         => Right((v, a))
-      case (Left(error1), Right(_))     => Left(ConfigErrors(error1))
-      case (Right(_), Left(error2))     => Left(ConfigErrors(error2))
-      case (Left(error1), Left(error2)) => Left(error1 append error2)
-    })
-  }
+  override def toStringWithResult: String =
+    s"ConfigValue($result)"
 }
 
 object ConfigValue {
