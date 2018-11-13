@@ -1,6 +1,6 @@
 package ciris
 
-import ciris.api.Apply
+import ciris.api._
 import ciris.api.syntax._
 
 /**
@@ -22,6 +22,21 @@ abstract class ConfigResult[F[_]: Apply, V] {
       case (Right(_), Left(errors2))      => Left(errors2)
       case (Left(errors1), Left(errors2)) => Left(errors1 combine errors2)
     })
+
+  final def orThrow()(implicit ev: F[Either[ConfigErrors, V]] =:= Either[ConfigErrors, V]): V =
+    ev(result).fold(errors => throw errors.toException, identity)
+
+  final def orRaiseErrors(implicit F: MonadError[F, ConfigErrors]): F[V] =
+    result.flatMap {
+      case Right(v) => F.pure(v)
+      case Left(e)  => F.raiseError(e)
+    }
+
+  final def orRaiseThrowable(implicit F: MonadError[F, Throwable]): F[V] =
+    result.flatMap {
+      case Right(v) => F.pure(v)
+      case Left(e)  => F.raiseError(e.toException)
+    }
 
   override def toString: String =
     "ConfigResult$" + System.identityHashCode(this)

@@ -11,6 +11,10 @@ final class ConfigValueSpec extends PropertySpec {
         ConfigValue(Right(123)).value shouldBe Right(123)
       }
 
+      "include the result in toStringWithResult" in {
+        ConfigValue(Right(123)).toStringWithResult shouldBe "ConfigValue(Right(123))"
+      }
+
       "include the value in toStringWithValue" in {
         ConfigValue(Right(123)).toStringWithValue shouldBe "ConfigValue(Right(123))"
       }
