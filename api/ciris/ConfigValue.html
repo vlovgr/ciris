@@ -65,13 +65,13 @@
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.11.0 on Scala 2.12. Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
+        <a title="This is the API documentation for Ciris: lightweight, extensible, and validated configuration loading in Scala. The documentation is kept up-to-date with new releases, currently documenting release v0.12.0 on Scala 2.12. Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native." href="../index.html"><span class="name">root</span></a>
       </span>
       
       <p class="shortcomment cmt">This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.11.0" target="_blank">v0.11.0</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.12.0" target="_blank">v0.12.0</a> on Scala 2.12.<br>
 Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><div class="fullcomment"><div class="comment cmt"><p>This is the API documentation for <a href="https://cir.is" target="_blank">Ciris</a>: lightweight, extensible, and validated configuration loading in Scala.<br>
-The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.11.0" target="_blank">v0.11.0</a> on Scala 2.12.<br>
+The documentation is kept up-to-date with new releases, currently documenting release <a href="https://github.com/vlovgr/ciris/releases/tag/v0.12.0" target="_blank">v0.12.0</a> on Scala 2.12.<br>
 Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.</p><p>Ciris is divided into the following set of modules.</p><ul><li>The <a href="cats/index.html" class="extype" name="ciris.cats">cats</a> module integrates with <a href="https://github.com/typelevel/cats" target="_blank">cats</a> for type classes and type class instances.</li><li>The <a href="cats/effect/index.html" class="extype" name="ciris.cats.effect">cats-effect</a> module integrates with <a href="https://github.com/typelevel/cats-effect" target="_blank">cats-effect</a> for type classes for effect types.</li><li>The <a href="index.html" class="extype" name="ciris">core</a> module provides basic functionality and support for standard library types.</li><li>The <a href="enumeratum/index.html" class="extype" name="ciris.enumeratum">enumeratum</a> module integrates with <a href="https://github.com/lloydmeta/enumeratum" target="_blank">enumeratum</a> to be able to read enumerations.</li><li>The <a href="generic/index.html" class="extype" name="ciris.generic">generic</a> module uses <a href="https://github.com/milessabin/shapeless" target="_blank">shapeless</a> to be able to read products and coproducts.</li><li>The <a href="refined/index.html" class="extype" name="ciris.refined">refined</a> module integrates with <a href="https://github.com/fthomas/refined" target="_blank">refined</a> to be able to read refinement types.</li><li>The <a href="spire/index.html" class="extype" name="ciris.spire">spire</a> module integrates with <a href="https://github.com/non/spire" target="_blank">spire</a> to be able to read more number types.</li><li>The <a href="squants/index.html" class="extype" name="ciris.squants">squants</a> module integrates with <a href="https://github.com/typelevel/squants" target="_blank">squants</a> to read values with unit of measure.</li></ul><p>If you're looking for usage instructions, please refer to the <a href="https://cir.is/docs" target="_blank">usage guide</a>.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="_root_">root</a></dd></dl></div>
     </li><li name="_root_.ciris" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ciris"></a><a id="ciris:ciris"></a>
@@ -257,6 +257,10 @@ for generic derivation of ConfigDecoders.
                         <a class="class" href="ConfigKeyType.html" title="ConfigKeyType represents the name and type of keys that can be read from a ConfigSource."></a>
                         <a href="ConfigKeyType.html" title="ConfigKeyType represents the name and type of keys that can be read from a ConfigSource.">ConfigKeyType</a>
                       </li><li class="current-entities indented1">
+                        <a class="object" href="ConfigResult$.html" title=""></a>
+                        <a class="class" href="ConfigResult.html" title="ConfigResult represents any result from having loaded a configuration: either a single ConfigValue or multiple values composed together using loadConfig or withValues."></a>
+                        <a href="ConfigResult.html" title="ConfigResult represents any result from having loaded a configuration: either a single ConfigValue or multiple values composed together using loadConfig or withValues.">ConfigResult</a>
+                      </li><li class="current-entities indented1">
                         <a class="object" href="ConfigSource$.html" title=""></a>
                         <a class="class" href="ConfigSource.html" title="ConfigSource represents the ability to read values of type V for keys of type K from some source: for example, environment variables, system properties, command-line arguments, or some vault service."></a>
                         <a href="ConfigSource.html" title="ConfigSource represents the ability to read values of type V for keys of type K from some source: for example, environment variables, system properties, command-line arguments, or some vault service.">ConfigSource</a>
@@ -268,10 +272,6 @@ for generic derivation of ConfigDecoders.
                         <a class="object" href="Secret$.html" title=""></a>
                         <a class="class" href="Secret.html" title="Secret is used to denote that a configuration value is secret, and that it should not be included in any log output."></a>
                         <a href="Secret.html" title="Secret is used to denote that a configuration value is secret, and that it should not be included in any log output.">Secret</a>
-                      </li><li class="current-entities indented1">
-                        <span class="separator"></span>
-                        <a class="object" href="syntax$.html" title=""></a>
-                        <a href="syntax$.html" title="">syntax</a>
                       </li>
               </ul>
             </div>
@@ -297,7 +297,7 @@ for generic derivation of ConfigDecoders.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">ConfigValue</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="V">V</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+        <span class="name">ConfigValue</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="V">V</span>]</span><span class="result"> extends <a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <span class="extype" name="ciris.ConfigValue.V">V</span>]</span>
       </span>
       </h4>
 
@@ -306,11 +306,11 @@ for generic derivation of ConfigDecoders.
 without any other details like the key, key type, or original
 source value. <a href="ConfigEntry.html" class="extype" name="ciris.ConfigEntry">ConfigEntry</a> extends <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>, but
 you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ciris.ConfigError,V]):ciris.ConfigValue[ciris.api.Id,V]" class="extmbr" name="ciris.ConfigValue#apply">ConfigValue#apply</a>.
-</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the value exists</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.11.0/modules/core/shared/src/main/scala/ciris/ConfigValue.scala" target="_blank">ConfigValue.scala</a></dd></dl><div class="toggleContainer block">
+</p></div><dl class="paramcmts block"><dt class="tparam">F</dt><dd class="cmt"><p>the context in which the value exists</p></dd><dt class="tparam">V</dt><dd class="cmt"><p>the type of the value</p></dd></dl><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v0.12.0/modules/core/shared/src/main/scala/ciris/ConfigValue.scala" target="_blank">ConfigValue.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <span class="extype" name="ciris.ConfigValue.V">V</span>], <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
         </div><div class="toggleContainer block">
             <span class="toggle">
               Known Subclasses
@@ -341,7 +341,7 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="ciris.ConfigValue"><span>ConfigValue</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="ciris.ConfigValue"><span>ConfigValue</span></li><li class="in" name="ciris.ConfigResult"><span>ConfigResult</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -418,7 +418,7 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -434,7 +434,7 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -450,7 +450,7 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -482,11 +482,13 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
+              
+                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
                 <span class="name">@throws</span><span class="args">(<span>
       
@@ -506,7 +508,7 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -522,32 +524,10 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="finalize():Unit"></a>
-      <span class="permalink">
-      <a href="../ciris/ConfigValue.html#finalize():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="symbol">classOf[java.lang.Throwable]</span>
-    </span>)</span>
-              
-        </dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -566,6 +546,8 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
+                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
+              
         </dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
@@ -579,11 +561,13 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
+              
+                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -598,7 +582,7 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -614,7 +598,7 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -630,11 +614,13 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
+              
+                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -649,11 +635,13 @@ you can also create one with <a href="ConfigValue$.html#apply[V](value:Either[ci
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
+              
+                <span class="name">@HotSpotIntrinsicCandidate</span><span class="args">()</span>
               
         </dd></dl></div>
     </li><li name="ciris.ConfigValue#orElse" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -709,7 +697,7 @@ due to the key missing from the <a href="ConfigSource.html" class="extype" name=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">orNone</span><span class="result">: <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <a href="http://www.scala-lang.org/api/2.12.6/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigValue.V">V</span>]]</span>
+        <span class="name">orNone</span><span class="result">: <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <a href="http://www.scala-lang.org/api/2.12.7/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<span class="extype" name="ciris.ConfigValue.V">V</span>]]</span>
       </span>
       
       <p class="shortcomment cmt">If the key for this value was missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>,
@@ -725,6 +713,74 @@ res0: <span class="std">String</span> = ConfigValue(Right(<span class="std">None
 key missing from the <a href="ConfigSource.html" class="extype" name="ciris.ConfigSource">ConfigSource</a>, then the error will
 not be replaced with <code>None</code>.</p><pre>scala&gt; prop[<span class="std">Int</span>](<span class="lit">"file.encoding"</span>).orNone.toStringWithValue
 res1: <span class="std">String</span> = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, <span class="std">Int</span>, java.lang.NumberFormatException: For input string: <span class="lit">"UTF8"</span>)))</pre></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a new <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a></p></dd></dl></div>
+    </li><li name="ciris.ConfigResult#orRaiseErrors" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="orRaiseErrors(implicitF:ciris.api.MonadError[F,ciris.ConfigErrors]):F[V]"></a><a id="orRaiseErrors(MonadError[F,ConfigErrors]):F[V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigValue.html#orRaiseErrors(implicitF:ciris.api.MonadError[F,ciris.ConfigErrors]):F[V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">orRaiseErrors</span><span class="params">(<span class="implicit">implicit </span><span name="F">F: <a href="api/MonadError.html" class="extype" name="ciris.api.MonadError">MonadError</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a>]</span>)</span><span class="result">: <span class="extype" name="ciris.ConfigValue.F">F</span>[<span class="extype" name="ciris.ConfigValue.V">V</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a></dd></dl></div>
+    </li><li name="ciris.ConfigResult#orRaiseThrowable" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="orRaiseThrowable(implicitF:ciris.api.MonadError[F,Throwable]):F[V]"></a><a id="orRaiseThrowable(MonadError[F,Throwable]):F[V]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigValue.html#orRaiseThrowable(implicitF:ciris.api.MonadError[F,Throwable]):F[V]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">orRaiseThrowable</span><span class="params">(<span class="implicit">implicit </span><span name="F">F: <a href="api/MonadError.html" class="extype" name="ciris.api.MonadError">MonadError</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <span class="extype" name="scala.Throwable">Throwable</span>]</span>)</span><span class="result">: <span class="extype" name="ciris.ConfigValue.F">F</span>[<span class="extype" name="ciris.ConfigValue.V">V</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a></dd></dl></div>
+    </li><li name="ciris.ConfigResult#orThrow" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="orThrow()(implicitev:F[Either[ciris.ConfigErrors,V]]=:=Either[ciris.ConfigErrors,V]):V"></a><a id="orThrow()(=:=[F[Either[ConfigErrors,V]],Either[ConfigErrors,V]]):V"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigValue.html#orThrow()(implicitev:F[Either[ciris.ConfigErrors,V]]=:=Either[ciris.ConfigErrors,V]):V" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">orThrow</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="ev">ev: <span class="extype" name="scala.Predef.=:=">=:=</span>[<span class="extype" name="ciris.ConfigValue.F">F</span>[<span class="extype" name="scala.Either">Either</span>[<a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a>, <span class="extype" name="ciris.ConfigValue.V">V</span>]], <span class="extype" name="scala.Either">Either</span>[<a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a>, <span class="extype" name="ciris.ConfigValue.V">V</span>]]</span>)</span><span class="result">: <span class="extype" name="ciris.ConfigValue.V">V</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a></dd></dl></div>
+    </li><li name="ciris.ConfigValue#result" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="result:F[Either[ciris.ConfigErrors,V]]"></a><a id="result:F[Either[ConfigErrors,V]]"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigValue.html#result:F[Either[ciris.ConfigErrors,V]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">result</span><span class="result">: <span class="extype" name="ciris.ConfigValue.F">F</span>[<span class="extype" name="scala.Either">Either</span>[<a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a>, <span class="extype" name="ciris.ConfigValue.V">V</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the result of having loaded a configuration using
+this <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the result of having loaded a configuration using
+this <a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a>. This effectively only wraps errors
+from <a href="#value:F[Either[ciris.ConfigError,V]]" class="extmbr" name="ciris.ConfigValue#value">value</a> in <a href="ConfigErrors.html" class="extype" name="ciris.ConfigErrors">ConfigErrors</a>.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>the configuration loading result using this value</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> → <a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -756,7 +812,27 @@ res1: <span class="std">String</span> = ConfigValue(Left(WrongType(file.encoding
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> → AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> → <a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a> → AnyRef → Any</dd></dl></div>
+    </li><li name="ciris.ConfigValue#toStringWithResult" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toStringWithResult:String"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigValue.html#toStringWithResult:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toStringWithResult</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns a <code>String</code> representation of this <a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a>
+including the result.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a <code>String</code> representation of this <a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a>
+including the result. If the result is potentially sensitive,
+then be careful to not include it in log output.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a <code>String</code> representation with the result</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="ciris.ConfigValue">ConfigValue</a> → <a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a></dd></dl></div>
     </li><li name="ciris.ConfigValue#toStringWithValue" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toStringWithValue:String"></a>
       <span class="permalink">
@@ -778,28 +854,6 @@ including the value. If the value is potentially sensitive,
 then be careful to not include it in log output.
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a <code>String</code> representation with the value</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="wait():Unit"></a>
-      <span class="permalink">
-      <a href="../ciris/ConfigValue.html#wait():Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">final </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
-                <span class="name">@throws</span><span class="args">(<span>
-      
-      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
-    </span>)</span>
-              
-        </dd></dl></div>
-    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
       <a href="../ciris/ConfigValue.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
@@ -811,7 +865,7 @@ then be careful to not include it in log output.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.6/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.7/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -833,12 +887,34 @@ then be careful to not include it in log output.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.6/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.6/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@native</span><span class="args">()</span>
               
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigValue.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
@@ -851,14 +927,45 @@ then be careful to not include it in log output.
 
         
 
-        
+        <div class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../ciris/ConfigValue.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: (Since version ) see corresponding Javadoc for more information.">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@Deprecated</span>
+              
+                <span class="name">@deprecated</span>
+              
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version )</i> see corresponding Javadoc for more information.</p></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.6/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
+        <div class="parent" name="ciris.ConfigResult">
+              <h3>Inherited from <a href="ConfigResult.html" class="extype" name="ciris.ConfigResult">ConfigResult</a>[<span class="extype" name="ciris.ConfigValue.F">F</span>, <span class="extype" name="ciris.ConfigValue.V">V</span>]</h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.6/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
             </div>
         
         </div>

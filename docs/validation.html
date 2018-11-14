@@ -31,7 +31,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res0: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue$1807783352
+<span class="c1">// res0: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue$863642990
 </span></code></pre>
 </div>
 
@@ -69,7 +69,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res2: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue$1109014164
+<span class="c1">// res2: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue$1677655724
 </span></code></pre>
 </div>
 
@@ -83,7 +83,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"PORT"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"http.port"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue$2084775256
+<span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue$1558348148
 </span></code></pre>
 </div>
 
@@ -125,7 +125,7 @@
       <span class="o">)</span>
     <span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.api.Id[Either[ciris.ConfigErrors,Config]] = Left(ConfigErrors(Combined(MissingKey(API_KEY, Environment), MissingKey(api.key, Property))))
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$496438623
 </span></code></pre>
 </div>
 
@@ -149,7 +149,7 @@
 </span>
 <span class="c1">// System port number, requires sudo permissions
 </span><span class="n">refineV</span><span class="o">[</span><span class="kt">OpenPort</span><span class="o">](</span><span class="mi">989</span><span class="o">)</span>
-<span class="c1">// res5: Either[String,eu.timepit.refined.api.Refined[Int,OpenPort]] = Left(OpenPort predicate failed: Permission denied (Bind failed))
+<span class="c1">// res5: Either[String,eu.timepit.refined.api.Refined[Int,OpenPort]] = Right(989)
 </span>
 <span class="c1">// User port number, can be used, and is not already used
 </span><span class="n">refineV</span><span class="o">[</span><span class="kt">OpenPort</span><span class="o">](</span><span class="mi">10000</span><span class="o">)</span>
@@ -163,10 +163,7 @@
 
 <p>While this might seem like a good idea at first, when used in conjunction with the <code class="highlighter-rouge">auto</code> macro, for compile-time safe literal configuration values, we are actually performing the <code class="highlighter-rouge">OpenPort</code> check during compile-time. This means that the port values you specify in code, need to be open on the machine compiling the code, which is not what you would expect.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="kt">Refined</span> <span class="kt">OpenPort</span> <span class="o">=</span> <span class="mi">989</span>
-<span class="o">&lt;</span><span class="n">console</span><span class="k">&gt;:</span><span class="mi">33</span><span class="k">:</span> <span class="kt">error:</span> <span class="kt">OpenPort</span> <span class="kt">predicate</span> <span class="kt">failed:</span> <span class="kt">Permission</span> <span class="kt">denied</span> <span class="o">(</span><span class="kt">Bind</span> <span class="kt">failed</span><span class="o">)</span>
-       <span class="kt">val</span> <span class="kt">port:</span> <span class="kt">Int</span> <span class="kt">Refined</span> <span class="kt">OpenPort</span> <span class="o">=</span> <span class="mi">989</span>
-                                        <span class="o">^</span>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="kt">Refined</span> <span class="kt">OpenPort</span> <span class="o">=</span> <span class="mi">989</span>
 </code></pre>
 </div>
 

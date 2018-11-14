@@ -34,7 +34,7 @@
 </span>
 <span class="c1">// Read the file, trim the file contents, and convert to Int
 </span><span class="n">file</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-256420455339564896.tmp,UTF-8), ConfigKeyType(file))
+<span class="c1">// res5: ciris.ConfigEntry[ciris.api.Id,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-10395393374558475818.tmp,UTF-8), ConfigKeyType(file))
 </span></code></pre>
 </div>
 
@@ -73,7 +73,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 // the FILE_ENCODING environment variable has not been set
 </span><span class="n">env</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"FILE_ENCODING"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"file.encoding"</span><span class="o">))</span>
-<span class="c1">// res21: ciris.ConfigValue[ciris.api.Id,String] = ConfigValue$1288683671
+<span class="c1">// res21: ciris.ConfigValue[ciris.api.Id,String] = ConfigValue$870183424
 </span></code></pre>
 </div>
 
@@ -84,7 +84,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">env</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res22: ciris.ConfigValue[ciris.api.Id,Option[String]] = ConfigValue$271496048
+<span class="c1">// res22: ciris.ConfigValue[ciris.api.Id,Option[String]] = ConfigValue$821182251
 </span></code></pre>
 </div>
 
@@ -122,7 +122,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 </span>
 <span class="c1">// Suspend reading the file, trim the file contents, and convert to Int
 </span><span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res27: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-256420455339564896.tmp,UTF-8), ConfigKeyType(file))
+<span class="c1">// res27: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-10395393374558475818.tmp,UTF-8), ConfigKeyType(file))
 </span></code></pre>
 </div>
 
@@ -151,7 +151,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
 </code></pre>
 </div>
 
-<p>The API key is secret, and we’ve wrapped it in <a href="/api/ciris/Secret.html"><code class="highlighter-rouge">Secret</code></a> to denote that it shouldn’t be included in log output. For the port, we need it to be dynamic depending on the environment, and default to a fixed port if it’s not specified. In order to combine multiple configuration values, Ciris provides the <a href="/api/ciris/index.html#loadConfig[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;Z)(implicitevidence$5:ciris.api.Functor[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">loadConfig</code></a> function, which accepts a number of configuration values (<a href="/api/ciris/ConfigEntry.html"><code class="highlighter-rouge">ConfigEntry</code></a>s or <a href="/api/ciris/ConfigValue.html"><code class="highlighter-rouge">ConfigValue</code></a>s) and the function with which to create the configuration.</p>
+<p>The API key is secret, and we’ve wrapped it in <a href="/api/ciris/Secret.html"><code class="highlighter-rouge">Secret</code></a> to denote that it shouldn’t be included in log output. For the port, we need it to be dynamic depending on the environment, and default to a fixed port if it’s not specified. In order to combine multiple configuration values, Ciris provides the <a href="/api/ciris/index.html#loadConfig[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;Z)(implicitevidence$5:ciris.api.Functor[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">loadConfig</code></a> function, which accepts a number of configuration results in the form of <a href="/api/ciris/ConfigResult.html"><code class="highlighter-rouge">ConfigResult</code></a>s. These can either be <a href="/api/ciris/ConfigEntry.html"><code class="highlighter-rouge">ConfigEntry</code></a>s, <a href="/api/ciris/ConfigValue.html"><code class="highlighter-rouge">ConfigValue</code></a>s, or previously combined configuration values from using <a href="/api/ciris/index.html#loadConfig[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;Z)(implicitevidence$5:ciris.api.Functor[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">loadConfig</code></a>.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.loadConfig</span>
 <span class="c1">// import ciris.loadConfig
@@ -176,12 +176,12 @@ Note that you do not have to specify the type to decode again in the <a href="/a
         <span class="n">port</span> <span class="k">=</span> <span class="n">port</span> <span class="n">getOrElse</span> <span class="mi">4000</span>
       <span class="o">)</span>
     <span class="o">)</span>
-  <span class="o">}</span>
+  <span class="o">}.</span><span class="n">result</span>
 <span class="c1">// config: ciris.api.Id[Either[ciris.ConfigErrors,Config]] = Left(ConfigErrors(Combined(MissingKey(API_KEY, Environment), MissingKey(api.key, Property))))
 </span></code></pre>
 </div>
 
-<p>Note that the literal values above (the name, timeout, and default port) are validated at compile-time. If there are errors for the configuration values, Ciris will deal with them and accumulate them as <a href="/api/ciris/ConfigErrors.html"><code class="highlighter-rouge">ConfigErrors</code></a>, before finally returning an <code class="highlighter-rouge">Either[ConfigErrors, Config]</code>. Note that the result is wrapped in <a href="/api/ciris/api/index.html#Id[A]=A"><code class="highlighter-rouge">Id</code></a>, which is to say that no context (for example, effect type) was used. We could just as well have described the configuration loading with, for example, <code class="highlighter-rouge">IO</code> from <a href="https://github.com/typelevel/cats-effect">cats-effect</a> instead, using <code class="highlighter-rouge">envF</code> and <code class="highlighter-rouge">propF</code>, as seen in the <a href="#suspending-effects">suspending effects</a> section.</p>
+<p>Note that the literal values above (the name, timeout, and default port) are validated at compile-time. If there are errors for the configuration values, Ciris will deal with them and accumulate them as <a href="/api/ciris/ConfigErrors.html"><code class="highlighter-rouge">ConfigErrors</code></a>, before returning a <code class="highlighter-rouge">ConfigResult[Id, Config]</code>. We can then retrieve the final result as <code class="highlighter-rouge">Either[ConfigErrors, Config]</code> by using <code class="highlighter-rouge">result</code>. Note that the result is wrapped in <a href="/api/ciris/api/index.html#Id[A]=A"><code class="highlighter-rouge">Id</code></a>, which is to say that no context (for example, effect type) was used. We could just as well have described the configuration loading with, for example, <code class="highlighter-rouge">IO</code> from <a href="https://github.com/typelevel/cats-effect">cats-effect</a> instead, using <code class="highlighter-rouge">envF</code> and <code class="highlighter-rouge">propF</code>, as seen in the <a href="#suspending-effects">suspending effects</a> section.</p>
 
 <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="n">envF</span><span class="o">,</span> <span class="n">propF</span><span class="o">}</span>
 <span class="c1">// import ciris.{envF, propF}
@@ -201,7 +201,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
       <span class="o">)</span>
     <span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// configF: cats.effect.IO[Either[ciris.ConfigErrors,Config]] = &lt;function1&gt;
+<span class="c1">// configF: ciris.ConfigResult[cats.effect.IO,Config] = ConfigResult$235708848
 </span></code></pre>
 </div>
 
@@ -216,17 +216,12 @@ Note that you do not have to specify the type to decode again in the <a href="/a
   <span class="k">import</span> <span class="nn">ciris.syntax._</span>
   <span class="n">config</span><span class="o">.</span><span class="n">orThrow</span><span class="o">()</span>
 <span class="o">}</span>
-<span class="c1">// ciris.ConfigException: configuration loading failed with the following errors.
-// 
-//   - Missing environment variable [API_KEY] and missing system property [api.key].
-// 
-//   at ciris.ConfigException$.apply(ConfigException.scala:34)
-//   at ciris.ConfigErrors$.toException$extension(ConfigErrors.scala:142)
-//   at ciris.syntax$EitherConfigErrorsSyntax$.$anonfun$orThrow$1(syntax.scala:27)
-//   at ciris.syntax$EitherConfigErrorsSyntax$.$anonfun$orThrow$1$adapted(syntax.scala:27)
-//   at scala.util.Either.fold(Either.scala:189)
-//   at ciris.syntax$EitherConfigErrorsSyntax$.orThrow$extension(syntax.scala:28)
-//   ... 43 elided
+<span class="c1">// &lt;console&gt;:36: error: object syntax is not a member of package ciris
+//          import ciris.syntax._
+//                       ^
+// &lt;console&gt;:37: error: value orThrow is not a member of ciris.api.Id[Either[ciris.ConfigErrors,Config]]
+//          config.orThrow()
+//                 ^
 </span></code></pre>
 </div>
 <h3 id="dynamic-configuration-loading">Dynamic Configuration Loading</h3>
@@ -289,7 +284,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
         <span class="o">)</span>
       <span class="o">}</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.api.Id[Either[ciris.ConfigErrors,Config]] = Left(ConfigErrors(MissingKey(APP_ENV, Environment)))
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1781578346
 </span></code></pre>
 </div>
 
@@ -314,7 +309,7 @@ Note that you do not have to specify the type to decode again in the <a href="/a
       <span class="o">)</span>
     <span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.api.Id[Either[ciris.ConfigErrors,Config]] = Left(ConfigErrors(MissingKey(APP_ENV, Environment), Combined(MissingKey(API_KEY, Environment), MissingKey(api.key, Property))))
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1475762499
 </span></code></pre>
 </div>
 
