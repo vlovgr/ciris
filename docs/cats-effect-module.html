@@ -16,7 +16,7 @@
 </span>
 <span class="c1">// Suspend reading the file, trim the file contents, and convert to Int
 </span><span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-<span class="c1">// res3: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-5173823587947018660.tmp,UTF-8), ConfigKeyType(file))
+<span class="c1">// res3: ciris.ConfigEntry[cats.effect.IO,(java.io.File, java.nio.charset.Charset),String,Int] = ConfigEntry((/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-263184665302155813.tmp,UTF-8), ConfigKeyType(file))
 </span></code></pre>
 </div>
 
@@ -33,7 +33,7 @@
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">contextShift</span><span class="k">:</span> <span class="kt">ContextShift</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">IO</span><span class="o">.</span><span class="n">contextShift</span><span class="o">(</span><span class="n">concurrent</span><span class="o">.</span><span class="nc">ExecutionContext</span><span class="o">.</span><span class="n">global</span><span class="o">)</span>
-<span class="c1">// contextShift: cats.effect.ContextShift[cats.effect.IO] = cats.effect.internals.IOContextShift@2dc62a73
+<span class="c1">// contextShift: cats.effect.ContextShift[cats.effect.IO] = cats.effect.internals.IOContextShift@2be14c65
 </span>
 <span class="nc">ConfigSource</span><span class="o">.</span><span class="nc">Properties</span><span class="o">.</span><span class="n">suspendF</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span>
 <span class="c1">// res4: ciris.ConfigSource[cats.effect.IO,String,String] = ConfigSource(Property)
