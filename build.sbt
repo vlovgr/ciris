@@ -586,7 +586,8 @@ generateScripts in ThisBuild := {
 
   def tryScript(
     extraCoursierArgs: Seq[String] = Seq.empty,
-    extraPredefCode: Seq[String] = Seq.empty
+    extraPredefCode: Seq[String] = Seq.empty,
+    ammoniteScalaVersion: String = "2.12.7"
   ) = {
     val coursierArgs =
       if(extraCoursierArgs.nonEmpty)
@@ -607,7 +608,7 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P -M ammonite.Main \\
-       |  com.lihaoyi:ammonite_2.12.6:1.1.2 \\$coursierArgs
+       |  com.lihaoyi:ammonite_$ammoniteScalaVersion:1.4.2 \\$coursierArgs
        |  $organizationId:${(moduleName in catsJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in catsEffectJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
@@ -619,7 +620,6 @@ generateScripts in ThisBuild := {
        |  -- --predef-code "\\$predefCode
        |        interp.configureCompiler(_.settings.YpartialUnification.value = true);\\
        |        import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\\
-       |        ciris.syntax._,\\
        |        ciris.cats._,\\
        |        ciris.cats.effect._,\\
        |        ciris.cats.effect.syntax._,\\
@@ -645,7 +645,8 @@ generateScripts in ThisBuild := {
     ),
     extraPredefCode = Seq(
       "interp.configureCompiler(_.settings.YliteralTypes.value = true)"
-    )
+    ),
+    ammoniteScalaVersion = "2.12.4"
   ))
 }
 

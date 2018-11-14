@@ -6,7 +6,7 @@ test -e ~/.coursier/coursier || ( \
 )
 
 ~/.coursier/coursier launch -q -P -M ammonite.Main \
-  com.lihaoyi:ammonite_2.12.6:1.1.2 \
+  com.lihaoyi:ammonite_2.12.7:1.4.2 \
   is.cir:ciris-cats_2.12:0.12.0 \
   is.cir:ciris-cats-effect_2.12:0.12.0 \
   is.cir:ciris-core_2.12:0.12.0 \
@@ -18,7 +18,6 @@ test -e ~/.coursier/coursier || ( \
   -- --predef-code "\
         interp.configureCompiler(_.settings.YpartialUnification.value = true);\
         import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\
-        ciris.syntax._,\
         ciris.cats._,\
         ciris.cats.effect._,\
         ciris.cats.effect.syntax._,\

@@ -6,7 +6,7 @@ test -e ~/.coursier/coursier || ( \
 )
 
 ~/.coursier/coursier launch -q -P -M ammonite.Main \
-  com.lihaoyi:ammonite_2.12.6:1.1.2 \
+  com.lihaoyi:ammonite_2.12.4:1.4.2 \
   -E org.scala-lang:scala-library \
   -E org.scala-lang:scala-compiler \
   -E org.scala-lang:scala-reflect \
@@ -25,7 +25,6 @@ test -e ~/.coursier/coursier || ( \
         interp.configureCompiler(_.settings.YliteralTypes.value = true);\
         interp.configureCompiler(_.settings.YpartialUnification.value = true);\
         import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\
-        ciris.syntax._,\
         ciris.cats._,\
         ciris.cats.effect._,\
         ciris.cats.effect.syntax._,\
