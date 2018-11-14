@@ -1,204 +1,241 @@
 package ciris.squants.decoders
 
 import ciris.ConfigDecoder
-
-import scala.util.Try
+import squants.{Dimension, Quantity}
 
 trait SquantsConfigDecoders {
+  private def dimensionConfigDecoder[A <: Quantity[A]](
+    dimension: Dimension[A]
+  ): ConfigDecoder[String, A] =
+    ConfigDecoder.fromTry(dimension.name)(dimension.parseString)
+
   import squants.electro._
 
+  implicit val areaElectricChargeDensityConfigDecoder: ConfigDecoder[String, AreaElectricChargeDensity] =
+    dimensionConfigDecoder(AreaElectricChargeDensity)
+
   implicit val capacitanceConfigDecoder: ConfigDecoder[String, Capacitance] =
-    ConfigDecoder.fromTry("Capacitance")(Capacitance.apply)
+    dimensionConfigDecoder(Capacitance)
 
   implicit val conductivityConfigDecoder: ConfigDecoder[String, Conductivity] =
-    ConfigDecoder.fromTry("Conductivity")(Conductivity.apply)
+    dimensionConfigDecoder(Conductivity)
 
   implicit val electricalConductanceConfigDecoder: ConfigDecoder[String, ElectricalConductance] =
-    ConfigDecoder.fromTry("ElectricalConductance")(ElectricalConductance.apply)
+    dimensionConfigDecoder(ElectricalConductance)
 
   implicit val electricalResistanceConfigDecoder: ConfigDecoder[String, ElectricalResistance] =
-    ConfigDecoder.fromTry("ElectricalResistance")(ElectricalResistance.apply)
+    dimensionConfigDecoder(ElectricalResistance)
 
   implicit val electricChargeConfigDecoder: ConfigDecoder[String, ElectricCharge] =
-    ConfigDecoder.fromTry("ElectricCharge")(ElectricCharge.apply)
+    dimensionConfigDecoder(ElectricCharge)
+
+  implicit val electricChargeDensity: ConfigDecoder[String, ElectricChargeDensity] =
+    dimensionConfigDecoder(ElectricChargeDensity)
+
+  implicit val electricChargeMassRatio: ConfigDecoder[String, ElectricChargeMassRatio] =
+    dimensionConfigDecoder(ElectricChargeMassRatio)
 
   implicit val electricCurrentConfigDecoder: ConfigDecoder[String, ElectricCurrent] =
-    ConfigDecoder.fromTry("ElectricCurrent")(ElectricCurrent.apply)
+    dimensionConfigDecoder(ElectricCurrent)
+
+  implicit val electricCurrentDensity: ConfigDecoder[String, ElectricCurrentDensity] =
+    dimensionConfigDecoder(ElectricCurrentDensity)
+
+  implicit val electricFieldStrength: ConfigDecoder[String, ElectricFieldStrength] =
+    dimensionConfigDecoder(ElectricFieldStrength)
 
   implicit val electricPotentialConfigDecoder: ConfigDecoder[String, ElectricPotential] =
-    ConfigDecoder.fromTry("ElectricPotential")(ElectricPotential.apply)
+    dimensionConfigDecoder(ElectricPotential)
 
   implicit val inductanceConfigDecoder: ConfigDecoder[String, Inductance] =
-    ConfigDecoder.fromTry("Inductance")(Inductance.apply)
+    dimensionConfigDecoder(Inductance)
+
+  implicit val linearElectricChargeDensityConfigDecoder: ConfigDecoder[String, LinearElectricChargeDensity] =
+    dimensionConfigDecoder(LinearElectricChargeDensity)
+
+  implicit val magneticFieldStrengthConfigDecoder: ConfigDecoder[String, MagneticFieldStrength] =
+    dimensionConfigDecoder(MagneticFieldStrength)
 
   implicit val magneticFluxConfigDecoder: ConfigDecoder[String, MagneticFlux] =
-    ConfigDecoder.fromTry("MagneticFlux")(MagneticFlux.apply)
+    dimensionConfigDecoder(MagneticFlux)
 
   implicit val magneticFluxDensityConfigDecoder: ConfigDecoder[String, MagneticFluxDensity] =
-    ConfigDecoder.fromTry("MagneticFluxDensity")(MagneticFluxDensity.apply)
+    dimensionConfigDecoder(MagneticFluxDensity)
+
+  implicit val permeabilityConfigDecoder: ConfigDecoder[String, Permeability] =
+    dimensionConfigDecoder(Permeability)
+
+  implicit val permittivityConfigDecoder: ConfigDecoder[String, Permittivity] =
+    dimensionConfigDecoder(Permittivity)
 
   implicit val resistivityConfigDecoder: ConfigDecoder[String, Resistivity] =
-    ConfigDecoder.fromTry("Resistivity")(Resistivity.apply)
+    dimensionConfigDecoder(Resistivity)
 
   import squants.energy._
 
   implicit val energyConfigDecoder: ConfigDecoder[String, Energy] =
-    ConfigDecoder.fromTry("Energy")(Energy.apply)
+    dimensionConfigDecoder(Energy)
 
   implicit val energyDensityConfigDecoder: ConfigDecoder[String, EnergyDensity] =
-    ConfigDecoder.fromTry("EnergyDensity")(EnergyDensity.apply)
+    dimensionConfigDecoder(EnergyDensity)
+
+  implicit val molarEnergyConfigDecoder: ConfigDecoder[String, MolarEnergy] =
+    dimensionConfigDecoder(MolarEnergy)
 
   implicit val powerConfigDecoder: ConfigDecoder[String, Power] =
-    ConfigDecoder.fromTry("Power")(Power.apply)
+    dimensionConfigDecoder(Power)
+
+  implicit val powerDensityConfigDecoder: ConfigDecoder[String, PowerDensity] =
+    dimensionConfigDecoder(PowerDensity)
 
   implicit val powerRampConfigDecoder: ConfigDecoder[String, PowerRamp] =
-    ConfigDecoder.fromTry("PowerRamp")(PowerRamp.apply)
+    dimensionConfigDecoder(PowerRamp)
 
   implicit val specificEnergyConfigDecoder: ConfigDecoder[String, SpecificEnergy] =
-    ConfigDecoder.fromTry("SpecificEnergy")(SpecificEnergy.apply)
+    dimensionConfigDecoder(SpecificEnergy)
 
   import squants.information._
 
   implicit val dataRateConfigDecoder: ConfigDecoder[String, DataRate] =
-    ConfigDecoder.fromTry("DataRate")(DataRate.apply)
+    dimensionConfigDecoder(DataRate)
 
   implicit val informationConfigDecoder: ConfigDecoder[String, Information] =
-    ConfigDecoder.fromTry("Information")(Information.apply)
+    dimensionConfigDecoder(Information)
 
   import squants.market._
 
+  // https://github.com/typelevel/squants/issues/322
   implicit val moneyDensityConfigDecoder: ConfigDecoder[String, Money] =
     ConfigDecoder.fromTry("Money")(Money.apply)
 
   import squants.mass._
 
   implicit val areaDensityConfigDecoder: ConfigDecoder[String, AreaDensity] =
-    ConfigDecoder.fromTry("AreaDensity")(AreaDensity.apply)
+    dimensionConfigDecoder(AreaDensity)
 
   implicit val chemicalAmountConfigDecoder: ConfigDecoder[String, ChemicalAmount] =
-    ConfigDecoder.fromTry("ChemicalAmount")(ChemicalAmount.apply)
+    dimensionConfigDecoder(ChemicalAmount)
 
   implicit val densityConfigDecoder: ConfigDecoder[String, Density] =
-    ConfigDecoder.fromTry("Density")(Density.apply)
+    dimensionConfigDecoder(Density)
 
   implicit val massConfigDecoder: ConfigDecoder[String, Mass] =
-    ConfigDecoder.fromTry("Mass")(Mass.apply)
+    dimensionConfigDecoder(Mass)
 
   implicit val momentOfInertiaConfigDecoder: ConfigDecoder[String, MomentOfInertia] =
-    ConfigDecoder.fromTry("MomentOfInertia")(MomentOfInertia.apply)
+    dimensionConfigDecoder(MomentOfInertia)
 
   import squants.motion._
 
   implicit val accelerationConfigDecoder: ConfigDecoder[String, Acceleration] =
-    ConfigDecoder.fromTry("Acceleration")(Acceleration.apply)
+    dimensionConfigDecoder(Acceleration)
 
   implicit val angularAccelerationConfigDecoder: ConfigDecoder[String, AngularAcceleration] =
-    ConfigDecoder.fromTry("AngularAcceleration")(AngularAcceleration.apply)
+    dimensionConfigDecoder(AngularAcceleration)
 
   implicit val angularVelocityConfigDecoder: ConfigDecoder[String, AngularVelocity] =
-    ConfigDecoder.fromTry("AngularVelocity")(AngularVelocity.apply)
+    dimensionConfigDecoder(AngularVelocity)
 
   implicit val forceConfigDecoder: ConfigDecoder[String, Force] =
-    ConfigDecoder.fromTry("Force")(Force.apply)
+    dimensionConfigDecoder(Force)
 
   implicit val jerkConfigDecoder: ConfigDecoder[String, Jerk] =
-    ConfigDecoder.fromTry("Jerk")(Jerk.apply)
+    dimensionConfigDecoder(Jerk)
 
   implicit val massFlowConfigDecoder: ConfigDecoder[String, MassFlow] =
-    ConfigDecoder.fromTry("MassFlow")(MassFlow.apply)
+    dimensionConfigDecoder(MassFlow)
 
   implicit val momentumConfigDecoder: ConfigDecoder[String, Momentum] =
-    ConfigDecoder.fromTry("Momentum")(Momentum.apply)
+    dimensionConfigDecoder(Momentum)
 
   implicit val pressureConfigDecoder: ConfigDecoder[String, Pressure] =
-    ConfigDecoder.fromTry("Pressure")(Pressure.apply)
+    dimensionConfigDecoder(Pressure)
 
   implicit val pressureChangeConfigDecoder: ConfigDecoder[String, PressureChange] =
-    ConfigDecoder.fromTry("PressureChange")(PressureChange.apply)
+    dimensionConfigDecoder(PressureChange)
 
   implicit val torqueConfigDecoder: ConfigDecoder[String, Torque] =
-    ConfigDecoder.fromTry("Torque")(Torque.apply)
+    dimensionConfigDecoder(Torque)
 
   implicit val velocityConfigDecoder: ConfigDecoder[String, Velocity] =
-    ConfigDecoder.fromTry("Velocity")(Velocity.apply)
+    dimensionConfigDecoder(Velocity)
 
   implicit val volumeFlowConfigDecoder: ConfigDecoder[String, VolumeFlow] =
-    ConfigDecoder.fromTry("VolumeFlow")(VolumeFlow.apply)
+    dimensionConfigDecoder(VolumeFlow)
 
   implicit val yankConfigDecoder: ConfigDecoder[String, Yank] =
-    ConfigDecoder.fromTry("Yank")(Yank.apply)
+    dimensionConfigDecoder(Yank)
 
   import squants.photo._
 
   implicit val illuminanceConfigDecoder: ConfigDecoder[String, Illuminance] =
-    ConfigDecoder.fromTry("Illuminance")(Illuminance.apply)
+    dimensionConfigDecoder(Illuminance)
 
   implicit val luminanceConfigDecoder: ConfigDecoder[String, Luminance] =
-    ConfigDecoder.fromTry("Luminance")(Luminance.apply)
+    dimensionConfigDecoder(Luminance)
 
   implicit val luminousEnergyConfigDecoder: ConfigDecoder[String, LuminousEnergy] =
-    ConfigDecoder.fromTry("LuminousEnergy")(LuminousEnergy.apply)
+    dimensionConfigDecoder(LuminousEnergy)
 
   implicit val luminousExposureConfigDecoder: ConfigDecoder[String, LuminousExposure] =
-    ConfigDecoder.fromTry("LuminousExposure")(LuminousExposure.apply)
+    dimensionConfigDecoder(LuminousExposure)
 
   implicit val luminousFluxConfigDecoder: ConfigDecoder[String, LuminousFlux] =
-    ConfigDecoder.fromTry("LuminousFlux")(LuminousFlux.apply)
+    dimensionConfigDecoder(LuminousFlux)
 
   implicit val luminousIntensityConfigDecoder: ConfigDecoder[String, LuminousIntensity] =
-    ConfigDecoder.fromTry("LuminousIntensity")(LuminousIntensity.apply)
+    dimensionConfigDecoder(LuminousIntensity)
 
   import squants.radio._
 
   implicit val irradianceConfigDecoder: ConfigDecoder[String, Irradiance] =
-    ConfigDecoder.fromTry("Irradiance")(Irradiance.apply)
+    dimensionConfigDecoder(Irradiance)
 
   implicit val radianceConfigDecoder: ConfigDecoder[String, Radiance] =
-    ConfigDecoder.fromTry("Radiance")(Radiance.apply)
+    dimensionConfigDecoder(Radiance)
 
   implicit val radiantIntensityConfigDecoder: ConfigDecoder[String, RadiantIntensity] =
-    ConfigDecoder.fromTry("RadiantIntensity")(RadiantIntensity.apply)
+    dimensionConfigDecoder(RadiantIntensity)
 
   implicit val spectralIntensityConfigDecoder: ConfigDecoder[String, SpectralIntensity] =
-    ConfigDecoder.fromTry("SpectralIntensity")(SpectralIntensity.apply)
+    dimensionConfigDecoder(SpectralIntensity)
 
   implicit val spectralIrradianceConfigDecoder: ConfigDecoder[String, SpectralIrradiance] =
-    ConfigDecoder.fromTry("SpectralIrradiance")(SpectralIrradiance.apply)
+    dimensionConfigDecoder(SpectralIrradiance)
 
   implicit val spectralPowerConfigDecoder: ConfigDecoder[String, SpectralPower] =
-    ConfigDecoder.fromTry("SpectralPower")(SpectralPower.apply)
+    dimensionConfigDecoder(SpectralPower)
 
   import squants.space._
 
   implicit val angleConfigDecoder: ConfigDecoder[String, Angle] =
-    ConfigDecoder.fromTry("Angle")(Angle.apply)
+    dimensionConfigDecoder(Angle)
 
   implicit val areaConfigDecoder: ConfigDecoder[String, Area] =
-    ConfigDecoder.fromTry("Area")(Area.apply)
+    dimensionConfigDecoder(Area)
 
   implicit val lengthConfigDecoder: ConfigDecoder[String, Length] =
-    ConfigDecoder.fromTry("Length")(Length.apply)
+    dimensionConfigDecoder(Length)
 
   implicit val solidAngleConfigDecoder: ConfigDecoder[String, SolidAngle] =
-    ConfigDecoder.fromTry("SolidAngle")(SolidAngle.apply)
+    dimensionConfigDecoder(SolidAngle)
 
   implicit val volumeConfigDecoder: ConfigDecoder[String, Volume] =
-    ConfigDecoder.fromTry("Volume")(Volume.apply)
+    dimensionConfigDecoder(Volume)
 
   import squants.thermal._
 
-  // https://github.com/typelevel/squants/issues/261
   implicit val temperatureConfigDecoder: ConfigDecoder[String, Temperature] =
-    ConfigDecoder.fromTry("Temperature")(value => Try(Temperature(value)).flatten)
+    dimensionConfigDecoder(Temperature)
 
   implicit val thermalCapacityConfigDecoder: ConfigDecoder[String, ThermalCapacity] =
-    ConfigDecoder.fromTry("ThermalCapacity")(ThermalCapacity.apply)
+    dimensionConfigDecoder(ThermalCapacity)
 
   import squants.time._
 
   implicit val frequencyConfigDecoder: ConfigDecoder[String, Frequency] =
-    ConfigDecoder.fromTry("Frequency")(Frequency.apply)
+    dimensionConfigDecoder(Frequency)
 
   implicit val timeConfigDecoder: ConfigDecoder[String, Time] =
-    ConfigDecoder.fromTry("Time")(Time.apply)
+    dimensionConfigDecoder(Time)
 }

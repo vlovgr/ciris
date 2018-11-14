@@ -19,7 +19,7 @@ lazy val scalaCheckVersion = "1.14.0"
 lazy val scalaTestVersion = "3.0.5"
 lazy val shapelessVersion = "2.3.3"
 lazy val spireVersion = "0.16.0"
-lazy val squantsVersion = "1.3.0"
+lazy val squantsVersion = "1.4.0"
 
 lazy val scriptsDirectory = "scripts"
 
@@ -43,7 +43,8 @@ lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
 lazy val nativeModuleNames = List(
   "core",
   "generic",
-  "refined"
+  "refined",
+  "squants"
 ).map(_ + "Native")
 
 lazy val allModuleNames = jsModuleNames ++ jvmModuleNames ++ nativeModuleNames
@@ -57,7 +58,7 @@ lazy val crossModules: Seq[(Project, Option[Project], Option[Project])] =
     (genericJVM, Some(genericJS), Some(genericNative)),
     (refinedJVM, Some(refinedJS), Some(refinedNative)),
     (spireJVM, Some(spireJS), None),
-    (squantsJVM, Some(squantsJS), None)
+    (squantsJVM, Some(squantsJS), Some(squantsNative))
   )
 
 lazy val noDocumentationModules: Seq[ProjectReference] = {
@@ -209,7 +210,7 @@ lazy val spireJS = spire.js
 lazy val spireJVM = spire.jvm
 
 lazy val squants =
-  crossProject(JSPlatform, JVMPlatform)
+  crossProject(JSPlatform, JVMPlatform, NativePlatform)
     .in(file("modules/squants"))
     .settings(moduleName := "ciris-squants", name := "Ciris squants")
     .settings(libraryDependencies += "org.typelevel" %%% "squants" % squantsVersion)
@@ -217,11 +218,13 @@ lazy val squants =
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
     .jvmSettings(jvmModuleSettings)
+    .nativeSettings(nativeModuleSettings)
     .settings(releaseSettings)
     .dependsOn(core)
 
 lazy val squantsJS = squants.js
 lazy val squantsJVM = squants.jvm
+lazy val squantsNative = squants.native
 
 lazy val tests =
   crossProject(JSPlatform, JVMPlatform)
@@ -303,6 +306,7 @@ lazy val docs = project
       BuildInfoKey.map(crossScalaVersions in spireJS) { case (k, v) => "spireJs" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in squantsJVM) { case (k, v) => "squantsJvm" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in squantsJS) { case (k, v) => "squantsJs" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in squantsNative) { case (k, v) => "squantsNative" + k.capitalize -> v },
       BuildInfoKey("catsVersion" -> catsVersion),
       BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
       BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
