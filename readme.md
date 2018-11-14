@@ -21,8 +21,8 @@ Ciris is an alternative to configuration files in situations where it's easy to 
 For a more detailed introduction, please refer to the [usage guide](https://cir.is/docs).
 
 <p align="center">
-  <a href="https://asciinema.org/a/170215">
-    <img src="https://asciinema.org/a/170215.png" width="65%"/>
+  <a href="https://asciinema.org/a/211820">
+    <img src="https://asciinema.org/a/211820.svg" width="65%"/>
   </a>
 </p>
 
