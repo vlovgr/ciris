@@ -5,117 +5,127 @@ import ciris.squants.generators.SquantsGenerators
 import ciris.{ConfigDecoder, PropertySpec}
 import squants._
 
-import scala.reflect.ClassTag
-import scala.util.Try
-
 final class SquantsConfigDecodersSpec extends PropertySpec with SquantsGenerators {
   "SquantsConfigDecoders" when {
     import squants.electro._
 
-    testDimension(Capacitance, Capacitance.apply)
-    testDimension(Conductivity, Conductivity.apply)
-    testDimension(ElectricalConductance, ElectricalConductance.apply)
-    testDimension(ElectricalResistance, ElectricalResistance.apply)
-    testDimension(ElectricCharge, ElectricCharge.apply)
-    testDimension(ElectricCurrent, ElectricCurrent.apply)
-    testDimension(ElectricPotential, ElectricPotential.apply)
-    testDimension(Inductance, Inductance.apply)
-    testDimension(MagneticFlux, MagneticFlux.apply)
-    testDimension(MagneticFluxDensity, MagneticFluxDensity.apply)
-    testDimension(Resistivity, Resistivity.apply)
+    testDimension(AreaElectricChargeDensity)
+    testDimension(Capacitance)
+    testDimension(Conductivity)
+    testDimension(ElectricalConductance)
+    testDimension(ElectricalResistance)
+    testDimension(ElectricCharge)
+    testDimension(ElectricChargeDensity)
+    testDimension(ElectricChargeMassRatio)
+    testDimension(ElectricCurrent)
+    testDimension(ElectricCurrentDensity)
+    testDimension(ElectricFieldStrength)
+    testDimension(ElectricPotential)
+    testDimension(Inductance)
+    testDimension(LinearElectricChargeDensity)
+    testDimension(MagneticFieldStrength)
+    testDimension(MagneticFlux)
+    testDimension(MagneticFluxDensity)
+    testDimension(Permeability)
+    testDimension(Permittivity)
+    testDimension(Resistivity)
 
     import squants.energy._
 
-    testDimension(Energy, Energy.apply)
-    testDimension(EnergyDensity, EnergyDensity.apply)
-    testDimension(Power, Power.apply)
-    testDimension(PowerRamp, PowerRamp.apply)
-    testDimension(SpecificEnergy, SpecificEnergy.apply)
+    testDimension(Energy)
+    testDimension(EnergyDensity)
+    testDimension(MolarEnergy)
+    testDimension(Power)
+    testDimension(PowerDensity)
+    testDimension(PowerRamp)
+    testDimension(SpecificEnergy)
 
     import squants.information._
 
-    testDimension(DataRate, DataRate.apply)
-    testDimension(Information, Information.apply)
+    testDimension(DataRate)
+    testDimension(Information)
 
-    // import squants.market._
+     import squants.market._
 
-    testMoney()
+    // https://github.com/typelevel/squants/issues/321
+    "reading Money" should {
+      "successfully read Money values" in {
+        readValue[Money]("1000 USD") shouldBe a [Right[_, _]]
+      }
+    }
 
     import squants.mass._
 
-    testDimension(AreaDensity, AreaDensity.apply)
-    testDimension(ChemicalAmount, ChemicalAmount.apply)
-    testDimension(Density, Density.apply)
-    testDimension(Mass, Mass.apply)
-    testDimension(MomentOfInertia, MomentOfInertia.apply)
+    testDimension(AreaDensity)
+    testDimension(ChemicalAmount)
+    testDimension(Density)
+    testDimension(Mass)
+    testDimension(MomentOfInertia)
 
     import squants.motion._
 
-    testDimension(Acceleration, Acceleration.apply)
-    testDimension(AngularAcceleration, AngularAcceleration.apply)
-    testDimension(AngularVelocity, AngularVelocity.apply)
-    testDimension(Force, Force.apply)
-    testDimension(Jerk, Jerk.apply)
-    testDimension(MassFlow, MassFlow.apply)
-    testDimension(Momentum, Momentum.apply)
-    testDimension(Pressure, Pressure.apply)
-    testDimension(PressureChange, PressureChange.apply)
-    testDimension(Torque, Torque.apply)
-    testDimension(Velocity, Velocity.apply)
-    testDimension(VolumeFlow, VolumeFlow.apply)
-    testDimension(Yank, Yank.apply)
+    testDimension(Acceleration)
+    testDimension(AngularAcceleration)
+    testDimension(AngularVelocity)
+    testDimension(Force)
+    testDimension(Jerk)
+    testDimension(MassFlow)
+    testDimension(Momentum)
+    testDimension(Pressure)
+    testDimension(PressureChange)
+    testDimension(Torque)
+    testDimension(Velocity)
+    testDimension(VolumeFlow)
+    testDimension(Yank)
 
     import squants.photo._
 
-    testDimension(Illuminance, Illuminance.apply)
-    testDimension(Luminance, Luminance.apply)
-    testDimension(LuminousEnergy, LuminousEnergy.apply)
-    testDimension(LuminousExposure, LuminousExposure.apply)
-    testDimension(LuminousFlux, LuminousFlux.apply)
-    testDimension(LuminousIntensity, LuminousIntensity.apply)
+    testDimension(Illuminance)
+    testDimension(Luminance)
+    testDimension(LuminousEnergy)
+    testDimension(LuminousExposure)
+    testDimension(LuminousFlux)
+    testDimension(LuminousIntensity)
 
     import squants.radio._
 
-    testDimension(Irradiance, Irradiance.apply)
-    testDimension(Radiance, Radiance.apply)
-    testDimension(RadiantIntensity, RadiantIntensity.apply)
-    testDimension(SpectralIntensity, SpectralIntensity.apply)
-    testDimension(SpectralIrradiance, SpectralIrradiance.apply)
-    testDimension(SpectralPower, SpectralPower.apply)
+    testDimension(Irradiance)
+    testDimension(Radiance)
+    testDimension(RadiantIntensity)
+    testDimension(SpectralIntensity)
+    testDimension(SpectralIrradiance)
+    testDimension(SpectralPower)
 
     import squants.space._
 
-    testDimension(Angle, Angle.apply)
-    testDimension(Area, Area.apply)
-    testDimension(Length, Length.apply)
-    testDimension(SolidAngle, SolidAngle.apply)
-    testDimension(Volume, Volume.apply)
+    testDimension(Angle)
+    testDimension(Area)
+    testDimension(Length)
+    testDimension(SolidAngle)
+    testDimension(Volume)
 
     import squants.thermal._
 
-    testDimension(Temperature, Temperature.apply)
-    testDimension(ThermalCapacity, ThermalCapacity.apply)
+    testDimension(Temperature)
+    testDimension(ThermalCapacity)
 
     import squants.time._
 
-    testDimension(Frequency, Frequency.apply)
-    testDimension(Time, Time.apply)
+    testDimension(Frequency)
+    testDimension(Time)
   }
 
-  def testDimension[A <: Quantity[A]: ClassTag](
-    dimension: Dimension[A],
-    apply: String => Try[A]
+  def testDimension[A <: Quantity[A]](
+    dimension: Dimension[A]
   )(implicit decoder: ConfigDecoder[String, A]): Unit = {
-    val typeName: String = implicitly[ClassTag[A]].runtimeClass.getSimpleName
-
-    s"reading a $typeName" should {
-      s"successfully read $typeName values" in {
+    s"reading a ${dimension.name}" should {
+      s"successfully read ${dimension.name} values" in {
         forAll(genQuantity(dimension)) { quantity =>
           readValue[A](quantity.toString) shouldBe Right(quantity)
         }
       }
 
-      s"successfully read optional $typeName values" in {
+      s"successfully read optional ${dimension.name} values" in {
         forAll(genQuantity(dimension)) { quantity =>
           readValue[Option[A]](quantity.toString) shouldBe Right(Some(quantity))
         }
@@ -123,32 +133,8 @@ final class SquantsConfigDecodersSpec extends PropertySpec with SquantsGenerator
 
       "return a failure for other values" in {
         forAll { string: String =>
-          whenever(Try(apply(string)).flatten.isFailure) {
+          whenever(dimension.parseString(string).isFailure) {
             readValue[A](string) shouldBe a[Left[_, _]]
-          }
-        }
-      }
-    }
-  }
-
-  def testMoney(): Unit = {
-    "reading a Money" should {
-      "successfully read Money values" in {
-        forAll(genMoney) { money =>
-          readValue[Money](money.toString) shouldBe Right(money)
-        }
-      }
-
-      "successfully read optional Money values" in {
-        forAll(genMoney) { money =>
-          readValue[Option[Money]](money.toString) shouldBe Right(Some(money))
-        }
-      }
-
-      "return a failure for other values" in {
-        forAll { string: String =>
-          whenever(market.Money(string).isFailure) {
-            readValue[Money](string) shouldBe a[Left[_, _]]
           }
         }
       }
