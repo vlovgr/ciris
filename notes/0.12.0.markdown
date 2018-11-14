@@ -17,3 +17,5 @@ If you we're previously depending on `loadConfig` or `withValues` to return an `
 [#187]: https://github.com/vlovgr/ciris/pull/187
 [#189]: https://github.com/vlovgr/ciris/pull/189
 [#190]: https://github.com/vlovgr/ciris/pull/190
+
+Released on 2018-11-14.
