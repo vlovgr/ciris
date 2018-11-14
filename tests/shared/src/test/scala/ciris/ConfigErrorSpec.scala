@@ -2,6 +2,14 @@ package ciris
 
 final class ConfigErrorSpec extends PropertySpec {
   "ConfigError" when {
+    "using append" should {
+      "create a ConfigErrors" in {
+        val a = ConfigError("a")
+        val b = ConfigError("b")
+        (a append b).toVector shouldBe Vector(a, b)
+      }
+    }
+
     "created from a message" should {
       "pass the message by reference" in {
         forAll { message: String =>

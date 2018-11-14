@@ -151,7 +151,7 @@ final case class Config(
 )
 ```
 
-The API key is secret, and we've wrapped it in [`Secret`][Secret] to denote that it shouldn't be included in log output. For the port, we need it to be dynamic depending on the environment, and default to a fixed port if it's not specified. In order to combine multiple configuration values, Ciris provides the [`loadConfig`][loadConfig] function, which accepts a number of configuration values ([`ConfigEntry`][ConfigEntry]s or [`ConfigValue`][ConfigValue]s) and the function with which to create the configuration.
+The API key is secret, and we've wrapped it in [`Secret`][Secret] to denote that it shouldn't be included in log output. For the port, we need it to be dynamic depending on the environment, and default to a fixed port if it's not specified. In order to combine multiple configuration values, Ciris provides the [`loadConfig`][loadConfig] function, which accepts a number of configuration results in the form of [`ConfigResult`][ConfigResult]s. These can either be [`ConfigEntry`][ConfigEntry]s, [`ConfigValue`][ConfigValue]s, or previously combined configuration values from using [`loadConfig`][loadConfig].
 
 ```tut:book
 import ciris.loadConfig
@@ -172,10 +172,10 @@ val config =
         port = port getOrElse 4000
       )
     )
-  }
+  }.result
 ```
 
-Note that the literal values above (the name, timeout, and default port) are validated at compile-time. If there are errors for the configuration values, Ciris will deal with them and accumulate them as [`ConfigErrors`][ConfigErrors], before finally returning an `Either[ConfigErrors, Config]`. Note that the result is wrapped in [`Id`][Id], which is to say that no context (for example, effect type) was used. We could just as well have described the configuration loading with, for example, `IO` from [cats-effect][cats-effect] instead, using `envF` and `propF`, as seen in the [suspending effects](#suspending-effects) section.
+Note that the literal values above (the name, timeout, and default port) are validated at compile-time. If there are errors for the configuration values, Ciris will deal with them and accumulate them as [`ConfigErrors`][ConfigErrors], before returning a `ConfigResult[Id, Config]`. We can then retrieve the final result as `Either[ConfigErrors, Config]` by using `result`. Note that the result is wrapped in [`Id`][Id], which is to say that no context (for example, effect type) was used. We could just as well have described the configuration loading with, for example, `IO` from [cats-effect][cats-effect] instead, using `envF` and `propF`, as seen in the [suspending effects](#suspending-effects) section.
 
 ```tut:book
 import ciris.{envF, propF}
@@ -305,6 +305,7 @@ val config =
 [ConfigDecoder]: /api/ciris/ConfigDecoder.html
 [orElse]: /api/ciris/ConfigValue.html#orElse(that:=>ciris.ConfigValue[F,V])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,V]
 [ConfigValue]: /api/ciris/ConfigValue.html
+[ConfigResult]: /api/ciris/ConfigResult.html
 [Secret]: /api/ciris/Secret.html
 [cats-effect]: https://github.com/typelevel/cats-effect
 [loadConfig]: /api/ciris/index.html#loadConfig[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=>Z)(implicitevidence$5:ciris.api.Functor[F]):F[Either[ciris.ConfigErrors,Z]]

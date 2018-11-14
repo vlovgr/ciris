@@ -1,12 +1,19 @@
 package ciris
 
-import _root_.cats.effect.IO
-import ciris.api.MonadError
-import ciris.cats.effect._
-import ciris.syntax._
+import ciris.api.{Id, MonadError}
 
-final class CirisSyntaxSpec extends PropertySpec {
-  "Ciris syntax" when {
+final class ConfigResultSpec extends PropertySpec {
+  "ConfigResult" when {
+    "created with apply" should {
+      "include the result in toStringWithResult" in {
+        ConfigResult[Id, Int](Right(123)).toStringWithResult shouldBe "ConfigResult(Right(123))"
+      }
+
+      "not include the result in toString" in {
+        ConfigResult[Id, Int](Right(123)).toString shouldNot be ("ConfigResult(Right(123))")
+      }
+    }
+
     "using orThrow" should {
       "return the configuration if loaded successfully" in {
         val config = loadConfig(
@@ -31,20 +38,31 @@ final class CirisSyntaxSpec extends PropertySpec {
       }
     }
 
+    import _root_.cats.effect.IO
+    import ciris.cats.effect._
+
     "using orRaiseErrors" should {
       type ErrorsOr[A] = Either[ConfigErrors, A]
 
       implicit val M: MonadError[ErrorsOr, ConfigErrors] =
         new MonadError[ErrorsOr, ConfigErrors] {
           override def raiseError[A](e: ConfigErrors): ErrorsOr[A] = Left(e)
+
           override def handleErrorWith[A](fa: ErrorsOr[A])(
-            f: ConfigErrors => ErrorsOr[A]): ErrorsOr[A] = fa.left.flatMap(f)
-          override def pure[A](x: A): ErrorsOr[A] = Right(x)
+            f: ConfigErrors => ErrorsOr[A]
+          ): ErrorsOr[A] = fa.left.flatMap(f)
+
+          override def pure[A](x: A): ErrorsOr[A] =
+            Right(x)
+
           override def flatMap[A, B](fa: ErrorsOr[A])(f: A => ErrorsOr[B]): ErrorsOr[B] =
             fa.right.flatMap(f)
+
           override def product[A, B](fa: ErrorsOr[A], fb: ErrorsOr[B]): ErrorsOr[(A, B)] =
             fa.right.flatMap(a => fb.right.map(b => (a, b)))
-          override def map[A, B](fa: ErrorsOr[A])(f: A => B): ErrorsOr[B] = fa.right.map(f)
+
+          override def map[A, B](fa: ErrorsOr[A])(f: A => B): ErrorsOr[B] =
+            fa.right.map(f)
         }
 
       "return the configuration if loaded successfully" in {

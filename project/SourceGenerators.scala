@@ -7,7 +7,7 @@ object SourceGenerators extends AutoPlugin {
       testSourcesRoot: File,
       rootPackage: String
     ): Seq[File] = {
-      generateConfigValueClasses(sourcesRoot, rootPackage) ++
+      generateConfigResultClasses(sourcesRoot, rootPackage) ++
         generateLoadConfigs(sourcesRoot, rootPackage) ++
         generateLoadConfigsSpec(testSourcesRoot, rootPackage)
     }
@@ -56,25 +56,29 @@ object SourceGenerators extends AutoPlugin {
       (2 until maximumNumberOfParams)
         .map { current =>
           val params = typeParams(current)
-          val firstArgs = args(current, arg => s"ConfigValue[F, ${typeParam(arg)}]")
+          val firstArgs = args(current, arg => s"ConfigResult[F, ${typeParam(arg)}]")
 
           val loadConfigSecondArgs = s"f: (${typeParams(current)}) => Z"
-          val withValuesSecondArgs = s"f: (${typeParams(current)}) => F[Either[ConfigErrors, Z]]"
+          val withValuesSecondArgs = s"f: (${typeParams(current)}) => ConfigResult[F, Z]"
 
-          val valueParamsDoc = (1 to current).map(n => s"  * @param ${valueParam(n)} configuration value $n").mkString("\n")
-          val typeParamsDoc = (1 to current).map(n => s"  * @tparam ${typeParam(n)} the type for configuration value $n").mkString("\n")
+          val valueParamsDoc = (1 to current)
+            .map(n => s"  * @param ${valueParam(n)} configuration result $n")
+            .mkString("\n")
+          val typeParamsDoc = (1 to current)
+            .map(n => s"  * @tparam ${typeParam(n)} the type for configuration result $n")
+            .mkString("\n")
 
           val loadConfigDoc =
             s"""
               |/**
-              |  * Loads a configuration using the $current specified [[ConfigValue]]s.
+              |  * Loads a configuration using the $current specified [[ConfigResult]]s.
               |  * Deals with error accumulation if there are any errors in the
-              |  * provided [[ConfigValue]]s.
+              |  * provided [[ConfigResult]]s.
               |  *
               |$valueParamsDoc
               |  * @param f the function to create the configuration
               |$typeParamsDoc
-              |  * @tparam F the [[ConfigValue]] context
+              |  * @tparam F the [[ConfigResult]] context
               |  * @tparam Z the type of the configuration
               |  * @return the configuration or errors
               |  */
@@ -83,18 +87,18 @@ object SourceGenerators extends AutoPlugin {
           val withValuesDoc =
             s"""
                |/**
-               |  * Defines a requirement on $current [[ConfigValue]]s in order to be
-               |  * able to load a configuration. The method wraps `loadConfig`
-               |  * methods, requiring the provided [[ConfigValue]]s to be
-               |  * available in order to use the `loadConfig` methods.
+               |  * Defines a requirement on $current [[ConfigResult]]s in order to be
+               |  * able to load a configuration. The function wraps `loadConfig`
+               |  * functions, requiring the provided [[ConfigResult]]s to be
+               |  * available in order to use the `loadConfig` functions.
                |  *
                |  * Deals with error accumulation if there are any errors in
-               |  * the provided [[ConfigValue]]s.
+               |  * the provided [[ConfigResult]]s.
                |  *
                |$valueParamsDoc
                |  * @param f the function to create the configuration
                |$typeParamsDoc
-               |  * @tparam F the [[ConfigValue]] context
+               |  * @tparam F the [[ConfigResult]] context
                |  * @tparam Z the type of the configuration
                |  * @return the configuration or errors
                |  */
@@ -103,17 +107,17 @@ object SourceGenerators extends AutoPlugin {
           {
             loadConfigDoc ++
               Seq(
-                s"def loadConfig[F[_]: Functor, $params, Z]($firstArgs)($loadConfigSecondArgs): F[Either[ConfigErrors, Z]] =",
-                s"  (${valueParams(current, sep = " append ")}).value.map(_.right.map(f.tupled))",
+                s"def loadConfig[F[_]: Apply, $params, Z]($firstArgs)($loadConfigSecondArgs): ConfigResult[F, Z] =",
+                s"  ConfigResult((${valueParams(current, sep = " append ")}).result.map(_.right.map(f.tupled)))",
                 ""
               ) ++
               withValuesDoc ++
               Seq(
-                s"def withValues[F[_]: Monad, $params, Z]($firstArgs)($withValuesSecondArgs): F[Either[ConfigErrors, Z]] =",
-                s"  (${valueParams(current, sep = " append ")}).value.flatMap {",
+                s"def withValues[F[_]: Monad, $params, Z]($firstArgs)($withValuesSecondArgs): ConfigResult[F, Z] =",
+                s"  ConfigResult((${valueParams(current, sep = " append ")}).result.flatMap {",
                 "     case Left(errors) => left[Z](errors).pure[F]",
-                "     case Right(values) => f.tupled.apply(values)",
-                "   }"
+                "     case Right(values) => f.tupled.apply(values).result",
+                "   })"
               )
           }.map("  " + _).mkString("\n")
         }
@@ -134,65 +138,65 @@ object SourceGenerators extends AutoPlugin {
         |private[$rootPackage] class LoadConfigs {
         |
         |  /**
-        |    * Wraps the specified value in an `F[Either[ConfigErrors, Z]]`. Useful
-        |    * when you want to use a static configuration inside a `withValues`
-        |    * block, requiring you to wrap it with this method.
+        |    * Wraps the specified value in a `ConfigResult[F, Z]`. Useful when
+        |    * you want to use a static configuration inside a `withValues`
+        |    * block, requiring you to wrap it with this function.
         |    *
         |    * @param z the value to wrap
-        |    * @tparam F the [[ConfigValue]] context
+        |    * @tparam F the [[ConfigResult]] context
         |    * @tparam Z the type of the value to wrap
-        |    * @return the value wrapped in an `F[Either[ConfigErrors, Z]]`
+        |    * @return the value wrapped in a `ConfigResult[F, Z]`
         |    */
-        |  def loadConfig[F[_]: Applicative, Z](z: Z): F[Either[ConfigErrors, Z]] =
-        |    right(z).pure[F]
+        |  def loadConfig[F[_]: Applicative, Z](z: Z): ConfigResult[F, Z] =
+        |    ConfigResult(right(z).pure[F])
         |
         |  /**
-        |    * Loads a configuration using the specified [[ConfigValue]].
+        |    * Loads a configuration using the specified [[ConfigResult]].
         |    *
-        |    * @param a1 the configuration value
+        |    * @param a1 the configuration result
         |    * @param f the function to create the configuration
-        |    * @tparam F the [[ConfigValue]] context
-        |    * @tparam A1 the type of the configuration value
+        |    * @tparam F the [[ConfigResult]] context
+        |    * @tparam A1 the type of the configuration result
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def loadConfig[F[_]: Functor, A1, Z](a1: ConfigValue[F, A1])(f: A1 => Z): F[Either[ConfigErrors, Z]] =
-        |    a1.value.map(_.fold(error => Left(ConfigErrors(error)), a1 => Right(f(a1))))
+        |  def loadConfig[F[_]: Apply, A1, Z](a1: ConfigResult[F, A1])(f: A1 => Z): ConfigResult[F, Z] =
+        |    ConfigResult(a1.result.map(_.right.map(f)))
         |
         |  /**
-        |    * Defines a requirement on a single [[ConfigValue]] in order to be
-        |    * able to load a configuration. The method wraps `loadConfig`
-        |    * methods, requiring the provided [[ConfigValue]] to be
-        |    * available in order to use the `loadConfig` methods.
+        |    * Defines a requirement on a single [[ConfigResult]] in order to be
+        |    * able to load a configuration. The function wraps `loadConfig`
+        |    * functions, requiring the provided [[ConfigResult]] to be
+        |    * available in order to use the `loadConfig` functions.
         |    *
-        |    * @param a1 the configuration value
+        |    * @param a1 the configuration result
         |    * @param f the function to create the configuration
-        |    * @tparam F the [[ConfigValue]] context
-        |    * @tparam A1 the type of the configuration value
+        |    * @tparam F the [[ConfigResult]] context
+        |    * @tparam A1 the type of the configuration result
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def withValue[F[_]: Monad, A1, Z](a1: ConfigValue[F, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
+        |  def withValue[F[_]: Monad, A1, Z](a1: ConfigResult[F, A1])(f: A1 => ConfigResult[F, Z]): ConfigResult[F, Z] =
         |    withValues(a1)(f)
         |
         |  /**
-        |    * Defines a requirement on a single [[ConfigValue]] in order to be
-        |    * able to load a configuration. The method wraps any `loadConfig`
-        |    * methods, requiring the provided [[ConfigValue]] to be
-        |    * available in order to use the `loadConfig` methods.
+        |    * Defines a requirement on a single [[ConfigResult]] in order to be
+        |    * able to load a configuration. The function wraps any `loadConfig`
+        |    * functions, requiring the provided [[ConfigResult]] to be
+        |    * available in order to use the `loadConfig` functions.
         |    *
-        |    * @param a1 the configuration value
+        |    * @param a1 the configuration result
         |    * @param f the function to create the configuration
-        |    * @tparam F the [[ConfigValue]] context
-        |    * @tparam A1 the type of the configuration value
+        |    * @tparam F the [[ConfigResult]] context
+        |    * @tparam A1 the type of the configuration result
         |    * @tparam Z the type of the configuration
         |    * @return the configuration or errors
         |    */
-        |  def withValues[F[_]: Monad, A1, Z](a1: ConfigValue[F, A1])(f: A1 => F[Either[ConfigErrors, Z]]): F[Either[ConfigErrors, Z]] =
-        |    a1.value.flatMap {
-        |      case Left(error) => left[Z](ConfigErrors(error)).pure[F]
-        |      case Right(value) => f(value)
-        |    }
+        |  def withValues[F[_]: Monad, A1, Z](a1: ConfigResult[F, A1])(f: A1 => ConfigResult[F, Z]): ConfigResult[F, Z] =
+        |    ConfigResult(a1.result.flatMap {
+        |      case Left(errors) => left[Z](errors).pure[F]
+        |      case Right(value) => f(value).result
+        |    })
         |
         |$defs
         |}
@@ -203,7 +207,7 @@ object SourceGenerators extends AutoPlugin {
     Seq(output)
   }
 
-  def generateConfigValueClasses(sourcesRoot: File, rootPackage: String): Seq[File] = {
+  def generateConfigResultClasses(sourcesRoot: File, rootPackage: String): Seq[File] = {
     val classes = (2 until maximumNumberOfParams)
       .map { current =>
         val next = current + 1
@@ -216,21 +220,20 @@ object SourceGenerators extends AutoPlugin {
             // format: off
             s"""
                |{
-               |  def append[$nextTypeParam](next: ConfigValue[F, $nextTypeParam]): ConfigValue$next[F, ${typeParams(next)}] = {
-               |    new ConfigValue$next((value product next.value).map {
+               |  def append[$nextTypeParam](next: ConfigResult[F, $nextTypeParam]): ConfigResult$next[F, ${typeParams(next)}] =
+               |    new ConfigResult$next((result product next.result).map {
                |      case (Right((${valueParams(current)})), Right(${valueParam(next)})) => Right((${valueParams(next)}))
-               |      case (Left(errors), Right(_)) => Left(errors)
-               |      case (Right(_), Left(error)) => Left(ConfigErrors(error))
-               |      case (Left(errors), Left(error)) => Left(errors append error)
+               |      case (Left(errors1), Right(_)) => Left(errors1)
+               |      case (Right(_), Left(errors2)) => Left(errors2)
+               |      case (Left(errors1), Left(errors2)) => Left(errors1 combine errors2)
                |    })
                |  }
-               |}
                """.stripMargin.trim
             // format: on
           }
 
         val signature =
-          s"private[$rootPackage] final class ConfigValue$current[F[_]: Apply, $currentTypeParams](val value: F[Either[ConfigErrors, ($currentTypeParams)]])"
+          s"private[$rootPackage] final class ConfigResult$current[F[_]: Apply, $currentTypeParams](val result: F[Either[ConfigErrors, ($currentTypeParams)]])"
 
         s"$signature $defs"
       }
@@ -250,7 +253,7 @@ object SourceGenerators extends AutoPlugin {
          |$classes
        """.stripMargin.trim + "\n"
 
-    val output = sourcesRoot / rootPackage / "ConfigValues.scala"
+    val output = sourcesRoot / rootPackage / "ConfigResults.scala"
     IO.write(output, content)
     Seq(output)
   }
@@ -300,65 +303,65 @@ object SourceGenerators extends AutoPlugin {
             |"loading 0 keys" should {
             |  "always be able to load" in {
             |    forAll { int: Int =>
-            |      loadConfig(int) shouldBe Right(int)
+            |      loadConfig(int).result shouldBe Right(int)
             |    }
             |  }
             |}
           """.stripMargin
         } else {
-          val withValueMethods =
-            if(n == 1) List("withValues", "withValue")
+          val withValueFunctions =
+            if (n == 1) List("withValues", "withValue")
             else List("withValues")
 
           // format: off
           s"""
              |"loading $n keys" should {
              |  "be able to load" in {
-             |    loadConfig(${reads(n)})(${identity(n)}) shouldBe Right((${values(n)}))
+             |    loadConfig(${reads(n)})(${identity(n)}).result shouldBe Right((${values(n)}))
              |  }
              |
              |  "be able to load values" in {
-             |    ${withValueMethods.map(_ + s"""(${reads(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe Right((${values(n)}))""").mkString("\n    ")}
+             |    ${withValueFunctions.map(_ + s"""(${reads(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})).result shouldBe Right((${values(n)}))""").mkString("\n    ")}
              |  }
              |
              |  "fail to load if the first one is missing" in {
-             |    loadConfig(${readsFirstMissing(n)})(${identity(n)}) shouldBe a[Left[_, _]]
+             |    loadConfig(${readsFirstMissing(n)})(${identity(n)}).result shouldBe a[Left[_, _]]
              |  }
              |
              |  "fail to load values if the first one is missing" in {
-             |    ${withValueMethods.map(_ + s"""(${readsFirstMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
+             |    ${withValueFunctions.map(_ + s"""(${readsFirstMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})).result shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |
              |  "fail to load if the last one is missing in" in {
-             |    loadConfig(${readsLastOneMissing(n)})(${identity(n)}) shouldBe a[Left[_, _]]
+             |    loadConfig(${readsLastOneMissing(n)})(${identity(n)}).result shouldBe a[Left[_, _]]
              |  }
              |
              |  "fail to load values if the last one is missing" in {
-             |    ${withValueMethods.map(_ + s"""(${readsLastOneMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
+             |    ${withValueFunctions.map(_ + s"""(${readsLastOneMissing(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})).result shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |
              |  "fail to load if the first type is wrong" in {
-             |    loadConfig(${readsFirstTypeWrong(n)})(${identity(n)}) shouldBe a[Left[_, _]]
+             |    loadConfig(${readsFirstTypeWrong(n)})(${identity(n)}).result shouldBe a[Left[_, _]]
              |  }
              |
              |  "fail to load values if the first type is wrong" in {
-             |    ${withValueMethods.map(_ + s"""(${readsFirstTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
+             |    ${withValueFunctions.map(_ + s"""(${readsFirstTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})).result shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |
              |  "fail to load if the last type is wrong" in {
-             |    loadConfig(${readsLastTypeWrong(n)})(${identity(n)}) shouldBe a[Left[_, _]]
+             |    loadConfig(${readsLastTypeWrong(n)})(${identity(n)}).result shouldBe a[Left[_, _]]
              |  }
              |
              |  "fail to load values if the last type is wrong" in {
-             |    ${withValueMethods.map(_ + s"""(${readsLastTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
+             |    ${withValueFunctions.map(_ + s"""(${readsLastTypeWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})).result shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |
              |  "fail to load and accumulate the errors" in {
-             |    loadConfig(${readsAllTypesWrong(n)})(${identity(n)}).left.map(_.size) shouldBe Left($n)
+             |    loadConfig(${readsAllTypesWrong(n)})(${identity(n)}).result.left.map(_.size) shouldBe Left($n)
              |  }
              |
              |  "fail to load values and accumulate the errors" in {
-             |    ${withValueMethods.map(_ + s"""(${readsAllTypesWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})) shouldBe a[Left[_, _]]""").mkString("\n    ")}
+             |    ${withValueFunctions.map(_ + s"""(${readsAllTypesWrong(n)})((${valueParams(n, prefix = "b")}) => loadConfig(${reads(n)})(${identity(n)})).result shouldBe a[Left[_, _]]""").mkString("\n    ")}
              |  }
              |}
            """.stripMargin
