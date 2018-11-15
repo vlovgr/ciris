@@ -31,7 +31,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res0: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue$1251547171
+<span class="c1">// res0: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue$1880823060
 </span></code></pre>
 </div>
 
@@ -69,7 +69,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res2: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue$96194355
+<span class="c1">// res2: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue$1613831970
 </span></code></pre>
 </div>
 
@@ -83,7 +83,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"PORT"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"http.port"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue$374142289
+<span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue$1249460900
 </span></code></pre>
 </div>
 
@@ -125,7 +125,7 @@
       <span class="o">)</span>
     <span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$850191882
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$779748617
 </span></code></pre>
 </div>
 
@@ -162,10 +162,6 @@
 </div>
 
 <p>While this might seem like a good idea at first, when used in conjunction with the <code class="highlighter-rouge">auto</code> macro, for compile-time safe literal configuration values, we are actually performing the <code class="highlighter-rouge">OpenPort</code> check during compile-time. This means that the port values you specify in code, need to be open on the machine compiling the code, which is not what you would expect.</p>
-
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="kt">Refined</span> <span class="kt">OpenPort</span> <span class="o">=</span> <span class="mi">989</span>
-</code></pre>
-</div>
 
 <p>Maybe it’s not such a good idea to use <em>impure</em> functions in our predicates. There are still some configuration values for which we’ll have to guard against errors when using the values (binding a port number, for example). However, we can still reduce the possibility of errors by being more precise in the definition of the values. For port numbers, for example, it means that we can prevent attempts to use <em>unuseable</em> port number at compile-time (for port numbers specified in code), or as part of the configuration loading process (for port numbers loaded from the environment). If we’re able to detect unuseable configuration values as early as at compile-time, or during configuration loading, we’ve saved valuable time by preventing errors as early as possible.</p>
 

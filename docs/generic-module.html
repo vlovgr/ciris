@@ -65,11 +65,11 @@
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">decodeDouble</span><span class="k">:</span> <span class="kt">ConfigDecoder</span><span class="o">[</span><span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">]</span>, <span class="kt">Double</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">ConfigDecoder</span><span class="o">.</span><span class="n">catchNonFatal</span><span class="o">(</span><span class="s">"Double"</span><span class="o">)(</span><span class="n">map</span> <span class="k">=&gt;</span> <span class="n">map</span><span class="o">(</span><span class="s">"key1"</span><span class="o">).</span><span class="n">toDouble</span><span class="o">)</span>
-<span class="c1">// decodeDouble: ciris.ConfigDecoder[Map[String,String],Double] = ConfigDecoder$1683826713
+<span class="c1">// decodeDouble: ciris.ConfigDecoder[Map[String,String],Double] = ConfigDecoder$1737058744
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">decodeFloat</span><span class="k">:</span> <span class="kt">ConfigDecoder</span><span class="o">[</span><span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">]</span>, <span class="kt">Float</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">ConfigDecoder</span><span class="o">.</span><span class="n">catchNonFatal</span><span class="o">(</span><span class="s">"Float"</span><span class="o">)(</span><span class="n">map</span> <span class="k">=&gt;</span> <span class="n">map</span><span class="o">(</span><span class="s">"key2"</span><span class="o">).</span><span class="n">toFloat</span><span class="o">)</span>
-<span class="c1">// decodeFloat: ciris.ConfigDecoder[Map[String,String],Float] = ConfigDecoder$1053447051
+<span class="c1">// decodeFloat: ciris.ConfigDecoder[Map[String,String],Float] = ConfigDecoder$1233653843
 </span>
 <span class="n">mapSource</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"key"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">TwoValues</span><span class="o">]</span>
 <span class="c1">// res3: ciris.ConfigEntry[ciris.api.Id,String,scala.collection.immutable.Map[String,String],TwoValues] = ConfigEntry(key, ConfigKeyType(generic key))
