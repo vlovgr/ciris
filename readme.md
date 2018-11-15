@@ -107,7 +107,7 @@ If you already have the Ammonite REPL installed, you can load Ciris using the fo
 ```scala
 import $ivy.`is.cir::ciris-cats:0.12.0`, ciris.cats._
 import $ivy.`is.cir::ciris-cats-effect:0.12.0`, ciris.cats.effect._, ciris.cats.effect.syntax._
-import $ivy.`is.cir::ciris-core:0.12.0`, ciris._, ciris.syntax._
+import $ivy.`is.cir::ciris-core:0.12.0`, ciris._
 import $ivy.`is.cir::ciris-enumeratum:0.12.0`, ciris.enumeratum._
 import $ivy.`is.cir::ciris-generic:0.12.0`, ciris.generic._
 import $ivy.`is.cir::ciris-refined:0.12.0`, ciris.refined._, ciris.refined.syntax._
