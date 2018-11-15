@@ -41,6 +41,20 @@ final class ConfigEntrySpec extends PropertySpec {
       }
     }
 
+    "using toStringWithResult" should {
+      "include the key, keyType, and result" in {
+        forAll { value: String =>
+          existingEntry(value).toStringWithResult shouldBe
+            s"ConfigEntry(key, ConfigKeyType(test key), Right($value))"
+        }
+      }
+
+      "include the key, keyType, and errors" in {
+        nonExistingEntry.toStringWithResult shouldBe
+          s"ConfigEntry(key, ConfigKeyType(test key), Left(ConfigErrors(MissingKey(key, ConfigKeyType(test key)))))"
+      }
+    }
+
     "using withValue" should {
       "replace the existing value" in {
         existingEntry("value").withValue(Right("value2")).value shouldBe Right("value2")
