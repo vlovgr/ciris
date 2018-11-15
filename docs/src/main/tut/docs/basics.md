@@ -202,7 +202,7 @@ val configF =
 At this point, we can see that both the `API_KEY` environment variable and `api.key` system property are missing, so we've gotten a [`ConfigErrors`][ConfigErrors] back. We can use the [`messages`][messages] function to retrieve error messages which are a bit more readable. Alternatively, you can use [`orThrow`][orThrow] to throw an exception with the error messages, if there are any, or return the configuration if it could be loaded successfully.
 
 ```tut:book
-config.left.map(_.messages)
+config.result.left.map(_.messages)
 ```
 
 ```tut:book:fail
