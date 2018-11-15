@@ -172,7 +172,9 @@ val config =
         port = port getOrElse 4000
       )
     )
-  }.result
+  }
+
+config.result
 ```
 
 Note that the literal values above (the name, timeout, and default port) are validated at compile-time. If there are errors for the configuration values, Ciris will deal with them and accumulate them as [`ConfigErrors`][ConfigErrors], before returning a `ConfigResult[Id, Config]`. We can then retrieve the final result as `Either[ConfigErrors, Config]` by using `result`. Note that the result is wrapped in [`Id`][Id], which is to say that no context (for example, effect type) was used. We could just as well have described the configuration loading with, for example, `IO` from [cats-effect][cats-effect] instead, using `envF` and `propF`, as seen in the [suspending effects](#suspending-effects) section.
@@ -197,17 +199,14 @@ val configF =
   }
 ```
 
-At this point, we can see that both the `API_KEY` environment variable and `api.key` system property are missing, so we've gotten a [`ConfigErrors`][ConfigErrors] back. We can use the [`messages`][messages] function to retrieve error messages which are a bit more readable. Alternatively, with a syntax import, you can use [`orThrow`][orThrow] to throw an exception with the error messages, if there are any, or return the configuration if it could be loaded successfully.
+At this point, we can see that both the `API_KEY` environment variable and `api.key` system property are missing, so we've gotten a [`ConfigErrors`][ConfigErrors] back. We can use the [`messages`][messages] function to retrieve error messages which are a bit more readable. Alternatively, you can use [`orThrow`][orThrow] to throw an exception with the error messages, if there are any, or return the configuration if it could be loaded successfully.
 
 ```tut:book
 config.left.map(_.messages)
 ```
 
 ```tut:book:fail
-{
-  import ciris.syntax._
-  config.orThrow()
-}
+config.orThrow()
 ```
 ### Dynamic Configuration Loading
 Sometimes it's necessary to change how the configuration is loaded depending on some configuration value. For example, you might want to load configurations differently depending on in which environment the application is being run. You might want to use a fixed configuration in the local and testing environments, while loading secret values from a vault service in the production environment. One way to represent environments is with [enumeratum](/docs/enumeratum-module) enumerations, like in the following example. Refer to the [multiple environments](/docs/environments) section for more information.

@@ -149,10 +149,6 @@ refineV[OpenPort](65536)
 
 While this might seem like a good idea at first, when used in conjunction with the `auto` macro, for compile-time safe literal configuration values, we are actually performing the `OpenPort` check during compile-time. This means that the port values you specify in code, need to be open on the machine compiling the code, which is not what you would expect.
 
-```tut:fail
-val port: Int Refined OpenPort = 989
-```
-
 Maybe it's not such a good idea to use _impure_ functions in our predicates. There are still some configuration values for which we'll have to guard against errors when using the values (binding a port number, for example). However, we can still reduce the possibility of errors by being more precise in the definition of the values. For port numbers, for example, it means that we can prevent attempts to use _unuseable_ port number at compile-time (for port numbers specified in code), or as part of the configuration loading process (for port numbers loaded from the environment). If we're able to detect unuseable configuration values as early as at compile-time, or during configuration loading, we've saved valuable time by preventing errors as early as possible.
 
 In general, it's recommended to only use _pure_ functions in predicates, and to try and be as precise as is practically possible when defining configuration value types -- you'll have to use your own judgement when it comes to this. It might take considerable effort to create very precise predicate types, but it can also pay off in terms of fewer errors and failures. Sometimes it is enough to use a more precise type than you normally would, for example `NonEmptyString` instead of `String`, which  might not be as precise as possible, but still eliminates some invalid variants.
