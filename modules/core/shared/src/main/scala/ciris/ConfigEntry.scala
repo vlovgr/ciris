@@ -202,6 +202,9 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     if (sourceValueString == valueString) s"ConfigEntry($key, $keyType, $valueString)"
     else s"ConfigEntry($key, $keyType, $sourceValueString, $valueString)"
   }
+
+  override def toStringWithResult: String =
+    s"ConfigEntry($key, $keyType, $result)"
 }
 
 object ConfigEntry {
