@@ -111,6 +111,39 @@ abstract class ConfigValue[F[_]: Apply, V] extends ConfigResult[F, V] {
       }
     }
 
+  /**
+    * If the key for this value was missing from the [[ConfigSource]],
+    * as determined by [[ConfigError.isMissingKey]], then uses `value`
+    * as the value instead.
+    *
+    * {{{
+    * scala> env[String]("API_KEY").
+    *          orElse(prop("api.key")).
+    *          orValue("value").
+    *          toStringWithValue
+    * res0: String = ConfigValue(Right(value))
+    * }}}
+    *
+    * If the value is unavailable due to a different error than the
+    * key missing from the [[ConfigSource]], then the error will
+    * not be replaced with the specified `value`.
+    *
+    * {{{
+    * scala> prop[Int]("file.encoding").orValue(0).toStringWithValue
+    * res1: String = ConfigValue(Left(WrongType(file.encoding, Property, Right(UTF8), UTF8, Int, java.lang.NumberFormatException: For input string: "UTF8")))
+    * }}}
+    *
+    * @param value the value to use if the key is missing
+    * @return a new [[ConfigValue]]
+    */
+  final def orValue(value: => V): ConfigValue[F, V] =
+    ConfigValue.applyF[F, V] {
+      this.value.map {
+        case Left(error) if error.isMissingKey => Right(value)
+        case other                             => other
+      }
+    }
+
   override def toString: String =
     "ConfigValue$" + System.identityHashCode(this)
 

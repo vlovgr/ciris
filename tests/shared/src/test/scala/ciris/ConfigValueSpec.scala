@@ -108,5 +108,36 @@ final class ConfigValueSpec extends PropertySpec {
           .value shouldBe Right(Some("value"))
       }
     }
+
+    "using orValue" should {
+      "use value for a missing key" in {
+        readNonExistingConfigEntry[String]
+          .orValue("value")
+          .value shouldBe Right("value")
+      }
+
+      "use value for combined missing keys" in {
+        readNonExistingConfigEntry[String]
+          .orElse(readNonExistingConfigEntry)
+          .orValue("value")
+          .value shouldBe Right("value")
+      }
+
+      "keep an error that is not a missing key" in {
+        ConfigValue(ConfigError.left[String](ConfigError("error")))
+          .orValue("value")
+          .value
+          .left.map(_.message) shouldBe Left("error")
+      }
+
+      "keep a combined error that is not only missing keys" in {
+        readNonExistingConfigEntry[String]
+          .orElse(ConfigValue(ConfigError.left(ConfigError("error"))))
+          .orValue("value")
+          .value
+          .left
+          .map(_.message) shouldBe Left("Missing test key [key] and error")
+      }
+    }
   }
 }
