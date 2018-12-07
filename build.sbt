@@ -473,19 +473,20 @@ lazy val testSettings = Seq(
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    def isReleased = !unreleasedModuleNames.value.contains(moduleName.value)
-    def isPublishing = publishArtifact.value
+    val released = !unreleasedModuleNames.value.contains(moduleName.value)
+    val publishing = publishArtifact.value
 
-    latestBinaryCompatibleVersion.value match {
-      case Some(version) if isPublishing && isReleased =>
-        Set(organization.value %% moduleName.value % version)
-      case _ =>
-        Set.empty
-    }
+    if(publishing && released)
+      binaryCompatibleVersions.value
+        .map(version => organization.value %% moduleName.value % version)
+    else
+      Set()
   },
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
+    // format: off
     Seq()
+    // format: on
   }
 )
 
