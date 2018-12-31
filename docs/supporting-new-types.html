@@ -3,31 +3,29 @@
 
 <p>Let’s say you’re dealing with a sealed <code class="highlighter-rouge">Odd</code> class, where you can only construct instances using an <code class="highlighter-rouge">odd</code> method, which accepts an <code class="highlighter-rouge">Int</code> and returns an <code class="highlighter-rouge">Option[Odd]</code>. Note that an alternative way to represent <code class="highlighter-rouge">Odd</code> values is by using the <code class="highlighter-rouge">Odd</code> predicate from <a href="/docs/refined-module">refined</a>, which saves you having to write custom decoders. However, there may be times when you need to resort to custom types, so <code class="highlighter-rouge">Odd</code> is simply serving as an example here.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">sealed</span> <span class="k">abstract</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Odd</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">sealed</span> <span class="k">abstract</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Odd</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
 
 <span class="k">def</span> <span class="n">odd</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Odd</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
   <span class="nc">Option</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
     <span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="k">_</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
     <span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">new</span> <span class="nc">Odd</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="o">{})</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When we try to decode values of type <code class="highlighter-rouge">Odd</code>, we’ll get an error at compile-time.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
   <span class="k">import</span> <span class="nn">ciris.env</span>
   <span class="n">env</span><span class="o">[</span><span class="kt">Odd</span><span class="o">](</span><span class="s">"SHLVL"</span><span class="o">)</span>
 <span class="o">}</span>
 <span class="c1">// &lt;console&gt;:17: error: could not find implicit value for parameter decoder: ciris.ConfigDecoder[String,Odd]
 //          env[Odd]("SHLVL")
 //                  ^
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>As the error suggests, we’ll have to define an implicit <code class="highlighter-rouge">ConfigDecoder[String, Odd]</code> instance and include it in scope. We can take this one step further, by saying that if there is a <code class="highlighter-rouge">ConfigDecoder[A, Int]</code> instance available, we can provide a <code class="highlighter-rouge">ConfigDecoder[A, Odd]</code> instance. The <a href="/api/ciris/ConfigDecoder.html#mapOption[C](typeName:String)(f:B=&gt;Option[C]):ciris.ConfigDecoder[A,C]"><code class="highlighter-rouge">mapOption</code></a> function on <a href="/api/ciris/ConfigDecoder.html"><code class="highlighter-rouge">ConfigDecoder</code></a> can be used to convert the <code class="highlighter-rouge">Int</code> to an <code class="highlighter-rouge">Odd</code>. Most <a href="/api/ciris/ConfigDecoder.html"><code class="highlighter-rouge">ConfigDecoder</code></a> functions accept a <code class="highlighter-rouge">typeName</code> argument, which is the name of the type we are attempting to decode. In this case, and in general when the type you’re dealing with does not have type parameters, it’s simple enough to provide the type name. When dealing with types with type parameters, you might have to resort to using <a href="https://docs.scala-lang.org/overviews/reflection/typetags-manifests.html">type tags</a>, depending on the platform you’re running on (Scala, Scala.js, Scala Native).</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.ConfigDecoder</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.ConfigDecoder</span>
 <span class="c1">// import ciris.ConfigDecoder
 </span>
 <span class="k">implicit</span> <span class="k">def</span> <span class="n">oddConfigDecoder</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span>
@@ -36,18 +34,16 @@
   <span class="n">decoder</span><span class="o">.</span><span class="n">mapOption</span><span class="o">(</span><span class="s">"Odd"</span><span class="o">)(</span><span class="n">odd</span><span class="o">)</span>
 <span class="o">}</span>
 <span class="c1">// oddConfigDecoder: [A](implicit decoder: ciris.ConfigDecoder[A,Int])ciris.ConfigDecoder[A,Odd]
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>If we now try to decode an <code class="highlighter-rouge">Odd</code> value, we should no longer get an error at compile-time.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.env</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.env</span>
 <span class="c1">// import ciris.env
 </span>
 <span class="n">env</span><span class="o">[</span><span class="kt">Odd</span><span class="o">](</span><span class="s">"SHLVL"</span><span class="o">)</span>
 <span class="c1">// res1: ciris.ConfigEntry[ciris.api.Id,String,String,Odd] = ConfigEntry(SHLVL, Environment)
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();

@@ -3,7 +3,7 @@
 
 <p>Let’s define an example <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> which reads <code class="highlighter-rouge">Future</code> values.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.implicits._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.implicits._</span>
 <span class="k">import</span> <span class="nn">ciris._</span>
 <span class="k">import</span> <span class="nn">ciris.cats._</span>
 <span class="k">import</span> <span class="nn">ciris.ConfigError.right</span>
@@ -19,12 +19,11 @@
     <span class="nc">Future</span><span class="o">.</span><span class="n">successful</span><span class="o">(</span><span class="n">right</span><span class="o">(</span><span class="n">key</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">toString</span><span class="o">))</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can then load, decode, and combine values into a configuration as follows.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Config</span><span class="o">(</span><span class="n">first</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">second</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Config</span><span class="o">(</span><span class="n">first</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">second</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
 <span class="c1">// defined class Config
 </span>
 <span class="k">val</span> <span class="n">futureConfig</span> <span class="k">=</span>
@@ -32,12 +31,11 @@
     <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"firstKey"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Int</span><span class="o">],</span>
     <span class="n">source</span><span class="o">.</span><span class="n">read</span><span class="o">(</span><span class="s">"secondKey"</span><span class="o">).</span><span class="n">decodeValue</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span>
   <span class="o">)(</span><span class="nc">Config</span><span class="o">)</span>
-<span class="c1">// futureConfig: ciris.ConfigResult[scala.concurrent.Future,Config] = ConfigResult$559484486
+<span class="c1">// futureConfig: ciris.ConfigResult[scala.concurrent.Future,Config] = ConfigResult$742837729
 </span>
 <span class="k">val</span> <span class="n">config</span> <span class="k">=</span> <span class="nc">Await</span><span class="o">.</span><span class="n">result</span><span class="o">(</span><span class="n">futureConfig</span><span class="o">.</span><span class="n">result</span><span class="o">,</span> <span class="mf">1.</span><span class="n">second</span><span class="o">)</span>
 <span class="c1">// config: Either[ciris.ConfigErrors,Config] = Right(Config(8,9))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">ciris-cats</code> module also provides <a href="https://typelevel.org/cats/typeclasses/show.html"><code class="highlighter-rouge">Show</code></a> type class instances for <a href="/docs/logging#logging-improvements">logging configurations</a>.</p>
 

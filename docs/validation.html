@@ -12,17 +12,16 @@
 
 <p>Using refinement types, we can create a type which <em>refines</em> an existing base type by applying a predicate type, which represents the validation logic. For example, we could express a type <code class="highlighter-rouge">ApiKey</code>, which, in this case, is any <code class="highlighter-rouge">String</code> with a length between 25 and 40 characters, and which only contains alphanumeric characters.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.api.Refined</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.api.Refined</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.string.MatchesRegex</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.W</span>
 
 <span class="k">type</span> <span class="kt">ApiKey</span> <span class="o">=</span> <span class="nc">String</span> <span class="nc">Refined</span> <span class="nc">MatchesRegex</span><span class="o">[</span><span class="kt">W.`</span><span class="err">"</span><span class="o">[</span><span class="kt">a-zA-Z0-</span><span class="err">9</span><span class="o">]{</span><span class="err">25</span>,<span class="err">40</span><span class="o">}</span><span class="err">"</span><span class="kt">`.T</span><span class="o">]</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>By using the <code class="highlighter-rouge">ApiKey</code> type instead of <code class="highlighter-rouge">String</code> whenever we deal with an API key, we can now be confident that the value is not an invalid variant (like the empty <code class="highlighter-rouge">String</code>, or a too weak key, for example). Ciris integrates with refined, so you can load configuration values of type <code class="highlighter-rouge">ApiKey</code> without writing any additional code.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="n">env</span><span class="o">,</span> <span class="n">prop</span><span class="o">}</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="n">env</span><span class="o">,</span> <span class="n">prop</span><span class="o">}</span>
 <span class="c1">// import ciris.{env, prop}
 </span>
 <span class="k">import</span> <span class="nn">ciris.refined._</span>
@@ -31,65 +30,59 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res0: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue$1880823060
-</span></code></pre>
-</div>
+<span class="c1">// res0: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue$1050449835
+</span></code></pre></div></div>
 
 <p>Refinement types are also useful for ensuring that configuration values residing in code are valid. Thanks to <a href="/docs/refined-module">refined</a> providing an <code class="highlighter-rouge">auto</code> macro, we can ensure that literal configuration values conform to their predicates at compile-time, and all we have to do is to use the appropriate import. Note that the actual <code class="highlighter-rouge">ApiKey</code> (or any other secret values) shouldn’t be included in code, but rather loaded from, for example, a vault service. The <code class="highlighter-rouge">ApiKey</code> below could, for example, be used in local tests, and would there not be seen as a secret, and could therefore reside in code.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.auto._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.auto._</span>
 <span class="c1">// import eu.timepit.refined.auto._
 </span>
 <span class="k">val</span> <span class="n">apiKey</span><span class="k">:</span> <span class="kt">ApiKey</span> <span class="o">=</span> <span class="s">"RacrqvWjuu4KVmnTG9b6xyZMTP7jnX"</span>
 <span class="c1">// apiKey: ApiKey = RacrqvWjuu4KVmnTG9b6xyZMTP7jnX
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>If the <code class="highlighter-rouge">ApiKey</code> is not valid, we’ll get an error at compile-time.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">apiKey</span><span class="k">:</span> <span class="kt">ApiKey</span> <span class="o">=</span> <span class="s">"changeme"</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">apiKey</span><span class="k">:</span> <span class="kt">ApiKey</span> <span class="o">=</span> <span class="s">"changeme"</span>
 <span class="o">&lt;</span><span class="n">console</span><span class="k">&gt;:</span><span class="mi">23</span><span class="k">:</span> <span class="kt">error:</span> <span class="kt">Predicate</span> <span class="kt">failed:</span> <span class="err">"</span><span class="kt">changeme</span><span class="err">"</span><span class="kt">.matches</span><span class="o">(</span><span class="err">"[</span><span class="kt">a-zA-Z0-</span><span class="err">9]</span><span class="o">{</span><span class="err">25</span><span class="o">,</span><span class="err">40</span><span class="o">}</span><span class="err">"</span><span class="o">).</span>
        <span class="k">val</span> <span class="n">apiKey</span><span class="k">:</span> <span class="kt">ApiKey</span> <span class="o">=</span> <span class="s">"changeme"</span>
                             <span class="o">^</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If we need to use libraries which doesn’t support our <code class="highlighter-rouge">ApiKey</code> type, we can retrieve the underlying <code class="highlighter-rouge">String</code> value.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">apiKey</span><span class="o">.</span><span class="n">value</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">apiKey</span><span class="o">.</span><span class="n">value</span>
 <span class="c1">// res1: String = RacrqvWjuu4KVmnTG9b6xyZMTP7jnX
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Also, if we want to avoid accidentally logging secrets, we can use <a href="/api/ciris/Secret.html"><code class="highlighter-rouge">Secret</code></a>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.Secret</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.Secret</span>
 <span class="c1">// import ciris.Secret
 </span>
 <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res2: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue$1613831970
-</span></code></pre>
-</div>
+<span class="c1">// res2: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue$348091213
+</span></code></pre></div></div>
 
 <p>For more information about <a href="/api/ciris/Secret.html"><code class="highlighter-rouge">Secret</code></a> and logging, refer to the <a href="/docs/logging">logging configurations</a> section.</p>
 
 <p>Refinement types are not limited to <code class="highlighter-rouge">String</code>s, and <a href="/docs/refined-module">refined</a> already includes many common refinement types. One example is <code class="highlighter-rouge">UserPortNumber</code> for <code class="highlighter-rouge">Int</code>s representing port numbers in the closed interval 1024 to 49151. This is a more precise definition of port numbers than <code class="highlighter-rouge">Int</code>, and lets us avoid many reserved port numbers.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.UserPortNumber</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.UserPortNumber</span>
 <span class="c1">// import eu.timepit.refined.types.net.UserPortNumber
 </span>
 <span class="n">env</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"PORT"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"http.port"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue$1249460900
-</span></code></pre>
-</div>
+<span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue$634035551
+</span></code></pre></div></div>
 
 <p>Putting everything together, we’re left with a more precise configuration, with validation encoded in the types.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.numeric.PosInt</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.numeric.PosInt</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.types.string.NonEmptyString</span>
 
 <span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">ApiConfig</span><span class="o">(</span>
@@ -102,12 +95,11 @@
   <span class="n">appName</span><span class="k">:</span> <span class="kt">NonEmptyString</span><span class="o">,</span>
   <span class="n">api</span><span class="k">:</span> <span class="kt">ApiConfig</span>
 <span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The literal, and default, configuration values are also validated at compile-time. Ciris helps you load refinement types without having to write any additional code, and we’ve already drastically reduced the risk of <em>latent configuration errors</em>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.loadConfig</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.loadConfig</span>
 <span class="c1">// import ciris.loadConfig
 </span>
 <span class="k">val</span> <span class="n">config</span> <span class="k">=</span>
@@ -125,26 +117,24 @@
       <span class="o">)</span>
     <span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$779748617
-</span></code></pre>
-</div>
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$593003168
+</span></code></pre></div></div>
 
 <h2 id="useable-configurations">Useable Configurations</h2>
 <p>An interesting question arises when using refinement types: how far should we go to ensure that our configuration values are <em>useable</em>? For example, despite having restricted port numbers to <code class="highlighter-rouge">UserPortNumber</code>s, there is nothing that guarantees that the specified port is actually available, as another service might already be using the port. Being familiar with refinement types, you might be tempted to write an <code class="highlighter-rouge">OpenPort</code> predicate, which checks whether the port is open or not by creating a socket and immediately closing it.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.api.Validate</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.api.Validate</span>
 <span class="k">import</span> <span class="nn">java.net.ServerSocket</span>
 
 <span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">OpenPort</span><span class="o">()</span>
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">openPortValidate</span><span class="k">:</span> <span class="kt">Validate.Plain</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">OpenPort</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">Validate</span><span class="o">.</span><span class="n">fromPartial</span><span class="o">(</span><span class="k">new</span> <span class="nc">ServerSocket</span><span class="o">(</span><span class="k">_</span><span class="o">).</span><span class="n">close</span><span class="o">(),</span> <span class="s">"OpenPort"</span><span class="o">,</span> <span class="nc">OpenPort</span><span class="o">())</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We’ll then check whether some <code class="highlighter-rouge">Int</code>s conform to the <code class="highlighter-rouge">OpenPort</code> predicate.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.refineV</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.refineV</span>
 <span class="c1">// import eu.timepit.refined.refineV
 </span>
 <span class="c1">// System port number, requires sudo permissions
@@ -158,8 +148,7 @@
 <span class="c1">// Port number outside range, cannot be used
 </span><span class="n">refineV</span><span class="o">[</span><span class="kt">OpenPort</span><span class="o">](</span><span class="mi">65536</span><span class="o">)</span>
 <span class="c1">// res9: Either[String,eu.timepit.refined.api.Refined[Int,OpenPort]] = Left(OpenPort predicate failed: Port value out of range: 65536)
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>While this might seem like a good idea at first, when used in conjunction with the <code class="highlighter-rouge">auto</code> macro, for compile-time safe literal configuration values, we are actually performing the <code class="highlighter-rouge">OpenPort</code> check during compile-time. This means that the port values you specify in code, need to be open on the machine compiling the code, which is not what you would expect.</p>
 
@@ -172,17 +161,16 @@
 
 <p>For reference, following is an example of how to express the Kafka topic name validation rules.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">isKafkaTopicName</span><span class="o">(</span><span class="n">topic</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">isKafkaTopicName</span><span class="o">(</span><span class="n">topic</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span>
   <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">topic</span><span class="o">.</span><span class="n">size</span> <span class="o">&amp;&amp;</span> <span class="n">topic</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">249</span> <span class="o">&amp;&amp;</span> <span class="o">(</span>
     <span class="n">topic</span> <span class="o">!=</span> <span class="s">"."</span> <span class="o">&amp;&amp;</span> <span class="n">topic</span> <span class="o">!=</span> <span class="s">".."</span> <span class="o">&amp;&amp;</span> <span class="o">(</span>
       <span class="n">topic</span><span class="o">.</span><span class="n">forall</span><span class="o">(</span><span class="n">c</span> <span class="k">=&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">isLetterOrDigit</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'.'</span> <span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="ss">'_' </span><span class="o">||</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)</span>
     <span class="o">))</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>For comparison, following is an example of how to express the validation rules with refinement types.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.boolean.</span><span class="o">{</span><span class="nc">And</span><span class="o">,</span> <span class="nc">Not</span><span class="o">,</span> <span class="nc">Or</span><span class="o">}</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.boolean.</span><span class="o">{</span><span class="nc">And</span><span class="o">,</span> <span class="nc">Not</span><span class="o">,</span> <span class="nc">Or</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.char.LetterOrDigit</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.collection.</span><span class="o">{</span><span class="nc">Forall</span><span class="o">,</span> <span class="nc">Size</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.generic.Equal</span>
@@ -196,24 +184,22 @@
                         <span class="kt">Or</span><span class="o">[</span><span class="kt">Equal</span><span class="o">[</span><span class="kt">W.`'.'`.T</span><span class="o">]</span>,
                            <span class="kt">Or</span><span class="o">[</span><span class="kt">Equal</span><span class="o">[</span><span class="kt">W.`'</span><span class="k">_</span><span class="kt">'`.T</span><span class="o">]</span>,
                               <span class="kt">Equal</span><span class="o">[</span><span class="kt">W.`'-'`.T</span><span class="o">]]]]]]]]</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note the similarities between working at the value-level with <code class="highlighter-rouge">isKafkaTopicName</code>, and representing the same validation rules at the type-level with <code class="highlighter-rouge">KafkaTopicName</code>. While the type signature above might look complicated at first glance, there is quite often a straightforward translation between validation rules at the value-level and the equivalent rules at the type-level. Note that we instead could have chosen to represent the rules with a regular expression, both at the value-level and type-level (using the <code class="highlighter-rouge">MatchesRegex</code> predicate).</p>
 
 <p>Kafka topic names are generally not secret, and can therefore reside as configuration values in code. With the refinement type <code class="highlighter-rouge">KafkaTopicName</code>, we benefit from being able to validate our Kafka topic names at compile-time, meaning we can be sure at compile-time that our topic names are <em>useable</em>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">kafkaTopicName</span><span class="k">:</span> <span class="kt">KafkaTopicName</span> <span class="o">=</span> <span class="s">"my-topic-v2"</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">kafkaTopicName</span><span class="k">:</span> <span class="kt">KafkaTopicName</span> <span class="o">=</span> <span class="s">"my-topic-v2"</span>
 <span class="c1">// kafkaTopicName: KafkaTopicName = my-topic-v2
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>For more information on latent configuration errors, refer to the paper <a href="https://www.usenix.org/system/files/conference/osdi16/osdi16-xu.pdf">Early Detection of Configuration Errors to Reduce Failure Damage</a> and Leif Wickland’s presentation <a href="http://leifwickland.github.io/presentations/configBomb/">Defusing the Configuration Time Bomb</a> on the subject.&nbsp;<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+      <p>For more information on latent configuration errors, refer to the paper <a href="https://www.usenix.org/system/files/conference/osdi16/osdi16-xu.pdf">Early Detection of Configuration Errors to Reduce Failure Damage</a> and Leif Wickland’s presentation <a href="http://leifwickland.github.io/presentations/configBomb/">Defusing the Configuration Time Bomb</a> on the subject. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>

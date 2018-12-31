@@ -17,9 +17,8 @@ As a free and open source project, we gladly welcome contributions.</p>
 
 <h2 id="build-the-project">Build the project</h2>
 <p>First you’ll need to checkout a local copy of the code base.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/vlovgr/ciris.git
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/vlovgr/ciris.git
+</code></pre></div></div>
 
 <p>To build the project, you’ll need to have <a href="https://www.scala-sbt.org">sbt</a> installed.</p>
 
@@ -61,7 +60,7 @@ Below is a list of some useful sbt commands to help you get started.</p>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, define a new project <code class="highlighter-rouge">foo</code> which will be published as <code class="highlighter-rouge">ciris-foo</code>, similar to the existing ones.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">foo</span> <span class="k">=</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">foo</span> <span class="k">=</span>
   <span class="n">crossProject</span><span class="o">(</span><span class="nc">JSPlatform</span><span class="o">,</span> <span class="nc">JVMPlatform</span><span class="o">,</span> <span class="nc">NativePlatform</span><span class="o">)</span>
     <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">"modules/foo"</span><span class="o">))</span>
     <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">moduleName</span> <span class="o">:=</span> <span class="s">"ciris-foo"</span><span class="o">,</span> <span class="n">name</span> <span class="o">:=</span> <span class="s">"Ciris foo"</span><span class="o">)</span>
@@ -76,31 +75,28 @@ Below is a list of some useful sbt commands to help you get started.</p>
 <span class="k">lazy</span> <span class="k">val</span> <span class="n">fooJS</span> <span class="k">=</span> <span class="n">foo</span><span class="o">.</span><span class="n">js</span>
 <span class="k">lazy</span> <span class="k">val</span> <span class="n">fooJVM</span> <span class="k">=</span> <span class="n">foo</span><span class="o">.</span><span class="n">jvm</span>
 <span class="k">lazy</span> <span class="k">val</span> <span class="n">fooNative</span> <span class="k">=</span> <span class="n">foo</span><span class="o">.</span><span class="n">native</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>If the module won’t support Scala.js or Scala Native, remove the unsupported platforms from <code class="highlighter-rouge">crossProject</code>, along with <code class="highlighter-rouge">jsSettings</code> and <code class="highlighter-rouge">nativeSettings</code>, and the <code class="highlighter-rouge">fooJS</code> and <code class="highlighter-rouge">fooNative</code> projects, respectively.</p>
 
     <p>If the module has a dependency on another library, add the dependency version to the variables section:</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code> <span class="cm">/* Variables */</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cm">/* Variables */</span>
 
  <span class="c1">// ...
 </span>
  <span class="k">lazy</span> <span class="k">val</span> <span class="n">fooDependencyVersion</span> <span class="k">=</span> <span class="s">"1.0.0"</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>and include the dependency in the project definition (use <code class="highlighter-rouge">%%%</code> instead of <code class="highlighter-rouge">%%</code> for Scala.js or Scala Native).</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code> <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.foo"</span> <span class="o">%%%</span> <span class="s">"foo-dependency"</span> <span class="o">%</span> <span class="n">fooDependencyVersion</span><span class="o">)</span>
-</code></pre>
-    </div>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.foo"</span> <span class="o">%%%</span> <span class="s">"foo-dependency"</span> <span class="o">%</span> <span class="n">fooDependencyVersion</span><span class="o">)</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, add the new projects <code class="highlighter-rouge">fooJS</code>, <code class="highlighter-rouge">fooJVM</code>, and <code class="highlighter-rouge">fooNative</code> to the aggregate <code class="highlighter-rouge">ciris</code> project.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">ciris</span> <span class="k">=</span> <span class="n">project</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">ciris</span> <span class="k">=</span> <span class="n">project</span>
   <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">"."</span><span class="o">))</span>
   <span class="o">.</span><span class="n">settings</span><span class="o">(</span><span class="n">moduleName</span> <span class="o">:=</span> <span class="s">"ciris"</span><span class="o">,</span> <span class="n">name</span> <span class="o">:=</span> <span class="s">"Ciris"</span><span class="o">)</span>
   <span class="c1">// ...
@@ -112,46 +108,42 @@ Below is a list of some useful sbt commands to help you get started.</p>
     <span class="n">fooJS</span><span class="o">,</span> <span class="n">fooJVM</span><span class="o">,</span> <span class="n">fooNative</span><span class="o">,</span>
     <span class="c1">// ...
 </span>  <span class="o">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, add the module name to the <code class="highlighter-rouge">moduleNames</code> list.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">moduleNames</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">moduleNames</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span>
   <span class="s">"cats"</span><span class="o">,</span>
   <span class="s">"catsEffect"</span><span class="o">,</span>
   <span class="s">"core"</span><span class="o">,</span>
   <span class="s">"foo"</span><span class="o">,</span>
   <span class="c1">// ...
 </span><span class="o">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, if the module does not support Scala.js, remove it from <code class="highlighter-rouge">jsModuleNames</code>.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">jsModuleNames</span> <span class="k">=</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">jsModuleNames</span> <span class="k">=</span>
   <span class="n">moduleNames</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="s">"JS"</span><span class="o">)</span>
     <span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="k">_</span> <span class="o">!=</span> <span class="s">"fooJS"</span><span class="o">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, if the module supports Scala Native, add it to <code class="highlighter-rouge">nativeModuleNames</code>.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">nativeModuleNames</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">nativeModuleNames</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span>
   <span class="s">"core"</span><span class="o">,</span>
   <span class="s">"foo"</span><span class="o">,</span>
   <span class="c1">// ...
 </span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="s">"Native"</span><span class="o">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, add the new projects to <code class="highlighter-rouge">crossModules</code>, using <code class="highlighter-rouge">None</code> if Scala.js or Scala Native is unsupported.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">crossModules</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[(</span><span class="kt">Project</span>, <span class="kt">Option</span><span class="o">[</span><span class="kt">Project</span><span class="o">]</span>, <span class="kt">Option</span><span class="o">[</span><span class="kt">Project</span><span class="o">])]</span> <span class="k">=</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="n">crossModules</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[(</span><span class="kt">Project</span>, <span class="kt">Option</span><span class="o">[</span><span class="kt">Project</span><span class="o">]</span>, <span class="kt">Option</span><span class="o">[</span><span class="kt">Project</span><span class="o">])]</span> <span class="k">=</span>
   <span class="nc">Seq</span><span class="o">(</span>
     <span class="o">(</span><span class="n">catsJVM</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">catsJS</span><span class="o">),</span> <span class="nc">None</span><span class="o">),</span>
     <span class="o">(</span><span class="n">catsEffectJVM</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">catsEffectJS</span><span class="o">),</span> <span class="nc">None</span><span class="o">),</span>
@@ -159,13 +151,12 @@ Below is a list of some useful sbt commands to help you get started.</p>
     <span class="o">(</span><span class="n">fooJVM</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">fooJS</span><span class="o">),</span> <span class="nc">Some</span><span class="o">(</span><span class="n">fooNative</span><span class="o">)),</span>
     <span class="c1">// ...
 </span>  <span class="o">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, for the <code class="highlighter-rouge">docs</code> project, add <code class="highlighter-rouge">BuildInfoKey</code>s for the <code class="highlighter-rouge">moduleName</code> and <code class="highlighter-rouge">crossScalaVersions</code>.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">buildInfoKeys</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">[</span><span class="kt">BuildInfoKey</span><span class="o">](</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">buildInfoKeys</span> <span class="o">:=</span> <span class="nc">Seq</span><span class="o">[</span><span class="kt">BuildInfoKey</span><span class="o">](</span>
   <span class="c1">// ...
 </span>  <span class="nc">BuildInfoKey</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">moduleName</span> <span class="n">in</span> <span class="n">fooJVM</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="s">"foo"</span> <span class="o">+</span> <span class="n">k</span><span class="o">.</span><span class="n">capitalize</span> <span class="o">-&gt;</span> <span class="n">v</span> <span class="o">},</span>
   <span class="c1">// ...
@@ -174,8 +165,7 @@ Below is a list of some useful sbt commands to help you get started.</p>
   <span class="nc">BuildInfoKey</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">crossScalaVersions</span> <span class="n">in</span> <span class="n">fooNative</span><span class="o">)</span> <span class="o">{</span> <span class="k">case</span> <span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="s">"fooNative"</span> <span class="o">+</span> <span class="n">k</span><span class="o">.</span><span class="n">capitalize</span> <span class="o">-&gt;</span> <span class="n">v</span> <span class="o">},</span>
   <span class="c1">// ...
 </span><span class="o">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>You can omit <code class="highlighter-rouge">crossScalaVersions</code> for <code class="highlighter-rouge">fooJS</code> and <code class="highlighter-rouge">fooNative</code> if Scala.js or Scala Native is unsupported.</p>
   </li>
@@ -185,20 +175,18 @@ Below is a list of some useful sbt commands to help you get started.</p>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, for the <code class="highlighter-rouge">docs</code> project, include the module in <code class="highlighter-rouge">dependsOn</code> so that documentation is generated.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span>
   <span class="n">catsJVM</span><span class="o">,</span> <span class="n">catsEffectJVM</span><span class="o">,</span> <span class="n">coreJVM</span><span class="o">,</span> <span class="n">enumeratumJVM</span><span class="o">,</span> <span class="n">fooJVM</span><span class="o">,</span> <span class="c1">// ...
 </span><span class="o">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, for the <code class="highlighter-rouge">tests</code> project, include the module in <code class="highlighter-rouge">dependsOn</code>, so tests can use the module.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="n">dependsOn</span><span class="o">(</span>
   <span class="n">cats</span><span class="o">,</span> <span class="n">catsEffect</span><span class="o">,</span> <span class="n">core</span><span class="o">,</span> <span class="n">enumeratum</span><span class="o">,</span> <span class="n">foo</span> <span class="c1">// ...
 </span><span class="o">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">build.sbt</code>, in <code class="highlighter-rouge">generateScripts</code>, add the module as a dependency, and include the module imports.</p>
@@ -206,9 +194,8 @@ Below is a list of some useful sbt commands to help you get started.</p>
   <li>
     <p>In <code class="highlighter-rouge">latestVersion.sbt</code>, add the module name to <code class="highlighter-rouge">unreleasedModuleNames</code>.</p>
 
-    <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">unreleasedModuleNames</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">:=</span> <span class="nc">Set</span><span class="o">(</span><span class="s">"ciris-foo"</span><span class="o">)</span>
-</code></pre>
-    </div>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unreleasedModuleNames</span> <span class="n">in</span> <span class="nc">ThisBuild</span> <span class="o">:=</span> <span class="nc">Set</span><span class="o">(</span><span class="s">"ciris-foo"</span><span class="o">)</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>In <code class="highlighter-rouge">docs/src/main/tut/index.md</code>, include the module in the <code class="highlighter-rouge">Getting Started</code> and <code class="highlighter-rouge">Ammonite</code> sections.</p>

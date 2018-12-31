@@ -3,7 +3,7 @@
 
 <p>One of the most convenient ways to deal with multiple environments with Ciris, is to define them as an <a href="/docs/enumeratum-module">enumeratum</a> enumeration. Since Ciris integrates with enumeratum, we get the ability to load values of that enumeration without having to write any additional code. Alternatively, we could define our own representation of multiple environments, and also define a <a href="/docs/decoders">configuration decoder</a> for that representation.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">object</span> <span class="nc">environments</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">environments</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">enumeratum._</span>
 
   <span class="k">sealed</span> <span class="k">abstract</span> <span class="k">class</span> <span class="nc">AppEnvironment</span> <span class="k">extends</span> <span class="nc">EnumEntry</span>
@@ -19,14 +19,13 @@
 
 <span class="k">import</span> <span class="nn">environments._</span>
 <span class="k">import</span> <span class="nn">AppEnvironment._</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can now easily load values of that enumeration by just referring to the <code class="highlighter-rouge">AppEnvironment</code> type. Since the environments are represented as <code class="highlighter-rouge">case object</code>s, we can, for example, use pattern matching to use different values for different environments as necessary. Values which are the same across environments can remain as they would have before.</p>
 
 <p>First, let’s define the configuration we want our application to use. We’re using refinement types, together with <a href="/docs/refined-module">refined</a>, to represent our validation logic. For more information, refer to the <a href="/docs/validation">encoding validation</a> section. The <a href="/api/ciris/Secret.html"><code class="highlighter-rouge">Secret</code></a> type is used to denote secret configuration values, to avoid accidentally including the secrets in logs. The <a href="/docs/logging">logging configurations</a> section contains more information.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.Secret</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.Secret</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.api.Refined</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.string.MatchesRegex</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.UserPortNumber</span>
@@ -46,12 +45,11 @@
   <span class="n">appName</span><span class="k">:</span> <span class="kt">NonEmptyString</span><span class="o">,</span>
   <span class="n">api</span><span class="k">:</span> <span class="kt">ApiConfig</span>
 <span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As part of the configuration loading, we’re loading the <code class="highlighter-rouge">AppEnvironment</code> we should be running in from the <code class="highlighter-rouge">APP_ENV</code> environment variable. As an example, we’re using different default port numbers depending on the environment – port 4000 in the local and testing environments, and port 9000 in the production environment. Note that the default port is only used if the <code class="highlighter-rouge">http.port</code> system property has not been set.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="n">env</span><span class="o">,</span> <span class="n">loadConfig</span><span class="o">,</span> <span class="n">prop</span><span class="o">}</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="n">env</span><span class="o">,</span> <span class="n">loadConfig</span><span class="o">,</span> <span class="n">prop</span><span class="o">}</span>
 <span class="c1">// import ciris.{env, loadConfig, prop}
 </span>
 <span class="k">import</span> <span class="nn">ciris.enumeratum._</span>
@@ -82,13 +80,12 @@
       <span class="o">)</span>
     <span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1074420333
-</span></code></pre>
-</div>
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1351582489
+</span></code></pre></div></div>
 
 <p>Sometimes it might be necessary to have different configuration loading take place in different environments. Ciris provides the <a href="/api/ciris/index.html#withValues[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;F[Either[ciris.ConfigErrors,Z]])(implicitevidence$6:ciris.api.Monad[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">withValues</code></a> (and <a href="/api/ciris/index.html#withValue[F[_],A1,Z](a1:ciris.ConfigValue[F,A1])(f:A1=&gt;F[Either[ciris.ConfigErrors,Z]])(implicitevidence$3:ciris.api.Monad[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">withValue</code></a> for a single value) function, which allows you to do exactly that. The function takes a number of configuration values, and effectively wraps your <a href="/api/ciris/index.html#loadConfig[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;Z)(implicitevidence$5:ciris.api.Functor[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">loadConfig</code></a> functions. For example, let’s assume you would want a static configuration in the local and testing environments, while using the configuration loading above in the production environment.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.withValue</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.withValue</span>
 <span class="c1">// import ciris.withValue
 </span>
 <span class="k">val</span> <span class="n">config</span> <span class="k">=</span>
@@ -121,15 +118,14 @@
         <span class="o">)</span>
       <span class="o">}</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$501180745
-</span></code></pre>
-</div>
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$256106291
+</span></code></pre></div></div>
 
 <p>Note that when using <a href="/api/ciris/index.html#withValues[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;F[Either[ciris.ConfigErrors,Z]])(implicitevidence$6:ciris.api.Monad[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">withValues</code></a>, errors for the specified values (in this case, the <code class="highlighter-rouge">APP_ENV</code> environment variable) means we will not continue to try to load the configuration, meaning potential further errors are not included. Assuming we could load an <code class="highlighter-rouge">AppEnvironment</code>, any further errors will be accumulated as you would normally expect.</p>
 
 <p>You might have noticed that there is some duplication of values when loading configurations across the different environments. If we would like to avoid that duplication, we can simply extract the shared parts to a function, like in the following example. Since your configuration models and most values are in code, you can refactor them just like any other code.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">configWithDefaults</span><span class="o">(</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">configWithDefaults</span><span class="o">(</span>
   <span class="n">apiKey</span><span class="k">:</span> <span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">],</span>
   <span class="n">port</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span>
 <span class="o">)</span><span class="k">:</span> <span class="kt">Config</span> <span class="o">=</span> <span class="o">{</span>
@@ -160,9 +156,8 @@
         <span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">]](</span><span class="s">"http.port"</span><span class="o">)</span>
       <span class="o">)(</span><span class="n">configWithDefaults</span><span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$127395562
-</span></code></pre>
-</div>
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1600396662
+</span></code></pre></div></div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();

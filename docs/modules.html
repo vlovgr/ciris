@@ -6,7 +6,7 @@ You might also be interested in the third-party <a href="/#external-libraries">e
   <li>The <a href="/docs/cats-module">cats module</a> enables use of <a href="https://github.com/typelevel/cats">cats</a> type class instances.</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.implicits._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.implicits._</span>
 <span class="k">import</span> <span class="nn">ciris.cats._</span>
 <span class="k">import</span> <span class="nn">ciris.envF</span>
 <span class="k">import</span> <span class="nn">scala.concurrent._</span>
@@ -15,26 +15,24 @@ You might also be interested in the third-party <a href="/#external-libraries">e
   <span class="nc">ExecutionContext</span><span class="o">.</span><span class="nc">Implicits</span><span class="o">.</span><span class="n">global</span>
 
 <span class="n">envF</span><span class="o">[</span><span class="kt">Future</span>, <span class="kt">Boolean</span><span class="o">](</span><span class="s">"CI"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>The <a href="/docs/cats-effect-module">cats-effect module</a> enables use of <a href="https://github.com/typelevel/cats-effect">cats-effect</a> effect types and type class instances.</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.effect.IO</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.effect.IO</span>
 <span class="k">import</span> <span class="nn">ciris.cats.effect._</span>
 <span class="k">import</span> <span class="nn">ciris.fileSync</span>
 
 <span class="n">fileSync</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Int</span><span class="o">](</span><span class="n">tempFile</span><span class="o">,</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>The <a href="/docs/enumeratum-module">enumeratum module</a> enables decoding of <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations.</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">object</span> <span class="nc">environments</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">environments</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">enumeratum._</span>
 
   <span class="k">sealed</span> <span class="k">abstract</span> <span class="k">class</span> <span class="nc">AppEnvironment</span> <span class="k">extends</span> <span class="nc">EnumEntry</span>
@@ -53,54 +51,49 @@ You might also be interested in the third-party <a href="/#external-libraries">e
 <span class="k">import</span> <span class="nn">environments._</span>
 
 <span class="n">env</span><span class="o">[</span><span class="kt">AppEnvironment</span><span class="o">](</span><span class="s">"APP_ENV"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>The <a href="/docs/generic-module">generic module</a> enables generic decoding of product and coproduct types using <a href="https://github.com/milessabin/shapeless">shapeless</a>.</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.generic._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.generic._</span>
 <span class="k">import</span> <span class="nn">ciris.prop</span>
 
 <span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Decibel</span><span class="o">(</span><span class="k">val</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span>
 
 <span class="n">prop</span><span class="o">[</span><span class="kt">Decibel</span><span class="o">](</span><span class="s">"ratio.delta"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>The <a href="/docs/refined-module">refined module</a> enables decoding of <a href="https://github.com/fthomas/refined">refined</a> refinement types.</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.refined._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.refined._</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.UserPortNumber</span>
 
 <span class="n">env</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">]](</span><span class="s">"HTTP_PORT"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>The <a href="/docs/spire-module">spire module</a> enables decoding of <a href="https://github.com/non/spire">spire</a> number types.</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.spire._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.spire._</span>
 <span class="k">import</span> <span class="nn">spire.math.Natural</span>
 
 <span class="n">env</span><span class="o">[</span><span class="kt">Natural</span><span class="o">](</span><span class="s">"DELAY_SECONDS"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>The <a href="/docs/squants-module">squants module</a> enables decoding of <a href="https://github.com/typelevel/squants">squants</a> quantities with unit of measure.</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.squants._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.squants._</span>
 <span class="k">import</span> <span class="nn">squants.time.Time</span>
 
 <span class="n">prop</span><span class="o">[</span><span class="kt">Time</span><span class="o">](</span><span class="s">"refresh.interval"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();

@@ -3,7 +3,7 @@
 
 <p>For example, let’s take a look at the following configuration, where the <code class="highlighter-rouge">ApiKey</code> is secret. We’re using refinement types to encode validation in the types of our values, refer to the <a href="/docs/validation">encoding validation</a> section for more information. Note that the <code class="highlighter-rouge">ApiKey</code> in the example below would normally be loaded from, for example, a vault service – unless the value itself is not considered a secret, for example, if it was used for testing purposes.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.Secret</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.Secret</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.api.Refined</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.auto._</span>
 <span class="k">import</span> <span class="nn">eu.timepit.refined.string.MatchesRegex</span>
@@ -34,26 +34,23 @@
       <span class="n">port</span> <span class="k">=</span> <span class="mi">4000</span>
     <span class="o">)</span>
   <span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The perhaps easiest way to log the configuration is to use <code class="highlighter-rouge">println</code>. As you can see in the example below, the secret configuration value is replaced with a <code class="highlighter-rouge">Secret(0a7425a)</code> placeholder when printed, while the remaining values of the configuration are printed with their <code class="highlighter-rouge">toString</code> representations as expected.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">println</span><span class="o">(</span><span class="n">config</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">println</span><span class="o">(</span><span class="n">config</span><span class="o">)</span>
 <span class="c1">// Config(my-api,ApiConfig(Secret(0a7425a),4000,10))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The value <code class="highlighter-rouge">0a7425a</code> above is a short (first 7 characters) SHA1 hash of the value. This allows you to check whether the expected value is being used or not, without logging the actual value. To calculate the SHA1 short hash for a <code class="highlighter-rouge">String</code>, you can for example use <a href="https://en.wikipedia.org/wiki/Sha1sum"><code class="highlighter-rouge">sha1sum</code></a>.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>❯ <span class="nb">echo</span> -n <span class="s2">"RacrqvWjuu4KVmnTG9b6xyZMTP7jnX"</span> | sha1sum | head -c 7
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"RacrqvWjuu4KVmnTG9b6xyZMTP7jnX"</span> | <span class="nb">sha1sum</span> | <span class="nb">head</span> <span class="nt">-c</span> 7
 0a7425a
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When loading configuration values with type <a href="/api/ciris/Secret.html"><code class="highlighter-rouge">Secret</code></a>, Ciris will make sure that no sensitive details are included in error messages. In general, potentially sensitive information is only included in results from functions with <code class="highlighter-rouge">value</code> in the name: for example, <a href="/api/ciris/ConfigEntry.html#value:F[Either[ciris.ConfigError,V]]"><code class="highlighter-rouge">value</code></a>, <a href="/api/ciris/ConfigEntry.html#sourceValue:F[Either[ciris.ConfigError,S]]"><code class="highlighter-rouge">sourceValue</code></a>, <a href="/api/ciris/ConfigEntry.html#toStringWithValue:String"><code class="highlighter-rouge">toStringWithValue</code></a>, and <a href="/api/ciris/ConfigEntry.html#toStringWithValues:String"><code class="highlighter-rouge">toStringWithValues</code></a>. So make sure you are not accidentally logging the results from such functions.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="n">env</span><span class="o">,</span> <span class="n">prop</span><span class="o">}</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="n">env</span><span class="o">,</span> <span class="n">prop</span><span class="o">}</span>
 <span class="c1">// import ciris.{env, prop}
 </span>
 <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">Int</span><span class="o">]](</span><span class="s">"FILE_ENCODING"</span><span class="o">).</span>
@@ -73,15 +70,14 @@
 </span>
 <span class="n">fileEncoding</span><span class="o">.</span><span class="n">toStringWithValue</span>
 <span class="c1">// res4: String = ConfigEntry(file.encoding, Property, Right(Secret(7fa9ad7)))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h2 id="logging-improvements">Logging Improvements</h2>
 <p>Relying on <code class="highlighter-rouge">toString</code> works reasonably well for small configurations, like in the example shown above, but as your configuration grows in size, it can be considerably more difficult to determine which value is which in the output. Making use of <code class="highlighter-rouge">toString</code> also means we’re relying on every type having implemented an appropriate <code class="highlighter-rouge">toString</code> function, which might not always be the case.</p>
 
 <p>As an alternative, we can make use of the <a href="https://typelevel.org/cats/typeclasses/show.html"><code class="highlighter-rouge">Show</code></a> type class from <a href="/docs/cats-module">cats</a>. However, we would still like to avoid having to manually define the <a href="https://typelevel.org/cats/typeclasses/show.html"><code class="highlighter-rouge">Show</code></a> behaviour for all the types in the configuration. Luckily, we can use <a href="https://github.com/milessabin/kittens">kittens</a>, which in turn uses <a href="https://github.com/milessabin/shapeless">shapeless</a> to provide generic derivation of type class instances for <a href="https://typelevel.org/cats/typeclasses/show.html"><code class="highlighter-rouge">Show</code></a>. The <a href="https://typelevel.org/cats/typeclasses/show.html"><code class="highlighter-rouge">Show</code></a> instances derived by <a href="https://github.com/milessabin/kittens">kittens</a> also include the field names of our <code class="highlighter-rouge">case class</code>es, so it’s easier to see which configuration value is which in the output. If we’re using refinement types, there’s a <code class="highlighter-rouge">refined-cats</code> module which provides <a href="https://typelevel.org/cats/typeclasses/show.html"><code class="highlighter-rouge">Show</code></a> instances for refinement types.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.Show</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.Show</span>
 <span class="k">import</span> <span class="nn">cats.derived._</span>
 <span class="k">import</span> <span class="nn">cats.implicits._</span>
 <span class="k">import</span> <span class="nn">ciris.cats._</span>
@@ -91,24 +87,21 @@
   <span class="k">import</span> <span class="nn">auto.show._</span>
   <span class="n">semi</span><span class="o">.</span><span class="n">show</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">println</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">show</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">println</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">show</span><span class="o">)</span>
 <span class="c1">// Config(appName = my-api, api = ApiConfig(key = Secret(0a7425a), port = 4000, timeoutSeconds = 10))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>There is also a <code class="highlighter-rouge">showPretty</code> derivation in <a href="https://github.com/milessabin/kittens">kittens</a>, which uses pretty printing instead of simply rendering everything on one line. If your configuration is somewhat big, it might be preferable to instead use this kind of derivation over the one shown above.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">showConfig</span><span class="k">:</span> <span class="kt">Show</span><span class="o">[</span><span class="kt">Config</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">showConfig</span><span class="k">:</span> <span class="kt">Show</span><span class="o">[</span><span class="kt">Config</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
   <span class="k">import</span> <span class="nn">auto.showPretty._</span>
   <span class="n">semi</span><span class="o">.</span><span class="n">showPretty</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">println</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">show</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">println</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="n">show</span><span class="o">)</span>
 <span class="c1">// Config(
 //   appName = my-api,
 //   api = ApiConfig(
@@ -117,8 +110,7 @@
 //     timeoutSeconds = 10
 //   )
 // )
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();

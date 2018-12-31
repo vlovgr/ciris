@@ -3,7 +3,7 @@
 
 <p>We start by defining a <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> for reading property files as <code class="highlighter-rouge">Map[String, String]</code>s. We could reuse the existing <a href="/api/ciris/ConfigSource$.html#File"><code class="highlighter-rouge">ConfigSource.File</code></a> for reading files, but we would rather avoid having to create an intermediate <code class="highlighter-rouge">String</code> representation, so we’ll instead define our own <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> for property files.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="nc">ConfigKeyType</span><span class="o">,</span> <span class="nc">ConfigSource</span><span class="o">}</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="nc">ConfigKeyType</span><span class="o">,</span> <span class="nc">ConfigSource</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">ciris.api.Id</span>
 <span class="k">import</span> <span class="nn">java.io.</span><span class="o">{</span><span class="nc">File</span><span class="o">,</span> <span class="nc">FileInputStream</span><span class="o">,</span> <span class="nc">InputStreamReader</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">java.nio.charset.Charset</span>
@@ -24,8 +24,7 @@
         <span class="k">val</span> <span class="k">_</span> <span class="k">=</span> <span class="nc">Try</span><span class="o">(</span><span class="n">fis</span><span class="o">.</span><span class="n">close</span><span class="o">())</span>
       <span class="o">}</span>
   <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> is using the existing <a href="/api/ciris/ConfigKeyType$.html#File:ciris.ConfigKeyType[(java.io.File,java.nio.charset.Charset)]"><code class="highlighter-rouge">ConfigKeyType.File</code></a>, which uses <code class="highlighter-rouge">(File, Charset)</code> as the key type. The source also makes use of <a href="/api/ciris/ConfigSource$.html#catchNonFatal[K,V](keyType:ciris.ConfigKeyType[K])(read:K=&gt;V):ciris.ConfigSource[ciris.api.Id,K,V]"><code class="highlighter-rouge">ConfigSource.catchNonFatal</code></a> to catch any exceptions when reading the properties file. Finally, the properties are converted to a <code class="highlighter-rouge">Map</code>, and the <code class="highlighter-rouge">FileInputStream</code> is closed, ignoring any closing exceptions.</p>
 
@@ -33,7 +32,7 @@
 
 <p>The <code class="highlighter-rouge">PropFileKey</code> case class fully identifies a property file key. It is a combination of the <code class="highlighter-rouge">File</code>, <code class="highlighter-rouge">Charset</code>, and <code class="highlighter-rouge">String</code> key which we are retrieving. The <code class="highlighter-rouge">toString</code> function has been overridden to provide the <code class="highlighter-rouge">String</code> representation we would like in error messages. We’ll also describe the name and type of the key by creating a <a href="/api/ciris/ConfigKeyType.html"><code class="highlighter-rouge">ConfigKeyType</code></a>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">PropFileKey</span><span class="o">(</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">PropFileKey</span><span class="o">(</span>
   <span class="n">file</span><span class="k">:</span> <span class="kt">File</span><span class="o">,</span>
   <span class="n">charset</span><span class="k">:</span> <span class="kt">Charset</span><span class="o">,</span>
   <span class="n">key</span><span class="k">:</span> <span class="kt">String</span>
@@ -44,12 +43,11 @@
 
 <span class="k">val</span> <span class="n">propFileKeyType</span><span class="k">:</span> <span class="kt">ConfigKeyType</span><span class="o">[</span><span class="kt">PropFileKey</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">ConfigKeyType</span><span class="o">(</span><span class="s">"property file key"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Since we would like to avoid having to read the file contents multiple times when reading more than one key, we define a helper class <code class="highlighter-rouge">PropFileAt</code>, which partially applies <code class="highlighter-rouge">PropFileKey</code> on <code class="highlighter-rouge">File</code> and <code class="highlighter-rouge">Charset</code>, reading the file once for multiple keys. The class defines an <code class="highlighter-rouge">apply</code> function for reading and decoding keys, similar to <a href="/api/ciris/index.html#env[Value](key:String)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,String,String,Value]"><code class="highlighter-rouge">env</code></a>, <a href="/api/ciris/index.html#prop[Value](key:String)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,String,String,Value]"><code class="highlighter-rouge">prop</code></a>, and <a href="/api/ciris/index.html#file[Value](file:java.io.File,modifyFileContents:String=&gt;String,charset:java.nio.charset.Charset)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,(java.io.File,java.nio.charset.Charset),String,Value]"><code class="highlighter-rouge">file</code></a> included in the core module.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="nc">ConfigEntry</span><span class="o">,</span> <span class="nc">ConfigError</span><span class="o">,</span> <span class="nc">ConfigDecoder</span><span class="o">}</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.</span><span class="o">{</span><span class="nc">ConfigEntry</span><span class="o">,</span> <span class="nc">ConfigError</span><span class="o">,</span> <span class="nc">ConfigDecoder</span><span class="o">}</span>
 
 <span class="k">final</span> <span class="k">class</span> <span class="nc">PropFileAt</span><span class="o">(</span><span class="n">file</span><span class="k">:</span> <span class="kt">File</span><span class="o">,</span> <span class="n">charset</span><span class="k">:</span> <span class="kt">Charset</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">private</span> <span class="k">val</span> <span class="n">propFile</span><span class="k">:</span> <span class="kt">Either</span><span class="o">[</span><span class="kt">ConfigError</span>, <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">]]</span> <span class="k">=</span>
@@ -83,40 +81,37 @@
   <span class="k">override</span> <span class="k">def</span> <span class="n">toString</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
     <span class="n">s</span><span class="s">"PropFileAt($file, $charset)"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Finally, we define <code class="highlighter-rouge">propFileAt</code> as a convenience function for creating instances of <code class="highlighter-rouge">PropFileAt</code>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">propFileAt</span><span class="o">(</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">propFileAt</span><span class="o">(</span>
   <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
   <span class="n">charset</span><span class="k">:</span> <span class="kt">Charset</span> <span class="o">=</span> <span class="nc">Charset</span><span class="o">.</span><span class="n">defaultCharset</span>
 <span class="o">)</span><span class="k">:</span> <span class="kt">PropFileAt</span> <span class="o">=</span> <span class="o">{</span>
   <span class="k">new</span> <span class="nc">PropFileAt</span><span class="o">(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">),</span> <span class="n">charset</span><span class="o">)</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can then use the newly defined property file source as follows.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.UserPortNumber</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">eu.timepit.refined.types.net.UserPortNumber</span>
 <span class="c1">// import eu.timepit.refined.types.net.UserPortNumber
 </span>
 <span class="k">import</span> <span class="nn">ciris.refined._</span>
 <span class="c1">// import ciris.refined._
 </span>
 <span class="k">val</span> <span class="n">propFile</span> <span class="k">=</span> <span class="n">propFileAt</span><span class="o">(</span><span class="n">tempFileName</span><span class="o">)</span>
-<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2008581062645448130.properties, UTF-8)
+<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-9215998093592900888.properties, UTF-8)
 </span>
 <span class="n">propFile</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
-<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-2008581062645448130.properties, charset = UTF-8, key = port, ConfigKeyType(property file key))
-</span></code></pre>
-</div>
+<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-9215998093592900888.properties, charset = UTF-8, key = port, ConfigKeyType(property file key))
+</span></code></pre></div></div>
 
 <h2 id="suspending-effects">Suspending Effects</h2>
 <p>Since reading the property file contents isn’t <em>pure</em>, we could make use of <a href="/docs/basics#suspending-effects">effect types</a> to suspend the reading of the file. We start by extracting the reading of the property file to outside of <code class="highlighter-rouge">PropFileAt</code>, so it doesn’t have to deal with effects explicitly. <code class="highlighter-rouge">PropFileAt</code> now simply accepts the property file as an argument with context <code class="highlighter-rouge">F</code>. We require that there is a <a href="/api/ciris/api/Monad.html"><code class="highlighter-rouge">Monad</code></a> instance available for <code class="highlighter-rouge">F</code>, since the <a href="/api/ciris/ConfigDecoder.html"><code class="highlighter-rouge">ConfigDecoder</code></a> requires it for <a href="/api/ciris/ConfigEntry.html#decodeValue[A](implicitdecoder:ciris.ConfigDecoder[V,A],implicitmonad:ciris.api.Monad[F]):ciris.ConfigEntry[F,K,S,A]"><code class="highlighter-rouge">decodeValue</code></a>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.api.Monad</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">ciris.api.Monad</span>
 <span class="k">import</span> <span class="nn">ciris.api.syntax._</span>
 
 <span class="k">final</span> <span class="k">class</span> <span class="nc">PropFileAt</span><span class="o">[</span><span class="kt">F</span><span class="o">[</span><span class="k">_</span><span class="o">]</span><span class="kt">:</span> <span class="kt">Monad</span><span class="o">](</span>
@@ -154,12 +149,11 @@
   <span class="k">override</span> <span class="k">def</span> <span class="n">toString</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
     <span class="n">s</span><span class="s">"PropFileAt($file, $charset, $propFile)"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>With the property file reading extracted, we can now define <code class="highlighter-rouge">propFileAtF</code>, which suspends the reading of the property file into context <code class="highlighter-rouge">F</code>. We would also like that the file is not read more than once, so we also need to memoize the result. The <a href="/docs/cats-effect-module">cats-effect</a> module provides a <a href="/api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitF:cats.effect.Concurrent[F]):ciris.ConfigSource[[v]F[F[v]],K,V]"><code class="highlighter-rouge">suspendMemoizeF</code></a> function on <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> with a syntax import, which creates a <a href="/api/ciris/ConfigSource.html"><code class="highlighter-rouge">ConfigSource</code></a> with both suspended reading and memoized results. The function works on any context <code class="highlighter-rouge">F</code> for which there is a <a href="https://typelevel.org/cats-effect/typeclasses/concurrent.html"><code class="highlighter-rouge">Concurrent</code></a> instance defined.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.effect.Concurrent</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.effect.Concurrent</span>
 <span class="k">import</span> <span class="nn">ciris.cats.effect._</span>
 <span class="k">import</span> <span class="nn">ciris.cats.effect.syntax._</span>
 
@@ -177,17 +171,16 @@
 
   <span class="n">propFile</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">new</span> <span class="nc">PropFileAt</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="n">charset</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can then use <code class="highlighter-rouge">propFileAtF</code> to read property file keys as follows.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.effect.</span><span class="o">{</span><span class="nc">ContextShift</span><span class="o">,</span> <span class="nc">IO</span><span class="o">}</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">cats.effect.</span><span class="o">{</span><span class="nc">ContextShift</span><span class="o">,</span> <span class="nc">IO</span><span class="o">}</span>
 <span class="c1">// import cats.effect.{ContextShift, IO}
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">contextShift</span><span class="k">:</span> <span class="kt">ContextShift</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">IO</span><span class="o">.</span><span class="n">contextShift</span><span class="o">(</span><span class="n">concurrent</span><span class="o">.</span><span class="nc">ExecutionContext</span><span class="o">.</span><span class="n">global</span><span class="o">)</span>
-<span class="c1">// contextShift: cats.effect.ContextShift[cats.effect.IO] = cats.effect.internals.IOContextShift@6016255e
+<span class="c1">// contextShift: cats.effect.ContextShift[cats.effect.IO] = cats.effect.internals.IOContextShift@80295a4
 </span>
 <span class="k">val</span> <span class="n">propFileF</span> <span class="k">=</span> <span class="n">propFileAtF</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">tempFileName</span><span class="o">)</span>
 <span class="c1">// propFileF: cats.effect.IO[PropFileAt[cats.effect.IO]] = &lt;function1&gt;
@@ -197,8 +190,7 @@
   <span class="n">port</span> <span class="k">=</span> <span class="n">propFile</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
 <span class="o">}</span> <span class="k">yield</span> <span class="n">port</span>
 <span class="c1">// res1: cats.effect.IO[ciris.ConfigEntry[cats.effect.IO,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber]] = &lt;function1&gt;
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();
