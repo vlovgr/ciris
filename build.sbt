@@ -441,7 +441,7 @@ lazy val releaseSettings =
       checkSnapshotDependencies,
       inquireVersions,
       runClean,
-      releaseStepCommandAndRemaining("+test"),
+      releaseStepCommandAndRemaining("+compile"),
       setReleaseVersion,
       setLatestVersion,
       releaseStepTask(updateReadme in ThisBuild),
