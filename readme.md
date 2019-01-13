@@ -123,6 +123,7 @@ If your library is not included in the list, then please open a pull request.
 * [`ciris-aiven-kafka`][ciris-aiven-kafka]
 * [`ciris-aws-ssm`][ciris-aws-ssm]
 * [`ciris-credstash`][ciris-credstash]
+* [`ciris-hocon`][ciris-hocon]
 * [`ciris-kubernetes`][ciris-kubernetes]
 
 ### Documentation
@@ -145,6 +146,7 @@ Ciris is available under the MIT license, available at [https://opensource.org/l
 [ciris-aiven-kafka]: https://github.com/ovotech/ciris-aiven-kafka
 [ciris-aws-ssm]: https://github.com/ovotech/ciris-aws-ssm
 [ciris-credstash]: https://github.com/ovotech/ciris-credstash
+[ciris-hocon]: https://github.com/2m/ciris-hocon/
 [ciris-kubernetes]: https://github.com/ovotech/ciris-kubernetes
 [enumeratum-module]: https://cir.is/docs/enumeratum-module
 [enumeratum]: https://github.com/lloydmeta/enumeratum
