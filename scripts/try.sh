@@ -6,7 +6,7 @@ test -e ~/.coursier/coursier || ( \
 )
 
 ~/.coursier/coursier launch -q -P -M ammonite.Main \
-  com.lihaoyi:ammonite_2.12.8:1.6.5 \
+  com.lihaoyi:ammonite_2.12.7:1.4.2 \
   is.cir:ciris-cats_2.12:0.12.1 \
   is.cir:ciris-cats-effect_2.12:0.12.1 \
   is.cir:ciris-core_2.12:0.12.1 \
