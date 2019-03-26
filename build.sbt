@@ -588,7 +588,7 @@ generateScripts in ThisBuild := {
   def tryScript(
     extraCoursierArgs: Seq[String] = Seq.empty,
     extraPredefCode: Seq[String] = Seq.empty,
-    ammoniteScalaVersion: String = "2.12.7"
+    ammoniteScalaVersion: String = "2.12.8"
   ) = {
     val coursierArgs =
       if(extraCoursierArgs.nonEmpty)
@@ -609,7 +609,7 @@ generateScripts in ThisBuild := {
        |)
        |
        |~/.coursier/coursier launch -q -P -M ammonite.Main \\
-       |  com.lihaoyi:ammonite_$ammoniteScalaVersion:1.4.2 \\$coursierArgs
+       |  com.lihaoyi:ammonite_$ammoniteScalaVersion:1.6.5 \\$coursierArgs
        |  $organizationId:${(moduleName in catsJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in catsEffectJVM).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
