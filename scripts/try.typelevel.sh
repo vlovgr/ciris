@@ -6,7 +6,7 @@ test -e ~/.coursier/coursier || ( \
 )
 
 ~/.coursier/coursier launch -q -P -M ammonite.Main \
-  com.lihaoyi:ammonite_2.12.4:1.4.2 \
+  com.lihaoyi:ammonite_2.12.4:1.6.5 \
   -E org.scala-lang:scala-library \
   -E org.scala-lang:scala-compiler \
   -E org.scala-lang:scala-reflect \
