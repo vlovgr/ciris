@@ -132,7 +132,7 @@ If you're looking for a more detailed code-centric overview, you can instead tak
 There is also a small [example application](https://github.com/vlovgr/ciris-example) available to exemplify how to use the library in an application context.
 
 ### Participation
-Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Typelevel Code of Conduct](https://typelevel.org/conduct.html). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
+Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Scala Code of Conduct](https://www.scala-lang.org/conduct/). It is expected that participants follow the code of conduct in all official channels, including on GitHub and in the Gitter chat room.
 
 If you would like to be involved in building Ciris, check out the [contributing guide](https://cir.is/docs/contributing).
 
