@@ -4,7 +4,7 @@ branches:
 language: scala
 scala:
   - 2.11.12
-  - 2.12.7
+  - 2.12.8
 jdk:
   - oraclejdk8
 cache:
