@@ -16,4 +16,6 @@ support you.
 For any questions, concerns, or moderation requests please contact a
 member of the project.
 
-[Scala Code of Conduct]: https://typelevel.org/code-of-conduct.html
+- [Viktor Lövgren](mailto:github@vlovgr.se)
+
+[Scala Code of Conduct]: https://www.scala-lang.org/conduct/
