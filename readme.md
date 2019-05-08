@@ -56,13 +56,13 @@ Refer to the table below for platform and version support across modules.
 
  Module                                        | Dependency                     | Scala                                                                        | Scala.js                                                                          | Scala Native                                                                       |
 -----------------------------------------------|--------------------------------|------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
- [`ciris-cats`][cats-module]              | cats 1.5.0              | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#65794;                                                                           |
- [`ciris-cats-effect`][cats-effect-module] | cats-effect 1.1.0 | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
+ [`ciris-cats`][cats-module]              | cats 1.6.0              | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#65794;                                                                           |
+ [`ciris-cats-effect`][cats-effect-module] | cats-effect 1.3.0 | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
  [`ciris-core`](https://cir.is/docs)      | &#65794;                       | &#10003; 2.11, 2.12       | &#10003; 0.6 (2.11, 2.12)       | &#10003; 0.3 (2.11)    |
  [`ciris-enumeratum`][enumeratum-module]  | enumeratum 1.5.13  | &#10003; 2.11, 2.12 | &#10003; 0.6 (2.11, 2.12) | &#65794;                                                                           |
  [`ciris-generic`][generic-module]        | shapeless 2.3.3    | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
- [`ciris-refined`][refined-module]        | refined 0.9.3        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
- [`ciris-spire`][spire-module]            | spire 0.16.0            | &#10003; 2.11, 2.12      | &#10003; 0.6 (2.11, 2.12)      | &#65794;                                                                           |
+ [`ciris-refined`][refined-module]        | refined 0.9.5        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
+ [`ciris-spire`][spire-module]            | spire 0.16.1            | &#10003; 2.11, 2.12      | &#10003; 0.6 (2.11, 2.12)      | &#65794;                                                                           |
  [`ciris-squants`][squants-module]        | squants 1.4.0        | &#10003; 2.11, 2.12    | &#10003; 0.6 (2.11, 2.12)    | &#10003; 0.3 (2.11) |
 
 Backwards binary compatibility for the library is guaranteed between patch versions.  
