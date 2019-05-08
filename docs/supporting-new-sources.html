@@ -102,10 +102,10 @@
 <span class="c1">// import ciris.refined._
 </span>
 <span class="k">val</span> <span class="n">propFile</span> <span class="k">=</span> <span class="n">propFileAt</span><span class="o">(</span><span class="n">tempFileName</span><span class="o">)</span>
-<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-1909715833343607445.properties, UTF-8)
+<span class="c1">// propFile: PropFileAt = PropFileAt(/var/folders/mw/y5dcdyb52_71wnhl1zbl79xm0000gn/T/temp-3227225497996029296.properties, UTF-8)
 </span>
 <span class="n">propFile</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"port"</span><span class="o">)</span>
-<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/ff/tg7g7zh52_g9s5_djb5z81w00000gn/T/temp-1909715833343607445.properties, charset = UTF-8, key = port, ConfigKeyType(property file key))
+<span class="c1">// res0: ciris.ConfigEntry[ciris.api.Id,PropFileKey,String,eu.timepit.refined.types.net.UserPortNumber] = ConfigEntry(file = /var/folders/mw/y5dcdyb52_71wnhl1zbl79xm0000gn/T/temp-3227225497996029296.properties, charset = UTF-8, key = port, ConfigKeyType(property file key))
 </span></code></pre></div></div>
 
 <h2 id="suspending-effects">Suspending Effects</h2>
@@ -180,7 +180,7 @@
 </span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">contextShift</span><span class="k">:</span> <span class="kt">ContextShift</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">IO</span><span class="o">.</span><span class="n">contextShift</span><span class="o">(</span><span class="n">concurrent</span><span class="o">.</span><span class="nc">ExecutionContext</span><span class="o">.</span><span class="n">global</span><span class="o">)</span>
-<span class="c1">// contextShift: cats.effect.ContextShift[cats.effect.IO] = cats.effect.internals.IOContextShift@6b958f66
+<span class="c1">// contextShift: cats.effect.ContextShift[cats.effect.IO] = cats.effect.internals.IOContextShift@5e00d43f
 </span>
 <span class="k">val</span> <span class="n">propFileF</span> <span class="k">=</span> <span class="n">propFileAtF</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">tempFileName</span><span class="o">)</span>
 <span class="c1">// propFileF: cats.effect.IO[PropFileAt[cats.effect.IO]] = &lt;function1&gt;

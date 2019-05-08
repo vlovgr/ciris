@@ -30,7 +30,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res0: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue$832516911
+<span class="c1">// res0: ciris.ConfigValue[ciris.api.Id,Option[ApiKey]] = ConfigValue$1508389921
 </span></code></pre></div></div>
 
 <p>Refinement types are also useful for ensuring that configuration values residing in code are valid. Thanks to <a href="/docs/refined-module">refined</a> providing an <code class="highlighter-rouge">auto</code> macro, we can ensure that literal configuration values conform to their predicates at compile-time, and all we have to do is to use the appropriate import. Note that the actual <code class="highlighter-rouge">ApiKey</code> (or any other secret values) shouldn’t be included in code, but rather loaded from, for example, a vault service. The <code class="highlighter-rouge">ApiKey</code> below could, for example, be used in local tests, and would there not be seen as a secret, and could therefore reside in code.</p>
@@ -64,7 +64,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">Secret</span><span class="o">[</span><span class="kt">ApiKey</span><span class="o">]](</span><span class="s">"API_KEY"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"api.key"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res2: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue$1714997436
+<span class="c1">// res2: ciris.ConfigValue[ciris.api.Id,Option[ciris.Secret[ApiKey]]] = ConfigValue$924311488
 </span></code></pre></div></div>
 
 <p>For more information about <a href="/api/ciris/Secret.html"><code class="highlighter-rouge">Secret</code></a> and logging, refer to the <a href="/docs/logging">logging configurations</a> section.</p>
@@ -77,7 +77,7 @@
 <span class="n">env</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">](</span><span class="s">"PORT"</span><span class="o">).</span>
   <span class="n">orElse</span><span class="o">(</span><span class="n">prop</span><span class="o">(</span><span class="s">"http.port"</span><span class="o">)).</span>
   <span class="n">orNone</span>
-<span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue$194704172
+<span class="c1">// res3: ciris.ConfigValue[ciris.api.Id,Option[eu.timepit.refined.types.net.UserPortNumber]] = ConfigValue$160124781
 </span></code></pre></div></div>
 
 <p>Putting everything together, we’re left with a more precise configuration, with validation encoded in the types.</p>
@@ -117,7 +117,7 @@
       <span class="o">)</span>
     <span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$2120654772
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1056205282
 </span></code></pre></div></div>
 
 <h2 id="useable-configurations">Useable Configurations</h2>

@@ -80,7 +80,7 @@
       <span class="o">)</span>
     <span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1805434989
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1253253206
 </span></code></pre></div></div>
 
 <p>Sometimes it might be necessary to have different configuration loading take place in different environments. Ciris provides the <a href="/api/ciris/index.html#withValues[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;F[Either[ciris.ConfigErrors,Z]])(implicitevidence$6:ciris.api.Monad[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">withValues</code></a> (and <a href="/api/ciris/index.html#withValue[F[_],A1,Z](a1:ciris.ConfigValue[F,A1])(f:A1=&gt;F[Either[ciris.ConfigErrors,Z]])(implicitevidence$3:ciris.api.Monad[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">withValue</code></a> for a single value) function, which allows you to do exactly that. The function takes a number of configuration values, and effectively wraps your <a href="/api/ciris/index.html#loadConfig[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;Z)(implicitevidence$5:ciris.api.Functor[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">loadConfig</code></a> functions. For example, let’s assume you would want a static configuration in the local and testing environments, while using the configuration loading above in the production environment.</p>
@@ -118,7 +118,7 @@
         <span class="o">)</span>
       <span class="o">}</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1831239399
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$446804616
 </span></code></pre></div></div>
 
 <p>Note that when using <a href="/api/ciris/index.html#withValues[F[_],A1,A2,Z](a1:ciris.ConfigValue[F,A1],a2:ciris.ConfigValue[F,A2])(f:(A1,A2)=&gt;F[Either[ciris.ConfigErrors,Z]])(implicitevidence$6:ciris.api.Monad[F]):F[Either[ciris.ConfigErrors,Z]]"><code class="highlighter-rouge">withValues</code></a>, errors for the specified values (in this case, the <code class="highlighter-rouge">APP_ENV</code> environment variable) means we will not continue to try to load the configuration, meaning potential further errors are not included. Assuming we could load an <code class="highlighter-rouge">AppEnvironment</code>, any further errors will be accumulated as you would normally expect.</p>
@@ -156,7 +156,7 @@
         <span class="n">prop</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">UserPortNumber</span><span class="o">]](</span><span class="s">"http.port"</span><span class="o">)</span>
       <span class="o">)(</span><span class="n">configWithDefaults</span><span class="o">)</span>
   <span class="o">}</span>
-<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$414563749
+<span class="c1">// config: ciris.ConfigResult[ciris.api.Id,Config] = ConfigResult$1260020765
 </span></code></pre></div></div>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
