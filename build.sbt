@@ -18,7 +18,7 @@ lazy val refinedVersion = "0.9.5"
 lazy val scalaCheckVersion = "1.14.0"
 lazy val scalaTestVersion = "3.0.7"
 lazy val shapelessVersion = "2.3.3"
-lazy val spireVersion = "0.16.1"
+lazy val spireVersion = "0.16.2"
 lazy val squantsVersion = "1.4.0"
 
 lazy val scriptsDirectory = "scripts"
