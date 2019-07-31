@@ -411,7 +411,6 @@ lazy val releaseSettings =
     homepage := organizationHomepage.value,
     publishMavenStyle := true,
     publishArtifact in Test := false,
-    useGpg := false,
     pomIncludeRepository := { _ => false },
     autoAPIMappings := true,
     apiURL := Some(url("https://cir.is/api")),
@@ -435,7 +434,6 @@ lazy val releaseSettings =
     releaseTagName := s"v${(version in ThisBuild).value}",
     releaseTagComment := s"Release version ${(version in ThisBuild).value}",
     releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}",
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseUseGlobalVersion := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -450,7 +448,7 @@ lazy val releaseSettings =
       releaseStepTask(addDateToReleaseNotes in ThisBuild),
       commitReleaseVersion,
       tagRelease,
-      releaseStepCommandAndRemaining("publishSignedAll"),
+      releaseStepCommandAndRemaining("publishAll"),
       releaseStepCommand("sonatypeRelease"),
       setNextVersion,
       commitNextVersion,
@@ -704,7 +702,7 @@ def addCommandsAlias(name: String, values: List[String]) =
 
 addCommandsAlias("docTests", jvmModuleNames.map(_ + "/test"))
 
-addCommandsAlias("publishSignedAll", allModuleNames.map(m => s"+$m/publishSigned"))
+addCommandsAlias("publishAll", allModuleNames.map(m => s"+$m/publish"))
 
 addCommandsAlias("validate", List(
   "clean",
