@@ -9,7 +9,7 @@ lazy val scala212 = "2.12.8"
 
 lazy val catsEffectVersion = "1.3.0"
 lazy val catsVersion = "1.6.1"
-lazy val commonsCodecVersion = "1.12"
+lazy val commonsCodecVersion = "1.13"
 lazy val enumeratumVersion = "1.5.13"
 lazy val kindProjectorVersion = "0.9.10"
 lazy val kittensVersion = "1.1.0"
