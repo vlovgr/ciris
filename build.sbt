@@ -554,7 +554,7 @@ updateReadme in ThisBuild := {
   (generateReadme in ThisBuild).value
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add("readme.md").!
-    vcs.commit("Update readme to latest version", sign = true).!
+    vcs.commit("Update readme to latest version", sign = true, signOff = false).!
   }
 }
 
@@ -575,7 +575,7 @@ updateContributing in ThisBuild := {
   (generateContributing in ThisBuild).value
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add("contributing.md").!
-    vcs.commit("Update contributing guide to latest version", sign = true).!
+    vcs.commit("Update contributing guide to latest version", sign = true, signOff = false).!
   }
 }
 
@@ -656,7 +656,7 @@ updateScripts in ThisBuild := {
   (generateScripts in ThisBuild).value
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add(scriptsDirectory).!
-    vcs.commit("Update scripts to latest version", sign = true).!
+    vcs.commit("Update scripts to latest version", sign = true, signOff = false).!
   }
 }
 
@@ -693,7 +693,7 @@ addDateToReleaseNotes in ThisBuild := {
 
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add(file.getAbsolutePath).!
-    vcs.commit(s"Add release date for v${(version in ThisBuild).value}", sign = true).!
+    vcs.commit(s"Add release date for v${(version in ThisBuild).value}", sign = true, signOff = false).!
   }
 }
 
