@@ -234,6 +234,7 @@ lazy val tests =
     .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVerison % Test cross CrossVersion.patch))
     .settings(scalaSettings)
     .settings(noPublishSettings)
+    .settings(releaseSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
     .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
@@ -407,7 +408,7 @@ lazy val metadataSettings = Seq(
 )
 
 lazy val releaseSettings =
-  metadataSettings ++ Seq(
+  metadataSettings ++ mimaSettings ++ Seq(
     homepage := organizationHomepage.value,
     publishMavenStyle := true,
     publishArtifact in Test := false,
@@ -493,7 +494,7 @@ lazy val kindProjectorSettings = Seq(
 )
 
 lazy val jvmModuleSettings =
-  mimaSettings ++ Seq(
+  Seq(
     coverageExcludedPackages := List(
       "ciris.internal.digest.GeneralDigest"
     ).mkString(";")
