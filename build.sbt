@@ -234,6 +234,7 @@ lazy val tests =
     .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVerison % Test cross CrossVersion.patch))
     .settings(scalaSettings)
     .settings(noPublishSettings)
+    .settings(releaseSettings)
     .settings(testSettings)
     .jsSettings(jsModuleSettings)
     .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
@@ -407,11 +408,10 @@ lazy val metadataSettings = Seq(
 )
 
 lazy val releaseSettings =
-  metadataSettings ++ Seq(
+  metadataSettings ++ mimaSettings ++ Seq(
     homepage := organizationHomepage.value,
     publishMavenStyle := true,
     publishArtifact in Test := false,
-    useGpg := false,
     pomIncludeRepository := { _ => false },
     autoAPIMappings := true,
     apiURL := Some(url("https://cir.is/api")),
@@ -435,7 +435,6 @@ lazy val releaseSettings =
     releaseTagName := s"v${(version in ThisBuild).value}",
     releaseTagComment := s"Release version ${(version in ThisBuild).value}",
     releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}",
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseUseGlobalVersion := true,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -450,7 +449,7 @@ lazy val releaseSettings =
       releaseStepTask(addDateToReleaseNotes in ThisBuild),
       commitReleaseVersion,
       tagRelease,
-      releaseStepCommandAndRemaining("publishSignedAll"),
+      releaseStepCommandAndRemaining("publishAll"),
       releaseStepCommand("sonatypeRelease"),
       setNextVersion,
       commitNextVersion,
@@ -495,7 +494,7 @@ lazy val kindProjectorSettings = Seq(
 )
 
 lazy val jvmModuleSettings =
-  mimaSettings ++ Seq(
+  Seq(
     coverageExcludedPackages := List(
       "ciris.internal.digest.GeneralDigest"
     ).mkString(";")
@@ -554,7 +553,7 @@ updateReadme in ThisBuild := {
   (generateReadme in ThisBuild).value
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add("readme.md").!
-    vcs.commit("Update readme to latest version", sign = true).!
+    vcs.commit("Update readme to latest version", sign = true, signOff = false).!
   }
 }
 
@@ -575,7 +574,7 @@ updateContributing in ThisBuild := {
   (generateContributing in ThisBuild).value
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add("contributing.md").!
-    vcs.commit("Update contributing guide to latest version", sign = true).!
+    vcs.commit("Update contributing guide to latest version", sign = true, signOff = false).!
   }
 }
 
@@ -656,7 +655,7 @@ updateScripts in ThisBuild := {
   (generateScripts in ThisBuild).value
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add(scriptsDirectory).!
-    vcs.commit("Update scripts to latest version", sign = true).!
+    vcs.commit("Update scripts to latest version", sign = true, signOff = false).!
   }
 }
 
@@ -693,7 +692,7 @@ addDateToReleaseNotes in ThisBuild := {
 
   sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
     vcs.add(file.getAbsolutePath).!
-    vcs.commit(s"Add release date for v${(version in ThisBuild).value}", sign = true).!
+    vcs.commit(s"Add release date for v${(version in ThisBuild).value}", sign = true, signOff = false).!
   }
 }
 
@@ -704,7 +703,7 @@ def addCommandsAlias(name: String, values: List[String]) =
 
 addCommandsAlias("docTests", jvmModuleNames.map(_ + "/test"))
 
-addCommandsAlias("publishSignedAll", allModuleNames.map(m => s"+$m/publishSigned"))
+addCommandsAlias("publishAll", allModuleNames.map(m => s"+$m/publish"))
 
 addCommandsAlias("validate", List(
   "clean",
