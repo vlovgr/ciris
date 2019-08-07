@@ -5,20 +5,21 @@ import ReleaseTransformations._
 /* Variables */
 
 lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.8"
+lazy val scala212 = "2.12.9"
+lazy val scala213 = "2.13.0"
 
-lazy val catsEffectVersion = "1.4.0"
-lazy val catsVersion = "1.6.1"
+lazy val catsEffectVersion = "2.0.0-M5"
+lazy val catsVersion = "2.0.0-RC1"
 lazy val commonsCodecVersion = "1.13"
 lazy val enumeratumVersion = "1.5.13"
-lazy val kindProjectorVersion = "0.9.10"
+lazy val kindProjectorVersion = "0.10.3"
 lazy val kittensVersion = "1.1.0"
 lazy val macroParadiseVerison = "2.1.1"
 lazy val refinedVersion = "0.9.9"
 lazy val scalaCheckVersion = "1.14.0"
 lazy val scalaTestVersion = "3.0.8"
 lazy val shapelessVersion = "2.3.3"
-lazy val spireVersion = "0.16.2"
+lazy val spireVersion = "0.17.0-M1"
 lazy val squantsVersion = "1.4.0"
 
 lazy val scriptsDirectory = "scripts"
@@ -371,7 +372,7 @@ lazy val docs = project
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
-  crossScalaVersions := Seq(scala211, scala212),
+  crossScalaVersions := Seq(scala211, scala212, scala213),
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -384,18 +385,15 @@ lazy val scalaSettings = Seq(
     "-unchecked",
     "-Xfatal-warnings",
     "-Xlint",
-    "-Yno-adapted-args",
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
-    "-Xfuture",
-    "-Ywarn-unused-import",
-    "-Ywarn-unused"
-  ).filter {
-    case "-Ywarn-unused" if !(scalaVersion.value startsWith "2.12") => false
-    case _ => true
-  },
-  scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
+    "-Ywarn-unused",
+  ) ++ (if(scalaVersion.value startsWith "2.11") Seq("-Xfuture", "-Ywarn-unused","-Ywarn-unused-import","-Yno-adapted-args")
+    else if (scalaVersion.value startsWith "2.12") Seq("-Xfuture", "-Ywarn-unused","-Ywarn-unused-import","-Yno-adapted-args")
+    else if (scalaVersion.value startsWith "2.13") Seq("-Ywarn-unused:imports")
+    else Seq.empty),
+  scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import", "-Ywarn-unused:imports"),
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value,
   makePomConfiguration := makePomConfiguration.value.withConfigurations(Configurations.defaultMavenConfigurations)
 )
@@ -462,7 +460,7 @@ lazy val testSettings = Seq(
   logBuffered in Test := false,
   parallelExecution in Test := false,
   testOptions in Test += Tests.Argument("-oDF"),
-  scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
+  scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import", "-Ywarn-unused:imports"),
   doctestTestFramework := DoctestTestFramework.ScalaTest,
   libraryDependencies ++= Seq(
     "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
@@ -490,7 +488,7 @@ lazy val mimaSettings = Seq(
 )
 
 lazy val kindProjectorSettings = Seq(
-  addCompilerPlugin("org.spire-math" % "kind-projector" % kindProjectorVersion cross CrossVersion.binary)
+  addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorVersion cross CrossVersion.binary)
 )
 
 lazy val jvmModuleSettings =
