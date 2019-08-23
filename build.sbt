@@ -1,254 +1,148 @@
-import sbtcrossproject.{crossProject, CrossType}
 import com.typesafe.sbt.SbtGit.GitKeys._
 import ReleaseTransformations._
 
 /* Variables */
 
-lazy val scala211 = "2.11.12"
 lazy val scala212 = "2.12.8"
+lazy val scala213 = "2.13.0"
 
-lazy val catsEffectVersion = "1.4.0"
-lazy val catsVersion = "1.6.1"
+lazy val catsEffectVersion = "2.0.0-RC1"
+lazy val catsVersion = "2.0.0-RC2"
 lazy val commonsCodecVersion = "1.13"
 lazy val enumeratumVersion = "1.5.13"
-lazy val kindProjectorVersion = "0.9.10"
-lazy val kittensVersion = "1.1.0"
-lazy val macroParadiseVerison = "2.1.1"
+lazy val kittensVersion = "2.0.0-M1"
 lazy val refinedVersion = "0.9.9"
-lazy val scalaCheckVersion = "1.14.0"
-lazy val scalaTestVersion = "3.0.8"
 lazy val shapelessVersion = "2.3.3"
-lazy val spireVersion = "0.16.2"
+lazy val spireVersion = "0.17.0-M1"
 lazy val squantsVersion = "1.4.0"
 
 lazy val scriptsDirectory = "scripts"
 
-/* Module Setup */
-
-lazy val moduleNames = List(
-  "cats",
-  "catsEffect",
-  "core",
-  "enumeratum",
-  "generic",
-  "refined",
-  "spire",
-  "squants"
-)
-
-lazy val jsModuleNames = moduleNames.map(_ + "JS")
-
-lazy val jvmModuleNames = moduleNames.map(_ + "JVM")
-
-lazy val nativeModuleNames = List(
-  "core",
-  "generic",
-  "refined",
-  "squants"
-).map(_ + "Native")
-
-lazy val allModuleNames = jsModuleNames ++ jvmModuleNames ++ nativeModuleNames
-
-lazy val crossModules: Seq[(Project, Option[Project], Option[Project])] =
-  Seq(
-    (catsJVM, Some(catsJS), None),
-    (catsEffectJVM, Some(catsEffectJS), None),
-    (coreJVM, Some(coreJS), Some(coreNative)),
-    (enumeratumJVM, Some(enumeratumJS), None),
-    (genericJVM, Some(genericJS), Some(genericNative)),
-    (refinedJVM, Some(refinedJS), Some(refinedNative)),
-    (spireJVM, Some(spireJS), None),
-    (squantsJVM, Some(squantsJS), Some(squantsNative))
-  )
-
-lazy val noDocumentationModules: Seq[ProjectReference] = {
-  val nonJvmModules =
-    crossModules.flatMap {
-      case (_, js, native) =>
-        js ++ native
-    }
-
-  val testModules = Seq(testsJVM, testsJS)
-
-  (nonJvmModules ++ testModules)
-    .map(module => module: ProjectReference)
-}
-
-/* Module Definitions */
-
-lazy val ciris = project
+lazy val root = project
   .in(file("."))
-  .settings(moduleName := "ciris", name := "Ciris")
-  .settings(scalaSettings)
-  .settings(noPublishSettings)
-  .settings(releaseSettings)
-  .settings(testSettings)
   .settings(
-    console := (console in (coreJVM, Compile)).value,
-    console in Test := (console in (coreJVM, Test)).value
+    mimaSettings,
+    noPublishSettings,
+    scalaVersion := scala212,
+    console := (console in (core, Compile)).value,
+    console in Test := (console in (core, Test)).value
   )
-  .aggregate(
-    catsJS, catsJVM,
-    catsEffectJS, catsEffectJVM,
-    coreJS, coreJVM, coreNative,
-    enumeratumJS, enumeratumJVM,
-    genericJS, genericJVM, genericNative,
-    refinedJS, refinedJVM, refinedNative,
-    spireJS, spireJVM,
-    squantsJS, squantsJVM,
-    testsJS, testsJVM
+  .aggregate(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
+
+lazy val core = project
+  .in(file("modules/core"))
+  .settings(
+    moduleName := "ciris-core",
+    name := moduleName.value,
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
   )
 
-lazy val cats =
-  crossProject(JSPlatform, JVMPlatform)
-    .in(file("modules/cats"))
-    .settings(moduleName := "ciris-cats", name := "Ciris cats")
-    .settings(libraryDependencies += "org.typelevel" %%% "cats-core" % catsVersion)
-    .settings(scalaSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .jvmSettings(jvmModuleSettings)
-    .settings(releaseSettings)
-    .dependsOn(core)
+lazy val cats = project
+  .in(file("modules/cats"))
+  .settings(
+    moduleName := "ciris-cats",
+    name := moduleName.value,
+    libraryDependencies += "org.typelevel" %% "cats-core" % catsVersion,
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(core % "compile->compile;test->test")
 
-lazy val catsJS = cats.js
-lazy val catsJVM = cats.jvm
+lazy val catsEffect = project
+  .in(file("modules/cats-effect"))
+  .settings(
+    moduleName := "ciris-cats-effect",
+    name := moduleName.value,
+    libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion,
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(cats % "compile->compile;test->test")
 
-lazy val catsEffect =
-  crossProject(JSPlatform, JVMPlatform)
-    .in(file("modules/cats-effect"))
-    .settings(moduleName := "ciris-cats-effect", name := "Ciris cats effect")
-    .settings(libraryDependencies += "org.typelevel" %%% "cats-effect" % catsEffectVersion)
-    .settings(scalaSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .jvmSettings(jvmModuleSettings)
-    .settings(releaseSettings)
-    .settings(kindProjectorSettings)
-    .dependsOn(core, cats)
+lazy val enumeratum = project
+  .in(file("modules/enumeratum"))
+  .settings(
+    moduleName := "ciris-enumeratum",
+    name := moduleName.value,
+    libraryDependencies += "com.beachape" %% "enumeratum" % enumeratumVersion,
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(core % "compile->compile;test->test")
 
-lazy val catsEffectJS = catsEffect.js
-lazy val catsEffectJVM = catsEffect.jvm
+lazy val generic = project
+  .in(file("modules/generic"))
+  .settings(
+    moduleName := "ciris-generic",
+    name := moduleName.value,
+    libraryDependencies += "com.chuusai" %% "shapeless" % shapelessVersion,
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(core % "compile->compile;test->test")
 
-lazy val core =
-  crossProject(JSPlatform, JVMPlatform, NativePlatform)
-    .in(file("modules/core"))
-    .settings(moduleName := "ciris-core", name := "Ciris core")
-    .settings(scalaSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .jvmSettings(jvmModuleSettings)
-    .nativeSettings(nativeModuleSettings)
-    .settings(releaseSettings)
+lazy val refined = project
+  .in(file("modules/refined"))
+  .settings(
+    moduleName := "ciris-refined",
+    name := moduleName.value,
+    libraryDependencies += "eu.timepit" %% "refined" % refinedVersion,
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(core % "compile->compile;test->test")
 
-lazy val coreJS = core.js
-lazy val coreJVM = core.jvm
-lazy val coreNative = core.native
+lazy val spire = project
+  .in(file("modules/spire"))
+  .settings(
+    moduleName := "ciris-spire",
+    name := moduleName.value,
+    libraryDependencies += "org.typelevel" %% "spire" % spireVersion,
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(core % "compile->compile;test->test")
 
-lazy val enumeratum =
-  crossProject(JSPlatform, JVMPlatform)
-    .in(file("modules/enumeratum"))
-    .settings(moduleName := "ciris-enumeratum", name := "Ciris enumeratum")
-    .settings(libraryDependencies += "com.beachape" %%% "enumeratum" % enumeratumVersion)
-    .settings(scalaSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .jvmSettings(jvmModuleSettings)
-    .settings(releaseSettings)
-    .dependsOn(core)
-
-lazy val enumeratumJS = enumeratum.js
-lazy val enumeratumJVM = enumeratum.jvm
-
-lazy val generic =
-  crossProject(JSPlatform, JVMPlatform, NativePlatform)
-    .in(file("modules/generic"))
-    .settings(moduleName := "ciris-generic", name := "Ciris generic")
-    .settings(libraryDependencies += "com.chuusai" %%% "shapeless" % shapelessVersion)
-    .settings(scalaSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .jvmSettings(jvmModuleSettings)
-    .nativeSettings(nativeModuleSettings)
-    .settings(releaseSettings)
-    .dependsOn(core)
-
-lazy val genericJS = generic.js
-lazy val genericJVM = generic.jvm
-lazy val genericNative = generic.native
-
-lazy val refined =
-  crossProject(JSPlatform, JVMPlatform, NativePlatform)
-    .in(file("modules/refined"))
-    .settings(moduleName := "ciris-refined", name := "Ciris refined")
-    .settings(libraryDependencies += "eu.timepit" %%% "refined" % refinedVersion)
-    .settings(scalaSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .jvmSettings(jvmModuleSettings)
-    .nativeSettings(nativeModuleSettings)
-    .settings(releaseSettings)
-    .dependsOn(core)
-
-lazy val refinedJS = refined.js
-lazy val refinedJVM = refined.jvm
-lazy val refinedNative = refined.native
-
-lazy val spire =
-  crossProject(JSPlatform, JVMPlatform)
-    .in(file("modules/spire"))
-    .settings(moduleName := "ciris-spire", name := "Ciris spire")
-    .settings(libraryDependencies += "org.typelevel" %%% "spire" % spireVersion)
-    .settings(scalaSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .jvmSettings(jvmModuleSettings)
-    .settings(releaseSettings)
-    .dependsOn(core)
-
-lazy val spireJS = spire.js
-lazy val spireJVM = spire.jvm
-
-lazy val squants =
-  crossProject(JSPlatform, JVMPlatform, NativePlatform)
-    .in(file("modules/squants"))
-    .settings(moduleName := "ciris-squants", name := "Ciris squants")
-    .settings(libraryDependencies += "org.typelevel" %%% "squants" % squantsVersion)
-    .settings(scalaSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .jvmSettings(jvmModuleSettings)
-    .nativeSettings(nativeModuleSettings)
-    .settings(releaseSettings)
-    .dependsOn(core)
-
-lazy val squantsJS = squants.js
-lazy val squantsJVM = squants.jvm
-lazy val squantsNative = squants.native
-
-lazy val tests =
-  crossProject(JSPlatform, JVMPlatform)
-    .in(file("tests"))
-    .settings(moduleName := "ciris-tests", name := "Ciris tests")
-    .settings(libraryDependencies += "commons-codec" % "commons-codec" % commonsCodecVersion % Test)
-    .settings(libraryDependencies += compilerPlugin("org.scalamacros" % "paradise" % macroParadiseVerison % Test cross CrossVersion.patch))
-    .settings(scalaSettings)
-    .settings(noPublishSettings)
-    .settings(releaseSettings)
-    .settings(testSettings)
-    .jsSettings(jsModuleSettings)
-    .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
-
-lazy val testsJS = tests.js
-lazy val testsJVM = tests.jvm
+lazy val squants = project
+  .in(file("modules/squants"))
+  .settings(
+    moduleName := "ciris-squants",
+    name := moduleName.value,
+    libraryDependencies += "org.typelevel" %% "squants" % squantsVersion,
+    publishSettings,
+    mimaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions := Seq(scala212)
+    ),
+    testSettings
+  )
+  .dependsOn(core % "compile->compile;test->test")
 
 lazy val docs = project
   .in(file("docs"))
-  .settings(moduleName := "ciris-docs", name := "Ciris docs")
-  .settings(scalaSettings)
-  .settings(testSettings)
-  .settings(noPublishSettings)
-  .settings(kindProjectorSettings)
+  .settings(
+    moduleName := "ciris-docs",
+    name := moduleName.value,
+    noPublishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
   .settings(
     micrositeName := "Ciris",
     micrositeDescription := "Lightweight, extensible, and validated configuration loading in Scala",
@@ -279,35 +173,35 @@ lazy val docs = project
     buildInfoKeys := Seq[BuildInfoKey](
       organization,
       latestVersion in ThisBuild,
-      crossScalaVersions in coreJVM,
-      BuildInfoKey.map(moduleName in catsJVM) { case (k, v) => "cats" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in catsEffectJVM) { case (k, v) => "catsEffect" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in coreJVM) { case (k, v) => "core" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in enumeratumJVM) { case (k, v) => "enumeratum" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in genericJVM) { case (k, v) => "generic" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in refinedJVM) { case (k, v) => "refined" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in spireJVM) { case (k, v) => "spire" + k.capitalize -> v },
-      BuildInfoKey.map(moduleName in squantsJVM) { case (k, v) => "squants" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in catsJVM) { case (k, v) => "catsJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in catsJS) { case (k, v) => "catsJs" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in catsEffectJVM) { case (k, v) => "catsEffectJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in catsEffectJS) { case (k, v) => "catsEffectJs" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in coreJVM) { case (k, v) => "coreJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in coreJS) { case (k, v) => "coreJs" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in coreNative) { case (k, v) => "coreNative" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in enumeratumJVM) { case (k, v) => "enumeratumJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in enumeratumJS) { case (k, v) => "enumeratumJs" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in genericJVM) { case (k, v) => "genericJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in genericJS) { case (k, v) => "genericJs" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in genericNative) { case (k, v) => "genericNative" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in refinedJVM) { case (k, v) => "refinedJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in refinedJS) { case (k, v) => "refinedJs" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in refinedNative) { case (k, v) => "refinedNative" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in spireJVM) { case (k, v) => "spireJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in spireJS) { case (k, v) => "spireJs" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in squantsJVM) { case (k, v) => "squantsJvm" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in squantsJS) { case (k, v) => "squantsJs" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in squantsNative) { case (k, v) => "squantsNative" + k.capitalize -> v },
+      crossScalaVersions in core,
+      BuildInfoKey.map(moduleName in cats) { case (k, v) => "cats" + k.capitalize -> v },
+      BuildInfoKey
+        .map(moduleName in catsEffect) { case (k, v)     => "catsEffect" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in core) { case (k, v) => "core" + k.capitalize -> v },
+      BuildInfoKey
+        .map(moduleName in enumeratum) { case (k, v)             => "enumeratum" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in generic) { case (k, v)      => "generic" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in refined) { case (k, v)      => "refined" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in spire) { case (k, v)        => "spire" + k.capitalize -> v },
+      BuildInfoKey.map(moduleName in squants) { case (k, v)      => "squants" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in cats) { case (k, v) => "cats" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in catsEffect) {
+        case (k, v) => "catsEffect" + k.capitalize -> v
+      },
+      BuildInfoKey.map(crossScalaVersions in core) { case (k, v) => "core" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in enumeratum) {
+        case (k, v) => "enumeratum" + k.capitalize -> v
+      },
+      BuildInfoKey.map(crossScalaVersions in generic) {
+        case (k, v) => "generic" + k.capitalize -> v
+      },
+      BuildInfoKey.map(crossScalaVersions in refined) {
+        case (k, v) => "refined" + k.capitalize -> v
+      },
+      BuildInfoKey.map(crossScalaVersions in spire) { case (k, v) => "spire" + k.capitalize -> v },
+      BuildInfoKey.map(crossScalaVersions in squants) {
+        case (k, v) => "squants" + k.capitalize -> v
+      },
       BuildInfoKey("catsVersion" -> catsVersion),
       BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
       BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
@@ -327,7 +221,6 @@ lazy val docs = project
         s"""
           |This is the API documentation for [[https://cir.is Ciris]]: lightweight, extensible, and validated configuration loading in Scala.<br>
           |The documentation is kept up-to-date with new releases, currently documenting release [[https://github.com/vlovgr/ciris/releases/tag/v$version v$version]] on Scala $scalaTargetVersion.<br>
-          |Please note that the documentation targets the JVM, and there may be differences on Scala.js and Scala Native.
           |
           |Ciris is divided into the following set of modules.
           |
@@ -351,36 +244,41 @@ lazy val docs = project
       "eu.timepit" %% "refined-cats" % refinedVersion
     ),
     crossScalaVersions := Seq(scalaVersion.value),
-    scalacOptions --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
-    scalacOptions += "-Ypartial-unification",
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(noDocumentationModules: _*),
+    scalacOptions --= Seq("-Xlint", "-Ywarn-unused"),
+    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject,
     siteSubdirName in ScalaUnidoc := micrositeDocumentationUrl.value,
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
     gitRemoteRepo := "git@github.com:vlovgr/ciris.git",
     scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
-      "-skip-packages", buildInfoPackage.value,
-      "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(latestVersion in ThisBuild).value}€{FILE_PATH}.scala",
-      "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,
-      "-doc-root-content", (generateApiIndexFile.value).getAbsolutePath
+      "-skip-packages",
+      buildInfoPackage.value,
+      "-doc-source-url",
+      s"https://github.com/vlovgr/ciris/tree/v${(latestVersion in ThisBuild).value}€{FILE_PATH}.scala",
+      "-sourcepath",
+      baseDirectory.in(LocalRootProject).value.getAbsolutePath,
+      "-doc-title",
+      "Ciris",
+      "-doc-version",
+      s"v${(latestVersion in ThisBuild).value}",
+      "-doc-root-content",
+      (generateApiIndexFile.value).getAbsolutePath
     )
   )
-  .dependsOn(catsJVM, catsEffectJVM, coreJVM, enumeratumJVM, genericJVM, refinedJVM, spireJVM, squantsJVM)
+  .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin, ScalaUnidocPlugin)
 
 /* Settings */
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
-  crossScalaVersions := Seq(scala211, scala212),
+  crossScalaVersions := Seq(scala212, scala213),
   scalacOptions ++= Seq(
     "-deprecation",
-    "-encoding", "UTF-8",
-    "-target:jvm-1.8",
+    "-encoding",
+    "UTF-8",
     "-feature",
-    "-language:existentials",
     "-language:higherKinds",
     "-language:implicitConversions",
-    "-language:postfixOps",
     "-unchecked",
     "-Xfatal-warnings",
     "-Xlint",
@@ -388,16 +286,16 @@ lazy val scalaSettings = Seq(
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
-    "-Xfuture",
-    "-Ywarn-unused-import",
-    "-Ywarn-unused"
+    "-Ywarn-unused",
+    "-Ypartial-unification"
   ).filter {
-    case "-Ywarn-unused" if !(scalaVersion.value startsWith "2.12") => false
+    case ("-Yno-adapted-args" | "-Ypartial-unification") if scalaVersion.value.startsWith("2.13") =>
+      false
     case _ => true
   },
-  scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
+  scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused"),
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value,
-  makePomConfiguration := makePomConfiguration.value.withConfigurations(Configurations.defaultMavenConfigurations)
+  addCompilerPlugin("org.typelevel" % "kind-projector" % "0.10.3" cross CrossVersion.binary)
 )
 
 lazy val metadataSettings = Seq(
@@ -407,12 +305,14 @@ lazy val metadataSettings = Seq(
   organizationHomepage := Some(url("https://cir.is"))
 )
 
-lazy val releaseSettings =
-  metadataSettings ++ mimaSettings ++ Seq(
+lazy val publishSettings =
+  metadataSettings ++ Seq(
     homepage := organizationHomepage.value,
     publishMavenStyle := true,
     publishArtifact in Test := false,
-    pomIncludeRepository := { _ => false },
+    pomIncludeRepository := { _ =>
+      false
+    },
     autoAPIMappings := true,
     apiURL := Some(url("https://cir.is/api")),
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
@@ -430,7 +330,7 @@ lazy val releaseSettings =
         url = url("https://vlovgr.se")
       )
     ),
-    publishTo :=  sonatypePublishTo.value,
+    publishTo := sonatypePublishTo.value,
     releaseCrossBuild := false, // See https://github.com/sbt/sbt-release/issues/214
     releaseTagName := s"v${(version in ThisBuild).value}",
     releaseTagComment := s"Release version ${(version in ThisBuild).value}",
@@ -449,12 +349,12 @@ lazy val releaseSettings =
       releaseStepTask(addDateToReleaseNotes in ThisBuild),
       commitReleaseVersion,
       tagRelease,
-      releaseStepCommandAndRemaining("publishAll"),
+      releaseStepCommandAndRemaining("+publish"),
       releaseStepCommand("sonatypeRelease"),
       setNextVersion,
       commitNextVersion,
       pushChanges,
-      releaseStepCommand("+docs/publishMicrosite")
+      releaseStepCommand("docs/publishMicrosite")
     )
   )
 
@@ -462,12 +362,13 @@ lazy val testSettings = Seq(
   logBuffered in Test := false,
   parallelExecution in Test := false,
   testOptions in Test += Tests.Argument("-oDF"),
-  scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused", "-Ywarn-unused-import"),
+  scalacOptions in Test --= Seq("-deprecation", "-Xfatal-warnings"), // sbt-doctest generates code with deprecation warnings on Scala 2.13
+  scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused"),
   doctestTestFramework := DoctestTestFramework.ScalaTest,
   libraryDependencies ++= Seq(
-    "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
-    "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
-  )
+    "org.scalatestplus" %% "scalatestplus-scalacheck" % "1.0.0-SNAP8",
+    "commons-codec" % "commons-codec" % commonsCodecVersion
+  ).map(_ % Test)
 )
 
 lazy val mimaSettings = Seq(
@@ -475,7 +376,7 @@ lazy val mimaSettings = Seq(
     val released = !unreleasedModuleNames.value.contains(moduleName.value)
     val publishing = publishArtifact.value
 
-    if(publishing && released)
+    if (publishing && released)
       binaryCompatibleVersions.value
         .map(version => organization.value %% moduleName.value % version)
     else
@@ -484,39 +385,18 @@ lazy val mimaSettings = Seq(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     // format: off
-    Seq()
+    Seq(
+      ProblemFilters.exclude[Problem]("ciris.internal.*")
+    )
     // format: on
   }
 )
 
-lazy val kindProjectorSettings = Seq(
-  addCompilerPlugin("org.spire-math" % "kind-projector" % kindProjectorVersion cross CrossVersion.binary)
-)
-
-lazy val jvmModuleSettings =
+lazy val coverageSettings =
   Seq(
     coverageExcludedPackages := List(
       "ciris.internal.digest.GeneralDigest"
     ).mkString(";")
-  )
-
-lazy val nonJvmModuleSettings = Seq(
-  doctestGenTests := Seq.empty,
-  coverageEnabled := false
-)
-
-lazy val jsModuleSettings =
-  nonJvmModuleSettings
-
-lazy val nativeModuleSettings =
-  nonJvmModuleSettings ++ Seq(
-    scalaVersion := scala211,
-    crossScalaVersions := Seq(scala211),
-    sources in (Compile, doc) := Seq.empty, // See https://github.com/scala-native/scala-native/issues/1121
-    libraryDependencies --= Seq( // Does not support Scala Native yet
-      "org.scalatest" %%% "scalatest" % scalaTestVersion % Test,
-      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
-    )
   )
 
 lazy val noPublishSettings =
@@ -527,14 +407,16 @@ lazy val noPublishSettings =
 
 lazy val sourceGeneratorSettings = Seq(
   sourceGenerators in Compile +=
-    Def.task(generateSources(
-      (sourceManaged in Compile).value,
-      (sourceManaged in Test).value,
-      "ciris"
-    )).taskValue
+    Def
+      .task(
+        generateSources(
+          (sourceManaged in Compile).value,
+          (sourceManaged in Test).value,
+          "ciris"
+        )
+      )
+      .taskValue
 )
-
-/* Tasks */
 
 val generateReadme = taskKey[File]("Generates the readme")
 generateReadme in ThisBuild := {
@@ -543,7 +425,7 @@ generateReadme in ThisBuild := {
   val readme =
     source
       .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
-  val target = (baseDirectory in ciris).value / "readme.md"
+  val target = (baseDirectory in LocalRootProject).value / "readme.md"
   IO.write(target, readme)
   target
 }
@@ -551,7 +433,7 @@ generateReadme in ThisBuild := {
 val updateReadme = taskKey[Unit]("Generates and commits the readme")
 updateReadme in ThisBuild := {
   (generateReadme in ThisBuild).value
-  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
+  sbtrelease.Vcs.detect((baseDirectory in LocalRootProject).value).foreach { vcs =>
     vcs.add("readme.md").!
     vcs.commit("Update readme to latest version", sign = true, signOff = false).!
   }
@@ -564,7 +446,7 @@ generateContributing in ThisBuild := {
   val contributing =
     source
       .replaceAll("^\\s*---[^(---)]*---\\s*", "") // Remove metadata
-  val target = (baseDirectory in ciris).value / "contributing.md"
+  val target = (baseDirectory in LocalRootProject).value / "contributing.md"
   IO.write(target, contributing)
   target
 }
@@ -572,7 +454,7 @@ generateContributing in ThisBuild := {
 val updateContributing = taskKey[Unit]("Generates and commits the contributing guide")
 updateContributing in ThisBuild := {
   (generateContributing in ThisBuild).value
-  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
+  sbtrelease.Vcs.detect((baseDirectory in LocalRootProject).value).foreach { vcs =>
     vcs.add("contributing.md").!
     vcs.commit("Update contributing guide to latest version", sign = true, signOff = false).!
   }
@@ -581,7 +463,7 @@ updateContributing in ThisBuild := {
 val generateScripts = taskKey[Unit]("Generates scripts")
 generateScripts in ThisBuild := {
   val output = file(scriptsDirectory)
-  val organizationId = (organization in coreJVM).value
+  val organizationId = (organization in core).value
   val moduleVersion = (latestVersion in ThisBuild).value
 
   def tryScript(
@@ -590,12 +472,12 @@ generateScripts in ThisBuild := {
     ammoniteScalaVersion: String = "2.12.8"
   ) = {
     val coursierArgs =
-      if(extraCoursierArgs.nonEmpty)
+      if (extraCoursierArgs.nonEmpty)
         "\n" + extraCoursierArgs.map(s => s"  $s \\").mkString("\n")
       else ""
 
     val predefCode =
-      if(extraPredefCode.nonEmpty)
+      if (extraPredefCode.nonEmpty)
         "\n" + extraPredefCode.map(s => s"        $s;\\").mkString("\n")
       else ""
 
@@ -609,14 +491,14 @@ generateScripts in ThisBuild := {
        |
        |~/.coursier/coursier launch -q -P -M ammonite.Main \\
        |  com.lihaoyi:ammonite_$ammoniteScalaVersion:1.6.5 \\$coursierArgs
-       |  $organizationId:${(moduleName in catsJVM).value}_2.12:$moduleVersion \\
-       |  $organizationId:${(moduleName in catsEffectJVM).value}_2.12:$moduleVersion \\
-       |  $organizationId:${(moduleName in coreJVM).value}_2.12:$moduleVersion \\
-       |  $organizationId:${(moduleName in enumeratumJVM).value}_2.12:$moduleVersion \\
-       |  $organizationId:${(moduleName in genericJVM).value}_2.12:$moduleVersion \\
-       |  $organizationId:${(moduleName in refinedJVM).value}_2.12:$moduleVersion \\
-       |  $organizationId:${(moduleName in spireJVM).value}_2.12:$moduleVersion \\
-       |  $organizationId:${(moduleName in squantsJVM).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in cats).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in catsEffect).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in core).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in enumeratum).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in generic).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in refined).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in spire).value}_2.12:$moduleVersion \\
+       |  $organizationId:${(moduleName in squants).value}_2.12:$moduleVersion \\
        |  -- --predef-code "\\$predefCode
        |        interp.configureCompiler(_.settings.YpartialUnification.value = true);\\
        |        import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\\
@@ -634,28 +516,37 @@ generateScripts in ThisBuild := {
 
   IO.createDirectory(output)
   IO.write(output / "try.sh", tryScript())
-  IO.write(output / "try.typelevel.sh", tryScript(
-    extraCoursierArgs = Seq(
-      "-E org.scala-lang:scala-library",
-      "-E org.scala-lang:scala-compiler",
-      "-E org.scala-lang:scala-reflect",
-      "org.typelevel:scala-compiler:2.12.4-bin-typelevel-4",
-      "org.typelevel:scala-library:2.12.4-bin-typelevel-4",
-      "org.typelevel:scala-reflect:2.12.4-bin-typelevel-4"
-    ),
-    extraPredefCode = Seq(
-      "interp.configureCompiler(_.settings.YliteralTypes.value = true)"
-    ),
-    ammoniteScalaVersion = "2.12.4"
-  ))
+  IO.write(
+    output / "try.typelevel.sh",
+    tryScript(
+      extraCoursierArgs = Seq(
+        "-E org.scala-lang:scala-library",
+        "-E org.scala-lang:scala-compiler",
+        "-E org.scala-lang:scala-reflect",
+        "org.typelevel:scala-compiler:2.12.4-bin-typelevel-4",
+        "org.typelevel:scala-library:2.12.4-bin-typelevel-4",
+        "org.typelevel:scala-reflect:2.12.4-bin-typelevel-4"
+      ),
+      extraPredefCode = Seq(
+        "interp.configureCompiler(_.settings.YliteralTypes.value = true)"
+      ),
+      ammoniteScalaVersion = "2.12.4"
+    )
+  )
 }
 
 val updateScripts = taskKey[Unit]("Generates and commits scripts")
 updateScripts in ThisBuild := {
   (generateScripts in ThisBuild).value
-  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
+  sbtrelease.Vcs.detect((baseDirectory in LocalRootProject).value).foreach { vcs =>
     vcs.add(scriptsDirectory).!
-    vcs.commit("Update scripts to latest version", sign = true, signOff = false).!
+    vcs
+      .commit(
+        "Update scripts to latest version",
+        sign = true,
+        signOff = false
+      )
+      .!
   }
 }
 
@@ -671,8 +562,10 @@ val ensureReleaseNotesExists = taskKey[Unit]("Ensure release notes exists")
 ensureReleaseNotesExists in ThisBuild := {
   val currentVersion = (version in ThisBuild).value
   val notes = releaseNotesFile.value
-  if(!notes.isFile) {
-    throw new IllegalStateException(s"no release notes found for version [$currentVersion] at [$notes].")
+  if (!notes.isFile) {
+    throw new IllegalStateException(
+      s"no release notes found for version [$currentVersion] at [$notes]."
+    )
   }
 }
 
@@ -690,31 +583,30 @@ addDateToReleaseNotes in ThisBuild := {
   val newContents = IO.read(file).trim + s"\n\nReleased on $dateString.\n"
   IO.write(file, newContents)
 
-  sbtrelease.Vcs.detect((baseDirectory in ciris).value).foreach { vcs =>
+  sbtrelease.Vcs.detect((baseDirectory in root).value).foreach { vcs =>
     vcs.add(file.getAbsolutePath).!
-    vcs.commit(s"Add release date for v${(version in ThisBuild).value}", sign = true, signOff = false).!
+    vcs
+      .commit(
+        s"Add release date for v${(version in ThisBuild).value}",
+        sign = true,
+        signOff = false
+      )
+      .!
   }
 }
-
-/* Aliases */
 
 def addCommandsAlias(name: String, values: List[String]) =
   addCommandAlias(name, values.mkString(";", ";", ""))
 
-addCommandsAlias("docTests", jvmModuleNames.map(_ + "/test"))
-
-addCommandsAlias("publishAll", allModuleNames.map(m => s"+$m/publish"))
-
-addCommandsAlias("validate", List(
-  "clean",
-  "testsJS/test",
-  "coverage",
-  "testsJVM/test",
-  "coverageReport",
-  "coverageAggregate",
-  "mimaReportBinaryIssues"
-))
-
-addCommandsAlias("validateDocs", List("docTests", "docs/unidoc", "docs/tut"))
-
-addCommandsAlias("validateNative", nativeModuleNames.map(_ + "/test"))
+addCommandsAlias(
+  "validate",
+  List(
+    "+clean",
+    "+coverage",
+    "+test",
+    "+coverageReport",
+    "+mimaReportBinaryIssues",
+    "+doc",
+    "docs/tut"
+  )
+)
