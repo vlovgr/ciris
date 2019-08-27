@@ -400,7 +400,7 @@ lazy val coverageSettings =
   )
 
 lazy val noPublishSettings =
-  metadataSettings ++ Seq(
+  publishSettings ++ Seq(
     skip in publish := true,
     publishArtifact := false
   )
