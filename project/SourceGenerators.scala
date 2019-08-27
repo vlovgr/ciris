@@ -108,7 +108,7 @@ object SourceGenerators extends AutoPlugin {
             loadConfigDoc ++
               Seq(
                 s"def loadConfig[F[_]: Apply, $params, Z]($firstArgs)($loadConfigSecondArgs): ConfigResult[F, Z] =",
-                s"  ConfigResult((${valueParams(current, sep = " append ")}).result.map(_.right.map(f.tupled)))",
+                s"  ConfigResult((${valueParams(current, sep = " append ")}).result.map(_.map(f.tupled)))",
                 ""
               ) ++
               withValuesDoc ++
@@ -161,7 +161,7 @@ object SourceGenerators extends AutoPlugin {
         |    * @return the configuration or errors
         |    */
         |  def loadConfig[F[_]: Apply, A1, Z](a1: ConfigResult[F, A1])(f: A1 => Z): ConfigResult[F, Z] =
-        |    ConfigResult(a1.result.map(_.right.map(f)))
+        |    ConfigResult(a1.result.map(_.map(f)))
         |
         |  /**
         |    * Defines a requirement on a single [[ConfigResult]] in order to be
