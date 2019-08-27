@@ -1,0 +1,23 @@
+### Changes
+
+- Add support for Scala 2.13. Thanks [@zarthross](https://github.com/zarthross)! ([#243][#243], [#244][#244])
+- Drop support for Scala 2.11. ([#244][#244])
+- Drop support for Scala.js and Scala Native. ([#244][#244])
+
+### Updates
+
+- Update cats to 2.0.0-RC2. ([#244][#244])
+- Update cats-effect to 2.0.0-RC1. ([#244][#244])
+- Update refined to 0.9.9. Thanks [@scala-steward](https://github.com/scala-steward)! ([#239][#239])
+- Update scala to 2.12.8. ([#218][#218])
+- Update spire to 0.17.0-M1. ([#244][#244])
+
+### Miscellaneous
+
+- Change to Scala Code of Conduct. Thanks [@milessabin](https://github.com/milessabin)! ([#217][#217])
+
+[#217]: https://github.com/vlovgr/ciris/pull/217
+[#218]: https://github.com/vlovgr/ciris/pull/218
+[#239]: https://github.com/vlovgr/ciris/pull/239
+[#243]: https://github.com/vlovgr/ciris/pull/243
+[#244]: https://github.com/vlovgr/ciris/pull/244
