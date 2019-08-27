@@ -24,11 +24,16 @@ val latestMinorVersion =
 ```
 
 ```tut:passthrough
-println(
+println {
+  val latestVersionBadge =
+    latestVersion
+      .replaceAll("-", "--")
+      .replaceAll("_", "__")
+
 s"""
- |[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/badge/version-v$latestVersion-orange.svg)](https://index.scala-lang.org/vlovgr/ciris)
+ |[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![Travis](https://img.shields.io/travis/vlovgr/ciris/master.svg)](https://travis-ci.org/vlovgr/ciris) [![Codecov](https://img.shields.io/codecov/c/github/vlovgr/ciris.svg)](https://codecov.io/gh/vlovgr/ciris) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/badge/version-v$latestVersionBadge-orange.svg)](https://index.scala-lang.org/vlovgr/ciris)
  """.stripMargin.trim
-)
+}
 ```
 
 ## Ciris
