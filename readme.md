@@ -33,26 +33,22 @@ For a more detailed introduction, please refer to the [usage guide](https://cir.
 To get started with [sbt][sbt], simply add the following lines to your `build.sbt` file.
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs).
 
-````tut:passthrough
-println(
-s"""
- |```scala
- |val cirisVersion = "$latestVersion"
- |
- |libraryDependencies ++= Seq(
- |  "$organization" %% "$catsModuleName",
- |  "$organization" %% "$catsEffectModuleName",
- |  "$organization" %% "$coreModuleName",
- |  "$organization" %% "$enumeratumModuleName",
- |  "$organization" %% "$genericModuleName",
- |  "$organization" %% "$refinedModuleName",
- |  "$organization" %% "$spireModuleName",
- |  "$organization" %% "$squantsModuleName"
- |).map(_ % cirisVersion)
- |```
- """.stripMargin.trim
-)
-````
+
+```scala
+val cirisVersion = "0.13.0-RC1"
+
+libraryDependencies ++= Seq(
+  "is.cir" %% "ciris-cats",
+  "is.cir" %% "ciris-cats-effect",
+  "is.cir" %% "ciris-core",
+  "is.cir" %% "ciris-enumeratum",
+  "is.cir" %% "ciris-generic",
+  "is.cir" %% "ciris-refined",
+  "is.cir" %% "ciris-spire",
+  "is.cir" %% "ciris-squants"
+).map(_ % cirisVersion)
+```
+
 
 
 Libraries are published for Scala 2.12 and 2.13, and Java 8 where possible.
@@ -63,7 +59,7 @@ Refer to the table below for platform and version support across modules.
  Module                                        | Dependency                     | Scala                                                                     |
 -----------------------------------------------|--------------------------------|---------------------------------------------------------------------------|
  [`ciris-cats`][cats-module]              | cats 2.0.0-RC2              | &#10003; 2.12, 2.13       |
- [`ciris-cats-effect`][cats-effect-module] | cats-effect 2.0.0-RC1 | &#10003; 2.12, 2.13 |
+ [`ciris-cats-effect`][cats-effect-module] | cats-effect 2.0.0-RC2 | &#10003; 2.12, 2.13 |
  [`ciris-core`](https://cir.is/docs)      | &#65794;                       | &#10003; 2.12, 2.13       |
  [`ciris-enumeratum`][enumeratum-module]  | enumeratum 1.5.13  | &#10003; 2.12, 2.13 |
  [`ciris-generic`][generic-module]        | shapeless 2.3.3    | &#10003; 2.12, 2.13    |
@@ -115,22 +111,18 @@ curl -Ls try.cir.is/typelevel | sh
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
-````tut:passthrough
-println(
-s"""
- |```scala
- |import $$ivy.`$organization::$catsModuleName:$latestVersion`, ciris.cats._
- |import $$ivy.`$organization::$catsEffectModuleName:$latestVersion`, ciris.cats.effect._, ciris.cats.effect.syntax._
- |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._
- |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
- |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
- |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._, ciris.refined.syntax._
- |import $$ivy.`$organization::$spireModuleName:$latestVersion`, ciris.spire._
- |import $$ivy.`$organization::$squantsModuleName:$latestVersion`, ciris.squants._
- |```
- """.stripMargin.trim
-)
-````
+
+```scala
+import $ivy.`is.cir::ciris-cats:0.13.0-RC1`, ciris.cats._
+import $ivy.`is.cir::ciris-cats-effect:0.13.0-RC1`, ciris.cats.effect._, ciris.cats.effect.syntax._
+import $ivy.`is.cir::ciris-core:0.13.0-RC1`, ciris._
+import $ivy.`is.cir::ciris-enumeratum:0.13.0-RC1`, ciris.enumeratum._
+import $ivy.`is.cir::ciris-generic:0.13.0-RC1`, ciris.generic._
+import $ivy.`is.cir::ciris-refined:0.13.0-RC1`, ciris.refined._, ciris.refined.syntax._
+import $ivy.`is.cir::ciris-spire:0.13.0-RC1`, ciris.spire._
+import $ivy.`is.cir::ciris-squants:0.13.0-RC1`, ciris.squants._
+```
+
 
 #### External Libraries
 
