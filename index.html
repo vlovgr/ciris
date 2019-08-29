@@ -34,25 +34,19 @@ After the city falls and Scylla is taken prisoner on the Cretan ships, Amphitrit
 <p>To get started with <a href="https://www.scala-sbt.org">sbt</a>, simply add the following lines to your <code class="highlighter-rouge">build.sbt</code> file.
 For an overview, usage instructions, and examples, please see the <a href="https://cir.is/docs">usage guide</a>.</p>
 
-<pre><code class="language-tut:passthrough">println(
-s"""
- |```scala
- |val cirisVersion = "$latestVersion"
- |
- |libraryDependencies ++= Seq(
- |  "$organization" %% "$catsModuleName",
- |  "$organization" %% "$catsEffectModuleName",
- |  "$organization" %% "$coreModuleName",
- |  "$organization" %% "$enumeratumModuleName",
- |  "$organization" %% "$genericModuleName",
- |  "$organization" %% "$refinedModuleName",
- |  "$organization" %% "$spireModuleName",
- |  "$organization" %% "$squantsModuleName"
- |).map(_ % cirisVersion)
- |```
- """.stripMargin.trim
-)
-</code></pre>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">cirisVersion</span> <span class="k">=</span> <span class="s">"0.13.0-RC1"</span>
+
+<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-cats"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-cats-effect"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-core"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-enumeratum"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-generic"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-refined"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-spire"</span><span class="o">,</span>
+  <span class="s">"is.cir"</span> <span class="o">%%</span> <span class="s">"ciris-squants"</span>
+<span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">%</span> <span class="n">cirisVersion</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>Libraries are published for Scala 2.12 and 2.13, and Java 8 where possible.
 For changes between versions, please see the <a href="https://github.com/vlovgr/ciris/releases">release notes</a>.</p>
@@ -75,7 +69,7 @@ For changes between versions, please see the <a href="https://github.com/vlovgr/
     </tr>
     <tr>
       <td><a href="https://cir.is/docs/cats-effect-module"><code class="highlighter-rouge">ciris-cats-effect</code></a></td>
-      <td>cats-effect 2.0.0-RC1</td>
+      <td>cats-effect 2.0.0-RC2</td>
       <td>✓ 2.12, 2.13</td>
     </tr>
     <tr>
@@ -155,21 +149,15 @@ For an explanation of how to use the modules, refer to the <a href="https://cir.
 
 <p>If you already have the Ammonite REPL installed, you can load Ciris using the following commands.</p>
 
-<pre><code class="language-tut:passthrough">println(
-s"""
- |```scala
- |import $$ivy.`$organization::$catsModuleName:$latestVersion`, ciris.cats._
- |import $$ivy.`$organization::$catsEffectModuleName:$latestVersion`, ciris.cats.effect._, ciris.cats.effect.syntax._
- |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._
- |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
- |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
- |import $$ivy.`$organization::$refinedModuleName:$latestVersion`, ciris.refined._, ciris.refined.syntax._
- |import $$ivy.`$organization::$spireModuleName:$latestVersion`, ciris.spire._
- |import $$ivy.`$organization::$squantsModuleName:$latestVersion`, ciris.squants._
- |```
- """.stripMargin.trim
-)
-</code></pre>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-cats:0.13.0-RC1`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">cats</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-cats-effect:0.13.0-RC1`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">cats</span><span class="o">.</span><span class="n">effect</span><span class="o">.</span><span class="k">_</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">cats</span><span class="o">.</span><span class="n">effect</span><span class="o">.</span><span class="n">syntax</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-core:0.13.0-RC1`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-enumeratum:0.13.0-RC1`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">enumeratum</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-generic:0.13.0-RC1`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-refined:0.13.0-RC1`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="k">_</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="n">syntax</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-spire:0.13.0-RC1`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">spire</span><span class="o">.</span><span class="k">_</span>
+<span class="k">import</span> <span class="nn">$ivy.</span><span class="n">`is.cir::ciris-squants:0.13.0-RC1`</span><span class="o">,</span> <span class="n">ciris</span><span class="o">.</span><span class="n">squants</span><span class="o">.</span><span class="k">_</span>
+</code></pre></div></div>
 
 <h4 id="external-libraries">External Libraries</h4>
 
