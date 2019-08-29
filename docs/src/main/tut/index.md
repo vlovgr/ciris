@@ -68,7 +68,7 @@ For a more detailed introduction, please refer to the [usage guide](https://cir.
 To get started with [sbt][sbt], simply add the following lines to your `build.sbt` file.
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs).
 
-````tut:passthrough
+```tut:passthrough
 println(
 s"""
  |```scala
@@ -87,7 +87,7 @@ s"""
  |```
  """.stripMargin.trim
 )
-````
+```
 
 ```tut:passthrough
 println(
@@ -154,7 +154,7 @@ curl -Ls try.cir.is/typelevel | sh
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
-````tut:passthrough
+```tut:passthrough
 println(
 s"""
  |```scala
@@ -169,7 +169,7 @@ s"""
  |```
  """.stripMargin.trim
 )
-````
+```
 
 #### External Libraries
 
