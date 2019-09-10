@@ -366,7 +366,7 @@ lazy val testSettings = Seq(
   scalacOptions in Test --= Seq("-Xlint", "-Ywarn-unused"),
   doctestTestFramework := DoctestTestFramework.ScalaTest,
   libraryDependencies ++= Seq(
-    "org.scalatestplus" %% "scalatestplus-scalacheck" % "1.0.0-SNAP8",
+    "org.scalatestplus" %% "scalatestplus-scalacheck" % "3.1.0.0-RC2",
     "commons-codec" % "commons-codec" % commonsCodecVersion
   ).map(_ % Test)
 )
