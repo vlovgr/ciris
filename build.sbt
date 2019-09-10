@@ -14,7 +14,7 @@ lazy val kittensVersion = "2.0.0-M1"
 lazy val refinedVersion = "0.9.9"
 lazy val shapelessVersion = "2.3.3"
 lazy val spireVersion = "0.17.0-M1"
-lazy val squantsVersion = "1.4.0"
+lazy val squantsVersion = "1.5.0"
 
 lazy val scriptsDirectory = "scripts"
 

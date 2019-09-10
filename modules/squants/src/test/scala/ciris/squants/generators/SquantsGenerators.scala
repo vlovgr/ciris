@@ -5,7 +5,9 @@ import org.scalacheck.Gen
 import squants.{Dimension, Quantity}
 
 trait SquantsGenerators {
-  def genQuantity[A <: Quantity[A]](dimension: Dimension[A]): Gen[A] =
+  def genQuantity[A <: Quantity[A]](
+    implicit dimension: Dimension[A]
+  ): Gen[A] =
     for {
       value <- arbitrary[Double]
       unit <- Gen.oneOf(dimension.units.toList)
