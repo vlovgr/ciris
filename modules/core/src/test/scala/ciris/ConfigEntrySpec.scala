@@ -8,7 +8,22 @@ final class ConfigEntrySpec extends PropertySpec {
       "include the key and keyType" in {
         forAll { value: String =>
           existingEntry(value).toString shouldBe
-            s"ConfigEntry(key, ConfigKeyType(test key))"
+            "ConfigEntry(key, ConfigKeyType(test key))"
+        }
+      }
+    }
+
+    "using withDescription" should {
+      "set the description" in {
+        forAll { value: String =>
+          existingEntry(value).withDescription(value).description shouldBe Some(value)
+        }
+      }
+
+      "include the description in the output of toString" in {
+        forAll { value: String =>
+          existingEntry(value).withDescription(value).toString shouldBe
+            s"ConfigEntry(key, ConfigKeyType(test key), $value)"
         }
       }
     }

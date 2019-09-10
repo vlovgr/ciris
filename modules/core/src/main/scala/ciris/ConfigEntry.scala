@@ -32,8 +32,26 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
   val key: K,
   val keyType: ConfigKeyType[K],
   val sourceValue: F[Either[ConfigError, S]],
-  val value: F[Either[ConfigError, V]]
+  val value: F[Either[ConfigError, V]],
+  val description: Option[String] = None
 ) extends ConfigValue[F, V] {
+
+  /**
+    * Creates a copy of this [[ConfigEntry]] that contains the
+    * description passed as parameter.
+    *
+    * @param description the description to be set
+    * @return a new [[ConfigEntry]] with the description set
+    * @example {{{
+    * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value ")).withDescription("desc")
+    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment, desca)
+    *
+    * scala> entry.description
+    * res0: Option[String] = Some(desc)
+    * }}}
+    */
+  def withDescription(description: String): ConfigEntry[F, K, S, V] =
+    new ConfigEntry(key, keyType, sourceValue, value, Some(description))
 
   /**
     * Transforms the value of this [[ConfigEntry]] into type `A`, by
@@ -175,7 +193,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     new ConfigEntry(key, keyType, f(sourceValue), f(value))
 
   override def toString: String =
-    s"ConfigEntry($key, $keyType)"
+    description.fold(s"ConfigEntry($key, $keyType)")(d => s"ConfigEntry($key, $keyType, $d)")
 
   /**
     * Returns a `String` representation of this [[ConfigEntry]]
