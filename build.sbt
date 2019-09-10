@@ -6,7 +6,7 @@ import ReleaseTransformations._
 lazy val scala212 = "2.12.8"
 lazy val scala213 = "2.13.0"
 
-lazy val catsEffectVersion = "2.0.0-RC2"
+lazy val catsEffectVersion = "2.0.0"
 lazy val catsVersion = "2.0.0"
 lazy val commonsCodecVersion = "1.13"
 lazy val enumeratumVersion = "1.5.13"
