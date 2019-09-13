@@ -38,10 +38,10 @@ s"""
 
 ## Ciris
 
-Lightweight, extensible, and validated configuration loading in [Scala][scala].
+Lightweight, extensible, and validated configuration loading in [Scala][scala].<br>
 The core library is dependency-free, while modules provide integrations with external libraries.
 
-The name comes from being an abbreviation of the word _configurations_.
+The name comes from being an abbreviation of the word _configurations_.<br>
 Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https://en.wikipedia.org/wiki/Appendix_Vergiliana#Ciris_.28.22The_Sea-Bird.22.29).
 
 > The Ciris is an epyllion in 541 hexameters describing the myth of Nisus, the king of Megara and his daughter Scylla.<br/>
@@ -65,7 +65,7 @@ For a more detailed introduction, please refer to the [usage guide](https://cir.
 
 ### Getting Started
 
-To get started with [sbt][sbt], simply add the following lines to your `build.sbt` file.
+To get started with [sbt][sbt], simply add the following lines to your `build.sbt` file.<br>
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs).
 
 ```tut:passthrough
@@ -115,7 +115,7 @@ s"""
 )
 ```
 
-The only required module is [`ciris-core`](https://cir.is/docs), the rest are optional library integrations.
+The only required module is [`ciris-core`](https://cir.is/docs), the rest are optional library integrations.<br>
 For an explanation of how to use the modules, refer to the [modules overview](https://cir.is/docs/modules) section.
 
 - The [`ciris-cats`][cats-module] module provides type classes and type class instances from [cats][cats].
@@ -173,7 +173,7 @@ s"""
 
 #### External Libraries
 
-Below is an incomplete list of third-party libraries that integrate with Ciris.
+Below is an incomplete list of third-party libraries that integrate with Ciris.<br>
 If your library is not included in the list, then please open a pull request.
 
 - [`ciris-aiven-kafka`][ciris-aiven-kafka]
@@ -184,8 +184,8 @@ If your library is not included in the list, then please open a pull request.
 
 ### Documentation
 
-For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs).
-If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).
+For an overview, with examples and explanations of the most common use cases, please refer to the [usage guide](https://cir.is/docs).<br>
+If you're looking for a more detailed code-centric overview, you can instead take a look at the [API documentation](https://cir.is/api).<br>
 There is also a small [example application](https://github.com/vlovgr/ciris-example) available to exemplify how to use the library in an application context.
 
 ### Participation
