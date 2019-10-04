@@ -7,8 +7,8 @@
 
 package ciris
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.Apply
+import cats.implicits._
 
 private[ciris] final class ConfigResult2[F[_]: Apply, A1, A2](val result: F[Either[ConfigErrors, (A1, A2)]]) {
   def append[A3](next: ConfigResult[F, A3]): ConfigResult3[F, A1, A2, A3] =

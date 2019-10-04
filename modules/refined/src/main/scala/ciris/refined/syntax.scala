@@ -1,7 +1,7 @@
 package ciris.refined
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.Monad
+import cats.implicits._
 import ciris.{ConfigEntry, ConfigError}
 import eu.timepit.refined.api.{Refined, Validate}
 import eu.timepit.refined.refineV
@@ -38,10 +38,10 @@ object syntax {
       * import eu.timepit.refined.collection.NonEmpty
       *
       * scala> val entry = ConfigEntry("key", ConfigKeyType.Property, Right("value"))
-      * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Property)
+      * entry: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Property)
       *
       * scala> entry.refineValue[NonEmpty]
-      * res0: ConfigEntry[api.Id, String, String, Refined[String, NonEmpty]] = ConfigEntry(key, Property)
+      * res0: ConfigEntry[cats.Id, String, String, Refined[String, NonEmpty]] = ConfigEntry(key, Property)
       * }}}
       */
     def refineValue[P](
@@ -65,7 +65,8 @@ object syntax {
                     value,
                     typeName,
                     Some(error)
-                  ))
+                  )
+                )
               },
               refined => Right(refined)
             )
@@ -94,10 +95,10 @@ object syntax {
       * import eu.timepit.refined.string.Uri
       *
       * scala> val host = ConfigEntry("key", ConfigKeyType.Property, Right("google.com"))
-      * host: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Property)
+      * host: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Property)
       *
       * scala> host.mapRefineValue[Uri](_ + "/api")
-      * res0: ConfigEntry[api.Id, String, String, Refined[String, Uri]] = ConfigEntry(key, Property)
+      * res0: ConfigEntry[cats.Id, String, String, Refined[String, Uri]] = ConfigEntry(key, Property)
       * }}}
       */
     def mapRefineValue[P]: MapRefineValuePartiallyApplied[F, K, S, V, P] =

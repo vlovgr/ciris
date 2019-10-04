@@ -1,5 +1,6 @@
 package ciris
 
+import cats.Show
 import ciris.ConfigError.{Combined, MissingKey}
 
 /**
@@ -406,4 +407,7 @@ object ConfigError {
     */
   val redactedValue: String =
     "<redacted>"
+
+  implicit val configErrorShow: Show[ConfigError] =
+    Show.fromToString
 }

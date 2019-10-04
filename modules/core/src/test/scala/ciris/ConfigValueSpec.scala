@@ -1,7 +1,8 @@
 package ciris
 
+import cats.Id
+import cats.implicits._
 import ciris.ConfigError.right
-import ciris.api._
 
 final class ConfigValueSpec extends PropertySpec {
 
@@ -20,7 +21,11 @@ final class ConfigValueSpec extends PropertySpec {
       }
 
       "not include the value in toString" in {
-        ConfigValue(Right(123)).toString shouldNot be ("ConfigValue(123)")
+        ConfigValue(Right(123)).toString shouldNot be("ConfigValue(123)")
+      }
+
+      "not include the value in show" in {
+        ConfigValue(Right(123)).show shouldNot be("ConfigValue(123)")
       }
     }
 
@@ -34,7 +39,7 @@ final class ConfigValueSpec extends PropertySpec {
       }
 
       "not include the value in toString" in {
-        ConfigValue.applyF[Id, Int](right(123)).toString shouldNot be ("ConfigValue(123)")
+        ConfigValue.applyF[Id, Int](right(123)).toString shouldNot be("ConfigValue(123)")
       }
     }
 
@@ -73,9 +78,7 @@ final class ConfigValueSpec extends PropertySpec {
 
     "using orNone" should {
       "use None for a missing key" in {
-        readNonExistingConfigEntry[String]
-          .orNone
-          .value shouldBe Right(None)
+        readNonExistingConfigEntry[String].orNone.value shouldBe Right(None)
       }
 
       "use None for combined missing keys" in {
@@ -86,10 +89,8 @@ final class ConfigValueSpec extends PropertySpec {
       }
 
       "keep an error that is not a missing key" in {
-        ConfigValue(ConfigError.left[String](ConfigError("error")))
-          .orNone
-          .value
-          .left.map(_.message) shouldBe Left("error")
+        ConfigValue(ConfigError.left[String](ConfigError("error"))).orNone.value.left
+          .map(_.message) shouldBe Left("error")
       }
 
       "keep a combined error that is not only missing keys" in {
@@ -127,7 +128,8 @@ final class ConfigValueSpec extends PropertySpec {
         ConfigValue(ConfigError.left[String](ConfigError("error")))
           .orValue("value")
           .value
-          .left.map(_.message) shouldBe Left("error")
+          .left
+          .map(_.message) shouldBe Left("error")
       }
 
       "keep a combined error that is not only missing keys" in {

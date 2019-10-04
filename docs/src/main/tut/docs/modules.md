@@ -22,34 +22,11 @@ val tempFile = {
 ```
 
 # Modules Overview
-The following modules integrate with external libraries to provide extended functionality.  
+
+The following modules integrate with external libraries to provide extended functionality.
 You might also be interested in the third-party [external libraries](/#external-libraries) which integrate with Ciris.
 
-* The [cats module](/docs/cats-module) enables use of [cats][cats] type class instances.
-
-```tut:silent
-import cats.implicits._
-import ciris.cats._
-import ciris.envF
-import scala.concurrent._
-
-implicit val executionContext: ExecutionContext =
-  ExecutionContext.Implicits.global
-
-envF[Future, Boolean]("CI")
-```
-
-* The [cats-effect module](/docs/cats-effect-module) enables use of [cats-effect][cats-effect] effect types and type class instances.
-
-```tut:silent
-import cats.effect.IO
-import ciris.cats.effect._
-import ciris.fileSync
-
-fileSync[IO, Int](tempFile, _.trim)
-```
-
-* The [enumeratum module](/docs/enumeratum-module) enables decoding of [enumeratum][enumeratum] enumerations.
+- The [enumeratum module](/docs/enumeratum-module) enables decoding of [enumeratum][enumeratum] enumerations.
 
 ```tut:silent
 object environments {
@@ -73,7 +50,7 @@ import environments._
 env[AppEnvironment]("APP_ENV")
 ```
 
-* The [generic module](/docs/generic-module) enables generic decoding of product and coproduct types using [shapeless][shapeless].
+- The [generic module](/docs/generic-module) enables generic decoding of product and coproduct types using [shapeless][shapeless].
 
 ```tut:silent
 import ciris.generic._
@@ -84,7 +61,7 @@ final case class Decibel(val value: Int) extends AnyVal
 prop[Decibel]("ratio.delta")
 ```
 
-* The [refined module](/docs/refined-module) enables decoding of [refined][refined] refinement types.
+- The [refined module](/docs/refined-module) enables decoding of [refined][refined] refinement types.
 
 ```tut:silent
 import ciris.refined._
@@ -93,7 +70,7 @@ import eu.timepit.refined.types.net.UserPortNumber
 env[Option[UserPortNumber]]("HTTP_PORT")
 ```
 
-* The [spire module](/docs/spire-module) enables decoding of [spire][spire] number types.
+- The [spire module](/docs/spire-module) enables decoding of [spire][spire] number types.
 
 ```tut:silent
 import ciris.spire._
@@ -102,7 +79,7 @@ import spire.math.Natural
 env[Natural]("DELAY_SECONDS")
 ```
 
-* The [squants module](/docs/squants-module) enables decoding of [squants][squants] quantities with unit of measure.
+- The [squants module](/docs/squants-module) enables decoding of [squants][squants] quantities with unit of measure.
 
 ```tut:silent
 import ciris.squants._

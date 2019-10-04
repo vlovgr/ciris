@@ -1,7 +1,7 @@
 package ciris
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.{Apply, Id, Monad, Show}
+import cats.implicits._
 
 /**
   * [[ConfigValue]] represents the value part of a [[ConfigEntry]],
@@ -35,7 +35,7 @@ abstract class ConfigValue[F[_]: Apply, V] extends ConfigResult[F, V] {
     * scala> val apiKey =
     *      |  env[String]("API_KEY").
     *      |    orElse(prop("api.key"))
-    * apiKey: ConfigValue[api.Id, String] = ConfigValue$$1815631407
+    * apiKey: ConfigValue[Id, String] = ConfigValue$$1815631407
     *
     * scala> apiKey.value.left.map(_.message).toString
     * res0: String = Left(Missing environment variable [API_KEY] and missing system property [api.key])
@@ -175,9 +175,9 @@ object ConfigValue {
 
   /**
     * Creates a new [[ConfigValue]] from the specified value,
-    * wrapped in context `F`, which can be [[api.Id]] if no
+    * wrapped in context `F`, which can be `Id` if no
     * context is desired. [[ConfigValue#apply]] also exists
-    * for the case when `F` is [[api.Id]].
+    * for the case when `F` is `Id`.
     *
     * @param value the value or an error, in context `F`
     * @tparam F the context in which the value exists
@@ -190,4 +190,7 @@ object ConfigValue {
       override def value: F[Either[ConfigError, V]] = theValue
     }
   }
+
+  implicit def configValueShow[F[_], V]: Show[ConfigValue[F, V]] =
+    Show.fromToString
 }

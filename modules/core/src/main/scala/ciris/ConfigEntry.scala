@@ -1,7 +1,7 @@
 package ciris
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.{~>, Apply, Id, Monad, Show}
+import cats.implicits._
 
 /**
   * [[ConfigEntry]] represents an entry (key-value pair) from a configuration
@@ -16,7 +16,7 @@ import ciris.api.syntax._
   * To create a [[ConfigEntry]], use [[ConfigEntry#apply]].
   * {{{
   * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-  * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+  * res0: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
   * }}}
   *
   * @param key the key which was retrieved from the configuration source
@@ -64,7 +64,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     *         or a [[ConfigError]] if the value is not available
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value "))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * entry: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     *
     * scala> entry.mapValue(_.trim).toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Right(value ), Right(value))
@@ -86,7 +86,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     *         or a [[ConfigError]] if the value is not available
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * entry: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     *
     * scala> entry.flatMapValue(v => if(v.length > 2) Right(v) else Left(ConfigError("error"))).toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Right(value))
@@ -105,7 +105,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * entry: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     *
     * scala> entry.withValue(Right(123)).toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Right(value), Right(123))
@@ -125,7 +125,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * entry: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     *
     * scala> entry.withValueF(Right(123)).toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Right(value), Right(123))
@@ -148,7 +148,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> val entry = ConfigEntry("key", ConfigKeyType.Environment, Right("value "))
-    * entry: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * entry: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     *
     * scala> entry.transformValue(_.map(_.trim)).toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Right(value ), Right(value))
@@ -171,7 +171,7 @@ final class ConfigEntry[F[_]: Apply, K, S, V] private (
     * @tparam G the context to which `F` should be transformed
     * @return a new [[ConfigEntry]]
     */
-  def transformF[G[_]: Apply](implicit f: F ~> G): ConfigEntry[G, K, S, V] =
+  def transformF[G[_]](f: F ~> G)(implicit G: Apply[G]): ConfigEntry[G, K, S, V] =
     new ConfigEntry(key, keyType, f(sourceValue), f(value))
 
   override def toString: String =
@@ -227,10 +227,10 @@ object ConfigEntry {
     * @return a new [[ConfigEntry]]
     * @example {{{
     * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * res0: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     *
-    * scala> ConfigEntry.applyF[api.Id, String, String]("key", ConfigKeyType.Environment, Right("value"))
-    * res1: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * scala> ConfigEntry.applyF[cats.Id, String, String]("key", ConfigKeyType.Environment, Right("value"))
+    * res1: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     * }}}
     */
   def apply[K, S](
@@ -249,9 +249,9 @@ object ConfigEntry {
     * a context of type `F`. The type of the key is described with the
     * specified [[ConfigKeyType]].<br>
     * <br>
-    * If no context `F` is desired, [[api.Id]] can be used. There is also a
+    * If no context `F` is desired, `Id` can be used. There is also a
     * convenience function [[ConfigEntry#apply]], which creates entries with
-    * `F` set to [[api.Id]].
+    * `F` set to `Id`.
     *
     * @param key the key which was retrieved from the configuration source
     * @param keyType the type of keys which the configuration source supports
@@ -261,11 +261,11 @@ object ConfigEntry {
     * @tparam S the type of the source value
     * @return a new [[ConfigEntry]]
     * @example {{{
-    * scala> ConfigEntry.applyF[api.Id, String, String]("key", ConfigKeyType.Environment, Right("value"))
-    * res0: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * scala> ConfigEntry.applyF[cats.Id, String, String]("key", ConfigKeyType.Environment, Right("value"))
+    * res0: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     *
     * scala> ConfigEntry("key", ConfigKeyType.Environment, Right("value"))
-    * res1: ConfigEntry[api.Id, String, String, String] = ConfigEntry(key, Environment)
+    * res1: ConfigEntry[cats.Id, String, String, String] = ConfigEntry(key, Environment)
     * }}}
     */
   def applyF[F[_]: Apply, K, S](
@@ -274,5 +274,14 @@ object ConfigEntry {
     sourceValue: F[Either[ConfigError, S]]
   ): ConfigEntry[F, K, S, S] = {
     new ConfigEntry[F, K, S, S](key, keyType, sourceValue, sourceValue)
+  }
+
+  implicit def configEntryShow[F[_], K, S, V](
+    implicit showKey: Show[K],
+    showKeyType: Show[ConfigKeyType[K]]
+  ): Show[ConfigEntry[F, K, S, V]] = Show.show { entry =>
+    val key = showKey.show(entry.key)
+    val keyType = showKeyType.show(entry.keyType)
+    s"ConfigEntry($key, $keyType)"
   }
 }

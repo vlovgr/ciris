@@ -1,5 +1,7 @@
 package ciris
 
+import cats.implicits._
+
 final class ConfigExceptionSpec extends PropertySpec {
   "ConfigException" when {
     "converting to String" should {
@@ -10,6 +12,7 @@ final class ConfigExceptionSpec extends PropertySpec {
             .toException
 
         configException.toString shouldBe s"ciris.ConfigException: ${configException.getMessage}"
+        configException.show shouldBe configException.toString
       }
     }
 

@@ -1,12 +1,11 @@
 package ciris
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.{~>, Applicative, Apply, Id}
+import cats.effect.Sync
+import cats.implicits._
 import ciris.ConfigError.{left, missingKey, readException, right}
-
 import java.io.{File => JFile}
 import java.nio.charset.Charset
-
 import scala.io.Source
 import scala.util.{Failure, Success, Try}
 
@@ -14,7 +13,7 @@ import scala.util.{Failure, Success, Try}
   * [[ConfigSource]] represents the ability to read values of type `V` for
   * keys of type `K` from some source: for example, environment variables,
   * system properties, command-line arguments, or some vault service. The
-  * values are returned in a context `F`, which can be [[api.Id]] when no
+  * values are returned in a context `F`, which can be `Id` when no
   * context is desired.<br>
   * <br>
   * You can create a [[ConfigSource]] by directly extending the class and
@@ -32,7 +31,7 @@ import scala.util.{Failure, Success, Try}
   * @tparam V the type of values the source reads
   * @example {{{
   * scala> val source = ConfigSource(ConfigKeyType[String]("identity key"))(key => Right(key))
-  * source: ConfigSource[api.Id, String, String] = ConfigSource(ConfigKeyType(identity key))
+  * source: ConfigSource[Id, String, String] = ConfigSource(ConfigKeyType(identity key))
   *
   * scala> source.read("key").toStringWithValues
   * res0: String = ConfigEntry(key, ConfigKeyType(identity key), Right(key))
@@ -62,7 +61,7 @@ abstract class ConfigSource[F[_], K, V](val keyType: ConfigKeyType[K]) { self =>
     * @tparam G the context in which to suspend the reading
     * @return a new [[ConfigSource]]
     */
-  final def suspendF[G[_]: Sync](implicit f: F ~> G): ConfigSource[G, K, V] =
+  final def suspendF[G[_]](f: F ~> G)(implicit G: Sync[G]): ConfigSource[G, K, V] =
     ConfigSource.applyF(keyType) { key =>
       Sync[G].suspend(f(self.read(key).value))
     }
@@ -74,9 +73,9 @@ abstract class ConfigSource[F[_], K, V](val keyType: ConfigKeyType[K]) { self =>
     * @tparam G the context to which `F` should be transformed
     * @return a new [[ConfigSource]]
     */
-  final def transformF[G[_]: Apply](implicit f: F ~> G): ConfigSource[G, K, V] =
+  final def transformF[G[_]](f: F ~> G)(implicit G: Apply[G]): ConfigSource[G, K, V] =
     ConfigSource.applyF(keyType) { key =>
-      self.read(key).transformF[G].value
+      self.read(key).transformF[G](f).value
     }
 }
 
@@ -94,7 +93,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource(ConfigKeyType[String]("identity key"))(key => Right(key))
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(ConfigKeyType(identity key))
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(ConfigKeyType(identity key))
     *
     * scala> source.read("key").toStringWithValues
     * res0: String = ConfigEntry(key, ConfigKeyType(identity key), Right(key))
@@ -110,7 +109,7 @@ object ConfigSource {
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
     * and read function, reading values of type `V` for keys of type `K`,
     * returning either a [[ConfigError]] or a value, wrapped in a context
-    * of type `F` -- which can be [[api.Id]] if no context is desired.
+    * of type `F` -- which can be `Id` if no context is desired.
     * [[ConfigSource#apply]] exists for the case where `F` is `Id`.
     *
     * @param keyType the name and type of keys the source supports
@@ -120,8 +119,8 @@ object ConfigSource {
     * @tparam V the type of values the source reads
     * @return a new [[ConfigSource]]
     * @example {{{
-    * scala> val source = ConfigSource.applyF[api.Id, String, String](ConfigKeyType[String]("identity key"))(key => Right(key))
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(ConfigKeyType(identity key))
+    * scala> val source = ConfigSource.applyF[cats.Id, String, String](ConfigKeyType[String]("identity key"))(key => Right(key))
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(ConfigKeyType(identity key))
     *
     * scala> source.read("key").toStringWithValues
     * res0: String = ConfigEntry(key, ConfigKeyType(identity key), Right(key))
@@ -149,7 +148,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromOption(ConfigKeyType.Environment)(sys.env.get)
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(Environment)
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key").toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
@@ -165,7 +164,7 @@ object ConfigSource {
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
     * and read function, reading values of type `V` for keys of type `K`,
     * returning an optional value, wrapped in a context of type `F` --
-    * which can be [[api.Id]] if no context is desired. There exists
+    * which can be `Id` if no context is desired. There exists
     * a [[ConfigSource#fromOption]] for the case where `F` is `Id`.
     *
     * @param keyType the name and type of keys the source supports
@@ -175,8 +174,8 @@ object ConfigSource {
     * @tparam V the type of values the source reads
     * @return a new [[ConfigSource]]
     * @example {{{
-    * scala> val source = ConfigSource.fromOptionF[api.Id, String, String](ConfigKeyType.Environment)(sys.env.get)
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(Environment)
+    * scala> val source = ConfigSource.fromOptionF[cats.Id, String, String](ConfigKeyType.Environment)(sys.env.get)
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key").toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
@@ -210,7 +209,7 @@ object ConfigSource {
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]],
     * where the source is always empty -- that is, it has no value for any
     * key of type `K`. The errors for the missing keys will be wrapped in
-    * a context of type `F` -- which can be [[api.Id]] if no context is
+    * a context of type `F` -- which can be `Id` if no context is
     * desired. There exists a [[ConfigSource#empty]] for the case
     * where `F` is `Id`.
     *
@@ -244,7 +243,7 @@ object ConfigSource {
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]],
     * where the source always returns the specified value -- that is, for
     * every key of type `K`, the specified value is returned. The value
-    * is wrapped in a context of type `F` -- which can be [[api.Id]] if
+    * is wrapped in a context of type `F` -- which can be `Id` if
     * no context is desired. There exists a [[ConfigSource#always]]
     * for the case where `F` is `Id`.
     *
@@ -273,7 +272,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.failed[String, String](ConfigKeyType.Environment)(ConfigError("error"))
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(Environment)
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key1").toStringWithValues
     * res0: String = ConfigEntry(key1, Environment, Left(ConfigError(error)))
@@ -292,7 +291,7 @@ object ConfigSource {
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]],
     * where the source always return the specified [[ConfigError]] -- that
     * is, for every key of type `K`, the specified error is returned. The
-    * error is wrapped in the context `F` -- which can be [[api.Id]] if
+    * error is wrapped in the context `F` -- which can be `Id` if
     * no context is desired. [[ConfigSource#failed]] exists for the
     * case when `F` is `Id`.
     *
@@ -303,8 +302,8 @@ object ConfigSource {
     * @tparam V the type of values the source reads
     * @return a new [[ConfigSource]]
     * @example {{{
-    * scala> val source = ConfigSource.failedF[api.Id, String, String](ConfigKeyType.Environment)(ConfigError("error"))
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(Environment)
+    * scala> val source = ConfigSource.failedF[cats.Id, String, String](ConfigKeyType.Environment)(ConfigError("error"))
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key1").toStringWithValues
     * res0: String = ConfigEntry(key1, Environment, Left(ConfigError(error)))
@@ -331,7 +330,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromMap(ConfigKeyType.Environment)(sys.env)
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(Environment)
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key").toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
@@ -347,7 +346,7 @@ object ConfigSource {
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
     * and `Map` with keys of type `K` and values of type `V`. For every
     * key `K` in the `Map`, the corresponding value `V` is returned,
-    * wrapped in the context `F` -- which can be [[api.Id]] if no
+    * wrapped in the context `F` -- which can be `Id` if no
     * context is desired. [[ConfigSource#fromMap]] also exists
     * for the case when `F` is `Id`.
     *
@@ -358,8 +357,8 @@ object ConfigSource {
     * @tparam V the type of values the source reads
     * @return a new [[ConfigSource]]
     * @example {{{
-    * scala> val source = ConfigSource.fromMapF[api.Id, String, String](ConfigKeyType.Environment)(sys.env)
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(Environment)
+    * scala> val source = ConfigSource.fromMapF[cats.Id, String, String](ConfigKeyType.Environment)(sys.env)
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(Environment)
     *
     * scala> source.read("key").toStringWithValues
     * res0: String = ConfigEntry(key, Environment, Left(MissingKey(key, Environment)))
@@ -385,7 +384,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromEntries(ConfigKeyType.Argument)(0 -> "abc", 0 -> "def", 1 -> "ghi")
-    * source: ConfigSource[api.Id, Int, String] = ConfigSource(Argument)
+    * source: ConfigSource[cats.Id, Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0).toStringWithValues
     * res0: String = ConfigEntry(0, Argument, Right(def))
@@ -410,7 +409,7 @@ object ConfigSource {
     * there is more than one entry with the same key, the value in the
     * last entry is the one returned.<br>
     * <br>
-    * The entries are wrapped in a context `F` -- which can be [[api.Id]]
+    * The entries are wrapped in a context `F` -- which can be `Id`
     * if no context is desired. [[ConfigSource#fromEntries]] also exists
     * for the case where `F` is `Id`.
     *
@@ -440,7 +439,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromTry(ConfigKeyType.Argument)(index => scala.util.Try(Vector("a")(index)))
-    * source: ConfigSource[api.Id, Int, String] = ConfigSource(Argument)
+    * source: ConfigSource[cats.Id, Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0).toStringWithValues
     * res0: String = ConfigEntry(0, Argument, Right(a))
@@ -490,7 +489,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.fromTryOption(ConfigKeyType.Property)(key => scala.util.Try(sys.props.get(key)))
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(Property)
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(Property)
     *
     * scala> source.read("key").toStringWithValues
     * res0: String = ConfigEntry(key, Property, Left(MissingKey(key, Property)))
@@ -518,8 +517,8 @@ object ConfigSource {
     * @tparam V the type of values the source reads
     * @return a new [[ConfigSource]]
     * @example {{{
-    * scala> val source = ConfigSource.fromTryOptionF[api.Id, String, String](ConfigKeyType.Property)(key => scala.util.Try(sys.props.get(key)))
-    * source: ConfigSource[api.Id, String, String] = ConfigSource(Property)
+    * scala> val source = ConfigSource.fromTryOptionF[cats.Id, String, String](ConfigKeyType.Property)(key => scala.util.Try(sys.props.get(key)))
+    * source: ConfigSource[cats.Id, String, String] = ConfigSource(Property)
     *
     * scala> source.read("key").toStringWithValues
     * res0: String = ConfigEntry(key, Property, Left(MissingKey(key, Property)))
@@ -554,7 +553,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.catchNonFatal(ConfigKeyType.Argument)(Vector("a"))
-    * source: ConfigSource[api.Id, Int, String] = ConfigSource(Argument)
+    * source: ConfigSource[cats.Id, Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0).toStringWithValues
     * res0: String = ConfigEntry(0, Argument, Right(a))
@@ -573,7 +572,7 @@ object ConfigSource {
     * entries for keys `K` where the specified function does not
     * throw an exception.<br>
     * <br>
-    * Values will be wrapped in the context `F` -- which can be [[api.Id]]
+    * Values will be wrapped in the context `F` -- which can be `Id`
     * if no context is desired. [[ConfigSource#catchNonFatal]] exists for
     * the case where `F` is `Id`.
     *
@@ -606,7 +605,7 @@ object ConfigSource {
     * @return a new [[ConfigSource]]
     * @example {{{
     * scala> val source = ConfigSource.byIndex(ConfigKeyType.Argument)(Vector("a"))
-    * source: ConfigSource[api.Id, Int, String] = ConfigSource(Argument)
+    * source: ConfigSource[cats.Id, Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0).toStringWithValues
     * res0: String = ConfigEntry(0, Argument, Right(a))
@@ -625,7 +624,7 @@ object ConfigSource {
     * Creates a new [[ConfigSource]] from the specified [[ConfigKeyType]]
     * and `IndexedSeq[V]`. The source will only contain entries for keys
     * where the index exist in the specified sequence. The values are
-    * wrapped in context `F` -- which can be [[api.Id]] if no context
+    * wrapped in context `F` -- which can be `Id` if no context
     * is desired. [[ConfigSource#byIndex]] also exists for the case
     * where `F` is `Id`.
     *
@@ -635,8 +634,8 @@ object ConfigSource {
     * @tparam V the type of values the source reads
     * @return a new [[ConfigSource]]
     * @example {{{
-    * scala> val source = ConfigSource.byIndexF[api.Id, String](ConfigKeyType.Argument)(Vector("a"))
-    * source: ConfigSource[api.Id, Int, String] = ConfigSource(Argument)
+    * scala> val source = ConfigSource.byIndexF[cats.Id, String](ConfigKeyType.Argument)(Vector("a"))
+    * source: ConfigSource[cats.Id, Int, String] = ConfigSource(Argument)
     *
     * scala> source.read(0).toStringWithValues
     * res0: String = ConfigEntry(0, Argument, Right(a))
@@ -663,7 +662,7 @@ object ConfigSource {
     private val delegate: ConfigSource[Id, String, String] =
       ConfigSource.fromMap(keyType)(sys.env)
 
-    override def read(key: String): ConfigEntry[api.Id, String, String, String] =
+    override def read(key: String): ConfigEntry[Id, String, String, String] =
       delegate.read(key)
 
     override def toString: String =
@@ -677,7 +676,7 @@ object ConfigSource {
     private val delegate: ConfigSource[Id, String, String] =
       ConfigSource.fromTryOption(keyType)(key => Try(sys.props.get(key)))
 
-    override def read(key: String): ConfigEntry[api.Id, String, String, String] =
+    override def read(key: String): ConfigEntry[Id, String, String, String] =
       delegate.read(key)
 
     override def toString: String =

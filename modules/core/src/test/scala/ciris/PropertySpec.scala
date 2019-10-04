@@ -1,6 +1,6 @@
 package ciris
 
-import ciris.api._
+import cats.Id
 import org.scalacheck.Gen
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import org.scalatest.wordspec.AnyWordSpec
@@ -11,7 +11,12 @@ import java.nio.charset.Charset
 
 import scala.util.Try
 
-class PropertySpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks with EitherValues {
+class PropertySpec
+    extends AnyWordSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with EitherValues {
+
   override implicit val generatorDrivenConfig: PropertyCheckConfiguration =
     PropertyCheckConfiguration(minSuccessful = 1000)
 
@@ -33,13 +38,19 @@ class PropertySpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChec
 
   def fails[A](f: => A): Boolean = Try(f).isFailure
 
-  def readConfigEntry[A](value: String)(implicit decoder: ConfigDecoder[String, A]): ConfigEntry[Id, String, String, A] =
+  def readConfigEntry[A](
+    value: String
+  )(implicit decoder: ConfigDecoder[String, A]): ConfigEntry[Id, String, String, A] =
     sourceWith("key" -> value).read("key").decodeValue[A]
 
-  def readValue[A](value: String)(implicit decoder: ConfigDecoder[String, A]): Either[ConfigError, A] =
+  def readValue[A](
+    value: String
+  )(implicit decoder: ConfigDecoder[String, A]): Either[ConfigError, A] =
     readConfigEntry[A](value).value
 
-  def readNonExistingConfigEntry[A](implicit decoder: ConfigDecoder[String, A]): ConfigEntry[Id, String, String, A] =
+  def readNonExistingConfigEntry[A](
+    implicit decoder: ConfigDecoder[String, A]
+  ): ConfigEntry[Id, String, String, A] =
     emptySource.read("key").decodeValue[A]
 
   def readNonExistingValue[A](implicit decoder: ConfigDecoder[String, A]): Either[ConfigError, A] =
@@ -63,13 +74,25 @@ class PropertySpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChec
     file.deleteOnExit()
 
     val writer = new FileWriter(file)
-    try { writer.write(fileContents) } finally { writer.close() }
-    try { f(file, Charset.defaultCharset) } finally { file.delete(); () }
+    try {
+      writer.write(fileContents)
+    } finally {
+      writer.close()
+    }
+    try {
+      f(file, Charset.defaultCharset)
+    } finally {
+      file.delete(); ()
+    }
   }
 
   def withFileOverwritten[T](file: JFile)(fileContents: String)(f: => T): T = {
     val writer = new FileWriter(file)
-    try { writer.write(fileContents) } finally { writer.close() }
+    try {
+      writer.write(fileContents)
+    } finally {
+      writer.close()
+    }
     f
   }
 }

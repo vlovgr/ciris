@@ -1,5 +1,6 @@
 package ciris
 
+import cats.Show
 import ciris.internal.digest.sha1Hex
 
 /**
@@ -94,4 +95,7 @@ object Secret {
 
   def unapply[A](secret: Secret[A]): Option[A] =
     Some(secret.value)
+
+  implicit def secretShow[A]: Show[Secret[A]] =
+    Show.fromToString
 }

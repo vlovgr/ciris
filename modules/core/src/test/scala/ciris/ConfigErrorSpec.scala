@@ -1,5 +1,7 @@
 package ciris
 
+import cats.implicits._
+
 final class ConfigErrorSpec extends PropertySpec {
   "ConfigError" when {
     "using append" should {
@@ -47,6 +49,7 @@ final class ConfigErrorSpec extends PropertySpec {
           messageCreated shouldBe true
           redactedMessageCreated shouldBe false
           error.toString shouldBe s"ConfigError($message)"
+          error.show shouldBe error.toString
           redactedMessageCreated shouldBe false
           val redactedError = error.redactSensitive
           redactedMessageCreated shouldBe false
@@ -60,10 +63,12 @@ final class ConfigErrorSpec extends PropertySpec {
     "created from multiple sensitive messages" should {
       "redact sensitive messages" in {
         val redactedErrors =
-          ConfigError.combined(
-            ConfigError.sensitive("message", "redactedMessage"),
-            ConfigError("regularMessage")
-          ).redactSensitive
+          ConfigError
+            .combined(
+              ConfigError.sensitive("message", "redactedMessage"),
+              ConfigError("regularMessage")
+            )
+            .redactSensitive
 
         redactedErrors.message shouldBe "RedactedMessage and regularMessage"
       }
@@ -72,15 +77,18 @@ final class ConfigErrorSpec extends PropertySpec {
     "redacting wrongType" should {
       "redact source value error, value, and cause" in {
         val keyType = ConfigKeyType[String]("keyType")
-        val sourceValue = ConfigError.left[String](ConfigError.sensitive("message", ConfigError.redactedValue))
-        val error = ConfigError.wrongType("key", keyType, sourceValue, "value", "typeName", Some("cause"))
+        val sourceValue =
+          ConfigError.left[String](ConfigError.sensitive("message", ConfigError.redactedValue))
+        val error =
+          ConfigError.wrongType("key", keyType, sourceValue, "value", "typeName", Some("cause"))
         error.redactSensitive.message shouldBe "KeyType [key] with value [<redacted>] cannot be converted to type [typeName]"
       }
 
       "redact source value, value, and cause" in {
         val keyType = ConfigKeyType[String]("keyType")
         val sourceValue = ConfigError.right("sourceValue")
-        val error = ConfigError.wrongType("key", keyType, sourceValue, "value", "typeName", Some("cause"))
+        val error =
+          ConfigError.wrongType("key", keyType, sourceValue, "value", "typeName", Some("cause"))
         error.redactSensitive.message shouldBe "KeyType [key] with value [<redacted>] cannot be converted to type [typeName]"
       }
     }
@@ -94,13 +102,11 @@ final class ConfigErrorSpec extends PropertySpec {
       }
 
       "return true for a combination of MissingKeys" in {
-        ConfigError.combined(missingKey, missingKey)
-          .isMissingKey shouldBe true
+        ConfigError.combined(missingKey, missingKey).isMissingKey shouldBe true
       }
 
       "return false for a combination of not only MissingKeys" in {
-        ConfigError.combined(missingKey, ConfigError("other"))
-          .isMissingKey shouldBe false
+        ConfigError.combined(missingKey, ConfigError("other")).isMissingKey shouldBe false
       }
 
       "return false for other errors" in {
@@ -132,13 +138,17 @@ final class ConfigErrorSpec extends PropertySpec {
 
       "have a String representation for wrong type errors without cause" in {
         val keyType = ConfigKeyType[String]("keyType")
-        ConfigError.wrongType("key", keyType, Right("sourceValue"), "value", "typeName", None).toString shouldBe
+        ConfigError
+          .wrongType("key", keyType, Right("sourceValue"), "value", "typeName", None)
+          .toString shouldBe
           "WrongType(key, ConfigKeyType(keyType), Right(sourceValue), value, typeName)"
       }
 
       "have a String representation for wrong type errors with cause" in {
         val keyType = ConfigKeyType[String]("keyType")
-        ConfigError.wrongType("key", keyType, Right("value"), "value", "typeName", Some("cause")).toString shouldBe
+        ConfigError
+          .wrongType("key", keyType, Right("value"), "value", "typeName", Some("cause"))
+          .toString shouldBe
           "WrongType(key, ConfigKeyType(keyType), Right(value), value, typeName, cause)"
       }
     }

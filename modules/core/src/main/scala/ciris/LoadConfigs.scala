@@ -7,8 +7,8 @@
 
 package ciris
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.{Applicative, Apply, Monad}
+import cats.implicits._
 import ciris.ConfigErrors.{left, right}
 
 private[ciris] class LoadConfigs {

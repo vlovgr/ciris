@@ -1,5 +1,7 @@
 package ciris
 
+import cats.Show
+
 /**
   * [[ConfigException]] is a `Throwable` representation of [[ConfigErrors]].
   * [[ConfigException]] can be useful in cases where it is desirable to have
@@ -32,4 +34,7 @@ object ConfigException {
     */
   def apply(errors: ConfigErrors): ConfigException =
     new ConfigException(errors)
+
+  implicit val configExceptionShow: Show[ConfigException] =
+    Show.fromToString
 }

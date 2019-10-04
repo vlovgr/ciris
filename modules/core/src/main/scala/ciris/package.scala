@@ -1,5 +1,6 @@
-import ciris.api._
-
+import cats.{~>, Applicative, Id}
+import cats.implicits._
+import cats.effect.Sync
 import java.io.File
 import java.nio.charset.Charset
 
@@ -17,7 +18,7 @@ package object ciris extends LoadConfigs {
     * the result in a [[ConfigEntry]].<br>
     * <br>
     * If you want the value returned in a context, that is not
-    * [[api.Id]], you can use [[envF]] and explicitly specify
+    * `Id`, you can use [[envF]] and explicitly specify
     * the context to use.
     *
     * @param key the name of the environment variable to read
@@ -41,9 +42,9 @@ package object ciris extends LoadConfigs {
     * the result in a [[ConfigEntry]] where the value has been
     * lifted into context `F`.<br>
     * <br>
-    * If no context `F` is desired, [[api.Id]] can be used. There
+    * If no context `F` is desired, `Id` can be used. There
     * is also [[env]] which can be used for the case when `F` is
-    * [[api.Id]].
+    * `Id`.
     *
     * @param key the name of the environment variable to read
     * @param decoder the decoder with which to decode the value
@@ -57,7 +58,12 @@ package object ciris extends LoadConfigs {
     ConfigSource.Environment
       .read(key)
       .decodeValue[Value]
-      .transformF[F]
+      .transformF[F] {
+        new (Id ~> F) {
+          def apply[A](a: A): F[A] =
+            a.pure[F]
+        }
+      }
   }
 
   /**
@@ -107,7 +113,12 @@ package object ciris extends LoadConfigs {
     implicit decoder: ConfigDecoder[String, Value]
   ): ConfigEntry[F, String, String, Value] = {
     ConfigSource.Properties
-      .suspendF[F]
+      .suspendF[F] {
+        new (Id ~> F) {
+          def apply[A](a: A): F[A] =
+            a.pure[F]
+        }
+      }
       .read(key)
       .decodeValue[Value]
   }
@@ -168,7 +179,12 @@ package object ciris extends LoadConfigs {
   ): ConfigEntry[F, Int, String, Value] = {
     ConfigSource
       .byIndex(ConfigKeyType.Argument)(args)
-      .suspendF[F]
+      .suspendF[F] {
+        new (Id ~> F) {
+          def apply[A](a: A): F[A] =
+            a.pure[F]
+        }
+      }
       .read(index)
       .decodeValue[Value]
   }
@@ -238,7 +254,12 @@ package object ciris extends LoadConfigs {
     implicit decoder: ConfigDecoder[String, Value]
   ): ConfigEntry[F, (File, Charset), String, Value] = {
     ConfigSource.File
-      .suspendF[F]
+      .suspendF[F] {
+        new (Id ~> F) {
+          def apply[A](a: A): F[A] =
+            a.pure[F]
+        }
+      }
       .read((file, charset))
       .mapValue(modifyFileContents)
       .decodeValue[Value]

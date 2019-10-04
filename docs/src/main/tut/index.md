@@ -39,7 +39,7 @@ s"""
 ## Ciris
 
 Lightweight, extensible, and validated configuration loading in [Scala][scala].<br>
-The core library is dependency-free, while modules provide integrations with external libraries.
+The core library depends on cats-effect, while modules provide additional library integrations.
 
 The name comes from being an abbreviation of the word _configurations_.<br>
 Ciris' logo was inspired by the epyllion Ciris from [Appendix Vergiliana](https://en.wikipedia.org/wiki/Appendix_Vergiliana#Ciris_.28.22The_Sea-Bird.22.29).
@@ -68,15 +68,13 @@ For a more detailed introduction, please refer to the [usage guide](https://cir.
 To get started with [sbt][sbt], simply add the following lines to your `build.sbt` file.<br>
 For an overview, usage instructions, and examples, please see the [usage guide](https://cir.is/docs).
 
-```tut:passthrough
+````tut:passthrough
 println(
 s"""
  |```scala
  |val cirisVersion = "$latestVersion"
  |
  |libraryDependencies ++= Seq(
- |  "$organization" %% "$catsModuleName",
- |  "$organization" %% "$catsEffectModuleName",
  |  "$organization" %% "$coreModuleName",
  |  "$organization" %% "$enumeratumModuleName",
  |  "$organization" %% "$genericModuleName",
@@ -87,7 +85,7 @@ s"""
  |```
  """.stripMargin.trim
 )
-```
+````
 
 ```tut:passthrough
 println(
@@ -99,8 +97,6 @@ s"""
  |
  || Module                                        | Dependency                     | Scala                                                                     |
  ||-----------------------------------------------|--------------------------------|---------------------------------------------------------------------------|
- || [`$catsModuleName`][cats-module]              | cats $catsVersion              | &#10003; ${catsCrossScalaVersions.map(minorVersion).mkString(", ")}       |
- || [`$catsEffectModuleName`][cats-effect-module] | cats-effect $catsEffectVersion | &#10003; ${catsEffectCrossScalaVersions.map(minorVersion).mkString(", ")} |
  || [`$coreModuleName`](https://cir.is/docs)      | &#65794;                       | &#10003; ${coreCrossScalaVersions.map(minorVersion).mkString(", ")}       |
  || [`$enumeratumModuleName`][enumeratum-module]  | enumeratum $enumeratumVersion  | &#10003; ${enumeratumCrossScalaVersions.map(minorVersion).mkString(", ")} |
  || [`$genericModuleName`][generic-module]        | shapeless $shapelessVersion    | &#10003; ${genericCrossScalaVersions.map(minorVersion).mkString(", ")}    |
@@ -118,15 +114,13 @@ s"""
 The only required module is [`ciris-core`](https://cir.is/docs), the rest are optional library integrations.<br>
 For an explanation of how to use the modules, refer to the [modules overview](https://cir.is/docs/modules) section.
 
-- The [`ciris-cats`][cats-module] module provides type classes and type class instances from [cats][cats].
-- The [`ciris-cats-effect`][cats-effect-module] module provides effect type classes from [cats-effect][cats-effect].
 - The [`ciris-enumeratum`][enumeratum-module] module allows loading [enumeratum][enumeratum] enumerations.
 - The [`ciris-generic`][generic-module] module allows loading more types with [shapeless][shapeless].
 - The [`ciris-refined`][refined-module] module allows loading [refined][refined] refinement types.
 - The [`ciris-spire`][spire-module] module allows loading [spire][spire] number types.
 - The [`ciris-squants`][squants-module] module allows loading [squants][squants] data types.
 
-If you're using [`ciris-cats`][cats-module] or [`ciris-cats-effect`][cats-effect-module], you should enable [partial unification](https://github.com/scala/bug/issues/2712).
+Remember to enable [partial unification](https://github.com/scala/bug/issues/2712).
 
 ```scala
 scalacOptions += "-Ypartial-unification"
@@ -154,12 +148,10 @@ curl -Ls try.cir.is/typelevel | sh
 
 If you already have the Ammonite REPL installed, you can load Ciris using the following commands.
 
-```tut:passthrough
+````tut:passthrough
 println(
 s"""
  |```scala
- |import $$ivy.`$organization::$catsModuleName:$latestVersion`, ciris.cats._
- |import $$ivy.`$organization::$catsEffectModuleName:$latestVersion`, ciris.cats.effect._, ciris.cats.effect.syntax._
  |import $$ivy.`$organization::$coreModuleName:$latestVersion`, ciris._
  |import $$ivy.`$organization::$enumeratumModuleName:$latestVersion`, ciris.enumeratum._
  |import $$ivy.`$organization::$genericModuleName:$latestVersion`, ciris.generic._
@@ -169,7 +161,7 @@ s"""
  |```
  """.stripMargin.trim
 )
-```
+````
 
 #### External Libraries
 
@@ -198,9 +190,7 @@ If you would like to be involved in building Ciris, check out the [contributing 
 
 Ciris is available under the MIT license, available at [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT) and in the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
 
-[cats-effect-module]: https://cir.is/docs/cats-effect-module
 [cats-effect]: https://github.com/typelevel/cats-effect
-[cats-module]: https://cir.is/docs/cats-module
 [cats]: https://github.com/typelevel/cats
 [ciris-aiven-kafka]: https://github.com/ovotech/ciris-aiven-kafka
 [ciris-aws-ssm]: https://github.com/ovotech/ciris-aws-ssm

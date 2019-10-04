@@ -1,7 +1,7 @@
 package ciris.generic.decoders
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.Monad
+import cats.implicits._
 import ciris.{ConfigDecoder, ConfigEntry, ConfigError}
 import ciris.ConfigError.{left, right}
 import shapeless.{:+:, ::, <:!<, CNil, Coproduct, Generic, HList, HNil, Inl, Inr, Lazy}

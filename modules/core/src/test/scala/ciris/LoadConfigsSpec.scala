@@ -7,7 +7,7 @@
 
 package ciris
 
-import ciris.api._
+import cats.Id
 
 final class LoadConfigsSpec extends PropertySpec {
   "LoadConfigs" when {

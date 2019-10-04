@@ -1,7 +1,7 @@
 package ciris
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.{Apply, MonadError}
+import cats.implicits._
 
 /**
   * [[ConfigResult]] represents any result from having loaded a configuration:
@@ -56,7 +56,7 @@ object ConfigResult {
 
   /**
     * Creates a new [[ConfigResult]] from the specified result,
-    * wrapped in context `F`, which can be [[api.Id]] if no
+    * wrapped in context `F`, which can be `Id` if no
     * context is desired.
     *
     * @param result the result or errors, in context `F`
