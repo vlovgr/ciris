@@ -24,13 +24,14 @@ val (tempFile, tempFileName) = {
 ```
 
 # Supporting New Sources
-Ciris already has [support](/docs/supported-sources) for common sources in the core module, while [external libraries](/#external-libraries) provide additional [configuration sources](/docs/sources). However, it's also easy to create your own configuration sources, and Ciris provides many helper functions in the [companion object][ConfigSourceCompanion] of [`ConfigSource`][ConfigSource] for that purpose. Following, we'll show how we can create a simple configuration source for reading [property files](https://en.wikipedia.org/wiki/.properties). While property files generally shouldn't be necessary when using _configurations as code_, they can definitely be supported with Ciris when necessary.
 
-We start by defining a [`ConfigSource`][ConfigSource] for reading property files as `Map[String, String]`s. We could reuse the existing [`ConfigSource.File`][ConfigSourceFile] for reading files, but we would rather avoid having to create an intermediate `String` representation, so we'll instead define our own [`ConfigSource`][ConfigSource] for property files.
+Ciris already has [support](/docs/supported-sources) for common sources in the core module, while [external libraries](/#external-libraries) provide additional [configuration sources](/docs/sources). However, it's also easy to create your own configuration sources, and Ciris provides many helper functions in the [companion object][configsourcecompanion] of [`ConfigSource`][configsource] for that purpose. Following, we'll show how we can create a simple configuration source for reading [property files](https://en.wikipedia.org/wiki/.properties). While property files generally shouldn't be necessary when using _configurations as code_, they can definitely be supported with Ciris when necessary.
+
+We start by defining a [`ConfigSource`][configsource] for reading property files as `Map[String, String]`s. We could reuse the existing [`ConfigSource.File`][configsourcefile] for reading files, but we would rather avoid having to create an intermediate `String` representation, so we'll instead define our own [`ConfigSource`][configsource] for property files.
 
 ```tut:silent
+import cats.Id
 import ciris.{ConfigKeyType, ConfigSource}
-import ciris.api.Id
 import java.io.{File, FileInputStream, InputStreamReader}
 import java.nio.charset.Charset
 import java.util.Properties
@@ -52,11 +53,11 @@ val propFileSource: ConfigSource[Id, (File, Charset), Map[String, String]] =
   }
 ```
 
-The [`ConfigSource`][ConfigSource] is using the existing [`ConfigKeyType.File`][ConfigKeyTypeFile], which uses `(File, Charset)` as the key type. The source also makes use of [`ConfigSource.catchNonFatal`][ConfigSourceCatchNonFatal] to catch any exceptions when reading the properties file. Finally, the properties are converted to a `Map`, and the `FileInputStream` is closed, ignoring any closing exceptions.
+The [`ConfigSource`][configsource] is using the existing [`ConfigKeyType.File`][configkeytypefile], which uses `(File, Charset)` as the key type. The source also makes use of [`ConfigSource.catchNonFatal`][configsourcecatchnonfatal] to catch any exceptions when reading the properties file. Finally, the properties are converted to a `Map`, and the `FileInputStream` is closed, ignoring any closing exceptions.
 
-If you're creating a custom [`ConfigSource`][ConfigSource] by directly extending [`ConfigSource`][ConfigSource], rather than by using any of the helper functions in the companion object, you need to make sure you provide appropriate [`ConfigError`][ConfigError]s. In particular, you should return [`missingKey`][missingKey] if a key is not available from the source. This error is used by various functions, like [`orElse`][orElse] and [`orNone`][orNone], to fall back to other values if the previous keys have not been set.
+If you're creating a custom [`ConfigSource`][configsource] by directly extending [`ConfigSource`][configsource], rather than by using any of the helper functions in the companion object, you need to make sure you provide appropriate [`ConfigError`][configerror]s. In particular, you should return [`missingKey`][missingkey] if a key is not available from the source. This error is used by various functions, like [`orElse`][orelse] and [`orNone`][ornone], to fall back to other values if the previous keys have not been set.
 
-The `PropFileKey` case class fully identifies a property file key. It is a combination of the `File`, `Charset`, and `String` key which we are retrieving. The `toString` function has been overridden to provide the `String` representation we would like in error messages. We'll also describe the name and type of the key by creating a [`ConfigKeyType`][ConfigKeyType].
+The `PropFileKey` case class fully identifies a property file key. It is a combination of the `File`, `Charset`, and `String` key which we are retrieving. The `toString` function has been overridden to provide the `String` representation we would like in error messages. We'll also describe the name and type of the key by creating a [`ConfigKeyType`][configkeytype].
 
 ```tut:silent
 final case class PropFileKey(
@@ -133,91 +134,7 @@ val propFile = propFileAt(tempFileName)
 propFile[UserPortNumber]("port")
 ```
 
-## Suspending Effects
-Since reading the property file contents isn't _pure_, we could make use of [effect types](/docs/basics#suspending-effects) to suspend the reading of the file. We start by extracting the reading of the property file to outside of `PropFileAt`, so it doesn't have to deal with effects explicitly. `PropFileAt` now simply accepts the property file as an argument with context `F`. We require that there is a [`Monad`][Monad] instance available for `F`, since the [`ConfigDecoder`][ConfigDecoder] requires it for [`decodeValue`][decodeValue].
-
-```tut:silent
-import ciris.api.Monad
-import ciris.api.syntax._
-
-final class PropFileAt[F[_]: Monad](
-  file: File,
-  charset: Charset,
-  propFile: F[Either[ConfigError, Map[String, String]]]
-) {
-  private def propFileKey(key: String): PropFileKey =
-    PropFileKey(file, charset, key)
-
-  private def propFileAt(key: String): F[Either[ConfigError, String]] =
-    propFile.map { errorOrProps =>
-      errorOrProps.flatMap { props =>
-        props.get(key).toRight {
-          ConfigError.missingKey(
-            propFileKey(key),
-            propFileKeyType
-          )
-        }
-      }
-    }
-
-  def apply[Value](key: String)(
-    implicit decoder: ConfigDecoder[String, Value]
-  ): ConfigEntry[F, PropFileKey, String, Value] = {
-    ConfigEntry
-      .applyF(
-        propFileKey(key),
-        propFileKeyType,
-        propFileAt(key)
-      )
-      .decodeValue[Value]
-  }
-
-  override def toString: String =
-    s"PropFileAt($file, $charset, $propFile)"
-}
-```
-
-With the property file reading extracted, we can now define `propFileAtF`, which suspends the reading of the property file into context `F`. We would also like that the file is not read more than once, so we also need to memoize the result. The [cats-effect](/docs/cats-effect-module) module provides a [`suspendMemoizeF`][suspendMemoizeF] function on [`ConfigSource`][ConfigSource] with a syntax import, which creates a [`ConfigSource`][ConfigSource] with both suspended reading and memoized results. The function works on any context `F` for which there is a [`Concurrent`][Concurrent] instance defined.
-
-```tut:silent
-import cats.effect.Concurrent
-import ciris.cats.effect._
-import ciris.cats.effect.syntax._
-
-def propFileAtF[F[_]: Concurrent](
-  name: String,
-  charset: Charset = Charset.defaultCharset
-): F[PropFileAt[F]] = {
-  val file = new File(name)
-
-  val propFile =
-    propFileSource
-      .suspendMemoizeF[F]
-      .read((file, charset))
-      .value
-
-  propFile.map(new PropFileAt(file, charset, _))
-}
-```
-
-We can then use `propFileAtF` to read property file keys as follows.
-
-```tut:book
-import cats.effect.{ContextShift, IO}
-
-implicit val contextShift: ContextShift[IO] =
-  IO.contextShift(concurrent.ExecutionContext.global)
-
-val propFileF = propFileAtF[IO](tempFileName)
-
-for {
-  propFile <- propFileF
-  port = propFile[UserPortNumber]("port")
-} yield port
-```
-
-[decodeValue]: /api/ciris/ConfigEntry.html#decodeValue[A](implicitdecoder:ciris.ConfigDecoder[V,A],implicitmonad:ciris.api.Monad[F]):ciris.ConfigEntry[F,K,S,A]
-[ConfigDecoder]: /api/ciris/ConfigDecoder.html
+[decodeValue]: /api/ciris/ConfigEntry.html#decodeValue[A](implicitdecoder:ciris.ConfigDecoder[V,A],implicitmonad:ciris.api.Monad[F]):ciris.ConfigEntry[F,K,S,A][configdecoder]: /api/ciris/ConfigDecoder.html
 [ConfigError]: /api/ciris/ConfigError.html
 [missingKey]: /api/ciris/ConfigError$.html#missingKey[K](key:K,keyType:ciris.ConfigKeyType[K]):ciris.ConfigError
 [orElse]: /api/ciris/ConfigValue.html#orElse(that:=>ciris.ConfigValue[F,V])(implicitm:ciris.api.Monad[F]):ciris.ConfigValue[F,V]
@@ -227,12 +144,9 @@ for {
 [prop]: /api/ciris/index.html#prop[Value](key:String)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,String,String,Value]
 [file]: /api/ciris/index.html#file[Value](file:java.io.File,modifyFileContents:String=>String,charset:java.nio.charset.Charset)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,(java.io.File,java.nio.charset.Charset),String,Value]
 [ConfigKeyType]: /api/ciris/ConfigKeyType.html
-[ConfigKeyTypeFile]: /api/ciris/ConfigKeyType$.html#File:ciris.ConfigKeyType[(java.io.File,java.nio.charset.Charset)]
-[ConfigSource]: /api/ciris/ConfigSource.html
+[ConfigKeyTypeFile]: /api/ciris/ConfigKeyType$.html#File:ciris.ConfigKeyType[(java.io.File,java.nio.charset.Charset)][configsource]: /api/ciris/ConfigSource.html
 [Sync]: /api/ciris/api/Sync.html
 [ConfigSourceFile]: /api/ciris/ConfigSource$.html#File
 [ConfigSourceCompanion]: /api/ciris/ConfigSource$.html
 [ConfigSourceCatchNonFatal]: /api/ciris/ConfigSource$.html#catchNonFatal[K,V](keyType:ciris.ConfigKeyType[K])(read:K=>V):ciris.ConfigSource[ciris.api.Id,K,V]
-[suspendF]: /api/ciris/ConfigSource.html#suspendF[G[_]](implicitevidence$1:ciris.api.Sync[G],implicitf:F~>G):ciris.ConfigSource[G,K,V]
-[Concurrent]: https://typelevel.org/cats-effect/typeclasses/concurrent.html
-[suspendMemoizeF]: /api/ciris/cats/effect/syntax$$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[_]](implicitF:cats.effect.Concurrent[F]):ciris.ConfigSource[[v]F[F[v]],K,V]
+[suspendMemoizeF]: /api/ciris/cats/effect/syntax\$\$CatsEffectConfigSourceIdSyntax.html#suspendMemoizeF[F[\_]](implicitF:cats.effect.Concurrent[F]):ciris.ConfigSource[[v]F[F[v]],K,V]

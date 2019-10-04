@@ -1,5 +1,7 @@
 package ciris
 
+import cats.Semigroup
+import cats.implicits._
 import ciris.ConfigError.{readException, missingKey, wrongType}
 
 final class ConfigErrorsSpec extends PropertySpec {
@@ -11,6 +13,7 @@ final class ConfigErrorsSpec extends PropertySpec {
             .append(ConfigError("a"))
 
         configErrors.toString shouldBe "ConfigErrors(MissingKey(key, Environment), ConfigError(a))"
+        configErrors.show shouldBe configErrors.toString
       }
     }
 
@@ -19,8 +22,12 @@ final class ConfigErrorsSpec extends PropertySpec {
         val configErrors =
           ConfigErrors(missingKey("key", ConfigKeyType.Environment))
             .append(readException("key2", ConfigKeyType.Property, new Error("error")))
-            .append(wrongType("key3", ConfigKeyType.Environment, Right("value3"), "value3", "Int", None))
-            .append(wrongType("key4", ConfigKeyType.Environment, Right("value4"), "value5", "Int", None))
+            .append(
+              wrongType("key3", ConfigKeyType.Environment, Right("value3"), "value3", "Int", None)
+            )
+            .append(
+              wrongType("key4", ConfigKeyType.Environment, Right("value4"), "value5", "Int", None)
+            )
             .append(ConfigError("a"))
             .append(ConfigError.combined(ConfigError("bb"), ConfigError("CC")))
             .append(ConfigError.combined(ConfigError("dd"), ConfigError("EE"), ConfigError("FF")))
@@ -65,6 +72,20 @@ final class ConfigErrorsSpec extends PropertySpec {
             .append(readException("key2", ConfigKeyType.Property, new Error("error")))
 
         configErrors.toException.errors shouldBe configErrors
+      }
+    }
+
+    "semigroup" should {
+      "combine" in {
+        val first = ConfigErrors(ConfigError("a"), ConfigError("b"))
+        val second = ConfigErrors(ConfigError("c"), ConfigError("d"))
+        val combined = Semigroup[ConfigErrors].combine(first, second)
+        combined.messages shouldBe ConfigErrors(
+          ConfigError("a"),
+          ConfigError("b"),
+          ConfigError("c"),
+          ConfigError("d")
+        ).messages
       }
     }
   }

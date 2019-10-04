@@ -2,11 +2,10 @@ package ciris.enumeratum.decoders
 
 import _root_.enumeratum._
 import _root_.enumeratum.values._
-import ciris.api._
-import ciris.api.syntax._
-import ciris.ConfigError.wrongType
+import cats.implicits._
+import cats.Monad
 import ciris.{ConfigError, ConfigDecoder, ConfigEntry}
-
+import ciris.ConfigError.wrongType
 import scala.reflect.ClassTag
 
 trait EnumeratumConfigDecoders {
@@ -34,23 +33,30 @@ trait EnumeratumConfigDecoders {
     }
 
   implicit def byteEnumEntryConfigDecoder[A <: ByteEnumEntry: ClassTag](
-    implicit enum: ByteEnum[A]): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
+    implicit enum: ByteEnum[A]
+  ): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
 
   implicit def charEnumEntryConfigDecoder[A <: CharEnumEntry: ClassTag](
-    implicit enum: CharEnum[A]): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
+    implicit enum: CharEnum[A]
+  ): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
 
   implicit def enumEntryConfigDecoder[A <: EnumEntry: ClassTag](
-    implicit enum: Enum[A]): ConfigDecoder[String, A] = fromOption(enum.withNameOption)
+    implicit enum: Enum[A]
+  ): ConfigDecoder[String, A] = fromOption(enum.withNameOption)
 
   implicit def intEnumEntryConfigDecoder[A <: IntEnumEntry: ClassTag](
-    implicit enum: IntEnum[A]): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
+    implicit enum: IntEnum[A]
+  ): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
 
   implicit def longEnumEntryConfigDecoder[A <: LongEnumEntry: ClassTag](
-    implicit enum: LongEnum[A]): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
+    implicit enum: LongEnum[A]
+  ): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
 
   implicit def shortEnumEntryConfigDecoder[A <: ShortEnumEntry: ClassTag](
-    implicit enum: ShortEnum[A]): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
+    implicit enum: ShortEnum[A]
+  ): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
 
   implicit def stringEnumEntryConfigDecoder[A <: StringEnumEntry: ClassTag](
-    implicit enum: StringEnum[A]): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
+    implicit enum: StringEnum[A]
+  ): ConfigDecoder[String, A] = fromOption(enum.withValueOpt)
 }

@@ -6,11 +6,12 @@ permalink: /docs/decoders
 ---
 
 # Configuration Decoders
-Configuration decoders are represented in Ciris with [`ConfigDecoder`][ConfigDecoder]s and provide the ability to decode the value of a [`ConfigEntry`][ConfigEntry] to a different type, while handling errors. [`ConfigDecoder`][ConfigDecoder]s have access to the whole [`ConfigEntry`][ConfigEntry] to be able to provide sensible error messages, even though only the value is being decoded. [`ConfigDecoder`][ConfigDecoder]s generally require that a [`Monad`][Monad] instance is available for the context `F` of the [`ConfigEntry`][ConfigEntry], in order to support most decoders. Following is a simplified definition of [`ConfigDecoder`][ConfigDecoder] for reference.
+
+Configuration decoders are represented in Ciris with [`ConfigDecoder`][configdecoder]s and provide the ability to decode the value of a [`ConfigEntry`][configentry] to a different type, while handling errors. [`ConfigDecoder`][configdecoder]s have access to the whole [`ConfigEntry`][configentry] to be able to provide sensible error messages, even though only the value is being decoded. [`ConfigDecoder`][configdecoder]s generally require that a [`Monad`][monad] instance is available for the context `F` of the [`ConfigEntry`][configentry], in order to support most decoders. Following is a simplified definition of [`ConfigDecoder`][configdecoder] for reference.
 
 ```tut:silent
+import cats.Monad
 import ciris.{ConfigEntry, ConfigError}
-import ciris.api.Monad
 
 {
   abstract class ConfigDecoder[A, B] {
@@ -21,13 +22,13 @@ import ciris.api.Monad
 }
 ```
 
-Most [`ConfigDecoder`][ConfigDecoder]s provided by Ciris support decoding from `String`, but there is nothing preventing you from creating decoders for other types. [`ConfigDecoder`][ConfigDecoder] has several combinators helping you create new decoders from existing ones, and the [companion object][ConfigDecoderCompanion] of [`ConfigDecoder`][ConfigDecoder] provides several functions for helping you create new decoders. The [supporting new types](/docs/supporting-new-types) section provides more information on how to create decoders for new types. For currently support types, instead refer to the [current supported types](/docs/supported-types) section.
+Most [`ConfigDecoder`][configdecoder]s provided by Ciris support decoding from `String`, but there is nothing preventing you from creating decoders for other types. [`ConfigDecoder`][configdecoder] has several combinators helping you create new decoders from existing ones, and the [companion object][configdecodercompanion] of [`ConfigDecoder`][configdecoder] provides several functions for helping you create new decoders. The [supporting new types](/docs/supporting-new-types) section provides more information on how to create decoders for new types. For currently support types, instead refer to the [current supported types](/docs/supported-types) section.
 
-[`ConfigDecoder`][ConfigDecoder]s are most often used indirectly via [`decodeValue`][decodeValue] on [`ConfigEntry`][ConfigEntry]. For example, if we take a look at the [`env`][env] function for reading and decoding environment variables, we'll see that it simply reads the environment variable from [`ConfigSource.Environment`][ConfigSourceEnvironment] and then decodes the value with [`decodeValue`][decodeValue].
+[`ConfigDecoder`][configdecoder]s are most often used indirectly via [`decodeValue`][decodevalue] on [`ConfigEntry`][configentry]. For example, if we take a look at the [`env`][env] function for reading and decoding environment variables, we'll see that it simply reads the environment variable from [`ConfigSource.Environment`][configsourceenvironment] and then decodes the value with [`decodeValue`][decodevalue].
 
 ```tut:silent
+import cats.Id
 import ciris.{ConfigDecoder, ConfigSource}
-import ciris.api.Id
 
 {
   def env[Value](key: String)(
@@ -40,10 +41,9 @@ import ciris.api.Id
 }
 ```
 
-[ConfigDecoderCompanion]: /api/ciris/ConfigDecoder$.html
-[ConfigDecoder]: /api/ciris/ConfigDecoder.html
-[ConfigEntry]: /api/ciris/ConfigEntry.html
-[Monad]: /api/ciris/api/Monad.html
-[decodeValue]: /api/ciris/ConfigEntry.html#decodeValue[A](implicitdecoder:ciris.ConfigDecoder[V,A],implicitmonad:ciris.api.Monad[F]):ciris.ConfigEntry[F,K,S,A]
-[env]: /api/ciris/index.html#env[Value](key:String)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,String,String,Value]
-[ConfigSourceEnvironment]: /api/ciris/ConfigSource$.html#Environment
+[configdecodercompanion]: /api/ciris/ConfigDecoder$.html
+[configdecoder]: /api/ciris/ConfigDecoder.html
+[configentry]: /api/ciris/ConfigEntry.html
+[monad]: /api/ciris/api/Monad.html
+
+[decodeValue]: /api/ciris/ConfigEntry.html#decodeValue[A](implicitdecoder:ciris.ConfigDecoder[V,A],implicitmonad:ciris.api.Monad[F]):ciris.ConfigEntry[F,K,S,A][env]: /api/ciris/index.html#env[Value](key:String)(implicitdecoder:ciris.ConfigDecoder[String,Value]):ciris.ConfigEntry[ciris.api.Id,String,String,Value][configsourceenvironment]: /api/ciris/ConfigSource\$.html#Environment

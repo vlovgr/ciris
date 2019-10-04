@@ -1,8 +1,8 @@
 package ciris.decoders
 
+import cats.implicits._
+import cats.Monad
 import ciris._
-import ciris.api._
-import ciris.api.syntax._
 import ciris.ConfigError
 
 trait DerivedConfigDecoders {

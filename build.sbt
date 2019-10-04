@@ -7,7 +7,6 @@ lazy val scala212 = "2.12.8"
 lazy val scala213 = "2.13.0"
 
 lazy val catsEffectVersion = "2.0.0"
-lazy val catsVersion = "2.0.0"
 lazy val commonsCodecVersion = "1.13"
 lazy val enumeratumVersion = "1.5.13"
 lazy val kittensVersion = "2.0.0"
@@ -27,36 +26,12 @@ lazy val root = project
     console := (console in (core, Compile)).value,
     console in Test := (console in (core, Test)).value
   )
-  .aggregate(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
+  .aggregate(core, enumeratum, generic, refined, spire, squants)
 
 lazy val core = project
   .in(file("modules/core"))
   .settings(
     moduleName := "ciris-core",
-    name := moduleName.value,
-    publishSettings,
-    mimaSettings,
-    scalaSettings,
-    testSettings
-  )
-
-lazy val cats = project
-  .in(file("modules/cats"))
-  .settings(
-    moduleName := "ciris-cats",
-    name := moduleName.value,
-    libraryDependencies += "org.typelevel" %% "cats-core" % catsVersion,
-    publishSettings,
-    mimaSettings,
-    scalaSettings,
-    testSettings
-  )
-  .dependsOn(core % "compile->compile;test->test")
-
-lazy val catsEffect = project
-  .in(file("modules/cats-effect"))
-  .settings(
-    moduleName := "ciris-cats-effect",
     name := moduleName.value,
     libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion,
     publishSettings,
@@ -64,7 +39,6 @@ lazy val catsEffect = project
     scalaSettings,
     testSettings
   )
-  .dependsOn(cats % "compile->compile;test->test")
 
 lazy val enumeratum = project
   .in(file("modules/enumeratum"))
@@ -174,9 +148,6 @@ lazy val docs = project
       organization,
       latestVersion in ThisBuild,
       crossScalaVersions in core,
-      BuildInfoKey.map(moduleName in cats) { case (k, v) => "cats" + k.capitalize -> v },
-      BuildInfoKey
-        .map(moduleName in catsEffect) { case (k, v)     => "catsEffect" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in core) { case (k, v) => "core" + k.capitalize -> v },
       BuildInfoKey
         .map(moduleName in enumeratum) { case (k, v)             => "enumeratum" + k.capitalize -> v },
@@ -184,10 +155,6 @@ lazy val docs = project
       BuildInfoKey.map(moduleName in refined) { case (k, v)      => "refined" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in spire) { case (k, v)        => "spire" + k.capitalize -> v },
       BuildInfoKey.map(moduleName in squants) { case (k, v)      => "squants" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in cats) { case (k, v) => "cats" + k.capitalize -> v },
-      BuildInfoKey.map(crossScalaVersions in catsEffect) {
-        case (k, v) => "catsEffect" + k.capitalize -> v
-      },
       BuildInfoKey.map(crossScalaVersions in core) { case (k, v) => "core" + k.capitalize -> v },
       BuildInfoKey.map(crossScalaVersions in enumeratum) {
         case (k, v) => "enumeratum" + k.capitalize -> v
@@ -202,7 +169,6 @@ lazy val docs = project
       BuildInfoKey.map(crossScalaVersions in squants) {
         case (k, v) => "squants" + k.capitalize -> v
       },
-      BuildInfoKey("catsVersion" -> catsVersion),
       BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
       BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
       BuildInfoKey("refinedVersion" -> refinedVersion),
@@ -264,7 +230,7 @@ lazy val docs = project
       (generateApiIndexFile.value).getAbsolutePath
     )
   )
-  .dependsOn(cats, catsEffect, core, enumeratum, generic, refined, spire, squants)
+  .dependsOn(core, enumeratum, generic, refined, spire, squants)
   .enablePlugins(BuildInfoPlugin, MicrositesPlugin, ScalaUnidocPlugin)
 
 /* Settings */
@@ -491,8 +457,6 @@ generateScripts in ThisBuild := {
        |
        |~/.coursier/coursier launch -q -P -M ammonite.Main \\
        |  com.lihaoyi:ammonite_$ammoniteScalaVersion:1.6.5 \\$coursierArgs
-       |  $organizationId:${(moduleName in cats).value}_2.12:$moduleVersion \\
-       |  $organizationId:${(moduleName in catsEffect).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in core).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in enumeratum).value}_2.12:$moduleVersion \\
        |  $organizationId:${(moduleName in generic).value}_2.12:$moduleVersion \\
@@ -501,10 +465,7 @@ generateScripts in ThisBuild := {
        |  $organizationId:${(moduleName in squants).value}_2.12:$moduleVersion \\
        |  -- --predef-code "\\$predefCode
        |        interp.configureCompiler(_.settings.YpartialUnification.value = true);\\
-       |        import ciris.{cats => _, enumeratum => _, spire => _, squants => _, _},\\
-       |        ciris.cats._,\\
-       |        ciris.cats.effect._,\\
-       |        ciris.cats.effect.syntax._,\\
+       |        import ciris.{enumeratum => _, spire => _, squants => _, _},\\
        |        ciris.enumeratum._,\\
        |        ciris.refined._,\\
        |        ciris.refined.syntax._,\\

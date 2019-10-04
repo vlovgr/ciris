@@ -1,5 +1,6 @@
 package ciris
 
+import cats.Show
 import java.io.{File => JFile}
 import java.nio.charset.Charset
 
@@ -78,4 +79,7 @@ object ConfigKeyType {
   object File extends ConfigKeyType[(JFile, Charset)]("file") {
     override def toString: String = "File"
   }
+
+  implicit def configKeyTypeShow[K]: Show[ConfigKeyType[K]] =
+    Show.fromToString
 }

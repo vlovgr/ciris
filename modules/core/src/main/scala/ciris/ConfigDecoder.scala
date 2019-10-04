@@ -1,10 +1,9 @@
 package ciris
 
-import ciris.api._
-import ciris.api.syntax._
+import cats.implicits._
+import cats.Monad
 import ciris.ConfigError.wrongType
 import ciris.decoders.ConfigDecoders
-
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -173,7 +172,8 @@ abstract class ConfigDecoder[A, B] { self =>
                       value,
                       typeName,
                       Some(cause)
-                    ))
+                    )
+                  )
               }
             }
           )
@@ -294,7 +294,8 @@ abstract class ConfigDecoder[A, B] { self =>
                       value,
                       typeName,
                       Some(cause)
-                    ))
+                    )
+                  )
               }
             }
           )

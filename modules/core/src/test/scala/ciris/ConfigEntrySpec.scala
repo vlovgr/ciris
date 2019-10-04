@@ -1,6 +1,7 @@
 package ciris
 
-import ciris.api._
+import cats.{~>, Id}
+import cats.implicits._
 
 final class ConfigEntrySpec extends PropertySpec {
   "ConfigEntry" when {
@@ -8,6 +9,15 @@ final class ConfigEntrySpec extends PropertySpec {
       "include the key and keyType" in {
         forAll { value: String =>
           existingEntry(value).toString shouldBe
+            s"ConfigEntry(key, ConfigKeyType(test key))"
+        }
+      }
+    }
+
+    "using show" should {
+      "include the key and keyType" in {
+        forAll { value: String =>
+          existingEntry(value).show shouldBe
             s"ConfigEntry(key, ConfigKeyType(test key))"
         }
       }
@@ -94,7 +104,11 @@ final class ConfigEntrySpec extends PropertySpec {
       "transforming Id to Id" should {
         "leave the values unmodified" in {
           val entry = existingEntry("value")
-          val transformed = entry.transformF[Id]
+          val transformed = entry.transformF[Id] {
+            new (Id ~> Id) {
+              def apply[A](a: A): A = a
+            }
+          }
 
           transformed.value shouldBe entry.value
           transformed.sourceValue shouldBe entry.sourceValue

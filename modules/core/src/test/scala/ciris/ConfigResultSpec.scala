@@ -1,6 +1,6 @@
 package ciris
 
-import ciris.api.{Id, MonadError}
+import cats.{Id, MonadError}
 
 final class ConfigResultSpec extends PropertySpec {
   "ConfigResult" when {

@@ -1,5 +1,7 @@
 package ciris
 
+import cats.{Semigroup, Show}
+
 /**
   * [[ConfigErrors]] represents one or more [[ConfigError]] errors that occurred
   * while reading one or more [[ConfigEntry]] configuration entries. To create a
@@ -81,16 +83,16 @@ final class ConfigErrors private (val toVector: Vector[ConfigError]) extends Any
     new ConfigErrors(toVector :+ error)
 
   /**
-   * Creates a new [[ConfigErrors]] instance containing all the errors of
-   * both `this` and `other`, in that order.
-   *
-   * @param other the other [[ConfigErrors]]
+    * Creates a new [[ConfigErrors]] instance containing all the errors of
+    * both `this` and `other`, in that order.
+    *
+    * @param other the other [[ConfigErrors]]
     * @return a new [[ConfigErrors]] instance
     * @example {{{
     * scala> ConfigErrors(ConfigError("error1")).combine(ConfigErrors(ConfigError("error2")))
     * res0: ConfigErrors = ConfigErrors(ConfigError(error1), ConfigError(error2))
     * }}}
-   */
+    */
   def combine(other: ConfigErrors): ConfigErrors =
     new ConfigErrors(this.toVector ++ other.toVector)
 
@@ -185,4 +187,9 @@ object ConfigErrors {
   def right[A](value: A): Either[ConfigErrors, A] =
     Right(value)
 
+  implicit val configErrorsSemigroup: Semigroup[ConfigErrors] =
+    Semigroup.instance(_ combine _)
+
+  implicit val configErrorsShow: Show[ConfigErrors] =
+    Show.fromToString
 }
