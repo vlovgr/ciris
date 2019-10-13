@@ -1,150 +1,57 @@
 package ciris
 
-import cats.{~>, Id}
 import cats.implicits._
+import cats.kernel.laws.discipline.EqTests
 
-final class ConfigEntrySpec extends PropertySpec {
-  "ConfigEntry" when {
-    "using toString" should {
-      "include the key and keyType" in {
-        forAll { value: String =>
-          existingEntry(value).toString shouldBe
-            s"ConfigEntry(key, ConfigKeyType(test key))"
+final class ConfigEntrySpec extends BaseSpec {
+  test("ConfigEntry.default.hashCode") {
+    forAll { (e: ConfigError, e2: ConfigError, default: String, default2: String) =>
+      whenever((e !== e2) && (default != default2)) {
+        val entry1 = ConfigEntry.Default(e, () => default)
+        val entry2 = ConfigEntry.Default(e, () => default2)
+        val entry3 = ConfigEntry.Default(e2, () => default)
+        val entry4 = ConfigEntry.Default(e, () => default)
+
+        assert {
+          (entry1.hashCode !== entry2.hashCode) &&
+          (entry2.hashCode !== entry3.hashCode) &&
+          (entry1.hashCode !== entry3.hashCode) &&
+          (entry1.hashCode === entry4.hashCode)
         }
       }
     }
+  }
 
-    "using show" should {
-      "include the key and keyType" in {
-        forAll { value: String =>
-          existingEntry(value).show shouldBe
-            s"ConfigEntry(key, ConfigKeyType(test key))"
+  test("ConfigEntry.default.equals.default") {
+    forAll { (e: ConfigError, e2: ConfigError, default: String, default2: String) =>
+      whenever((e !== e2) && (default != default2)) {
+        val entry1 = ConfigEntry.Default(e, () => default)
+        val entry2 = ConfigEntry.Default(e, () => default2)
+        val entry3 = ConfigEntry.Default(e2, () => default)
+        val entry4 = ConfigEntry.Default(e, () => default)
+
+        assert {
+          (entry1 != entry2) &&
+          (entry2 != entry3) &&
+          (entry1 != entry3) &&
+          (entry1 == entry4)
         }
       }
     }
+  }
 
-    "using toStringWithValue" should {
-      "include the value" in {
-        forAll { value: String =>
-          existingEntry(value).toStringWithValue shouldBe
-            s"ConfigEntry(key, ConfigKeyType(test key), Right($value))"
-        }
-      }
+  test("ConfigEntry.default.equals.non default") {
+    forAll { (e: ConfigError, default: String) =>
+      val entry = ConfigEntry.Default(e, () => default)
+      assert((entry: Any) != e && (entry: Any) != default)
     }
+  }
 
-    "using toStringWithValues" should {
-      "include the key, keyType, and value" in {
-        forAll { value: String =>
-          existingEntry(value).toStringWithValues shouldBe
-            s"ConfigEntry(key, ConfigKeyType(test key), Right($value))"
-        }
-      }
+  checkAll("ConfigEntry", EqTests[ConfigEntry[String]].eqv)
 
-      "include the sourceValue as well if different from the value" in {
-        forAll { value: String =>
-          existingEntry(value)
-            .mapValue(_ + "2")
-            .toStringWithValues shouldBe {
-            s"ConfigEntry(key, ConfigKeyType(test key), Right($value), Right(${value}2))"
-          }
-        }
-      }
-    }
-
-    "using toStringWithResult" should {
-      "include the key, keyType, and result" in {
-        forAll { value: String =>
-          existingEntry(value).toStringWithResult shouldBe
-            s"ConfigEntry(key, ConfigKeyType(test key), Right($value))"
-        }
-      }
-
-      "include the key, keyType, and errors" in {
-        nonExistingEntry.toStringWithResult shouldBe
-          s"ConfigEntry(key, ConfigKeyType(test key), Left(ConfigErrors(MissingKey(key, ConfigKeyType(test key)))))"
-      }
-    }
-
-    "using withValue" should {
-      "replace the existing value" in {
-        existingEntry("value").withValue(Right("value2")).value shouldBe Right("value2")
-      }
-    }
-
-    "using flatMapValue" should {
-      "keep this error" in {
-        nonExistingEntry.flatMapValue(_ => Right("value")).value shouldBe a[Left[_, _]]
-      }
-
-      "replace the value" in {
-        existingEntry("value").flatMapValue(_ => Right("value2")).value shouldBe Right("value2")
-      }
-    }
-
-    "using mapValue" when {
-      "the value was read successfully" should {
-        "apply the function on the value" in {
-          forAll { value: String =>
-            val f: String => String = _.take(1)
-            val entry = existingEntry(value).mapValue(f)
-            entry.value shouldBe Right(f(value))
-          }
-        }
-      }
-
-      "the value was not read successfully" should {
-        "leave the value as it is" in {
-          val entry = nonExistingEntry.mapValue(_.take(1))
-          entry.value shouldBe nonExistingEntry.value
-        }
-      }
-    }
-
-    "using transformF" when {
-      "transforming Id to Id" should {
-        "leave the values unmodified" in {
-          val entry = existingEntry("value")
-          val transformed = entry.transformF[Id] {
-            new (Id ~> Id) {
-              def apply[A](a: A): A = a
-            }
-          }
-
-          transformed.value shouldBe entry.value
-          transformed.sourceValue shouldBe entry.sourceValue
-        }
-      }
-    }
-
-    "using orElse" when {
-      "this value was read successfully" should {
-        "use this value and not the other one" in {
-          existingEntry("value")
-            .orElse(existingEntry("value2"))
-            .value shouldBe Right("value")
-        }
-      }
-
-      "this value was not read successfully" when {
-        "the other value was read successfully" should {
-          "use the other value" in {
-            nonExistingEntry
-              .orElse(existingEntry("value2"))
-              .value shouldBe Right("value2")
-          }
-        }
-
-        "the other value was not read successfully" should {
-          "accumulate the errors of both values" in {
-            val (first, second) = (nonExistingEntry, nonExistingEntry)
-            val (error1, error2) = (
-              first.value.swap.getOrElse(throw new IllegalArgumentException),
-              second.value.swap.getOrElse(throw new IllegalArgumentException)
-            )
-            first.orElse(second).value.left.get.message shouldBe (error1 combine error2).message
-          }
-        }
-      }
+  test("ConfigEntry.show") {
+    forAll { entry: ConfigEntry[String] =>
+      assert(entry.show === entry.toString)
     }
   }
 }

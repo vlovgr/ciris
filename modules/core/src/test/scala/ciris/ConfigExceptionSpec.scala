@@ -1,50 +1,78 @@
 package ciris
 
-import cats.implicits._
+import cats.kernel.laws.discipline.EqTests
 
-final class ConfigExceptionSpec extends PropertySpec {
-  "ConfigException" when {
-    "converting to String" should {
-      "include the errors" in {
-        val configException =
-          ConfigErrors(ConfigError.missingKey("key", ConfigKeyType.Environment))
-            .append(ConfigError.readException("key", ConfigKeyType.Property, new Error("error")))
-            .toException
+final class ConfigExceptionSpec extends BaseSpec {
+  checkAll("ConfigException", EqTests[ConfigException].eqv)
 
-        configException.toString shouldBe s"ciris.ConfigException: ${configException.getMessage}"
-        configException.show shouldBe configException.toString
-      }
+  test("ConfigException.error") {
+    forAll { error: ConfigError =>
+      assert(ConfigException(error).error === error)
     }
+  }
 
-    "retrieving the message" when {
-      "there is a single error" should {
-        "list the single error" in {
-          val configException =
-            ConfigErrors(ConfigError.missingKey("key", ConfigKeyType.Environment)).toException
+  test("ConfigException.message.contains") {
+    forAll { exception: ConfigException =>
+      val exceptionMessage =
+        exception.getMessage
 
-          configException.getMessage.trim shouldBe
-            """
-              |configuration loading failed with the following errors.
-              |
-              |  - Missing environment variable [key].
-            """.stripMargin.trim
-        }
-      }
+      val messages =
+        exception.error.messages
 
-      "there are multiple errors" should {
-        "list all the errors without duplicate trailing dots" in {
-          val configException =
-            ConfigErrors(ConfigError.missingKey("key", ConfigKeyType.Environment))
-              .append(ConfigError.readException("key", ConfigKeyType.Property, new Error("error.")))
-              .toException
+      val withEntryTrailing =
+        messages
+          .filter(_.endsWith(ConfigException.entryTrailing))
+          .forall { message =>
+            exceptionMessage.contains {
+              s"${ConfigException.entryLeading}$message"
+            }
+          }
 
-          configException.getMessage.trim shouldBe
-            """
-              |configuration loading failed with the following errors.
-              |
-              |  - Missing environment variable [key].
-              |  - Exception while reading system property [key]: java.lang.Error: error.
-            """.stripMargin.trim
+      val withoutEntryTrailing =
+        messages
+          .filterNot(_.endsWith(ConfigException.entryTrailing))
+          .forall { message =>
+            exceptionMessage.contains {
+              s"${ConfigException.entryLeading}$message${ConfigException.entryTrailing}"
+            }
+          }
+
+      assert(withEntryTrailing && withoutEntryTrailing)
+    }
+  }
+
+  test("ConfigException.message.leading") {
+    forAll { exception: ConfigException =>
+      assert(exception.getMessage.startsWith(ConfigException.messageLeading))
+    }
+  }
+
+  test("ConfigException.message.trailing") {
+    forAll { exception: ConfigException =>
+      assert(exception.getMessage.endsWith(ConfigException.messageTrailing))
+    }
+  }
+
+  test("ConfigException.messageLength") {
+    forAll { exception: ConfigException =>
+      val expected = ConfigException.messageLength(exception.error.messages)
+      val actual = exception.getMessage.length
+      assert(actual === expected)
+    }
+  }
+
+  test("ConfigException.toString") {
+    forAll { exception: ConfigException =>
+      assert(exception.toString === s"ciris.ConfigException: ${exception.getMessage}")
+    }
+  }
+
+  test("ConfigException.unapply") {
+    forAll { exception: ConfigException =>
+      assert {
+        exception match {
+          case ConfigException(error) =>
+            error === exception.error
         }
       }
     }

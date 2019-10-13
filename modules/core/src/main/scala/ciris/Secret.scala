@@ -1,101 +1,173 @@
+/*
+ * Copyright 2017-2019 Viktor Lövgren
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 package ciris
 
-import cats.Show
-import ciris.internal.digest.sha1Hex
+import cats.{Eq, Show}
+import cats.implicits._
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import scala.annotation.tailrec
 
 /**
-  * [[Secret]] is used to denote that a configuration value is secret, and
-  * that it should not be included in any log output. By wrapping a value
-  * with `Secret`, the value will not be printed, but a `Secret(hash)`
-  * placeholder will take its place, where `hash` is the SHA1 short
-  * hash of the value as a `String` in UTF-8. The short hash can
-  * be retrieved with [[valueShortHash]] and the full hash with
-  * [[valueHash]]. When decoding types wrapped with [[Secret]],
-  * sensitive details will automatically be redacted from
-  * error messages.<br>
-  * <br>
-  * To create a new `Secret`, use the apply method in the companion object.
-  * {{{
-  * scala> Secret(123)
-  * res0: Secret[Int] = Secret(40bd001)
+  * Secret configuration value which might contain sensitive details.
+  *
+  * When a secret configuration value is shown, the value is replaced
+  * by the first 7 characters of the SHA-1 hash for the value. This
+  * short SHA-1 hash is available as [[Secret#valueShortHash]], and
+  * the full SHA-1 hash is available as [[Secret#valueHash]]. The
+  * underlying configuration value is available as [[Secret#value]].
+  *
+  * [[ConfigValue#secret]] can be used to wrap a value in [[Secret]],
+  * while also redacting sentitive details from errors.
+  *
+  * @example {{{
+  * scala> import cats.implicits._
+  * import cats.implicits._
+  *
+  * scala> val secret = Secret(123)
+  * secret: Secret[Int] = Secret(40bd001)
+  *
+  * scala> secret.valueShortHash
+  * res0: String = 40bd001
+  *
+  * scala> secret.valueHash
+  * res1: String = 40bd001563085fc35165329ea1ff5c5ecbdbbeef
+  *
+  * scala> secret.value
+  * res2: Int = 123
   * }}}
-  *
-  * The `equals`, `hashCode`, `copy`, and `unapply` methods are implemented.
-  * {{{
-  * scala> Secret(123) == Secret(123)
-  * res1: Boolean = true
-  *
-  * scala> Secret(123).copy("abc")
-  * res2: Secret[String] = Secret(a9993e3)
-  *
-  * scala> Secret(123) match { case Secret(value) => Secret(value + 1) }
-  * res3: Secret[Int] = Secret(f38cfe2)
-  * }}}
-  *
-  * The original value can be retrieved; be careful to not include it in logs.
-  * {{{
-  * scala> Secret(123).value
-  * res4: Int = 123
-  * }}}
-  *
-  * @param value the original value which the `Secret` is wrapping
-  * @tparam A the type of the original value being wrapped
   */
-final class Secret[A] private (val value: A) {
+sealed abstract class Secret[+A] {
 
   /**
-    * Generates the SHA1 hash of the value as a `String` in UTF-8 encoding.
-    * The hash is returned in hex encoding and a short version, available
-    * from [[valueShortHash]] is used in [[toString]].
-    *
-    * @return the SHA1 hex hash of `value.toString` in UTF-8
+    * Returns the underlying configuration value.
     */
-  def valueHash: String =
-    sha1Hex(value.toString)
+  def value: A
 
   /**
-    * Short version of [[valueHash]]. Only the first 7 characters are
-    * included. This short version of the hash is used in [[toString]].
+    * Returns the SHA-1 hash for the configuration value.
     *
-    * @return the first 7 characters of [[valueHash]]
+    * Hashing is done in `UTF-8` and the hash is
+    * returned in hexadecimal format.
     */
-  def valueShortHash: String =
-    valueHash.take(7)
+  def valueHash: String
 
   /**
-    * Generates a `String` representation which includes the short SHA1
-    * hash of the value as a `String`. By logging this hash, we can see
-    * whether it matches a pre-generated hash of the secret, and know
-    * that we're using the expected secret -- without logging the
-    * actual secret.
+    * Returns the first 7 characters of the SHA-1 hash
+    * for the configuration value.
     *
-    * @return a `String` representation containing [[valueShortHash]]
-    * @see [[valueShortHash]]
-    * @see [[valueHash]]
+    * @see [[Secret#valueHash]]
     */
-  override def toString: String =
-    s"Secret($valueShortHash)"
-
-  override def equals(that: Any): Boolean =
-    that match {
-      case Secret(a) => value == a
-      case _         => false
-    }
-
-  override def hashCode: Int =
-    value.hashCode
-
-  def copy[B](value: B = value): Secret[B] =
-    new Secret(value = value)
+  def valueShortHash: String
 }
 
-object Secret {
-  def apply[A](value: A): Secret[A] =
-    new Secret(value)
+/**
+  * @groupname Create Creating Instances
+  * @groupprio Create 0
+  *
+  * @groupname Instances Type Class Instances
+  * @groupprio Instances 1
+  */
+final object Secret {
 
-  def unapply[A](secret: Secret[A]): Option[A] =
+  /**
+    * Returns a new [[Secret]] for the specified configuration value.
+    *
+    * The [[Secret#valueHash]] will be calculated using the shown value.
+    *
+    * @example {{{
+    * scala> import cats.implicits._
+    * import cats.implicits._
+    *
+    * scala> Secret(12.5)
+    * res0: Secret[Double] = Secret(90db4c0)
+    * }}}
+    *
+    * @group Create
+    */
+  final def apply[A](value: A)(implicit show: Show[A]): Secret[A] = {
+    val _value = value
+    new Secret[A] {
+      override final val value: A =
+        _value
+
+      override final def valueHash: String =
+        sha1Hex(value.show)
+
+      override final def valueShortHash: String =
+        valueHash.take(7)
+
+      override final def hashCode: Int =
+        value.hashCode
+
+      override final def equals(that: Any): Boolean =
+        that match {
+          case Secret(thatValue) => value == thatValue
+          case _                 => false
+        }
+
+      override final def toString: String =
+        s"Secret($valueShortHash)"
+    }
+  }
+
+  /**
+    * Returns the configuration value for the specified [[Secret]].
+    *
+    * This function enables pattern matching on [[Secret]]s.
+    *
+    * @example {{{
+    * scala> import cats.implicits._
+    * import cats.implicits._
+    *
+    * scala> val secret = Secret(12.5)
+    * secret: Secret[Double] = Secret(90db4c0)
+    *
+    * scala> secret match { case Secret(value) => value }
+    * res0: Double = 12.5
+    * }}}
+    *
+    * @group Create
+    */
+  final def unapply[A](secret: Secret[A]): Some[A] =
     Some(secret.value)
 
-  implicit def secretShow[A]: Show[Secret[A]] =
+  /**
+    * @group Instances
+    */
+  implicit final def secretEq[A](implicit eq: Eq[A]): Eq[Secret[A]] =
+    Eq.by(_.value)
+
+  /**
+    * @group Instances
+    */
+  implicit final def secretShow[A]: Show[Secret[A]] =
     Show.fromToString
+
+  private[this] final val hexChars: Array[Char] =
+    Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')
+
+  private[this] final def hex(in: Array[Byte]): Array[Char] = {
+    val length = in.length
+
+    @tailrec def encode(out: Array[Char], i: Int, j: Int): Array[Char] = {
+      if (i < length) {
+        out(j) = hexChars((0xf0 & in(i)) >>> 4)
+        out(j + 1) = hexChars(0x0f & in(i))
+        encode(out, i + 1, j + 2)
+      } else out
+    }
+
+    encode(new Array(length << 1), 0, 0)
+  }
+
+  private[this] final def sha1(bytes: Array[Byte]): Array[Byte] =
+    MessageDigest.getInstance("SHA-1").digest(bytes)
+
+  private[this] final def sha1Hex(s: String): String =
+    new String(hex(sha1(s.getBytes(StandardCharsets.UTF_8))))
 }

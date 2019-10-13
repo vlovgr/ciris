@@ -1,413 +1,347 @@
+/*
+ * Copyright 2017-2019 Viktor Lövgren
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 package ciris
 
-import cats.Show
-import ciris.ConfigError.{Combined, MissingKey}
+import cats.{Eq, Show}
+import cats.data.Chain
+import cats.implicits._
+import ciris.ConfigError._
 
 /**
-  * [[ConfigError]] represents one or more errors that occurred while reading
-  * or decoding a single [[ConfigEntry]] configuration entry value. An error
-  * is basically a `String` message, and can be created from one by using
-  * [[ConfigError#apply]] in the companion object.
+  * Error which occurred while loading or decoding configuration values.
   *
-  * {{{
+  * Configuration errors can be created using [[ConfigError.apply]], or
+  * with [[ConfigError.sensitive]] if the error might contain sensitive
+  * details. When writing [[ConfigDecoder]]s, [[ConfigError.decode]]
+  * can be useful for creating decoding errors.
+  *
+  * Errors for a single configuration value, which might be retrieved
+  * from one of multiple sources, can be combined and accumulated with
+  * [[ConfigError#or]]. Errors for multiple configuration values can
+  * similarly be accumulated using [[ConfigError#and]].
+  *
+  * Error messages can be retrieved using [[ConfigError#messages]]. If
+  * the error relates to a value which might contain sensitive details,
+  * [[ConfigError#redacted]] can be used to redact such details. When
+  * [[ConfigValue#secret]] is used, sensitive details are redacted and
+  * the value is wrapped in [[Secret]] to prevent it from being shown.
+  *
+  * A `Throwable` representation of a [[ConfigError]] can be retrieved
+  * using [[ConfigError#throwable]].
+  *
+  * @example {{{
   * scala> val error = ConfigError("error")
   * error: ConfigError = ConfigError(error)
   *
-  * scala> error.message
-  * res0: String = error
+  * scala> val sensitive = ConfigError.sensitive("error", "redacted")
+  * sensitive: ConfigError = Sensitive(error, redacted)
+  *
+  * scala> error.or(sensitive).messages
+  * res0: cats.data.Chain[String] = Chain(Error and error)
+  *
+  * scala> error.and(sensitive).redacted.messages
+  * res1: cats.data.Chain[String] = Chain(error, redacted)
   * }}}
-  *
-  * [[ConfigError]]s can be combined into a single [[ConfigError]] using the
-  * [[combine]] method. This is useful when there was more than one error
-  * when reading or decoding the configuration value.
-  *
-  * {{{
-  * scala> error combine ConfigError("error2")
-  * res1: ConfigError = Combined(ConfigError(error), ConfigError(error2))
-  * }}}
-  *
-  * There is also a convenience method [[append]] for creating [[ConfigErrors]].
-  *
-  * {{{
-  * scala> error append ConfigError("error2")
-  * res2: ConfigErrors = ConfigErrors(ConfigError(error), ConfigError(error2))
-  * }}}
-  *
-  * The companion object contains methods for creating the most common
-  * [[ConfigError]]s, like:<br>
-  * <br>
-  * - [[ConfigError#missingKey]] for when there is no value for a specified key,<br>
-  * - [[ConfigError#readException]] for when an error occurred while reading a key, and<br>
-  * - [[ConfigError#wrongType]] for when the value couldn't be converted to the expected type.
   */
 sealed abstract class ConfigError {
 
   /**
-    * The `String` error message for this [[ConfigError]].
-    *
-    * @return the error message
-    * @example {{{
-    * scala> ConfigError("error").message
-    * res0: String = error
-    * }}}
+    * Returns the error messages of the contained errors.
     */
-  def message: String
+  def messages: Chain[String]
 
   /**
-    * Returns a new [[ConfigError]] with any potentially sensitive
-    * details, like secret configuration values, redacted from the
-    * error message.
-    *
-    * @return a new [[ConfigError]]
+    * Returns a new [[ConfigError]] with sensitive details redacted.
     */
-  def redactSensitive: ConfigError
+  def redacted: ConfigError
 
   /**
-    * Checks whether this error occurred because the key for the value
-    * was missing from the [[ConfigSource]]. If this error is in fact
-    * a combination of different errors, checks whether all of them
-    * are because of the keys were missing.
-    *
-    * @return `true` if the key was missing from the source;
-    *         `false` otherwise
+    * Returns a new [[ConfigError]] combining errors for
+    * separate configuration values.
     */
-  final def isMissingKey: Boolean = this match {
-    case MissingKey(_, _) => true
-    case Combined(errors) => errors.forall(_.isMissingKey)
-    case _                => false
-  }
+  final def and(that: ConfigError): ConfigError =
+    (this, that) match {
+      case (_, Empty)         => this
+      case (Empty, _)         => that
+      case (And(as), And(bs)) => normalize(as ++ bs, And)
+      case (And(as), _)       => normalize(as :+ that, And)
+      case (_, And(bs))       => normalize(this +: bs, And)
+      case (_, _)             => normalize(Chain(this, that), And)
+    }
 
   /**
-    * Combines this [[ConfigError]] with that [[ConfigError]] to create
-    * a new [[ConfigError]] with both error messages. This is useful
-    * when there is more than one error when reading or decoding a
-    * single value.<br>
-    * <br>
-    * [[ConfigError]]s are combined in order, so that the message of this
-    * [[ConfigError]] is before the message of that [[ConfigError]].
+    * Returns `true` if the error is due to no value
+    * being available; otherwise `false`.
     *
-    * @param that the [[ConfigError]] to combine with this [[ConfigError]]
-    * @return a new [[ConfigError]] with both errors' messages
-    * @example {{{
-    * scala> ConfigError("error1") combine ConfigError("error2")
-    * res0: ConfigError = Combined(ConfigError(error1), ConfigError(error2))
-    * }}}
+    * If the error is a combination of multiple errors,
+    * returns `true` if all errors are due to no value
+    * being available; otherwise `false`.
     */
-  final def combine(that: ConfigError): ConfigError =
-    ConfigError.combined(this, that)
+  private[ciris] final def isMissing: Boolean =
+    this match {
+      case And(errors)     => errors.forall(_.isMissing)
+      case Apply(_)        => false
+      case Empty           => false
+      case Loaded          => false
+      case Missing(_)      => true
+      case Or(errors)      => errors.forall(_.isMissing)
+      case Sensitive(_, _) => false
+    }
 
   /**
-    * Appends that [[ConfigError]] to this [[ConfigError]] to create a
-    * new [[ConfigErrors]] instance. This is useful for when reading or
-    * decoding more than one value and errors need to be accumulated.<br>
-    * <br>
-    * [[ConfigError]]s are appended in order so that this [[ConfigError]]
-    * is before that [[ConfigError]] in the resulting [[ConfigErrors]].
-    *
-    * @param that the [[ConfigError]] to append
-    * @return a new [[ConfigErrors]] instance containing this
-    *         [[ConfigError]] followed by that [[ConfigError]]
-    * @example {{{
-    * scala> ConfigError("error1") append ConfigError("error2")
-    * res0: ConfigErrors = ConfigErrors(ConfigError(error1), ConfigError(error2))
-    * }}}
+    * Returns a new [[ConfigError]] combining errors for
+    * a single configuration value.
     */
-  final def append(that: ConfigError): ConfigErrors =
-    ConfigErrors(this, that)
+  final def or(that: ConfigError): ConfigError =
+    (this, that) match {
+      case (_, Empty)       => this
+      case (Empty, _)       => that
+      case (Or(as), Or(bs)) => normalize(as ++ bs, Or)
+      case (Or(as), _)      => normalize(as :+ that, Or)
+      case (_, Or(bs))      => normalize(this +: bs, Or)
+      case (_, _)           => normalize(Chain(this, that), Or)
+    }
+
+  /**
+    * Returns a new `Throwable` including the contained
+    * error messages.
+    */
+  final def throwable: Throwable =
+    ConfigException(this)
 }
 
-object ConfigError {
+/**
+  * @groupname Create Creating Instances
+  * @groupprio Create 0
+  *
+  * @groupname Instances Type Class Instances
+  * @groupprio Instances 1
+  */
+final object ConfigError {
 
   /**
-    * Creates a new [[ConfigError]] with the specified message. Note that
-    * the specified message should not contain any potentially sensitive
-    * details, like secret configuration values. If that's the case, you
-    * can instead use [[sensitive]] and provide a redacted message.
+    * Returns a new [[ConfigError]] using the specified message.
     *
-    * @param message the message to use for the [[ConfigError]]
-    * @return a new [[ConfigError]] with the specified message
-    * @note note that the message is passed by reference, meaning it will not
-    *       be evaluated until the [[ConfigError#message]] method is invoked.
-    * @example {{{
-    * scala> ConfigError("error1")
-    * res0: ConfigError = ConfigError(error1)
-    * }}}
+    * If the specified message might contain sensitive details,
+    * then use [[ConfigError.sensitive]] instead to create an
+    * error which is capable of redacting sensitive details.
+    *
+    * @group Create
     */
-  def apply(message: => String): ConfigError = {
-    def theMessage: String = message
-    new ConfigError {
-      override def message: String = theMessage
-      override def redactSensitive: ConfigError = this
-      override def toString: String = s"ConfigError($message)"
-    }
-  }
+  final def apply(message: => String): ConfigError =
+    Apply(() => message)
 
   /**
-    * Creates a new [[ConfigError]] with the specified message, where the
-    * message might contain sensitive details, like secret configuration
-    * values. For this reason, a redacted message must be provided, where
-    * such details have been removed.
+    * Returns a new [[ConfigError]] using the specified message and
+    * redacted message.
     *
-    * You can use [[redactedValue]] as a replacement for redacted values.
+    * The specified message is used in the returned [[ConfigError]].
+    * Whenever [[ConfigError#redacted]] is invoked on the returned
+    * instance, a new [[ConfigError]] is returned which instead
+    * uses the redacted message.
     *
-    * @param message the message to use for the [[ConfigError]]
-    * @param redactedMessage the message with any potentially sensitive
-    *                        details replaced with [[redactedValue]]
-    * @return a new [[ConfigError]]
-    * @note note that the messages are passed by reference, meaning they will
-    *       not be evaluated until the [[ConfigError#message]] method is invoked.
-    * @example {{{
-    * scala> ConfigError.sensitive(
-    *      |   message = "value [secret123] is not a valid Int",
-    *      |   redactedMessage = s"value [<redacted>] is not a valid Int"
-    *      | )
-    * res0: ConfigError(value [secret123] is not a valid Int)
-    *
-    * scala> res0.redactSensitive
-    * res1: ConfigError(value [<redacted>] is not a valid Int)
-    * }}}
+    * @group Create
     */
-  def sensitive(message: => String, redactedMessage: => String): ConfigError = {
-    def theMessage: String = message
-    new ConfigError {
-      override def message: String = theMessage
-      override def toString: String = s"ConfigError($message)"
-      override def redactSensitive: ConfigError = ConfigError(redactedMessage)
-    }
-  }
+  final def sensitive(message: => String, redactedMessage: => String): ConfigError =
+    Sensitive(() => message, () => redactedMessage)
 
-  private final class Combined(val errors: Vector[ConfigError]) extends ConfigError {
-    private def uncapitalize(s: String): String =
-      if (s.length == 0 || s.charAt(0).isLower) s
-      else {
-        val chars = s.toCharArray
-        chars(0) = chars(0).toLower
-        new String(chars)
+  /**
+    * Returns a new [[ConfigError]] for when the specified value
+    * could not be decoded.
+    *
+    * @group Create
+    */
+  final def decode[A](
+    typeName: String,
+    key: Option[ConfigKey],
+    value: A
+  )(implicit show: Show[A]): ConfigError = {
+    def message(valueShown: Option[String]): String =
+      (key, valueShown) match {
+        case (Some(key), Some(value)) =>
+          s"${key.description.capitalize} with value $value cannot be converted to $typeName"
+        case (Some(key), None) =>
+          s"${key.description.capitalize} cannot be converted to $typeName"
+        case (None, Some(value)) =>
+          s"Unable to convert value $value to $typeName"
+        case (None, None) =>
+          s"Unable to convert value to $typeName"
       }
 
-    override def message: String = {
+    ConfigError.sensitive(
+      message = message(Some(value.show)),
+      redactedMessage = message(None)
+    )
+  }
+
+  private[ciris] final case class And(errors: Chain[ConfigError]) extends ConfigError {
+    override final def messages: Chain[String] =
+      errors.flatMap(_.messages)
+
+    override final def redacted: ConfigError =
+      And(errors.map(_.redacted))
+
+    override final def toString: String =
+      s"And(${errors.toList.mkString(", ")})"
+  }
+
+  private[ciris] final case class Apply(message: () => String) extends ConfigError {
+    override final def messages: Chain[String] =
+      Chain.one(message())
+
+    override final val redacted: ConfigError =
+      this
+
+    override final def hashCode: Int =
+      message().hashCode
+
+    override final def equals(that: Any): Boolean =
+      that match {
+        case Apply(message2) => message() == message2()
+        case _               => false
+      }
+
+    override final def toString: String =
+      s"ConfigError(${message()})"
+  }
+
+  private[ciris] final case object Empty extends ConfigError {
+    override final val messages: Chain[String] =
+      Chain.empty
+
+    override final val redacted: ConfigError =
+      this
+
+    override final def toString: String =
+      "Empty"
+  }
+
+  private[ciris] final case object Loaded extends ConfigError {
+    override final val messages: Chain[String] =
+      Chain.empty
+
+    override final val redacted: ConfigError =
+      this
+
+    override final def toString: String =
+      "Loaded"
+  }
+
+  private[ciris] final case class Missing(key: ConfigKey) extends ConfigError {
+    override final def messages: Chain[String] =
+      Chain.one(s"Missing ${uncapitalize(key.description)}")
+
+    override final val redacted: ConfigError =
+      this
+
+    override final def toString: String =
+      s"Missing($key)"
+  }
+
+  private[ciris] final case class Or(errors: Chain[ConfigError]) extends ConfigError {
+    override final def messages: Chain[String] = {
       val messages =
         errors
-          .map(_.message)
-          .filter(_.nonEmpty)
+          .flatMap(_.messages)
+          .toVector
           .zipWithIndex
           .map {
             case (m, 0) => m.capitalize
             case (m, _) => uncapitalize(m)
           }
 
-      messages match {
-        case Vector()       => ""
-        case Vector(m1)     => m1
-        case Vector(m1, m2) => m1 ++ " and " ++ m2
-        case ms             => ms.init.mkString(", ") ++ ", and " ++ ms.last
+      Chain.one {
+        if (messages.size < 3) {
+          messages.mkString(" and ")
+        } else {
+          messages.init.mkString("", ", ", s", and ${messages.last}")
+        }
       }
     }
 
-    override def redactSensitive: ConfigError =
-      new Combined(errors.map(_.redactSensitive))
+    override final def redacted: ConfigError =
+      Or(errors.map(_.redacted))
 
-    override def toString: String = s"Combined(${errors.mkString(", ")})"
+    override final def toString: String =
+      s"Or(${errors.toList.mkString(", ")})"
   }
 
-  private object Combined {
-    def unapply(combined: Combined): Option[Vector[ConfigError]] =
-      Some(combined.errors)
-  }
-
-  /**
-    * Combines two or more [[ConfigError]]s into a single [[ConfigError]].
-    * This is useful when there is more than one error when reading or
-    * decoding a value.
-    *
-    * @param first the first [[ConfigError]] to combine
-    * @param second the second [[ConfigError]] to combine
-    * @param rest any remaining [[ConfigError]]s to combine
-    * @return a new [[ConfigError]] combining all specified errors
-    * @example you can use the [[ConfigError#combined]] method.
-    * {{{
-    * scala> ConfigError.combined(ConfigError("error1"), ConfigError("error2"))
-    * res0: ConfigError = Combined(ConfigError(error1), ConfigError(error2))
-    * }}}
-    * @example you can use the [[ConfigError#combine]] method.
-    * {{{
-    * scala> ConfigError("error1") combine ConfigError("error2")
-    * res1: ConfigError = Combined(ConfigError(error1), ConfigError(error2))
-    * }}}
-    */
-  def combined(first: ConfigError, second: ConfigError, rest: ConfigError*): ConfigError =
-    new Combined(Vector(first, second) ++ rest)
-
-  private final class MissingKey[K](val key: K, val keyType: ConfigKeyType[K]) extends ConfigError {
-    override def message: String = s"Missing ${keyType.name} [$key]"
-    override def toString: String = s"MissingKey($key, $keyType)"
-    override def redactSensitive: ConfigError = this
-  }
-
-  private object MissingKey {
-    def unapply[K](missingKey: MissingKey[K]): Option[(K, ConfigKeyType[K])] =
-      Some((missingKey.key, missingKey.keyType))
-  }
-
-  /**
-    * Creates a new error representing the fact that a key is missing from the
-    * configuration source, that is, that there is no value for a specified key.
-    * Accepts a key value of type `K` and a matching [[ConfigKeyType]].
-    *
-    * @param key the key which is missing from the configuration source
-    * @param keyType the name and type of keys the source supports
-    * @tparam K the type of the key
-    * @return a new error using the specified key and key type
-    * @example {{{
-    * scala> val error = ConfigError.missingKey("key", ConfigKeyType.Environment)
-    * error: ConfigError = MissingKey(key, Environment)
-    *
-    * scala> error.message
-    * res0: String = Missing environment variable [key]
-    * }}}
-    */
-  def missingKey[K](key: K, keyType: ConfigKeyType[K]): ConfigError =
-    new MissingKey[K](key, keyType)
-
-  private final class ReadException[K](
-    key: K,
-    keyType: ConfigKeyType[K],
-    cause: Throwable
+  private[ciris] final case class Sensitive(
+    message: () => String,
+    redactedMessage: () => String
   ) extends ConfigError {
-    override def message: String = s"Exception while reading ${keyType.name} [$key]: $cause"
-    override def toString: String = s"ReadException($key, $keyType, $cause)"
-    override def redactSensitive: ConfigError = this
+    override final def messages: Chain[String] =
+      Chain.one(message())
+
+    override final def redacted: ConfigError =
+      Apply(redactedMessage)
+
+    override final def hashCode: Int =
+      (message(), redactedMessage()).hashCode
+
+    override final def equals(that: Any): Boolean =
+      that match {
+        case Sensitive(message2, redactedMessage2) =>
+          message() == message2() && redactedMessage() == redactedMessage2()
+        case _ =>
+          false
+      }
+
+    override final def toString: String =
+      s"Sensitive(${message()}, ${redactedMessage()})"
   }
 
-  /**
-    * Creates a new error representing the fact that there was an exception while
-    * reading a key from some configuration source. Accepts a key of type `K`, a
-    * matching [[ConfigKeyType]], and the `Throwable` cause.
-    *
-    * @param key the key for which there was a read exception
-    * @param keyType the name and type of keys the source supports
-    * @param cause the reason why there was an exception while reading
-    * @tparam K the type of the key
-    * @return a new error using the specified arguments
-    * @example {{{
-    * scala> val error = ConfigError.readException("key", ConfigKeyType.Environment, new Error("error"))
-    * error: ConfigError = ReadException(key, Environment, java.lang.Error: error)
-    *
-    * scala> error.message
-    * res0: String = Exception while reading environment variable [key]: java.lang.Error: error
-    * }}}
-    */
-  def readException[K](key: K, keyType: ConfigKeyType[K], cause: Throwable): ConfigError =
-    new ReadException[K](key, keyType, cause)
-
-  private final class WrongType[K, S, V, C](
-    key: K,
-    keyType: ConfigKeyType[K],
-    sourceValue: Either[ConfigError, S],
-    value: V,
-    typeName: String,
-    cause: Option[C]
-  ) extends ConfigError {
-    override def message: String = {
-      val causeMessage =
-        cause.map(cause => s": $cause").getOrElse("")
-
-      val sourceValueMessage =
-        sourceValue match {
-          case Right(sourceValue) if sourceValue.toString != value.toString =>
-            s" (and unmodified value [$sourceValue])"
-          case _ =>
-            ""
-        }
-
-      s"${keyType.name.capitalize} [$key] with value [$value]$sourceValueMessage cannot be converted to type [$typeName]$causeMessage"
+  private[ciris] final def normalize(
+    errors: Chain[ConfigError],
+    create: Chain[ConfigError] => ConfigError
+  ): ConfigError =
+    if (errors.contains(Loaded)) {
+      val rest = errors.filter(_ != Loaded)
+      if (rest.isEmpty) {
+        Loaded
+      } else {
+        create(rest.prepend(Loaded))
+      }
+    } else {
+      create(errors)
     }
 
-    override def toString: String = cause match {
-      case Some(cause) => s"WrongType($key, $keyType, $sourceValue, $value, $typeName, $cause)"
-      case None        => s"WrongType($key, $keyType, $sourceValue, $value, $typeName)"
+  private[ciris] final def uncapitalize(s: String): String =
+    if (s.length == 0 || s.charAt(0).isLower) s
+    else {
+      val chars = s.toCharArray
+      chars(0) = chars(0).toLower
+      new String(chars)
     }
 
-    override def redactSensitive: ConfigError = {
-      val redactedSourceValue =
-        sourceValue.fold(
-          error => Left(error.redactSensitive),
-          _ => Right(redactedValue)
-        )
-
-      val redactedCause: Option[C] = None
-
-      new WrongType(key, keyType, redactedSourceValue, redactedValue, typeName, redactedCause)
+  /**
+    * @group Instances
+    */
+  implicit final val configErrorEq: Eq[ConfigError] =
+    Eq.instance {
+      case (Empty, Empty)                         => true
+      case (Empty, _)                             => false
+      case (Loaded, Loaded)                       => true
+      case (Loaded, _)                            => false
+      case (Missing(k1), Missing(k2))             => k1 === k2
+      case (Missing(_), _)                        => false
+      case (And(e1), And(e2))                     => e1 === e2
+      case (And(_), _)                            => false
+      case (Or(e1), Or(e2))                       => e1 === e2
+      case (Or(_), _)                             => false
+      case (Apply(m1), Apply(m2))                 => m1() === m2()
+      case (Apply(_), _)                          => false
+      case (Sensitive(m1, r1), Sensitive(m2, r2)) => m1() === m2() && r1() === r2()
+      case (Sensitive(_, _), _)                   => false
     }
-  }
 
   /**
-    * Creates a new error representing the fact that there was an error while trying to
-    * convert a configuration value to a type with name `typeName`. Accepts a key of type
-    * `K`, a matching [[ConfigKeyType]], an unmodified source value of type `S`, a value
-    * of type `V`, and an optional cause of type `C`.
-    *
-    * @param key the key for which the value was of the wrong type
-    * @param value the value which could not be converted to the expected type
-    * @param typeName the name of the type for which conversion was attempted
-    * @param keyType the type of keys the configuration source reads
-    * @param cause optionally, the reason why the conversion failed
-    * @tparam K the type of the key
-    * @tparam V the type of the value
-    * @tparam C the type of the cause
-    * @return a new error using the specified arguments
-    * @example {{{
-    * scala> val error = ConfigError.wrongType("key", ConfigKeyType.Environment, Right("1.5"), 1.5, "Int", None)
-    * error: ConfigError = WrongType(key, Environment, Right(1.5), 1.5, Int)
-    *
-    * scala> error.message
-    * res0: String = Environment variable [key] with value [1.5] cannot be converted to type [Int]
-    * }}}
+    * @group Instances
     */
-  def wrongType[K, S, V, C](
-    key: K,
-    keyType: ConfigKeyType[K],
-    sourceValue: Either[ConfigError, S],
-    value: V,
-    typeName: String,
-    cause: Option[C]
-  ): ConfigError = {
-    new WrongType[K, S, V, C](key, keyType, sourceValue, value, typeName, cause)
-  }
-
-  /**
-    * Wraps the specified [[ConfigError]] in an `Either[ConfigError, A]`.
-    * Useful in cases where it is necessary to guide type inference and
-    * widen a `Left` into an `Either[ConfigError, A]`.
-    *
-    * @param error the error which should be wrapped
-    * @tparam A the right side value of the `Either`
-    * @return the specified error as an `Either[ConfigError, A]`
-    */
-  def left[A](error: ConfigError): Either[ConfigError, A] =
-    Left(error)
-
-  /**
-    * Wraps the specified value in an `Either[ConfigError, A]`. Useful
-    * in cases where it is necessary to guide type inference and widen
-    * a `Right` into an `Either[ConfigError, A]`.
-    *
-    * @param value the value which should be wrapped
-    * @tparam A the type of the value
-    * @return the specified value as an `Either[ConfigError, A]`
-    */
-  def right[A](value: A): Either[ConfigError, A] =
-    Right(value)
-
-  /**
-    * The placeholder to use in case details of error message need to
-    * be redacted with [[ConfigError#redactSensitive]]. In case you
-    * need to create [[ConfigError]]s with potentially sensitive
-    * details, you can use [[sensitive]].
-    */
-  val redactedValue: String =
-    "<redacted>"
-
-  implicit val configErrorShow: Show[ConfigError] =
+  implicit final val configErrorShow: Show[ConfigError] =
     Show.fromToString
 }

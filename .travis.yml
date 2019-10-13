@@ -1,9 +1,6 @@
-branches:
-  except:
-    - gh-pages
 language: scala
 scala:
-  - 2.12.8
+  - 2.13.0
 jdk:
   - openjdk11
 cache:

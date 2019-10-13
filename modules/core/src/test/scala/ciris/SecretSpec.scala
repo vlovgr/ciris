@@ -1,71 +1,69 @@
 package ciris
 
 import cats.implicits._
+import cats.kernel.laws.discipline.EqTests
 import org.apache.commons.codec.digest.DigestUtils.sha1Hex
-import org.scalacheck.Arbitrary
-import org.scalacheck.Arbitrary.arbitrary
 
-final class SecretSpec extends PropertySpec {
-  "Secret" should {
-    "use the short hash when represented as a string" in {
-      forAll { secret: Secret[Int] =>
-        secret.toString shouldBe s"Secret(${secret.valueShortHash})"
-        secret.show shouldBe secret.toString
-      }
+final class SecretSpec extends BaseSpec {
+  checkAll("Secret", EqTests[Secret[String]].eqv)
+
+  test("Secret.equals.other") {
+    forAll { secret: Secret[String] =>
+      assert((secret: Any) != secret.value)
     }
+  }
 
-    "be equal to a copy with the same value" in {
-      forAll { secret: Secret[Int] =>
-        secret shouldBe secret.copy()
-      }
+  test("Secret.equals.secret") {
+    forAll { (first: Secret[String], second: Secret[String]) =>
+      val expected = first.value == second.value
+      val actual = first == second
+      assert(actual === expected)
     }
+  }
 
-    "not be equal if values are different" in {
-      forAll { (a: Int, b: Int) =>
-        whenever(a != b) {
-          Secret(a) shouldNot equal(Secret(b))
+  test("Secret.hashCode") {
+    forAll { secret: Secret[String] =>
+      assert(secret.hashCode === secret.value.hashCode)
+    }
+  }
+
+  test("Secret.show") {
+    forAll { secret: Secret[String] =>
+      assert(secret.show === secret.toString)
+    }
+  }
+
+  test("Secret.toString") {
+    forAll { secret: Secret[String] =>
+      assert(secret.toString === s"Secret(${secret.valueShortHash})")
+    }
+  }
+
+  test("Secret.unapply") {
+    forAll { secret: Secret[String] =>
+      assert {
+        secret match {
+          case Secret(value) => value === secret.value
         }
-      }
-    }
-
-    "not be equal if one is not a secret" in {
-      forAll { (a: Int, b: Int) =>
-        Secret(a) shouldNot equal(b)
-      }
-    }
-
-    "have equal hash code to a copy with the same value" in {
-      forAll { secret: Secret[Int] =>
-        secret.hashCode shouldBe secret.copy().hashCode
-      }
-    }
-
-    "be able to change type when copying" in {
-      forAll { secret: Secret[Int] =>
-        secret.copy(secret.value.toString) shouldBe Secret(secret.value.toString)
-      }
-    }
-
-    "be able to extract the value with pattern matching" in {
-      forAll { secret: Secret[Int] =>
-        val value = secret match { case Secret(value) => value }
-        value shouldBe secret.value
-      }
-    }
-
-    "be able to read secret values" in {
-      forAll { value: Int =>
-        readValue[Secret[Int]](value.toString) shouldBe Right(Secret(value))
-      }
-    }
-
-    "calculate the expected hash" in {
-      forAll { s: String =>
-        Secret(s).valueHash shouldBe sha1Hex(s)
       }
     }
   }
 
-  implicit def arbSecret[A: Arbitrary]: Arbitrary[Secret[A]] =
-    Arbitrary(arbitrary[A].map(Secret.apply))
+  test("Secret.value") {
+    forAll { value: String =>
+      assert(Secret(value).value === value)
+    }
+  }
+
+  test("Secret.valueHash") {
+    forAll { secret: Secret[String] =>
+      assert(secret.valueHash === sha1Hex(secret.value.show))
+    }
+  }
+
+  test("Secret.valueShortHash") {
+    forAll { secret: Secret[String] =>
+      assert(secret.valueShortHash === secret.valueHash.substring(0, 7))
+    }
+  }
 }

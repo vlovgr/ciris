@@ -1,0 +1,87 @@
+---
+id: overview
+title: Overview
+---
+
+Ciris is a functional programming library for loading configurations.
+
+In particular, the following features are supported.
+
+- Loading values from multiple sources and defining default values.
+- Composing multiple configuration values into larger configurations.
+- Preventing secret values from being shown, redacting sensitive errors.
+- Decoding configuration values to various commonly used types.
+- Accumulating errors when multiple values cannot be loaded.
+
+Documentation is kept up-to-date, currently documenting v@LATEST_VERSION@ on Scala @DOCS_SCALA_MINOR_VERSION@.
+
+## Getting Started
+
+To get started with [sbt](https://scala-sbt.org), simply add the following line to your `build.sbt` file.
+
+```scala
+libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@LATEST_VERSION@"
+```
+
+Published for Scala @SCALA_PUBLISH_VERSIONS@. For changes, refer to the [release notes](https://github.com/vlovgr/ciris/releases).
+
+For Scala 2.12, enable partial unification by adding the following line to `build.sbt`.
+
+```scala
+scalacOptions += "-Ypartial-unification"
+```
+
+### Modules
+
+Following are additional provided modules.
+
+#### Enumeratum
+
+For [enumeratum](modules.md#enumeratum) support, add the following line to your `build.sbt` file.
+
+```scala
+libraryDependencies += "@ORGANIZATION@" %% "@ENUMERATUM_MODULE_NAME@" % "@LATEST_VERSION@"
+```
+
+#### Refined
+
+For [refined](modules.md#refined) support, add the following line to your `build.sbt` file.
+
+```scala
+libraryDependencies += "@ORGANIZATION@" %% "@REFINED_MODULE_NAME@" % "@LATEST_VERSION@"
+```
+
+#### External Modules
+
+Following is an incomplete list of third-party integrations.
+
+- [`ciris-aiven-kafka`](https://github.com/ovotech/ciris-aiven-kafka)
+- [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm)
+- [`ciris-credstash`](https://github.com/ovotech/ciris-credstash)
+- [`ciris-hocon`](https://github.com/2m/ciris-hocon)
+- [`ciris-kubernetes`](https://github.com/ovotech/ciris-kubernetes)
+
+### Compatibility
+
+Backwards binary-compatibility for the library is guaranteed between minor and patch versions.<br>
+Version `@LATEST_MAJOR_VERSION@.a.b` is backwards binary-compatible with `@LATEST_MAJOR_VERSION@.c.d` for any `a > c` or `a = c` and `b > d`.
+
+Please note binary-compatibility is not guaranteed between milestone releases.
+
+## Dependencies
+
+Refer to the table below for dependencies and version support across modules.
+
+| Module                     | Dependencies                                                                  | Scala                                   |
+| -------------------------- | ----------------------------------------------------------------------------- | --------------------------------------- |
+| `@CORE_MODULE_NAME@`       | [Cats Effect @CATS_EFFECT_VERSION@](https://github.com/typelevel/cats-effect) | Scala @CORE_CROSS_SCALA_VERSIONS@       |
+| `@ENUMERATUM_MODULE_NAME@` | [Enumeratum @ENUMERATUM_VERSION@](https://github.com/lloydmeta/enumeratum)    | Scala @ENUMERATUM_CROSS_SCALA_VERSIONS@ |
+| `@REFINED_MODULE_NAME@`    | [Refined @REFINED_VERSION@](https://github.com/fthomas/refined)               | Scala @REFINED_CROSS_SCALA_VERSIONS@    |
+
+## Participation
+
+Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Scala Code of Conduct](https://www.scala-lang.org/conduct/).
+
+## License
+
+Licensed under the [MIT license](https://opensource.org/licenses/MIT). Refer to the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).

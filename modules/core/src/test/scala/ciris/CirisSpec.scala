@@ -1,102 +1,159 @@
 package ciris
 
-import org.scalacheck.{Gen, Shrink}
+import cats.effect.{Blocker, ContextShift, IO}
+import java.nio.charset.{Charset, StandardCharsets}
+import java.nio.file.{Files, Path, StandardOpenOption}
 import org.scalacheck.Arbitrary.arbitrary
+import org.scalacheck.Gen
 
-import scala.collection.immutable
+final class CirisSpec extends BaseSpec {
+  implicit val contextShift: ContextShift[IO] =
+    IO.contextShift(concurrent.ExecutionContext.global)
 
-final class CirisSpec extends PropertySpec {
-  implicit def noShrink[A]: Shrink[A] = Shrink.apply(_ => Stream.empty)
-
-  "Ciris" when {
-    "loading environment variables" should {
-      "be able to load all variables as string" in {
-        if (sys.env.nonEmpty) {
-          forAll(Gen.oneOf(sys.env.keys.toList)) { key =>
-            env[String](key).value shouldBe Right(sys.env(key))
-          }
-        }
-      }
-
-      "return a failure for non-existing variables" in {
-        forAll { key: String =>
-          whenever(!sys.env.contains(key)) {
-            env[String](key).value shouldBe a[Left[_, _]]
-          }
+  test("default") {
+    forAll { value: String =>
+      assert {
+        default(value).to[IO].unsafeRunSync match {
+          case ConfigEntry.Default(ConfigError.Empty, default) => default() === value
+          case _                                               => false
         }
       }
     }
+  }
 
-    "loading system properties" should {
-      "be able to load all properties as string" in {
-        if (sys.props.nonEmpty) {
-          forAll(Gen.oneOf(sys.props.keys.toList)) { key =>
-            prop[String](key).value shouldBe Right(sys.props(key))
-          }
-        }
-      }
+  test("env") {
+    val envGen: Gen[String] =
+      Gen.oneOf(
+        Gen.oneOf(sys.env.keys.toList),
+        arbitrary[String]
+      )
 
-      "return a failure for the empty property" in {
-        prop[String]("").value shouldBe a[Left[_, _]]
-      }
+    forAll(envGen) { name: String =>
+      assert {
+        val description = ConfigKey.env(name).description
 
-      "return a failure for non-existing properties" in {
-        forAll { key: String =>
-          whenever(key.nonEmpty && !sys.props.contains(key)) {
-            prop[String](key).value shouldBe a[Left[_, _]]
-          }
-        }
-      }
-    }
+        env(name).to[IO].unsafeRunSync match {
+          case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
+            sys.env.get(name).contains(value)
 
-    "loading command-line arguments" should {
-      "be able to load all arguments as string" in {
-        forAll(sized(arbitrary[immutable.IndexedSeq[String]])) { args =>
-          whenever(args.nonEmpty) {
-            forAll(Gen.chooseNum(0, args.length - 1), minSuccessful(10)) { index =>
-              arg[String](args)(index).value shouldBe a[Right[_, _]]
-            }
-          }
+          case ConfigEntry.Failed(ConfigError.Missing(ConfigKey(`description`))) =>
+            !sys.env.contains(name)
+
+          case _ =>
+            false
         }
       }
     }
+  }
 
-    "loading files" when {
-      "converting to String" should {
-        "be File for ConfigSource.File" in {
-          ConfigSource.File.toString shouldBe "File"
-        }
-      }
+  test("file.path") {
+    def existingFile(content: String): Path = {
+      val path = Files.createTempFile("test-", ".tmp")
+      path.toFile.deleteOnExit()
+      Files.write(path, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.WRITE)
+      path
+    }
 
-      "reading a file" when {
-        "the file exists" when {
-          "the type can be read" should {
-            "return the expected value" in {
-              forAll { value: Int =>
-                withFile(s"$value\n") { (file, charset) =>
-                  val fileName = file.toPath.toAbsolutePath.toString
-                  fileWithName[Int](fileName, _.trim).value shouldBe Right(value)
-                }
-              }
+    val nonExistingFile: Path = {
+      val path = Files.createTempFile("test-", ".tmp")
+      path.toFile.delete()
+      path
+    }
+
+    val pathContentGen: Gen[(Path, String)] =
+      for {
+        charset <- charsetGen
+        content <- Gen.alphaNumStr
+        path <- Gen.oneOf(
+          Gen.const(existingFile(content)),
+          Gen.const(nonExistingFile)
+        )
+      } yield (path, content)
+
+    forAll(pathContentGen) {
+      case (path, content) =>
+        Blocker[IO].use { blocker =>
+          IO(assert {
+            val description = ConfigKey.file(path, StandardCharsets.UTF_8).description
+            file(path, blocker).to[IO].unsafeRunSync match {
+              case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
+                value === content
+
+              case ConfigEntry.Failed(ConfigError.Missing(ConfigKey(`description`))) =>
+                !path.toFile.exists()
+
+              case _ =>
+                false
             }
-          }
+          })
+        }.unsafeRunSync
+    }
+  }
 
-          "the type cannot be read" should {
-            "fail with an error" in {
-              forAll { value: Int =>
-                withFile(s"$value\n") { (file, charset) =>
-                  val fileName = file.toPath.toAbsolutePath.toString
-                  fileWithName[Int](fileName).value shouldBe a[Left[_, _]]
-                }
-              }
+  test("file.path charset") {
+    def existingFile(charset: Charset, content: String): Path = {
+      val path = Files.createTempFile("test-", ".tmp")
+      path.toFile.deleteOnExit()
+      Files.write(path, content.getBytes(charset), StandardOpenOption.WRITE)
+      path
+    }
+
+    val nonExistingFile: Path = {
+      val path = Files.createTempFile("test-", ".tmp")
+      path.toFile.delete()
+      path
+    }
+
+    val pathContentCharsetGen: Gen[(Path, String, Charset)] =
+      for {
+        charset <- charsetGen
+        content <- Gen.alphaNumStr
+        path <- Gen.oneOf(
+          Gen.const(existingFile(charset, content)),
+          Gen.const(nonExistingFile)
+        )
+      } yield (path, content, charset)
+
+    forAll(pathContentCharsetGen) {
+      case (path, content, charset) =>
+        Blocker[IO].use { blocker =>
+          IO(assert {
+            val description = ConfigKey.file(path, charset).description
+            file(path, blocker, charset).to[IO].unsafeRunSync match {
+              case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
+                value === content
+
+              case ConfigEntry.Failed(ConfigError.Missing(ConfigKey(`description`))) =>
+                !path.toFile.exists()
+
+              case _ =>
+                false
             }
-          }
-        }
+          })
+        }.unsafeRunSync
+    }
+  }
 
-        "the file does not exist" should {
-          "fail with an error" in {
-            fileWithName[Int]("/tmp/does-not-exist").value shouldBe a[Left[_, _]]
-          }
+  test("prop") {
+    val propGen: Gen[String] =
+      Gen.oneOf(
+        Gen.oneOf(sys.props.keys.toList),
+        arbitrary[String]
+      )
+
+    forAll(propGen) { name: String =>
+      assert {
+        val description = ConfigKey.prop(name).description
+
+        prop(name).to[IO].unsafeRunSync match {
+          case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
+            sys.props.get(name).contains(value)
+
+          case ConfigEntry.Failed(ConfigError.Missing(ConfigKey(`description`))) =>
+            name.isEmpty || !sys.props.contains(name)
+
+          case _ =>
+            false
         }
       }
     }

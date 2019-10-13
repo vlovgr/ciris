@@ -1,188 +1,229 @@
 package ciris
 
+import cats.implicits._
+import cats.laws.discipline.MonadErrorTests
+import org.scalacheck.Gen
+import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
 
-final class ConfigDecoderSpec extends PropertySpec {
-  "ConfigDecoder" when {
-    "using fold" should {
-      val decoder =
-        ConfigDecoder.fold[String, String](
-          _ => Right("error"),
-          value => Right(value + "123")
-        )
+final class ConfigDecoderSpec extends BaseSpec {
+  test("ConfigDecoder.bigDecimal.success") {
+    forAll { bigDecimal: BigDecimal =>
+      assert(
+        ConfigDecoder[String, BigDecimal].decode(None, bigDecimal.toString) === bigDecimal.asRight
+      )
+    }
+  }
 
-      "map the error if there is one" in {
-        decoder.decode(nonExistingEntry) shouldBe Right("error")
-      }
-
-      "map the value if there is one" in {
-        forAll { value: String =>
-          decoder.decode(existingEntry(value)) shouldBe Right(value + "123")
-        }
+  test("ConfigDecoder.bigDecimal.failure") {
+    forAll { s: String =>
+      whenever(Try(BigDecimal(s)).isFailure) {
+        assert(ConfigDecoder[String, BigDecimal].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using fromTryOption[A, B]" should {
-      val decoder = ConfigDecoder.fromTryOption[String, String]("typeName")(value => Try {
-        value match {
-          case "some" => Some("ok")
-          case "none" => None
-          case _ => throw new Error
-        }
-      })
+  test("ConfigDecoder.bigInt.success") {
+    forAll { bigInt: BigInt =>
+      assert(ConfigDecoder[String, BigInt].decode(None, bigInt.toString) === bigInt.asRight)
+    }
+  }
 
-      "succeed for Success[Some]" in {
-        decoder.decode(existingEntry("some")) shouldBe a[Right[_, _]]
-      }
-
-      "fail for Success[None]" in {
-        decoder.decode(existingEntry("none")) shouldBe a[Left[_, _]]
-      }
-
-      "fail for Failure" in {
-        decoder.decode(existingEntry("error")) shouldBe a[Left[_, _]]
+  test("ConfigDecoder.bigInt.failure") {
+    forAll { s: String =>
+      whenever(Try(BigInt(s)).isFailure) {
+        assert(ConfigDecoder[String, BigInt].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using fromTry[A, B]" should {
-      val decoder = ConfigDecoder.fromTry[String, String]("typeName")(value => Try {
-        value match {
-          case "success" => "ok"
-          case _ => throw new Error
-        }
-      })
+  test("ConfigDecoder.boolean.success") {
+    val genBoolean =
+      Gen.oneOf(
+        "true",
+        "yes",
+        "on",
+        "false",
+        "no",
+        "off"
+      )
 
-      "succeed for Success" in {
-        decoder.decode(existingEntry("success")) shouldBe a[Right[_, _]]
+    forAll(genBoolean) { boolean =>
+      assert(ConfigDecoder[String, Boolean].decode(None, boolean.toString).isRight)
+    }
+  }
+
+  test("ConfigDecoder.boolean.failure") {
+    def isBoolean(s: String) =
+      s.toLowerCase() match {
+        case "true" | "yes" | "on"  => true
+        case "false" | "no" | "off" => true
+        case _                      => false
       }
 
-      "fail for Failure" in {
-        decoder.decode(existingEntry("error")) shouldBe a[Left[_, _]]
+    forAll { s: String =>
+      whenever(!isBoolean(s)) {
+        assert(ConfigDecoder[String, Boolean].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using fromOption[A, B]" should {
-      val decoder = ConfigDecoder.fromOption[String, String]("typeName") {
-        case "some" => Some("ok")
-        case _ => None
-      }
+  test("ConfigDecoder.byte.success") {
+    forAll { byte: Byte =>
+      assert(ConfigDecoder[String, Byte].decode(None, byte.toString) === byte.asRight)
+    }
+  }
 
-      "succeed for Some" in {
-        decoder.decode(existingEntry("some")) shouldBe a[Right[_, _]]
-      }
-
-      "fail for None" in {
-        decoder.decode(existingEntry("none")) shouldBe a[Left[_, _]]
+  test("ConfigDecoder.byte.failure") {
+    forAll { s: String =>
+      whenever(Try(s.toByte).isFailure) {
+        assert(ConfigDecoder[String, Byte].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using mapTry" should {
-      val decoder = ConfigDecoder.identity[String].mapTry("typeName")(value => Try {
-        value match {
-          case "ok" => "ok"
-          case _ => throw new Error
-        }
-      })
+  test("ConfigDecoder.char.success") {
+    forAll { char: Char =>
+      assert(ConfigDecoder[String, Char].decode(None, char.toString) === char.asRight)
+    }
+  }
 
-      "succeed for Success" in {
-        decoder.decode(existingEntry("ok")) shouldBe a[Right[_, _]]
-      }
-
-      "fail for Failure" in {
-        decoder.decode(existingEntry("error")) shouldBe a[Left[_, _]]
-      }
-
-      "fail if the entry does not exist" in {
-        decoder.decode(nonExistingEntry) shouldBe a[Left[_, _]]
+  test("ConfigDecoder.char.failure") {
+    forAll { s: String =>
+      whenever(s.length !== 1) {
+        assert(ConfigDecoder[String, Char].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using mapCatchNonFatal" should {
-      val decoder = ConfigDecoder.identity[String].mapCatchNonFatal("typeName") {
-        case "ok" => "ok"
-        case _ => throw new Error
-      }
+  test("ConfigDecoder.double.success") {
+    forAll { double: Double =>
+      assert(ConfigDecoder[String, Double].decode(None, double.toString) === double.asRight)
+    }
+  }
 
-      "succeed for Success" in {
-        decoder.decode(existingEntry("ok")) shouldBe a[Right[_, _]]
-      }
+  test("ConfigDecoder.double.success percent") {
+    forAll { double: Double =>
+      assert(
+        ConfigDecoder[String, Double]
+          .decode(None, double.toString ++ "%") === (double / 100f).asRight
+      )
+    }
+  }
 
-      "fail for Failure" in {
-        decoder.decode(existingEntry("error")) shouldBe a[Left[_, _]]
+  test("ConfigDecoder.double.failure") {
+    forAll { s: String =>
+      whenever(Try(s.toDouble).isFailure) {
+        assert(ConfigDecoder[String, Double].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using catchNonFatal" should {
-      val decoder = ConfigDecoder.catchNonFatal[String, String]("typeName") {
-        case "ok" => "ok"
-        case _ => throw new Error
-      }
-
-      "succeed for Success" in {
-        decoder.decode(existingEntry("ok")) shouldBe a[Right[_, _]]
-      }
-
-      "fail for Failure" in {
-        decoder.decode(existingEntry("error")) shouldBe a[Left[_, _]]
+  test("ConfigDecoder.duration.success") {
+    forAll { duration: Duration =>
+      whenever(Try(Duration(duration.toString)).isSuccess) {
+        assert(ConfigDecoder[String, Duration].decode(None, duration.toString) == duration.asRight)
       }
     }
+  }
 
-    "using collect" should {
-      val decoder = ConfigDecoder.identity[String].collect("typeName") {
-        case value if value == "ok" =>
-          "ok"
-      }
-
-      "succeed if the partial function is defined" in {
-        decoder.decode(existingEntry("ok")) shouldBe a [Right[_, _]]
-      }
-
-      "fail if the partial function is undefined" in {
-        decoder.decode(existingEntry("error")) shouldBe a [Left[_, _]]
+  test("ConfigDecoder.duration.failure") {
+    forAll { s: String =>
+      whenever(Try(Duration(s)).isFailure) {
+        assert(ConfigDecoder[String, Duration].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using flatMap[A, B]" should {
-      val decoder = ConfigDecoder.flatMap[String, String](value => Right(value + "123"))
-
-      "keep the error if there is one" in {
-        decoder.decode(nonExistingEntry) shouldBe a[Left[_, _]]
-      }
-
-      "map the value if there is one" in {
-        forAll { value: String =>
-          decoder.decode(existingEntry(value)) shouldBe Right(value + "123")
-        }
+  test("ConfigDecoder.finiteDuration.success") {
+    forAll { finiteDuration: FiniteDuration =>
+      assert {
+        ConfigDecoder[String, FiniteDuration]
+          .decode(None, finiteDuration.toString) === finiteDuration.asRight
       }
     }
+  }
 
-    "using mapEntryValue" should {
-      val f: String => String = _.take(1)
-      val decoder = ConfigDecoder[String].mapEntryValue(f)
-
-      "keep the error if there is one" in {
-        decoder.decode(nonExistingEntry) shouldBe a[Left[_, _]]
-      }
-
-      "map the entry value if there is one" in {
-        forAll { value: String =>
-          decoder.decode(existingEntry(value)) shouldBe Right(f(value))
-        }
+  test("ConfigDecoder.finiteDuration.failure") {
+    forAll { s: String =>
+      whenever(Try(Duration(s)).isFailure) {
+        assert(ConfigDecoder[String, FiniteDuration].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using redactSensitive" should {
-      "redact sensitive error messages" in {
-        val decoder = ConfigDecoder[String].mapCatchNonFatal("Int")(_.toInt)
-        val decoded = decoder.redactSensitive.decode(existingEntry("abc"))
-        decoded.left.map(_.message) shouldBe Left("Test key [key] with value [<redacted>] cannot be converted to type [Int]")
+  test("ConfigDecoder.float.success") {
+    forAll { float: Float =>
+      assert(ConfigDecoder[String, Float].decode(None, float.toString) === float.asRight)
+    }
+  }
+
+  test("ConfigDecoder.float.success percent") {
+    forAll { float: Float =>
+      assert(
+        ConfigDecoder[String, Float].decode(None, float.toString ++ "%") === (float / 100f).asRight
+      )
+    }
+  }
+
+  test("ConfigDecoder.float.failure") {
+    forAll { s: String =>
+      whenever(Try(s.toFloat).isFailure) {
+        assert(ConfigDecoder[String, Float].decode(None, s).isLeft)
       }
     }
+  }
 
-    "using toString" should {
-      "start with ConfigDecoder$" in {
-        ConfigDecoder[String].toString should startWith ("ConfigDecoder$")
+  test("ConfigDecoder.int.success") {
+    forAll { int: Int =>
+      assert(ConfigDecoder[String, Int].decode(None, int.toString) === int.asRight)
+    }
+  }
+
+  test("ConfigDecoder.int.failure") {
+    forAll { s: String =>
+      whenever(Try(s.toInt).isFailure) {
+        assert(ConfigDecoder[String, Int].decode(None, s).isLeft)
       }
+    }
+  }
+
+  test("ConfigDecoder.long.success") {
+    forAll { long: Long =>
+      assert(ConfigDecoder[String, Long].decode(None, long.toString) === long.asRight)
+    }
+  }
+
+  test("ConfigDecoder.long.failure") {
+    forAll { s: String =>
+      whenever(Try(s.toLong).isFailure) {
+        assert(ConfigDecoder[String, Long].decode(None, s).isLeft)
+      }
+    }
+  }
+
+  checkAll(
+    "ConfigDecoder",
+    MonadErrorTests[ConfigDecoder[String, ?], ConfigError].monadError[String, String, String]
+  )
+
+  test("ConfigDecoder.short.success") {
+    forAll { short: Short =>
+      assert(ConfigDecoder[String, Short].decode(None, short.toString) === short.asRight)
+    }
+  }
+
+  test("ConfigDecoder.short.failure") {
+    forAll { s: String =>
+      whenever(Try(s.toShort).isFailure) {
+        assert(ConfigDecoder[String, Short].decode(None, s).isLeft)
+      }
+    }
+  }
+
+  test("ConfigDecoder.toString") {
+    forAll { decoder: ConfigDecoder[String, String] =>
+      assert(decoder.toString.startsWith("ConfigDecoder$"))
     }
   }
 }
