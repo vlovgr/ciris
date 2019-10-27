@@ -11,6 +11,7 @@ const siteConfig = {
   tagline: "Functional Configurations for Scala",
   url: "https://cir.is",
   baseUrl: "/",
+  cname: "cir.is",
 
   customDocsPath: "docs/target/mdoc",
 
