@@ -40,7 +40,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $byte to CustomByteEnum",
-                "Unable to convert value to CustomByteEnum"
+                s"Unable to convert value ${Secret(byte).show} to CustomByteEnum"
               )
             }
 
@@ -61,7 +61,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $value to Byte",
-                "Unable to convert value to Byte"
+                s"Unable to convert value ${Secret(value).show} to Byte"
               )
             }
 
@@ -98,7 +98,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $char to CustomCharEnum",
-                "Unable to convert value to CustomCharEnum"
+                s"Unable to convert value ${Secret(char).show} to CustomCharEnum"
               )
             }
 
@@ -119,7 +119,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $value to Char",
-                "Unable to convert value to Char"
+                s"Unable to convert value ${Secret(value).show} to Char"
               )
             }
 
@@ -156,7 +156,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $int to CustomIntEnum",
-                "Unable to convert value to CustomIntEnum"
+                s"Unable to convert value ${Secret(int).show} to CustomIntEnum"
               )
             }
 
@@ -177,7 +177,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $value to Int",
-                "Unable to convert value to Int"
+                s"Unable to convert value ${Secret(value).show} to Int"
               )
             }
 
@@ -214,7 +214,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $long to CustomLongEnum",
-                "Unable to convert value to CustomLongEnum"
+                s"Unable to convert value ${Secret(long).show} to CustomLongEnum"
               )
             }
 
@@ -235,7 +235,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $value to Long",
-                "Unable to convert value to Long"
+                s"Unable to convert value ${Secret(value).show} to Long"
               )
             }
 
@@ -272,7 +272,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $short to CustomShortEnum",
-                "Unable to convert value to CustomShortEnum"
+                s"Unable to convert value ${Secret(short).show} to CustomShortEnum"
               )
             }
 
@@ -293,7 +293,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $value to Short",
-                "Unable to convert value to Short"
+                s"Unable to convert value ${Secret(value).show} to Short"
               )
             }
 
@@ -330,7 +330,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $string to CustomStringEnum",
-                "Unable to convert value to CustomStringEnum"
+                s"Unable to convert value ${Secret(string).show} to CustomStringEnum"
               )
             }
 

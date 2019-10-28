@@ -1,8 +1,9 @@
 package ciris
 
+import cats.data.Chain
 import cats.implicits._
 import cats.kernel.laws.discipline.EqTests
-import cats.data.Chain
+import org.scalacheck.Gen
 
 final class ConfigErrorSpec extends BaseSpec {
   test("ConfigError.and.messages") {
@@ -112,10 +113,14 @@ final class ConfigErrorSpec extends BaseSpec {
   test("ConfigError.decode.key redacted") {
     forAll { (typeName: String, key: ConfigKey, value: String) =>
       val error = ConfigError.decode(typeName, Some(key), value)
-      assert(
+      val valueShown = Secret(value).show
+
+      assert {
         error.redacted.messages === Chain
-          .one(s"${key.description.capitalize} cannot be converted to $typeName")
-      )
+          .one {
+            s"${key.description.capitalize} with value $valueShown cannot be converted to $typeName"
+          }
+      }
     }
   }
 
@@ -129,7 +134,11 @@ final class ConfigErrorSpec extends BaseSpec {
   test("ConfigError.decode.no key redacted") {
     forAll { (typeName: String, value: String) =>
       val error = ConfigError.decode(typeName, None, value)
-      assert(error.redacted.messages === Chain.one(s"Unable to convert value to $typeName"))
+      val valueShown = Secret(value).show
+
+      assert {
+        error.redacted.messages === Chain.one(s"Unable to convert value $valueShown to $typeName")
+      }
     }
   }
 
@@ -316,7 +325,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError#uncapitalize") {
-    forAll { s: String =>
+    forAll(Gen.alphaNumStr) { s: String =>
       val expected =
         if (s.headOption.exists(_.isUpper))
           s"${s.charAt(0).toLower}" ++ s.tail

@@ -160,21 +160,17 @@ final object ConfigError {
     key: Option[ConfigKey],
     value: A
   )(implicit show: Show[A]): ConfigError = {
-    def message(valueShown: Option[String]): String =
-      (key, valueShown) match {
-        case (Some(key), Some(value)) =>
-          s"${key.description.capitalize} with value $value cannot be converted to $typeName"
-        case (Some(key), None) =>
-          s"${key.description.capitalize} cannot be converted to $typeName"
-        case (None, Some(value)) =>
-          s"Unable to convert value $value to $typeName"
-        case (None, None) =>
-          s"Unable to convert value to $typeName"
+    def message(valueShown: String): String =
+      key match {
+        case Some(key) =>
+          s"${key.description.capitalize} with value $valueShown cannot be converted to $typeName"
+        case None =>
+          s"Unable to convert value $valueShown to $typeName"
       }
 
     ConfigError.sensitive(
-      message = message(Some(value.show)),
-      redactedMessage = message(None)
+      message = message(value.show),
+      redactedMessage = message(Secret(value).show)
     )
   }
 

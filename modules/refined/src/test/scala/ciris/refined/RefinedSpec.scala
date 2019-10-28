@@ -27,7 +27,7 @@ final class RefinedSpec extends AnyFunSuite {
         Left {
           ConfigError.sensitive(
             "Unable to convert value 0 to eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive]",
-            "Unable to convert value to eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive]"
+            s"Unable to convert value ${Secret(0).show} to eu.timepit.refined.api.Refined[Int,eu.timepit.refined.numeric.Positive]"
           )
         }
 
