@@ -1,7 +1,6 @@
 package enumeratum
 
 import ciris._
-import cats.implicits._
 import cats.effect.{ContextShift, IO}
 import enumeratum.EnumEntry.Lowercase
 import org.scalatest.funsuite.AnyFunSuite
@@ -35,7 +34,7 @@ final class CirisEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks {
             Left {
               ConfigError.sensitive(
                 s"Unable to convert value $name to Suit",
-                s"Unable to convert value ${Secret(name).show} to Suit"
+                "Unable to convert value to Suit"
               )
             }
 
