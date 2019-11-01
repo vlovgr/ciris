@@ -1,5 +1,7 @@
 Ciris has been rewritten from scratch and is now based on [Cats Effect](https://typelevel.org/cats-effect).
 
-For more details, please head on over to the new [documentation](https://cir.is/docs/overview).
+For highlights and a comparison with v0.x, see the [blog post](https://cir.is/blog/2019/11/01/ciris-v1.0.0).
+
+Refer to the [documentation](https://cir.is/docs/overview) for more details on v1.0.0.
 
 Released on 2019-10-27.
