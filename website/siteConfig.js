@@ -19,10 +19,14 @@ const siteConfig = {
   organizationName: "vlovgr",
 
   headerLinks: [
+    { blog: true, label: "Blog" },
     { href: apiUrl, label: "API Docs" },
     { doc: "overview", label: "Documentation" },
     { href: repoUrl, label: "GitHub" }
   ],
+
+  blogSidebarCount: "ALL",
+  blogSidebarTitle: { default: "Recent Posts", all: "Blog Posts" },
 
   headerIcon: "img/ciris.white.svg",
   titleIcon: "img/ciris.svg",

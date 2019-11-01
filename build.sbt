@@ -118,6 +118,9 @@ lazy val buildInfoSettings = Seq(
     scalacOptions,
     sourceDirectory,
     latestVersion in ThisBuild,
+    BuildInfoKey.map(baseDirectory in LocalRootProject) {
+      case (k, v) => "rootDirectory" -> v
+    },
     BuildInfoKey.map(moduleName in core) {
       case (k, v) => "core" ++ k.capitalize -> v
     },

@@ -19,6 +19,7 @@
       }
     },
     "links": {
+      "Blog": "Blog",
       "API Docs": "API Docs",
       "Documentation": "Documentation",
       "GitHub": "GitHub"
