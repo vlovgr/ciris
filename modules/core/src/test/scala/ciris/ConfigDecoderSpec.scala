@@ -138,9 +138,12 @@ final class ConfigDecoderSpec extends BaseSpec {
 
   test("ConfigDecoder.finiteDuration.success") {
     forAll { finiteDuration: FiniteDuration =>
-      assert {
-        ConfigDecoder[String, FiniteDuration]
-          .decode(None, finiteDuration.toString) === finiteDuration.asRight
+      val expected = Try(Duration(finiteDuration.toString))
+      whenever(expected.isSuccess) {
+        assert {
+          ConfigDecoder[String, FiniteDuration]
+            .decode(None, finiteDuration.toString) == expected.toEither
+        }
       }
     }
   }
