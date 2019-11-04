@@ -6,7 +6,7 @@
 
 package ciris
 
-import cats.{Eq, Show}
+import cats.{Applicative, Eq, Eval, Show, Traverse}
 import cats.implicits._
 import ciris.ConfigEntry._
 
@@ -18,6 +18,13 @@ private[ciris] sealed abstract class ConfigEntry[+A] {
       case Default(error, a)     => Default(error, () => f(a()))
       case failed @ Failed(_)    => failed
       case Loaded(error, key, a) => Loaded(error, key, f(a))
+    }
+
+  final def traverse[F[_], B](f: A => F[B])(implicit F: Applicative[F]): F[ConfigEntry[B]] =
+    this match {
+      case Default(error, a)     => f(a()).map(b => Default(error, () => b))
+      case failed @ Failed(_)    => F.pure(failed)
+      case Loaded(error, key, a) => f(a).map(Loaded(error, key, _))
     }
 }
 
@@ -74,5 +81,32 @@ private[ciris] final object ConfigEntry {
       case Default(error, value)     => show"Default($error, ${value()})"
       case Failed(error)             => show"Failed($error)"
       case Loaded(error, key, value) => show"Loaded($error, $key, $value)"
+    }
+
+  implicit final val configEntryTraverse: Traverse[ConfigEntry] =
+    new Traverse[ConfigEntry] {
+      override final def foldLeft[A, B](entry: ConfigEntry[A], b: B)(f: (B, A) => B): B =
+        entry match {
+          case Default(_, a)   => f(b, a())
+          case Failed(_)       => b
+          case Loaded(_, _, a) => f(b, a)
+        }
+
+      override final def foldRight[A, B](entry: ConfigEntry[A], eb: Eval[B])(
+        f: (A, Eval[B]) => Eval[B]
+      ): Eval[B] =
+        entry match {
+          case Default(_, a)   => f(a(), eb)
+          case Failed(_)       => eb
+          case Loaded(_, _, a) => f(a, eb)
+        }
+
+      override final def map[A, B](entry: ConfigEntry[A])(f: A => B): ConfigEntry[B] =
+        entry.map(f)
+
+      override final def traverse[G[_]: Applicative, A, B](
+        entry: ConfigEntry[A]
+      )(f: A => G[B]): G[ConfigEntry[B]] =
+        entry.traverse(f)
     }
 }

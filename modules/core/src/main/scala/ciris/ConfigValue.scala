@@ -8,7 +8,7 @@ package ciris
 
 import cats.{Apply, FlatMap, NonEmptyParallel, Show}
 import cats.arrow.FunctionK
-import cats.effect.{Async, Blocker, ContextShift}
+import cats.effect.{Async, Blocker, ContextShift, Effect, IO}
 import cats.implicits._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
 
@@ -117,6 +117,23 @@ sealed abstract class ConfigValue[A] {
       case Failed(error) if error.isMissing => Default(error, () => value)
       case failed @ Failed(_)               => failed
       case loaded @ Loaded(_, _, _)         => loaded
+    }
+
+  /**
+    * Returns a new [[ConfigValue]] which applies the
+    * specified effectful function on the value.
+    */
+  final def evalMap[F[_], B](f: A => F[B])(implicit F: Effect[F]): ConfigValue[B] =
+    new ConfigValue[B] {
+      override final def to[G[_]](
+        implicit G: Async[G],
+        context: ContextShift[G]
+      ): G[ConfigEntry[B]] =
+        self.to[G].flatMap { entry =>
+          G.async[ConfigEntry[B]] { cb =>
+            F.runAsync(entry.traverse(f))(e => IO(cb(e))).unsafeRunSync
+          }
+        }
     }
 
   /**
@@ -294,6 +311,24 @@ final object ConfigValue {
     */
   final def default[A](value: => A): ConfigValue[A] =
     ConfigValue.pure(ConfigEntry.default(value))
+
+  /**
+    * Returns a new [[ConfigValue]] which evaluates the
+    * effect for the specified value.
+    *
+    * @group Create
+    */
+  final def eval[F[_], A](value: F[ConfigValue[A]])(implicit F: Effect[F]): ConfigValue[A] =
+    new ConfigValue[A] {
+      override final def to[G[_]](
+        implicit G: Async[G],
+        context: ContextShift[G]
+      ): G[ConfigEntry[A]] =
+        G.async[ConfigValue[A]] { cb =>
+            F.runAsync(value)(e => IO(cb(e))).unsafeRunSync
+          }
+          .flatMap(_.to[G])
+    }
 
   /**
     * Returns a new [[ConfigValue]] which failed with

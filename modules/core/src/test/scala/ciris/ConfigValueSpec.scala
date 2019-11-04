@@ -289,6 +289,92 @@ final class ConfigValueSpec extends BaseSpec {
     }
   }
 
+  test("ConfigValue.eval.default") {
+    check(
+      ConfigValue.eval(IO(default)),
+      default
+    )
+  }
+
+  test("ConfigValue.eval.error") {
+    checkLoadFail {
+      ConfigValue.eval(IO.raiseError[ConfigValue[String]](ConfigError("").throwable)),
+    }
+  }
+
+  test("ConfigValue.eval.failed") {
+    check(
+      ConfigValue.eval(IO(failed)),
+      failed
+    )
+  }
+
+  test("ConfigValue.eval.loaded") {
+    check(
+      ConfigValue.eval(IO(loaded)),
+      loaded
+    )
+  }
+
+  test("ConfigValue.eval.missing") {
+    check(
+      ConfigValue.eval(IO(missing)),
+      missing
+    )
+  }
+
+  test("ConfigValue.evalMap.default") {
+    check(
+      default.evalMap(s => IO(s ++ s)),
+      defaultWith(defaultError, defaultValue ++ defaultValue)
+    )
+  }
+
+  test("ConfigValue.evalMap.default error") {
+    checkLoadFail {
+      default.evalMap(_ => IO.raiseError[String](ConfigError("").throwable))
+    }
+  }
+
+  test("ConfigValue.evalMap.failed") {
+    check(
+      failed.evalMap(s => IO(s ++ s)),
+      failed
+    )
+  }
+
+  test("ConfigValue.evalMap.failed error") {
+    checkLoadFail {
+      failed.evalMap(_ => IO.raiseError[String](ConfigError("").throwable))
+    }
+  }
+
+  test("ConfigValue.evalMap.loaded") {
+    check(
+      loaded.evalMap(s => IO(s ++ s)),
+      loadedWith(loadedError, Some(loadedKey), loadedValue ++ loadedValue)
+    )
+  }
+
+  test("ConfigValue.evalMap.loaded error") {
+    checkLoadFail {
+      loaded.evalMap(_ => IO.raiseError[String](ConfigError("").throwable))
+    }
+  }
+
+  test("ConfigValue.evalMap.missing") {
+    check(
+      missing.evalMap(s => IO(s ++ s)),
+      missing
+    )
+  }
+
+  test("ConfigValue.evalMap.missing error") {
+    checkLoadFail {
+      missing.evalMap(_ => IO.raiseError[String](ConfigError("").throwable))
+    }
+  }
+
   checkAll("ConfigValue", {
     implicit val testContext: TestContext = TestContext()
     FlatMapTests[ConfigValue].flatMap[String, String, String]

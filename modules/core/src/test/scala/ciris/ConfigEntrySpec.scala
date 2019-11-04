@@ -2,6 +2,7 @@ package ciris
 
 import cats.implicits._
 import cats.kernel.laws.discipline.EqTests
+import cats.laws.discipline.TraverseTests
 
 final class ConfigEntrySpec extends BaseSpec {
   test("ConfigEntry.default.hashCode") {
@@ -54,4 +55,9 @@ final class ConfigEntrySpec extends BaseSpec {
       assert(entry.show === entry.toString)
     }
   }
+
+  checkAll(
+    "ConfigEntry",
+    TraverseTests[ConfigEntry].traverse[Int, Int, Int, Int, Option, Option]
+  )
 }
