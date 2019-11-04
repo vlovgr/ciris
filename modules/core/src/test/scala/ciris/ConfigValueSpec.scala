@@ -289,6 +289,40 @@ final class ConfigValueSpec extends BaseSpec {
     }
   }
 
+  test("ConfigValue.eval.default") {
+    check(
+      ConfigValue.eval(IO(default)),
+      default
+    )
+  }
+
+  test("ConfigValue.eval.error") {
+    checkLoadFail {
+      ConfigValue.eval(IO.raiseError[ConfigValue[String]](ConfigError("").throwable)),
+    }
+  }
+
+  test("ConfigValue.eval.failed") {
+    check(
+      ConfigValue.eval(IO(failed)),
+      failed
+    )
+  }
+
+  test("ConfigValue.eval.loaded") {
+    check(
+      ConfigValue.eval(IO(loaded)),
+      loaded
+    )
+  }
+
+  test("ConfigValue.eval.missing") {
+    check(
+      ConfigValue.eval(IO(missing)),
+      missing
+    )
+  }
+
   test("ConfigValue.evalMap.default") {
     check(
       default.evalMap(s => IO(s ++ s)),

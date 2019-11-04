@@ -313,6 +313,24 @@ final object ConfigValue {
     ConfigValue.pure(ConfigEntry.default(value))
 
   /**
+    * Returns a new [[ConfigValue]] which evaluates the
+    * effect for the specified value.
+    *
+    * @group Create
+    */
+  final def eval[F[_], A](value: F[ConfigValue[A]])(implicit F: Effect[F]): ConfigValue[A] =
+    new ConfigValue[A] {
+      override final def to[G[_]](
+        implicit G: Async[G],
+        context: ContextShift[G]
+      ): G[ConfigEntry[A]] =
+        G.async[ConfigValue[A]] { cb =>
+            F.runAsync(value)(e => IO(cb(e))).unsafeRunSync
+          }
+          .flatMap(_.to[G])
+    }
+
+  /**
     * Returns a new [[ConfigValue]] which failed with
     * the specified error.
     *
