@@ -692,6 +692,88 @@ final class ConfigValueSpec extends BaseSpec {
     )
   }
 
+  test("ConfigValue.parFlatMap.default.parFlatMap(_ => default)") {
+    check(
+      default.parFlatMap(_ => default2),
+      defaultWith(ConfigError.Empty, defaultValue2)
+    )
+  }
+
+  test("ConfigValue.parFlatMap.default.parFlatMap(_ => failed)") {
+    check(default.parFlatMap(_ => failed), failed)
+  }
+
+  test("ConfigValue.parFlatMap.default.parFlatMap(_ => loaded)") {
+    check(
+      default.parFlatMap(_ => loaded),
+      loadedWith(ConfigError.Loaded, None, loadedValue)
+    )
+  }
+
+  test("ConfigValue.parFlatMap.default.parFlatMap(_ => missing)") {
+    check(default.parFlatMap(_ => missing), missing)
+  }
+
+  test("ConfigValue.parFlatMap.failed.parFlatMap(_ => default)") {
+    check(failed.parFlatMap(_ => default), failed)
+  }
+
+  test("ConfigValue.parFlatMap.failed.parFlatMap(_ => failed)") {
+    check(failed.parFlatMap(_ => failed2), failed)
+  }
+
+  test("ConfigValue.parFlatMap.failed.parFlatMap(_ => loaded)") {
+    check(failed.parFlatMap(_ => loaded), failed)
+  }
+
+  test("ConfigValue.parFlatMap.failed.parFlatMap(_ => missing)") {
+    check(failed.parFlatMap(_ => missing), failed)
+  }
+
+  test("ConfigValue.parFlatMap.loaded.parFlatMap(_ => default)") {
+    check(
+      loaded.parFlatMap(_ => default),
+      loadedWith(ConfigError.Loaded, None, defaultValue)
+    )
+  }
+
+  test("ConfigValue.parFlatMap.loaded.parFlatMap(_ => failed)") {
+    check(
+      loaded.parFlatMap(_ => failed),
+      failedWith[String](ConfigError.Loaded.and(failedError))
+    )
+  }
+
+  test("ConfigValue.parFlatMap.loaded.parFlatMap(_ => loaded)") {
+    check(
+      loaded.parFlatMap(_ => loaded2),
+      loadedWith(ConfigError.Loaded, None, loadedValue2)
+    )
+  }
+
+  test("ConfigValue.parFlatMap.loaded.parFlatMap(_ => missing)") {
+    check(
+      loaded.parFlatMap(_ => missing),
+      failedWith[String](ConfigError.Loaded.and(missingError))
+    )
+  }
+
+  test("ConfigValue.parFlatMap.missing.parFlatMap(_ => default)") {
+    check(missing.parFlatMap(_ => default), missing)
+  }
+
+  test("ConfigValue.parFlatMap.missing.parFlatMap(_ => failed)") {
+    check(missing.parFlatMap(_ => failed), missing)
+  }
+
+  test("ConfigValue.parFlatMap.missing.parFlatMap(_ => loaded)") {
+    check(missing.parFlatMap(_ => loaded), missing)
+  }
+
+  test("ConfigValue.parFlatMap.missing.parFlatMap(_ => missing)") {
+    check(missing.parFlatMap(_ => missing2), missing)
+  }
+
   test("ConfigValue.secret.default") {
     check(default.secret, defaultWith(defaultError, Secret(defaultValue)))
   }

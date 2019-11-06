@@ -230,6 +230,42 @@ sealed abstract class ConfigValue[A] {
     }
 
   /**
+    * Returns a new [[ConfigValue]] which loads a
+    * configuration with the specified dependency.
+    *
+    * We can think of [[ConfigValue#flatMap]] as first
+    * loading a configuration, then creating a separate
+    * configuration based on the result. In contrast,
+    * [[ConfigValue#parFlatMap]] describes a single
+    * configuration with dependencies between values.
+    */
+  final def parFlatMap[B](f: A => ConfigValue[B]): ConfigValue[B] =
+    new ConfigValue[B] {
+      override final def to[F[_]](
+        implicit F: Async[F],
+        context: ContextShift[F]
+      ): F[ConfigEntry[B]] =
+        self.to[F].flatMap {
+          case Default(_, a) =>
+            f(a()).to[F].map {
+              case Default(_, b)      => ConfigEntry.default(b())
+              case failed @ Failed(_) => failed
+              case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
+            }
+
+          case failed @ Failed(_) =>
+            F.pure(failed)
+
+          case Loaded(_, _, a) =>
+            f(a).to[F].map {
+              case Default(_, b)   => ConfigEntry.loaded(None, b())
+              case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
+              case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
+            }
+        }
+    }
+
+  /**
     * Returns a new [[ConfigValue]] which treats the value
     * like it might contain sensitive details.
     *
