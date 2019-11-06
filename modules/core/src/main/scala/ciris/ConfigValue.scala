@@ -266,12 +266,26 @@ sealed abstract class ConfigValue[A] {
     }
 
   /**
+    * Returns a new [[ConfigValue]] with sensitive
+    * details redacted from error messages.
+    *
+    * Using `.redacted` is equivalent to using
+    * `.secret.map(_.value)`, except without
+    * requiring a `Show` instance.
+    */
+  final def redacted: ConfigValue[A] =
+    transform(_.mapError(_.redacted))
+
+  /**
     * Returns a new [[ConfigValue]] which treats the value
     * like it might contain sensitive details.
     *
     * Sensitive details are redacted from error messages.
     * The value is wrapped in [[Secret]], which prevents
     * the value from being shown.
+    *
+    * Using `.secret` is equivalent to using
+    * `.redacted.map(Secret(_))`.
     */
   final def secret(implicit show: Show[A]): ConfigValue[Secret[A]] =
     transform {
