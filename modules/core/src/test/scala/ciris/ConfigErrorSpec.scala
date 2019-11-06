@@ -206,13 +206,6 @@ final class ConfigErrorSpec extends BaseSpec {
     forAll { errors: Chain[ConfigError] =>
       val messages = ConfigError.Or(errors).messages
       assert(messages.size == 1)
-
-      val message = messages.toList.head.toLowerCase
-      assert {
-        errors.forall(_.messages.forall { m =>
-          message.contains(m.toLowerCase)
-        })
-      }
     }
   }
 
