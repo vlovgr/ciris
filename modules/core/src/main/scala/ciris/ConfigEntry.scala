@@ -20,6 +20,13 @@ private[ciris] sealed abstract class ConfigEntry[+A] {
       case Loaded(error, key, a) => Loaded(error, key, f(a))
     }
 
+  final def mapError(f: ConfigError => ConfigError): ConfigEntry[A] =
+    this match {
+      case Default(error, a)     => Default(f(error), a)
+      case Failed(error)         => Failed(f(error))
+      case Loaded(error, key, a) => Loaded(f(error), key, a)
+    }
+
   final def traverse[F[_], B](f: A => F[B])(implicit F: Applicative[F]): F[ConfigEntry[B]] =
     this match {
       case Default(error, a)     => f(a()).map(b => Default(error, () => b))

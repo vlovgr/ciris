@@ -774,6 +774,40 @@ final class ConfigValueSpec extends BaseSpec {
     check(missing.parFlatMap(_ => missing2), missing)
   }
 
+  test("ConfigValue.redacted.default") {
+    val defaultSensitive =
+      ConfigValue.pure(
+        ConfigEntry.Default(
+          ConfigError.sensitive("message", "redactedMessage"),
+          () => defaultValue
+        )
+      )
+
+    checkError(defaultSensitive.redacted, ConfigError("redactedMessage"))
+  }
+
+  test("ConfigValue.redacted.failed") {
+    val failedSensitive =
+      ConfigValue.failed[String](
+        ConfigError.sensitive("message", "redactedMessage")
+      )
+
+    checkError(failedSensitive.redacted, ConfigError("redactedMessage"))
+  }
+
+  test("ConfigValue.redacted.loaded") {
+    val loadedSensitive =
+      ConfigValue.pure(
+        ConfigEntry.Loaded(
+          ConfigError.sensitive("message", "redactedMessage"),
+          Some(loadedKey),
+          loadedValue
+        )
+      )
+
+    checkError(loadedSensitive.redacted, ConfigError("redactedMessage"))
+  }
+
   test("ConfigValue.secret.default") {
     check(default.secret, defaultWith(defaultError, Secret(defaultValue)))
   }

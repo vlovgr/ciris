@@ -50,6 +50,27 @@ final class ConfigEntrySpec extends BaseSpec {
 
   checkAll("ConfigEntry", EqTests[ConfigEntry[String]].eqv)
 
+  test("ConfigEntry.mapError.default") {
+    forAll { (error: ConfigError, value: String) =>
+      val entry = ConfigEntry.Default(error, () => value)
+      assert(entry.mapError(_.redacted).error === error.redacted)
+    }
+  }
+
+  test("ConfigEntry.mapError.failed") {
+    forAll { error: ConfigError =>
+      val entry = ConfigEntry.Failed(error)
+      assert(entry.mapError(_.redacted).error === error.redacted)
+    }
+  }
+
+  test("ConfigEntry.mapError.loaded") {
+    forAll { (error: ConfigError, key: Option[ConfigKey], value: String) =>
+      val entry = ConfigEntry.Loaded(error, key, value)
+      assert(entry.mapError(_.redacted).error === error.redacted)
+    }
+  }
+
   test("ConfigEntry.show") {
     forAll { entry: ConfigEntry[String] =>
       assert(entry.show === entry.toString)

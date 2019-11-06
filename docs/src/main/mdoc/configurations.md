@@ -98,6 +98,10 @@ $ echo -n "RacrqvWjuu4KVmnTG9b6xyZMTP7jnX" | sha1sum | head -c 7
 
 When using `secret`, sensitive details, like the value, are also redacted from errors.
 
+### Redacting
+
+In addition to `secret` there is also `redacted` which redacts sensitive details from errors, without wrapping the value in [`Secret`][secret]. We might not want to use [`Secret`][secret] and show the first 28/160 bits of the SHA-1 hash if there are few enough possible values to enable bruteforcing.
+
 ## Loading
 
 In order to load a configuration, we can use `load` and specify an effect type.
