@@ -13,7 +13,7 @@ Following is an example showing how to:
 - use the [ciris-enumeratum](modules.md#enumeratum) and [ciris-refined](modules.md#refined) integration modules,
 - use `load` to return an effect for loading the configuration.
 
-```scala mdoc:silent
+```scala mdoc:reset-object:silent
 import cats.effect.{ExitCode, IO, IOApp}
 import cats.implicits._
 import ciris._

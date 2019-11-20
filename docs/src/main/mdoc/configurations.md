@@ -5,7 +5,7 @@ title: Configurations
 
 [`ConfigValue`][configvalue] is the central concept in the library. It represents a single configuration value, or a composition of multiple values. The library provides functions like `env`, `file`, and `prop` for creating such [`ConfigValue`][configvalue]s for environment variables, file contents, and system properties. If the value is missing, `or` lets us use a fallback.
 
-```scala mdoc:silent
+```scala mdoc:reset-object:silent
 import ciris._
 
 val port: ConfigValue[Int] =

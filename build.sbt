@@ -8,7 +8,7 @@ val refinedVersion = "0.9.10"
 
 val scala212 = "2.12.10"
 
-val scala213 = "2.13.0"
+val scala213 = "2.13.1"
 
 lazy val ciris = project
   .in(file("."))
