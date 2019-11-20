@@ -3,6 +3,7 @@ package ciris
 import cats.implicits._
 import cats.kernel.laws.discipline.EqTests
 import cats.data.Chain
+import org.scalacheck.Gen
 
 final class ConfigErrorSpec extends BaseSpec {
   test("ConfigError.and.messages") {
@@ -309,7 +310,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError#uncapitalize") {
-    forAll { s: String =>
+    forAll(Gen.alphaStr) { s: String =>
       val expected =
         if (s.headOption.exists(_.isUpper))
           s"${s.charAt(0).toLower}" ++ s.tail
