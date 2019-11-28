@@ -8,8 +8,9 @@ package ciris
 
 import cats.{Apply, FlatMap, NonEmptyParallel, Show}
 import cats.arrow.FunctionK
-import cats.effect.{Async, Blocker, ContextShift, Effect, IO}
+import cats.effect.{Async, Blocker, ContextShift, Effect}
 import cats.implicits._
+import cats.effect.implicits._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
 
 /**
@@ -129,11 +130,7 @@ sealed abstract class ConfigValue[A] {
         implicit G: Async[G],
         context: ContextShift[G]
       ): G[ConfigEntry[B]] =
-        self.to[G].flatMap { entry =>
-          G.async[ConfigEntry[B]] { cb =>
-            F.runAsync(entry.traverse(f))(e => IO(cb(e))).unsafeRunSync
-          }
-        }
+        self.to[G].flatMap(_.traverse(f).toIO.to[G])
     }
 
   /**
@@ -374,10 +371,7 @@ final object ConfigValue {
         implicit G: Async[G],
         context: ContextShift[G]
       ): G[ConfigEntry[A]] =
-        G.async[ConfigValue[A]] { cb =>
-            F.runAsync(value)(e => IO(cb(e))).unsafeRunSync
-          }
-          .flatMap(_.to[G])
+        value.toIO.to[G].flatMap(_.to[G])
     }
 
   /**
