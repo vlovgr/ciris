@@ -130,7 +130,7 @@ sealed abstract class ConfigValue[A] {
         implicit G: Async[G],
         context: ContextShift[G]
       ): G[ConfigEntry[B]] =
-      self.to[G].flatMap(_.traverse(f).toIO.to[G])
+        self.to[G].flatMap(_.traverse(f).toIO.to[G])
     }
 
   /**
