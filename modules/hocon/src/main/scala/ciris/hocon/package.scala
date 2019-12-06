@@ -9,18 +9,17 @@ package object hocon extends HoconConfigDecoders {
 
   sealed abstract class HoconAt(configV: ConfigValue[tsc.Config]) {
 
-    def apply(name: String): ConfigValue[tsc.ConfigValue] =
-      ConfigValue.suspend {
-        val key = ConfigKey(s"hocon key $name")
-        configV.flatMap { config =>
-          try {
-            val value = config.getValue(name)
-            ConfigValue.loaded(key, value)
-          } catch {
-            case _: tsc.ConfigException.Missing => ConfigValue.missing(key)
-          }
+    def apply(name: String): ConfigValue[tsc.ConfigValue] = {
+      val key = ConfigKey(s"hocon key $name")
+      configV.flatMap { config =>
+        try {
+          val value = config.getValue(name)
+          ConfigValue.loaded(key, value)
+        } catch {
+          case _: tsc.ConfigException.Missing => ConfigValue.missing(key)
         }
       }
+    }
 
   }
 
