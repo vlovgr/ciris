@@ -6,6 +6,8 @@ val enumeratumVersion = "1.5.13"
 
 val refinedVersion = "0.9.10"
 
+val typesafeConfigVersion = "1.4.0"
+
 val scala212 = "2.12.10"
 
 val scala213 = "2.13.1"
@@ -55,6 +57,21 @@ lazy val refined = project
     name := moduleName.value,
     dependencySettings ++ Seq(
       libraryDependencies += "eu.timepit" %% "refined" % refinedVersion
+    ),
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(core)
+
+lazy val hocon = project
+  .in(file("modules/hocon"))
+  .settings(
+    moduleName := "ciris-hocon",
+    name := moduleName.value,
+    dependencySettings ++ Seq(
+      libraryDependencies += "com.typesafe" % "config" % typesafeConfigVersion
     ),
     publishSettings,
     mimaSettings,
