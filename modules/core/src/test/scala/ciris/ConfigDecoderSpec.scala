@@ -7,6 +7,14 @@ import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
 
 final class ConfigDecoderSpec extends BaseSpec {
+  test("ConfigDecoder.as") {
+    forAll { (key: Option[ConfigKey], s: String) =>
+      val expected = ConfigDecoder[String, Int].decode(key, s)
+      val actual = ConfigDecoder.identity[String].as[Int].decode(key, s)
+      assert(actual === expected)
+    }
+  }
+
   test("ConfigDecoder.bigDecimal.success") {
     forAll { bigDecimal: BigDecimal =>
       assert(

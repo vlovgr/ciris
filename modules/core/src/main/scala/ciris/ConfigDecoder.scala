@@ -17,6 +17,13 @@ import scala.concurrent.duration.{Duration, FiniteDuration}
 sealed abstract class ConfigDecoder[A, B] {
 
   /**
+    * Returns a new [[ConfigDecoder]] which attempts to decode
+    * values to the specified type.
+    */
+  final def as[C](implicit decoder: ConfigDecoder[B, C]): ConfigDecoder[A, C] =
+    mapEither(decoder.decode)
+
+  /**
     * Returns a new [[ConfigDecoder]] which successfully decodes
     * values for which the specified partial function is defined.
     */
