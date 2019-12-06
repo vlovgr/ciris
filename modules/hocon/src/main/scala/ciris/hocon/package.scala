@@ -1,15 +1,13 @@
 package ciris
 
-import cats.Show
-import ciris.{ConfigException => _, _}
+import cats.effect.Blocker
+import ciris.{ConfigException => _}
+import com.typesafe.config.ConfigFactory
 import com.typesafe.{config => tsc}
-import cats.syntax.all
-
-import scala.util.Try
 
 package object hocon extends HoconConfigDecoders {
 
-  final class HoconAt(configV: ConfigValue[tsc.Config]) {
+  sealed abstract class HoconAt(configV: ConfigValue[tsc.Config]) {
 
     def apply(name: String): ConfigValue[tsc.ConfigValue] =
       ConfigValue.suspend {
@@ -27,7 +25,14 @@ package object hocon extends HoconConfigDecoders {
   }
 
   def hoconConfig(config: => tsc.Config): HoconAt =
-    new HoconAt(ConfigValue.suspend(ConfigValue.default(config)))
+    new HoconAt(ConfigValue.suspend {
+      val _config = config
+      ConfigValue.default(_config)
+    }) {}
 
-  def hoconLoad(): HoconAt = hoconConfig(tsc.ConfigFactory.load())
+  def hoconLoad(blocker: Blocker): HoconAt =
+    new HoconAt(ConfigValue.blockOn(blocker)(ConfigValue.suspend {
+      val _config = ConfigFactory.load()
+      ConfigValue.default(_config)
+    })) {}
 }

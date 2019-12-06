@@ -32,11 +32,7 @@ trait HoconConfigDecoders {
     }
 
   implicit val durationDecoder: ConfigDecoder[tsc.ConfigValue, Duration] =
-    ConfigDecoder.identity[tsc.ConfigValue].collect("Duration") {
-      case cv if (cv.valueType() == tsc.ConfigValueType.STRING) =>
-        val str = cv.unwrapped().asInstanceOf[String]
-        Duration(str) // can throw, do we need to handle explicitly?
-    }
+    stringDecoder.as[Duration]
 
   implicit val configDecoder: ConfigDecoder[tsc.ConfigValue, tsc.Config] =
     ConfigDecoder.identity[tsc.ConfigValue].collect("Config") {

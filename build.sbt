@@ -21,7 +21,7 @@ lazy val ciris = project
     console := (console in (core, Compile)).value,
     console in Test := (console in (core, Test)).value
   )
-  .aggregate(core, enumeratum, refined)
+  .aggregate(core, enumeratum, refined, hocon)
 
 lazy val core = project
   .in(file("modules/core"))
