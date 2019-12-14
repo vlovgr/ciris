@@ -2,8 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://cir.is/blog</id>
     <title>Ciris Blog</title>
-    <updated>2019-11-01T06:00:00Z</updated>
-    <generator>Feed for Node.js</generator>
+    <updated>2019-11-01T06:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://cir.is/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Ciris news and events.</subtitle>
     <logo>https://cir.is/img/ciris.white.svg</logo>
@@ -11,12 +11,14 @@
     <entry>
         <title type="html"><![CDATA[Ciris v1.0.0]]></title>
         <id>https://cir.is/blog/2019/11/01/ciris-v1.0.0.html</id>
-        <link href="https://cir.is/blog/2019/11/01/ciris-v1.0.0.html">
-        </link>
-        <updated>2019-11-01T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>Ciris v1.0.0 was announced less than a week ago, on October 28th, 2019. The release features a complete rewrite of the library, now reimagined and based upon <a href="https://typelevel.org/cats">Cats</a> and <a href="https://typelevel.org/cats-effect">Cats Effect</a>. In this post, we'll highlight the most important changes in v1.0.0, an...</p>]]></summary>
+        <link href="https://cir.is/blog/2019/11/01/ciris-v1.0.0.html"/>
+        <updated>2019-11-01T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Ciris v1.0.0 was announced less than a week ago, on October 28th, 2019. The release features a complete rewrite of the library, now reimagined and based upon <a href="https://typelevel.org/cats">Cats</a> and <a href="https://typelevel.org/cats-effect">Cats Effect</a>. In this post, we'll highlight the most important changes in v1.0.0, and compare it with the v0.x versions.</p>
+<p>Refer to the <a href="https://cir.is/docs/overview">documentation</a> for more detailed information on v1.0.0.</p>
+]]></summary>
         <author>
             <name>Viktor Lövgren</name>
+            <email/>
             <uri>https://vlovgr.se</uri>
         </author>
     </entry>

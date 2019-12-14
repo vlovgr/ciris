@@ -54,7 +54,7 @@
                 };
               }
             });
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Configurations</h1></header><article><div><span><p><a href="/api/ciris/ConfigValue.html"><code>ConfigValue</code></a> is the central concept in the library. It represents a single configuration value, or a composition of multiple values. The library provides functions like <code>env</code>, <code>file</code>, and <code>prop</code> for creating such <a href="/api/ciris/ConfigValue.html"><code>ConfigValue</code></a>s for environment variables, file contents, and system properties. If the value is missing, <code>or</code> lets us use a fallback.</p>
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Configurations</h1></header><article><div><span><p><a href="/api/ciris/ConfigValue.html"><code>ConfigValue</code></a> is the central concept in the library. It represents a single configuration value, or a composition of multiple values. The library provides functions like <code>env</code>, <code>file</code>, and <code>prop</code> for creating such <a href="/api/ciris/ConfigValue.html"><code>ConfigValue</code></a>s for environment variables, file contents, and system properties. If the value is missing, <code>or</code> lets us use a fallback.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> ciris._
 
 <span class="hljs-keyword">val</span> port: <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">Int</span>] =
@@ -107,7 +107,7 @@
 </code></pre>
 <p>By using <code>secret</code>, the value is wrapped in <a href="/api/ciris/Secret.html"><code>Secret</code></a>, which prevents the value from being shown. When shown, the value is replaced by the first 7 characters of the SHA-1 hash for the value. This enables us to check whether the correct secret is being used, while not exposing the value.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-type">Secret</span>(<span class="hljs-string">"RacrqvWjuu4KVmnTG9b6xyZMTP7jnX"</span>)
-<span class="hljs-comment">// res5: Secret[String] = Secret(0a7425a)</span>
+<span class="hljs-comment">// res6: Secret[String] = Secret(0a7425a)</span>
 </code></pre>
 <p>To calculate the short hash ourselves, we can e.g. use <code>sha1sum</code>.</p>
 <pre><code class="hljs css language-bash">$ <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"RacrqvWjuu4KVmnTG9b6xyZMTP7jnX"</span> | sha1sum | head -c 7

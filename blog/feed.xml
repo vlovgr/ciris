@@ -6,7 +6,7 @@
         <description>The best place to stay up-to-date with the latest Ciris news and events.</description>
         <lastBuildDate>Fri, 01 Nov 2019 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-        <generator>Feed for Node.js</generator>
+        <generator>https://github.com/jpmonette/feed</generator>
         <image>
             <title>Ciris Blog</title>
             <url>https://cir.is/img/ciris.white.svg</url>
@@ -18,7 +18,9 @@
             <link>https://cir.is/blog/2019/11/01/ciris-v1.0.0.html</link>
             <guid>https://cir.is/blog/2019/11/01/ciris-v1.0.0.html</guid>
             <pubDate>Fri, 01 Nov 2019 06:00:00 GMT</pubDate>
-            <description><![CDATA[<p>Ciris v1.0.0 was announced less than a week ago, on October 28th, 2019. The release features a complete rewrite of the library, now reimagined and based upon <a href="https://typelevel.org/cats">Cats</a> and <a href="https://typelevel.org/cats-effect">Cats Effect</a>. In this post, we'll highlight the most important changes in v1.0.0, an...</p>]]></description>
+            <description><![CDATA[<p>Ciris v1.0.0 was announced less than a week ago, on October 28th, 2019. The release features a complete rewrite of the library, now reimagined and based upon <a href="https://typelevel.org/cats">Cats</a> and <a href="https://typelevel.org/cats-effect">Cats Effect</a>. In this post, we'll highlight the most important changes in v1.0.0, and compare it with the v0.x versions.</p>
+<p>Refer to the <a href="https://cir.is/docs/overview">documentation</a> for more detailed information on v1.0.0.</p>
+]]></description>
         </item>
     </channel>
 </rss>
