@@ -1,17 +1,9 @@
-// https://github.com/lightbend/mima/issues/422
-resolvers += Resolver.url(
-  "typesafe sbt-plugins",
-  url("https://dl.bintray.com/typesafe/sbt-plugins")
-)(Resolver.ivyStylePatterns)
-
 addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.9.0")
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.12")
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.4.31")
 addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.5")
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.1")
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.3.1")
-addSbtPlugin("io.crashbox" % "sbt-gpg" % "0.2.1")
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.0.3")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.0")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.8.1")

@@ -56,6 +56,7 @@ object Main {
           "ENUMERATUM_MODULE_NAME" -> enumeratumModuleName,
           "ENUMERATUM_CROSS_SCALA_VERSIONS" -> minorVersionsString(enumeratumCrossScalaVersions),
           "LATEST_VERSION" -> latestVersion,
+          "LATEST_SNAPSHOT_VERSION" -> latestSnapshotVersion,
           "LATEST_MAJOR_VERSION" -> majorVersion(latestVersion),
           "DOCS_SCALA_MINOR_VERSION" -> scalaMinorVersion,
           "CATS_EFFECT_VERSION" -> catsEffectVersion,
