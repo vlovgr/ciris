@@ -61,12 +61,26 @@ Following is an incomplete list of third-party integrations.
 - [`ciris-hocon`](https://github.com/2m/ciris-hocon)
 - [`ciris-kubernetes`](https://github.com/ovotech/ciris-kubernetes)
 
+### Signatures
+
+Stable release artifacts are signed with the [`3C73 EC3D A303 8ED3`](https://keys.openpgp.org/search?q=A130DFFBE3EB5850069A54173C73EC3DA3038ED3) key.
+
 ### Compatibility
 
 Backwards binary-compatibility for the library is guaranteed between minor and patch versions.<br>
 Version `@LATEST_MAJOR_VERSION@.a.b` is backwards binary-compatible with `@LATEST_MAJOR_VERSION@.c.d` for any `a > c` or `a = c` and `b > d`.
 
 Please note binary-compatibility is not guaranteed between milestone releases.
+
+### Snapshot Releases
+
+To use the latest snapshot release, add the following lines to your `build.sbt` file.
+
+```scala
+resolvers += Resolver.sonatypeRepo("snapshots")
+
+libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@LATEST_SNAPSHOT_VERSION@"
+```
 
 ## Dependencies
 
