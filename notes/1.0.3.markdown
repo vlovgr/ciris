@@ -1,0 +1,35 @@
+### Changes
+
+- Add `ConfigDecoder#as`. ([#285][#285])
+- Change `ConfigValue.eval` and `ConfigValue#evalMap` to not use `unsafeRunSync`. Thanks [@zarthross](https://github.com/zarthross)! ([#282][#282])
+
+### Updates
+
+- Update Enumeratum to 1.5.14. ([#288][#288])
+- Update Scala to 2.13.1. ([#277][#277])
+
+### Miscellaneous
+
+- Change to use [sbt-ci-release](https://github.com/olafurpg/sbt-ci-release). ([#287][#287])
+  - A [snapshot release](https://cir.is/docs/overview#snapshot-releases) is now being published for every push to the `master` branch.
+  - The [signing key](https://cir.is/docs/overview#signatures) for release artifacts has changed to [`3C73 EC3D A303 8ED3`](https://keys.openpgp.org/search?q=A130DFFBE3EB5850069A54173C73EC3DA3038ED3).
+- Update sbt to 1.3.4. Thanks [@scala-steward](https://github.com/scala-steward)! ([#279][#279])
+- Update sbt-gpg to 0.2.1. Thanks [@scala-steward](https://github.com/scala-steward)! ([#280][#280])
+- Update sbt-header to 5.3.1. Thanks [@scala-steward](https://github.com/scala-steward)! ([#281][#281])
+- Update sbt-mdoc to 2.0.3. Thanks [@scala-steward](https://github.com/scala-steward)! ([#283][#283])
+- Update sbt-scalafmt to 2.3.0. Thanks [@scala-steward](https://github.com/scala-steward)! ([#286][#286])
+- Update sbt-sonatype to 3.8.1. Thanks [@scala-steward](https://github.com/scala-steward)! ([#278][#278])
+
+[#277]: https://github.com/vlovgr/ciris/pull/277
+[#278]: https://github.com/vlovgr/ciris/pull/278
+[#279]: https://github.com/vlovgr/ciris/pull/279
+[#280]: https://github.com/vlovgr/ciris/pull/280
+[#281]: https://github.com/vlovgr/ciris/pull/281
+[#282]: https://github.com/vlovgr/ciris/pull/282
+[#283]: https://github.com/vlovgr/ciris/pull/283
+[#285]: https://github.com/vlovgr/ciris/pull/285
+[#286]: https://github.com/vlovgr/ciris/pull/286
+[#287]: https://github.com/vlovgr/ciris/pull/287
+[#288]: https://github.com/vlovgr/ciris/pull/288
+
+Released on 2019-12-15.
