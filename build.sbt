@@ -82,7 +82,7 @@ lazy val dependencySettings = Seq(
     "org.scalatestplus" %% "scalatestplus-scalacheck" % "3.1.0.0-RC2",
     "org.typelevel" %% "discipline-scalatest" % "1.0.0-RC1",
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
-    "commons-codec" % "commons-codec" % "1.13"
+    "commons-codec" % "commons-codec" % "1.14"
   ).map(_ % Test)
 )
 
