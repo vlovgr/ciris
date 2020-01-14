@@ -79,7 +79,6 @@ lazy val dependencySettings = Seq(
   libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion,
   addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full),
   libraryDependencies ++= Seq(
-    "org.scalatestplus" %% "scalatestplus-scalacheck" % "3.1.0.0-RC2",
     "org.typelevel" %% "discipline-scalatest" % "1.0.0-RC2",
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
     "commons-codec" % "commons-codec" % "1.14"
