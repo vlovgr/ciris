@@ -291,6 +291,44 @@ sealed abstract class ConfigValue[A] {
       case Loaded(error, key, a) => Loaded(error.redacted, key, Secret(a))
     }
 
+  private final def failIf(validateF: A => Boolean, msg: String): ConfigValue[A] = {
+    flatMap { value =>
+      if (validateF(value)) {
+        this
+      } else {
+        ConfigValue.failed(ConfigError(msg))
+      }
+    }
+  }
+
+  /**
+    * Returns a new [[ConfigValue]] after applying the
+    * provided validation function on the loaded value.
+    * The validation function is not called if the config
+    * value cannot be loaded due to an error.
+    *
+    * If the validation function returns false, a ConfigError
+    * is returned with a default message. Otherwise, the
+    * original ConfigValue is kept.
+    */
+  final def ensure(f: A => Boolean): ConfigValue[A] = {
+    ensure(f, "Validation function returned false")
+  }
+
+  /**
+    * Returns a new [[ConfigValue]] after applying the
+    * provided validation function on the loaded value.
+    * The validation function is not called if the config
+    * value cannot be loaded due to an error.
+    *
+    * If the validation function returns false, a ConfigError
+    * is returned with the provided custom message. Otherwise,
+    * the original ConfigValue is kept.
+    */
+  final def ensure(f: A => Boolean, error: String): ConfigValue[A] = {
+    failIf(f, error)
+  }
+
   private[ciris] def to[F[_]](
     implicit F: Async[F],
     context: ContextShift[F]

@@ -857,4 +857,50 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.secret.missing") {
     check(missing.secret, missing.asInstanceOf[ConfigValue[Secret[String]]])
   }
+
+  val validationSuccess: String => Boolean = _ => true
+  val validationFailed: String => Boolean = _ => false
+
+  test("ConfigValue.loaded.ensure success") {
+    check(
+      loaded.ensure(validationSuccess),
+      loaded
+    )
+  }
+
+  test("ConfigValue.loaded.ensure failed") {
+    checkError(loaded.ensure(validationFailed), ConfigError("Validation function returned false"))
+  }
+
+  test("ConfigValue.loaded.ensure failed with message") {
+    checkError(loaded.ensure(validationFailed, "failed"), ConfigError("failed"))
+  }
+
+  test("ConfigValue.failed.ensure success") {
+    checkError(
+      failed.ensure(validationSuccess),
+      failedError
+    )
+  }
+
+  test("ConfigValue.failed.ensure failed") {
+    checkError(
+      failed.ensure(validationFailed),
+      failedError
+    )
+  }
+
+  test("ConfigValue.default.ensure success") {
+    check(
+      default.ensure(validationSuccess),
+      default
+    )
+  }
+
+  test("ConfigValue.default.ensure failed") {
+    checkError(
+      failed.ensure(validationFailed),
+      failedError
+    )
+  }
 }
