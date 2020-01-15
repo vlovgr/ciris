@@ -15,6 +15,6 @@ final object Ciris {
     enum: Enum[A]
   )(implicit tag: WeakTypeTag[A]): ConfigDecoder[String, A] = {
     val typeName = tag.tpe.typeSymbol.name.decodedName.toString
-    ConfigDecoder.identity[String].mapOption(typeName)(enum.withNameOption)
+    ConfigDecoder[String].mapOption(typeName)(enum.withNameOption)
   }
 }

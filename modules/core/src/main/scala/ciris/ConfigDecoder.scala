@@ -113,6 +113,16 @@ final object ConfigDecoder {
     identityConfigDecoder
 
   /**
+    * Returns a new [[ConfigDecoder]] for the specified type
+    * without performing any kind of decoding. Alias for the
+    * [[ConfigDecoder.identity]] function.
+    *
+    * @group Create
+    */
+  final def apply[A]: ConfigDecoder[A, A] =
+    identity
+
+  /**
     * Returns a [[ConfigDecoder]] instance between the two
     * specified types if an instance is available.
     *
@@ -125,7 +135,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringBigDecimalConfigDecoder: ConfigDecoder[String, BigDecimal] =
-    ConfigDecoder.identity[String].mapOption("BigDecimal") { s =>
+    ConfigDecoder[String].mapOption("BigDecimal") { s =>
       try {
         Some(BigDecimal(s))
       } catch {
@@ -138,7 +148,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringBigIntConfigDecoder: ConfigDecoder[String, BigInt] =
-    ConfigDecoder.identity[String].mapOption("BigInt") { s =>
+    ConfigDecoder[String].mapOption("BigInt") { s =>
       try {
         Some(BigInt(s))
       } catch {
@@ -151,7 +161,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringBooleanConfigDecoder: ConfigDecoder[String, Boolean] =
-    ConfigDecoder.identity[String].mapOption("Boolean") { s =>
+    ConfigDecoder[String].mapOption("Boolean") { s =>
       if (s.equalsIgnoreCase("true") || s.equalsIgnoreCase("yes") || s.equalsIgnoreCase("on"))
         Some(true)
       else if (s.equalsIgnoreCase("false") || s.equalsIgnoreCase("no") || s.equalsIgnoreCase("off"))
@@ -164,7 +174,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringByteConfigDecoder: ConfigDecoder[String, Byte] =
-    ConfigDecoder.identity[String].mapOption("Byte") { s =>
+    ConfigDecoder[String].mapOption("Byte") { s =>
       try {
         Some(s.toByte)
       } catch {
@@ -177,7 +187,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringCharConfigDecoder: ConfigDecoder[String, Char] =
-    ConfigDecoder.identity[String].collect("Char") {
+    ConfigDecoder[String].collect("Char") {
       case s if s.length == 1 => s.charAt(0)
     }
 
@@ -185,7 +195,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringDoubleConfigDecoder: ConfigDecoder[String, Double] =
-    ConfigDecoder.identity[String].mapOption("Double") { s =>
+    ConfigDecoder[String].mapOption("Double") { s =>
       try {
         Some {
           if (s.lastOption.exists(_ == '%')) {
@@ -204,7 +214,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringDurationConfigDecoder: ConfigDecoder[String, Duration] =
-    ConfigDecoder.identity[String].mapOption("Duration") { s =>
+    ConfigDecoder[String].mapOption("Duration") { s =>
       try {
         Some(Duration(s))
       } catch {
@@ -225,7 +235,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringFloatConfigDecoder: ConfigDecoder[String, Float] =
-    ConfigDecoder.identity[String].mapOption("Float") { s =>
+    ConfigDecoder[String].mapOption("Float") { s =>
       try {
         Some {
           if (s.lastOption.exists(_ == '%')) {
@@ -272,7 +282,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringIntConfigDecoder: ConfigDecoder[String, Int] =
-    ConfigDecoder.identity[String].mapOption("Int") { s =>
+    ConfigDecoder[String].mapOption("Int") { s =>
       try {
         Some(s.toInt)
       } catch {
@@ -297,7 +307,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringLongConfigDecoder: ConfigDecoder[String, Long] =
-    ConfigDecoder.identity[String].mapOption("Long") { s =>
+    ConfigDecoder[String].mapOption("Long") { s =>
       try {
         Some(s.toLong)
       } catch {
@@ -310,7 +320,7 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringShortConfigDecoder: ConfigDecoder[String, Short] =
-    ConfigDecoder.identity[String].mapOption("Short") { s =>
+    ConfigDecoder[String].mapOption("Short") { s =>
       try {
         Some(s.toShort)
       } catch {

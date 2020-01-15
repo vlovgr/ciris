@@ -10,7 +10,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   test("ConfigDecoder.as") {
     forAll { (key: Option[ConfigKey], s: String) =>
       val expected = ConfigDecoder[String, Int].decode(key, s)
-      val actual = ConfigDecoder.identity[String].as[Int].decode(key, s)
+      val actual = ConfigDecoder[String].as[Int].decode(key, s)
       assert(actual === expected)
     }
   }
