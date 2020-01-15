@@ -60,4 +60,15 @@ import eu.timepit.refined.types.numeric.PosInt
 ConfigDecoder[String, PosInt]
 ```
 
+## Squants
+
+The `@SQUANTS_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [squants](https://github.com/typelevel/squants) quantities.
+
+```scala mdoc
+import ciris.squants._
+import squants.market.Money
+
+ConfigDecoder[String, Money]
+```
+
 [configdecoder]: @API_BASE_URL@/ConfigDecoder.html

@@ -4,6 +4,8 @@ val enumeratumVersion = "1.5.15"
 
 val refinedVersion = "0.9.10"
 
+val squantsVersion = "1.6.0"
+
 val scala212 = "2.12.10"
 
 val scala213 = "2.13.1"
@@ -17,7 +19,7 @@ lazy val ciris = project
     console := (console in (core, Compile)).value,
     console in Test := (console in (core, Test)).value
   )
-  .aggregate(core, enumeratum, refined)
+  .aggregate(core, enumeratum, refined, squants)
 
 lazy val core = project
   .in(file("modules/core"))
@@ -61,6 +63,23 @@ lazy val refined = project
   )
   .dependsOn(core)
 
+lazy val squants = project
+  .in(file("modules/squants"))
+  .settings(
+    moduleName := "ciris-squants",
+    name := moduleName.value,
+    dependencySettings ++ Seq(
+      libraryDependencies += "org.typelevel" %% "squants" % squantsVersion
+    ),
+    publishSettings,
+    mimaSettings ++ Seq(
+      mimaPreviousArtifacts := Set()
+    ),
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(core)
+
 lazy val docs = project
   .in(file("docs"))
   .settings(
@@ -72,7 +91,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core, enumeratum, refined)
+  .dependsOn(core, enumeratum, refined, squants)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -89,7 +108,7 @@ lazy val mdocSettings = Seq(
   mdoc := run.in(Compile).evaluated,
   scalacOptions --= Seq("-Xfatal-warnings", "-Ywarn-unused"),
   crossScalaVersions := Seq(scalaVersion.value),
-  unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(core, enumeratum, refined),
+  unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(core, enumeratum, refined, squants),
   target in (ScalaUnidoc, unidoc) := (baseDirectory in LocalRootProject).value / "website" / "static" / "api",
   cleanFiles += (target in (ScalaUnidoc, unidoc)).value,
   docusaurusCreateSite := docusaurusCreateSite
@@ -147,11 +166,18 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(crossScalaVersions in refined) {
       case (k, v) => "refined" ++ k.capitalize -> v
     },
+    BuildInfoKey.map(moduleName in squants) {
+      case (k, v) => "squants" ++ k.capitalize -> v
+    },
+    BuildInfoKey.map(crossScalaVersions in squants) {
+      case (k, v) => "squants" ++ k.capitalize -> v
+    },
     organization in LocalRootProject,
     crossScalaVersions in core,
     BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
     BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
-    BuildInfoKey("refinedVersion" -> refinedVersion)
+    BuildInfoKey("refinedVersion" -> refinedVersion),
+    BuildInfoKey("squantsVersion" -> squantsVersion)
   )
 )
 

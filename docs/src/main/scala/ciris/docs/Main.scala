@@ -64,6 +64,9 @@ object Main {
           "REFINED_VERSION" -> refinedVersion,
           "REFINED_MODULE_NAME" -> refinedModuleName,
           "REFINED_CROSS_SCALA_VERSIONS" -> minorVersionsString(refinedCrossScalaVersions),
+          "SQUANTS_VERSION" -> squantsVersion,
+          "SQUANTS_MODULE_NAME" -> squantsModuleName,
+          "SQUANTS_CROSS_SCALA_VERSIONS" -> minorVersionsString(squantsCrossScalaVersions),
           "SCALA_PUBLISH_VERSIONS" -> minorVersionsString(crossScalaVersions),
           "API_BASE_URL" -> s"/api/ciris"
         )
