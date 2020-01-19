@@ -11,7 +11,7 @@ import org.scalatest.funsuite.AnyFunSuiteLike
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.prop.Configuration
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.FunSuiteDiscipline
 
 trait TestSettings extends Configuration with Matchers {
 
@@ -37,7 +37,7 @@ trait CatsSuite
     extends AnyFunSuiteLike
     with Matchers
     with ScalaCheckDrivenPropertyChecks
-    with Discipline
+    with FunSuiteDiscipline
     with TestSettings
     with AllInstances
     with AllInstancesBinCompat0
