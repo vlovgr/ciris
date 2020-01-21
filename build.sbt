@@ -26,7 +26,9 @@ lazy val core = project
   .settings(
     moduleName := "ciris",
     name := moduleName.value,
-    dependencySettings,
+    dependencySettings ++ Seq(
+      libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion
+    ),
     publishSettings,
     mimaSettings,
     scalaSettings,
@@ -95,13 +97,24 @@ lazy val docs = project
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
-  libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion,
   addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "org.typelevel" %% "discipline-scalatest" % "1.0.0-RC4",
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
     "commons-codec" % "commons-codec" % "1.14"
-  ).map(_ % Test)
+  ).map(_ % Test),
+  pomPostProcess := { (node: xml.Node) =>
+    new xml.transform.RuleTransformer(new xml.transform.RewriteRule {
+      def scopedDependency(e: xml.Elem): Boolean =
+        e.label == "dependency" && e.child.exists(_.label == "scope")
+
+      override def transform(node: xml.Node): xml.NodeSeq =
+        node match {
+          case e: xml.Elem if scopedDependency(e) => Nil
+          case _                                  => Seq(node)
+        }
+    }).transform(node).head
+  }
 )
 
 lazy val mdocSettings = Seq(
