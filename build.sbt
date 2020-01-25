@@ -2,7 +2,7 @@ val catsEffectVersion = "2.0.0"
 
 val enumeratumVersion = "1.5.15"
 
-val refinedVersion = "0.9.10"
+val refinedVersion = "0.9.12"
 
 val squantsVersion = "1.6.0"
 
