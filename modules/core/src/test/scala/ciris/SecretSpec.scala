@@ -8,9 +8,7 @@ final class SecretSpec extends BaseSpec {
   checkAll("Secret", EqTests[Secret[String]].eqv)
 
   test("Secret.equals.other") {
-    forAll { secret: Secret[String] =>
-      assert((secret: Any) != secret.value)
-    }
+    forAll { secret: Secret[String] => assert((secret: Any) != secret.value) }
   }
 
   test("Secret.equals.secret") {
@@ -22,15 +20,11 @@ final class SecretSpec extends BaseSpec {
   }
 
   test("Secret.hashCode") {
-    forAll { secret: Secret[String] =>
-      assert(secret.hashCode === secret.value.hashCode)
-    }
+    forAll { secret: Secret[String] => assert(secret.hashCode === secret.value.hashCode) }
   }
 
   test("Secret.show") {
-    forAll { secret: Secret[String] =>
-      assert(secret.show === secret.toString)
-    }
+    forAll { secret: Secret[String] => assert(secret.show === secret.toString) }
   }
 
   test("Secret.toString") {
@@ -50,15 +44,11 @@ final class SecretSpec extends BaseSpec {
   }
 
   test("Secret.value") {
-    forAll { value: String =>
-      assert(Secret(value).value === value)
-    }
+    forAll { value: String => assert(Secret(value).value === value) }
   }
 
   test("Secret.valueHash") {
-    forAll { secret: Secret[String] =>
-      assert(secret.valueHash === sha1Hex(secret.value.show))
-    }
+    forAll { secret: Secret[String] => assert(secret.valueHash === sha1Hex(secret.value.show)) }
   }
 
   test("Secret.valueShortHash") {

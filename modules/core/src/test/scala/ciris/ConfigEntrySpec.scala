@@ -72,9 +72,7 @@ final class ConfigEntrySpec extends BaseSpec {
   }
 
   test("ConfigEntry.show") {
-    forAll { entry: ConfigEntry[String] =>
-      assert(entry.show === entry.toString)
-    }
+    forAll { entry: ConfigEntry[String] => assert(entry.show === entry.toString) }
   }
 
   checkAll(

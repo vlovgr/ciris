@@ -12,9 +12,7 @@ final class ConfigErrorSpec extends BaseSpec {
       assert(messages.size == errors.foldMap(_.messages.size))
 
       assert {
-        errors.forall(_.messages.forall { m =>
-          messages.exists(_.contains(m))
-        })
+        errors.forall(_.messages.forall { m => messages.exists(_.contains(m)) })
       }
     }
   }
@@ -27,9 +25,7 @@ final class ConfigErrorSpec extends BaseSpec {
       assert {
         errors
           .map(_.redacted)
-          .forall(_.messages.forall { m =>
-            messages.exists(_.contains(m))
-          })
+          .forall(_.messages.forall { m => messages.exists(_.contains(m)) })
       }
     }
   }
@@ -219,9 +215,7 @@ final class ConfigErrorSpec extends BaseSpec {
       assert {
         errors
           .map(_.redacted)
-          .forall(_.messages.forall { m =>
-            message.contains(m.toLowerCase)
-          })
+          .forall(_.messages.forall { m => message.contains(m.toLowerCase) })
       }
     }
   }
@@ -322,8 +316,6 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.show") {
-    forAll { error: ConfigError =>
-      assert(error.show === error.toString)
-    }
+    forAll { error: ConfigError => assert(error.show === error.toString) }
   }
 }

@@ -56,9 +56,7 @@ sealed abstract class ConfigDecoder[A, B] {
     */
   final def flatMap[C](f: B => ConfigDecoder[A, C]): ConfigDecoder[A, C] =
     ConfigDecoder.instance { (key, value) =>
-      decode(key, value).flatMap { a =>
-        f(a).decode(key, value)
-      }
+      decode(key, value).flatMap { a => f(a).decode(key, value) }
     }
 
   /**
@@ -66,18 +64,14 @@ sealed abstract class ConfigDecoder[A, B] {
     * specified function on successfully decoded values.
     */
   final def map[C](f: B => C): ConfigDecoder[A, C] =
-    ConfigDecoder.instance { (key, value) =>
-      decode(key, value).map(f)
-    }
+    ConfigDecoder.instance { (key, value) => decode(key, value).map(f) }
 
   /**
     * Returns a new [[ConfigDecoder]] which successfully decodes
     * values for which the specified function returns `Right`.
     */
   final def mapEither[C](f: (Option[ConfigKey], B) => Either[ConfigError, C]): ConfigDecoder[A, C] =
-    ConfigDecoder.instance { (key, value) =>
-      decode(key, value).flatMap(f(key, _))
-    }
+    ConfigDecoder.instance { (key, value) => decode(key, value).flatMap(f(key, _)) }
 
   /**
     * Returns a new [[ConfigDecoder]] which successfully decodes
@@ -86,9 +80,7 @@ sealed abstract class ConfigDecoder[A, B] {
   final def mapOption[C](typeName: String)(f: B => Option[C])(
     implicit show: Show[B]
   ): ConfigDecoder[A, C] =
-    mapEither { (key, b) =>
-      f(b).toRight(ConfigError.decode(typeName, key, b))
-    }
+    mapEither { (key, b) => f(b).toRight(ConfigError.decode(typeName, key, b)) }
 }
 
 /**
@@ -349,9 +341,7 @@ final object ConfigDecoder {
         decoder: ConfigDecoder[A, B]
       )(f: ConfigError => ConfigDecoder[A, B]): ConfigDecoder[A, B] =
         ConfigDecoder.instance { (key, value) =>
-          decoder.decode(key, value).handleErrorWith { error =>
-            f(error).decode(key, value)
-          }
+          decoder.decode(key, value).handleErrorWith { error => f(error).decode(key, value) }
         }
 
       override final def raiseError[B](error: ConfigError): ConfigDecoder[A, B] =

@@ -13,7 +13,5 @@ package object squants {
   implicit final def stringQuantityConfigDecoder[A <: Quantity[A]](
     implicit dimension: Dimension[A]
   ): ConfigDecoder[String, A] =
-    ConfigDecoder[String].mapOption(dimension.name) { s =>
-      dimension.parseString(s).toOption
-    }
+    ConfigDecoder[String].mapOption(dimension.name) { s => dimension.parseString(s).toOption }
 }
