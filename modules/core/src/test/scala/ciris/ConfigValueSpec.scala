@@ -179,41 +179,31 @@ final class ConfigValueSpec extends BaseSpec {
 
   test("ConfigValue.async.default") {
     check({
-      ConfigValue.async[String] { cb =>
-        cb(Right(default))
-      }
+      ConfigValue.async[String] { cb => cb(Right(default)) }
     }, default)
   }
 
   test("ConfigValue.async.error") {
     checkLoadFail {
-      ConfigValue.async[String] { cb =>
-        cb(Left(new RuntimeException))
-      }
+      ConfigValue.async[String] { cb => cb(Left(new RuntimeException)) }
     }
   }
 
   test("ConfigValue.async.failed") {
     check({
-      ConfigValue.async[String] { cb =>
-        cb(Right(failed))
-      }
+      ConfigValue.async[String] { cb => cb(Right(failed)) }
     }, failed)
   }
 
   test("ConfigValue.async.loaded") {
     check({
-      ConfigValue.async[String] { cb =>
-        cb(Right(loaded))
-      }
+      ConfigValue.async[String] { cb => cb(Right(loaded)) }
     }, loaded)
   }
 
   test("ConfigValue.async.missing") {
     check({
-      ConfigValue.async[String] { cb =>
-        cb(Right(missing))
-      }
+      ConfigValue.async[String] { cb => cb(Right(missing)) }
     }, missing)
   }
 

@@ -6,9 +6,7 @@ final class ConfigExceptionSpec extends BaseSpec {
   checkAll("ConfigException", EqTests[ConfigException].eqv)
 
   test("ConfigException.error") {
-    forAll { error: ConfigError =>
-      assert(ConfigException(error).error === error)
-    }
+    forAll { error: ConfigError => assert(ConfigException(error).error === error) }
   }
 
   test("ConfigException.message.contains") {
