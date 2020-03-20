@@ -288,7 +288,7 @@ final class ConfigValueSpec extends BaseSpec {
 
   test("ConfigValue.eval.error") {
     checkLoadFail {
-      ConfigValue.eval(IO.raiseError[ConfigValue[String]](ConfigError("").throwable)),
+      ConfigValue.eval(IO.raiseError[ConfigValue[String]](ConfigError("").throwable))
     }
   }
 
