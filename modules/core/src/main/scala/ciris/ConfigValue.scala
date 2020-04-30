@@ -6,7 +6,7 @@
 
 package ciris
 
-import cats.{Apply, FlatMap, NonEmptyParallel, Show}
+import cats.{Applicative, Apply, FlatMap, NonEmptyParallel, Show}
 import cats.arrow.FunctionK
 import cats.effect.{Async, Blocker, ContextShift, Effect}
 import cats.implicits._
@@ -500,6 +500,17 @@ final object ConfigValue {
 
       override final def map[A, B](pa: Par[A])(f: A => B): Par[B] =
         Par(pa.unwrap.map(f))
+    }
+
+  /**
+    * @group Instances
+    */
+  implicit final val configValueApplicative: Applicative[ConfigValue] =
+    new Applicative[ConfigValue] {
+      override def pure[A](x: A): ConfigValue[A] = ConfigValue.default(x)
+
+      override def ap[A, B](ff: ConfigValue[A => B])(fa: ConfigValue[A]): ConfigValue[B] =
+        ff.flatMap(ff_ => fa.map(ff_))
     }
 
   /**
