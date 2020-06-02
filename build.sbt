@@ -234,7 +234,10 @@ lazy val mimaSettings = Seq(
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     // format: off
-    Seq()
+    Seq(
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("ciris.ConfigValue.to"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.ConfigValue.to")
+    )
     // format: on
   }
 )

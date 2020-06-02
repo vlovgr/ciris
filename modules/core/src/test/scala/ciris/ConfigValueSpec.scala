@@ -1,6 +1,6 @@
 package ciris
 
-import cats.effect.{Blocker, ContextShift, IO, Sync}
+import cats.effect.{Blocker, ContextShift, IO, Resource, Sync}
 import cats.effect.laws.util.TestContext
 import cats.Eq
 import cats.implicits._
@@ -61,8 +61,8 @@ final class ConfigValueSpec extends BaseSpec {
 
   def check[A](actual: ConfigValue[A], expected: ConfigValue[A])(implicit eq: Eq[A]): Assertion = {
     val eqEntry = Eq[ConfigEntry[A]]
-    val actualEntry = actual.to[IO].unsafeRunSync
-    val expectedEntry = expected.to[IO].unsafeRunSync
+    val actualEntry = actual.to[IO].use(IO.pure).unsafeRunSync
+    val expectedEntry = expected.to[IO].use(IO.pure).unsafeRunSync
 
     withClue(s"actual: $actualEntry") {
       withClue(s"expected: $expectedEntry") {
@@ -73,7 +73,7 @@ final class ConfigValueSpec extends BaseSpec {
 
   def checkError[A](actual: ConfigValue[A], expected: ConfigError): Assertion = {
     val eqError = Eq[ConfigError]
-    val actualError = actual.to[IO].unsafeRunSync.error
+    val actualError = actual.to[IO].use(IO.pure).unsafeRunSync.error
 
     withClue(s"actual: $actualError") {
       withClue(s"expected: $expected") {
@@ -113,8 +113,8 @@ final class ConfigValueSpec extends BaseSpec {
     implicit eq: Eq[A]
   ): Eq[ConfigValue[A]] = {
     Eq.instance { (v1, v2) =>
-      val a1 = v1.to[IO].attempt.unsafeRunSync
-      val a2 = v2.to[IO].attempt.unsafeRunSync
+      val a1 = v1.to[IO].use(IO.pure).attempt.unsafeRunSync
+      val a2 = v2.to[IO].use(IO.pure).attempt.unsafeRunSync
 
       (a1, a2) match {
         case (Left(e1: ConfigException), Left(e2: ConfigException)) => e1 === e2
@@ -128,8 +128,8 @@ final class ConfigValueSpec extends BaseSpec {
     implicit eq: Eq[A]
   ): Eq[ConfigValue.Par[A]] = {
     Eq.instance { (v1, v2) =>
-      val a1 = v1.unwrap.to[IO].attempt.unsafeRunSync
-      val a2 = v2.unwrap.to[IO].attempt.unsafeRunSync
+      val a1 = v1.unwrap.to[IO].use(IO.pure).attempt.unsafeRunSync
+      val a2 = v2.unwrap.to[IO].use(IO.pure).attempt.unsafeRunSync
 
       (a1, a2) match {
         case (Left(e1: ConfigException), Left(e2: ConfigException)) => e1 === e2
@@ -796,6 +796,34 @@ final class ConfigValueSpec extends BaseSpec {
       )
 
     checkError(loadedSensitive.redacted, ConfigError("redactedMessage"))
+  }
+
+  test("ConfigValue.resource") {
+    var acquired = false
+    var released = false
+
+    val acquire =
+      IO {
+        acquired = true
+        ConfigValue.default("value")
+      }
+
+    val release =
+      (_: ConfigValue[String]) =>
+        IO {
+          released = true
+          ()
+        }
+
+    val input =
+      Resource.make(acquire)(release)
+
+    val output =
+      ConfigValue.resource(input).resource[IO]
+
+    assert(!acquired && !released)
+    output.use(_ => IO(assert(acquired))).unsafeRunSync
+    assert(released)
   }
 
   test("ConfigValue.secret.default") {
