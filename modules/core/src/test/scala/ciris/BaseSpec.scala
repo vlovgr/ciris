@@ -14,7 +14,7 @@ import scala.util.Try
 class BaseSpec extends CatsSuite {
   val configKeyGen: Gen[ConfigKey] =
     for {
-      description <- arbitrary[String]
+      description <- Gen.alphaNumStr
     } yield ConfigKey(description)
 
   implicit val configKeyArbitrary: Arbitrary[ConfigKey] =
@@ -36,8 +36,8 @@ class BaseSpec extends CatsSuite {
 
   val configErrorMessageGen: Gen[String] =
     Gen.oneOf(
-      arbitrary[String],
-      arbitrary[String].map(_ ++ ConfigException.entryTrailing)
+      Gen.alphaNumStr,
+      Gen.alphaNumStr.map(_ ++ ConfigException.entryTrailing)
     )
 
   val configErrorGen: Gen[ConfigError] =
@@ -56,9 +56,9 @@ class BaseSpec extends CatsSuite {
 
       val decode =
         for {
-          typeName <- arbitrary[String]
+          typeName <- Gen.alphaNumStr
           key <- Gen.option(configKeyGen)
-          value <- arbitrary[String]
+          value <- Gen.alphaNumStr
         } yield ConfigError.decode(typeName, key, value)
 
       val empty =
