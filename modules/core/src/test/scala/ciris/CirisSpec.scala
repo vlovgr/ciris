@@ -13,7 +13,7 @@ final class CirisSpec extends BaseSpec {
   test("default") {
     forAll { value: String =>
       assert {
-        default(value).to[IO].unsafeRunSync match {
+        default(value).to[IO].use(IO.pure).unsafeRunSync match {
           case ConfigEntry.Default(ConfigError.Empty, default) => default() === value
           case _                                               => false
         }
@@ -32,7 +32,7 @@ final class CirisSpec extends BaseSpec {
       assert {
         val description = ConfigKey.env(name).description
 
-        env(name).to[IO].unsafeRunSync match {
+        env(name).to[IO].use(IO.pure).unsafeRunSync match {
           case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
             sys.env.get(name).contains(value)
 
@@ -75,7 +75,7 @@ final class CirisSpec extends BaseSpec {
         Blocker[IO].use { blocker =>
           IO(assert {
             val description = ConfigKey.file(path, StandardCharsets.UTF_8).description
-            file(path, blocker).to[IO].unsafeRunSync match {
+            file(path, blocker).to[IO].use(IO.pure).unsafeRunSync match {
               case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
                 value === content
 
@@ -119,7 +119,7 @@ final class CirisSpec extends BaseSpec {
         Blocker[IO].use { blocker =>
           IO(assert {
             val description = ConfigKey.file(path, charset).description
-            file(path, blocker, charset).to[IO].unsafeRunSync match {
+            file(path, blocker, charset).to[IO].use(IO.pure).unsafeRunSync match {
               case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
                 value === content
 
@@ -145,7 +145,7 @@ final class CirisSpec extends BaseSpec {
       assert {
         val description = ConfigKey.prop(name).description
 
-        prop(name).to[IO].unsafeRunSync match {
+        prop(name).to[IO].use(IO.pure).unsafeRunSync match {
           case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
             sys.props.get(name).contains(value)
 
