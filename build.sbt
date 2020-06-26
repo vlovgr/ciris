@@ -1,5 +1,7 @@
 val catsEffectVersion = "2.1.3"
 
+val circeVersion = "0.13.0"
+
 val enumeratumVersion = "1.6.1"
 
 val refinedVersion = "0.9.14"
@@ -19,7 +21,7 @@ lazy val ciris = project
     console := (console in (core, Compile)).value,
     console in Test := (console in (core, Test)).value
   )
-  .aggregate(core, enumeratum, refined, squants)
+  .aggregate(core, circe, enumeratum, refined, squants)
 
 lazy val core = project
   .in(file("modules/core"))
@@ -34,6 +36,21 @@ lazy val core = project
     scalaSettings,
     testSettings
   )
+
+lazy val circe = project
+  .in(file("modules/circe"))
+  .settings(
+    moduleName := "ciris-circe",
+    name := moduleName.value,
+    dependencySettings ++ Seq(
+      libraryDependencies += "io.circe" %% "circe-parser" % circeVersion
+    ),
+    publishSettings,
+    mimaSettings,
+    scalaSettings,
+    testSettings
+  )
+  .dependsOn(core)
 
 lazy val enumeratum = project
   .in(file("modules/enumeratum"))
@@ -93,7 +110,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core, enumeratum, refined, squants)
+  .dependsOn(core, circe, enumeratum, refined, squants)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -121,7 +138,13 @@ lazy val mdocSettings = Seq(
   mdoc := run.in(Compile).evaluated,
   scalacOptions --= Seq("-Xfatal-warnings", "-Ywarn-unused"),
   crossScalaVersions := Seq(scalaVersion.value),
-  unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(core, enumeratum, refined, squants),
+  unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(
+    core,
+    circe,
+    enumeratum,
+    refined,
+    squants
+  ),
   target in (ScalaUnidoc, unidoc) := (baseDirectory in LocalRootProject).value / "website" / "static" / "api",
   cleanFiles += (target in (ScalaUnidoc, unidoc)).value,
   docusaurusCreateSite := docusaurusCreateSite
@@ -167,6 +190,12 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(crossScalaVersions in core) {
       case (k, v) => "core" ++ k.capitalize -> v
     },
+    BuildInfoKey.map(moduleName in circe) {
+      case (k, v) => "circe" ++ k.capitalize -> v
+    },
+    BuildInfoKey.map(crossScalaVersions in circe) {
+      case (k, v) => "circe" ++ k.capitalize -> v
+    },
     BuildInfoKey.map(moduleName in enumeratum) {
       case (k, v) => "enumeratum" ++ k.capitalize -> v
     },
@@ -188,6 +217,7 @@ lazy val buildInfoSettings = Seq(
     organization in LocalRootProject,
     crossScalaVersions in core,
     BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
+    BuildInfoKey("circeVersion" -> circeVersion),
     BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
     BuildInfoKey("refinedVersion" -> refinedVersion),
     BuildInfoKey("squantsVersion" -> squantsVersion)
@@ -227,7 +257,7 @@ lazy val publishSettings =
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    if (publishArtifact.value) {
+    if (publishArtifact.value && moduleName.value != "ciris-circe") {
       Set(organization.value %% moduleName.value % (previousStableVersion in ThisBuild).value.get)
     } else Set()
   },
