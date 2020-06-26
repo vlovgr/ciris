@@ -35,6 +35,14 @@ scalacOptions += "-Ypartial-unification"
 
 Following are additional provided modules.
 
+#### Circe
+
+For [circe](modules.md#circe) support, add the following line to your `build.sbt` file.
+
+```scala
+libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_MODULE_NAME@" % "@LATEST_VERSION@"
+```
+
 #### Enumeratum
 
 For [enumeratum](modules.md#enumeratum) support, add the following line to your `build.sbt` file.
@@ -97,6 +105,7 @@ Refer to the table below for dependencies and version support across modules.
 | Module                     | Dependencies                                                                  | Scala                                   |
 | -------------------------- | ----------------------------------------------------------------------------- | --------------------------------------- |
 | `@CORE_MODULE_NAME@`       | [Cats Effect @CATS_EFFECT_VERSION@](https://github.com/typelevel/cats-effect) | Scala @CORE_CROSS_SCALA_VERSIONS@       |
+| `@CIRCE_MODULE_NAME@`      | [Circe @CIRCE_VERSION@](https://github.com/circe/circe)                       | Scala @CORE_CROSS_SCALA_VERSIONS@       |
 | `@ENUMERATUM_MODULE_NAME@` | [Enumeratum @ENUMERATUM_VERSION@](https://github.com/lloydmeta/enumeratum)    | Scala @ENUMERATUM_CROSS_SCALA_VERSIONS@ |
 | `@REFINED_MODULE_NAME@`    | [Refined @REFINED_VERSION@](https://github.com/fthomas/refined)               | Scala @REFINED_CROSS_SCALA_VERSIONS@    |
 | `@SQUANTS_MODULE_NAME@`    | [Squants @SQUANTS_VERSION@](https://github.com/typelevel/squants)             | Scala @SQUANTS_CROSS_SCALA_VERSIONS@    |

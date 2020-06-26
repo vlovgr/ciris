@@ -5,6 +5,27 @@ title: Modules
 
 The following sections describe the additional modules.
 
+## Circe
+
+The `@CIRCE_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for JSON using [Circe](https://github.com/circe/circe).
+
+```scala mdoc
+import ciris.circe._
+import ciris.ConfigDecoder
+import io.circe.{Decoder, Json}
+
+ConfigDecoder[String, Json]
+
+case class SerialNumber(value: String)
+
+object SerialNumber {
+  implicit val serialNumberDecoder: Decoder[SerialNumber] =
+    Decoder[String].map(apply)
+}
+
+circeConfigDecoder[SerialNumber]("SerialNumber")
+```
+
 ## Enumeratum
 
 The `@ENUMERATUM_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [Enumeratum](https://github.com/lloydmeta/enumeratum) enumerations.
@@ -14,7 +35,6 @@ For regular `Enum`s, also mix in `CirisEnum` to derive a [`ConfigDecoder`][confi
 ```scala mdoc
 import enumeratum.{CirisEnum, Enum, EnumEntry}
 import enumeratum.EnumEntry.Lowercase
-import ciris.ConfigDecoder
 
 sealed trait Suit extends EnumEntry with Lowercase
 
