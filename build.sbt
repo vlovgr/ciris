@@ -10,7 +10,7 @@ val squantsVersion = "1.6.0"
 
 val scala212 = "2.12.10"
 
-val scala213 = "2.13.1"
+val scala213 = "2.13.3"
 
 lazy val ciris = project
   .in(file("."))
