@@ -33,9 +33,10 @@ sealed abstract class ConfigDecoder[A, B] {
     ConfigDecoder.instance { (key, value) =>
       decode(key, value).flatMap { b =>
         f.andThen(_.asRight)
-          .applyOrElse(b, (b: B) => {
-            Left(ConfigError.decode(typeName, key, b))
-          })
+          .applyOrElse(
+            b,
+            (b: B) => Left(ConfigError.decode(typeName, key, b))
+          )
       }
     }
 
