@@ -178,9 +178,10 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.async.default") {
-    check({
-      ConfigValue.async[String] { cb => cb(Right(default)) }
-    }, default)
+    check(
+      ConfigValue.async[String] { cb => cb(Right(default)) },
+      default
+    )
   }
 
   test("ConfigValue.async.error") {
@@ -190,21 +191,24 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.async.failed") {
-    check({
-      ConfigValue.async[String] { cb => cb(Right(failed)) }
-    }, failed)
+    check(
+      ConfigValue.async[String] { cb => cb(Right(failed)) },
+      failed
+    )
   }
 
   test("ConfigValue.async.loaded") {
-    check({
-      ConfigValue.async[String] { cb => cb(Right(loaded)) }
-    }, loaded)
+    check(
+      ConfigValue.async[String] { cb => cb(Right(loaded)) },
+      loaded
+    )
   }
 
   test("ConfigValue.async.missing") {
-    check({
-      ConfigValue.async[String] { cb => cb(Right(missing)) }
-    }, missing)
+    check(
+      ConfigValue.async[String] { cb => cb(Right(missing)) },
+      missing
+    )
   }
 
   test("ConfigValue.attempt.default") {
@@ -365,10 +369,12 @@ final class ConfigValueSpec extends BaseSpec {
     }
   }
 
-  checkAll("ConfigValue", {
-    implicit val testContext: TestContext = TestContext()
-    FlatMapTests[ConfigValue].flatMap[String, String, String]
-  })
+  checkAll(
+    "ConfigValue", {
+      implicit val testContext: TestContext = TestContext()
+      FlatMapTests[ConfigValue].flatMap[String, String, String]
+    }
+  )
 
   test("ConfigValue.flatMap.default >> default") {
     check(default >> default2, default2)
@@ -560,15 +566,19 @@ final class ConfigValueSpec extends BaseSpec {
     )
   }
 
-  checkAll("ConfigValue.parallel", {
-    implicit val testContext: TestContext = TestContext()
-    ApplyTests[ConfigValue.Par].apply[String, String, String]
-  })
+  checkAll(
+    "ConfigValue.parallel", {
+      implicit val testContext: TestContext = TestContext()
+      ApplyTests[ConfigValue.Par].apply[String, String, String]
+    }
+  )
 
-  checkAll("ConfigValue", {
-    implicit val testContext: TestContext = TestContext()
-    NonEmptyParallelTests[ConfigValue].nonEmptyParallel[String, String]
-  })
+  checkAll(
+    "ConfigValue", {
+      implicit val testContext: TestContext = TestContext()
+      NonEmptyParallelTests[ConfigValue].nonEmptyParallel[String, String]
+    }
+  )
 
   test("ConfigValue.parallel.(default, default).parTupled") {
     check(
