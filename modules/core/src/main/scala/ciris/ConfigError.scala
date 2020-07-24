@@ -321,7 +321,10 @@ final object ConfigError {
   /**
     * @group Instances
     */
-  implicit final val configErrorEq: Eq[ConfigError] =
+  implicit final val configErrorEq: Eq[ConfigError] = {
+    def eqv(e1: Chain[ConfigError], e2: Chain[ConfigError]) =
+      Eq[Chain[ConfigError]].eqv(e1, e2)
+
     Eq.instance {
       case (Empty, Empty)                         => true
       case (Empty, _)                             => false
@@ -329,15 +332,16 @@ final object ConfigError {
       case (Loaded, _)                            => false
       case (Missing(k1), Missing(k2))             => k1 === k2
       case (Missing(_), _)                        => false
-      case (And(e1), And(e2))                     => e1 === e2
+      case (And(e1), And(e2))                     => eqv(e1, e2)
       case (And(_), _)                            => false
-      case (Or(e1), Or(e2))                       => e1 === e2
+      case (Or(e1), Or(e2))                       => eqv(e1, e2)
       case (Or(_), _)                             => false
       case (Apply(m1), Apply(m2))                 => m1() === m2()
       case (Apply(_), _)                          => false
       case (Sensitive(m1, r1), Sensitive(m2, r2)) => m1() === m2() && r1() === r2()
       case (Sensitive(_, _), _)                   => false
     }
+  }
 
   /**
     * @group Instances
