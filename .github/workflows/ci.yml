@@ -23,3 +23,4 @@ jobs:
           !~/.sbt/**/*.lock
         key: ${{ runner.os }}-sbt-cache-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
     - run: sbt validate
+    - uses: codecov/codecov-action@v1
