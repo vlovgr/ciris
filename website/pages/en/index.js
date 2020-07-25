@@ -14,9 +14,9 @@ class HomeSplash extends React.Component {
     const { baseUrl, docsUrl } = siteConfig;
     const docsPart = `${docsUrl ? `${docsUrl}/` : ""}`;
     const langPart = `${language ? `${language}/` : ""}`;
-    const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`;
+    const docUrl = (doc) => `${baseUrl}${docsPart}${langPart}${doc}`;
 
-    const SplashContainer = props => (
+    const SplashContainer = (props) => (
       <div className="homeContainer">
         <div className="homeSplashFade">
           <div className="wrapper homeWrapper">{props.children}</div>
@@ -34,7 +34,7 @@ class HomeSplash extends React.Component {
       </h2>
     );
 
-    const PromoSection = props => (
+    const PromoSection = (props) => (
       <div className="section promoSection">
         <div className="promoRow">
           <div className="pluginRowBlock">{props.children}</div>
@@ -42,7 +42,7 @@ class HomeSplash extends React.Component {
       </div>
     );
 
-    const Button = props => (
+    const Button = (props) => (
       <div className="pluginWrapper buttonWrapper">
         <a className="button" href={props.href} target={props.target}>
           {props.children}
@@ -74,14 +74,14 @@ class Index extends React.Component {
       organization,
       coreModuleName,
       latestVersion,
-      scalaPublishVersions
+      scalaPublishVersions,
     } = variables;
 
     const latestVersionBadge = latestVersion
       .replace("-", "--")
       .replace("_", "__");
 
-    const Block = props => (
+    const Block = (props) => (
       <Container
         padding={["bottom", "top"]}
         id={props.id}
@@ -101,7 +101,7 @@ Functional, lightweight, and composable configuration loading for Scala.<br>
 Project is under active development. Feedback and contributions welcome.
 
 ### Getting Started
-To get started with [sbt](https://scala-sbt.org), simply add the following line to your \`build.sbt\` file.
+To get started with [sbt](https://scala-sbt.org), add the following line to your \`build.sbt\` file.
 
 \`\`\`scala
 libraryDependencies += "${organization}" %% "${coreModuleName}" % "${latestVersion}"

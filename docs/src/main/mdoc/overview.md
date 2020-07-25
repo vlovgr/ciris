@@ -17,7 +17,7 @@ Documentation is kept up-to-date, currently documenting v@LATEST_VERSION@ on Sca
 
 ## Getting Started
 
-To get started with [sbt](https://scala-sbt.org), simply add the following line to your `build.sbt` file.
+To get started with [sbt](https://scala-sbt.org), add the following line to your `build.sbt` file.
 
 ```scala
 libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@LATEST_VERSION@"
