@@ -1,7 +1,0 @@
-### Changes
-
-- Add `ConfigValue#evalMap` and `ConfigValue.eval`. ([#272][#272])
-
-[#272]: https://github.com/vlovgr/ciris/pull/272
-
-Released on 2019-11-04.

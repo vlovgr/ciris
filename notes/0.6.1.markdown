@@ -1,9 +1,0 @@
-### Changes
-- Add Scala Native (0.3.6) support for `ciris-core`. ([#76](https://github.com/vlovgr/ciris/pull/76))
-
-### Miscellaneous
-- Add [Typelevel Scala try script](https://cir.is/#ammonite) (with literal types) to readme/index page.
-- Add platform and version support table to readme/index page. ([#77](https://github.com/vlovgr/ciris/pull/77))
-- Add [asciinema recording](https://cir.is/#introduction) to readme/index page.
-
-Released on 2017-12-25.

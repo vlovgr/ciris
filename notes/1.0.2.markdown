@@ -1,9 +1,0 @@
-### Changes
-
-- Add `ConfigValue#parFlatMap`. ([#273][#273])
-- Add `ConfigValue#redacted`. ([#274][#274])
-
-[#273]: https://github.com/vlovgr/ciris/pull/273
-[#274]: https://github.com/vlovgr/ciris/pull/274
-
-Released on 2019-11-08.

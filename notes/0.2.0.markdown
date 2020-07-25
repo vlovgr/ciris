@@ -1,4 +1,0 @@
-### Changes
-* Add support for [Scala.js](https://www.scala-js.org) to all existing modules. ([#7](https://github.com/vlovgr/ciris/pull/7))
-
-Released on 2017-05-09.

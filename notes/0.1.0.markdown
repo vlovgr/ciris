@@ -1,3 +1,0 @@
-First public release of Ciris.
-
-Released on 2017-05-03.

@@ -1,5 +1,0 @@
-### Changes
-* Add a `withValues` construct to allow `flatMap` for configurations.  
-  See the updated readme for an example scenario where this is handy.
-
-Released on 2017-05-05.
