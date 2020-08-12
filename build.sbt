@@ -6,7 +6,7 @@ val enumeratumVersion = "1.6.1"
 
 val refinedVersion = "0.9.15"
 
-val squantsVersion = "1.6.0"
+val squantsVersion = "1.7.0"
 
 val scala212 = "2.12.10"
 
