@@ -76,6 +76,7 @@ Following is an incomplete list of third-party integrations.
 - [`ciris-credstash`](https://github.com/ovotech/ciris-credstash)
 - [`ciris-hocon`](https://github.com/2m/ciris-hocon)
 - [`ciris-kubernetes`](https://github.com/ovotech/ciris-kubernetes)
+- [`ciris-aws-secretsmanager`](https://github.com/ovotech/ciris-aws-secretsmanager)
 
 ### Signatures
 
