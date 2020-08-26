@@ -1,5 +1,6 @@
 package ciris
 
+import cats.data.Chain
 import cats.implicits._
 import cats.laws.discipline.MonadErrorTests
 import org.scalacheck.Gen
@@ -236,6 +237,32 @@ final class ConfigDecoderSpec extends BaseSpec {
   test("ConfigDecoder.toString") {
     forAll { decoder: ConfigDecoder[String, String] =>
       assert(decoder.toString.startsWith("ConfigDecoder$"))
+    }
+  }
+
+  test("ConfigDecoder.redacted.nonSensitive") {
+    forAll { (key: Option[ConfigKey], value: String) =>
+      val decoder =
+        ConfigDecoder.instance[String, String] { (key, value) =>
+          Left(ConfigError("message"))
+        }
+
+      val expected = "message"
+      val actual = decoder.redacted.decode(key, value)
+      assert(actual.leftMap(_.messages) == Left(Chain.one(expected)))
+    }
+  }
+
+  test("ConfigDecoder.redacted.sensitive") {
+    forAll { (key: Option[ConfigKey], value: String) =>
+      val decoder =
+        ConfigDecoder.instance[String, String] { (key, value) =>
+          Left(ConfigError.sensitive("message", "redacted"))
+        }
+
+      val expected = "redacted"
+      val actual = decoder.redacted.decode(key, value)
+      assert(actual.leftMap(_.messages) == Left(Chain.one(expected)))
     }
   }
 }

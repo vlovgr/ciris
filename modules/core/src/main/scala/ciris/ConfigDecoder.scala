@@ -82,6 +82,13 @@ sealed abstract class ConfigDecoder[A, B] {
     implicit show: Show[B]
   ): ConfigDecoder[A, C] =
     mapEither { (key, b) => f(b).toRight(ConfigError.decode(typeName, key, b)) }
+
+  /**
+    * Returns a new [[ConfigDecoder]] which redacts
+    * sensitive details from error messages.
+    */
+  final def redacted: ConfigDecoder[A, B] =
+    ConfigDecoder.instance { (key, value) => decode(key, value).leftMap(_.redacted) }
 }
 
 /**
