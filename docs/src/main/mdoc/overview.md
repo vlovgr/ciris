@@ -72,11 +72,11 @@ libraryDependencies += "@ORGANIZATION@" %% "@SQUANTS_MODULE_NAME@" % "@LATEST_VE
 Following is an incomplete list of third-party integrations.
 
 - [`ciris-aiven-kafka`](https://github.com/ovotech/ciris-aiven-kafka)
+- [`ciris-aws-secretsmanager`](https://github.com/ovotech/ciris-aws-secretsmanager)
 - [`ciris-aws-ssm`](https://github.com/ovotech/ciris-aws-ssm)
 - [`ciris-credstash`](https://github.com/ovotech/ciris-credstash)
 - [`ciris-hocon`](https://github.com/2m/ciris-hocon)
 - [`ciris-kubernetes`](https://github.com/ovotech/ciris-kubernetes)
-- [`ciris-aws-secretsmanager`](https://github.com/ovotech/ciris-aws-secretsmanager)
 
 ### Signatures
 
