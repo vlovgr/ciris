@@ -118,7 +118,7 @@ lazy val dependencySettings = Seq(
   libraryDependencies ++= Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.0.1",
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
-    "commons-codec" % "commons-codec" % "1.14"
+    "commons-codec" % "commons-codec" % "1.15"
   ).map(_ % Test),
   pomPostProcess := { (node: xml.Node) =>
     new xml.transform.RuleTransformer(new xml.transform.RewriteRule {
