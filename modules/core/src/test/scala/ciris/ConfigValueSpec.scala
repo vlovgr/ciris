@@ -377,7 +377,10 @@ final class ConfigValueSpec extends BaseSpec {
   )
 
   test("ConfigValue.flatMap.default >> default") {
-    check(default >> default2, default2)
+    check(
+      default >> default2,
+      defaultWith(ConfigError.Empty, defaultValue2)
+    )
   }
 
   test("ConfigValue.flatMap.default >> failed") {
@@ -385,7 +388,10 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.flatMap.default >> loaded") {
-    check(default >> loaded, loaded)
+    check(
+      default >> loaded,
+      loadedWith(ConfigError.Loaded, None, loadedValue)
+    )
   }
 
   test("ConfigValue.flatMap.default >> missing") {
@@ -409,19 +415,31 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.flatMap.loaded >> default") {
-    check(loaded >> default, default)
+    check(
+      loaded >> default,
+      loadedWith(ConfigError.Loaded, None, defaultValue)
+    )
   }
 
   test("ConfigValue.flatMap.loaded >> failed") {
-    check(loaded >> failed, failed)
+    check(
+      loaded >> failed,
+      failedWith[String](ConfigError.Loaded.and(failedError))
+    )
   }
 
   test("ConfigValue.flatMap.loaded >> loaded") {
-    check(loaded >> loaded2, loaded2)
+    check(
+      loaded >> loaded2,
+      loadedWith(ConfigError.Loaded, None, loadedValue2)
+    )
   }
 
   test("ConfigValue.flatMap.loaded >> missing") {
-    check(loaded >> missing, missing)
+    check(
+      loaded >> missing,
+      failedWith[String](ConfigError.Loaded.and(missingError))
+    )
   }
 
   test("ConfigValue.flatMap.missing >> default") {

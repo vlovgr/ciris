@@ -151,9 +151,22 @@ sealed abstract class ConfigValue[A] {
         context: ContextShift[F]
       ): Resource[F, ConfigEntry[B]] =
         self.to[F].flatMap {
-          case Default(_, a)      => f(a()).to[F]
-          case failed @ Failed(_) => Resource.liftF(F.pure(failed))
-          case Loaded(_, _, a)    => f(a).to[F]
+          case Default(_, a) =>
+            f(a()).to[F].map {
+              case Default(_, b)      => ConfigEntry.default(b())
+              case failed @ Failed(_) => failed
+              case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
+            }
+
+          case failed @ Failed(_) =>
+            Resource.liftF(F.pure(failed))
+
+          case Loaded(_, _, a) =>
+            f(a).to[F].map {
+              case Default(_, b)   => ConfigEntry.loaded(None, b())
+              case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
+              case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
+            }
         }
     }
 
@@ -240,40 +253,12 @@ sealed abstract class ConfigValue[A] {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which loads a
-    * configuration with the specified dependency.
-    *
-    * We can think of [[ConfigValue#flatMap]] as first
-    * loading a configuration, then creating a separate
-    * configuration based on the result. In contrast,
-    * [[ConfigValue#parFlatMap]] describes a single
-    * configuration with dependencies between values.
+    * Returns a new [[ConfigValue]] which loads the specified
+    * configuration using the value.
     */
+  @deprecated("Use flatMap instead", "1.2.1")
   final def parFlatMap[B](f: A => ConfigValue[B]): ConfigValue[B] =
-    new ConfigValue[B] {
-      override final def to[F[_]](
-        implicit F: Async[F],
-        context: ContextShift[F]
-      ): Resource[F, ConfigEntry[B]] =
-        self.to[F].flatMap {
-          case Default(_, a) =>
-            f(a()).to[F].map {
-              case Default(_, b)      => ConfigEntry.default(b())
-              case failed @ Failed(_) => failed
-              case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
-            }
-
-          case failed @ Failed(_) =>
-            Resource.liftF(F.pure(failed))
-
-          case Loaded(_, _, a) =>
-            f(a).to[F].map {
-              case Default(_, b)   => ConfigEntry.loaded(None, b())
-              case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
-              case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
-            }
-        }
-    }
+    flatMap(f)
 
   /**
     * Returns a new [[ConfigValue]] with sensitive
@@ -494,24 +479,14 @@ final object ConfigValue {
       )(f: A => B): ConfigValue[B] =
         value.map(f)
 
+      /**
+        * Note: this is intentionally not stack safe, as the `flatMap`
+        * on `ConfigValue` cannot be expressed in a tail-recursive way.
+        */
       override final def tailRecM[A, B](a: A)(f: A => ConfigValue[Either[A, B]]): ConfigValue[B] =
-        new ConfigValue[B] {
-          override final def to[F[_]](
-            implicit F: Async[F],
-            context: ContextShift[F]
-          ): Resource[F, ConfigEntry[B]] =
-            FlatMap[Resource[F, ?]].tailRecM(a) { a =>
-              f(a).to[F].map {
-                case Default(error, either) =>
-                  either() match {
-                    case left @ Left(_) => left.asInstanceOf[Either[A, ConfigEntry[B]]]
-                    case Right(b)       => Right(Default(error, () => b))
-                  }
-                case failed @ Failed(_)           => Right(failed)
-                case Loaded(_, _, left @ Left(_)) => left.asInstanceOf[Either[A, ConfigEntry[B]]]
-                case Loaded(error, key, Right(b)) => Right(Loaded(error, key, b))
-              }
-            }
+        f(a).flatMap {
+          case Left(a)  => tailRecM(a)(f)
+          case Right(b) => default(b)
         }
     }
 
