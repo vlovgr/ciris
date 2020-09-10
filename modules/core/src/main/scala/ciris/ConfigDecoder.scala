@@ -227,8 +227,8 @@ final object ConfigDecoder {
     * @group Decoders
     */
   implicit final val stringFiniteDurationConfigDecoder: ConfigDecoder[String, FiniteDuration] =
-    ConfigDecoder[String, Duration].collect("FiniteDuration") {
-      case finite: FiniteDuration => finite
+    ConfigDecoder[String, Duration].collect("FiniteDuration") { case finite: FiniteDuration =>
+      finite
     }
 
   /**

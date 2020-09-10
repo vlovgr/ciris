@@ -70,23 +70,22 @@ final class CirisSpec extends BaseSpec {
         )
       } yield (path, content)
 
-    forAll(pathContentGen) {
-      case (path, content) =>
-        Blocker[IO].use { blocker =>
-          IO(assert {
-            val description = ConfigKey.file(path, StandardCharsets.UTF_8).description
-            file(path, blocker).to[IO].use(IO.pure).unsafeRunSync match {
-              case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
-                value === content
+    forAll(pathContentGen) { case (path, content) =>
+      Blocker[IO].use { blocker =>
+        IO(assert {
+          val description = ConfigKey.file(path, StandardCharsets.UTF_8).description
+          file(path, blocker).to[IO].use(IO.pure).unsafeRunSync match {
+            case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
+              value === content
 
-              case ConfigEntry.Failed(ConfigError.Missing(ConfigKey(`description`))) =>
-                !path.toFile.exists()
+            case ConfigEntry.Failed(ConfigError.Missing(ConfigKey(`description`))) =>
+              !path.toFile.exists()
 
-              case _ =>
-                false
-            }
-          })
-        }.unsafeRunSync
+            case _ =>
+              false
+          }
+        })
+      }.unsafeRunSync
     }
   }
 
@@ -114,23 +113,22 @@ final class CirisSpec extends BaseSpec {
         )
       } yield (path, content, charset)
 
-    forAll(pathContentCharsetGen) {
-      case (path, content, charset) =>
-        Blocker[IO].use { blocker =>
-          IO(assert {
-            val description = ConfigKey.file(path, charset).description
-            file(path, blocker, charset).to[IO].use(IO.pure).unsafeRunSync match {
-              case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
-                value === content
+    forAll(pathContentCharsetGen) { case (path, content, charset) =>
+      Blocker[IO].use { blocker =>
+        IO(assert {
+          val description = ConfigKey.file(path, charset).description
+          file(path, blocker, charset).to[IO].use(IO.pure).unsafeRunSync match {
+            case ConfigEntry.Loaded(ConfigError.Loaded, Some(ConfigKey(`description`)), value) =>
+              value === content
 
-              case ConfigEntry.Failed(ConfigError.Missing(ConfigKey(`description`))) =>
-                !path.toFile.exists()
+            case ConfigEntry.Failed(ConfigError.Missing(ConfigKey(`description`))) =>
+              !path.toFile.exists()
 
-              case _ =>
-                false
-            }
-          })
-        }.unsafeRunSync
+            case _ =>
+              false
+          }
+        })
+      }.unsafeRunSync
     }
   }
 
