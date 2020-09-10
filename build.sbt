@@ -178,41 +178,41 @@ lazy val buildInfoSettings = Seq(
     scalacOptions,
     sourceDirectory,
     latestVersion in ThisBuild,
-    BuildInfoKey.map(version in ThisBuild) {
-      case (_, v) => "latestSnapshotVersion" -> v
+    BuildInfoKey.map(version in ThisBuild) { case (_, v) =>
+      "latestSnapshotVersion" -> v
     },
-    BuildInfoKey.map(baseDirectory in LocalRootProject) {
-      case (k, v) => "rootDirectory" -> v
+    BuildInfoKey.map(baseDirectory in LocalRootProject) { case (k, v) =>
+      "rootDirectory" -> v
     },
-    BuildInfoKey.map(moduleName in core) {
-      case (k, v) => "core" ++ k.capitalize -> v
+    BuildInfoKey.map(moduleName in core) { case (k, v) =>
+      "core" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in core) {
-      case (k, v) => "core" ++ k.capitalize -> v
+    BuildInfoKey.map(crossScalaVersions in core) { case (k, v) =>
+      "core" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(moduleName in circe) {
-      case (k, v) => "circe" ++ k.capitalize -> v
+    BuildInfoKey.map(moduleName in circe) { case (k, v) =>
+      "circe" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in circe) {
-      case (k, v) => "circe" ++ k.capitalize -> v
+    BuildInfoKey.map(crossScalaVersions in circe) { case (k, v) =>
+      "circe" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(moduleName in enumeratum) {
-      case (k, v) => "enumeratum" ++ k.capitalize -> v
+    BuildInfoKey.map(moduleName in enumeratum) { case (k, v) =>
+      "enumeratum" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in enumeratum) {
-      case (k, v) => "enumeratum" ++ k.capitalize -> v
+    BuildInfoKey.map(crossScalaVersions in enumeratum) { case (k, v) =>
+      "enumeratum" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(moduleName in refined) {
-      case (k, v) => "refined" ++ k.capitalize -> v
+    BuildInfoKey.map(moduleName in refined) { case (k, v) =>
+      "refined" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in refined) {
-      case (k, v) => "refined" ++ k.capitalize -> v
+    BuildInfoKey.map(crossScalaVersions in refined) { case (k, v) =>
+      "refined" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(moduleName in squants) {
-      case (k, v) => "squants" ++ k.capitalize -> v
+    BuildInfoKey.map(moduleName in squants) { case (k, v) =>
+      "squants" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in squants) {
-      case (k, v) => "squants" ++ k.capitalize -> v
+    BuildInfoKey.map(crossScalaVersions in squants) { case (k, v) =>
+      "squants" ++ k.capitalize -> v
     },
     organization in LocalRootProject,
     crossScalaVersions in core,
