@@ -5,12 +5,13 @@ import java.security.KeyStore.PasswordProtection
 import cats.effect.{Bracket, Resource, Sync}
 
 /**
- * A single use password, after use it will be destroyed from the memory.
- *
- */
+  * A single use password, after use it will be destroyed from the memory.
+  */
 class SingleUsePassword[F[_]] private (private val password: Resource[F, PasswordProtection]) {
 
-  def useAndDestroy[G[x] >: F[x], B](f: Array[Char] => G[B])(implicit F: Bracket[G[*], Throwable]): G[B] =
+  def useAndDestroy[G[x] >: F[x], B](
+    f: Array[Char] => G[B]
+  )(implicit F: Bracket[G[*], Throwable]): G[B] =
     password.use { p =>
       f(p.getPassword)
     }

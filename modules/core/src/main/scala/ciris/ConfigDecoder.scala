@@ -331,8 +331,9 @@ final object ConfigDecoder {
       }
     }
 
-  implicit def stringSingleUsePasswordConfigDecoder[F[_]: Sync]: ConfigDecoder[String, SingleUsePassword[F]] =
-    ConfigDecoder[String].flatMap {p =>
+  implicit def stringSingleUsePasswordConfigDecoder[F[_]: Sync]
+    : ConfigDecoder[String, SingleUsePassword[F]] =
+    ConfigDecoder[String].flatMap { p =>
       if (p != null)
         ConfigDecoder[String].map(_ => SingleUsePassword(p.toCharArray))
       else

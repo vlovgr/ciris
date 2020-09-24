@@ -272,26 +272,25 @@ final class ConfigDecoderSpec extends BaseSpec {
     forAll { password: String =>
       val decoded = ConfigDecoder[String, SingleUsePassword[IO]].decode(None, password)
 
-      val singleUse =  decoded.map { decodedPassword =>
+      val singleUse = decoded.map { decodedPassword =>
         decodedPassword
           .useAndDestroy(actual => IO.delay(actual.mkString))
       }
-     assert(singleUse.map(_.unsafeRunSync()) === password.asRight)
+      assert(singleUse.map(_.unsafeRunSync()) === password.asRight)
     }
   }
 
   test("ConfigDecoder.password.sucess.null") {
     val decoded = ConfigDecoder[String, SingleUsePassword[IO]].decode(None, null)
 
-    val singleUse =  decoded.map { decodedPassword =>
+    val singleUse = decoded.map { decodedPassword =>
       decodedPassword
         .useAndDestroy(actual => IO.delay(actual))
     }
     singleUse.map(_.unsafeRunSync()) match {
-      case Left(e) => fail(e.messages.show)
+      case Left(e)  => fail(e.messages.show)
       case Right(e) => assert(e == null)
     }
   }
-
 
 }
