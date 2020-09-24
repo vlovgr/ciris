@@ -1,3 +1,9 @@
+/*
+ * Copyright 2017-2020 Viktor Lövgren
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 package ciris
 
 import java.security.KeyStore.PasswordProtection
