@@ -6,8 +6,10 @@
 
 package ciris
 
+import cats.effect.Sync
 import cats.{MonadError, Show}
 import cats.implicits._
+
 import scala.annotation.tailrec
 import scala.concurrent.duration.{Duration, FiniteDuration}
 
@@ -327,6 +329,14 @@ final object ConfigDecoder {
         case _: NumberFormatException =>
           None
       }
+    }
+
+  implicit def stringSingleUsePasswordConfigDecoder[F[_]: Sync]: ConfigDecoder[String, SingleUsePassword[F]] =
+    ConfigDecoder[String].flatMap {p =>
+      if (p != null)
+        ConfigDecoder[String].map(_ => SingleUsePassword(p.toCharArray))
+      else
+        ConfigDecoder[String].map(_ => SingleUsePassword(null))
     }
 
   /**

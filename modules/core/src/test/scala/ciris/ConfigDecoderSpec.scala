@@ -1,9 +1,11 @@
 package ciris
 
 import cats.data.Chain
+import cats.effect.IO
 import cats.implicits._
 import cats.laws.discipline.MonadErrorTests
 import org.scalacheck.Gen
+
 import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
 
@@ -265,4 +267,31 @@ final class ConfigDecoderSpec extends BaseSpec {
       assert(actual.leftMap(_.messages) == Left(Chain.one(expected)))
     }
   }
+
+  test("ConfigDecoder.password.success") {
+    forAll { password: String =>
+      val decoded = ConfigDecoder[String, SingleUsePassword[IO]].decode(None, password)
+
+      val singleUse =  decoded.map { decodedPassword =>
+        decodedPassword
+          .useAndDestroy(actual => IO.delay(actual.mkString))
+      }
+     assert(singleUse.map(_.unsafeRunSync()) === password.asRight)
+    }
+  }
+
+  test("ConfigDecoder.password.sucess.null") {
+    val decoded = ConfigDecoder[String, SingleUsePassword[IO]].decode(None, null)
+
+    val singleUse =  decoded.map { decodedPassword =>
+      decodedPassword
+        .useAndDestroy(actual => IO.delay(actual))
+    }
+    singleUse.map(_.unsafeRunSync()) match {
+      case Left(e) => fail(e.messages.show)
+      case Right(e) => assert(e == null)
+    }
+  }
+
+
 }
