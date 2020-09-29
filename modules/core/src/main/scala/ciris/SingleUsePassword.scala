@@ -19,19 +19,9 @@ class SingleUsePassword[F[_]] private (private val password: PasswordProtection)
     f: Array[Char] => G[B]
   )(implicit S: Sync[F], F: Bracket[G[?], Throwable]): G[B] =
     Resource.fromDestroyable(S.delay(password)).map(_.getPassword).use(f)
-
-
-
-//    password.use { p =>
-//      f(p.getPassword)
-//    }
-
 }
 
 object SingleUsePassword {
-  def apply[F[_]: Sync](pass: Array[Char]) = new SingleUsePassword[F](new PasswordProtection(pass)
-//    Resource.fromDestroyable(
-//      Sync[F].delay(new PasswordProtection(pass))
-//    )
-  )
+  def apply[F[_]: Sync](pass: Array[Char]) =
+    new SingleUsePassword[F](new PasswordProtection(pass))
 }
