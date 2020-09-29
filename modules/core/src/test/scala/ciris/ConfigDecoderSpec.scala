@@ -280,7 +280,7 @@ final class ConfigDecoderSpec extends BaseSpec {
     }
   }
 
-  test("ConfigDecoder.password.sucess.null") {
+  test("ConfigDecoder.password.success.null") {
     val decoded = ConfigDecoder[String, SingleUsePassword[IO]].decode(None, null)
 
     val singleUse = decoded.map { decodedPassword =>
@@ -292,5 +292,25 @@ final class ConfigDecoderSpec extends BaseSpec {
       case Right(e) => assert(e == null)
     }
   }
+
+  test("ConfigDecoder.password.failure.reuse") {
+    forAll { password: String =>
+      val decoded = ConfigDecoder[String, SingleUsePassword[IO]].decode(None, password)
+
+      val singleUse = decoded.traverse { decodedPassword =>
+        for {
+          firstUse <- decodedPassword.useAndDestroy(p => IO.pure(String.valueOf(p)))
+          secondsUse <- decodedPassword.useAndDestroy(p => IO.pure(String.valueOf(p))).attempt
+        } yield {
+          assert(firstUse == password)
+          assert(secondsUse.isLeft, secondsUse)
+
+        }
+      }
+      assert(singleUse.unsafeRunSync().isRight)
+    }
+  }
+
+
 
 }
