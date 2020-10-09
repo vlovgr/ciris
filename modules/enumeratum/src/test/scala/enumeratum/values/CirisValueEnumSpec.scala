@@ -1,6 +1,7 @@
 package enumeratum.values
 
-import cats.effect.{ContextShift, IO}
+import cats.effect.IO
+import cats.effect.unsafe.implicits.global
 import cats.implicits._
 import ciris._
 import enumeratum.values.CirisValueEnumSpec._
@@ -10,15 +11,12 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import scala.util.Try
 
 final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks {
-  implicit val contextShift: ContextShift[IO] =
-    IO.contextShift(concurrent.ExecutionContext.global)
-
   test("byteEnum.success") {
     val gen = Gen.oneOf(CustomByteEnum.values)
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomByteEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomByteEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -34,7 +32,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(!values.contains(byte)) {
         assert {
           val actual =
-            default(byte.show).as[CustomByteEnum].attempt[IO].unsafeRunSync
+            default(byte.show).as[CustomByteEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -55,7 +53,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(Try(value.toByte).isFailure) {
         assert {
           val actual =
-            default(value).as[CustomByteEnum].attempt[IO].unsafeRunSync
+            default(value).as[CustomByteEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -76,7 +74,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomCharEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomCharEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -92,7 +90,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(!values.contains(char)) {
         assert {
           val actual =
-            default(char.show).as[CustomCharEnum].attempt[IO].unsafeRunSync
+            default(char.show).as[CustomCharEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -113,7 +111,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(value.length != 1) {
         assert {
           val actual =
-            default(value).as[CustomCharEnum].attempt[IO].unsafeRunSync
+            default(value).as[CustomCharEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -134,7 +132,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomIntEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomIntEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -150,7 +148,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(!values.contains(int)) {
         assert {
           val actual =
-            default(int.show).as[CustomIntEnum].attempt[IO].unsafeRunSync
+            default(int.show).as[CustomIntEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -171,7 +169,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(Try(value.toInt).isFailure) {
         assert {
           val actual =
-            default(value).as[CustomIntEnum].attempt[IO].unsafeRunSync
+            default(value).as[CustomIntEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -192,7 +190,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomLongEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomLongEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -208,7 +206,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(!values.contains(long)) {
         assert {
           val actual =
-            default(long.show).as[CustomLongEnum].attempt[IO].unsafeRunSync
+            default(long.show).as[CustomLongEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -229,7 +227,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(Try(value.toLong).isFailure) {
         assert {
           val actual =
-            default(value).as[CustomLongEnum].attempt[IO].unsafeRunSync
+            default(value).as[CustomLongEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -250,7 +248,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomShortEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomShortEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -266,7 +264,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(!values.contains(short)) {
         assert {
           val actual =
-            default(short.show).as[CustomShortEnum].attempt[IO].unsafeRunSync
+            default(short.show).as[CustomShortEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -287,7 +285,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(Try(value.toShort).isFailure) {
         assert {
           val actual =
-            default(value).as[CustomShortEnum].attempt[IO].unsafeRunSync
+            default(value).as[CustomShortEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
@@ -308,7 +306,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomStringEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomStringEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -324,7 +322,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
       whenever(!values.contains(string)) {
         assert {
           val actual =
-            default(string.show).as[CustomStringEnum].attempt[IO].unsafeRunSync
+            default(string.show).as[CustomStringEnum].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {

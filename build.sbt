@@ -1,4 +1,4 @@
-val catsEffectVersion = "2.2.0"
+val catsEffectVersion = "3.0.0-M1"
 
 val circeVersion = "0.13.0"
 
@@ -29,7 +29,7 @@ lazy val core = project
     moduleName := "ciris",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion
+      libraryDependencies += "org.typelevel" %% "cats-effect-kernel" % catsEffectVersion
     ),
     publishSettings,
     mimaSettings,
@@ -104,7 +104,9 @@ lazy val docs = project
   .settings(
     moduleName := "ciris-docs",
     name := moduleName.value,
-    dependencySettings,
+    dependencySettings ++ Seq(
+      libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion
+    ),
     noPublishSettings,
     scalaSettings,
     mdocSettings,
@@ -117,6 +119,7 @@ lazy val dependencySettings = Seq(
   addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.0.1",
+    "org.typelevel" %% "cats-effect" % catsEffectVersion,
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
     "commons-codec" % "commons-codec" % "1.15"
   ).map(_ % Test),
@@ -258,7 +261,8 @@ lazy val publishSettings =
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
     if (publishArtifact.value) {
-      Set(organization.value %% moduleName.value % (previousStableVersion in ThisBuild).value.get)
+      //Set(organization.value %% moduleName.value % (previousStableVersion in ThisBuild).value.get)
+      Set()
     } else Set()
   },
   mimaBinaryIssueFilters ++= {
@@ -289,6 +293,7 @@ lazy val scalaSettings = Seq(
     "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
+    "-deprecation",
     "-Xfatal-warnings",
     "-Xlint",
     "-Yno-adapted-args",

@@ -8,7 +8,7 @@ title: Configurations
 ```scala mdoc:reset-object:silent
 import ciris._
 
-val port: ConfigValue[Int] =
+val port =
   env("API_PORT").or(prop("api.port")).as[Int]
 ```
 
@@ -22,10 +22,10 @@ import scala.concurrent.duration._
 
 final case class ApiConfig(port: Int, timeout: Option[Duration])
 
-val timeout: ConfigValue[Option[Duration]] =
+val timeout =
   env("API_TIMEOUT").as[Duration].option
 
-val apiConfig: ConfigValue[ApiConfig] =
+val apiConfig =
   (port, timeout).parMapN(ApiConfig)
 ```
 
@@ -79,7 +79,7 @@ env("API_PORT").as[Int].or(default(9000))
 When loading sensitive configuration values, `secret` can be used.
 
 ```scala mdoc:silent
-val apiKey: ConfigValue[Secret[String]] =
+val apiKey =
   env("API_KEY").secret
 ```
 
@@ -146,7 +146,7 @@ To support new configuration sources, we can use the [`ConfigValue`][configvalue
 Following is an example showing how the `env` function can be defined.
 
 ```scala mdoc:silent
-def env(name: String): ConfigValue[String] =
+def env(name: String): ConfigValue[Effect, String] =
   ConfigValue.suspend {
     val key = ConfigKey.env(name)
     val value = System.getenv(name)

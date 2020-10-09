@@ -1,7 +1,8 @@
 package ciris
 
-import cats.effect.{Blocker, ContextShift, IO, Resource, Sync}
-import cats.effect.laws.util.TestContext
+import cats.effect.IO
+import cats.effect.kernel.{Resource, Sync}
+import cats.effect.unsafe.implicits.global
 import cats.Eq
 import cats.implicits._
 import cats.laws.discipline.{ApplyTests, FlatMapTests, NonEmptyParallelTests}
@@ -12,57 +13,58 @@ import org.scalatest.funspec.AnyFunSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
 final class ConfigValueSpec extends BaseSpec {
-  implicit val contextShift: ContextShift[IO] =
-    IO.contextShift(concurrent.ExecutionContext.global)
-
   val defaultValue: String = "defaultValue"
   val defaultError: ConfigError = ConfigError.Empty
-  val default: ConfigValue[String] = ConfigValue.default(defaultValue)
+  val default: ConfigValue[Effect, String] = ConfigValue.default(defaultValue)
 
   val defaultValue2: String = "defaultValue2"
   val defaultKey2: ConfigKey = ConfigKey("defaultKey2")
   val defaultError2: ConfigError = ConfigError.Missing(defaultKey2)
-  val default2: ConfigValue[String] = ConfigValue.missing(defaultKey2).default(defaultValue2)
+  val default2: ConfigValue[Effect, String] =
+    ConfigValue.missing(defaultKey2).default(defaultValue2)
 
   val failedErrorMessage: String = "failedErrorMessage"
   val failedError: ConfigError = ConfigError(failedErrorMessage)
-  val failed: ConfigValue[String] = ConfigValue.failed(failedError)
+  val failed: ConfigValue[Effect, String] = ConfigValue.failed(failedError)
 
   val failedErrorMessage2: String = "failedErrorMessage2"
   val failedError2: ConfigError = ConfigError(failedErrorMessage2)
-  val failed2: ConfigValue[String] = ConfigValue.failed(failedError2)
+  val failed2: ConfigValue[Effect, String] = ConfigValue.failed(failedError2)
 
   val loadedValue: String = "loadedValue"
   val loadedKey: ConfigKey = ConfigKey("loadedKey")
   val loadedError: ConfigError = ConfigError.Loaded
-  val loaded: ConfigValue[String] = ConfigValue.loaded(loadedKey, loadedValue)
+  val loaded: ConfigValue[Effect, String] = ConfigValue.loaded(loadedKey, loadedValue)
 
   val loadedValue2: String = "loadedValue2"
   val loadedKey2: ConfigKey = ConfigKey("loadedKey2")
   val loadedError2: ConfigError = ConfigError.Loaded
-  val loaded2: ConfigValue[String] = ConfigValue.loaded(loadedKey2, loadedValue2)
+  val loaded2: ConfigValue[Effect, String] = ConfigValue.loaded(loadedKey2, loadedValue2)
 
   val missingKey: ConfigKey = ConfigKey("missingKey")
   val missingError: ConfigError = ConfigError.Missing(missingKey)
-  val missing: ConfigValue[String] = ConfigValue.missing(missingKey)
+  val missing: ConfigValue[Effect, String] = ConfigValue.missing(missingKey)
 
   val missingKey2: ConfigKey = ConfigKey("missingKey2")
   val missingError2: ConfigError = ConfigError.Missing(missingKey2)
-  val missing2: ConfigValue[String] = ConfigValue.missing(missingKey2)
+  val missing2: ConfigValue[Effect, String] = ConfigValue.missing(missingKey2)
 
-  def failedWith[A](error: ConfigError): ConfigValue[A] =
+  def failedWith[F[_], A](error: ConfigError): ConfigValue[F, A] =
     ConfigValue.failed(error)
 
-  def loadedWith[A](error: ConfigError, key: Option[ConfigKey], value: A): ConfigValue[A] =
+  def loadedWith[F[_], A](error: ConfigError, key: Option[ConfigKey], value: A): ConfigValue[F, A] =
     ConfigValue.pure(ConfigEntry.Loaded(error, key, value))
 
-  def defaultWith[A](error: ConfigError, value: A): ConfigValue[A] =
+  def defaultWith[F[_], A](error: ConfigError, value: A): ConfigValue[F, A] =
     ConfigValue.pure(ConfigEntry.Default(error, () => value))
 
-  def check[A](actual: ConfigValue[A], expected: ConfigValue[A])(implicit eq: Eq[A]): Assertion = {
+  def check[A](
+    actual: ConfigValue[IO, A],
+    expected: ConfigValue[IO, A]
+  )(implicit eq: Eq[A]): Assertion = {
     val eqEntry = Eq[ConfigEntry[A]]
-    val actualEntry = actual.to[IO].use(IO.pure).unsafeRunSync
-    val expectedEntry = expected.to[IO].use(IO.pure).unsafeRunSync
+    val actualEntry = actual.to[IO].use(IO.pure).unsafeRunSync()
+    val expectedEntry = expected.to[IO].use(IO.pure).unsafeRunSync()
 
     withClue(s"actual: $actualEntry") {
       withClue(s"expected: $expectedEntry") {
@@ -71,9 +73,9 @@ final class ConfigValueSpec extends BaseSpec {
     }
   }
 
-  def checkError[A](actual: ConfigValue[A], expected: ConfigError): Assertion = {
+  def checkError[A](actual: ConfigValue[IO, A], expected: ConfigError): Assertion = {
     val eqError = Eq[ConfigError]
-    val actualError = actual.to[IO].use(IO.pure).unsafeRunSync.error
+    val actualError = actual.to[IO].use(IO.pure).unsafeRunSync().error
 
     withClue(s"actual: $actualError") {
       withClue(s"expected: $expected") {
@@ -82,10 +84,10 @@ final class ConfigValueSpec extends BaseSpec {
     }
   }
 
-  def checkAttempt[A](actual: ConfigValue[A], expected: Either[ConfigError, A])(
+  def checkAttempt[A](actual: ConfigValue[IO, A], expected: Either[ConfigError, A])(
     implicit eq: Eq[A]
   ): Assertion = {
-    val actualAttempted = actual.attempt[IO].unsafeRunSync
+    val actualAttempted = actual.attempt.unsafeRunSync()
     val attemptEq = Eq[Either[ConfigError, A]]
 
     withClue(s"actual: $actualAttempted") {
@@ -95,10 +97,10 @@ final class ConfigValueSpec extends BaseSpec {
     }
   }
 
-  def checkLoad[A](actual: ConfigValue[A], expected: A)(
+  def checkLoad[A](actual: ConfigValue[IO, A], expected: A)(
     implicit eq: Eq[A]
   ): Assertion = {
-    val actualLoaded = actual.load[IO].unsafeRunSync
+    val actualLoaded = actual.load.unsafeRunSync()
     withClue(s"actual: $actualLoaded") {
       withClue(s"expected: $expected") {
         assert(eq.eqv(actualLoaded, expected))
@@ -106,15 +108,15 @@ final class ConfigValueSpec extends BaseSpec {
     }
   }
 
-  def checkLoadFail[A](actual: ConfigValue[A]): Assertion =
-    assert(actual.load[IO].attempt.unsafeRunSync.isLeft)
+  def checkLoadFail[A](actual: ConfigValue[IO, A]): Assertion =
+    assert(actual.load.attempt.unsafeRunSync().isLeft)
 
   implicit def configValueEq[A](
     implicit eq: Eq[A]
-  ): Eq[ConfigValue[A]] = {
+  ): Eq[ConfigValue[IO, A]] = {
     Eq.instance { (v1, v2) =>
-      val a1 = v1.to[IO].use(IO.pure).attempt.unsafeRunSync
-      val a2 = v2.to[IO].use(IO.pure).attempt.unsafeRunSync
+      val a1 = v1.to[IO].use(IO.pure).attempt.unsafeRunSync()
+      val a2 = v2.to[IO].use(IO.pure).attempt.unsafeRunSync()
 
       (a1, a2) match {
         case (Left(e1: ConfigException), Left(e2: ConfigException)) => e1 === e2
@@ -126,10 +128,10 @@ final class ConfigValueSpec extends BaseSpec {
 
   implicit def configValueParEq[A](
     implicit eq: Eq[A]
-  ): Eq[ConfigValue.Par[A]] = {
+  ): Eq[ConfigValue.Par[IO, A]] = {
     Eq.instance { (v1, v2) =>
-      val a1 = v1.unwrap.to[IO].use(IO.pure).attempt.unsafeRunSync
-      val a2 = v2.unwrap.to[IO].use(IO.pure).attempt.unsafeRunSync
+      val a1 = v1.unwrap.to[IO].use(IO.pure).attempt.unsafeRunSync()
+      val a2 = v2.unwrap.to[IO].use(IO.pure).attempt.unsafeRunSync()
 
       (a1, a2) match {
         case (Left(e1: ConfigException), Left(e2: ConfigException)) => e1 === e2
@@ -146,7 +148,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.as.default error") {
     check(
       default.as[Int],
-      failedWith[Int](defaultError.or(ConfigError.decode("Int", None, defaultValue)))
+      failedWith[IO, Int](defaultError.or(ConfigError.decode("Int", None, defaultValue)))
     )
   }
 
@@ -155,7 +157,7 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.as.failed error") {
-    check(failed.as[Int], failed.asInstanceOf[ConfigValue[Int]])
+    check(failed.as[Int], failed.asInstanceOf[ConfigValue[IO, Int]])
   }
 
   test("ConfigValue.as.loaded success") {
@@ -165,7 +167,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.as.loaded error") {
     check(
       loaded.as[Int],
-      failedWith[Int](loadedError.or(ConfigError.decode("Int", Some(loadedKey), loadedValue)))
+      failedWith[IO, Int](loadedError.or(ConfigError.decode("Int", Some(loadedKey), loadedValue)))
     )
   }
 
@@ -174,39 +176,39 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.as.missing error") {
-    check(missing.as[Int], missing.asInstanceOf[ConfigValue[Int]])
+    check(missing.as[Int], missing.asInstanceOf[ConfigValue[IO, Int]])
   }
 
   test("ConfigValue.async.default") {
     check(
-      ConfigValue.async[String] { cb => cb(Right(default)) },
+      ConfigValue.async[IO, String] { cb => cb(Right(default)) },
       default
     )
   }
 
   test("ConfigValue.async.error") {
     checkLoadFail {
-      ConfigValue.async[String] { cb => cb(Left(new RuntimeException)) }
+      ConfigValue.async[IO, String] { cb => cb(Left(new RuntimeException)) }
     }
   }
 
   test("ConfigValue.async.failed") {
     check(
-      ConfigValue.async[String] { cb => cb(Right(failed)) },
+      ConfigValue.async[IO, String] { cb => cb(Right(failed)) },
       failed
     )
   }
 
   test("ConfigValue.async.loaded") {
     check(
-      ConfigValue.async[String] { cb => cb(Right(loaded)) },
+      ConfigValue.async[IO, String] { cb => cb(Right(loaded)) },
       loaded
     )
   }
 
   test("ConfigValue.async.missing") {
     check(
-      ConfigValue.async[String] { cb => cb(Right(missing)) },
+      ConfigValue.async[IO, String] { cb => cb(Right(missing)) },
       missing
     )
   }
@@ -227,33 +229,35 @@ final class ConfigValueSpec extends BaseSpec {
     checkAttempt(missing, Left(missingError))
   }
 
-  test("ConfigValue.blockOn.default") {
-    Blocker[IO].use { blocker =>
-      val value = ConfigValue.blockOn(blocker)(default)
-      IO(check(value, default))
-    }.unsafeRunSync
-  }
+  // TODO: ConfigValue.blocking
 
-  test("ConfigValue.blockOn.failed") {
-    Blocker[IO].use { blocker =>
-      val value = ConfigValue.blockOn(blocker)(failed)
-      IO(check(value, failed))
-    }.unsafeRunSync
-  }
+  // test("ConfigValue.blockOn.default") {
+  //   Blocker[IO].use { blocker =>
+  //     val value = ConfigValue.blockOn(blocker)(default)
+  //     IO(check(value, default))
+  //   }.unsafeRunSync
+  // }
 
-  test("ConfigValue.blockOn.loaded") {
-    Blocker[IO].use { blocker =>
-      val value = ConfigValue.blockOn(blocker)(loaded)
-      IO(check(value, loaded))
-    }.unsafeRunSync
-  }
+  // test("ConfigValue.blockOn.failed") {
+  //   Blocker[IO].use { blocker =>
+  //     val value = ConfigValue.blockOn(blocker)(failed)
+  //     IO(check(value, failed))
+  //   }.unsafeRunSync
+  // }
 
-  test("ConfigValue.blockOn.missing") {
-    Blocker[IO].use { blocker =>
-      val value = ConfigValue.blockOn(blocker)(missing)
-      IO(check(value, missing))
-    }.unsafeRunSync
-  }
+  // test("ConfigValue.blockOn.loaded") {
+  //   Blocker[IO].use { blocker =>
+  //     val value = ConfigValue.blockOn(blocker)(loaded)
+  //     IO(check(value, loaded))
+  //   }.unsafeRunSync
+  // }
+
+  // test("ConfigValue.blockOn.missing") {
+  //   Blocker[IO].use { blocker =>
+  //     val value = ConfigValue.blockOn(blocker)(missing)
+  //     IO(check(value, missing))
+  //   }.unsafeRunSync
+  // }
 
   test("ConfigValue.default.default") {
     check(
@@ -278,7 +282,7 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.default.eqv or(default)") {
-    forAll { (value: ConfigValue[String], a: String) =>
+    forAll { (value: ConfigValue[IO, String], a: String) =>
       assert(value.default(a) === value.or(ciris.default(a)))
     }
   }
@@ -292,7 +296,7 @@ final class ConfigValueSpec extends BaseSpec {
 
   test("ConfigValue.eval.error") {
     checkLoadFail {
-      ConfigValue.eval(IO.raiseError[ConfigValue[String]](ConfigError("").throwable))
+      ConfigValue.eval(IO.raiseError[ConfigValue[IO, String]](ConfigError("").throwable))
     }
   }
 
@@ -371,8 +375,7 @@ final class ConfigValueSpec extends BaseSpec {
 
   checkAll(
     "ConfigValue", {
-      implicit val testContext: TestContext = TestContext()
-      FlatMapTests[ConfigValue].flatMap[String, String, String]
+      FlatMapTests[ConfigValue[IO, *]].flatMap[String, String, String]
     }
   )
 
@@ -424,7 +427,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.flatMap.loaded >> failed") {
     check(
       loaded >> failed,
-      failedWith[String](ConfigError.Loaded.and(failedError))
+      failedWith[IO, String](ConfigError.Loaded.and(failedError))
     )
   }
 
@@ -438,7 +441,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.flatMap.loaded >> missing") {
     check(
       loaded >> missing,
-      failedWith[String](ConfigError.Loaded.and(missingError))
+      failedWith[IO, String](ConfigError.Loaded.and(missingError))
     )
   }
 
@@ -479,7 +482,7 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.option.failed") {
-    check(failed.option, failed.asInstanceOf[ConfigValue[Option[String]]])
+    check(failed.option, failed.asInstanceOf[ConfigValue[IO, Option[String]]])
   }
 
   test("ConfigValue.option.loaded") {
@@ -491,7 +494,7 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.option.eqv map(_.some).default(None)") {
-    forAll { value: ConfigValue[String] =>
+    forAll { value: ConfigValue[IO, String] =>
       assert(value.option === value.map(_.some).default(None))
     }
   }
@@ -531,7 +534,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.or.missing or failed") {
     check(
       missing.or(failed),
-      failedWith[String](missingError.or(failedError))
+      failedWith[IO, String](missingError.or(failedError))
     )
   }
 
@@ -545,7 +548,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.or.missing or missing") {
     check(
       missing.or(missing2),
-      failedWith[String](missingError.or(missingError2))
+      failedWith[IO, String](missingError.or(missingError2))
     )
   }
 
@@ -559,7 +562,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.or.default or failed") {
     check(
       default.or(failed),
-      failedWith[String](defaultError.or(failedError))
+      failedWith[IO, String](defaultError.or(failedError))
     )
   }
 
@@ -586,15 +589,13 @@ final class ConfigValueSpec extends BaseSpec {
 
   checkAll(
     "ConfigValue.parallel", {
-      implicit val testContext: TestContext = TestContext()
-      ApplyTests[ConfigValue.Par].apply[String, String, String]
+      ApplyTests[ConfigValue.Par[IO, *]].apply[String, String, String]
     }
   )
 
   checkAll(
     "ConfigValue", {
-      implicit val testContext: TestContext = TestContext()
-      NonEmptyParallelTests[ConfigValue].nonEmptyParallel[String, String]
+      NonEmptyParallelTests[ConfigValue[IO, *]].nonEmptyParallel[String, String]
     }
   )
 
@@ -608,7 +609,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.parallel.(default, failed).parTupled") {
     check(
       (default, failed).parTupled,
-      failed.asInstanceOf[ConfigValue[(String, String)]]
+      failed.asInstanceOf[ConfigValue[IO, (String, String)]]
     )
   }
 
@@ -622,35 +623,35 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.parallel.(default, missing).parTupled") {
     check(
       (default, missing).parTupled,
-      failedWith[(String, String)](missingError)
+      failedWith[IO, (String, String)](missingError)
     )
   }
 
   test("ConfigValue.parallel.(failed, default).parTupled") {
     check(
       (failed, default).parTupled,
-      failed.asInstanceOf[ConfigValue[(String, String)]]
+      failed.asInstanceOf[ConfigValue[IO, (String, String)]]
     )
   }
 
   test("ConfigValue.parallel.(failed, failed).parTupled") {
     check(
       (failed, failed2).parTupled,
-      failedWith[(String, String)](failedError.and(failedError2))
+      failedWith[IO, (String, String)](failedError.and(failedError2))
     )
   }
 
   test("ConfigValue.parallel.(failed, loaded).parTupled") {
     check(
       (failed, loaded).parTupled,
-      failedWith[(String, String)](failedError.and(loadedError))
+      failedWith[IO, (String, String)](failedError.and(loadedError))
     )
   }
 
   test("ConfigValue.parallel.(failed, missing).parTupled") {
     check(
       (failed, missing).parTupled,
-      failedWith[(String, String)](failedError.and(missingError))
+      failedWith[IO, (String, String)](failedError.and(missingError))
     )
   }
 
@@ -664,7 +665,7 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.parallel.(loaded, failed).parTupled") {
     check(
       (loaded, failed).parTupled,
-      failedWith[(String, String)](loadedError.and(failedError))
+      failedWith[IO, (String, String)](loadedError.and(failedError))
     )
   }
 
@@ -678,118 +679,36 @@ final class ConfigValueSpec extends BaseSpec {
   test("ConfigValue.parallel.(loaded, missing).parTupled") {
     check(
       (loaded, missing).parTupled,
-      failedWith[(String, String)](loadedError.and(missingError))
+      failedWith[IO, (String, String)](loadedError.and(missingError))
     )
   }
 
   test("ConfigValue.parallel.(missing, default).parTupled") {
     check(
       (missing, default).parTupled,
-      failedWith[(String, String)](missingError)
+      failedWith[IO, (String, String)](missingError)
     )
   }
 
   test("ConfigValue.parallel.(missing, failed).parTupled") {
     check(
       (missing, failed).parTupled,
-      failedWith[(String, String)](missingError.and(failedError))
+      failedWith[IO, (String, String)](missingError.and(failedError))
     )
   }
 
   test("ConfigValue.parallel.(missing, loaded).parTupled") {
     check(
       (missing, loaded).parTupled,
-      failedWith[(String, String)](missingError.and(loadedError))
+      failedWith[IO, (String, String)](missingError.and(loadedError))
     )
   }
 
   test("ConfigValue.parallel.(missing, missing).parTupled") {
     check(
       (missing, missing2).parTupled,
-      failedWith[(String, String)](missingError.and(missingError2))
+      failedWith[IO, (String, String)](missingError.and(missingError2))
     )
-  }
-
-  test("ConfigValue.parFlatMap.default.parFlatMap(_ => default)") {
-    check(
-      default.parFlatMap(_ => default2),
-      defaultWith(ConfigError.Empty, defaultValue2)
-    )
-  }
-
-  test("ConfigValue.parFlatMap.default.parFlatMap(_ => failed)") {
-    check(default.parFlatMap(_ => failed), failed)
-  }
-
-  test("ConfigValue.parFlatMap.default.parFlatMap(_ => loaded)") {
-    check(
-      default.parFlatMap(_ => loaded),
-      loadedWith(ConfigError.Loaded, None, loadedValue)
-    )
-  }
-
-  test("ConfigValue.parFlatMap.default.parFlatMap(_ => missing)") {
-    check(default.parFlatMap(_ => missing), missing)
-  }
-
-  test("ConfigValue.parFlatMap.failed.parFlatMap(_ => default)") {
-    check(failed.parFlatMap(_ => default), failed)
-  }
-
-  test("ConfigValue.parFlatMap.failed.parFlatMap(_ => failed)") {
-    check(failed.parFlatMap(_ => failed2), failed)
-  }
-
-  test("ConfigValue.parFlatMap.failed.parFlatMap(_ => loaded)") {
-    check(failed.parFlatMap(_ => loaded), failed)
-  }
-
-  test("ConfigValue.parFlatMap.failed.parFlatMap(_ => missing)") {
-    check(failed.parFlatMap(_ => missing), failed)
-  }
-
-  test("ConfigValue.parFlatMap.loaded.parFlatMap(_ => default)") {
-    check(
-      loaded.parFlatMap(_ => default),
-      loadedWith(ConfigError.Loaded, None, defaultValue)
-    )
-  }
-
-  test("ConfigValue.parFlatMap.loaded.parFlatMap(_ => failed)") {
-    check(
-      loaded.parFlatMap(_ => failed),
-      failedWith[String](ConfigError.Loaded.and(failedError))
-    )
-  }
-
-  test("ConfigValue.parFlatMap.loaded.parFlatMap(_ => loaded)") {
-    check(
-      loaded.parFlatMap(_ => loaded2),
-      loadedWith(ConfigError.Loaded, None, loadedValue2)
-    )
-  }
-
-  test("ConfigValue.parFlatMap.loaded.parFlatMap(_ => missing)") {
-    check(
-      loaded.parFlatMap(_ => missing),
-      failedWith[String](ConfigError.Loaded.and(missingError))
-    )
-  }
-
-  test("ConfigValue.parFlatMap.missing.parFlatMap(_ => default)") {
-    check(missing.parFlatMap(_ => default), missing)
-  }
-
-  test("ConfigValue.parFlatMap.missing.parFlatMap(_ => failed)") {
-    check(missing.parFlatMap(_ => failed), missing)
-  }
-
-  test("ConfigValue.parFlatMap.missing.parFlatMap(_ => loaded)") {
-    check(missing.parFlatMap(_ => loaded), missing)
-  }
-
-  test("ConfigValue.parFlatMap.missing.parFlatMap(_ => missing)") {
-    check(missing.parFlatMap(_ => missing2), missing)
   }
 
   test("ConfigValue.redacted.default") {
@@ -806,7 +725,7 @@ final class ConfigValueSpec extends BaseSpec {
 
   test("ConfigValue.redacted.failed") {
     val failedSensitive =
-      ConfigValue.failed[String](
+      ConfigValue.failed[IO, String](
         ConfigError.sensitive("message", "redactedMessage")
       )
 
@@ -837,7 +756,7 @@ final class ConfigValueSpec extends BaseSpec {
       }
 
     val release =
-      (_: ConfigValue[String]) =>
+      (_: ConfigValue[IO, String]) =>
         IO {
           released = true
           ()
@@ -850,7 +769,7 @@ final class ConfigValueSpec extends BaseSpec {
       ConfigValue.resource(input).resource[IO]
 
     assert(!acquired && !released)
-    output.use(_ => IO(assert(acquired))).unsafeRunSync
+    output.use(_ => IO(assert(acquired))).unsafeRunSync()
     assert(released)
   }
 
@@ -871,12 +790,12 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.secret.failed") {
-    check(failed.secret, failed.asInstanceOf[ConfigValue[Secret[String]]])
+    check(failed.secret, failed.asInstanceOf[ConfigValue[IO, Secret[String]]])
   }
 
   test("ConfigValue.secret.failed sensitive") {
     val failedSensitive =
-      ConfigValue.failed[String](
+      ConfigValue.failed[IO, String](
         ConfigError.sensitive("message", "redactedMessage")
       )
 
@@ -901,6 +820,6 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.secret.missing") {
-    check(missing.secret, missing.asInstanceOf[ConfigValue[Secret[String]]])
+    check(missing.secret, missing.asInstanceOf[ConfigValue[IO, Secret[String]]])
   }
 }

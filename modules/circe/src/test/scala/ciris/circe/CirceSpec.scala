@@ -1,7 +1,8 @@
 package ciris.circe
 
 import cats.data.Chain
-import cats.effect.{ContextShift, IO}
+import cats.effect.IO
+import cats.effect.unsafe.implicits.global
 import cats.implicits._
 import ciris._
 import io.circe.Json
@@ -9,11 +10,8 @@ import org.scalatest.compatible.Assertion
 import org.scalatest.funsuite.AnyFunSuite
 
 final class CirceSpec extends AnyFunSuite {
-  implicit val contextShift: ContextShift[IO] =
-    IO.contextShift(concurrent.ExecutionContext.global)
-
   test("circeConfigDecoder.success") {
-    val result = default("123").as[Int](circeConfigDecoder("Int")).load[IO].unsafeRunSync
+    val result = default("123").as[Int](circeConfigDecoder("Int")).load[IO].unsafeRunSync()
     assert(result == 123)
   }
 
@@ -78,12 +76,12 @@ final class CirceSpec extends AnyFunSuite {
     )
   }
 
-  def checkError[A](value: ConfigValue[A], message: String): Assertion =
+  def checkError[A](value: ConfigValue[IO, A], message: String): Assertion =
     value
       .attempt[IO]
       .flatMap {
         case Left(error) => IO(assert(error.messages === Chain.one(message)))
         case Right(a)    => IO(fail(s"expected error, got $a"))
       }
-      .unsafeRunSync
+      .unsafeRunSync()
 }

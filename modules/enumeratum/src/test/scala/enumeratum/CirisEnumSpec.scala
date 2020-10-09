@@ -1,22 +1,20 @@
 package enumeratum
 
+import cats.effect.IO
+import cats.effect.unsafe.implicits.global
 import ciris._
-import cats.effect.{ContextShift, IO}
-import enumeratum.EnumEntry.Lowercase
-import org.scalatest.funsuite.AnyFunSuite
-import org.scalacheck.Gen
 import enumeratum.CirisEnumSpec.Suit
+import enumeratum.EnumEntry.Lowercase
+import org.scalacheck.Gen
+import org.scalatest.funsuite.AnyFunSuite
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
 final class CirisEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks {
-  implicit val contextShift: ContextShift[IO] =
-    IO.contextShift(concurrent.ExecutionContext.global)
-
   test("enum.success") {
     val gen = Gen.oneOf(Suit.values)
     forAll(gen) { suit =>
       assert {
-        val actual = default(suit.entryName).as[Suit].attempt[IO].unsafeRunSync
+        val actual = default(suit.entryName).as[Suit].attempt[IO].unsafeRunSync()
         val expected = Right(suit)
         actual == expected
       }
@@ -28,7 +26,7 @@ final class CirisEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks {
     forAll { name: String =>
       whenever(!names.contains(name)) {
         assert {
-          val actual = default(name).as[Suit].attempt[IO].unsafeRunSync
+          val actual = default(name).as[Suit].attempt[IO].unsafeRunSync()
 
           val expected =
             Left {
