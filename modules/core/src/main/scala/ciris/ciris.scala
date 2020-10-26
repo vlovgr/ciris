@@ -10,20 +10,20 @@ import java.nio.file.{Files, NoSuchFileException, Path}
 package object ciris {
 
   /**
-    * Indicates a [[ConfigValue]] works for any effect type.
+    * Indicates a [[ConfigValue]] can be used with any effect type.
     */
   type Effect[A] <: Nothing
 
   /**
     * Returns a new [[ConfigValue]] with the specified default value.
     */
-  final def default[A](value: => A): ConfigValue[Effect, A] =
+  final def default[F[x] >: Effect[x], A](value: => A): ConfigValue[F, A] =
     ConfigValue.default(value)
 
   /**
     * Returns a new [[ConfigValue]] for the specified environment variable.
     */
-  final def env(name: String): ConfigValue[Effect, String] =
+  final def env[F[x] >: Effect[x]](name: String): ConfigValue[F, String] =
     ConfigValue.suspend {
       val key = ConfigKey.env(name)
       val value = System.getenv(name)
@@ -40,9 +40,9 @@ package object ciris {
     * specified path.
     *
     * The file contents are read synchronously using
-    * the `UTF-8` charset and `Blocker` instance.
+    * the `UTF-8` charset.
     */
-  final def file(path: Path): ConfigValue[Effect, String] =
+  final def file[F[x] >: Effect[x]](path: Path): ConfigValue[F, String] =
     file(path, StandardCharsets.UTF_8)
 
   /**
@@ -50,9 +50,9 @@ package object ciris {
     * specified path.
     *
     * The file contents are read synchronously using
-    * the specified charset and `Blocker` instance.
+    * the specified charset.
     */
-  final def file(path: Path, charset: Charset): ConfigValue[Effect, String] =
+  final def file[F[x] >: Effect[x]](path: Path, charset: Charset): ConfigValue[F, String] =
     ConfigValue.blocking {
       val key = ConfigKey.file(path, charset)
 
@@ -69,7 +69,7 @@ package object ciris {
   /**
     * Returns a new [[ConfigValue]] for the specified system property.
     */
-  final def prop(name: String): ConfigValue[Effect, String] =
+  final def prop[F[x] >: Effect[x]](name: String): ConfigValue[F, String] =
     ConfigValue.suspend {
       val key = ConfigKey.prop(name)
 
