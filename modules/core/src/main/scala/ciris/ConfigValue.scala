@@ -300,28 +300,7 @@ sealed abstract class ConfigValue[A] {
     implicit F: Async[F],
     context: ContextShift[F],
     par: Parallel[F]
-  ): Resource[F, ConfigEntry[A]] = {
-    import ConfigValue._
-    this match {
-      case Pure(a)        => Resource.pure[F, ConfigEntry[A]](a)
-      case Suspend(value) => value.mapK(LiftIO.liftK[F]).flatMap(_.toPar[F])
-      case Blocked(blocker, value) =>
-        Resource(
-          blocker.blockOn(
-            value.toPar[F].allocated
-          )
-        )
-      case Ap(f, value) =>
-        (f.toPar, value.toPar)
-          .parMapN { (f, value) =>
-            f.ap(value)
-          }
-      case FlatMapped(f, value) =>
-        value.toPar[F].flatMap { e =>
-          f(e).toPar[F]
-        }
-    }
-  }
+  ): Resource[F, ConfigEntry[A]]
 
   private[ciris] final def transform[B](
     f: ConfigEntry[A] => ConfigEntry[B]
@@ -341,14 +320,58 @@ sealed abstract class ConfigValue[A] {
   */
 final object ConfigValue {
 
-  // format: off
-  private case class Pure[A](entry: ConfigEntry[A]) extends ConfigValue[A]
-  
-  private case class Suspend[A](resource: Resource[IO, ConfigValue[A]]) extends ConfigValue[A]
-  private case class Blocked[A](Blocker: Blocker, value: ConfigValue[A]) extends ConfigValue[A]
-  private case class Ap[A, B](f: ConfigValue[B => A], value: ConfigValue[B]) extends ConfigValue[A]
-  private case class FlatMapped[A, B](f: ConfigEntry[B] => ConfigValue[A], value: ConfigValue[B]) extends ConfigValue[A]
-  // format: on
+  private case class Pure[A](entry: ConfigEntry[A]) extends ConfigValue[A] {
+    override private[ciris] def toPar[F[_]](
+      implicit F: Async[F],
+      context: ContextShift[F],
+      par: Parallel[F]
+    ): Resource[F, ConfigEntry[A]] = Resource.pure[F, ConfigEntry[A]](entry)
+  }
+  private case class Suspend[A](resource: Resource[IO, ConfigValue[A]]) extends ConfigValue[A] {
+    override private[ciris] def toPar[F[_]](
+      implicit F: Async[F],
+      context: ContextShift[F],
+      par: Parallel[F]
+    ): Resource[F, ConfigEntry[A]] = {
+      resource.mapK(LiftIO.liftK[F]).flatMap(_.toPar[F])
+    }
+  }
+  private case class Blocked[A](blocker: Blocker, value: ConfigValue[A]) extends ConfigValue[A] {
+    override private[ciris] def toPar[F[_]](
+      implicit F: Async[F],
+      context: ContextShift[F],
+      par: Parallel[F]
+    ): Resource[F, ConfigEntry[A]] = {
+      Resource(
+        blocker.blockOn(
+          value.toPar[F].allocated
+        )
+      )
+    }
+  }
+  private case class Ap[A, B](f: ConfigValue[B => A], value: ConfigValue[B])
+      extends ConfigValue[A] {
+    override private[ciris] def toPar[F[_]](
+      implicit F: Async[F],
+      context: ContextShift[F],
+      par: Parallel[F]
+    ): Resource[F, ConfigEntry[A]] =
+      (f.toPar, value.toPar)
+        .parMapN { (f, value) =>
+          f.ap(value)
+        }
+  }
+  private case class FlatMapped[A, B](f: ConfigEntry[B] => ConfigValue[A], value: ConfigValue[B])
+      extends ConfigValue[A] {
+    override private[ciris] def toPar[F[_]](
+      implicit F: Async[F],
+      context: ContextShift[F],
+      par: Parallel[F]
+    ): Resource[F, ConfigEntry[A]] =
+      value.toPar[F].flatMap { e =>
+        f(e).toPar[F]
+      }
+  }
 
   /**
     * Returns a new [[ConfigValue]] which loads a configuration
