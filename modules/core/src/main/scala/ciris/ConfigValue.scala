@@ -302,29 +302,25 @@ sealed abstract class ConfigValue[A] {
     par: Parallel[F]
   ): Resource[F, ConfigEntry[A]] = {
     import ConfigValue._
-    def stepFM[C, B](cv: FlatMapped[C, B]): Resource[F, ConfigEntry[C]] =
-      step(cv.value).flatMap { e =>
-        step(cv.f(e))
-      }
-    def stepAP[C, B](ap: Ap[C, B]): Resource[F, ConfigEntry[C]] =
-      (ap.f.toPar, ap.value.toPar)
-        .parMapN { (f, value) =>
-          f.ap(value)
-        }
-    def step[B](cv: ConfigValue[B]): Resource[F, ConfigEntry[B]] =
-      cv match {
-        case Pure(a)        => Resource.pure[F, ConfigEntry[B]](a)
-        case Suspend(value) => value.mapK(LiftIO.liftK[F]).flatMap(step)
-        case Blocked(blocker, value) =>
-          Resource(
-            blocker.blockOn(
-              step(value).allocated
-            )
+    this match {
+      case Pure(a)        => Resource.pure[F, ConfigEntry[A]](a)
+      case Suspend(value) => value.mapK(LiftIO.liftK[F]).flatMap(_.toPar[F])
+      case Blocked(blocker, value) =>
+        Resource(
+          blocker.blockOn(
+            value.toPar[F].allocated
           )
-        case ap @ Ap(_, _)         => stepAP(ap)
-        case fm @ FlatMapped(_, _) => stepFM(fm)
-      }
-    step[A](this)
+        )
+      case Ap(f, value) =>
+        (f.toPar, value.toPar)
+          .parMapN { (f, value) =>
+            f.ap(value)
+          }
+      case FlatMapped(f, value) =>
+        value.toPar[F].flatMap { e =>
+          f(e).toPar[F]
+        }
+    }
   }
 
   private[ciris] final def transform[B](
