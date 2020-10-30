@@ -6,7 +6,7 @@
 
 package ciris
 
-import cats.{Applicative, Eq, Eval, Show, Traverse}
+import cats.{Applicative, Apply, Eq, Eval, Show, Traverse}
 import cats.implicits._
 import ciris.ConfigEntry._
 
@@ -90,8 +90,8 @@ private[ciris] final object ConfigEntry {
       case Loaded(error, key, value) => show"Loaded($error, $key, $value)"
     }
 
-  implicit final val configEntryTraverse: Traverse[ConfigEntry] =
-    new Traverse[ConfigEntry] {
+  implicit final val configEntryTraverseApply: Traverse[ConfigEntry] with Apply[ConfigEntry] =
+    new Traverse[ConfigEntry] with Apply[ConfigEntry] {
       override final def foldLeft[A, B](entry: ConfigEntry[A], b: B)(f: (B, A) => B): B =
         entry match {
           case Default(_, a)   => f(b, a())
@@ -115,5 +115,28 @@ private[ciris] final object ConfigEntry {
         entry: ConfigEntry[A]
       )(f: A => G[B]): G[ConfigEntry[B]] =
         entry.traverse(f)
+
+      override def ap[A, B](ff: ConfigEntry[A => B])(fa: ConfigEntry[A]): ConfigEntry[B] =
+        ff match {
+          case Default(_, ab) =>
+            fa match {
+              case Default(_, a)      => ConfigEntry.default(ab().apply(a()))
+              case failed @ Failed(_) => failed
+              case Loaded(_, _, a)    => ConfigEntry.loaded(None, ab().apply(a))
+            }
+          case failed @ Failed(e1) =>
+            fa match {
+              case Default(_, _)   => failed
+              case Failed(e2)      => ConfigEntry.failed(e1.and(e2))
+              case Loaded(_, _, _) => ConfigEntry.failed(ConfigError.Loaded.and(e1))
+            }
+          case Loaded(_, _, ab) =>
+            fa match {
+              case Default(_, a)   => ConfigEntry.loaded(None, ab(a()))
+              case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
+              case Loaded(_, _, a) => ConfigEntry.loaded(None, ab(a))
+            }
+        }
+
     }
 }

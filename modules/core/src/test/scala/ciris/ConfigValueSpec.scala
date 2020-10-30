@@ -1,6 +1,6 @@
 package ciris
 
-import cats.effect.{Blocker, ContextShift, IO, Resource, Sync}
+import cats.effect.{Blocker, ContextShift, IO, Resource, Sync, Timer}
 import cats.effect.laws.util.TestContext
 import cats.Eq
 import cats.implicits._
@@ -10,8 +10,12 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.Assertion
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import scala.concurrent.duration._
+import cats.data.NonEmptyList
+import cats.Parallel
 
 final class ConfigValueSpec extends BaseSpec {
+  implicit val timer: Timer[IO] = IO.timer(concurrent.ExecutionContext.global)
   implicit val contextShift: ContextShift[IO] =
     IO.contextShift(concurrent.ExecutionContext.global)
 
@@ -49,6 +53,8 @@ final class ConfigValueSpec extends BaseSpec {
   val missingKey2: ConfigKey = ConfigKey("missingKey2")
   val missingError2: ConfigError = ConfigError.Missing(missingKey2)
   val missing2: ConfigValue[String] = ConfigValue.missing(missingKey2)
+
+  val slowConfig: ConfigValue[String] = ConfigValue.eval(IO.sleep(100.millis).as(default))
 
   def failedWith[A](error: ConfigError): ConfigValue[A] =
     ConfigValue.failed(error)
@@ -708,6 +714,23 @@ final class ConfigValueSpec extends BaseSpec {
       (missing, missing2).parTupled,
       failedWith[(String, String)](missingError.and(missingError2))
     )
+  }
+
+  test("ConfigValue.parallel.loaded.parTupled parallism") {
+    val totalConfigs = 100
+    val testSlack = 100.milli // Slack time allowed because parallism is hard
+    val timePerConfig = 100.milli
+    val unparallelTime = totalConfigs * timePerConfig
+    val lotsOfSlowConfigs: NonEmptyList[ConfigValue[String]] =
+      NonEmptyList(slowConfig, List.fill(totalConfigs - 1)(slowConfig))
+    val parallelSlowConfigs: ConfigValue[NonEmptyList[String]] =
+      Parallel.parNonEmptySequence(lotsOfSlowConfigs)
+
+    val allowedTime = timePerConfig + testSlack
+    val timedOut = parallelSlowConfigs.toPar[IO].use(IO.pure).unsafeRunTimed(allowedTime).isEmpty
+    withClue(s"Allowed Time: $allowedTime") {
+      assert(!timedOut, "Allowed time exceeded")
+    }
   }
 
   test("ConfigValue.parFlatMap.default.parFlatMap(_ => default)") {

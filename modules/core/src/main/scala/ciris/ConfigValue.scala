@@ -7,10 +7,13 @@
 package ciris
 
 import cats.{Apply, FlatMap, NonEmptyParallel, Show}
+import cats.implicits._
 import cats.arrow.FunctionK
-import cats.effect.{Async, Blocker, ContextShift, Effect, Resource}
+import cats.effect.{IO, Async, Blocker, ContextShift, Effect, Resource}
 import cats.effect.implicits._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
+import cats.Parallel
+import cats.effect.LiftIO
 
 /**
   * Represents a configuration value or a composition of multiple values.
@@ -62,7 +65,6 @@ import ciris.ConfigEntry.{Default, Failed, Loaded}
   * }}}
   */
 sealed abstract class ConfigValue[A] {
-  private[this] final val self: ConfigValue[A] = this
 
   /**
     * Returns a new [[ConfigValue]] which attempts to decode the
@@ -99,14 +101,7 @@ sealed abstract class ConfigValue[A] {
   final def attempt[F[_]](
     implicit F: Async[F],
     context: ContextShift[F]
-  ): F[Either[ConfigError, A]] =
-    to[F].use { result =>
-      F.pure(result match {
-        case Default(_, a)   => Right(a())
-        case Failed(error)   => Left(error)
-        case Loaded(_, _, a) => Right(a)
-      })
-    }
+  ): F[Either[ConfigError, A]] = resourceAttempt[F].use(F.pure)
 
   /**
     * Returns a new [[ConfigValue]] which uses the specified default
@@ -132,43 +127,31 @@ sealed abstract class ConfigValue[A] {
     * specified effectful function on the value.
     */
   final def evalMap[F[_], B](f: A => F[B])(implicit F: Effect[F]): ConfigValue[B] =
-    new ConfigValue[B] {
-      override final def to[G[_]](
-        implicit G: Async[G],
-        context: ContextShift[G]
-      ): Resource[G, ConfigEntry[B]] =
-        self.to[G].evalMap(_.traverse(f).toIO.to[G])
-    }
+    this.flatMapCE(ce => ConfigValue.suspendCE(ce.traverse(f).toIO))
 
   /**
     * Returns a new [[ConfigValue]] which loads the specified
     * configuration using the value.
     */
   final def flatMap[B](f: A => ConfigValue[B]): ConfigValue[B] =
-    new ConfigValue[B] {
-      override final def to[F[_]](
-        implicit F: Async[F],
-        context: ContextShift[F]
-      ): Resource[F, ConfigEntry[B]] =
-        self.to[F].flatMap {
-          case Default(_, a) =>
-            f(a()).to[F].map {
-              case Default(_, b)      => ConfigEntry.default(b())
-              case failed @ Failed(_) => failed
-              case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
-            }
-
-          case failed @ Failed(_) =>
-            Resource.liftF(F.pure(failed))
-
-          case Loaded(_, _, a) =>
-            f(a).to[F].map {
-              case Default(_, b)   => ConfigEntry.loaded(None, b())
-              case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
-              case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
-            }
+    flatMapCE[B] {
+      case ConfigEntry.Default(_, a) =>
+        f(a()).transform {
+          case Default(_, b)      => ConfigEntry.default(b())
+          case failed @ Failed(_) => failed
+          case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
+        }
+      case ce: ConfigEntry.Failed => ConfigValue.pure(ce)
+      case ConfigEntry.Loaded(_, _, v) =>
+        f(v).transform {
+          case Default(_, b)   => ConfigEntry.loaded(None, b())
+          case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
+          case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
         }
     }
+
+  private final def flatMapCE[B](f: ConfigEntry[A] => ConfigValue[B]): ConfigValue[B] =
+    ConfigValue.FlatMapped(f, this)
 
   /**
     * Returns an effect of the specified type which loads
@@ -183,12 +166,7 @@ sealed abstract class ConfigValue[A] {
   final def load[F[_]](
     implicit F: Async[F],
     context: ContextShift[F]
-  ): F[A] =
-    to[F].use {
-      case Default(_, a)   => F.pure(a())
-      case Failed(error)   => F.raiseError(error.throwable)
-      case Loaded(_, _, a) => F.pure(a)
-    }
+  ): F[A] = resource[F].use(F.pure)
 
   /**
     * Returns a new [[ConfigValue]] which applies the
@@ -223,33 +201,27 @@ sealed abstract class ConfigValue[A] {
     * specified configuration are accumulated.
     */
   final def or(value: => ConfigValue[A]): ConfigValue[A] =
-    new ConfigValue[A] {
-      override final def to[F[_]](
-        implicit F: Async[F],
-        context: ContextShift[F]
-      ): Resource[F, ConfigEntry[A]] =
-        self.to[F].flatMap {
-          case Default(error, a) =>
-            value.to[F].map {
-              case Failed(nextError) if nextError.isMissing => Default(error.or(nextError), a)
-              case Failed(nextError)                        => Failed(error.or(nextError))
-              case Default(nextError, b)                    => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b)                => Loaded(error.or(nextError), key, b)
-            }
-
-          case Failed(error) if error.isMissing =>
-            value.to[F].map {
-              case Failed(nextError)         => Failed(error.or(nextError))
-              case Default(nextError, b)     => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
-            }
-
-          case failed @ Failed(_) =>
-            Resource.liftF(F.pure(failed))
-
-          case loaded @ Loaded(_, _, _) =>
-            Resource.liftF(F.pure(loaded))
+    this.flatMapCE {
+      case Default(error, a) =>
+        value.transform {
+          case Failed(nextError) if nextError.isMissing => Default(error.or(nextError), a)
+          case Failed(nextError)                        => Failed(error.or(nextError))
+          case Default(nextError, b)                    => Default(error.or(nextError), b)
+          case Loaded(nextError, key, b)                => Loaded(error.or(nextError), key, b)
         }
+
+      case Failed(error) if error.isMissing =>
+        value.transform {
+          case Failed(nextError)         => Failed(error.or(nextError))
+          case Default(nextError, b)     => Default(error.or(nextError), b)
+          case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
+        }
+
+      case failed @ Failed(_) =>
+        ConfigValue.pure(failed)
+
+      case loaded @ Loaded(_, _, _) =>
+        ConfigValue.pure(loaded)
     }
 
   /**
@@ -278,12 +250,23 @@ sealed abstract class ConfigValue[A] {
   final def resource[F[_]](
     implicit F: Async[F],
     context: ContextShift[F]
-  ): Resource[F, A] =
-    to[F].evalMap[F, A] {
-      case Default(_, a)   => F.pure(a())
-      case Failed(error)   => F.raiseError(error.throwable)
-      case Loaded(_, _, a) => F.pure(a)
-    }
+  ): Resource[F, A] = resourceAttempt[F].evalMap[F, A] {
+    case Right(a)    => F.pure(a)
+    case Left(error) => F.raiseError(error.throwable)
+  }
+
+  /**
+    * Returns a `Resource` with the specified effect
+    * type which attempts to loads the configuration value.
+    */
+  final def resourceAttempt[F[_]](
+    implicit F: Async[F],
+    context: ContextShift[F]
+  ): Resource[F, Either[ConfigError, A]] = this.to[F].evalMap {
+    case Default(_, a)   => F.delay(a().asRight[ConfigError])
+    case Loaded(_, _, a) => F.pure(a.asRight[ConfigError])
+    case Failed(error)   => F.pure(error.asLeft[A])
+  }
 
   /**
     * Returns a new [[ConfigValue]] which treats the value
@@ -306,18 +289,48 @@ sealed abstract class ConfigValue[A] {
   private[ciris] def to[F[_]](
     implicit F: Async[F],
     context: ContextShift[F]
-  ): Resource[F, ConfigEntry[A]]
+  ): Resource[F, ConfigEntry[A]] = {
+    this.toPar[F](
+      F,
+      context,
+      Parallel.identity[F]
+    )
+  }
+  private[ciris] def toPar[F[_]](
+    implicit F: Async[F],
+    context: ContextShift[F],
+    par: Parallel[F]
+  ): Resource[F, ConfigEntry[A]] = {
+    import ConfigValue._
+    def stepFM[C, B](cv: FlatMapped[C, B]): Resource[F, ConfigEntry[C]] =
+      step(cv.value).flatMap { e =>
+        step(cv.f(e))
+      }
+    def stepAP[C, B](ap: Ap[C, B]): Resource[F, ConfigEntry[C]] =
+      (ap.f.toPar, ap.value.toPar)
+        .parMapN { (f, value) =>
+          f.ap(value)
+        }
+    def step[B](cv: ConfigValue[B]): Resource[F, ConfigEntry[B]] =
+      cv match {
+        case Pure(a)        => Resource.pure[F, ConfigEntry[B]](a)
+        case Suspend(value) => value.mapK(LiftIO.liftK[F]).flatMap(step)
+        case Blocked(blocker, value) =>
+          Resource(
+            blocker.blockOn(
+              step(value).allocated
+            )
+          )
+        case ap @ Ap(_, _)         => stepAP(ap)
+        case fm @ FlatMapped(_, _) => stepFM(fm)
+      }
+    step[A](this)
+  }
 
   private[ciris] final def transform[B](
     f: ConfigEntry[A] => ConfigEntry[B]
   ): ConfigValue[B] =
-    new ConfigValue[B] {
-      override final def to[F[_]](
-        implicit F: Async[F],
-        context: ContextShift[F]
-      ): Resource[F, ConfigEntry[B]] =
-        self.to[F].map(f)
-    }
+    this.flatMapCE { ce => ConfigValue.pure(f(ce)) }
 }
 
 /**
@@ -332,6 +345,15 @@ sealed abstract class ConfigValue[A] {
   */
 final object ConfigValue {
 
+  // format: off
+  private case class Pure[A](entry: ConfigEntry[A]) extends ConfigValue[A]
+  
+  private case class Suspend[A](resource: Resource[IO, ConfigValue[A]]) extends ConfigValue[A]
+  private case class Blocked[A](Blocker: Blocker, value: ConfigValue[A]) extends ConfigValue[A]
+  private case class Ap[A, B](f: ConfigValue[B => A], value: ConfigValue[B]) extends ConfigValue[A]
+  private case class FlatMapped[A, B](f: ConfigEntry[B] => ConfigValue[A], value: ConfigValue[B]) extends ConfigValue[A]
+  // format: on
+
   /**
     * Returns a new [[ConfigValue]] which loads a configuration
     * value using a callback.
@@ -339,17 +361,11 @@ final object ConfigValue {
     * @group Create
     */
   final def async[A](k: (Either[Throwable, ConfigValue[A]] => Unit) => Unit): ConfigValue[A] =
-    new ConfigValue[A] {
-      override final def to[F[_]](
-        implicit F: Async[F],
-        context: ContextShift[F]
-      ): Resource[F, ConfigEntry[A]] =
-        Resource.liftF(F.async(k)).flatMap(_.to[F])
-    }
+    Suspend(Resource.liftF(IO.async(k)))
 
   /**
     * Returns a new [[ConfigValue]] which loads the specified
-    * blocking value.
+    * Blockeding value.
     *
     * Note that if the [[ConfigValue]] contains any resources,
     * from using [[ConfigValue.resource]], these will be used
@@ -358,13 +374,7 @@ final object ConfigValue {
     * @group Create
     */
   final def blockOn[A](blocker: Blocker)(value: ConfigValue[A]): ConfigValue[A] =
-    new ConfigValue[A] {
-      override final def to[F[_]](
-        implicit F: Async[F],
-        context: ContextShift[F]
-      ): Resource[F, ConfigEntry[A]] =
-        Resource.liftF(context.blockOn(blocker)(value.to[F].use(F.pure)))
-    }
+    Blocked(blocker, value)
 
   /**
     * Returns a new [[ConfigValue]] with the specified
@@ -382,13 +392,7 @@ final object ConfigValue {
     * @group Create
     */
   final def eval[F[_], A](value: F[ConfigValue[A]])(implicit F: Effect[F]): ConfigValue[A] =
-    new ConfigValue[A] {
-      override final def to[G[_]](
-        implicit G: Async[G],
-        context: ContextShift[G]
-      ): Resource[G, ConfigEntry[A]] =
-        Resource.liftF(value.toIO.to[G]).flatMap(_.to[G])
-    }
+    resource[F, A](Resource.liftF(value))
 
   /**
     * Returns a new [[ConfigValue]] which failed with
@@ -418,36 +422,20 @@ final object ConfigValue {
     ConfigValue.failed(ConfigError.Missing(key))
 
   private[ciris] final def pure[A](entry: ConfigEntry[A]): ConfigValue[A] =
-    new ConfigValue[A] {
-      override final def to[F[_]](
-        implicit F: Async[F],
-        context: ContextShift[F]
-      ): Resource[F, ConfigEntry[A]] =
-        Resource.liftF(F.pure(entry))
-    }
+    Pure(entry)
+
+  private[ciris] final def suspendCE[F[_]: Effect, A](entry: F[ConfigEntry[A]]): ConfigValue[A] =
+    Suspend(Resource.liftF(entry.toIO).map(ConfigValue.pure))
 
   /**
     * Returns a new [[ConfigValue]] for the specified resource.
     *
     * @group Create
     */
-  final def resource[F[_], A](
-    resource: Resource[F, ConfigValue[A]]
-  )(implicit F: Effect[F]): ConfigValue[A] = {
-    val _resource = resource
-    new ConfigValue[A] {
-      override final def to[G[_]](
-        implicit G: Async[G],
-        context: ContextShift[G]
-      ): Resource[G, ConfigEntry[A]] =
-        _resource
-          .mapK(new FunctionK[F, G] {
-            override final def apply[B](fb: F[B]): G[B] =
-              fb.toIO.to[G]
-          })
-          .flatMap(_.to[G])
-    }
-  }
+  final def resource[F[_], V](
+    resource: Resource[F, ConfigValue[V]]
+  )(implicit F: Effect[F]): ConfigValue[V] =
+    Suspend[V](resource.mapK(FunctionK.lift[F, IO](F.toIO)))
 
   /**
     * Returns a new [[ConfigValue]] which suspends loading
@@ -456,13 +444,7 @@ final object ConfigValue {
     * @group Create
     */
   final def suspend[A](value: => ConfigValue[A]): ConfigValue[A] =
-    new ConfigValue[A] {
-      override final def to[F[_]](
-        implicit F: Async[F],
-        context: ContextShift[F]
-      ): Resource[F, ConfigEntry[A]] =
-        Resource.suspend(F.delay(value.to[F]))
-    }
+    Suspend(Resource.liftF(IO.delay(value)))
 
   /**
     * @group Instances
@@ -496,36 +478,7 @@ final object ConfigValue {
   implicit final val configValueParApply: Apply[Par] =
     new Apply[Par] {
       override final def ap[A, B](pab: Par[A => B])(pa: Par[A]): Par[B] =
-        Par {
-          new ConfigValue[B] {
-            override final def to[F[_]](
-              implicit F: Async[F],
-              context: ContextShift[F]
-            ): Resource[F, ConfigEntry[B]] =
-              pab.unwrap.to[F].flatMap {
-                case Default(_, ab) =>
-                  pa.unwrap.to[F].map {
-                    case Default(_, a)      => ConfigEntry.default(ab().apply(a()))
-                    case failed @ Failed(_) => failed
-                    case Loaded(_, _, a)    => ConfigEntry.loaded(None, ab().apply(a))
-                  }
-
-                case failed @ Failed(e1) =>
-                  pa.unwrap.to[F].map {
-                    case Default(_, _)   => failed
-                    case Failed(e2)      => ConfigEntry.failed(e1.and(e2))
-                    case Loaded(_, _, _) => ConfigEntry.failed(ConfigError.Loaded.and(e1))
-                  }
-
-                case Loaded(_, _, ab) =>
-                  pa.unwrap.to[F].map {
-                    case Default(_, a)   => ConfigEntry.loaded(None, ab(a()))
-                    case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
-                    case Loaded(_, _, a) => ConfigEntry.loaded(None, ab(a))
-                  }
-              }
-          }
-        }
+        Par(Ap(pab.unwrap, pa.unwrap))
 
       override final def map[A, B](pa: Par[A])(f: A => B): Par[B] =
         Par(pa.unwrap.map(f))
