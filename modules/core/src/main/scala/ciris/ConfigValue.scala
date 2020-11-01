@@ -9,6 +9,7 @@ package ciris
 import cats.{Apply, FlatMap, NonEmptyParallel, Show}
 import cats.arrow.FunctionK
 import cats.effect.kernel.{Async, Resource}
+import cats.implicits._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
 
 /**
@@ -482,28 +483,21 @@ final object ConfigValue {
       override final def ap[A, B](pab: Par[F, A => B])(pa: Par[F, A]): Par[F, B] =
         Par {
           new ConfigValue[F, B] {
-            override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[B]] =
-              pab.unwrap.to[G].flatMap {
-                case Default(_, ab) =>
-                  pa.unwrap.to[G].map {
-                    case Default(_, a)      => ConfigEntry.default(ab().apply(a()))
-                    case failed @ Failed(_) => failed
-                    case Loaded(_, _, a)    => ConfigEntry.loaded(None, ab().apply(a))
-                  }
+            override final def to[G[x] >: F[x]](
+              implicit G: Async[G]
+            ): Resource[G, ConfigEntry[B]] =
+              (pab.unwrap.to[G], pa.unwrap.to[G]).parMapN {
+                case (Default(_, ab), Default(_, a))     => ConfigEntry.default(ab().apply(a()))
+                case (Default(_, _), failed @ Failed(_)) => failed
+                case (Default(_, ab), Loaded(_, _, a))   => ConfigEntry.loaded(None, ab().apply(a))
 
-                case failed @ Failed(e1) =>
-                  pa.unwrap.to[G].map {
-                    case Default(_, _)   => failed
-                    case Failed(e2)      => ConfigEntry.failed(e1.and(e2))
-                    case Loaded(_, _, _) => ConfigEntry.failed(ConfigError.Loaded.and(e1))
-                  }
+                case (failed @ Failed(_), Default(_, _)) => failed
+                case (Failed(e1), Failed(e2))            => ConfigEntry.failed(e1.and(e2))
+                case (Failed(e1), Loaded(_, _, _))       => ConfigEntry.failed(ConfigError.Loaded.and(e1))
 
-                case Loaded(_, _, ab) =>
-                  pa.unwrap.to[G].map {
-                    case Default(_, a)   => ConfigEntry.loaded(None, ab(a()))
-                    case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
-                    case Loaded(_, _, a) => ConfigEntry.loaded(None, ab(a))
-                  }
+                case (Loaded(_, _, ab), Default(_, a))   => ConfigEntry.loaded(None, ab(a()))
+                case (Loaded(_, _, _), Failed(e2))       => ConfigEntry.failed(ConfigError.Loaded.and(e2))
+                case (Loaded(_, _, ab), Loaded(_, _, a)) => ConfigEntry.loaded(None, ab(a))
               }
 
             override final def toString: String =
