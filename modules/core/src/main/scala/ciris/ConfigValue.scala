@@ -358,7 +358,7 @@ final object ConfigValue {
     *
     * @group Create
     */
-  final def default[F[x] >: Effect[x], A](value: => A): ConfigValue[F, A] =
+  final def default[A](value: => A): ConfigValue[Effect, A] =
     ConfigValue.pure(ConfigEntry.default(value))
 
   /**
@@ -382,7 +382,7 @@ final object ConfigValue {
     *
     * @group Create
     */
-  final def failed[F[x] >: Effect[x], A](error: ConfigError): ConfigValue[F, A] =
+  final def failed[A](error: ConfigError): ConfigValue[Effect, A] =
     ConfigValue.pure(ConfigEntry.failed(error))
 
   /**
@@ -391,7 +391,7 @@ final object ConfigValue {
     *
     * @group Create
     */
-  final def loaded[F[x] >: Effect[x], A](key: ConfigKey, value: A): ConfigValue[F, A] =
+  final def loaded[A](key: ConfigKey, value: A): ConfigValue[Effect, A] =
     ConfigValue.pure(ConfigEntry.loaded(Some(key), value))
 
   /**
@@ -400,7 +400,7 @@ final object ConfigValue {
     *
     * @group Create
     */
-  final def missing[F[x] >: Effect[x], A](key: ConfigKey): ConfigValue[F, A] =
+  final def missing[A](key: ConfigKey): ConfigValue[Effect, A] =
     ConfigValue.failed(ConfigError.Missing(key))
 
   private[ciris] final def pure[F[_], A](entry: ConfigEntry[A]): ConfigValue[F, A] =

@@ -63,7 +63,7 @@ final case class Config(
   database: DatabaseConfig
 )
 
-def apiConfig(environment: AppEnvironment) =
+def apiConfig(environment: AppEnvironment): ConfigValue[Effect, ApiConfig] =
   (
     env("API_PORT").or(prop("api.port")).as[UserPortNumber].option,
     env("API_KEY").as[ApiKey].secret
@@ -78,13 +78,13 @@ def apiConfig(environment: AppEnvironment) =
     )
   }
 
-val databaseConfig =
+val databaseConfig: ConfigValue[Effect, DatabaseConfig] =
   (
     env("DATABASE_USERNAME").as[NonEmptyString].default("username"),
     env("DATABASE_PASSWORD").as[DatabasePassword].secret
   ).parMapN(DatabaseConfig)
 
-val config =
+val config: ConfigValue[Effect, Config] =
   env("APP_ENV").as[AppEnvironment].flatMap { environment =>
     (
       apiConfig(environment),

@@ -725,7 +725,7 @@ final class ConfigValueSpec extends BaseSpec {
 
   test("ConfigValue.redacted.failed") {
     val failedSensitive =
-      ConfigValue.failed[IO, String](
+      ConfigValue.failed[String](
         ConfigError.sensitive("message", "redactedMessage")
       )
 
@@ -795,7 +795,7 @@ final class ConfigValueSpec extends BaseSpec {
 
   test("ConfigValue.secret.failed sensitive") {
     val failedSensitive =
-      ConfigValue.failed[IO, String](
+      ConfigValue.failed[String](
         ConfigError.sensitive("message", "redactedMessage")
       )
 
