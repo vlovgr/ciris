@@ -229,36 +229,6 @@ final class ConfigValueSpec extends BaseSpec {
     checkAttempt(missing, Left(missingError))
   }
 
-  // TODO: ConfigValue.blocking
-
-  // test("ConfigValue.blockOn.default") {
-  //   Blocker[IO].use { blocker =>
-  //     val value = ConfigValue.blockOn(blocker)(default)
-  //     IO(check(value, default))
-  //   }.unsafeRunSync
-  // }
-
-  // test("ConfigValue.blockOn.failed") {
-  //   Blocker[IO].use { blocker =>
-  //     val value = ConfigValue.blockOn(blocker)(failed)
-  //     IO(check(value, failed))
-  //   }.unsafeRunSync
-  // }
-
-  // test("ConfigValue.blockOn.loaded") {
-  //   Blocker[IO].use { blocker =>
-  //     val value = ConfigValue.blockOn(blocker)(loaded)
-  //     IO(check(value, loaded))
-  //   }.unsafeRunSync
-  // }
-
-  // test("ConfigValue.blockOn.missing") {
-  //   Blocker[IO].use { blocker =>
-  //     val value = ConfigValue.blockOn(blocker)(missing)
-  //     IO(check(value, missing))
-  //   }.unsafeRunSync
-  // }
-
   test("ConfigValue.default.default") {
     check(
       default.default(defaultValue2),
