@@ -72,7 +72,7 @@ sealed abstract class Secret[+A] {
   * @groupname Instances Type Class Instances
   * @groupprio Instances 1
   */
-final object Secret {
+object Secret {
 
   /**
     * Returns a new [[Secret]] for the specified configuration value.

@@ -35,7 +35,7 @@ private[ciris] sealed abstract class ConfigEntry[+A] {
     }
 }
 
-private[ciris] final object ConfigEntry {
+private[ciris] object ConfigEntry {
   final def default[A](value: => A): ConfigEntry[A] =
     Default(ConfigError.Empty, () => value)
 
@@ -75,11 +75,11 @@ private[ciris] final object ConfigEntry {
 
   implicit final def configEntryEq[A](implicit eq: Eq[A]): Eq[ConfigEntry[A]] =
     Eq.instance {
-      case (Default(e1, v1), Default(e2, v2))       => e1 === e2 && v1() === v2()
+      case (Default(e1, v1), Default(e2, v2))       => e1 === e2 && eq.eqv(v1(), v2())
       case (Default(_, _), _)                       => false
       case (Failed(e1), Failed(e2))                 => e1 === e2
       case (Failed(_), _)                           => false
-      case (Loaded(e1, k1, v1), Loaded(e2, k2, v2)) => e1 === e2 && k1 === k2 && v1 === v2
+      case (Loaded(e1, k1, v1), Loaded(e2, k2, v2)) => e1 === e2 && k1 === k2 && eq.eqv(v1, v2)
       case (Loaded(_, _, _), _)                     => false
     }
 

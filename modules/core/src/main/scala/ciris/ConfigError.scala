@@ -121,7 +121,7 @@ sealed abstract class ConfigError {
   * @groupname Instances Type Class Instances
   * @groupprio Instances 1
   */
-final object ConfigError {
+object ConfigError {
 
   /**
     * Returns a new [[ConfigError]] using the specified message.
@@ -209,7 +209,7 @@ final object ConfigError {
       s"ConfigError(${message()})"
   }
 
-  private[ciris] final case object Empty extends ConfigError {
+  private[ciris] case object Empty extends ConfigError {
     override final val messages: Chain[String] =
       Chain.empty
 
@@ -220,7 +220,7 @@ final object ConfigError {
       "Empty"
   }
 
-  private[ciris] final case object Loaded extends ConfigError {
+  private[ciris] case object Loaded extends ConfigError {
     override final val messages: Chain[String] =
       Chain.empty
 

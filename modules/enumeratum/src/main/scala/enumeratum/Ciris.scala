@@ -10,7 +10,7 @@ import cats.implicits._
 import ciris.ConfigDecoder
 import scala.reflect.runtime.universe.WeakTypeTag
 
-final object Ciris {
+object Ciris {
   final def enumConfigDecoder[A <: EnumEntry](
     enum: Enum[A]
   )(implicit tag: WeakTypeTag[A]): ConfigDecoder[String, A] = {

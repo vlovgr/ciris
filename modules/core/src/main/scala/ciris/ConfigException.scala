@@ -20,7 +20,7 @@ final case class ConfigException(error: ConfigError) extends RuntimeException {
     this
 }
 
-final object ConfigException {
+object ConfigException {
   implicit final val configExceptionEq: Eq[ConfigException] =
     Eq.by(_.error)
 

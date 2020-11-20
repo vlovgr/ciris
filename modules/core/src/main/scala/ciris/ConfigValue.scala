@@ -289,9 +289,9 @@ sealed abstract class ConfigValue[+F[_], A] {
     */
   final def secret(implicit show: Show[A]): ConfigValue[F, Secret[A]] =
     transform {
-      case Default(error, a)     => Default(error.redacted, () => Secret(a()))
+      case Default(error, a)     => Default(error.redacted, () => Secret(a())(show))
       case Failed(error)         => Failed(error.redacted)
-      case Loaded(error, key, a) => Loaded(error.redacted, key, Secret(a))
+      case Loaded(error, key, a) => Loaded(error.redacted, key, Secret(a)(show))
     }
 
   private[ciris] def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]]
@@ -318,7 +318,7 @@ sealed abstract class ConfigValue[+F[_], A] {
   * @groupname Newtypes Newtypes
   * @groupprio Newtypes 2
   */
-final object ConfigValue {
+object ConfigValue {
 
   /**
     * Returns a new [[ConfigValue]] which loads a configuration
@@ -487,17 +487,26 @@ final object ConfigValue {
               implicit G: Async[G]
             ): Resource[G, ConfigEntry[B]] =
               (pab.unwrap.to[G], pa.unwrap.to[G]).parMapN {
-                case (Default(_, ab), Default(_, a))     => ConfigEntry.default(ab().apply(a()))
-                case (Default(_, _), failed @ Failed(_)) => failed
-                case (Default(_, ab), Loaded(_, _, a))   => ConfigEntry.loaded(None, ab().apply(a))
+                case (Default(_, ab), Default(_, a)) =>
+                  ConfigEntry.default(ab.apply().apply(a()))
+                case (Default(_, _), failed @ Failed(_)) =>
+                  failed
+                case (Default(_, ab), Loaded(_, _, a)) =>
+                  ConfigEntry.loaded(None, ab.apply().apply(a))
 
-                case (failed @ Failed(_), Default(_, _)) => failed
-                case (Failed(e1), Failed(e2))            => ConfigEntry.failed(e1.and(e2))
-                case (Failed(e1), Loaded(_, _, _))       => ConfigEntry.failed(ConfigError.Loaded.and(e1))
+                case (failed @ Failed(_), Default(_, _)) =>
+                  failed
+                case (Failed(e1), Failed(e2)) =>
+                  ConfigEntry.failed(e1.and(e2))
+                case (Failed(e1), Loaded(_, _, _)) =>
+                  ConfigEntry.failed(ConfigError.Loaded.and(e1))
 
-                case (Loaded(_, _, ab), Default(_, a))   => ConfigEntry.loaded(None, ab(a()))
-                case (Loaded(_, _, _), Failed(e2))       => ConfigEntry.failed(ConfigError.Loaded.and(e2))
-                case (Loaded(_, _, ab), Loaded(_, _, a)) => ConfigEntry.loaded(None, ab(a))
+                case (Loaded(_, _, ab), Default(_, a)) =>
+                  ConfigEntry.loaded(None, ab(a()))
+                case (Loaded(_, _, _), Failed(e2)) =>
+                  ConfigEntry.failed(ConfigError.Loaded.and(e2))
+                case (Loaded(_, _, ab), Loaded(_, _, a)) =>
+                  ConfigEntry.loaded(None, ab(a))
               }
 
             override final def toString: String =
@@ -546,7 +555,7 @@ final object ConfigValue {
   /**
     * @group Newtypes
     */
-  final object Par {
+  object Par {
     type Base
 
     sealed trait Tag extends Any

@@ -12,6 +12,8 @@ val scala212 = "2.12.10"
 
 val scala213 = "2.13.3"
 
+val scala3 = "3.0.0-M1"
+
 lazy val ciris = project
   .in(file("."))
   .settings(
@@ -116,9 +118,13 @@ lazy val docs = project
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
-  addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full),
+  libraryDependencies ++= {
+    if (isDotty.value) Nil
+    else
+      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.1").cross(CrossVersion.full)))
+  },
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "discipline-scalatest" % "2.0.1",
+    "org.typelevel" %% "discipline-scalatest" % "2.1.0",
     "org.typelevel" %% "cats-effect" % catsEffectVersion,
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
     "commons-codec" % "commons-codec" % "1.15"
@@ -283,29 +289,45 @@ lazy val noPublishSettings =
   )
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala213,
-  crossScalaVersions := Seq(scala212, scala213),
-  scalacOptions ++= Seq(
-    "-deprecation",
-    "-encoding",
-    "UTF-8",
-    "-feature",
-    "-language:higherKinds",
-    "-language:implicitConversions",
-    "-unchecked",
-    "-deprecation",
-    "-Xfatal-warnings",
-    "-Xlint",
-    "-Yno-adapted-args",
-    "-Ywarn-dead-code",
-    "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard",
-    "-Ywarn-unused",
-    "-Ypartial-unification"
-  ).filter {
-    case ("-Yno-adapted-args" | "-Ypartial-unification") if scalaVersion.value.startsWith("2.13") =>
-      false
-    case _ => true
+  scalaVersion := scala3,
+  crossScalaVersions := Seq(scala212, scala213, scala3),
+  scalacOptions ++= {
+    val commonScalacOptions =
+      Seq(
+        "-deprecation",
+        "-encoding",
+        "UTF-8",
+        "-feature",
+        "-unchecked",
+        "-Xfatal-warnings"
+      )
+
+    val scala2ScalacOptions =
+      if (!isDotty.value) {
+        Seq(
+          "-language:higherKinds",
+          "-Xlint",
+          "-Ywarn-dead-code",
+          "-Ywarn-numeric-widen",
+          "-Ywarn-value-discard",
+          "-Ywarn-unused"
+        )
+      } else Seq()
+
+    val scala212ScalacOptions =
+      if (scalaVersion.value.startsWith("2.12")) {
+        Seq("-Yno-adapted-args", "-Ypartial-unification")
+      } else Seq()
+
+    val scala3ScalacOptions =
+      if (isDotty.value) {
+        Seq("-Ykind-projector")
+      } else Seq()
+
+    commonScalacOptions ++
+      scala2ScalacOptions ++
+      scala212ScalacOptions ++
+      scala3ScalacOptions
   },
   scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused"),
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
