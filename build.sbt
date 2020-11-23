@@ -114,7 +114,7 @@ lazy val docs = project
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
-  addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full),
+  addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.1" cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.1.0",
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
