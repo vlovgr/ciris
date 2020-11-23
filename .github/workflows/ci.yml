@@ -11,16 +11,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - uses: olafurpg/setup-scala@v7
-    - uses: actions/cache@v2
-      with:
-        path: |
-          ~/.cache/coursier
-          ~/.ivy2/cache
-          ~/.sbt
-          !~/.ivy2/.sbt.ivy.lock
-          !~/.ivy2/cache/**/ivydata-*.properties
-          !~/.sbt/**/*.lock
-        key: ${{ runner.os }}-sbt-cache-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
+    - uses: olafurpg/setup-scala@v10
+    - uses: coursier/cache-action@v5
     - run: sbt validate
     - uses: codecov/codecov-action@v1
