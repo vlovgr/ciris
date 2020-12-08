@@ -4,7 +4,7 @@ val circeVersion = "0.13.0"
 
 val enumeratumVersion = "1.6.1"
 
-val refinedVersion = "0.9.18"
+val refinedVersion = "0.9.19"
 
 val squantsVersion = "1.7.0"
 
@@ -121,7 +121,7 @@ lazy val dependencySettings = Seq(
   libraryDependencies ++= {
     if (isDotty.value) Nil
     else
-      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.1").cross(CrossVersion.full)))
+      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.2").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.1.0",
