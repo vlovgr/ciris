@@ -332,8 +332,8 @@ final object ConfigDecoder {
   /**
     * @group Instances
     */
-  implicit final def configDecoderMonadError[A]: MonadError[ConfigDecoder[A, ?], ConfigError] =
-    new MonadError[ConfigDecoder[A, ?], ConfigError] {
+  implicit final def configDecoderMonadError[A]: MonadError[ConfigDecoder[A, *], ConfigError] =
+    new MonadError[ConfigDecoder[A, *], ConfigError] {
       override final def flatMap[B, C](
         decoder: ConfigDecoder[A, B]
       )(f: B => ConfigDecoder[A, C]): ConfigDecoder[A, C] =
