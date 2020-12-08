@@ -1,4 +1,4 @@
-val catsEffectVersion = "3.0.0-M3"
+val catsEffectVersion = "3.0.0-M4"
 
 val circeVersion = "0.13.0"
 
@@ -12,7 +12,7 @@ val scala212 = "2.12.10"
 
 val scala213 = "2.13.3"
 
-val scala3 = "3.0.0-M1"
+val scala3 = "3.0.0-M2"
 
 lazy val ciris = project
   .in(file("."))
