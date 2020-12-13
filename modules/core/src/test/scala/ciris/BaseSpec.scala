@@ -224,7 +224,7 @@ class BaseSpec extends CatsSuite {
   ): Eq[ConfigDecoder[A, B]] =
     Eq.instance { (d1, d2) =>
       Try {
-        forAll { a: A =>
+        forAll { (a: A) =>
           assert {
             d1.decode(None, a) === d2.decode(None, a)
           }

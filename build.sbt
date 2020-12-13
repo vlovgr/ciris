@@ -35,7 +35,9 @@ lazy val core = project
     ),
     publishSettings,
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
     testSettings
   )
 
@@ -127,6 +129,7 @@ lazy val dependencySettings = Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.1.0",
     "org.typelevel" %% "cats-effect" % catsEffectVersion,
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
+    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.0",
     "commons-codec" % "commons-codec" % "1.15"
   ).map(_ % Test),
   pomPostProcess := { (node: xml.Node) =>
@@ -289,8 +292,8 @@ lazy val noPublishSettings =
   )
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala3,
-  crossScalaVersions := Seq(scala212, scala213, scala3),
+  scalaVersion := scala213,
+  crossScalaVersions := Seq(scala212, scala213),
   scalacOptions ++= {
     val commonScalacOptions =
       Seq(
@@ -394,9 +397,7 @@ addCommandsAlias(
   "validate",
   List(
     "+clean",
-    "+coverage",
     "+test",
-    "+coverageReport",
     "+mimaReportBinaryIssues",
     "+scalafmtCheck",
     "scalafmtSbtCheck",

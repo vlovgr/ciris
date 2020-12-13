@@ -148,12 +148,12 @@ sealed abstract class ConfigValue[+F[_], A] {
 
   /**
     * Returns a new [[ConfigValue]] which applies the
-    * effectful function defined by [[EvalMapK]] on
+    * effectful function defined by `EvalMapK` on
     * the value.
     *
     * Similar to [[ConfigValue#evalMap]] but is defined for
     * any effect type (with an `Async` instance), using
-    * the [[EvalMapK]] construct.
+    * the `EvalMapK` construct.
     */
   final def evalMapK[B](evalMapK: EvalMapK[A, B]): ConfigValue[F, B] = {
     val _evalMapK = evalMapK

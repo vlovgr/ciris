@@ -464,7 +464,7 @@ final class ConfigValueSpec extends BaseSpec {
   }
 
   test("ConfigValue.option.eqv map(_.some).default(None)") {
-    forAll { value: ConfigValue[IO, String] =>
+    forAll { (value: ConfigValue[IO, String]) =>
       assert(value.option === value.map(_.some).default(None))
     }
   }

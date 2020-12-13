@@ -58,7 +58,7 @@ final class ConfigEntrySpec extends BaseSpec {
   }
 
   test("ConfigEntry.mapError.failed") {
-    forAll { error: ConfigError =>
+    forAll { (error: ConfigError) =>
       val entry = ConfigEntry.Failed(error)
       assert(entry.mapError(_.redacted).error === error.redacted)
     }
@@ -72,7 +72,9 @@ final class ConfigEntrySpec extends BaseSpec {
   }
 
   test("ConfigEntry.show") {
-    forAll { entry: ConfigEntry[String] => assert(entry.show === entry.toString) }
+    forAll { (entry: ConfigEntry[String]) =>
+      assert(entry.show === entry.toString)
+    }
   }
 
   checkAll(

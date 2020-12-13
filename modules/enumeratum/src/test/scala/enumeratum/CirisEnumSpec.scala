@@ -23,7 +23,7 @@ final class CirisEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks {
 
   test("enum.error") {
     val names = Suit.values.map(_.entryName).toSet
-    forAll { name: String =>
+    forAll { (name: String) =>
       whenever(!names.contains(name)) {
         assert {
           val actual = default(name).as[Suit].attempt[IO].unsafeRunSync()

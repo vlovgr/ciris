@@ -17,7 +17,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.bigDecimal.success") {
-    forAll { bigDecimal: BigDecimal =>
+    forAll { (bigDecimal: BigDecimal) =>
       assert(
         ConfigDecoder[String, BigDecimal].decode(None, bigDecimal.toString) === bigDecimal.asRight
       )
@@ -25,7 +25,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.bigDecimal.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(BigDecimal(s)).isFailure) {
         assert(ConfigDecoder[String, BigDecimal].decode(None, s).isLeft)
       }
@@ -33,13 +33,13 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.bigInt.success") {
-    forAll { bigInt: BigInt =>
+    forAll { (bigInt: BigInt) =>
       assert(ConfigDecoder[String, BigInt].decode(None, bigInt.toString) === bigInt.asRight)
     }
   }
 
   test("ConfigDecoder.bigInt.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(BigInt(s)).isFailure) {
         assert(ConfigDecoder[String, BigInt].decode(None, s).isLeft)
       }
@@ -70,7 +70,7 @@ final class ConfigDecoderSpec extends BaseSpec {
         case _                      => false
       }
 
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(!isBoolean(s)) {
         assert(ConfigDecoder[String, Boolean].decode(None, s).isLeft)
       }
@@ -78,13 +78,13 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.byte.success") {
-    forAll { byte: Byte =>
+    forAll { (byte: Byte) =>
       assert(ConfigDecoder[String, Byte].decode(None, byte.toString) === byte.asRight)
     }
   }
 
   test("ConfigDecoder.byte.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(s.toByte).isFailure) {
         assert(ConfigDecoder[String, Byte].decode(None, s).isLeft)
       }
@@ -92,13 +92,13 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.char.success") {
-    forAll { char: Char =>
+    forAll { (char: Char) =>
       assert(ConfigDecoder[String, Char].decode(None, char.toString) === char.asRight)
     }
   }
 
   test("ConfigDecoder.char.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(s.length !== 1) {
         assert(ConfigDecoder[String, Char].decode(None, s).isLeft)
       }
@@ -106,13 +106,13 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.double.success") {
-    forAll { double: Double =>
+    forAll { (double: Double) =>
       assert(ConfigDecoder[String, Double].decode(None, double.toString) === double.asRight)
     }
   }
 
   test("ConfigDecoder.double.success percent") {
-    forAll { double: Double =>
+    forAll { (double: Double) =>
       assert(
         ConfigDecoder[String, Double]
           .decode(None, double.toString ++ "%") === (double / 100f).asRight
@@ -121,7 +121,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.double.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(s.toDouble).isFailure) {
         assert(ConfigDecoder[String, Double].decode(None, s).isLeft)
       }
@@ -129,7 +129,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.duration.success") {
-    forAll { duration: Duration =>
+    forAll { (duration: Duration) =>
       val expected = Try(Duration(duration.toString))
       whenever(expected.isSuccess) {
         assert(ConfigDecoder[String, Duration].decode(None, duration.toString) == expected.toEither)
@@ -138,7 +138,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.duration.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(Duration(s)).isFailure) {
         assert(ConfigDecoder[String, Duration].decode(None, s).isLeft)
       }
@@ -146,7 +146,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.finiteDuration.success") {
-    forAll { finiteDuration: FiniteDuration =>
+    forAll { (finiteDuration: FiniteDuration) =>
       val expected = Try(Duration(finiteDuration.toString))
       whenever(expected.isSuccess) {
         assert {
@@ -158,7 +158,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.finiteDuration.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(Duration(s)).isFailure) {
         assert(ConfigDecoder[String, FiniteDuration].decode(None, s).isLeft)
       }
@@ -166,13 +166,13 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.float.success") {
-    forAll { float: Float =>
+    forAll { (float: Float) =>
       assert(ConfigDecoder[String, Float].decode(None, float.toString) === float.asRight)
     }
   }
 
   test("ConfigDecoder.float.success percent") {
-    forAll { float: Float =>
+    forAll { (float: Float) =>
       assert(
         ConfigDecoder[String, Float].decode(None, float.toString ++ "%") === (float / 100f).asRight
       )
@@ -180,7 +180,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.float.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(s.toFloat).isFailure) {
         assert(ConfigDecoder[String, Float].decode(None, s).isLeft)
       }
@@ -188,13 +188,13 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.int.success") {
-    forAll { int: Int =>
+    forAll { (int: Int) =>
       assert(ConfigDecoder[String, Int].decode(None, int.toString) === int.asRight)
     }
   }
 
   test("ConfigDecoder.int.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(s.toInt).isFailure) {
         assert(ConfigDecoder[String, Int].decode(None, s).isLeft)
       }
@@ -202,13 +202,13 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.long.success") {
-    forAll { long: Long =>
+    forAll { (long: Long) =>
       assert(ConfigDecoder[String, Long].decode(None, long.toString) === long.asRight)
     }
   }
 
   test("ConfigDecoder.long.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(s.toLong).isFailure) {
         assert(ConfigDecoder[String, Long].decode(None, s).isLeft)
       }
@@ -217,17 +217,17 @@ final class ConfigDecoderSpec extends BaseSpec {
 
   checkAll(
     "ConfigDecoder",
-    MonadErrorTests[ConfigDecoder[String, ?], ConfigError].monadError[String, String, String]
+    MonadErrorTests[ConfigDecoder[String, *], ConfigError].monadError[String, String, String]
   )
 
   test("ConfigDecoder.short.success") {
-    forAll { short: Short =>
+    forAll { (short: Short) =>
       assert(ConfigDecoder[String, Short].decode(None, short.toString) === short.asRight)
     }
   }
 
   test("ConfigDecoder.short.failure") {
-    forAll { s: String =>
+    forAll { (s: String) =>
       whenever(Try(s.toShort).isFailure) {
         assert(ConfigDecoder[String, Short].decode(None, s).isLeft)
       }
@@ -235,7 +235,7 @@ final class ConfigDecoderSpec extends BaseSpec {
   }
 
   test("ConfigDecoder.toString") {
-    forAll { decoder: ConfigDecoder[String, String] =>
+    forAll { (decoder: ConfigDecoder[String, String]) =>
       assert(decoder.toString.startsWith("ConfigDecoder$"))
     }
   }

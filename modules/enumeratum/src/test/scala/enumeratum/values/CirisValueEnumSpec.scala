@@ -28,7 +28,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("byteEnum.error") {
     val values = CustomByteEnum.values.map(_.value)
-    forAll { byte: Byte =>
+    forAll { (byte: Byte) =>
       whenever(!values.contains(byte)) {
         assert {
           val actual =
@@ -49,7 +49,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
   }
 
   test("byteEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(Try(value.toByte).isFailure) {
         assert {
           val actual =
@@ -86,7 +86,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("charEnum.error") {
     val values = CustomCharEnum.values.map(_.value)
-    forAll { char: Char =>
+    forAll { (char: Char) =>
       whenever(!values.contains(char)) {
         assert {
           val actual =
@@ -107,7 +107,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
   }
 
   test("charEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(value.length != 1) {
         assert {
           val actual =
@@ -144,7 +144,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("intEnum.error") {
     val values = CustomIntEnum.values.map(_.value)
-    forAll { int: Int =>
+    forAll { (int: Int) =>
       whenever(!values.contains(int)) {
         assert {
           val actual =
@@ -165,7 +165,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
   }
 
   test("intEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(Try(value.toInt).isFailure) {
         assert {
           val actual =
@@ -202,7 +202,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("longEnum.error") {
     val values = CustomLongEnum.values.map(_.value)
-    forAll { long: Long =>
+    forAll { (long: Long) =>
       whenever(!values.contains(long)) {
         assert {
           val actual =
@@ -223,7 +223,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
   }
 
   test("longEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(Try(value.toLong).isFailure) {
         assert {
           val actual =
@@ -260,7 +260,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("shortEnum.error") {
     val values = CustomShortEnum.values.map(_.value)
-    forAll { short: Short =>
+    forAll { (short: Short) =>
       whenever(!values.contains(short)) {
         assert {
           val actual =
@@ -281,7 +281,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
   }
 
   test("shortEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(Try(value.toShort).isFailure) {
         assert {
           val actual =
@@ -318,7 +318,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("stringEnum.error") {
     val values = CustomStringEnum.values.map(_.value)
-    forAll { string: String =>
+    forAll { (string: String) =>
       whenever(!values.contains(string)) {
         assert {
           val actual =

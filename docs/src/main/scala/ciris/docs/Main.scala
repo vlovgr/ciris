@@ -12,12 +12,14 @@ object Main {
     FileSystems.getDefault.getPath(sourceDirectory.getAbsolutePath, rest: _*)
 
   def minorVersion(version: String): String = {
-    val Array(major, minor, _) = version.split('.')
+    val parts = version.split('.')
+    val (major, minor) = (parts(0), parts(1))
     s"$major.$minor"
   }
 
   def majorVersion(version: String): String = {
-    val Array(major, _, _) = version.split('.')
+    val parts = version.split('.')
+    val major = parts(0)
     major
   }
 

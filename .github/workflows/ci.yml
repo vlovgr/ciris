@@ -14,4 +14,3 @@ jobs:
     - uses: olafurpg/setup-scala@v10
     - uses: coursier/cache-action@v5
     - run: sbt validate
-    - uses: codecov/codecov-action@v1

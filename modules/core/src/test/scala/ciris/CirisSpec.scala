@@ -9,7 +9,7 @@ import org.scalacheck.Gen
 
 final class CirisSpec extends BaseSpec {
   test("default") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       assert {
         default(value).to[IO].use(IO.pure).unsafeRunSync() match {
           case ConfigEntry.Default(ConfigError.Empty, default) => default() === value
@@ -26,7 +26,7 @@ final class CirisSpec extends BaseSpec {
         arbitrary[String]
       )
 
-    forAll(envGen) { name: String =>
+    forAll(envGen) { (name: String) =>
       assert {
         val description = ConfigKey.env(name).description
 
@@ -133,7 +133,7 @@ final class CirisSpec extends BaseSpec {
         arbitrary[String]
       )
 
-    forAll(propGen) { name: String =>
+    forAll(propGen) { (name: String) =>
       assert {
         val description = ConfigKey.prop(name).description
 
