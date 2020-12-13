@@ -333,7 +333,11 @@ lazy val scalaSettings = Seq(
       scala3ScalacOptions
   },
   scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused"),
-  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
+  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value,
+  scalafmtCheck in Compile := {
+    if (isDotty.value) true
+    else (scalafmtCheck in Compile).value
+  }
 )
 
 lazy val testSettings = Seq(

@@ -11,7 +11,6 @@ import cats.arrow.FunctionK
 import cats.effect.kernel.{Async, Resource}
 import cats.implicits._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
-import ciris.ConfigValue.EvalMapK
 
 /**
   * Represents a configuration value or a composition of multiple values.
@@ -132,39 +131,6 @@ sealed abstract class ConfigValue[+F[_], A] {
       case failed @ Failed(_)               => failed
       case loaded @ Loaded(_, _, _)         => loaded
     }
-
-  /**
-    * Returns a new [[ConfigValue]] which applies the
-    * specified effectful function on the value.
-    */
-  final def evalMap[G[x] >: F[x], B](f: A => G[B]): ConfigValue[G, B] =
-    new ConfigValue[G, B] {
-      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
-        self.to[H].evalMap(_.traverse[H, B](f))
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
-
-  /**
-    * Returns a new [[ConfigValue]] which applies the
-    * effectful function defined by `EvalMapK` on
-    * the value.
-    *
-    * Similar to [[ConfigValue#evalMap]] but is defined for
-    * any effect type (with an `Async` instance), using
-    * the `EvalMapK` construct.
-    */
-  final def evalMapK[B](evalMapK: EvalMapK[A, B]): ConfigValue[F, B] = {
-    val _evalMapK = evalMapK
-    new ConfigValue[F, B] {
-      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[B]] =
-        self.to[G].evalMap(_.traverse[G, B](_evalMapK[G]))
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
-  }
 
   /**
     * Returns a new [[ConfigValue]] which loads the specified
@@ -339,7 +305,7 @@ sealed abstract class ConfigValue[+F[_], A] {
   * @groupname Newtypes Newtypes
   * @groupprio Newtypes 2
   */
-object ConfigValue {
+object ConfigValue extends ConfigValueScalaVersionSpecific {
 
   /**
     * Returns a new [[ConfigValue]] which loads a configuration
@@ -383,40 +349,6 @@ object ConfigValue {
     ConfigValue.pure(ConfigEntry.default(value))
 
   /**
-    * Returns a new [[ConfigValue]] which evaluates the
-    * effect for the specified value.
-    *
-    * @group Create
-    */
-  final def eval[F[_], A](value: F[ConfigValue[F, A]]): ConfigValue[F, A] =
-    new ConfigValue[F, A] {
-      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        Resource.liftF(value).flatMap(_.to[G])
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
-
-  /**
-    * Returns a new [[ConfigValue]] which evaluates the
-    * effect returned by the specified [[EvalK]].
-    *
-    * Similar to [[ConfigValue.eval]] but is defined for
-    * any effect type (with an `Async` instance), using
-    * the [[EvalK]] construct.
-    *
-    * @group Create
-    */
-  final def evalK[A](evalK: EvalK[A]): ConfigValue[Effect, A] =
-    new ConfigValue[Effect, A] {
-      override final def to[G[x] >: Effect[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        Resource.liftF(evalK[G]).flatMap(_.to[G])
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
-
-  /**
     * Returns a new [[ConfigValue]] which failed with
     * the specified error.
     *
@@ -447,45 +379,6 @@ object ConfigValue {
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
         Resource.liftF(G.pure(entry))
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
-
-  /**
-    * Returns a new [[ConfigValue]] for the specified resource.
-    *
-    * @group Create
-    */
-  final def resource[F[_], A](
-    resource: Resource[F, ConfigValue[F, A]]
-  ): ConfigValue[F, A] = {
-    val _resource = resource
-    new ConfigValue[F, A] {
-      override final def to[G[x] >: F[x]](
-        implicit G: Async[G]
-      ): Resource[G, ConfigEntry[A]] =
-        _resource.flatMap(_.to[G])
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
-  }
-
-  /**
-    * Returns a new [[ConfigValue]] for the resource
-    * returned by the specified [[ResourceK]].
-    *
-    * Similar to [[ConfigValue.resource]] but is defined for
-    * any effect type (with an `Async` instance), using the
-    * [[ResourceK]] construct.
-    *
-    * @group Create
-    */
-  final def resourceK[A](resourceK: ResourceK[A]): ConfigValue[Effect, A] =
-    new ConfigValue[Effect, A] {
-      override final def to[G[x] >: Effect[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        resourceK[G].flatMap(_.to[G])
 
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
@@ -605,39 +498,6 @@ object ConfigValue {
     }
 
   /**
-    * Defines an effect for an arbitrary effect type,
-    * which can be turned into a [[ConfigValue]] with
-    * [[ConfigValue.evalK]].
-    *
-    * @group Create
-    */
-  abstract class EvalK[A] {
-    def apply[F[_]](implicit F: Async[F]): F[ConfigValue[F, A]]
-  }
-
-  /**
-    * Defines an effectful mapping for an arbitrary effect
-    * type, which can be appiled on a [[ConfigValue]] with
-    * [[ConfigValue#evalMapK]].
-    *
-    * @group Create
-    */
-  abstract class EvalMapK[A, B] {
-    def apply[F[_]](a: A)(implicit F: Async[F]): F[B]
-  }
-
-  /**
-    * Defines a `Resource` for an arbitrary effect type,
-    * which can be turned into a [[ConfigValue]] with
-    * [[ConfigValue.resourceK]].
-    *
-    * @group Create
-    */
-  abstract class ResourceK[A] {
-    def apply[F[_]](implicit F: Async[F]): Resource[F, ConfigValue[F, A]]
-  }
-
-  /**
     * Newtype for parallel composition of configuration values.
     *
     * @group Newtypes
@@ -670,5 +530,18 @@ object ConfigValue {
       final def unwrap: ConfigValue[F, A] =
         par.asInstanceOf[ConfigValue[F, A]]
     }
+  }
+
+  private[ciris] final def create[F[_], A](create: Create[F, A]): ConfigValue[F, A] =
+    new ConfigValue[F, A] {
+      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+        create.to[G]
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+
+  private[ciris] abstract class Create[F[_], A] {
+    def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]]
   }
 }
