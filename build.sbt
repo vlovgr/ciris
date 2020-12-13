@@ -343,10 +343,13 @@ lazy val testSettings = Seq(
   scalacOptions in Test --= Seq("-deprecation", "-Xfatal-warnings", "-Xlint", "-Ywarn-unused")
 )
 
-def minorVersion(version: String): String = {
-  val (major, minor) =
-    CrossVersion.partialVersion(version).get
-  s"$major.$minor"
+def scalaVersionOf(version: String): String = {
+  if (version.contains("-")) version
+  else {
+    val (major, minor) =
+      CrossVersion.partialVersion(version).get
+    s"$major.$minor"
+  }
 }
 
 val latestVersion = settingKey[String]("Latest stable released version")
@@ -372,9 +375,9 @@ updateSiteVariables in ThisBuild := {
       "coreModuleName" -> (moduleName in core).value,
       "latestVersion" -> (latestVersion in ThisBuild).value,
       "scalaPublishVersions" -> {
-        val minorVersions = (crossScalaVersions in core).value.map(minorVersion)
-        if (minorVersions.size <= 2) minorVersions.mkString(" and ")
-        else minorVersions.init.mkString(", ") ++ " and " ++ minorVersions.last
+        val scalaVersions = (crossScalaVersions in core).value.map(scalaVersionOf)
+        if (scalaVersions.size <= 2) scalaVersions.mkString(" and ")
+        else scalaVersions.init.mkString(", ") ++ " and " ++ scalaVersions.last
       }
     )
 

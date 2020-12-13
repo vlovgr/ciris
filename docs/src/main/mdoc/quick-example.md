@@ -26,7 +26,6 @@ import eu.timepit.refined.collection.MinSize
 import eu.timepit.refined.string.MatchesRegex
 import eu.timepit.refined.types.net.UserPortNumber
 import eu.timepit.refined.types.string.NonEmptyString
-import eu.timepit.refined.W
 import scala.concurrent.duration._
 
 sealed trait AppEnvironment extends EnumEntry
@@ -41,9 +40,9 @@ object AppEnvironment extends Enum[AppEnvironment] with CirisEnum[AppEnvironment
 
 import AppEnvironment.{Local, Testing, Production}
 
-type ApiKey = String Refined MatchesRegex[W.`"[a-zA-Z0-9]{25,40}"`.T]
+type ApiKey = String Refined MatchesRegex["[a-zA-Z0-9]{25,40}"]
 
-type DatabasePassword = String Refined MinSize[W.`30`.T]
+type DatabasePassword = String Refined MinSize[30]
 
 final case class ApiConfig(
   port: UserPortNumber,
