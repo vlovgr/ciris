@@ -8,13 +8,11 @@ package enumeratum
 
 import cats.implicits._
 import ciris.ConfigDecoder
-import scala.reflect.runtime.universe.WeakTypeTag
+import org.tpolecat.typename.TypeName
 
 object Ciris {
   final def enumConfigDecoder[A <: EnumEntry](
     enum: Enum[A]
-  )(implicit tag: WeakTypeTag[A]): ConfigDecoder[String, A] = {
-    val typeName = tag.tpe.typeSymbol.name.decodedName.toString
-    ConfigDecoder[String].mapOption(typeName)(enum.withNameOption)
-  }
+  )(implicit typeName: TypeName[A]): ConfigDecoder[String, A] =
+    ConfigDecoder[String].mapOption(typeName.value)(enum.withNameOption)
 }

@@ -8,17 +8,15 @@ package enumeratum.values
 
 import cats.Show
 import ciris.ConfigDecoder
-import scala.reflect.runtime.universe.WeakTypeTag
+import org.tpolecat.typename.TypeName
 
 object Ciris {
   final def enumConfigDecoder[ValueType, EntryType <: ValueEnumEntry[ValueType]](
     enum: ValueEnum[ValueType, EntryType]
   )(
     implicit decoder: ConfigDecoder[String, ValueType],
-    tag: WeakTypeTag[EntryType],
+    typeName: TypeName[EntryType],
     show: Show[ValueType]
-  ): ConfigDecoder[String, EntryType] = {
-    val typeName = tag.tpe.typeSymbol.name.decodedName.toString
-    decoder.mapOption(typeName)(enum.withValueOpt)
-  }
+  ): ConfigDecoder[String, EntryType] =
+    decoder.mapOption(typeName.value)(enum.withValueOpt)
 }

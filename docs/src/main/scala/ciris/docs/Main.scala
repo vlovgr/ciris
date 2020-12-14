@@ -77,6 +77,7 @@ object Main {
           "SQUANTS_MODULE_NAME" -> squantsModuleName,
           "SQUANTS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(squantsCrossScalaVersions),
           "SCALA_PUBLISH_VERSIONS" -> scalaVersionsString(crossScalaVersions),
+          "TYPENAME_VERSION" -> typeNameVersion,
           "API_BASE_URL" -> s"/api/ciris"
         )
       }

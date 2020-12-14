@@ -7,9 +7,9 @@
 package enumeratum
 
 import ciris.ConfigDecoder
-import scala.reflect.runtime.universe.WeakTypeTag
+import org.tpolecat.typename.TypeName
 
 trait CirisEnum[A <: EnumEntry] { this: Enum[A] =>
-  implicit def cirisConfigDecoder(implicit tag: WeakTypeTag[A]): ConfigDecoder[String, A] =
+  implicit def cirisConfigDecoder(implicit typeName: TypeName[A]): ConfigDecoder[String, A] =
     Ciris.enumConfigDecoder(this)
 }

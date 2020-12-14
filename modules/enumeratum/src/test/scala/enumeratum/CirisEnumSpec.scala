@@ -26,17 +26,7 @@ final class CirisEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks {
     forAll { (name: String) =>
       whenever(!names.contains(name)) {
         assert {
-          val actual = default(name).as[Suit].attempt[IO].unsafeRunSync()
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $name to Suit",
-                "Unable to convert value to Suit"
-              )
-            }
-
-          actual == expected
+          default(name).as[Suit].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }

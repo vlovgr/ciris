@@ -8,6 +8,8 @@ val refinedVersion = "0.9.19"
 
 val squantsVersion = "1.7.0"
 
+val typeNameVersion = "0.1.1"
+
 val scala212 = "2.12.10"
 
 val scala213 = "2.13.4"
@@ -62,7 +64,10 @@ lazy val enumeratum = project
     moduleName := "ciris-enumeratum",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "com.beachape" %% "enumeratum" % enumeratumVersion
+      libraryDependencies ++= Seq(
+        "com.beachape" %% "enumeratum" % enumeratumVersion,
+        "org.tpolecat" %% "typename" % typeNameVersion
+      )
     ),
     publishSettings,
     mimaSettings,
@@ -77,11 +82,16 @@ lazy val refined = project
     moduleName := "ciris-refined",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "eu.timepit" %% "refined" % refinedVersion
+      libraryDependencies ++= Seq(
+        "eu.timepit" %% "refined" % refinedVersion,
+        "org.tpolecat" %% "typename" % typeNameVersion
+      )
     ),
     publishSettings,
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
     testSettings
   )
   .dependsOn(core)
@@ -232,7 +242,8 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey("circeVersion" -> circeVersion),
     BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
     BuildInfoKey("refinedVersion" -> refinedVersion),
-    BuildInfoKey("squantsVersion" -> squantsVersion)
+    BuildInfoKey("squantsVersion" -> squantsVersion),
+    BuildInfoKey("typeNameVersion" -> typeNameVersion)
   )
 )
 
