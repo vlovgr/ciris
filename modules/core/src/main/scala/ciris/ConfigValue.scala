@@ -133,6 +133,19 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
+    * Returns a new [[ConfigValue]] which applies the
+    * specified effectful function on the value.
+    */
+  final def evalMap[G[x] >: F[x], B](f: A => G[B]): ConfigValue[G, B] =
+    new ConfigValue[G, B] {
+      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
+        self.to[H].evalMap(_.traverse[H, B](f))
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+
+  /**
     * Returns a new [[ConfigValue]] which loads the specified
     * configuration using the value.
     */
@@ -305,7 +318,7 @@ sealed abstract class ConfigValue[+F[_], A] {
   * @groupname Newtypes Newtypes
   * @groupprio Newtypes 2
   */
-object ConfigValue extends ConfigValueScalaVersionSpecific {
+object ConfigValue {
 
   /**
     * Returns a new [[ConfigValue]] which loads a configuration
@@ -349,6 +362,21 @@ object ConfigValue extends ConfigValueScalaVersionSpecific {
     ConfigValue.pure(ConfigEntry.default(value))
 
   /**
+    * Returns a new [[ConfigValue]] which evaluates the
+    * effect for the specified value.
+    *
+    * @group Create
+    */
+  final def eval[F[_], A](value: F[ConfigValue[F, A]]): ConfigValue[F, A] =
+    new ConfigValue[F, A] {
+      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+        Resource.liftF(value).flatMap(_.to[G])
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+
+  /**
     * Returns a new [[ConfigValue]] which failed with
     * the specified error.
     *
@@ -383,6 +411,22 @@ object ConfigValue extends ConfigValueScalaVersionSpecific {
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
     }
+
+  /**
+    * Returns a new [[ConfigValue]] for the specified resource.
+    *
+    * @group Create
+    */
+  final def resource[F[_], A](resource: Resource[F, ConfigValue[F, A]]): ConfigValue[F, A] = {
+    val _resource = resource
+    new ConfigValue[F, A] {
+      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+        _resource.flatMap(_.to[G])
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+  }
 
   /**
     * Returns a new [[ConfigValue]] which suspends loading
@@ -530,18 +574,5 @@ object ConfigValue extends ConfigValueScalaVersionSpecific {
       final def unwrap: ConfigValue[F, A] =
         par.asInstanceOf[ConfigValue[F, A]]
     }
-  }
-
-  private[ciris] final def create[F[_], A](create: Create[F, A]): ConfigValue[F, A] =
-    new ConfigValue[F, A] {
-      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        create.to[G]
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
-
-  private[ciris] abstract class Create[F[_], A] {
-    def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]]
   }
 }
