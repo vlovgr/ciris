@@ -146,6 +146,21 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
+    * Returns a new [[ConfigValue]] which applies the
+    * specified effect-polymorphic function on the value.
+    */
+  final def evalMapK[B](evalMapK: ConfigValue.EvalMapK[A, B]): ConfigValue[F, B] = {
+    val _evalMapK = evalMapK
+    new ConfigValue[F, B] {
+      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[B]] =
+        self.to[G].evalMap(_.traverse(_evalMapK[G]))
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+  }
+
+  /**
     * Returns a new [[ConfigValue]] which loads the specified
     * configuration using the value.
     */
@@ -377,6 +392,23 @@ object ConfigValue {
     }
 
   /**
+    * Returns a new [[ConfigValue]] which evaluates the
+    * polymorphic effect for the specified value.
+    *
+    * @group Create
+    */
+  final def evalK[A](evalK: EvalK[A]): ConfigValue[Effect, A] = {
+    val _evalK = evalK
+    new ConfigValue[Effect, A] {
+      override final def to[G[x] >: Effect[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+        Resource.eval(_evalK[G]).flatMap(_.to[G])
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+  }
+
+  /**
     * Returns a new [[ConfigValue]] which failed with
     * the specified error.
     *
@@ -422,6 +454,23 @@ object ConfigValue {
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
         _resource.asInstanceOf[Resource[G, ConfigValue[F, A]]].flatMap(_.to[G])
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+  }
+
+  /**
+    * Returns a new [[ConfigValue]] for the specified
+    * polymorphic resource.
+    *
+    * @group Create
+    */
+  final def resourceK[A](resourceK: ResourceK[A]): ConfigValue[Effect, A] = {
+    val _resourceK = resourceK
+    new ConfigValue[Effect, A] {
+      override final def to[G[x] >: Effect[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+        _resourceK[G].flatMap(_.to[G])
 
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
@@ -574,5 +623,35 @@ object ConfigValue {
       final def unwrap: ConfigValue[F, A] =
         par.asInstanceOf[ConfigValue[F, A]]
     }
+  }
+
+  /**
+    * Defines an effect-polymorphic `evalMap` function
+    * for use with [[ConfigValue#evalMapK]].
+    *
+    * @group Create
+    */
+  trait EvalMapK[A, B] {
+    def apply[F[_]](a: A)(implicit F: Async[F]): F[B]
+  }
+
+  /**
+    * Defines an effect-polymorphic effectful function
+    * for use with [[ConfigValue.evalK]].
+    *
+    * @group Create
+    */
+  trait EvalK[A] {
+    def apply[F[_]](implicit F: Async[F]): F[ConfigValue[F, A]]
+  }
+
+  /**
+    * Defines an effect-polymorphic resource function
+    * for use with [[ConfigValue.resourceK]].
+    *
+    * @group Create
+    */
+  trait ResourceK[A] {
+    def apply[F[_]](implicit F: Async[F]): Resource[F, ConfigValue[F, A]]
   }
 }
