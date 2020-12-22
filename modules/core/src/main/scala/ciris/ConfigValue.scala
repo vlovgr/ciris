@@ -161,7 +161,7 @@ sealed abstract class ConfigValue[+F[_], A] {
             }
 
           case failed @ Failed(_) =>
-            Resource.liftF(H.pure(failed))
+            Resource.eval(H.pure(failed))
 
           case Loaded(_, _, a) =>
             f(a).to[H].map {
@@ -244,10 +244,10 @@ sealed abstract class ConfigValue[+F[_], A] {
             }
 
           case failed @ Failed(_) =>
-            Resource.liftF(H.pure(failed))
+            Resource.eval(H.pure(failed))
 
           case loaded @ Loaded(_, _, _) =>
-            Resource.liftF(H.pure(loaded))
+            Resource.eval(H.pure(loaded))
         }
 
       override final def toString: String =
@@ -270,7 +270,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     * type which loads the configuration value.
     */
   final def resource[G[x] >: F[x]](implicit G: Async[G]): Resource[G, A] =
-    to[G].evalMap[G, A] {
+    to[G].evalMap[A] {
       case Default(_, a)   => G.pure(a())
       case Failed(error)   => G.raiseError(error.throwable)
       case Loaded(_, _, a) => G.pure(a)
@@ -331,7 +331,7 @@ object ConfigValue {
   ): ConfigValue[F, A] =
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        Resource.liftF(G.async_(k)).flatMap(_.to[G])
+        Resource.eval(G.async_(k)).flatMap(_.to[G])
 
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
@@ -346,7 +346,7 @@ object ConfigValue {
   final def blocking[F[_], A](value: => ConfigValue[F, A]): ConfigValue[F, A] =
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        Resource.liftF(G.blocking(value)).flatMap(_.to[G])
+        Resource.eval(G.blocking(value)).flatMap(_.to[G])
 
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
@@ -370,7 +370,7 @@ object ConfigValue {
   final def eval[F[_], A](value: F[ConfigValue[F, A]]): ConfigValue[F, A] =
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        Resource.liftF(value).flatMap(_.to[G])
+        Resource.eval(value).asInstanceOf[Resource[G, ConfigValue[F, A]]].flatMap(_.to[G])
 
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
@@ -406,7 +406,7 @@ object ConfigValue {
   private[ciris] final def pure[F[_], A](entry: ConfigEntry[A]): ConfigValue[F, A] =
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        Resource.liftF(G.pure(entry))
+        Resource.eval(G.pure(entry))
 
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
@@ -421,7 +421,7 @@ object ConfigValue {
     val _resource = resource
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        _resource.flatMap(_.to[G])
+        _resource.asInstanceOf[Resource[G, ConfigValue[F, A]]].flatMap(_.to[G])
 
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
