@@ -58,7 +58,7 @@ import ciris.ConfigEntry.{Default, Failed, Loaded}
   * scala> val apiKey = env("API_KEY").or(prop("api.key")).secret.option
   * val apiKey: ConfigValue[[x]Effect[x],Option[Secret[String]]] = ConfigValue$$2109306667
   *
-  * scala> val config = (maxRetries, apiKey).parMapN(Config)
+  * scala> val config = (maxRetries, apiKey).parMapN(Config(_, _))
   * val config: ConfigValue[[x]Effect[x],Config] = ConfigValue$$1463229407
   * }}}
   */

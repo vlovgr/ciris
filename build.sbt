@@ -8,13 +8,13 @@ val refinedVersion = "0.9.20"
 
 val squantsVersion = "1.7.0"
 
-val typeNameVersion = "0.1.1"
+val typeNameVersion = "0.1.3"
 
 val scala212 = "2.12.10"
 
 val scala213 = "2.13.4"
 
-val scala3 = "3.0.0-M2"
+val scala3 = "3.0.0-M3"
 
 lazy val ciris = project
   .in(file("."))
@@ -133,13 +133,13 @@ lazy val dependencySettings = Seq(
   libraryDependencies ++= {
     if (isDotty.value) Nil
     else
-      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.2").cross(CrossVersion.full)))
+      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.3").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.1.1",
     "org.typelevel" %% "cats-effect" % catsEffectVersion,
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
-    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.0",
+    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.1",
     "commons-codec" % "commons-codec" % "1.15"
   ).map(_ % Test),
   pomPostProcess := { (node: xml.Node) =>
@@ -317,7 +317,7 @@ lazy val scalaSettings = Seq(
       )
 
     val scala2ScalacOptions =
-      if (!isDotty.value) {
+      if (scalaVersion.value.startsWith("2.")) {
         Seq(
           "-language:higherKinds",
           "-Xlint",

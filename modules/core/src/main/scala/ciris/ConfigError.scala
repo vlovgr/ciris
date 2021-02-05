@@ -67,10 +67,10 @@ sealed abstract class ConfigError {
     (this, that) match {
       case (_, Empty)         => this
       case (Empty, _)         => that
-      case (And(as), And(bs)) => normalize(as ++ bs, And)
-      case (And(as), _)       => normalize(as :+ that, And)
-      case (_, And(bs))       => normalize(this +: bs, And)
-      case (_, _)             => normalize(Chain(this, that), And)
+      case (And(as), And(bs)) => normalize(as ++ bs, And(_))
+      case (And(as), _)       => normalize(as :+ that, And(_))
+      case (_, And(bs))       => normalize(this +: bs, And(_))
+      case (_, _)             => normalize(Chain(this, that), And(_))
     }
 
   /**
@@ -100,10 +100,10 @@ sealed abstract class ConfigError {
     (this, that) match {
       case (_, Empty)       => this
       case (Empty, _)       => that
-      case (Or(as), Or(bs)) => normalize(as ++ bs, Or)
-      case (Or(as), _)      => normalize(as :+ that, Or)
-      case (_, Or(bs))      => normalize(this +: bs, Or)
-      case (_, _)           => normalize(Chain(this, that), Or)
+      case (Or(as), Or(bs)) => normalize(as ++ bs, Or(_))
+      case (Or(as), _)      => normalize(as :+ that, Or(_))
+      case (_, Or(bs))      => normalize(this +: bs, Or(_))
+      case (_, _)           => normalize(Chain(this, that), Or(_))
     }
 
   /**

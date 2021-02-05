@@ -1,4 +1,4 @@
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.6")
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.2")
 addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.10.0")
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.3")
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.5")

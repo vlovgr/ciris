@@ -183,7 +183,7 @@ final class ConfigErrorSpec extends BaseSpec {
   test("ConfigError.normalize") {
     forAll { (errors: Chain[ConfigError]) =>
       val actual =
-        ConfigError.normalize(errors, ConfigError.And)
+        ConfigError.normalize(errors, ConfigError.And(_))
 
       val expected =
         if (errors.isEmpty)
