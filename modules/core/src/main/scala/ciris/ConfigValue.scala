@@ -406,7 +406,7 @@ object ConfigValue {
   private[ciris] final def pure[F[_], A](entry: ConfigEntry[A]): ConfigValue[F, A] =
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        Resource.eval(G.pure(entry))
+        Resource.pure(entry)
 
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
