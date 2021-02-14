@@ -12,7 +12,7 @@ final class CirisSpec extends BaseSpec {
     forAll { (value: String) =>
       assert {
         default(value).to[IO].use(IO.pure).unsafeRunSync() match {
-          case ConfigEntry.Default(ConfigError.Empty, default) => default() === value
+          case ConfigEntry.Default(ConfigError.Empty, default) => default === value
           case _                                               => false
         }
       }

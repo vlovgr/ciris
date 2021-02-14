@@ -56,7 +56,7 @@ final class ConfigValueSpec extends BaseSpec {
     ConfigValue.pure(ConfigEntry.Loaded(error, key, value))
 
   def defaultWith[F[_], A](error: ConfigError, value: A): ConfigValue[F, A] =
-    ConfigValue.pure(ConfigEntry.Default(error, () => value))
+    ConfigValue.pure(ConfigEntry.Default(error, value))
 
   def check[A](
     actual: ConfigValue[IO, A],
@@ -752,7 +752,7 @@ final class ConfigValueSpec extends BaseSpec {
       ConfigValue.pure(
         ConfigEntry.Default(
           ConfigError.sensitive("message", "redactedMessage"),
-          () => defaultValue
+          defaultValue
         )
       )
 

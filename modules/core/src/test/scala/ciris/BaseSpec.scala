@@ -106,7 +106,7 @@ class BaseSpec extends CatsSuite {
       for {
         error <- configErrorGen
         a <- gen
-      } yield ConfigEntry.Default(error, () => a)
+      } yield ConfigEntry.Default(error, a)
 
     val failed =
       for {

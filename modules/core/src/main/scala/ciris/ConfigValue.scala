@@ -72,8 +72,8 @@ sealed abstract class ConfigValue[+F[_], A] {
   final def as[B](implicit decoder: ConfigDecoder[A, B]): ConfigValue[F, B] =
     transform {
       case Default(error, a) =>
-        decoder.decode(None, a()) match {
-          case Right(b)          => Default(error, () => b)
+        decoder.decode(None, a) match {
+          case Right(b)          => Default(error, b)
           case Left(decodeError) => Failed(error.or(decodeError))
         }
 
@@ -100,7 +100,7 @@ sealed abstract class ConfigValue[+F[_], A] {
   final def attempt[G[x] >: F[x]](implicit G: Async[G]): G[Either[ConfigError, A]] =
     to[G].use { result =>
       G.pure(result match {
-        case Default(_, a)   => Right(a())
+        case Default(_, a)   => Right(a)
         case Failed(error)   => Left(error)
         case Loaded(_, _, a) => Right(a)
       })
@@ -126,8 +126,8 @@ sealed abstract class ConfigValue[+F[_], A] {
     */
   final def default(value: => A): ConfigValue[F, A] =
     transform {
-      case Default(error, _)                => Default(error, () => value)
-      case Failed(error) if error.isMissing => Default(error, () => value)
+      case Default(error, _)                => Default(error, value)
+      case Failed(error) if error.isMissing => Default(error, value)
       case failed @ Failed(_)               => failed
       case loaded @ Loaded(_, _, _)         => loaded
     }
@@ -154,8 +154,8 @@ sealed abstract class ConfigValue[+F[_], A] {
       override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
         self.to[H].flatMap {
           case Default(_, a) =>
-            f(a()).to[H].map {
-              case Default(_, b)      => ConfigEntry.default(b())
+            f(a).to[H].map {
+              case Default(_, b)      => ConfigEntry.default(b)
               case failed @ Failed(_) => failed
               case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
             }
@@ -165,7 +165,7 @@ sealed abstract class ConfigValue[+F[_], A] {
 
           case Loaded(_, _, a) =>
             f(a).to[H].map {
-              case Default(_, b)   => ConfigEntry.loaded(None, b())
+              case Default(_, b)   => ConfigEntry.loaded(None, b)
               case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
               case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
             }
@@ -187,7 +187,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     */
   final def load[G[x] >: F[x]](implicit G: Async[G]): G[A] =
     to[G].use {
-      case Default(_, a)   => G.pure(a())
+      case Default(_, a)   => G.pure(a)
       case Failed(error)   => G.raiseError(error.throwable)
       case Loaded(_, _, a) => G.pure(a)
     }
@@ -207,8 +207,8 @@ sealed abstract class ConfigValue[+F[_], A] {
     */
   final def option: ConfigValue[F, Option[A]] =
     transform {
-      case Default(error, _)                => Default(error, () => None)
-      case Failed(error) if error.isMissing => Default(error, () => None)
+      case Default(error, _)                => Default(error, None)
+      case Failed(error) if error.isMissing => Default(error, None)
       case failed @ Failed(_)               => failed
       case Loaded(error, key, a)            => Loaded(error, key, Some(a))
     }
@@ -271,7 +271,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     */
   final def resource[G[x] >: F[x]](implicit G: Async[G]): Resource[G, A] =
     to[G].evalMap[A] {
-      case Default(_, a)   => G.pure(a())
+      case Default(_, a)   => G.pure(a)
       case Failed(error)   => G.raiseError(error.throwable)
       case Loaded(_, _, a) => G.pure(a)
     }
@@ -289,7 +289,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     */
   final def secret(implicit show: Show[A]): ConfigValue[F, Secret[A]] =
     transform {
-      case Default(error, a)     => Default(error.redacted, () => Secret(a())(show))
+      case Default(error, a)     => Default(error.redacted, Secret(a)(show))
       case Failed(error)         => Failed(error.redacted)
       case Loaded(error, key, a) => Loaded(error.redacted, key, Secret(a)(show))
     }
@@ -358,7 +358,7 @@ object ConfigValue {
     *
     * @group Create
     */
-  final def default[A](value: => A): ConfigValue[Effect, A] =
+  final def default[A](value: A): ConfigValue[Effect, A] =
     ConfigValue.pure(ConfigEntry.default(value))
 
   /**
@@ -484,11 +484,11 @@ object ConfigValue {
             ): Resource[G, ConfigEntry[B]] =
               (pab.unwrap.to[G], pa.unwrap.to[G]).parMapN {
                 case (Default(_, ab), Default(_, a)) =>
-                  ConfigEntry.default(ab.apply().apply(a()))
+                  ConfigEntry.default(ab.apply(a))
                 case (Default(_, _), failed @ Failed(_)) =>
                   failed
                 case (Default(_, ab), Loaded(_, _, a)) =>
-                  ConfigEntry.loaded(None, ab.apply().apply(a))
+                  ConfigEntry.loaded(None, ab.apply(a))
 
                 case (failed @ Failed(_), Default(_, _)) =>
                   failed
@@ -498,7 +498,7 @@ object ConfigValue {
                   ConfigEntry.failed(ConfigError.Loaded.and(e1))
 
                 case (Loaded(_, _, ab), Default(_, a)) =>
-                  ConfigEntry.loaded(None, ab(a()))
+                  ConfigEntry.loaded(None, ab(a))
                 case (Loaded(_, _, _), Failed(e2)) =>
                   ConfigEntry.failed(ConfigError.Loaded.and(e2))
                 case (Loaded(_, _, ab), Loaded(_, _, a)) =>

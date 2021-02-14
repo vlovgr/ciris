@@ -8,10 +8,10 @@ final class ConfigEntrySpec extends BaseSpec {
   test("ConfigEntry.default.hashCode") {
     forAll { (e: ConfigError, e2: ConfigError, default: String, default2: String) =>
       whenever((e !== e2) && (default != default2)) {
-        val entry1 = ConfigEntry.Default(e, () => default)
-        val entry2 = ConfigEntry.Default(e, () => default2)
-        val entry3 = ConfigEntry.Default(e2, () => default)
-        val entry4 = ConfigEntry.Default(e, () => default)
+        val entry1 = ConfigEntry.Default(e, default)
+        val entry2 = ConfigEntry.Default(e, default2)
+        val entry3 = ConfigEntry.Default(e2, default)
+        val entry4 = ConfigEntry.Default(e, default)
 
         assert {
           (entry1.hashCode !== entry2.hashCode) &&
@@ -26,10 +26,10 @@ final class ConfigEntrySpec extends BaseSpec {
   test("ConfigEntry.default.equals.default") {
     forAll { (e: ConfigError, e2: ConfigError, default: String, default2: String) =>
       whenever((e !== e2) && (default != default2)) {
-        val entry1 = ConfigEntry.Default(e, () => default)
-        val entry2 = ConfigEntry.Default(e, () => default2)
-        val entry3 = ConfigEntry.Default(e2, () => default)
-        val entry4 = ConfigEntry.Default(e, () => default)
+        val entry1 = ConfigEntry.Default(e, default)
+        val entry2 = ConfigEntry.Default(e, default2)
+        val entry3 = ConfigEntry.Default(e2, default)
+        val entry4 = ConfigEntry.Default(e, default)
 
         assert {
           (entry1 != entry2) &&
@@ -43,7 +43,7 @@ final class ConfigEntrySpec extends BaseSpec {
 
   test("ConfigEntry.default.equals.non default") {
     forAll { (e: ConfigError, default: String) =>
-      val entry = ConfigEntry.Default(e, () => default)
+      val entry = ConfigEntry.Default(e, default)
       assert((entry: Any) != e && (entry: Any) != default)
     }
   }
@@ -52,7 +52,7 @@ final class ConfigEntrySpec extends BaseSpec {
 
   test("ConfigEntry.mapError.default") {
     forAll { (error: ConfigError, value: String) =>
-      val entry = ConfigEntry.Default(error, () => value)
+      val entry = ConfigEntry.Default(error, value)
       assert(entry.mapError(_.redacted).error === error.redacted)
     }
   }
