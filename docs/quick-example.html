@@ -76,7 +76,6 @@
 <span class="hljs-keyword">import</span> eu.timepit.refined.string.<span class="hljs-type">MatchesRegex</span>
 <span class="hljs-keyword">import</span> eu.timepit.refined.types.net.<span class="hljs-type">UserPortNumber</span>
 <span class="hljs-keyword">import</span> eu.timepit.refined.types.string.<span class="hljs-type">NonEmptyString</span>
-<span class="hljs-keyword">import</span> eu.timepit.refined.<span class="hljs-type">W</span>
 <span class="hljs-keyword">import</span> scala.concurrent.duration._
 
 <span class="hljs-keyword">sealed</span> <span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">AppEnvironment</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EnumEntry</span></span>
@@ -91,9 +90,9 @@
 
 <span class="hljs-keyword">import</span> <span class="hljs-type">AppEnvironment</span>.{<span class="hljs-type">Local</span>, <span class="hljs-type">Testing</span>, <span class="hljs-type">Production</span>}
 
-<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">ApiKey</span> </span>= <span class="hljs-type">String</span> <span class="hljs-type">Refined</span> <span class="hljs-type">MatchesRegex</span>[<span class="hljs-type">W</span>.`<span class="hljs-string">"[a-zA-Z0-9]{25,40}"</span>`.<span class="hljs-type">T</span>]
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">ApiKey</span> </span>= <span class="hljs-type">String</span> <span class="hljs-type">Refined</span> <span class="hljs-type">MatchesRegex</span>[<span class="hljs-string">"[a-zA-Z0-9]{25,40}"</span>]
 
-<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">DatabasePassword</span> </span>= <span class="hljs-type">String</span> <span class="hljs-type">Refined</span> <span class="hljs-type">MinSize</span>[<span class="hljs-type">W</span>.`<span class="hljs-number">30</span>`.<span class="hljs-type">T</span>]
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">DatabasePassword</span> </span>= <span class="hljs-type">String</span> <span class="hljs-type">Refined</span> <span class="hljs-type">MinSize</span>[<span class="hljs-number">30</span>]
 
 <span class="hljs-keyword">final</span> <span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ApiConfig</span>(<span class="hljs-params">
   port: <span class="hljs-type">UserPortNumber</span>,
@@ -113,7 +112,7 @@
   database: <span class="hljs-type">DatabaseConfig</span>
 </span>)</span>
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apiConfig</span></span>(environment: <span class="hljs-type">AppEnvironment</span>): <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">ApiConfig</span>] =
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apiConfig</span></span>(environment: <span class="hljs-type">AppEnvironment</span>): <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">Effect</span>, <span class="hljs-type">ApiConfig</span>] =
   (
     env(<span class="hljs-string">"API_PORT"</span>).or(prop(<span class="hljs-string">"api.port"</span>)).as[<span class="hljs-type">UserPortNumber</span>].option,
     env(<span class="hljs-string">"API_KEY"</span>).as[<span class="hljs-type">ApiKey</span>].secret
@@ -128,13 +127,13 @@
     )
   }
 
-<span class="hljs-keyword">val</span> databaseConfig: <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">DatabaseConfig</span>] =
+<span class="hljs-keyword">val</span> databaseConfig: <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">Effect</span>, <span class="hljs-type">DatabaseConfig</span>] =
   (
     env(<span class="hljs-string">"DATABASE_USERNAME"</span>).as[<span class="hljs-type">NonEmptyString</span>].<span class="hljs-keyword">default</span>(<span class="hljs-string">"username"</span>),
     env(<span class="hljs-string">"DATABASE_PASSWORD"</span>).as[<span class="hljs-type">DatabasePassword</span>].secret
   ).parMapN(<span class="hljs-type">DatabaseConfig</span>)
 
-<span class="hljs-keyword">val</span> config: <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">Config</span>] =
+<span class="hljs-keyword">val</span> config: <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">Effect</span>, <span class="hljs-type">Config</span>] =
   env(<span class="hljs-string">"APP_ENV"</span>).as[<span class="hljs-type">AppEnvironment</span>].flatMap { environment =&gt;
     (
       apiConfig(environment),
