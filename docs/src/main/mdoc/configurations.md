@@ -3,18 +3,30 @@ id: configurations
 title: Configurations
 ---
 
-[`ConfigValue`][configvalue] is the central concept in the library. It represents a single configuration value, or a composition of multiple values. The library provides functions like `env`, `file`, and `prop` for creating such [`ConfigValue`][configvalue]s for environment variables, file contents, and system properties. If the value is missing, `or` lets us use a fallback.
+[`ConfigValue`][configvalue] is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like `env`, `file`, and `prop` for creating `ConfigValue`s for environment variables, file contents, and system properties. [External modules](overview.md#external-modules) provide support for additional configuration sources.
+
+If a configuration value is missing, `or` lets us use a fallback.
 
 ```scala mdoc:reset-object:silent
 import ciris._
 
-val port: ConfigValue[Int] =
+val port: ConfigValue[Effect, Int] =
   env("API_PORT").or(prop("api.port")).as[Int]
 ```
 
 Using `as` we can attempt to decode the value to a different type.
 
-Multiple values can be combined, and errors accumulated, using `parMapN`.
+Note `Effect` here means the configuration value can be used with any effect type (with an `Async` instance). If we're working with a concrete effect type (e.g. `IO`) or an abstract effect type (i.e. `F[_]`), we can specify the return type explicitly or use `covary` in case we want to fix the effect type.
+
+```scala mdoc
+import cats.effect.IO
+
+port: ConfigValue[IO, Int]
+
+port.covary[IO]
+```
+
+Multiple values can be loaded and combined in parallel, and errors accumulated, using `parMapN`.
 
 ```scala mdoc:silent
 import cats.implicits._
@@ -22,10 +34,10 @@ import scala.concurrent.duration._
 
 final case class ApiConfig(port: Int, timeout: Option[Duration])
 
-val timeout: ConfigValue[Option[Duration]] =
+val timeout: ConfigValue[Effect, Option[Duration]] =
   env("API_TIMEOUT").as[Duration].option
 
-val apiConfig: ConfigValue[ApiConfig] =
+val apiConfig: ConfigValue[Effect, ApiConfig] =
   (port, timeout).parMapN(ApiConfig)
 ```
 
@@ -79,7 +91,7 @@ env("API_PORT").as[Int].or(default(9000))
 When loading sensitive configuration values, `secret` can be used.
 
 ```scala mdoc:silent
-val apiKey: ConfigValue[Secret[String]] =
+val apiKey: ConfigValue[Effect, Secret[String]] =
   env("API_KEY").secret
 ```
 
@@ -107,7 +119,7 @@ In addition to `secret` there is also `redacted` which redacts sensitive details
 In order to load a configuration, we can use `load` and specify an effect type.
 
 ```scala mdoc:silent
-import cats.effect.{ExitCode, IO, IOApp}
+import cats.effect.{ExitCode, IOApp}
 
 object Main extends IOApp {
   def run(args: List[String]): IO[ExitCode] =
@@ -146,7 +158,7 @@ To support new configuration sources, we can use the [`ConfigValue`][configvalue
 Following is an example showing how the `env` function can be defined.
 
 ```scala mdoc:silent
-def env(name: String): ConfigValue[String] =
+def env(name: String): ConfigValue[Effect, String] =
   ConfigValue.suspend {
     val key = ConfigKey.env(name)
     val value = System.getenv(name)

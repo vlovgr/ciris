@@ -8,7 +8,7 @@ package ciris
 
 import cats.Show
 import eu.timepit.refined.api.{RefType, Validate}
-import scala.reflect.runtime.universe.WeakTypeTag
+import org.tpolecat.typename.TypeName
 
 package object refined {
   implicit final def refTypeConfigDecoder[F[_, _], A, B, P](
@@ -16,10 +16,9 @@ package object refined {
     refType: RefType[F],
     show: Show[B],
     validate: Validate[B, P],
-    typeTag: WeakTypeTag[F[B, P]]
+    typeName: TypeName[F[B, P]]
   ): ConfigDecoder[A, F[B, P]] = {
     val refine = refType.refine[P]
-    val typeName = typeTag.tpe.toString
-    decoder.mapOption(typeName)(refine(_).toOption)
+    decoder.mapOption(typeName.value)(refine(_).toOption)
   }
 }

@@ -101,7 +101,7 @@ sealed abstract class ConfigDecoder[A, B] {
   * @groupname Instances Type Class Instances
   * @groupprio Instances 2
   */
-final object ConfigDecoder {
+object ConfigDecoder {
 
   /**
     * Returns a new [[ConfigDecoder]] for the specified type

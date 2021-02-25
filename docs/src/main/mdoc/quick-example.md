@@ -26,7 +26,6 @@ import eu.timepit.refined.collection.MinSize
 import eu.timepit.refined.string.MatchesRegex
 import eu.timepit.refined.types.net.UserPortNumber
 import eu.timepit.refined.types.string.NonEmptyString
-import eu.timepit.refined.W
 import scala.concurrent.duration._
 
 sealed trait AppEnvironment extends EnumEntry
@@ -41,9 +40,9 @@ object AppEnvironment extends Enum[AppEnvironment] with CirisEnum[AppEnvironment
 
 import AppEnvironment.{Local, Testing, Production}
 
-type ApiKey = String Refined MatchesRegex[W.`"[a-zA-Z0-9]{25,40}"`.T]
+type ApiKey = String Refined MatchesRegex["[a-zA-Z0-9]{25,40}"]
 
-type DatabasePassword = String Refined MinSize[W.`30`.T]
+type DatabasePassword = String Refined MinSize[30]
 
 final case class ApiConfig(
   port: UserPortNumber,
@@ -63,7 +62,7 @@ final case class Config(
   database: DatabaseConfig
 )
 
-def apiConfig(environment: AppEnvironment): ConfigValue[ApiConfig] =
+def apiConfig(environment: AppEnvironment): ConfigValue[Effect, ApiConfig] =
   (
     env("API_PORT").or(prop("api.port")).as[UserPortNumber].option,
     env("API_KEY").as[ApiKey].secret
@@ -78,13 +77,13 @@ def apiConfig(environment: AppEnvironment): ConfigValue[ApiConfig] =
     )
   }
 
-val databaseConfig: ConfigValue[DatabaseConfig] =
+val databaseConfig: ConfigValue[Effect, DatabaseConfig] =
   (
     env("DATABASE_USERNAME").as[NonEmptyString].default("username"),
     env("DATABASE_PASSWORD").as[DatabasePassword].secret
   ).parMapN(DatabaseConfig)
 
-val config: ConfigValue[Config] =
+val config: ConfigValue[Effect, Config] =
   env("APP_ENV").as[AppEnvironment].flatMap { environment =>
     (
       apiConfig(environment),

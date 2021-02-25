@@ -7,7 +7,7 @@ import org.scalacheck.Gen
 
 final class ConfigErrorSpec extends BaseSpec {
   test("ConfigError.and.messages") {
-    forAll { errors: Chain[ConfigError] =>
+    forAll { (errors: Chain[ConfigError]) =>
       val messages = ConfigError.And(errors).messages
       assert(messages.size == errors.foldMap(_.messages.size))
 
@@ -18,7 +18,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.and.redacted") {
-    forAll { errors: Chain[ConfigError] =>
+    forAll { (errors: Chain[ConfigError]) =>
       val messages = ConfigError.And(errors).redacted.messages
       assert(messages.size == errors.foldMap(_.messages.size))
 
@@ -31,14 +31,14 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.and.toString") {
-    forAll { errors: Chain[ConfigError] =>
+    forAll { (errors: Chain[ConfigError]) =>
       val error = ConfigError.And(errors)
       assert(error.toString === s"And(${errors.toList.mkString(", ")})")
     }
   }
 
   test("ConfigError.apply.messages") {
-    forAll { message: String =>
+    forAll { (message: String) =>
       val messages = ConfigError(message).messages
       assert(messages.size == 1)
 
@@ -48,7 +48,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.apply.redacted") {
-    forAll { message: String =>
+    forAll { (message: String) =>
       val messages = ConfigError(message).redacted.messages
       assert(messages.size == 1)
 
@@ -90,7 +90,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.apply.toString") {
-    forAll { message: String =>
+    forAll { (message: String) =>
       val error = ConfigError(message)
       assert(error.toString === s"ConfigError($message)")
     }
@@ -157,7 +157,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.missing.messages") {
-    forAll { key: ConfigKey =>
+    forAll { (key: ConfigKey) =>
       val error = ConfigError.Missing(key)
       assert(error.messages.size == 1)
 
@@ -167,23 +167,23 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.missing.redacted") {
-    forAll { key: ConfigKey =>
+    forAll { (key: ConfigKey) =>
       val error = ConfigError.Missing(key)
       assert(error.redacted === error)
     }
   }
 
   test("ConfigError.missing.toString") {
-    forAll { key: ConfigKey =>
+    forAll { (key: ConfigKey) =>
       val error = ConfigError.Missing(key)
       assert(error.toString === s"Missing($key)")
     }
   }
 
   test("ConfigError.normalize") {
-    forAll { errors: Chain[ConfigError] =>
+    forAll { (errors: Chain[ConfigError]) =>
       val actual =
-        ConfigError.normalize(errors, ConfigError.And)
+        ConfigError.normalize(errors, ConfigError.And(_))
 
       val expected =
         if (errors.isEmpty)
@@ -200,14 +200,14 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.or.messages") {
-    forAll { errors: Chain[ConfigError] =>
+    forAll { (errors: Chain[ConfigError]) =>
       val messages = ConfigError.Or(errors).messages
       assert(messages.size == 1)
     }
   }
 
   test("ConfigError.or.redacted") {
-    forAll { errors: Chain[ConfigError] =>
+    forAll { (errors: Chain[ConfigError]) =>
       val messages = ConfigError.Or(errors).redacted.messages
       assert(messages.size == 1)
 
@@ -221,7 +221,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.or.toString") {
-    forAll { errors: Chain[ConfigError] =>
+    forAll { (errors: Chain[ConfigError]) =>
       val error = ConfigError.Or(errors)
       assert(error.toString === s"Or(${errors.toList.mkString(", ")})")
     }
@@ -293,7 +293,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError#throwable") {
-    forAll { error: ConfigError =>
+    forAll { (error: ConfigError) =>
       assert {
         error.throwable match {
           case ConfigException(e) => e === error
@@ -304,7 +304,7 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError#uncapitalize") {
-    forAll(Gen.alphaStr) { s: String =>
+    forAll(Gen.alphaStr) { (s: String) =>
       val expected =
         if (s.headOption.exists(_.isUpper))
           s"${s.charAt(0).toLower}" ++ s.tail
@@ -316,6 +316,8 @@ final class ConfigErrorSpec extends BaseSpec {
   }
 
   test("ConfigError.show") {
-    forAll { error: ConfigError => assert(error.show === error.toString) }
+    forAll { (error: ConfigError) =>
+      assert(error.show === error.toString)
+    }
   }
 }

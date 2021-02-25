@@ -6,11 +6,13 @@ final class ConfigExceptionSpec extends BaseSpec {
   checkAll("ConfigException", EqTests[ConfigException].eqv)
 
   test("ConfigException.error") {
-    forAll { error: ConfigError => assert(ConfigException(error).error === error) }
+    forAll { (error: ConfigError) =>
+      assert(ConfigException(error).error === error)
+    }
   }
 
   test("ConfigException.message.contains") {
-    forAll { exception: ConfigException =>
+    forAll { (exception: ConfigException) =>
       val exceptionMessage =
         exception.getMessage
 
@@ -20,7 +22,7 @@ final class ConfigExceptionSpec extends BaseSpec {
       val withEntryTrailing =
         messages
           .filter(_.endsWith(ConfigException.entryTrailing))
-          .forall { message =>
+          .forall { (message) =>
             exceptionMessage.contains {
               s"${ConfigException.entryLeading}$message"
             }
@@ -29,7 +31,7 @@ final class ConfigExceptionSpec extends BaseSpec {
       val withoutEntryTrailing =
         messages
           .filterNot(_.endsWith(ConfigException.entryTrailing))
-          .forall { message =>
+          .forall { (message) =>
             exceptionMessage.contains {
               s"${ConfigException.entryLeading}$message${ConfigException.entryTrailing}"
             }
@@ -40,19 +42,19 @@ final class ConfigExceptionSpec extends BaseSpec {
   }
 
   test("ConfigException.message.leading") {
-    forAll { exception: ConfigException =>
+    forAll { (exception: ConfigException) =>
       assert(exception.getMessage.startsWith(ConfigException.messageLeading))
     }
   }
 
   test("ConfigException.message.trailing") {
-    forAll { exception: ConfigException =>
+    forAll { (exception: ConfigException) =>
       assert(exception.getMessage.endsWith(ConfigException.messageTrailing))
     }
   }
 
   test("ConfigException.messageLength") {
-    forAll { exception: ConfigException =>
+    forAll { (exception: ConfigException) =>
       val expected = ConfigException.messageLength(exception.error.messages)
       val actual = exception.getMessage.length
       assert(actual === expected)
@@ -60,13 +62,13 @@ final class ConfigExceptionSpec extends BaseSpec {
   }
 
   test("ConfigException.toString") {
-    forAll { exception: ConfigException =>
+    forAll { (exception: ConfigException) =>
       assert(exception.toString === s"ciris.ConfigException: ${exception.getMessage}")
     }
   }
 
   test("ConfigException.unapply") {
-    forAll { exception: ConfigException =>
+    forAll { (exception: ConfigException) =>
       assert {
         exception match {
           case ConfigException(error) =>

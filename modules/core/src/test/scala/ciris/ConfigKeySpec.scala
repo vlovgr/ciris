@@ -6,11 +6,13 @@ import java.nio.file.Path
 
 final class ConfigKeySpec extends BaseSpec {
   test("ConfigKey.description") {
-    forAll { description: String => assert(ConfigKey(description).description === description) }
+    forAll { (description: String) =>
+      assert(ConfigKey(description).description === description)
+    }
   }
 
   test("ConfigKey.env") {
-    forAll { name: String =>
+    forAll { (name: String) =>
       val description = ConfigKey.env(name).description
       assert(description === s"environment variable $name")
     }
@@ -27,7 +29,9 @@ final class ConfigKeySpec extends BaseSpec {
   }
 
   test("ConfigKey.equals.non key") {
-    forAll { key: ConfigKey => assert((key: Any) != key.description) }
+    forAll { (key: ConfigKey) =>
+      assert((key: Any) != key.description)
+    }
   }
 
   test("ConfigKey.file") {
@@ -38,26 +42,32 @@ final class ConfigKeySpec extends BaseSpec {
   }
 
   test("ConfigKey.hashCode") {
-    forAll { key: ConfigKey => assert(key.hashCode === key.description.hashCode) }
+    forAll { (key: ConfigKey) =>
+      assert(key.hashCode === key.description.hashCode)
+    }
   }
 
   test("ConfigKey.prop") {
-    forAll { name: String =>
+    forAll { (name: String) =>
       val description = ConfigKey.prop(name).description
       assert(description === s"system property $name")
     }
   }
 
   test("ConfigKey.show") {
-    forAll { key: ConfigKey => assert(key.show === key.toString) }
+    forAll { (key: ConfigKey) =>
+      assert(key.show === key.toString)
+    }
   }
 
   test("ConfigKey.toString") {
-    forAll { key: ConfigKey => assert(key.toString === s"ConfigKey(${key.description})") }
+    forAll { (key: ConfigKey) =>
+      assert(key.toString === s"ConfigKey(${key.description})")
+    }
   }
 
   test("ConfigKey.unapply") {
-    forAll { key: ConfigKey =>
+    forAll { (key: ConfigKey) =>
       key match {
         case ConfigKey(description) =>
           assert(description === key.description)

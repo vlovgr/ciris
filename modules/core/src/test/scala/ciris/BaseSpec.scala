@@ -106,7 +106,7 @@ class BaseSpec extends CatsSuite {
       for {
         error <- configErrorGen
         a <- gen
-      } yield ConfigEntry.Default(error, () => a)
+      } yield ConfigEntry.Default(error, a)
 
     val failed =
       for {
@@ -134,19 +134,19 @@ class BaseSpec extends CatsSuite {
   ): Arbitrary[ConfigEntry[A] => ConfigEntry[A]] =
     Arbitrary(configEntryFunctionGen(arbitrary[A => A]))
 
-  def configValueGen[A](gen: Gen[A]): Gen[ConfigValue[A]] =
+  def configValueGen[F[_], A](gen: Gen[A]): Gen[ConfigValue[F, A]] =
     Gen.frequency(
       3 -> configEntryGen(gen).map(ConfigValue.pure),
-      1 -> Gen.const(ConfigValue.suspend[A](throw ConfigException(ConfigError.Empty)))
+      1 -> Gen.const(ConfigValue.suspend[F, A](throw ConfigException(ConfigError.Empty)))
     )
 
-  implicit def configValueArbitrary[A: Arbitrary]: Arbitrary[ConfigValue[A]] =
+  implicit def configValueArbitrary[F[_], A: Arbitrary]: Arbitrary[ConfigValue[F, A]] =
     Arbitrary(configValueGen(arbitrary[A]))
 
-  def configValueParGen[A](gen: Gen[A]): Gen[ConfigValue.Par[A]] =
+  def configValueParGen[F[_], A](gen: Gen[A]): Gen[ConfigValue.Par[F, A]] =
     configValueGen(gen).map(ConfigValue.Par(_))
 
-  implicit def configValueParArbitrary[A: Arbitrary]: Arbitrary[ConfigValue.Par[A]] =
+  implicit def configValueParArbitrary[F[_], A: Arbitrary]: Arbitrary[ConfigValue.Par[F, A]] =
     Arbitrary(configValueParGen(arbitrary[A]))
 
   def secretGen[A: Show](gen: Gen[A]): Gen[Secret[A]] =
@@ -224,7 +224,7 @@ class BaseSpec extends CatsSuite {
   ): Eq[ConfigDecoder[A, B]] =
     Eq.instance { (d1, d2) =>
       Try {
-        forAll { a: A =>
+        forAll { (a: A) =>
           assert {
             d1.decode(None, a) === d2.decode(None, a)
           }

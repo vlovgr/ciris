@@ -1,4 +1,4 @@
-val catsEffectVersion = "2.3.3"
+val catsEffectVersion = "3.0.0-RC2"
 
 val circeVersion = "0.13.0"
 
@@ -8,9 +8,17 @@ val refinedVersion = "0.9.21"
 
 val squantsVersion = "1.7.0"
 
+val typeNameVersion = "0.1.5"
+
 val scala212 = "2.12.10"
 
-val scala213 = "2.13.3"
+val scala213 = "2.13.5"
+
+val scala3 = "3.0.0-RC1"
+
+ThisBuild / versionScheme := Some("early-semver")
+
+ThisBuild / resolvers += Resolver.JCenterRepository
 
 lazy val ciris = project
   .in(file("."))
@@ -18,8 +26,8 @@ lazy val ciris = project
     mimaSettings,
     scalaSettings,
     noPublishSettings,
-    console := (console in (core, Compile)).value,
-    console in Test := (console in (core, Test)).value
+    console := (core / Compile / console).value,
+    Test / console := (core / Test / console).value
   )
   .aggregate(core, circe, enumeratum, refined, squants)
 
@@ -29,11 +37,13 @@ lazy val core = project
     moduleName := "ciris",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion
+      libraryDependencies += "org.typelevel" %% "cats-effect-kernel" % catsEffectVersion
     ),
     publishSettings,
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
     testSettings
   )
 
@@ -58,7 +68,10 @@ lazy val enumeratum = project
     moduleName := "ciris-enumeratum",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "com.beachape" %% "enumeratum" % enumeratumVersion
+      libraryDependencies ++= Seq(
+        "com.beachape" %% "enumeratum" % enumeratumVersion,
+        "org.tpolecat" %% "typename" % typeNameVersion
+      )
     ),
     publishSettings,
     mimaSettings,
@@ -73,11 +86,16 @@ lazy val refined = project
     moduleName := "ciris-refined",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "eu.timepit" %% "refined" % refinedVersion
+      libraryDependencies ++= Seq(
+        "eu.timepit" %% "refined" % refinedVersion,
+        "org.tpolecat" %% "typename" % typeNameVersion
+      )
     ),
     publishSettings,
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
     testSettings
   )
   .dependsOn(core)
@@ -104,7 +122,9 @@ lazy val docs = project
   .settings(
     moduleName := "ciris-docs",
     name := moduleName.value,
-    dependencySettings,
+    dependencySettings ++ Seq(
+      libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion
+    ),
     noPublishSettings,
     scalaSettings,
     mdocSettings,
@@ -114,10 +134,16 @@ lazy val docs = project
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
-  addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.3" cross CrossVersion.full),
+  libraryDependencies ++= {
+    if (isDotty.value) Nil
+    else
+      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.3").cross(CrossVersion.full)))
+  },
   libraryDependencies ++= Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.1.2",
+    "org.typelevel" %% "cats-effect" % catsEffectVersion,
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
+    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.2",
     "commons-codec" % "commons-codec" % "1.15"
   ).map(_ % Test),
   pomPostProcess := { (node: xml.Node) =>
@@ -135,36 +161,36 @@ lazy val dependencySettings = Seq(
 )
 
 lazy val mdocSettings = Seq(
-  mdoc := run.in(Compile).evaluated,
+  mdoc := (Compile / run).evaluated,
   scalacOptions --= Seq("-Xfatal-warnings", "-Ywarn-unused"),
   crossScalaVersions := Seq(scalaVersion.value),
-  unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(
+  ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
     core,
     circe,
     enumeratum,
     refined,
     squants
   ),
-  target in (ScalaUnidoc, unidoc) := (baseDirectory in LocalRootProject).value / "website" / "static" / "api",
-  cleanFiles += (target in (ScalaUnidoc, unidoc)).value,
+  ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
+  cleanFiles += (ScalaUnidoc / unidoc / target).value,
   docusaurusCreateSite := docusaurusCreateSite
-    .dependsOn(unidoc in Compile)
-    .dependsOn(updateSiteVariables in ThisBuild)
+    .dependsOn(Compile / unidoc)
+    .dependsOn(ThisBuild / updateSiteVariables)
     .value,
   docusaurusPublishGhpages :=
     docusaurusPublishGhpages
-      .dependsOn(unidoc in Compile)
-      .dependsOn(updateSiteVariables in ThisBuild)
+      .dependsOn(Compile / unidoc)
+      .dependsOn(ThisBuild / updateSiteVariables)
       .value,
   libraryDependencies ++= Seq(
     "eu.timepit" %% "refined-cats" % refinedVersion
   ),
   // format: off
-  scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
-    "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(latestVersion in ThisBuild).value}€{FILE_PATH}.scala",
-    "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,
+  ScalaUnidoc / unidoc / scalacOptions ++= Seq(
+    "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(ThisBuild / latestVersion).value}€{FILE_PATH}.scala",
+    "-sourcepath", (LocalRootProject / baseDirectory).value.getAbsolutePath,
     "-doc-title", "Ciris",
-    "-doc-version", s"v${(latestVersion in ThisBuild).value}",
+    "-doc-version", s"v${(ThisBuild / latestVersion).value}",
     "-groups"
   )
   // format: on
@@ -177,50 +203,51 @@ lazy val buildInfoSettings = Seq(
     scalaVersion,
     scalacOptions,
     sourceDirectory,
-    latestVersion in ThisBuild,
-    BuildInfoKey.map(version in ThisBuild) { case (_, v) =>
+    ThisBuild / latestVersion,
+    BuildInfoKey.map(ThisBuild / version) { case (_, v) =>
       "latestSnapshotVersion" -> v
     },
-    BuildInfoKey.map(baseDirectory in LocalRootProject) { case (k, v) =>
+    BuildInfoKey.map(LocalRootProject / baseDirectory) { case (k, v) =>
       "rootDirectory" -> v
     },
-    BuildInfoKey.map(moduleName in core) { case (k, v) =>
+    BuildInfoKey.map(core / moduleName) { case (k, v) =>
       "core" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in core) { case (k, v) =>
+    BuildInfoKey.map(core / crossScalaVersions) { case (k, v) =>
       "core" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(moduleName in circe) { case (k, v) =>
+    BuildInfoKey.map(circe / moduleName) { case (k, v) =>
       "circe" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in circe) { case (k, v) =>
+    BuildInfoKey.map(circe / crossScalaVersions) { case (k, v) =>
       "circe" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(moduleName in enumeratum) { case (k, v) =>
+    BuildInfoKey.map(enumeratum / moduleName) { case (k, v) =>
       "enumeratum" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in enumeratum) { case (k, v) =>
+    BuildInfoKey.map(enumeratum / crossScalaVersions) { case (k, v) =>
       "enumeratum" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(moduleName in refined) { case (k, v) =>
+    BuildInfoKey.map(refined / moduleName) { case (k, v) =>
       "refined" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in refined) { case (k, v) =>
+    BuildInfoKey.map(refined / crossScalaVersions) { case (k, v) =>
       "refined" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(moduleName in squants) { case (k, v) =>
+    BuildInfoKey.map(squants / moduleName) { case (k, v) =>
       "squants" ++ k.capitalize -> v
     },
-    BuildInfoKey.map(crossScalaVersions in squants) { case (k, v) =>
+    BuildInfoKey.map(squants / crossScalaVersions) { case (k, v) =>
       "squants" ++ k.capitalize -> v
     },
-    organization in LocalRootProject,
-    crossScalaVersions in core,
+    LocalRootProject / organization,
+    core / crossScalaVersions,
     BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
     BuildInfoKey("circeVersion" -> circeVersion),
     BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
     BuildInfoKey("refinedVersion" -> refinedVersion),
-    BuildInfoKey("squantsVersion" -> squantsVersion)
+    BuildInfoKey("squantsVersion" -> squantsVersion),
+    BuildInfoKey("typeNameVersion" -> typeNameVersion)
   )
 )
 
@@ -232,7 +259,7 @@ lazy val metadataSettings = Seq(
 
 lazy val publishSettings =
   metadataSettings ++ Seq(
-    publishArtifact in Test := false,
+    Test / publishArtifact := false,
     pomIncludeRepository := (_ => false),
     homepage := Some(url("https://cir.is")),
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
@@ -244,7 +271,7 @@ lazy val publishSettings =
         HeaderLicenseStyle.SpdxSyntax
       )
     ),
-    excludeFilter.in(headerSources) := HiddenFileFilter,
+    headerSources / excludeFilter := HiddenFileFilter,
     developers := List(
       Developer(
         id = "vlovgr",
@@ -258,93 +285,111 @@ lazy val publishSettings =
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
     if (publishArtifact.value) {
-      Set(organization.value %% moduleName.value % (previousStableVersion in ThisBuild).value.get)
+      //Set(organization.value %% moduleName.value % (previousStableVersion in ThisBuild).value.get)
+      Set()
     } else Set()
   },
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     // format: off
-    Seq(
-      ProblemFilters.exclude[IncompatibleResultTypeProblem]("ciris.ConfigValue.to"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.ConfigValue.to")
-    )
+    Seq()
     // format: on
   }
 )
 
 lazy val noPublishSettings =
   publishSettings ++ Seq(
-    skip in publish := true,
+    publish / skip := true,
     publishArtifact := false
   )
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
   crossScalaVersions := Seq(scala212, scala213),
-  scalacOptions ++= Seq(
-    "-deprecation",
-    "-encoding",
-    "UTF-8",
-    "-feature",
-    "-language:higherKinds",
-    "-language:implicitConversions",
-    "-unchecked",
-    "-Xfatal-warnings",
-    "-Xlint",
-    "-Yno-adapted-args",
-    "-Ywarn-dead-code",
-    "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard",
-    "-Ywarn-unused",
-    "-Ypartial-unification"
-  ).filter {
-    case ("-Yno-adapted-args" | "-Ypartial-unification") if scalaVersion.value.startsWith("2.13") =>
-      false
-    case _ => true
+  scalacOptions ++= {
+    val commonScalacOptions =
+      Seq(
+        "-deprecation",
+        "-encoding",
+        "UTF-8",
+        "-feature",
+        "-unchecked",
+        "-Xfatal-warnings"
+      )
+
+    val scala2ScalacOptions =
+      if (scalaVersion.value.startsWith("2.")) {
+        Seq(
+          "-language:higherKinds",
+          "-Xlint",
+          "-Ywarn-dead-code",
+          "-Ywarn-numeric-widen",
+          "-Ywarn-value-discard",
+          "-Ywarn-unused"
+        )
+      } else Seq()
+
+    val scala212ScalacOptions =
+      if (scalaVersion.value.startsWith("2.12")) {
+        Seq("-Yno-adapted-args", "-Ypartial-unification")
+      } else Seq()
+
+    val scala3ScalacOptions =
+      if (isDotty.value) {
+        Seq("-Ykind-projector")
+      } else Seq()
+
+    commonScalacOptions ++
+      scala2ScalacOptions ++
+      scala212ScalacOptions ++
+      scala3ScalacOptions
   },
-  scalacOptions in (Compile, console) --= Seq("-Xlint", "-Ywarn-unused"),
-  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
+  Compile / console / scalacOptions --= Seq("-Xlint", "-Ywarn-unused"),
+  Test / console / scalacOptions := (Compile / console / scalacOptions).value
 )
 
 lazy val testSettings = Seq(
-  logBuffered in Test := false,
-  parallelExecution in Test := false,
-  testOptions in Test += Tests.Argument("-oDF"),
-  scalacOptions in Test --= Seq("-deprecation", "-Xfatal-warnings", "-Xlint", "-Ywarn-unused")
+  Test / logBuffered := false,
+  Test / parallelExecution := false,
+  Test / testOptions += Tests.Argument("-oDF"),
+  Test / scalacOptions --= Seq("-deprecation", "-Xfatal-warnings", "-Xlint", "-Ywarn-unused")
 )
 
-def minorVersion(version: String): String = {
-  val (major, minor) =
-    CrossVersion.partialVersion(version).get
-  s"$major.$minor"
+def scalaVersionOf(version: String): String = {
+  if (version.contains("-")) version
+  else {
+    val (major, minor) =
+      CrossVersion.partialVersion(version).get
+    s"$major.$minor"
+  }
 }
 
 val latestVersion = settingKey[String]("Latest stable released version")
-latestVersion in ThisBuild := {
-  val snapshot = (isSnapshot in ThisBuild).value
-  val stable = (isVersionStable in ThisBuild).value
+ThisBuild / latestVersion := {
+  val snapshot = (ThisBuild / isSnapshot).value
+  val stable = (ThisBuild / isVersionStable).value
 
   if (!snapshot && stable) {
-    (version in ThisBuild).value
+    (ThisBuild / version).value
   } else {
-    (previousStableVersion in ThisBuild).value.get
+    (ThisBuild / previousStableVersion).value.get
   }
 }
 
 val updateSiteVariables = taskKey[Unit]("Update site variables")
-updateSiteVariables in ThisBuild := {
+ThisBuild / updateSiteVariables := {
   val file =
-    (baseDirectory in LocalRootProject).value / "website" / "variables.js"
+    (LocalRootProject / baseDirectory).value / "website" / "variables.js"
 
   val variables =
     Map[String, String](
-      "organization" -> (organization in LocalRootProject).value,
-      "coreModuleName" -> (moduleName in core).value,
-      "latestVersion" -> (latestVersion in ThisBuild).value,
+      "organization" -> (LocalRootProject / organization).value,
+      "coreModuleName" -> (core / moduleName).value,
+      "latestVersion" -> (ThisBuild / latestVersion).value,
       "scalaPublishVersions" -> {
-        val minorVersions = (crossScalaVersions in core).value.map(minorVersion)
-        if (minorVersions.size <= 2) minorVersions.mkString(" and ")
-        else minorVersions.init.mkString(", ") ++ " and " ++ minorVersions.last
+        val scalaVersions = (core / crossScalaVersions).value.map(scalaVersionOf)
+        if (scalaVersions.size <= 2) scalaVersions.mkString(" and ")
+        else scalaVersions.init.mkString(", ") ++ " and " ++ scalaVersions.last
       }
     )
 
@@ -367,9 +412,7 @@ addCommandsAlias(
   "validate",
   List(
     "+clean",
-    "+coverage",
     "+test",
-    "+coverageReport",
     "+mimaReportBinaryIssues",
     "+scalafmtCheck",
     "scalafmtSbtCheck",

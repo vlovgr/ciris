@@ -1,6 +1,7 @@
 package enumeratum.values
 
-import cats.effect.{ContextShift, IO}
+import cats.effect.IO
+import cats.effect.unsafe.implicits.global
 import cats.implicits._
 import ciris._
 import enumeratum.values.CirisValueEnumSpec._
@@ -10,15 +11,12 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import scala.util.Try
 
 final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks {
-  implicit val contextShift: ContextShift[IO] =
-    IO.contextShift(concurrent.ExecutionContext.global)
-
   test("byteEnum.success") {
     val gen = Gen.oneOf(CustomByteEnum.values)
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomByteEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomByteEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -30,42 +28,20 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("byteEnum.error") {
     val values = CustomByteEnum.values.map(_.value)
-    forAll { byte: Byte =>
+    forAll { (byte: Byte) =>
       whenever(!values.contains(byte)) {
         assert {
-          val actual =
-            default(byte.show).as[CustomByteEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $byte to CustomByteEnum",
-                "Unable to convert value to CustomByteEnum"
-              )
-            }
-
-          actual == expected
+          default(byte.show).as[CustomByteEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
   }
 
   test("byteEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(Try(value.toByte).isFailure) {
         assert {
-          val actual =
-            default(value).as[CustomByteEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $value to Byte",
-                "Unable to convert value to Byte"
-              )
-            }
-
-          actual == expected
+          default(value).as[CustomByteEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
@@ -76,7 +52,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomCharEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomCharEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -88,42 +64,20 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("charEnum.error") {
     val values = CustomCharEnum.values.map(_.value)
-    forAll { char: Char =>
+    forAll { (char: Char) =>
       whenever(!values.contains(char)) {
         assert {
-          val actual =
-            default(char.show).as[CustomCharEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $char to CustomCharEnum",
-                "Unable to convert value to CustomCharEnum"
-              )
-            }
-
-          actual == expected
+          default(char.show).as[CustomCharEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
   }
 
   test("charEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(value.length != 1) {
         assert {
-          val actual =
-            default(value).as[CustomCharEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $value to Char",
-                "Unable to convert value to Char"
-              )
-            }
-
-          actual == expected
+          default(value).as[CustomCharEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
@@ -134,7 +88,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomIntEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomIntEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -146,42 +100,20 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("intEnum.error") {
     val values = CustomIntEnum.values.map(_.value)
-    forAll { int: Int =>
+    forAll { (int: Int) =>
       whenever(!values.contains(int)) {
         assert {
-          val actual =
-            default(int.show).as[CustomIntEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $int to CustomIntEnum",
-                "Unable to convert value to CustomIntEnum"
-              )
-            }
-
-          actual == expected
+          default(int.show).as[CustomIntEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
   }
 
   test("intEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(Try(value.toInt).isFailure) {
         assert {
-          val actual =
-            default(value).as[CustomIntEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $value to Int",
-                "Unable to convert value to Int"
-              )
-            }
-
-          actual == expected
+          default(value).as[CustomIntEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
@@ -192,7 +124,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomLongEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomLongEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -204,42 +136,20 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("longEnum.error") {
     val values = CustomLongEnum.values.map(_.value)
-    forAll { long: Long =>
+    forAll { (long: Long) =>
       whenever(!values.contains(long)) {
         assert {
-          val actual =
-            default(long.show).as[CustomLongEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $long to CustomLongEnum",
-                "Unable to convert value to CustomLongEnum"
-              )
-            }
-
-          actual == expected
+          default(long.show).as[CustomLongEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
   }
 
   test("longEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(Try(value.toLong).isFailure) {
         assert {
-          val actual =
-            default(value).as[CustomLongEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $value to Long",
-                "Unable to convert value to Long"
-              )
-            }
-
-          actual == expected
+          default(value).as[CustomLongEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
@@ -250,7 +160,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomShortEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomShortEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -262,42 +172,20 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("shortEnum.error") {
     val values = CustomShortEnum.values.map(_.value)
-    forAll { short: Short =>
+    forAll { (short: Short) =>
       whenever(!values.contains(short)) {
         assert {
-          val actual =
-            default(short.show).as[CustomShortEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $short to CustomShortEnum",
-                "Unable to convert value to CustomShortEnum"
-              )
-            }
-
-          actual == expected
+          default(short.show).as[CustomShortEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
   }
 
   test("shortEnum.error non") {
-    forAll { value: String =>
+    forAll { (value: String) =>
       whenever(Try(value.toShort).isFailure) {
         assert {
-          val actual =
-            default(value).as[CustomShortEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $value to Short",
-                "Unable to convert value to Short"
-              )
-            }
-
-          actual == expected
+          default(value).as[CustomShortEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }
@@ -308,7 +196,7 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
     forAll(gen) { entry =>
       assert {
         val actual =
-          default(entry.value.show).as[CustomStringEnum].attempt[IO].unsafeRunSync
+          default(entry.value.show).as[CustomStringEnum].attempt[IO].unsafeRunSync()
 
         val expected =
           Right(entry)
@@ -320,21 +208,10 @@ final class CirisValueEnumSpec extends AnyFunSuite with ScalaCheckPropertyChecks
 
   test("stringEnum.error") {
     val values = CustomStringEnum.values.map(_.value)
-    forAll { string: String =>
+    forAll { (string: String) =>
       whenever(!values.contains(string)) {
         assert {
-          val actual =
-            default(string.show).as[CustomStringEnum].attempt[IO].unsafeRunSync
-
-          val expected =
-            Left {
-              ConfigError.sensitive(
-                s"Unable to convert value $string to CustomStringEnum",
-                "Unable to convert value to CustomStringEnum"
-              )
-            }
-
-          actual == expected
+          default(string.show).as[CustomStringEnum].attempt[IO].unsafeRunSync().isLeft
         }
       }
     }

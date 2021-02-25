@@ -11,20 +11,25 @@ object Main {
   def sourceDirectoryPath(rest: String*): Path =
     FileSystems.getDefault.getPath(sourceDirectory.getAbsolutePath, rest: _*)
 
-  def minorVersion(version: String): String = {
-    val Array(major, minor, _) = version.split('.')
-    s"$major.$minor"
-  }
-
   def majorVersion(version: String): String = {
-    val Array(major, _, _) = version.split('.')
+    val parts = version.split('.')
+    val major = parts(0)
     major
   }
 
-  def minorVersionsString(versions: Seq[String]): String = {
-    val minorVersions = versions.map(minorVersion)
-    if (minorVersions.size <= 2) minorVersions.mkString(" and ")
-    else minorVersions.init.mkString(", ") ++ " and " ++ minorVersions.last
+  def scalaVersionOf(version: String): String = {
+    if (version.contains("-")) version
+    else {
+      val parts = version.split('.')
+      val (major, minor) = (parts(0), parts(1))
+      s"$major.$minor"
+    }
+  }
+
+  def scalaVersionsString(versions: Seq[String]): String = {
+    val scalaVersions = versions.map(scalaVersionOf)
+    if (scalaVersions.size <= 2) scalaVersions.mkString(" and ")
+    else scalaVersions.init.mkString(", ") ++ " and " ++ scalaVersions.last
   }
 
   def run(settings: mdoc.MainSettings): Unit = {
@@ -44,7 +49,8 @@ object Main {
         else Nil
       }
 
-    val scalaMinorVersion = minorVersion(scalaVersion)
+    val scalaDocsVersion =
+      scalaVersionOf(scalaVersion)
 
     val settings = mdoc
       .MainSettings()
@@ -52,25 +58,26 @@ object Main {
         Map(
           "ORGANIZATION" -> organization,
           "CORE_MODULE_NAME" -> coreModuleName,
-          "CORE_CROSS_SCALA_VERSIONS" -> minorVersionsString(coreCrossScalaVersions),
+          "CORE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(coreCrossScalaVersions),
           "CIRCE_MODULE_NAME" -> circeModuleName,
-          "CIRCE_CROSS_SCALA_VERSIONS" -> minorVersionsString(circeCrossScalaVersions),
+          "CIRCE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(circeCrossScalaVersions),
           "ENUMERATUM_MODULE_NAME" -> enumeratumModuleName,
-          "ENUMERATUM_CROSS_SCALA_VERSIONS" -> minorVersionsString(enumeratumCrossScalaVersions),
+          "ENUMERATUM_CROSS_SCALA_VERSIONS" -> scalaVersionsString(enumeratumCrossScalaVersions),
           "LATEST_VERSION" -> latestVersion,
           "LATEST_SNAPSHOT_VERSION" -> latestSnapshotVersion,
           "LATEST_MAJOR_VERSION" -> majorVersion(latestVersion),
-          "DOCS_SCALA_MINOR_VERSION" -> scalaMinorVersion,
+          "DOCS_SCALA_VERSION" -> scalaDocsVersion,
           "CATS_EFFECT_VERSION" -> catsEffectVersion,
           "CIRCE_VERSION" -> circeVersion,
           "ENUMERATUM_VERSION" -> enumeratumVersion,
           "REFINED_VERSION" -> refinedVersion,
           "REFINED_MODULE_NAME" -> refinedModuleName,
-          "REFINED_CROSS_SCALA_VERSIONS" -> minorVersionsString(refinedCrossScalaVersions),
+          "REFINED_CROSS_SCALA_VERSIONS" -> scalaVersionsString(refinedCrossScalaVersions),
           "SQUANTS_VERSION" -> squantsVersion,
           "SQUANTS_MODULE_NAME" -> squantsModuleName,
-          "SQUANTS_CROSS_SCALA_VERSIONS" -> minorVersionsString(squantsCrossScalaVersions),
-          "SCALA_PUBLISH_VERSIONS" -> minorVersionsString(crossScalaVersions),
+          "SQUANTS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(squantsCrossScalaVersions),
+          "SCALA_PUBLISH_VERSIONS" -> scalaVersionsString(crossScalaVersions),
+          "TYPENAME_VERSION" -> typeNameVersion,
           "API_BASE_URL" -> s"/api/ciris"
         )
       }

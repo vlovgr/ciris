@@ -38,7 +38,7 @@ sealed abstract class ConfigKey {
   * @groupname Instances Type Class Instances
   * @groupprio Instances 1
   */
-final object ConfigKey {
+object ConfigKey {
 
   /**
     * Returns a new [[ConfigKey]] with the specified description.

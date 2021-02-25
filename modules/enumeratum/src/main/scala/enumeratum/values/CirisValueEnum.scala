@@ -8,13 +8,13 @@ package enumeratum.values
 
 import cats.implicits._
 import ciris.ConfigDecoder
-import scala.reflect.runtime.universe.WeakTypeTag
+import org.tpolecat.typename.TypeName
 
 sealed trait CirisValueEnum[ValueType, EntryType <: ValueEnumEntry[ValueType]] {
   this: ValueEnum[ValueType, EntryType] =>
 
   implicit def cirisConfigDecoder(
-    implicit tag: WeakTypeTag[EntryType]
+    implicit typeName: TypeName[EntryType]
   ): ConfigDecoder[String, EntryType]
 }
 
@@ -22,7 +22,7 @@ trait ByteCirisEnum[EntryType <: ByteEnumEntry] extends CirisValueEnum[Byte, Ent
   this: ValueEnum[Byte, EntryType] =>
 
   implicit override def cirisConfigDecoder(
-    implicit tag: WeakTypeTag[EntryType]
+    implicit typeName: TypeName[EntryType]
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 }
@@ -31,7 +31,7 @@ trait CharCirisEnum[EntryType <: CharEnumEntry] extends CirisValueEnum[Char, Ent
   this: ValueEnum[Char, EntryType] =>
 
   implicit override def cirisConfigDecoder(
-    implicit tag: WeakTypeTag[EntryType]
+    implicit typeName: TypeName[EntryType]
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 }
@@ -40,7 +40,7 @@ trait IntCirisEnum[EntryType <: IntEnumEntry] extends CirisValueEnum[Int, EntryT
   this: ValueEnum[Int, EntryType] =>
 
   implicit override def cirisConfigDecoder(
-    implicit tag: WeakTypeTag[EntryType]
+    implicit typeName: TypeName[EntryType]
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 }
@@ -49,7 +49,7 @@ trait LongCirisEnum[EntryType <: LongEnumEntry] extends CirisValueEnum[Long, Ent
   this: ValueEnum[Long, EntryType] =>
 
   implicit override def cirisConfigDecoder(
-    implicit tag: WeakTypeTag[EntryType]
+    implicit typeName: TypeName[EntryType]
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 }
@@ -58,7 +58,7 @@ trait ShortCirisEnum[EntryType <: ShortEnumEntry] extends CirisValueEnum[Short, 
   this: ValueEnum[Short, EntryType] =>
 
   implicit override def cirisConfigDecoder(
-    implicit tag: WeakTypeTag[EntryType]
+    implicit typeName: TypeName[EntryType]
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 }
@@ -67,7 +67,7 @@ trait StringCirisEnum[EntryType <: StringEnumEntry] extends CirisValueEnum[Strin
   this: ValueEnum[String, EntryType] =>
 
   implicit override def cirisConfigDecoder(
-    implicit tag: WeakTypeTag[EntryType]
+    implicit typeName: TypeName[EntryType]
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 }
