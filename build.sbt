@@ -10,7 +10,7 @@ val squantsVersion = "1.7.0"
 
 val typeNameVersion = "0.1.5"
 
-val scala212 = "2.12.13"
+val scala212 = "2.13.5"
 
 val scala213 = "2.13.5"
 
