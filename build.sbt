@@ -6,7 +6,7 @@ val enumeratumVersion = "1.6.1"
 
 val refinedVersion = "0.9.21"
 
-val squantsVersion = "1.7.0"
+val squantsVersion = "1.7.4"
 
 val typeNameVersion = "0.1.5"
 
