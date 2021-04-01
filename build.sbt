@@ -8,7 +8,7 @@ val refinedVersion = "0.9.22"
 
 val squantsVersion = "1.7.4"
 
-val typeNameVersion = "0.1.5"
+val typeNameVersion = "0.1.6"
 
 val scala212 = "2.12.13"
 
