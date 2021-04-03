@@ -18,6 +18,8 @@ val scala3 = "3.0.0-RC2"
 
 ThisBuild / versionScheme := Some("early-semver")
 
+ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
+
 lazy val ciris = project
   .in(file("."))
   .settings(
