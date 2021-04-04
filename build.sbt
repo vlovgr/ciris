@@ -4,7 +4,7 @@ val circeVersion = "0.13.0"
 
 val enumeratumVersion = "1.6.1"
 
-val refinedVersion = "0.9.22+13-1c899eda-SNAPSHOT"
+val refinedVersion = "0.9.23"
 
 val squantsVersion = "1.7.4"
 
@@ -17,8 +17,6 @@ val scala213 = "2.13.5"
 val scala3 = "3.0.0-RC2"
 
 ThisBuild / versionScheme := Some("early-semver")
-
-ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
 lazy val ciris = project
   .in(file("."))
