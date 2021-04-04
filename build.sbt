@@ -4,7 +4,7 @@ val circeVersion = "0.13.0"
 
 val enumeratumVersion = "1.6.1"
 
-val refinedVersion = "0.9.22"
+val refinedVersion = "0.9.23"
 
 val squantsVersion = "1.7.4"
 
@@ -14,11 +14,9 @@ val scala212 = "2.12.13"
 
 val scala213 = "2.13.5"
 
-val scala3 = "3.0.0-RC1"
+val scala3 = "3.0.0-RC2"
 
 ThisBuild / versionScheme := Some("early-semver")
-
-ThisBuild / resolvers += Resolver.JCenterRepository
 
 lazy val ciris = project
   .in(file("."))
@@ -135,15 +133,15 @@ lazy val docs = project
 
 lazy val dependencySettings = Seq(
   libraryDependencies ++= {
-    if (isDotty.value) Nil
+    if (scalaVersion.value.startsWith("3")) Nil
     else
       Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.3").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "discipline-scalatest" % "2.1.2",
+    "org.typelevel" %% "discipline-scalatest" % "2.1.3",
     "org.typelevel" %% "cats-effect" % catsEffectVersion,
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
-    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.2",
+    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.3",
     "commons-codec" % "commons-codec" % "1.15"
   ).map(_ % Test),
   pomPostProcess := { (node: xml.Node) =>
@@ -335,7 +333,7 @@ lazy val scalaSettings = Seq(
       } else Seq()
 
     val scala3ScalacOptions =
-      if (isDotty.value) {
+      if (scalaVersion.value.startsWith("3")) {
         Seq("-Ykind-projector")
       } else Seq()
 
