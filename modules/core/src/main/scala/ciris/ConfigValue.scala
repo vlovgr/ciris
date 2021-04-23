@@ -306,6 +306,26 @@ sealed abstract class ConfigValue[+F[_], A] {
       override final def toString: String =
         "ConfigValue$" + System.identityHashCode(this)
     }
+
+  /**
+    * Returns a new [[ConfigValue]] which treats the value
+    * as a secret which can only be used once.
+    *
+    * Sensitive details are redacted from error messages. The
+    * value is wrapped in [[UseOnceSecret]] which prevents
+    * multiple accesses to the secret and which nullifies
+    * the secret once it has been used.
+    */
+  final def useOnceSecret(implicit ev: A <:< Array[Char]): ConfigValue[F, UseOnceSecret] =
+    new ConfigValue[F, UseOnceSecret] {
+      override final def to[G[x] >: F[x]](
+        implicit G: Async[G]
+      ): Resource[G, ConfigEntry[UseOnceSecret]] =
+        self.redacted.to[G].evalMap(_.traverse(UseOnceSecret[G](_)))
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
 }
 
 /**
