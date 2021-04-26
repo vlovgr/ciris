@@ -14,7 +14,7 @@ val scala212 = "2.12.13"
 
 val scala213 = "2.13.5"
 
-val scala3 = "3.0.0-RC2"
+val scala3 = "3.0.0-RC3"
 
 ThisBuild / versionScheme := Some("early-semver")
 
@@ -138,10 +138,10 @@ lazy val dependencySettings = Seq(
       Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.3").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "discipline-scalatest" % "2.1.3",
+    "org.typelevel" %% "discipline-scalatest" % "2.1.4",
     "org.typelevel" %% "cats-effect" % catsEffectVersion,
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
-    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.3",
+    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.4",
     "commons-codec" % "commons-codec" % "1.15"
   ).map(_ % Test),
   pomPostProcess := { (node: xml.Node) =>
