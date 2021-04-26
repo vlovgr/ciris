@@ -11,14 +11,48 @@ import cats.implicits._
 import java.util.Arrays
 import java.util.concurrent.atomic.AtomicReference
 
-trait UseOnceSecret {
+/**
+  * Secret configuration value which can only be used once
+  * before being nullified.
+  *
+  * [[UseOnceSecret.apply]] wraps an `Array[Char]` ensuring
+  * the array is only accessed once and that the array is
+  * nullified once used. The array can be accessed with
+  * [[UseOnceSecret#useOnce]] or alternatively, through
+  * `Resource` using [[UseOnceSecret#resource]].
+  *
+  * [[ConfigValue#useOnceSecret]] can be used to wrap a
+  * value in [[UseOnceSecret]], while also redacting
+  * sentitive details from errors.
+  */
+sealed abstract class UseOnceSecret {
+
+  /**
+    * Returns a `Resource` which accesses the underlying
+    * `Array[Char]` and nullifies it after use.
+    *
+    * In case the secret has already been used once, an
+    * `IllegalStateException` will instead be raised.
+    */
   def resource[F[_]](implicit F: Sync[F]): Resource[F, Array[Char]]
 
-  final def useOnce[F[_], A](f: Array[Char] => F[A])(implicit F: Sync[F]): F[A] =
-    resource[F].use(f)
+  /**
+    * Returns an effect running the specified function
+    * on the underlying `Array[Char]` and nullifies it
+    * afterwards.
+    *
+    * In case the secret has already been used once, an
+    * `IllegalStateException` will instead be raised.
+    */
+  def useOnce[F[_], A](f: Array[Char] => F[A])(implicit F: Sync[F]): F[A]
 }
 
 object UseOnceSecret {
+
+  /**
+    * Returns an effect which creates a new [[UseOnceSecret]]
+    * for the specified secret configuration value.
+    */
   final def apply[F[_]](secret: Array[Char])(implicit F: Sync[F]): F[UseOnceSecret] =
     F.delay(new AtomicReference(secret.some)).map { ref =>
       new UseOnceSecret {
@@ -28,7 +62,7 @@ object UseOnceSecret {
               case Some(secret) =>
                 G.pure(secret)
               case None =>
-                G.raiseError(new IllegalStateException("Secret has already been used once"))
+                G.raiseError(new IllegalStateException("secret has already been used once"))
             }
 
           val release: G[Unit] =
@@ -36,6 +70,12 @@ object UseOnceSecret {
 
           Resource.make(acquire)(_ => release)
         }
+
+        override final def useOnce[G[_], A](f: Array[Char] => G[A])(implicit G: Sync[G]): G[A] =
+          resource[G].use(f)
+
+        override final def toString: String =
+          "UseOnceSecret$" + System.identityHashCode(this)
       }
     }
 }
