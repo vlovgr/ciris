@@ -9,7 +9,7 @@ package ciris
 import cats.effect.kernel.{Resource, Sync}
 import cats.implicits._
 import java.util.Arrays
-import java.util.concurrent.atomic.AtomicReference
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
   * Secret configuration value which can only be used once
@@ -54,16 +54,15 @@ object UseOnceSecret {
     * for the specified secret configuration value.
     */
   final def apply[F[_]](secret: Array[Char])(implicit F: Sync[F]): F[UseOnceSecret] =
-    F.delay(new AtomicReference(secret.some)).map { ref =>
+    F.delay(new AtomicBoolean(true)).map { ref =>
       new UseOnceSecret {
         override final def resource[G[_]](implicit G: Sync[G]): Resource[G, Array[Char]] = {
           val acquire: G[Array[Char]] =
-            G.delay(ref.getAndSet(None)).flatMap {
-              case Some(secret) =>
-                G.pure(secret)
-              case None =>
+            G.delay(ref.getAndSet(false))
+              .ifM(
+                G.pure(secret),
                 G.raiseError(new IllegalStateException("secret has already been used once"))
-            }
+              )
 
           val release: G[Unit] =
             G.delay(Arrays.fill(secret, ' '))
