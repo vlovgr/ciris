@@ -1,20 +1,20 @@
-val catsEffectVersion = "3.1.0"
+val catsEffectVersion = "3.1.1"
 
 val circeVersion = "0.13.0"
 
 val enumeratumVersion = "1.6.1"
 
-val refinedVersion = "0.9.24"
+val refinedVersion = "0.9.25"
 
 val squantsVersion = "1.8.0"
 
-val typeNameVersion = "0.1.7"
+val typeNameVersion = "1.0.0"
 
 val scala212 = "2.12.13"
 
-val scala213 = "2.13.5"
+val scala213 = "2.13.6"
 
-val scala3 = "3.0.0-RC3"
+val scala3 = "3.0.0"
 
 ThisBuild / versionScheme := Some("early-semver")
 
@@ -138,10 +138,10 @@ lazy val dependencySettings = Seq(
       Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.0").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "discipline-scalatest" % "2.1.4",
+    "org.typelevel" %% "discipline-scalatest" % "2.1.5",
     "org.typelevel" %% "cats-effect" % catsEffectVersion,
     "org.typelevel" %% "cats-effect-laws" % catsEffectVersion,
-    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.4",
+    "org.typelevel" %% "cats-testkit-scalatest" % "2.1.4" cross CrossVersion.for3Use2_13,
     "commons-codec" % "commons-codec" % "1.15"
   ).map(_ % Test),
   pomPostProcess := { (node: xml.Node) =>
