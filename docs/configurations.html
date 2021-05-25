@@ -66,10 +66,10 @@
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> cats.effect.<span class="hljs-type">IO</span>
 
 port: <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">IO</span>, <span class="hljs-type">Int</span>]
-<span class="hljs-comment">// res1: ConfigValue[IO, Int] = ConfigValue$1160293241</span>
+<span class="hljs-comment">// res1: ConfigValue[IO, Int] = ConfigValue$823020373</span>
 
 port.covary[<span class="hljs-type">IO</span>]
-<span class="hljs-comment">// res2: ConfigValue[IO, Int] = ConfigValue$1160293241</span>
+<span class="hljs-comment">// res2: ConfigValue[IO, Int] = ConfigValue$823020373</span>
 </code></pre>
 <p>Multiple values can be loaded and combined in parallel, and errors accumulated, using <code>parMapN</code>.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> cats.implicits._
