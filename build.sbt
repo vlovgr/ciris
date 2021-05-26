@@ -1,6 +1,6 @@
 val catsEffectVersion = "3.1.1"
 
-val circeVersion = "0.13.0"
+val circeVersion = "0.14.0-M7"
 
 val enumeratumVersion = "1.6.1"
 
@@ -55,7 +55,9 @@ lazy val circe = project
     ),
     publishSettings,
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
     testSettings
   )
   .dependsOn(core)
