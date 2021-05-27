@@ -4,7 +4,7 @@ val circeVersion = "0.14.1"
 
 val enumeratumVersion = "1.6.1"
 
-val refinedVersion = "0.9.25"
+val refinedVersion = "0.9.26"
 
 val squantsVersion = "1.8.0"
 
