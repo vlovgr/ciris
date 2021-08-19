@@ -12,37 +12,31 @@ import java.util.Arrays
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
-  * Secret configuration value which can only be used once
-  * before being nullified.
+  * Secret configuration value which can only be used once before being nullified.
   *
-  * [[UseOnceSecret.apply]] wraps an `Array[Char]` ensuring
-  * the array is only accessed once and that the array is
-  * nullified once used. The array can be accessed with
-  * [[UseOnceSecret#useOnce]] or alternatively, through
-  * `Resource` using [[UseOnceSecret#resource]].
+  * [[UseOnceSecret.apply]] wraps an `Array[Char]` ensuring the array is only accessed once and that
+  * the array is nullified once used. The array can be accessed with [[UseOnceSecret#useOnce]] or
+  * alternatively, through `Resource` using [[UseOnceSecret#resource]].
   *
-  * [[ConfigValue#useOnceSecret]] can be used to wrap a
-  * value in [[UseOnceSecret]], while also redacting
-  * sentitive details from errors.
+  * [[ConfigValue#useOnceSecret]] can be used to wrap a value in [[UseOnceSecret]], while also
+  * redacting sentitive details from errors.
   */
 sealed abstract class UseOnceSecret {
 
   /**
-    * Returns a `Resource` which accesses the underlying
-    * `Array[Char]` and nullifies it after use.
+    * Returns a `Resource` which accesses the underlying `Array[Char]` and nullifies it after use.
     *
-    * In case the secret has already been used once, an
-    * `IllegalStateException` will instead be raised.
+    * In case the secret has already been used once, an `IllegalStateException` will instead be
+    * raised.
     */
   def resource[F[_]](implicit F: Sync[F]): Resource[F, Array[Char]]
 
   /**
-    * Returns an effect running the specified function
-    * on the underlying `Array[Char]` and nullifies it
-    * afterwards.
+    * Returns an effect running the specified function on the underlying `Array[Char]` and nullifies
+    * it afterwards.
     *
-    * In case the secret has already been used once, an
-    * `IllegalStateException` will instead be raised.
+    * In case the secret has already been used once, an `IllegalStateException` will instead be
+    * raised.
     */
   def useOnce[F[_], A](f: Array[Char] => F[A])(implicit F: Sync[F]): F[A]
 }
@@ -50,8 +44,8 @@ sealed abstract class UseOnceSecret {
 object UseOnceSecret {
 
   /**
-    * Returns an effect which creates a new [[UseOnceSecret]]
-    * for the specified secret configuration value.
+    * Returns an effect which creates a new [[UseOnceSecret]] for the specified secret configuration
+    * value.
     */
   final def apply[F[_]](secret: Array[Char])(implicit F: Sync[F]): F[UseOnceSecret] =
     F.delay(new AtomicBoolean(true)).map { ref =>

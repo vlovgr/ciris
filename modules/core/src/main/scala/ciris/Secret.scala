@@ -15,31 +15,24 @@ import scala.annotation.tailrec
 /**
   * Secret configuration value which might contain sensitive details.
   *
-  * When a secret configuration value is shown, the value is replaced
-  * by the first 7 characters of the SHA-1 hash for the value. This
-  * short SHA-1 hash is available as [[Secret#valueShortHash]], and
-  * the full SHA-1 hash is available as [[Secret#valueHash]]. The
-  * underlying configuration value is available as [[Secret#value]].
+  * When a secret configuration value is shown, the value is replaced by the first 7 characters of
+  * the SHA-1 hash for the value. This short SHA-1 hash is available as [[Secret#valueShortHash]],
+  * and the full SHA-1 hash is available as [[Secret#valueHash]]. The underlying configuration value
+  * is available as [[Secret#value]].
   *
-  * [[ConfigValue#secret]] can be used to wrap a value in [[Secret]],
-  * while also redacting sentitive details from errors.
+  * [[ConfigValue#secret]] can be used to wrap a value in [[Secret]], while also redacting sentitive
+  * details from errors.
   *
-  * @example {{{
-  * scala> import cats.implicits._
-  * import cats.implicits._
+  * @example
+  *   {{{ scala> import cats.implicits._ import cats.implicits._
   *
-  * scala> val secret = Secret(123)
-  * secret: Secret[Int] = Secret(40bd001)
+  * scala> val secret = Secret(123) secret: Secret[Int] = Secret(40bd001)
   *
-  * scala> secret.valueShortHash
-  * res0: String = 40bd001
+  * scala> secret.valueShortHash res0: String = 40bd001
   *
-  * scala> secret.valueHash
-  * res1: String = 40bd001563085fc35165329ea1ff5c5ecbdbbeef
+  * scala> secret.valueHash res1: String = 40bd001563085fc35165329ea1ff5c5ecbdbbeef
   *
-  * scala> secret.value
-  * res2: Int = 123
-  * }}}
+  * scala> secret.value res2: Int = 123 }}}
   */
 sealed abstract class Secret[+A] {
 
@@ -51,26 +44,29 @@ sealed abstract class Secret[+A] {
   /**
     * Returns the SHA-1 hash for the configuration value.
     *
-    * Hashing is done in `UTF-8` and the hash is
-    * returned in hexadecimal format.
+    * Hashing is done in `UTF-8` and the hash is returned in hexadecimal format.
     */
   def valueHash: String
 
   /**
-    * Returns the first 7 characters of the SHA-1 hash
-    * for the configuration value.
+    * Returns the first 7 characters of the SHA-1 hash for the configuration value.
     *
-    * @see [[Secret#valueHash]]
+    * @see
+    *   [[Secret#valueHash]]
     */
   def valueShortHash: String
 }
 
 /**
-  * @groupname Create Creating Instances
-  * @groupprio Create 0
+  * @groupname Create
+  *   Creating Instances
+  * @groupprio Create
+  *   0
   *
-  * @groupname Instances Type Class Instances
-  * @groupprio Instances 1
+  * @groupname Instances
+  *   Type Class Instances
+  * @groupprio Instances
+  *   1
   */
 object Secret {
 
@@ -79,13 +75,10 @@ object Secret {
     *
     * The [[Secret#valueHash]] will be calculated using the shown value.
     *
-    * @example {{{
-    * scala> import cats.implicits._
-    * import cats.implicits._
+    * @example
+    *   {{{ scala> import cats.implicits._ import cats.implicits._
     *
-    * scala> Secret(12.5)
-    * res0: Secret[Double] = Secret(90db4c0)
-    * }}}
+    * scala> Secret(12.5) res0: Secret[Double] = Secret(90db4c0) }}}
     *
     * @group Create
     */
@@ -118,18 +111,14 @@ object Secret {
   /**
     * Returns the configuration value for the specified [[Secret]].
     *
-    * This function enables pattern matching on [[Secret]]s.
+    * This function enables pattern matching on [[Secret]] s.
     *
-    * @example {{{
-    * scala> import cats.implicits._
-    * import cats.implicits._
+    * @example
+    *   {{{ scala> import cats.implicits._ import cats.implicits._
     *
-    * scala> val secret = Secret(12.5)
-    * secret: Secret[Double] = Secret(90db4c0)
+    * scala> val secret = Secret(12.5) secret: Secret[Double] = Secret(90db4c0)
     *
-    * scala> secret match { case Secret(value) => value }
-    * res0: Double = 12.5
-    * }}}
+    * scala> secret match { case Secret(value) => value } res0: Double = 12.5 }}}
     *
     * @group Create
     */

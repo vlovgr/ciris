@@ -36,21 +36,17 @@ package object ciris {
     }
 
   /**
-    * Returns a new [[ConfigValue]] for the file at the
-    * specified path.
+    * Returns a new [[ConfigValue]] for the file at the specified path.
     *
-    * The file contents are read synchronously using
-    * the `UTF-8` charset.
+    * The file contents are read synchronously using the `UTF-8` charset.
     */
   final def file(path: Path): ConfigValue[Effect, String] =
     file(path, StandardCharsets.UTF_8)
 
   /**
-    * Returns a new [[ConfigValue]] for the file at the
-    * specified path.
+    * Returns a new [[ConfigValue]] for the file at the specified path.
     *
-    * The file contents are read synchronously using
-    * the specified charset.
+    * The file contents are read synchronously using the specified charset.
     */
   final def file(path: Path, charset: Charset): ConfigValue[Effect, String] =
     ConfigValue.blocking {

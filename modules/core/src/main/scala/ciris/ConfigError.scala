@@ -14,38 +14,32 @@ import ciris.ConfigError._
 /**
   * Error which occurred while loading or decoding configuration values.
   *
-  * Configuration errors can be created using [[ConfigError.apply]], or
-  * with [[ConfigError.sensitive]] if the error might contain sensitive
-  * details. When writing [[ConfigDecoder]]s, [[ConfigError.decode]]
-  * can be useful for creating decoding errors.
+  * Configuration errors can be created using [[ConfigError.apply]], or with
+  * [[ConfigError.sensitive]] if the error might contain sensitive details. When writing
+  * [[ConfigDecoder]] s, [[ConfigError.decode]] can be useful for creating decoding errors.
   *
-  * Errors for a single configuration value, which might be retrieved
-  * from one of multiple sources, can be combined and accumulated with
-  * [[ConfigError#or]]. Errors for multiple configuration values can
-  * similarly be accumulated using [[ConfigError#and]].
+  * Errors for a single configuration value, which might be retrieved from one of multiple sources,
+  * can be combined and accumulated with [[ConfigError#or]]. Errors for multiple configuration
+  * values can similarly be accumulated using [[ConfigError#and]].
   *
-  * Error messages can be retrieved using [[ConfigError#messages]]. If
-  * the error relates to a value which might contain sensitive details,
-  * [[ConfigError#redacted]] can be used to redact such details. When
-  * [[ConfigValue#secret]] is used, sensitive details are redacted and
-  * the value is wrapped in [[Secret]] to prevent it from being shown.
+  * Error messages can be retrieved using [[ConfigError#messages]]. If the error relates to a value
+  * which might contain sensitive details, [[ConfigError#redacted]] can be used to redact such
+  * details. When [[ConfigValue#secret]] is used, sensitive details are redacted and the value is
+  * wrapped in [[Secret]] to prevent it from being shown.
   *
-  * A `Throwable` representation of a [[ConfigError]] can be retrieved
-  * using [[ConfigError#throwable]].
+  * A `Throwable` representation of a [[ConfigError]] can be retrieved using
+  * [[ConfigError#throwable]].
   *
-  * @example {{{
-  * scala> val error = ConfigError("error")
-  * error: ConfigError = ConfigError(error)
+  * @example
+  *   {{{ scala> val error = ConfigError("error") error: ConfigError = ConfigError(error)
   *
-  * scala> val sensitive = ConfigError.sensitive("error", "redacted")
-  * sensitive: ConfigError = Sensitive(error, redacted)
+  * scala> val sensitive = ConfigError.sensitive("error", "redacted") sensitive: ConfigError =
+  * Sensitive(error, redacted)
   *
-  * scala> error.or(sensitive).messages
-  * res0: cats.data.Chain[String] = Chain(Error and error)
+  * scala> error.or(sensitive).messages res0: cats.data.Chain[String] = Chain(Error and error)
   *
-  * scala> error.and(sensitive).redacted.messages
-  * res1: cats.data.Chain[String] = Chain(error, redacted)
-  * }}}
+  * scala> error.and(sensitive).redacted.messages res1: cats.data.Chain[String] = Chain(error,
+  * redacted) }}}
   */
 sealed abstract class ConfigError {
 
@@ -60,8 +54,7 @@ sealed abstract class ConfigError {
   def redacted: ConfigError
 
   /**
-    * Returns a new [[ConfigError]] combining errors for
-    * separate configuration values.
+    * Returns a new [[ConfigError]] combining errors for separate configuration values.
     */
   final def and(that: ConfigError): ConfigError =
     (this, that) match {
@@ -74,12 +67,10 @@ sealed abstract class ConfigError {
     }
 
   /**
-    * Returns `true` if the error is due to no value
-    * being available; otherwise `false`.
+    * Returns `true` if the error is due to no value being available; otherwise `false`.
     *
-    * If the error is a combination of multiple errors,
-    * returns `true` if all errors are due to no value
-    * being available; otherwise `false`.
+    * If the error is a combination of multiple errors, returns `true` if all errors are due to no
+    * value being available; otherwise `false`.
     */
   private[ciris] final def isMissing: Boolean =
     this match {
@@ -93,8 +84,7 @@ sealed abstract class ConfigError {
     }
 
   /**
-    * Returns a new [[ConfigError]] combining errors for
-    * a single configuration value.
+    * Returns a new [[ConfigError]] combining errors for a single configuration value.
     */
   final def or(that: ConfigError): ConfigError =
     (this, that) match {
@@ -107,28 +97,30 @@ sealed abstract class ConfigError {
     }
 
   /**
-    * Returns a new `Throwable` including the contained
-    * error messages.
+    * Returns a new `Throwable` including the contained error messages.
     */
   final def throwable: Throwable =
     ConfigException(this)
 }
 
 /**
-  * @groupname Create Creating Instances
-  * @groupprio Create 0
+  * @groupname Create
+  *   Creating Instances
+  * @groupprio Create
+  *   0
   *
-  * @groupname Instances Type Class Instances
-  * @groupprio Instances 1
+  * @groupname Instances
+  *   Type Class Instances
+  * @groupprio Instances
+  *   1
   */
 object ConfigError {
 
   /**
     * Returns a new [[ConfigError]] using the specified message.
     *
-    * If the specified message might contain sensitive details,
-    * then use [[ConfigError.sensitive]] instead to create an
-    * error which is capable of redacting sensitive details.
+    * If the specified message might contain sensitive details, then use [[ConfigError.sensitive]]
+    * instead to create an error which is capable of redacting sensitive details.
     *
     * @group Create
     */
@@ -136,13 +128,11 @@ object ConfigError {
     Apply(() => message)
 
   /**
-    * Returns a new [[ConfigError]] using the specified message and
-    * redacted message.
+    * Returns a new [[ConfigError]] using the specified message and redacted message.
     *
-    * The specified message is used in the returned [[ConfigError]].
-    * Whenever [[ConfigError#redacted]] is invoked on the returned
-    * instance, a new [[ConfigError]] is returned which instead
-    * uses the redacted message.
+    * The specified message is used in the returned [[ConfigError]]. Whenever
+    * [[ConfigError#redacted]] is invoked on the returned instance, a new [[ConfigError]] is
+    * returned which instead uses the redacted message.
     *
     * @group Create
     */
@@ -150,8 +140,7 @@ object ConfigError {
     Sensitive(() => message, () => redactedMessage)
 
   /**
-    * Returns a new [[ConfigError]] for when the specified value
-    * could not be decoded.
+    * Returns a new [[ConfigError]] for when the specified value could not be decoded.
     *
     * @group Create
     */

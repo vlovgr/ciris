@@ -17,15 +17,14 @@ import scala.concurrent.duration.{Duration, FiniteDuration}
 sealed abstract class ConfigDecoder[A, B] {
 
   /**
-    * Returns a new [[ConfigDecoder]] which attempts to decode
-    * values to the specified type.
+    * Returns a new [[ConfigDecoder]] which attempts to decode values to the specified type.
     */
   final def as[C](implicit decoder: ConfigDecoder[B, C]): ConfigDecoder[A, C] =
     mapEither(decoder.decode)
 
   /**
-    * Returns a new [[ConfigDecoder]] which successfully decodes
-    * values for which the specified partial function is defined.
+    * Returns a new [[ConfigDecoder]] which successfully decodes values for which the specified
+    * partial function is defined.
     */
   final def collect[C](typeName: String)(f: PartialFunction[B, C])(
     implicit show: Show[B]
@@ -43,17 +42,17 @@ sealed abstract class ConfigDecoder[A, B] {
   /**
     * Attempts to decode the specified value to the second type.
     *
-    * The key may be used for improved error messages. The key
-    * is present for a single configuration value, and missing
-    * for default values and composed values.
+    * The key may be used for improved error messages. The key is present for a single configuration
+    * value, and missing for default values and composed values.
     *
-    * @see [[ConfigError.decode]] for creating decode errors
+    * @see
+    *   [[ConfigError.decode]] for creating decode errors
     */
   def decode(key: Option[ConfigKey], value: A): Either[ConfigError, B]
 
   /**
-    * Returns a new [[ConfigDecoder]] using the specified
-    * function whenever the value is successfully decoded.
+    * Returns a new [[ConfigDecoder]] using the specified function whenever the value is
+    * successfully decoded.
     */
   final def flatMap[C](f: B => ConfigDecoder[A, C]): ConfigDecoder[A, C] =
     ConfigDecoder.instance { (key, value) =>
@@ -61,22 +60,22 @@ sealed abstract class ConfigDecoder[A, B] {
     }
 
   /**
-    * Returns a new [[ConfigDecoder]] which applies the
-    * specified function on successfully decoded values.
+    * Returns a new [[ConfigDecoder]] which applies the specified function on successfully decoded
+    * values.
     */
   final def map[C](f: B => C): ConfigDecoder[A, C] =
     ConfigDecoder.instance { (key, value) => decode(key, value).map(f) }
 
   /**
-    * Returns a new [[ConfigDecoder]] which successfully decodes
-    * values for which the specified function returns `Right`.
+    * Returns a new [[ConfigDecoder]] which successfully decodes values for which the specified
+    * function returns `Right`.
     */
   final def mapEither[C](f: (Option[ConfigKey], B) => Either[ConfigError, C]): ConfigDecoder[A, C] =
     ConfigDecoder.instance { (key, value) => decode(key, value).flatMap(f(key, _)) }
 
   /**
-    * Returns a new [[ConfigDecoder]] which successfully decodes
-    * values for which the specified function returns `Some`.
+    * Returns a new [[ConfigDecoder]] which successfully decodes values for which the specified
+    * function returns `Some`.
     */
   final def mapOption[C](typeName: String)(f: B => Option[C])(
     implicit show: Show[B]
@@ -84,28 +83,33 @@ sealed abstract class ConfigDecoder[A, B] {
     mapEither { (key, b) => f(b).toRight(ConfigError.decode(typeName, key, b)) }
 
   /**
-    * Returns a new [[ConfigDecoder]] which redacts
-    * sensitive details from error messages.
+    * Returns a new [[ConfigDecoder]] which redacts sensitive details from error messages.
     */
   final def redacted: ConfigDecoder[A, B] =
     ConfigDecoder.instance { (key, value) => decode(key, value).leftMap(_.redacted) }
 }
 
 /**
-  * @groupname Create Creating Instances
-  * @groupprio Create 0
+  * @groupname Create
+  *   Creating Instances
+  * @groupprio Create
+  *   0
   *
-  * @groupname Decoders Decoder Instances
-  * @groupprio Decoders 1
+  * @groupname Decoders
+  *   Decoder Instances
+  * @groupprio Decoders
+  *   1
   *
-  * @groupname Instances Type Class Instances
-  * @groupprio Instances 2
+  * @groupname Instances
+  *   Type Class Instances
+  * @groupprio Instances
+  *   2
   */
 object ConfigDecoder {
 
   /**
-    * Returns a new [[ConfigDecoder]] for the specified type
-    * without performing any kind of decoding.
+    * Returns a new [[ConfigDecoder]] for the specified type without performing any kind of
+    * decoding.
     *
     * @group Create
     */
@@ -113,9 +117,8 @@ object ConfigDecoder {
     identityConfigDecoder
 
   /**
-    * Returns a new [[ConfigDecoder]] for the specified type
-    * without performing any kind of decoding. Alias for the
-    * [[ConfigDecoder.identity]] function.
+    * Returns a new [[ConfigDecoder]] for the specified type without performing any kind of
+    * decoding. Alias for the [[ConfigDecoder.identity]] function.
     *
     * @group Create
     */
@@ -123,8 +126,8 @@ object ConfigDecoder {
     identity
 
   /**
-    * Returns a [[ConfigDecoder]] instance between the two
-    * specified types if an instance is available.
+    * Returns a [[ConfigDecoder]] instance between the two specified types if an instance is
+    * available.
     *
     * @group Create
     */
@@ -257,11 +260,11 @@ object ConfigDecoder {
     ConfigDecoder.lift(_.asRight)
 
   /**
-    * Returns a new [[ConfigDecoder]] which decodes values
-    * using the specified function, with access to the key.
+    * Returns a new [[ConfigDecoder]] which decodes values using the specified function, with access
+    * to the key.
     *
-    * If the decode function does not need access to the key,
-    * then we can use [[ConfigDecoder.lift]] instead.
+    * If the decode function does not need access to the key, then we can use [[ConfigDecoder.lift]]
+    * instead.
     *
     * @group Create
     */
@@ -292,11 +295,10 @@ object ConfigDecoder {
     }
 
   /**
-    * Returns a new [[ConfigDecoder]] which decodes values
-    * using the specified function.
+    * Returns a new [[ConfigDecoder]] which decodes values using the specified function.
     *
-    * If the decode function needs access to the key, then
-    * we can use [[ConfigDecoder.instance]] instead.
+    * If the decode function needs access to the key, then we can use [[ConfigDecoder.instance]]
+    * instead.
     *
     * @group Create
     */

@@ -15,59 +15,48 @@ import ciris.ConfigEntry.{Default, Failed, Loaded}
 /**
   * Represents a configuration value or a composition of multiple values.
   *
-  * If a configuration value is missing, we can use [[ConfigValue#or]] to
-  * try and load the value from elsewhere. [[ConfigValue#default]] can be
-  * used to set a default value if all other values are missing. If the
-  * value is optional, [[ConfigValue#option]] can be used to default
-  * to `None` if all values are missing.
+  * If a configuration value is missing, we can use [[ConfigValue#or]] to try and load the value
+  * from elsewhere. [[ConfigValue#default]] can be used to set a default value if all other values
+  * are missing. If the value is optional, [[ConfigValue#option]] can be used to default to `None`
+  * if all values are missing.
   *
-  * Values can be converted to a different type using [[ConfigValue#as]].
-  * If the value might contain sensitive details, [[ConfigValue#secret]]
-  * can be used to redact sensitive details from error messages while
-  * also wrapping the value in [[Secret]], preventing the value from
-  * being shown.
+  * Values can be converted to a different type using [[ConfigValue#as]]. If the value might contain
+  * sensitive details, [[ConfigValue#secret]] can be used to redact sensitive details from error
+  * messages while also wrapping the value in [[Secret]], preventing the value from being shown.
   *
-  * Sometimes, we first need to load a configuration value to determine
-  * how to continue loading the remaining values. In such cases, it's
-  * suitable to use [[ConfigValue#flatMap]]. When loading values in
-  * sequence using `flatMap`, errors are not accumulated, and so
-  * only the first error will be available.
+  * Sometimes, we first need to load a configuration value to determine how to continue loading the
+  * remaining values. In such cases, it's suitable to use [[ConfigValue#flatMap]]. When loading
+  * values in sequence using `flatMap`, errors are not accumulated, and so only the first error will
+  * be available.
   *
-  * Parallel composition lets us achieve error accumulation. Functions
-  * like `parMapN` and `parTupled` on tuples of [[ConfigValue]]s loads
-  * several values while also accumulating errors. It is often helpful
-  * to see all errors when loading configurations, so prefer options
-  * which accumulate errors.
+  * Parallel composition lets us achieve error accumulation. Functions like `parMapN` and
+  * `parTupled` on tuples of [[ConfigValue]] s loads several values while also accumulating errors.
+  * It is often helpful to see all errors when loading configurations, so prefer options which
+  * accumulate errors.
   *
-  * Configuration values can be loaded using [[ConfigValue#load]], which
-  * loads the value using a specified effect type. If a [[ConfigValue]]
-  * contains `Resource`s for loading the configuration, there is also
-  * the option to return a `Resource` with [[ConfigValue#resource]].
+  * Configuration values can be loaded using [[ConfigValue#load]], which loads the value using a
+  * specified effect type. If a [[ConfigValue]] contains `Resource`s for loading the configuration,
+  * there is also the option to return a `Resource` with [[ConfigValue#resource]].
   *
-  * @example {{{
-  * scala> import cats.implicits._, ciris._
-  * import cats.implicits._
-  * import ciris._
+  * @example
+  *   {{{ scala> import cats.implicits._, ciris._ import cats.implicits._ import ciris._
   *
-  * scala> case class Config(maxRetries: Int, apiKey: Option[Secret[String]])
-  * class Config
+  * scala> case class Config(maxRetries: Int, apiKey: Option[Secret[String]]) class Config
   *
-  * scala> val maxRetries = env("MAX_RETRIES").or(prop("max.retries")).as[Int].default(5)
-  * val maxRetries: ConfigValue[[x]Effect[x],Int] = ConfigValue$$88354410
+  * scala> val maxRetries = env("MAX_RETRIES").or(prop("max.retries")).as[Int].default(5) val
+  * maxRetries: ConfigValue[[x]Effect[x],Int] = ConfigValue$$88354410
   *
-  * scala> val apiKey = env("API_KEY").or(prop("api.key")).secret.option
-  * val apiKey: ConfigValue[[x]Effect[x],Option[Secret[String]]] = ConfigValue$$2109306667
+  * scala> val apiKey = env("API_KEY").or(prop("api.key")).secret.option val apiKey:
+  * ConfigValue[[x]Effect[x],Option[Secret[String]]] = ConfigValue$$2109306667
   *
-  * scala> val config = (maxRetries, apiKey).parMapN(Config(_, _))
-  * val config: ConfigValue[[x]Effect[x],Config] = ConfigValue$$1463229407
-  * }}}
+  * scala> val config = (maxRetries, apiKey).parMapN(Config(_, _)) val config:
+  * ConfigValue[[x]Effect[x],Config] = ConfigValue$$1463229407 }}}
   */
 sealed abstract class ConfigValue[+F[_], A] {
   private[this] final val self: ConfigValue[F, A] = this
 
   /**
-    * Returns a new [[ConfigValue]] which attempts to decode the
-    * value to the specified type.
+    * Returns a new [[ConfigValue]] which attempts to decode the value to the specified type.
     */
   final def as[B](implicit decoder: ConfigDecoder[A, B]): ConfigValue[F, B] =
     transform {
@@ -88,14 +77,11 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns an effect of the specified type which attempts
-    * to load the configuration value.
+    * Returns an effect of the specified type which attempts to load the configuration value.
     *
-    * Note that if the [[ConfigValue]] contains any resources,
-    * from using [[ConfigValue.resource]], these will be used
-    * (acquired and released) as part of the returned effect.
-    * If this behaviour is not desired, we can instead use
-    * [[ConfigValue#resource]] to return a `Resource`.
+    * Note that if the [[ConfigValue]] contains any resources, from using [[ConfigValue.resource]],
+    * these will be used (acquired and released) as part of the returned effect. If this behaviour
+    * is not desired, we can instead use [[ConfigValue#resource]] to return a `Resource`.
     */
   final def attempt[G[x] >: F[x]](implicit G: Async[G]): G[Either[ConfigError, A]] =
     to[G].use { result =>
@@ -107,19 +93,16 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns the same [[ConfigValue]] but lifted to the
-    * specified effect type.
+    * Returns the same [[ConfigValue]] but lifted to the specified effect type.
     */
   final def covary[G[x] >: F[x]]: ConfigValue[G, A] =
     self
 
   /**
-    * Returns a new [[ConfigValue]] which uses the specified default
-    * if the value is missing.
+    * Returns a new [[ConfigValue]] which uses the specified default if the value is missing.
     *
-    * If a previous default value has been specified, a later default
-    * will override the earlier. If a default value is specified for
-    * a composition of values, the default will be used in case all
+    * If a previous default value has been specified, a later default will override the earlier. If
+    * a default value is specified for a composition of values, the default will be used in case all
     * values are either missing or are default values themselves.
     *
     * Using `.default(a)` is equivalent to using `.or(default(a))`.
@@ -133,8 +116,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which applies the
-    * specified effectful function on the value.
+    * Returns a new [[ConfigValue]] which applies the specified effectful function on the value.
     */
   final def evalMap[G[x] >: F[x], B](f: A => G[B]): ConfigValue[G, B] =
     new ConfigValue[G, B] {
@@ -146,8 +128,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which loads the specified
-    * configuration using the value.
+    * Returns a new [[ConfigValue]] which loads the specified configuration using the value.
     */
   final def flatMap[G[x] >: F[x], B](f: A => ConfigValue[G, B]): ConfigValue[G, B] =
     new ConfigValue[G, B] {
@@ -176,14 +157,11 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns an effect of the specified type which loads
-    * the configuration value.
+    * Returns an effect of the specified type which loads the configuration value.
     *
-    * Note that if the [[ConfigValue]] contains any resources,
-    * from using [[ConfigValue.resource]], these will be used
-    * (acquired and released) as part of the returned effect.
-    * If this behaviour is not desired, we can instead use
-    * [[ConfigValue#resource]] to return a `Resource`.
+    * Note that if the [[ConfigValue]] contains any resources, from using [[ConfigValue.resource]],
+    * these will be used (acquired and released) as part of the returned effect. If this behaviour
+    * is not desired, we can instead use [[ConfigValue#resource]] to return a `Resource`.
     */
   final def load[G[x] >: F[x]](implicit G: Async[G]): G[A] =
     to[G].use {
@@ -193,15 +171,13 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which applies the
-    * specified function on the value.
+    * Returns a new [[ConfigValue]] which applies the specified function on the value.
     */
   final def map[B](f: A => B): ConfigValue[F, B] =
     transform(_.map(f))
 
   /**
-    * Returns a new [[ConfigValue]] which uses `None` as the
-    * default if the value is missing.
+    * Returns a new [[ConfigValue]] which uses `None` as the default if the value is missing.
     *
     * Using `.option` is equivalent to using `.map(_.some).default(None)`.
     */
@@ -214,15 +190,12 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which uses the specified
-    * configuration if the value is missing.
+    * Returns a new [[ConfigValue]] which uses the specified configuration if the value is missing.
     *
-    * If the value is a default value, an attempt is made to
-    * use the specified configuration, and if that is also
-    * missing, the default value remains. Defaults in the
-    * specified configuration will override any previous
-    * defaults. Errors from both the value and the
-    * specified configuration are accumulated.
+    * If the value is a default value, an attempt is made to use the specified configuration, and if
+    * that is also missing, the default value remains. Defaults in the specified configuration will
+    * override any previous defaults. Errors from both the value and the specified configuration are
+    * accumulated.
     */
   final def or[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] =
     new ConfigValue[G, A] {
@@ -255,19 +228,16 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns a new [[ConfigValue]] with sensitive
-    * details redacted from error messages.
+    * Returns a new [[ConfigValue]] with sensitive details redacted from error messages.
     *
-    * Using `.redacted` is equivalent to using
-    * `.secret.map(_.value)`, except without
-    * requiring a `Show` instance.
+    * Using `.redacted` is equivalent to using `.secret.map(_.value)`, except without requiring a
+    * `Show` instance.
     */
   final def redacted: ConfigValue[F, A] =
     transform(_.mapError(_.redacted))
 
   /**
-    * Returns a `Resource` with the specified effect
-    * type which loads the configuration value.
+    * Returns a `Resource` with the specified effect type which loads the configuration value.
     */
   final def resource[G[x] >: F[x]](implicit G: Async[G]): Resource[G, A] =
     to[G].evalMap[A] {
@@ -277,15 +247,12 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which treats the value
-    * like it might contain sensitive details.
+    * Returns a new [[ConfigValue]] which treats the value like it might contain sensitive details.
     *
-    * Sensitive details are redacted from error messages.
-    * The value is wrapped in [[Secret]], which prevents
-    * the value from being shown.
+    * Sensitive details are redacted from error messages. The value is wrapped in [[Secret]], which
+    * prevents the value from being shown.
     *
-    * Using `.secret` is equivalent to using
-    * `.redacted.map(Secret(_))`.
+    * Using `.secret` is equivalent to using `.redacted.map(Secret(_))`.
     */
   final def secret(implicit show: Show[A]): ConfigValue[F, Secret[A]] =
     transform {
@@ -308,13 +275,11 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which treats the value
-    * as a secret which can only be used once.
+    * Returns a new [[ConfigValue]] which treats the value as a secret which can only be used once.
     *
-    * Sensitive details are redacted from error messages. The
-    * value is wrapped in [[UseOnceSecret]] which prevents
-    * multiple accesses to the secret and which nullifies
-    * the secret once it has been used.
+    * Sensitive details are redacted from error messages. The value is wrapped in [[UseOnceSecret]]
+    * which prevents multiple accesses to the secret and which nullifies the secret once it has been
+    * used.
     */
   final def useOnceSecret(implicit ev: A <:< Array[Char]): ConfigValue[F, UseOnceSecret] =
     new ConfigValue[F, UseOnceSecret] {
@@ -329,20 +294,25 @@ sealed abstract class ConfigValue[+F[_], A] {
 }
 
 /**
-  * @groupname Create Creating Instances
-  * @groupprio Create 0
+  * @groupname Create
+  *   Creating Instances
+  * @groupprio Create
+  *   0
   *
-  * @groupname Instances Type Class Instances
-  * @groupprio Instances 1
+  * @groupname Instances
+  *   Type Class Instances
+  * @groupprio Instances
+  *   1
   *
-  * @groupname Newtypes Newtypes
-  * @groupprio Newtypes 2
+  * @groupname Newtypes
+  *   Newtypes
+  * @groupprio Newtypes
+  *   2
   */
 object ConfigValue {
 
   /**
-    * Returns a new [[ConfigValue]] which loads a configuration
-    * value using a callback.
+    * Returns a new [[ConfigValue]] which loads a configuration value using a callback.
     *
     * @group Create
     */
@@ -358,8 +328,7 @@ object ConfigValue {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which loads the specified
-    * blocking value.
+    * Returns a new [[ConfigValue]] which loads the specified blocking value.
     *
     * @group Create
     */
@@ -373,8 +342,7 @@ object ConfigValue {
     }
 
   /**
-    * Returns a new [[ConfigValue]] with the specified
-    * default value.
+    * Returns a new [[ConfigValue]] with the specified default value.
     *
     * @group Create
     */
@@ -382,8 +350,7 @@ object ConfigValue {
     ConfigValue.pure(ConfigEntry.default(value))
 
   /**
-    * Returns a new [[ConfigValue]] which evaluates the
-    * effect for the specified value.
+    * Returns a new [[ConfigValue]] which evaluates the effect for the specified value.
     *
     * @group Create
     */
@@ -397,8 +364,7 @@ object ConfigValue {
     }
 
   /**
-    * Returns a new [[ConfigValue]] which failed with
-    * the specified error.
+    * Returns a new [[ConfigValue]] which failed with the specified error.
     *
     * @group Create
     */
@@ -406,8 +372,7 @@ object ConfigValue {
     ConfigValue.pure(ConfigEntry.failed(error))
 
   /**
-    * Returns a new [[ConfigValue]] which loaded
-    * successfully with the specified value.
+    * Returns a new [[ConfigValue]] which loaded successfully with the specified value.
     *
     * @group Create
     */
@@ -415,8 +380,7 @@ object ConfigValue {
     ConfigValue.pure(ConfigEntry.loaded(Some(key), value))
 
   /**
-    * Returns a new [[ConfigValue]] which failed because
-    * the value was missing.
+    * Returns a new [[ConfigValue]] which failed because the value was missing.
     *
     * @group Create
     */
@@ -449,8 +413,7 @@ object ConfigValue {
   }
 
   /**
-    * Returns a new [[ConfigValue]] which suspends loading
-    * of the specified value.
+    * Returns a new [[ConfigValue]] which suspends loading of the specified value.
     *
     * @group Create
     */
@@ -479,8 +442,8 @@ object ConfigValue {
         value.map(f)
 
       /**
-        * Note: this is intentionally not stack safe, as the `flatMap`
-        * on `ConfigValue` cannot be expressed in a tail-recursive way.
+        * Note: this is intentionally not stack safe, as the `flatMap` on `ConfigValue` cannot be
+        * expressed in a tail-recursive way.
         */
       override final def tailRecM[A, B](
         a: A

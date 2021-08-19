@@ -14,29 +14,30 @@ import java.nio.file.Path
 /**
   * Provides a description of a key used for loading configuration values.
   *
-  * @example {{{
-  * scala> val apiKey = ConfigKey.env("API_KEY")
-  * apiKey: ConfigKey = ConfigKey(environment variable API_KEY)
+  * @example
+  *   {{{ scala> val apiKey = ConfigKey.env("API_KEY") apiKey: ConfigKey = ConfigKey(environment
+  *   variable API_KEY)
   *
-  * scala> apiKey.description
-  * res0: String = environment variable API_KEY
-  * }}}
+  * scala> apiKey.description res0: String = environment variable API_KEY }}}
   */
 sealed abstract class ConfigKey {
 
   /**
-    * Returns a description of a key used for loading
-    * configuration values.
+    * Returns a description of a key used for loading configuration values.
     */
   def description: String
 }
 
 /**
-  * @groupname Create Creating Instances
-  * @groupprio Create 0
+  * @groupname Create
+  *   Creating Instances
+  * @groupprio Create
+  *   0
   *
-  * @groupname Instances Type Class Instances
-  * @groupprio Instances 1
+  * @groupname Instances
+  *   Type Class Instances
+  * @groupprio Instances
+  *   1
   */
 object ConfigKey {
 
@@ -68,13 +69,11 @@ object ConfigKey {
   /**
     * Returns a new [[ConfigKey]] for the specified environment variable.
     *
-    * @example {{{
-    * scala> val apiKey = ConfigKey.env("API_KEY")
-    * apiKey: ConfigKey = ConfigKey(environment variable API_KEY)
+    * @example
+    *   {{{ scala> val apiKey = ConfigKey.env("API_KEY") apiKey: ConfigKey = ConfigKey(environment
+    *   variable API_KEY)
     *
-    * scala> apiKey.description
-    * res0: String = environment variable API_KEY
-    * }}}
+    * scala> apiKey.description res0: String = environment variable API_KEY }}}
     *
     * @group Create
     */
@@ -92,13 +91,11 @@ object ConfigKey {
   /**
     * Returns a new [[ConfigKey]] for the specified system property.
     *
-    * @example {{{
-    * scala> val apiKey = ConfigKey.prop("api.key")
-    * apiKey: ConfigKey = ConfigKey(system property api.key)
+    * @example
+    *   {{{ scala> val apiKey = ConfigKey.prop("api.key") apiKey: ConfigKey = ConfigKey(system
+    *   property api.key)
     *
-    * scala> apiKey.description
-    * res0: String = system property api.key
-    * }}}
+    * scala> apiKey.description res0: String = system property api.key }}}
     *
     * @group Create
     */
@@ -108,15 +105,14 @@ object ConfigKey {
   /**
     * Returns the description for the specified [[ConfigKey]].
     *
-    * This function enables pattern matching on [[ConfigKey]]s.
+    * This function enables pattern matching on [[ConfigKey]] s.
     *
-    * @example {{{
-    * scala> val apiKey = ConfigKey.env("API_KEY")
-    * apiKey: ConfigKey = ConfigKey(environment variable API_KEY)
+    * @example
+    *   {{{ scala> val apiKey = ConfigKey.env("API_KEY") apiKey: ConfigKey = ConfigKey(environment
+    *   variable API_KEY)
     *
-    * scala> apiKey match { case ConfigKey(description) => description }
-    * res0: String = environment variable API_KEY
-    * }}}
+    * scala> apiKey match { case ConfigKey(description) => description } res0: String = environment
+    * variable API_KEY }}}
     *
     * @group Create
     */
