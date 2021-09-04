@@ -135,7 +135,7 @@ lazy val dependencySettings = Seq(
   libraryDependencies ++= {
     if (scalaVersion.value.startsWith("3")) Nil
     else
-      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.1").cross(CrossVersion.full)))
+      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.2").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
     "org.typelevel" %% "discipline-scalatest" % "2.1.5",
