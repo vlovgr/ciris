@@ -6,6 +6,8 @@ import cats.laws.discipline.MonadErrorTests
 import org.scalacheck.Gen
 import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
+import cats.laws.discipline.ContravariantTests
+import cats.Contravariant
 
 final class ConfigDecoderSpec extends BaseSpec {
   test("ConfigDecoder.as") {
@@ -218,6 +220,11 @@ final class ConfigDecoderSpec extends BaseSpec {
   checkAll(
     "ConfigDecoder",
     MonadErrorTests[ConfigDecoder[String, *], ConfigError].monadError[String, String, String]
+  )
+
+  checkAll(
+    "ConfigDecoder",
+    ContravariantTests[ConfigDecoder[*, String]].contravariant[String, String, String]
   )
 
   test("ConfigDecoder.short.success") {

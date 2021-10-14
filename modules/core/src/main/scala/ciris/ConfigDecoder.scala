@@ -6,7 +6,7 @@
 
 package ciris
 
-import cats.{MonadError, Show}
+import cats.{MonadError, Show, Contravariant}
 import cats.implicits._
 import scala.annotation.tailrec
 import scala.concurrent.duration.{Duration, FiniteDuration}
@@ -368,5 +368,14 @@ object ConfigDecoder {
 
           go(f(b))
         }
+    }
+
+  /**
+    * @group Instances
+    */
+  implicit final def configDecoderContravariant[A]: Contravariant[ConfigDecoder[*, A]] =
+    new Contravariant[ConfigDecoder[*, A]] {
+      override def contramap[I, II](fa: ConfigDecoder[I, A])(f: II => I): ConfigDecoder[II, A] =
+        ConfigDecoder[II].map(f).mapEither(fa.decode)
     }
 }
