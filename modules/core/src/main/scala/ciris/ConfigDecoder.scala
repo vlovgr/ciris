@@ -6,7 +6,7 @@
 
 package ciris
 
-import cats.{MonadError, Show}
+import cats.{Contravariant, MonadError, Show}
 import cats.implicits._
 import scala.annotation.tailrec
 import scala.concurrent.duration.{Duration, FiniteDuration}
@@ -39,6 +39,13 @@ sealed abstract class ConfigDecoder[A, B] {
           )
       }
     }
+
+  /**
+    * Returns a new [[ConfigDecoder]] which applies the
+    * specified function on the value before decoding.
+    */
+  final def contramap[C](f: C => A): ConfigDecoder[C, B] =
+    ConfigDecoder.instance { (key, value) => decode(key, f(value)) }
 
   /**
     * Attempts to decode the specified value to the second type.
@@ -327,6 +334,17 @@ object ConfigDecoder {
         case _: NumberFormatException =>
           None
       }
+    }
+
+  /**
+    * @group Instances
+    */
+  implicit final def configDecoderContravariant[B]: Contravariant[ConfigDecoder[*, B]] =
+    new Contravariant[ConfigDecoder[*, B]] {
+      override final def contramap[A, C](decoder: ConfigDecoder[A, B])(
+        f: C => A
+      ): ConfigDecoder[C, B] =
+        decoder.contramap(f)
     }
 
   /**

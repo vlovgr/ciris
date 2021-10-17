@@ -2,6 +2,7 @@ package ciris
 
 import cats.data.Chain
 import cats.implicits._
+import cats.laws.discipline.ContravariantTests
 import cats.laws.discipline.MonadErrorTests
 import org.scalacheck.Gen
 import scala.concurrent.duration.{Duration, FiniteDuration}
@@ -214,6 +215,11 @@ final class ConfigDecoderSpec extends BaseSpec {
       }
     }
   }
+
+  checkAll(
+    "ConfigDecoder",
+    ContravariantTests[ConfigDecoder[*, String]].contravariant[String, String, String]
+  )
 
   checkAll(
     "ConfigDecoder",
