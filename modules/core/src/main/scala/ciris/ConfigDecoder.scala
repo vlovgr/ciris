@@ -41,6 +41,13 @@ sealed abstract class ConfigDecoder[A, B] {
     }
 
   /**
+    * Returns a new [[ConfigDecoder]] which applies the
+    * specified function on the value before decoding.
+    */
+  final def contramap[C](f: C => A): ConfigDecoder[C, B] =
+    ConfigDecoder.instance { (key, value) => decode(key, f(value)) }
+
+  /**
     * Attempts to decode the specified value to the second type.
     *
     * The key may be used for improved error messages. The key
@@ -337,7 +344,7 @@ object ConfigDecoder {
       override final def contramap[A, C](decoder: ConfigDecoder[A, B])(
         f: C => A
       ): ConfigDecoder[C, B] =
-        ConfigDecoder[C].map(f).mapEither(decoder.decode)
+        decoder.contramap(f)
     }
 
   /**
