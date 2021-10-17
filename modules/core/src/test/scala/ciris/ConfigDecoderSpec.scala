@@ -219,12 +219,12 @@ final class ConfigDecoderSpec extends BaseSpec {
 
   checkAll(
     "ConfigDecoder",
-    MonadErrorTests[ConfigDecoder[String, *], ConfigError].monadError[String, String, String]
+    ContravariantTests[ConfigDecoder[*, String]].contravariant[String, String, String]
   )
 
   checkAll(
     "ConfigDecoder",
-    ContravariantTests[ConfigDecoder[*, String]].contravariant[String, String, String]
+    MonadErrorTests[ConfigDecoder[String, *], ConfigError].monadError[String, String, String]
   )
 
   test("ConfigDecoder.short.success") {

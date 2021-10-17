@@ -332,6 +332,17 @@ object ConfigDecoder {
   /**
     * @group Instances
     */
+  implicit final def configDecoderContravariant[B]: Contravariant[ConfigDecoder[*, B]] =
+    new Contravariant[ConfigDecoder[*, B]] {
+      override final def contramap[A, C](decoder: ConfigDecoder[A, B])(
+        f: C => A
+      ): ConfigDecoder[C, B] =
+        ConfigDecoder[C].map(f).mapEither(decoder.decode)
+    }
+
+  /**
+    * @group Instances
+    */
   implicit final def configDecoderMonadError[A]: MonadError[ConfigDecoder[A, *], ConfigError] =
     new MonadError[ConfigDecoder[A, *], ConfigError] {
       override final def flatMap[B, C](
@@ -368,14 +379,5 @@ object ConfigDecoder {
 
           go(f(b))
         }
-    }
-
-  /**
-    * @group Instances
-    */
-  implicit final def configDecoderContravariant[A]: Contravariant[ConfigDecoder[*, A]] =
-    new Contravariant[ConfigDecoder[*, A]] {
-      override def contramap[I, II](fa: ConfigDecoder[I, A])(f: II => I): ConfigDecoder[II, A] =
-        ConfigDecoder[II].map(f).mapEither(fa.decode)
     }
 }
