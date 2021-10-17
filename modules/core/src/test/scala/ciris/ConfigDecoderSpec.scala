@@ -2,12 +2,11 @@ package ciris
 
 import cats.data.Chain
 import cats.implicits._
+import cats.laws.discipline.ContravariantTests
 import cats.laws.discipline.MonadErrorTests
 import org.scalacheck.Gen
 import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
-import cats.laws.discipline.ContravariantTests
-import cats.Contravariant
 
 final class ConfigDecoderSpec extends BaseSpec {
   test("ConfigDecoder.as") {

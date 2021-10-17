@@ -6,7 +6,7 @@
 
 package ciris
 
-import cats.{MonadError, Show, Contravariant}
+import cats.{Contravariant, MonadError, Show}
 import cats.implicits._
 import scala.annotation.tailrec
 import scala.concurrent.duration.{Duration, FiniteDuration}
