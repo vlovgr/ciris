@@ -355,9 +355,8 @@ lazy val testSettings = Seq(
 def scalaVersionOf(version: String): String = {
   if (version.contains("-")) version
   else {
-    val (major, minor) =
-      CrossVersion.partialVersion(version).get
-    s"$major.$minor"
+    val (major, minor) = CrossVersion.partialVersion(version).get
+    if (major == 3L) "3" else s"$major.$minor"
   }
 }
 
