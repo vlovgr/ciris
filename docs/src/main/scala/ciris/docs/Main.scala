@@ -22,7 +22,7 @@ object Main {
     else {
       val parts = version.split('.')
       val (major, minor) = (parts(0), parts(1))
-      if (major == "3") major else s"$major.$minor"
+      s"$major.$minor"
     }
   }
 
