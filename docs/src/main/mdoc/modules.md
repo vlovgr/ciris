@@ -26,6 +26,27 @@ object SerialNumber {
 circeConfigDecoder[SerialNumber]("SerialNumber")
 ```
 
+## Circe YAML
+
+The `@CIRCE_YAML_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for YAML using [Circe's YAML module](https://github.com/circe/circe-yaml).
+
+```scala mdoc:reset
+import ciris.circe.yaml._
+import ciris.ConfigDecoder
+import io.circe.{Decoder, Json}
+
+ConfigDecoder[String, Json]
+
+case class SerialNumber(value: String)
+
+object SerialNumber {
+  implicit val serialNumberDecoder: Decoder[SerialNumber] =
+    Decoder[String].map(apply)
+}
+
+circeYamlConfigDecoder[SerialNumber]("SerialNumber")
+```
+
 ## Enumeratum
 
 The `@ENUMERATUM_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [Enumeratum](https://github.com/lloydmeta/enumeratum) enumerations.

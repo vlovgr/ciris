@@ -43,6 +43,14 @@ For [circe](modules.md#circe) support, add the following line to your `build.sbt
 libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_MODULE_NAME@" % "@LATEST_VERSION@"
 ```
 
+#### Circe YAML
+
+For [circe-yaml](modules.md#circe-yaml) support, add the following line to your `build.sbt` file.
+
+```scala
+libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_YAML_MODULE_NAME@" % "@LATEST_VERSION@"
+```
+
 #### Enumeratum
 
 For [enumeratum](modules.md#enumeratum) support, add the following line to your `build.sbt` file.

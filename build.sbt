@@ -27,7 +27,7 @@ lazy val ciris = project
     console := (core / Compile / console).value,
     Test / console := (core / Test / console).value
   )
-  .aggregate(core, circe, enumeratum, refined, squants)
+  .aggregate(core, circe, `circe-yaml`, enumeratum, refined, squants)
 
 lazy val core = project
   .in(file("modules/core"))
@@ -61,6 +61,23 @@ lazy val circe = project
     testSettings
   )
   .dependsOn(core)
+
+lazy val `circe-yaml` = project
+  .in(file("modules/circe-yaml"))
+  .settings(
+    moduleName := "ciris-circe-yaml",
+    name := moduleName.value,
+    dependencySettings ++ Seq(
+      libraryDependencies += "io.circe" %% "circe-yaml" % circeVersion
+    ),
+    publishSettings,
+    mimaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
+    testSettings
+  )
+  .dependsOn(circe)
 
 lazy val enumeratum = project
   .in(file("modules/enumeratum"))
@@ -128,7 +145,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core, circe, enumeratum, refined, squants)
+  .dependsOn(core, circe, `circe-yaml`, enumeratum, refined, squants)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -219,6 +236,12 @@ lazy val buildInfoSettings = Seq(
     },
     BuildInfoKey.map(circe / crossScalaVersions) { case (k, v) =>
       "circe" ++ k.capitalize -> v
+    },
+    BuildInfoKey.map(`circe-yaml` / moduleName) { case (k, v) =>
+      "circeYaml" ++ k.capitalize -> v
+    },
+    BuildInfoKey.map(`circe-yaml` / crossScalaVersions) { case (k, v) =>
+      "circeYaml" ++ k.capitalize -> v
     },
     BuildInfoKey.map(enumeratum / moduleName) { case (k, v) =>
       "enumeratum" ++ k.capitalize -> v
