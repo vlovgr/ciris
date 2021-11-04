@@ -12,7 +12,7 @@ import org.tpolecat.typename.TypeName
 
 object Ciris {
   final def enumConfigDecoder[ValueType, EntryType <: ValueEnumEntry[ValueType]](
-    enum: ValueEnum[ValueType, EntryType]
+    `enum`: ValueEnum[ValueType, EntryType]
   )(
     implicit decoder: ConfigDecoder[String, ValueType],
     typeName: TypeName[EntryType],
