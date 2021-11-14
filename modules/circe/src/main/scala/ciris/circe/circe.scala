@@ -12,14 +12,8 @@ import io.circe.{DecodingFailure, ParsingFailure}
 import io.circe.parser.parse
 
 package object circe {
-
   final def circeConfigDecoder[A](
     typeName: String
-  )(implicit decoder: Decoder[A]): ConfigDecoder[String, A] = circeConfigDecoder(typeName, parse)
-
-  final def circeConfigDecoder[A](
-    typeName: String,
-    parse: String => Either[ParsingFailure, Json]
   )(implicit decoder: Decoder[A]): ConfigDecoder[String, A] =
     ConfigDecoder[String].mapEither { (key, value) =>
       def decodeError(json: Json, decodingFailure: DecodingFailure): ConfigError = {

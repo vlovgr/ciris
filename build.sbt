@@ -77,7 +77,7 @@ lazy val `circe-yaml` = project
     ),
     testSettings
   )
-  .dependsOn(circe)
+  .dependsOn(core)
 
 lazy val enumeratum = project
   .in(file("modules/enumeratum"))

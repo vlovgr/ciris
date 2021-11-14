@@ -17,6 +17,23 @@ final class CirceYamlSpec extends AnyFunSuite {
     assert(result == 123)
   }
 
+  test("circeYamlConfigDecoder.success.noquotes") {
+    val result = default("abc").as[String](circeYamlConfigDecoder("String")).load[IO].unsafeRunSync()
+    assert(result == "abc")
+  }
+
+  test("circeYamlConfigDecoder.success.quotes") {
+    val result = default("\"abc\"").as[String](circeYamlConfigDecoder("String")).load[IO].unsafeRunSync()
+    assert(result == "abc")
+  }
+
+  test("circeYamlConfigDecoder.invalid.noquotes") {
+    checkError(
+      ConfigValue.default("abc").as[Int](circeYamlConfigDecoder("Int")),
+      """Unable to decode json "abc" to Int: Int"""
+    )
+  }
+
   test("circeYamlConfigDecoder.invalid") {
     checkError(
       ConfigValue.default("\"abc\"").as[Int](circeYamlConfigDecoder("Int")),
@@ -52,29 +69,29 @@ final class CirceYamlSpec extends AnyFunSuite {
 
   test("yamlConfigDecoder.invalid") {
     checkError(
-      ConfigValue.default("abc").as[Json],
-      "Unable to parse value abc as json: expected json value got 'abc' (line 1, column 1)"
+      ConfigValue.default("\"no\"").as[Boolean],
+      "Unable to convert value \"no\" to Boolean"
     )
   }
 
   test("yamlConfigDecoder.invalid.redacted") {
     checkError(
-      ConfigValue.default("abc").as[Json].redacted,
-      "Unable to parse value as json"
+      ConfigValue.default("\"no\"").as[Boolean].redacted,
+      "Unable to convert value to Boolean"
     )
   }
 
   test("yamlConfigDecoder.invalid.loaded") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "abc").as[Json],
-      "Key with value abc cannot be parsed as json: expected json value got 'abc' (line 1, column 1)"
+      ConfigValue.loaded(ConfigKey("key"), "\"no\"").as[Boolean],
+      "Key with value \"no\" cannot be converted to Boolean"
     )
   }
 
   test("yamlConfigDecoder.invalid.loaded.redacted") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "abc").as[Json].redacted,
-      "Key cannot be parsed as json"
+      ConfigValue.loaded(ConfigKey("key"), "\"no\"").as[Boolean].redacted,
+      "Key cannot be converted to Boolean"
     )
   }
 
