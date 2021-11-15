@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-package ciris
-package circe
+package ciris.circe
 
 import cats.implicits._
+import ciris.{ConfigDecoder, ConfigError}
 import io.circe.{Decoder, Json}
 import io.circe.{DecodingFailure, ParsingFailure}
 import io.circe.yaml.parser.parse

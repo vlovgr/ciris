@@ -18,12 +18,14 @@ final class CirceYamlSpec extends AnyFunSuite {
   }
 
   test("circeYamlConfigDecoder.success.noquotes") {
-    val result = default("abc").as[String](circeYamlConfigDecoder("String")).load[IO].unsafeRunSync()
+    val result =
+      default("abc").as[String](circeYamlConfigDecoder("String")).load[IO].unsafeRunSync()
     assert(result == "abc")
   }
 
   test("circeYamlConfigDecoder.success.quotes") {
-    val result = default("\"abc\"").as[String](circeYamlConfigDecoder("String")).load[IO].unsafeRunSync()
+    val result =
+      default("\"abc\"").as[String](circeYamlConfigDecoder("String")).load[IO].unsafeRunSync()
     assert(result == "abc")
   }
 
@@ -57,7 +59,10 @@ final class CirceYamlSpec extends AnyFunSuite {
 
   test("circeYamlConfigDecoder.invalid.loaded.redacted") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeYamlConfigDecoder("Int")).redacted,
+      ConfigValue
+        .loaded(ConfigKey("key"), "\"abc\"")
+        .as[Int](circeYamlConfigDecoder("Int"))
+        .redacted,
       "Key cannot be decoded to Int"
     )
   }

@@ -71,6 +71,7 @@ object Main {
           "DOCS_SCALA_VERSION" -> scalaDocsVersion,
           "CATS_EFFECT_VERSION" -> catsEffectVersion,
           "CIRCE_VERSION" -> circeVersion,
+          "CIRCE_YAML_VERSION" -> circeYamlVersion,
           "ENUMERATUM_VERSION" -> enumeratumVersion,
           "REFINED_VERSION" -> refinedVersion,
           "REFINED_MODULE_NAME" -> refinedModuleName,

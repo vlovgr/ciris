@@ -28,7 +28,7 @@ circeConfigDecoder[SerialNumber]("SerialNumber")
 
 ## Circe YAML
 
-The `@CIRCE_YAML_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for YAML using [Circe's YAML module](https://github.com/circe/circe-yaml).
+The `@CIRCE_YAML_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for YAML using [`circe-yaml`](https://github.com/circe/circe-yaml).
 
 ```scala mdoc:reset
 import ciris.circe.yaml._
