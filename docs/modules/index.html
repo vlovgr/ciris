@@ -62,7 +62,7 @@
 <span class="hljs-keyword">import</span> io.circe.{<span class="hljs-type">Decoder</span>, <span class="hljs-type">Json</span>}
 
 <span class="hljs-type">ConfigDecoder</span>[<span class="hljs-type">String</span>, <span class="hljs-type">Json</span>]
-<span class="hljs-comment">// res0: ConfigDecoder[String, Json] = ConfigDecoder$1062093646</span>
+<span class="hljs-comment">// res0: ConfigDecoder[String, Json] = ConfigDecoder$1875087714</span>
 
 <span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SerialNumber</span>(<span class="hljs-params">value: <span class="hljs-type">String</span></span>)</span>
 
@@ -72,7 +72,7 @@
 }
 
 circeConfigDecoder[<span class="hljs-type">SerialNumber</span>](<span class="hljs-string">"SerialNumber"</span>)
-<span class="hljs-comment">// res1: ConfigDecoder[String, SerialNumber] = ConfigDecoder$1123721134</span>
+<span class="hljs-comment">// res1: ConfigDecoder[String, SerialNumber] = ConfigDecoder$1642904340</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="circe-yaml"></a><a href="#circe-yaml" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Circe YAML</h2>
 <p>The <code>ciris-circe-yaml</code> module provides <a href="/api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for YAML using <a href="https://github.com/circe/circe-yaml"><code>circe-yaml</code></a>.</p>
@@ -81,7 +81,7 @@ circeConfigDecoder[<span class="hljs-type">SerialNumber</span>](<span class="hlj
 <span class="hljs-keyword">import</span> io.circe.{<span class="hljs-type">Decoder</span>, <span class="hljs-type">Json</span>}
 
 <span class="hljs-type">ConfigDecoder</span>[<span class="hljs-type">String</span>, <span class="hljs-type">Json</span>]
-<span class="hljs-comment">// res3: ConfigDecoder[String, Json] = ConfigDecoder$1583450096</span>
+<span class="hljs-comment">// res3: ConfigDecoder[String, Json] = ConfigDecoder$1368851028</span>
 
 <span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SerialNumber</span>(<span class="hljs-params">value: <span class="hljs-type">String</span></span>)</span>
 
@@ -91,7 +91,7 @@ circeConfigDecoder[<span class="hljs-type">SerialNumber</span>](<span class="hlj
 }
 
 circeYamlConfigDecoder[<span class="hljs-type">SerialNumber</span>](<span class="hljs-string">"SerialNumber"</span>)
-<span class="hljs-comment">// res4: ConfigDecoder[String, SerialNumber] = ConfigDecoder$211880965</span>
+<span class="hljs-comment">// res4: ConfigDecoder[String, SerialNumber] = ConfigDecoder$2029517903</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="enumeratum"></a><a href="#enumeratum" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enumeratum</h2>
 <p>The <code>ciris-enumeratum</code> module provides <a href="/api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for <a href="https://github.com/lloydmeta/enumeratum">Enumeratum</a> enumerations.</p>
@@ -111,7 +111,7 @@ circeYamlConfigDecoder[<span class="hljs-type">SerialNumber</span>](<span class=
 }
 
 <span class="hljs-type">ConfigDecoder</span>[<span class="hljs-type">String</span>, <span class="hljs-type">Suit</span>]
-<span class="hljs-comment">// res5: ConfigDecoder[String, Suit] = ConfigDecoder$1485383067</span>
+<span class="hljs-comment">// res5: ConfigDecoder[String, Suit] = ConfigDecoder$2095817690</span>
 </code></pre>
 <p>For <code>ValueEnum</code>s, also mix in the matching <code>CirisValueEnum</code> to derive a <a href="/api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a> instance.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> enumeratum.values.{<span class="hljs-type">StringCirisEnum</span>, <span class="hljs-type">StringEnum</span>, <span class="hljs-type">StringEnumEntry</span>}
@@ -127,7 +127,7 @@ circeYamlConfigDecoder[<span class="hljs-type">SerialNumber</span>](<span class=
 }
 
 <span class="hljs-type">ConfigDecoder</span>[<span class="hljs-type">String</span>, <span class="hljs-type">Color</span>]
-<span class="hljs-comment">// res6: ConfigDecoder[String, Color] = ConfigDecoder$359300178</span>
+<span class="hljs-comment">// res6: ConfigDecoder[String, Color] = ConfigDecoder$2104276949</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="refined"></a><a href="#refined" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Refined</h2>
 <p>The <code>ciris-refined</code> module provides <a href="/api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for <a href="https://github.com/fthomas/refined">refined</a> refinement types.</p>
@@ -136,7 +136,7 @@ circeYamlConfigDecoder[<span class="hljs-type">SerialNumber</span>](<span class=
 <span class="hljs-keyword">import</span> eu.timepit.refined.types.numeric.<span class="hljs-type">PosInt</span>
 
 <span class="hljs-type">ConfigDecoder</span>[<span class="hljs-type">String</span>, <span class="hljs-type">PosInt</span>]
-<span class="hljs-comment">// res7: ConfigDecoder[String, PosInt] = ConfigDecoder$1206269704</span>
+<span class="hljs-comment">// res7: ConfigDecoder[String, PosInt] = ConfigDecoder$335581070</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="squants"></a><a href="#squants" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Squants</h2>
 <p>The <code>ciris-squants</code> module provides <a href="/api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for <a href="https://github.com/typelevel/squants">squants</a> quantities.</p>
@@ -144,6 +144,6 @@ circeYamlConfigDecoder[<span class="hljs-type">SerialNumber</span>](<span class=
 <span class="hljs-keyword">import</span> squants.market.<span class="hljs-type">Money</span>
 
 <span class="hljs-type">ConfigDecoder</span>[<span class="hljs-type">String</span>, <span class="hljs-type">Money</span>]
-<span class="hljs-comment">// res8: ConfigDecoder[String, Money] = ConfigDecoder$1134811861</span>
+<span class="hljs-comment">// res8: ConfigDecoder[String, Money] = ConfigDecoder$1397890245</span>
 </code></pre>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/configurations"><span class="arrow-prev">← </span><span>Configurations</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#circe">Circe</a></li><li><a href="#circe-yaml">Circe YAML</a></li><li><a href="#enumeratum">Enumeratum</a></li><li><a href="#refined">Refined</a></li><li><a href="#squants">Squants</a></li></ul></nav></div><footer class="nav-footer" id="footer"><hr class="separator"/><section class="copyright">Copyright © 2017-2021 Viktor Lövgren.<br/>Icon designed by <a href="https://www.flaticon.com/authors/freepik" rel="noopener">Freepik</a> from Flaticon.</section></footer></div></body></html>
