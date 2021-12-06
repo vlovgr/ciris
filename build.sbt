@@ -129,7 +129,9 @@ lazy val squants = project
     ),
     publishSettings,
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
     testSettings
   )
   .dependsOn(core)
@@ -309,7 +311,7 @@ lazy val publishSettings =
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    val unpublishedModules = Set[String]()
+    val unpublishedModules = Set[String]("ciris-squants")
     if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
       Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
     } else Set()
