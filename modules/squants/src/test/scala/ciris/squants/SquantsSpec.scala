@@ -1,3 +1,9 @@
+/*
+ * Copyright 2017-2022 Viktor Lövgren
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 package ciris.squants
 
 import _root_.squants.time.Time
