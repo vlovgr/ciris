@@ -91,7 +91,7 @@ ConfigDecoder[String, Color]
 
 ## Http4s
 
-The `@HTTP4S_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [http4s](https://github.com/http4s/http4s) Uri type.
+The `@HTTP4S_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for the [http4s](https://github.com/http4s/http4s) `Uri` type.
 
 ```scala mdoc
 import ciris.http4s._

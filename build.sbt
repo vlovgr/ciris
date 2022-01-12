@@ -107,10 +107,7 @@ lazy val http4s = project
     moduleName := "ciris-http4s",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies ++= Seq(
-        "org.http4s" %% "http4s-core" % http4sVersion,
-        "org.tpolecat" %% "typename" % typeNameVersion
-      )
+      libraryDependencies += "org.http4s" %% "http4s-core" % http4sVersion
     ),
     publishSettings,
     mimaSettings,

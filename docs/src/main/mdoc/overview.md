@@ -125,7 +125,7 @@ Refer to the table below for dependencies and version support across modules.
 | `@CIRCE_MODULE_NAME@`      | [Circe @CIRCE_VERSION@](https://github.com/circe/circe)                                                                                         | Scala @CIRCE_CROSS_SCALA_VERSIONS@      |
 | `@CIRCE_YAML_MODULE_NAME@` | [Circe YAML @CIRCE_YAML_VERSION@](https://github.com/circe/circe-yaml)                                                                          | Scala @CIRCE_YAML_CROSS_SCALA_VERSIONS@ |
 | `@ENUMERATUM_MODULE_NAME@` | [Enumeratum @ENUMERATUM_VERSION@](https://github.com/lloydmeta/enumeratum), [TypeName @TYPENAME_VERSION@](https://github.com/tpolecat/typename) | Scala @ENUMERATUM_CROSS_SCALA_VERSIONS@ |
-| `@HTTP4S_MODULE_NAME@`     | [Http4s @HTTP4S_VERSION@](https://github.com/http4s/http4s), [TypeName @TYPENAME_VERSION@](https://github.com/tpolecat/typename)                | Scala @HTTP4S_CROSS_SCALA_VERSIONS@     |
+| `@HTTP4S_MODULE_NAME@`     | [Http4s @HTTP4S_VERSION@](https://github.com/http4s/http4s)                                                                                     | Scala @HTTP4S_CROSS_SCALA_VERSIONS@     |
 | `@REFINED_MODULE_NAME@`    | [Refined @REFINED_VERSION@](https://github.com/fthomas/refined), [TypeName @TYPENAME_VERSION@](https://github.com/tpolecat/typename)            | Scala @REFINED_CROSS_SCALA_VERSIONS@    |
 | `@SQUANTS_MODULE_NAME@`    | [Squants @SQUANTS_VERSION@](https://github.com/typelevel/squants)                                                                               | Scala @SQUANTS_CROSS_SCALA_VERSIONS@    |
 

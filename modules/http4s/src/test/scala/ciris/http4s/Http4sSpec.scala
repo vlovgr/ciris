@@ -9,8 +9,8 @@ package ciris.http4s
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
 import ciris._
-import org.http4s.Uri
 import org.http4s.syntax.literals._
+import org.http4s.Uri
 import org.scalatest.funsuite.AnyFunSuite
 
 final class Http4sSpec extends AnyFunSuite {
