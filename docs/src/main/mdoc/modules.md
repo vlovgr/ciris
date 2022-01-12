@@ -89,6 +89,17 @@ object Color extends StringEnum[Color] with StringCirisEnum[Color] {
 ConfigDecoder[String, Color]
 ```
 
+## Http4s
+
+The `@HTTP4S_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for the [http4s](https://github.com/http4s/http4s) `Uri` type.
+
+```scala mdoc
+import ciris.http4s._
+import org.http4s.Uri
+
+ConfigDecoder[String, Uri]
+```
+
 ## Refined
 
 The `@REFINED_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [refined](https://github.com/fthomas/refined) refinement types.

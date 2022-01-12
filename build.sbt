@@ -6,6 +6,8 @@ val circeYamlVersion = "0.14.1"
 
 val enumeratumVersion = "1.7.0"
 
+val http4sVersion = "0.23.7"
+
 val refinedVersion = "0.9.28"
 
 val squantsVersion = "1.8.3"
@@ -29,7 +31,7 @@ lazy val ciris = project
     console := (core / Compile / console).value,
     Test / console := (core / Test / console).value
   )
-  .aggregate(core, circe, circeYaml, enumeratum, refined, squants)
+  .aggregate(core, circe, circeYaml, enumeratum, http4s, refined, squants)
 
 lazy val core = project
   .in(file("modules/core"))
@@ -99,6 +101,23 @@ lazy val enumeratum = project
   )
   .dependsOn(core)
 
+lazy val http4s = project
+  .in(file("modules/http4s"))
+  .settings(
+    moduleName := "ciris-http4s",
+    name := moduleName.value,
+    dependencySettings ++ Seq(
+      libraryDependencies += "org.http4s" %% "http4s-core" % http4sVersion
+    ),
+    publishSettings,
+    mimaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
+    testSettings
+  )
+  .dependsOn(core)
+
 lazy val refined = project
   .in(file("modules/refined"))
   .settings(
@@ -149,7 +168,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core, circe, circeYaml, enumeratum, refined, squants)
+  .dependsOn(core, circe, circeYaml, enumeratum, http4s, refined, squants)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -188,6 +207,7 @@ lazy val mdocSettings = Seq(
     circe,
     circeYaml,
     enumeratum,
+    http4s,
     refined,
     squants
   ),
@@ -254,6 +274,12 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(enumeratum / crossScalaVersions) { case (k, v) =>
       "enumeratum" ++ k.capitalize -> v
     },
+    BuildInfoKey.map(http4s / moduleName) { case (k, v) =>
+      "http4s" ++ k.capitalize -> v
+    },
+    BuildInfoKey.map(http4s / crossScalaVersions) { case (k, v) =>
+      "http4s" ++ k.capitalize -> v
+    },
     BuildInfoKey.map(refined / moduleName) { case (k, v) =>
       "refined" ++ k.capitalize -> v
     },
@@ -272,6 +298,7 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey("circeVersion" -> circeVersion),
     BuildInfoKey("circeYamlVersion" -> circeYamlVersion),
     BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
+    BuildInfoKey("http4sVersion" -> http4sVersion),
     BuildInfoKey("refinedVersion" -> refinedVersion),
     BuildInfoKey("squantsVersion" -> squantsVersion),
     BuildInfoKey("typeNameVersion" -> typeNameVersion)
@@ -311,7 +338,7 @@ lazy val publishSettings =
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    val unpublishedModules = Set[String]("ciris-squants")
+    val unpublishedModules = Set[String]("ciris-http4s")
     if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
       Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
     } else Set()
