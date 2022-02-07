@@ -1,4 +1,4 @@
-val catsEffectVersion = "3.3.4"
+val catsEffectVersion = "3.3.5"
 
 val circeVersion = "0.14.1"
 
@@ -6,7 +6,7 @@ val circeYamlVersion = "0.14.1"
 
 val enumeratumVersion = "1.7.0"
 
-val http4sVersion = "0.23.8"
+val http4sVersion = "0.23.10"
 
 val refinedVersion = "0.9.28"
 
@@ -18,7 +18,7 @@ val scala212 = "2.12.15"
 
 val scala213 = "2.13.8"
 
-val scala3 = "3.1.0"
+val scala3 = "3.1.1"
 
 ThisBuild / versionScheme := Some("early-semver")
 
