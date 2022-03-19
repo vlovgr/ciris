@@ -1,4 +1,4 @@
-val catsEffectVersion = "3.3.7"
+val catsEffectVersion = "3.3.8"
 
 val circeVersion = "0.14.1"
 
