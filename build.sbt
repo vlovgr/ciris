@@ -8,7 +8,7 @@ val enumeratumVersion = "1.7.0"
 
 val http4sVersion = "0.23.12"
 
-val refinedVersion = "0.9.29"
+val refinedVersion = "0.10.1"
 
 val squantsVersion = "1.8.3"
 
