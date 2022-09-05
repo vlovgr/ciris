@@ -6,7 +6,7 @@
 
 package ciris
 
-import cats.implicits._
+import cats.syntax.all._
 import io.circe.{Decoder, Json}
 import io.circe.{DecodingFailure, ParsingFailure}
 import io.circe.parser.parse

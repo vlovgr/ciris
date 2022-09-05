@@ -6,7 +6,6 @@
 
 package enumeratum
 
-import cats.implicits._
 import ciris.ConfigDecoder
 import org.tpolecat.typename.TypeName
 

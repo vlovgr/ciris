@@ -59,6 +59,8 @@ object Main {
           "ORGANIZATION" -> organization,
           "CORE_MODULE_NAME" -> coreModuleName,
           "CORE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(coreCrossScalaVersions),
+          "CORE_JS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(coreJsCrossScalaVersions),
+          "CORE_NATIVE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(coreNativeCrossScalaVersions),
           "CIRCE_MODULE_NAME" -> circeModuleName,
           "CIRCE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(circeCrossScalaVersions),
           "CIRCE_YAML_MODULE_NAME" -> circeYamlModuleName,
@@ -84,7 +86,9 @@ object Main {
           "SQUANTS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(squantsCrossScalaVersions),
           "SCALA_PUBLISH_VERSIONS" -> scalaVersionsString(crossScalaVersions),
           "TYPENAME_VERSION" -> typeNameVersion,
-          "API_BASE_URL" -> s"/api/ciris"
+          "API_BASE_URL" -> s"/api/ciris",
+          "SCALA_JS_MAJOR_MINOR_VERSION" -> scalaJsMajorMinorVersion,
+          "SCALA_NATIVE_MAJOR_MINOR_VERSION" -> scalaNativeMajorMinorVersion
         )
       }
       .withScalacOptions(scalacOptions.mkString(" "))

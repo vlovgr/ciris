@@ -8,7 +8,7 @@ package ciris.refined
 
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import cats.implicits._
+import cats.syntax.all._
 import ciris._
 import eu.timepit.refined.types.numeric.PosInt
 import org.scalatest.funsuite.AnyFunSuite

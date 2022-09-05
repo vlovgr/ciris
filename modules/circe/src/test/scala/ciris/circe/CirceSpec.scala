@@ -9,7 +9,7 @@ package ciris.circe
 import cats.data.Chain
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import cats.implicits._
+import cats.syntax.all._
 import ciris._
 import io.circe.Json
 import org.scalatest.compatible.Assertion

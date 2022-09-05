@@ -7,7 +7,6 @@
 package ciris
 
 import _root_.squants.{Dimension, Quantity}
-import cats.implicits._
 
 package object squants {
   implicit final def stringQuantityConfigDecoder[A <: Quantity[A]](

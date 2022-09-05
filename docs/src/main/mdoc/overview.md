@@ -23,7 +23,11 @@ To get started with [sbt](https://scala-sbt.org), add the following line to your
 libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@LATEST_VERSION@"
 ```
 
-Published for Scala @SCALA_PUBLISH_VERSIONS@. For changes, refer to the [release notes](https://github.com/vlovgr/ciris/releases).
+Published for Scala @SCALA_PUBLISH_VERSIONS@, [Scala.js](https://www.scala-js.org) @SCALA_JS_MAJOR_MINOR_VERSION@ and [Scala Native](https://scala-native.org) @SCALA_NATIVE_MAJOR_MINOR_VERSION@.
+
+For changes between versions, please refer to the [release notes](https://github.com/vlovgr/ciris/releases).
+
+If you are using Scala.js or Scala Native, make sure to replace `%%` with `%%%` above.
 
 For Scala 2.12, enable partial unification by adding the following line to `build.sbt`.
 
@@ -128,6 +132,18 @@ Refer to the table below for dependencies and version support across modules.
 | `@HTTP4S_MODULE_NAME@`     | [Http4s @HTTP4S_VERSION@](https://github.com/http4s/http4s)                                                                                     | Scala @HTTP4S_CROSS_SCALA_VERSIONS@     |
 | `@REFINED_MODULE_NAME@`    | [Refined @REFINED_VERSION@](https://github.com/fthomas/refined), [TypeName @TYPENAME_VERSION@](https://github.com/tpolecat/typename)            | Scala @REFINED_CROSS_SCALA_VERSIONS@    |
 | `@SQUANTS_MODULE_NAME@`    | [Squants @SQUANTS_VERSION@](https://github.com/typelevel/squants)                                                                               | Scala @SQUANTS_CROSS_SCALA_VERSIONS@    |
+
+For Scala.js and Scala Native version support, refer to the following table.
+
+| Module                     | Scala.js                                                                       | Scala Native                                                                               |
+| -------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `@CORE_MODULE_NAME@`       | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @CORE_JS_CROSS_SCALA_VERSIONS@) | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @CORE_NATIVE_CROSS_SCALA_VERSIONS@) |
+| `@CIRCE_MODULE_NAME@`      |                                                                                |                                                                                            |
+| `@CIRCE_YAML_MODULE_NAME@` |                                                                                |                                                                                            |
+| `@ENUMERATUM_MODULE_NAME@` |                                                                                |                                                                                            |
+| `@HTTP4S_MODULE_NAME@`     |                                                                                |                                                                                            |
+| `@REFINED_MODULE_NAME@`    |                                                                                |                                                                                            |
+| `@SQUANTS_MODULE_NAME@`    |                                                                                |                                                                                            |
 
 ## Participation
 
