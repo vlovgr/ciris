@@ -9,24 +9,14 @@ package ciris.http4s
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
 import ciris._
+import com.comcast.ip4s._
 import org.http4s.syntax.literals._
 import org.http4s.Uri
 import org.scalatest.funsuite.AnyFunSuite
-import com.comcast.ip4s._
 
 final class Http4sSpec extends AnyFunSuite {
-  test("uriConfigDecoder.success") {
-    assert {
-      val actual = default("https://github.com/vlovgr/ciris").as[Uri].attempt[IO].unsafeRunSync()
-      val expected = Right(uri"https://github.com/vlovgr/ciris")
-      actual == expected
-    }
-  }
-
-  test("uriConfigDecoder.error") {
-    assert {
-      default("invalid uri").as[Uri].attempt[IO].unsafeRunSync().isLeft
-    }
+  test("hostConfigDecoder.error") {
+    default("🍋.🍊.🍉.🍐").as[Host].attempt[IO].unsafeRunSync().isLeft
   }
 
   test("hostConfigDecoder.success") {
@@ -47,28 +37,33 @@ final class Http4sSpec extends AnyFunSuite {
       val expected = Right(ip"::1")
       actual === expected
     }
-
   }
 
-  test("hostConfigDecoder.error") {
-    default("🍋.🍊.🍉.🍐").as[Host].attempt[IO].unsafeRunSync().isLeft
+  test("portConfigDecoder.error") {
+    assert {
+      default("🚨").as[Port].attempt[IO].unsafeRunSync().isLeft
+    }
   }
 
   test("portConfigDecoder.success") {
-
     assert {
       val actual = default("12345").as[Port].attempt[IO].unsafeRunSync()
       val expected = Right(port"12345")
       actual === expected
     }
-
   }
 
-  test("portConfigDecoder.error") {
-
+  test("uriConfigDecoder.error") {
     assert {
-      default("🚨").as[Port].attempt[IO].unsafeRunSync().isLeft
+      default("invalid uri").as[Uri].attempt[IO].unsafeRunSync().isLeft
     }
+  }
 
+  test("uriConfigDecoder.success") {
+    assert {
+      val actual = default("https://github.com/vlovgr/ciris").as[Uri].attempt[IO].unsafeRunSync()
+      val expected = Right(uri"https://github.com/vlovgr/ciris")
+      actual == expected
+    }
   }
 }
