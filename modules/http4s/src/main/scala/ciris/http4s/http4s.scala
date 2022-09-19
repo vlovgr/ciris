@@ -15,7 +15,7 @@ package object http4s {
     ConfigDecoder[String].mapOption("Host")(Host.fromString)
 
   implicit final val portConfigDecoder: ConfigDecoder[String, Port] =
-    ConfigDecoder[String].mapOption("Host")(Port.fromString)
+    ConfigDecoder[String].mapOption("Port")(Port.fromString)
 
   implicit final val uriConfigDecoder: ConfigDecoder[String, Uri] =
     ConfigDecoder[String].mapOption("Uri")(Uri.fromString(_).toOption)
