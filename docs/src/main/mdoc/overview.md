@@ -135,15 +135,15 @@ Refer to the table below for dependencies and version support across modules.
 
 For Scala.js and Scala Native version support, refer to the following table.
 
-| Module                     | Scala.js                                                                        | Scala Native                                                                                |
-| -------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| `@CORE_MODULE_NAME@`       | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @CORE_JS_CROSS_SCALA_VERSIONS@)  | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @CORE_NATIVE_CROSS_SCALA_VERSIONS@)  |
-| `@CIRCE_MODULE_NAME@`      | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @CIRCE_JS_CROSS_SCALA_VERSIONS@) | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @CIRCE_NATIVE_CROSS_SCALA_VERSIONS@) |
-| `@CIRCE_YAML_MODULE_NAME@` |                                                                                 |                                                                                             |
-| `@ENUMERATUM_MODULE_NAME@` |                                                                                 |                                                                                             |
-| `@HTTP4S_MODULE_NAME@`     |                                                                                 |                                                                                             |
-| `@REFINED_MODULE_NAME@`    |                                                                                 |                                                                                             |
-| `@SQUANTS_MODULE_NAME@`    |                                                                                 |                                                                                             |
+| Module                     | Scala.js                                                                         | Scala Native                                                                                 |
+| -------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `@CORE_MODULE_NAME@`       | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @CORE_JS_CROSS_SCALA_VERSIONS@)   | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @CORE_NATIVE_CROSS_SCALA_VERSIONS@)   |
+| `@CIRCE_MODULE_NAME@`      | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @CIRCE_JS_CROSS_SCALA_VERSIONS@)  | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @CIRCE_NATIVE_CROSS_SCALA_VERSIONS@)  |
+| `@CIRCE_YAML_MODULE_NAME@` | :x:                                                                              | :x:                                                                                          |
+| `@ENUMERATUM_MODULE_NAME@` | :x:                                                                              | :x:                                                                                          |
+| `@HTTP4S_MODULE_NAME@`     | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @HTTP4S_JS_CROSS_SCALA_VERSIONS@) | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @HTTP4S_NATIVE_CROSS_SCALA_VERSIONS@) |
+| `@REFINED_MODULE_NAME@`    | :x:                                                                              | :x:                                                                                          |
+| `@SQUANTS_MODULE_NAME@`    |                                                                                  |                                                                                              |
 
 ## Participation
 

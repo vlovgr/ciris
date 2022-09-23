@@ -55,6 +55,7 @@ object Main {
     val settings = mdoc
       .MainSettings()
       .withSiteVariables {
+        // format: off
         Map(
           "ORGANIZATION" -> organization,
           "CORE_MODULE_NAME" -> coreModuleName,
@@ -80,6 +81,8 @@ object Main {
           "HTTP4S_VERSION" -> http4sVersion,
           "HTTP4S_MODULE_NAME" -> http4sModuleName,
           "HTTP4S_CROSS_SCALA_VERSIONS" -> scalaVersionsString(http4sCrossScalaVersions),
+          "HTTP4S_JS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(http4sJsCrossScalaVersions),
+          "HTTP4S_NATIVE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(http4sNativeCrossScalaVersions),
           "REFINED_VERSION" -> refinedVersion,
           "REFINED_MODULE_NAME" -> refinedModuleName,
           "REFINED_CROSS_SCALA_VERSIONS" -> scalaVersionsString(refinedCrossScalaVersions),
@@ -92,6 +95,7 @@ object Main {
           "SCALA_JS_MAJOR_MINOR_VERSION" -> scalaJsMajorMinorVersion,
           "SCALA_NATIVE_MAJOR_MINOR_VERSION" -> scalaNativeMajorMinorVersion
         )
+        // format: on
       }
       .withScalacOptions(scalacOptions.mkString(" "))
       .withIn(sourceDirectoryPath("main", "mdoc"))

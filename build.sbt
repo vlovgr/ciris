@@ -6,7 +6,7 @@ val circeYamlVersion = "0.14.1"
 
 val enumeratumVersion = "1.7.0"
 
-val http4sVersion = "0.23.15"
+val http4sVersion = "0.23.16"
 
 val refinedVersion = "0.10.1"
 
@@ -46,7 +46,9 @@ lazy val ciris = project
     circe.native,
     circeYaml,
     enumeratum,
-    http4s,
+    http4s.js,
+    http4s.jvm,
+    http4s.native,
     refined,
     squants
   )
@@ -130,13 +132,13 @@ lazy val enumeratum = project
   )
   .dependsOn(core.jvm)
 
-lazy val http4s = project
+lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/http4s"))
   .settings(
     moduleName := "ciris-http4s",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "org.http4s" %% "http4s-core" % http4sVersion
+      libraryDependencies += "org.http4s" %%% "http4s-core" % http4sVersion
     ),
     publishSettings,
     mimaSettings,
@@ -145,7 +147,12 @@ lazy val http4s = project
     ),
     testSettings
   )
-  .dependsOn(core.jvm)
+  .jsSettings(
+    sharedJsSettings,
+    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  )
+  .nativeSettings(sharedNativeSettings)
+  .dependsOn(core)
 
 lazy val refined = project
   .in(file("modules/refined"))
@@ -197,7 +204,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum, http4s, refined, squants)
+  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum, http4s.jvm, refined, squants)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -236,7 +243,7 @@ lazy val mdocSettings = Seq(
     circe.jvm,
     circeYaml,
     enumeratum,
-    http4s,
+    http4s.jvm,
     refined,
     squants
   ),
@@ -288,8 +295,10 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(circeYaml / crossScalaVersions) { case (k, v) => "circeYaml" ++ k.capitalize -> v },
     BuildInfoKey.map(enumeratum / moduleName) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
     BuildInfoKey.map(enumeratum / crossScalaVersions) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4s / moduleName) { case (k, v) => "http4s" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4s / crossScalaVersions) { case (k, v) => "http4s" ++ k.capitalize -> v },
+    BuildInfoKey.map(http4s.jvm / moduleName) { case (k, v) => "http4s" ++ k.capitalize -> v },
+    BuildInfoKey.map(http4s.jvm / crossScalaVersions) { case (k, v) => "http4s" ++ k.capitalize -> v },
+    BuildInfoKey.map(http4s.js / crossScalaVersions) { case (k, v) => "http4sJs" ++ k.capitalize -> v },
+    BuildInfoKey.map(http4s.native / crossScalaVersions) { case (k, v) => "http4sNative" ++ k.capitalize -> v },
     BuildInfoKey.map(refined / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
     BuildInfoKey.map(refined / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
     BuildInfoKey.map(squants / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
