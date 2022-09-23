@@ -50,7 +50,9 @@ lazy val ciris = project
     http4s.jvm,
     http4s.native,
     refined,
-    squants
+    squants.js,
+    squants.jvm,
+    squants.native
   )
 
 lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -174,13 +176,13 @@ lazy val refined = project
   )
   .dependsOn(core.jvm)
 
-lazy val squants = project
+lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/squants"))
   .settings(
     moduleName := "ciris-squants",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "org.typelevel" %% "squants" % squantsVersion
+      libraryDependencies += "org.typelevel" %%% "squants" % squantsVersion
     ),
     publishSettings,
     mimaSettings,
@@ -189,7 +191,12 @@ lazy val squants = project
     ),
     testSettings
   )
-  .dependsOn(core.jvm)
+  .jsSettings(sharedJsSettings)
+  .nativeSettings(
+    sharedNativeSettings,
+    crossScalaVersions -= scala3
+  )
+  .dependsOn(core)
 
 lazy val docs = project
   .in(file("docs"))
@@ -204,7 +211,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum, http4s.jvm, refined, squants)
+  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum, http4s.jvm, refined, squants.jvm)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -245,7 +252,7 @@ lazy val mdocSettings = Seq(
     enumeratum,
     http4s.jvm,
     refined,
-    squants
+    squants.jvm
   ),
   ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
   cleanFiles += (ScalaUnidoc / unidoc / target).value,
@@ -301,8 +308,10 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(http4s.native / crossScalaVersions) { case (k, v) => "http4sNative" ++ k.capitalize -> v },
     BuildInfoKey.map(refined / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
     BuildInfoKey.map(refined / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
-    BuildInfoKey.map(squants / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
-    BuildInfoKey.map(squants / crossScalaVersions) { case (k, v) => "squants" ++ k.capitalize -> v },
+    BuildInfoKey.map(squants.jvm / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
+    BuildInfoKey.map(squants.jvm / crossScalaVersions) { case (k, v) => "squants" ++ k.capitalize -> v },
+    BuildInfoKey.map(squants.js / crossScalaVersions) { case (k, v) => "squantsJs" ++ k.capitalize -> v },
+    BuildInfoKey.map(squants.native / crossScalaVersions) { case (k, v) => "squantsNative" ++ k.capitalize -> v },
     LocalRootProject / organization,
     core.jvm / crossScalaVersions,
     BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
