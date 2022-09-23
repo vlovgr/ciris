@@ -1,6 +1,6 @@
 val catsEffectVersion = "3.3.14"
 
-val circeVersion = "0.14.2"
+val circeVersion = "0.14.3"
 
 val circeYamlVersion = "0.14.1"
 
@@ -41,7 +41,9 @@ lazy val ciris = project
     core.js,
     core.jvm,
     core.native,
-    circe,
+    circe.js,
+    circe.jvm,
+    circe.native,
     circeYaml,
     enumeratum,
     http4s,
@@ -71,20 +73,16 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         "*CatsEquality.scala" ||
         "*CatsSuite.scala"
   )
-  .jsSettings(
-    doctestGenTests := Seq.empty
-  )
-  .nativeSettings(
-    crossScalaVersions -= scala212
-  )
+  .jsSettings(sharedJsSettings)
+  .nativeSettings(sharedNativeSettings)
 
-lazy val circe = project
+lazy val circe = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/circe"))
   .settings(
     moduleName := "ciris-circe",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "io.circe" %% "circe-parser" % circeVersion
+      libraryDependencies += "io.circe" %%% "circe-parser" % circeVersion
     ),
     publishSettings,
     mimaSettings,
@@ -93,7 +91,9 @@ lazy val circe = project
     ),
     testSettings
   )
-  .dependsOn(core.jvm)
+  .jsSettings(sharedJsSettings)
+  .nativeSettings(sharedNativeSettings)
+  .dependsOn(core)
 
 lazy val circeYaml = project
   .in(file("modules/circe-yaml"))
@@ -197,7 +197,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core.jvm, circe, circeYaml, enumeratum, http4s, refined, squants)
+  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum, http4s, refined, squants)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -233,7 +233,7 @@ lazy val mdocSettings = Seq(
   crossScalaVersions := Seq(scalaVersion.value),
   ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
     core.jvm,
-    circe,
+    circe.jvm,
     circeYaml,
     enumeratum,
     http4s,
@@ -280,8 +280,10 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(core.jvm / crossScalaVersions) { case (k, v) => "core" ++ k.capitalize -> v },
     BuildInfoKey.map(core.js / crossScalaVersions) { case (k, v) => "coreJs" ++ k.capitalize -> v },
     BuildInfoKey.map(core.native / crossScalaVersions) { case (k, v) => "coreNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(circe / moduleName) { case (k, v) => "circe" ++ k.capitalize -> v },
-    BuildInfoKey.map(circe / crossScalaVersions) { case (k, v) => "circe" ++ k.capitalize -> v },
+    BuildInfoKey.map(circe.jvm / moduleName) { case (k, v) => "circe" ++ k.capitalize -> v },
+    BuildInfoKey.map(circe.jvm / crossScalaVersions) { case (k, v) => "circe" ++ k.capitalize -> v },
+    BuildInfoKey.map(circe.js / crossScalaVersions) { case (k, v) => "circeJs" ++ k.capitalize -> v },
+    BuildInfoKey.map(circe.native / crossScalaVersions) { case (k, v) => "circeNative" ++ k.capitalize -> v },
     BuildInfoKey.map(circeYaml / moduleName) { case (k, v) => "circeYaml" ++ k.capitalize -> v },
     BuildInfoKey.map(circeYaml / crossScalaVersions) { case (k, v) => "circeYaml" ++ k.capitalize -> v },
     BuildInfoKey.map(enumeratum / moduleName) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
@@ -360,6 +362,14 @@ lazy val noPublishSettings =
     publish / skip := true,
     publishArtifact := false
   )
+
+lazy val sharedJsSettings = Seq(
+  doctestGenTests := Seq.empty
+)
+
+lazy val sharedNativeSettings = Seq(
+  crossScalaVersions -= scala212
+)
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,

@@ -63,6 +63,8 @@ object Main {
           "CORE_NATIVE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(coreNativeCrossScalaVersions),
           "CIRCE_MODULE_NAME" -> circeModuleName,
           "CIRCE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(circeCrossScalaVersions),
+          "CIRCE_JS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(circeJsCrossScalaVersions),
+          "CIRCE_NATIVE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(circeNativeCrossScalaVersions),
           "CIRCE_YAML_MODULE_NAME" -> circeYamlModuleName,
           "CIRCE_YAML_CROSS_SCALA_VERSIONS" -> scalaVersionsString(circeYamlCrossScalaVersions),
           "ENUMERATUM_MODULE_NAME" -> enumeratumModuleName,

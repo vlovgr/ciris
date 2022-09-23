@@ -6,19 +6,16 @@
 
 package ciris.circe
 
-import cats.data.Chain
 import cats.effect.IO
-import cats.effect.unsafe.implicits.global
 import cats.syntax.all._
 import ciris._
 import io.circe.Json
-import org.scalatest.compatible.Assertion
-import org.scalatest.funsuite.AnyFunSuite
+import munit.CatsEffectSuite
 
-final class CirceSpec extends AnyFunSuite {
+final class CirceSpec extends CatsEffectSuite {
   test("circeConfigDecoder.success") {
-    val result = default("123").as[Int](circeConfigDecoder("Int")).load[IO].unsafeRunSync()
-    assert(result == 123)
+    default("123").as[Int](circeConfigDecoder("Int")).load[IO].assertEquals(123)
+
   }
 
   test("circeConfigDecoder.invalid") {
@@ -50,14 +47,17 @@ final class CirceSpec extends AnyFunSuite {
   }
 
   test("jsonConfigDecoder.success") {
-    val result = default("123").as[Json].load[IO].unsafeRunSync()
-    assert(result.asNumber.flatMap(_.toInt).contains(123))
+    default("123")
+      .as[Json]
+      .load[IO]
+      .map(_.asNumber.flatMap(_.toInt).contains(123))
+      .assert
   }
 
   test("jsonConfigDecoder.invalid") {
     checkError(
       ConfigValue.default("abc").as[Json],
-      "Unable to parse value abc as json: expected json value got 'abc' (line 1, column 1)"
+      "Unable to parse value abc as json"
     )
   }
 
@@ -71,7 +71,7 @@ final class CirceSpec extends AnyFunSuite {
   test("jsonConfigDecoder.invalid.loaded") {
     checkError(
       ConfigValue.loaded(ConfigKey("key"), "abc").as[Json],
-      "Key with value abc cannot be parsed as json: expected json value got 'abc' (line 1, column 1)"
+      "Key with value abc cannot be parsed as json"
     )
   }
 
@@ -82,12 +82,11 @@ final class CirceSpec extends AnyFunSuite {
     )
   }
 
-  def checkError[A](value: ConfigValue[IO, A], message: String): Assertion =
+  def checkError[A](value: ConfigValue[IO, A], message: String): IO[Unit] =
     value
       .attempt[IO]
       .flatMap {
-        case Left(error) => IO(assert(error.messages === Chain.one(message)))
+        case Left(error) => IO(assert(error.messages.exists(_.contains(message))))
         case Right(a)    => IO(fail(s"expected error, got $a"))
       }
-      .unsafeRunSync()
 }
