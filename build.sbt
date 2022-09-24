@@ -45,7 +45,8 @@ lazy val ciris = project
     circe.jvm,
     circe.native,
     circeYaml,
-    enumeratum,
+    enumeratum.js,
+    enumeratum.jvm,
     http4s.js,
     http4s.jvm,
     http4s.native,
@@ -116,15 +117,14 @@ lazy val circeYaml = project
   )
   .dependsOn(core.jvm)
 
-lazy val enumeratum = project
+lazy val enumeratum = crossProject(JSPlatform, JVMPlatform)
   .in(file("modules/enumeratum"))
   .settings(
     moduleName := "ciris-enumeratum",
     name := moduleName.value,
     dependencySettings ++ Seq(
       libraryDependencies ++= Seq(
-        "com.beachape" %% "enumeratum" % enumeratumVersion,
-        "org.tpolecat" %% "typename" % typeNameVersion
+        "com.beachape" %%% "enumeratum" % enumeratumVersion
       )
     ),
     publishSettings,
@@ -132,7 +132,8 @@ lazy val enumeratum = project
     scalaSettings,
     testSettings
   )
-  .dependsOn(core.jvm)
+  .jsSettings(sharedJsSettings)
+  .dependsOn(core)
 
 lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/http4s"))
@@ -211,7 +212,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum, http4s.jvm, refined, squants.jvm)
+  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum.jvm, http4s.jvm, refined, squants.jvm)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -249,7 +250,7 @@ lazy val mdocSettings = Seq(
     core.jvm,
     circe.jvm,
     circeYaml,
-    enumeratum,
+    enumeratum.jvm,
     http4s.jvm,
     refined,
     squants.jvm
@@ -300,8 +301,9 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(circe.native / crossScalaVersions) { case (k, v) => "circeNative" ++ k.capitalize -> v },
     BuildInfoKey.map(circeYaml / moduleName) { case (k, v) => "circeYaml" ++ k.capitalize -> v },
     BuildInfoKey.map(circeYaml / crossScalaVersions) { case (k, v) => "circeYaml" ++ k.capitalize -> v },
-    BuildInfoKey.map(enumeratum / moduleName) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
-    BuildInfoKey.map(enumeratum / crossScalaVersions) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
+    BuildInfoKey.map(enumeratum.jvm / moduleName) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
+    BuildInfoKey.map(enumeratum.jvm / crossScalaVersions) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
+    BuildInfoKey.map(enumeratum.js / crossScalaVersions) { case (k, v) => "enumeratumJs" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.jvm / moduleName) { case (k, v) => "http4s" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.jvm / crossScalaVersions) { case (k, v) => "http4s" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.js / crossScalaVersions) { case (k, v) => "http4sJs" ++ k.capitalize -> v },

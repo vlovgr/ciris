@@ -70,6 +70,7 @@ object Main {
           "CIRCE_YAML_CROSS_SCALA_VERSIONS" -> scalaVersionsString(circeYamlCrossScalaVersions),
           "ENUMERATUM_MODULE_NAME" -> enumeratumModuleName,
           "ENUMERATUM_CROSS_SCALA_VERSIONS" -> scalaVersionsString(enumeratumCrossScalaVersions),
+          "ENUMERATUM_JS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(enumeratumJsCrossScalaVersions),
           "LATEST_VERSION" -> latestVersion,
           "LATEST_SNAPSHOT_VERSION" -> latestSnapshotVersion,
           "LATEST_MAJOR_VERSION" -> majorVersion(latestVersion),

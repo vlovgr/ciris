@@ -7,7 +7,7 @@
 package enumeratum
 
 import ciris.ConfigDecoder
-import org.tpolecat.typename.TypeName
+import enumeratum.internal.TypeName
 
 trait CirisEnum[A <: EnumEntry] { this: Enum[A] =>
   implicit def cirisConfigDecoder(implicit typeName: TypeName[A]): ConfigDecoder[String, A] =

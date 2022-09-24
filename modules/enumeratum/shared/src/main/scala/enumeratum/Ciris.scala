@@ -7,11 +7,11 @@
 package enumeratum
 
 import ciris.ConfigDecoder
-import org.tpolecat.typename.TypeName
+import enumeratum.internal.TypeName
 
 object Ciris {
   final def enumConfigDecoder[A <: EnumEntry](
     `enum`: Enum[A]
   )(implicit typeName: TypeName[A]): ConfigDecoder[String, A] =
-    ConfigDecoder[String].mapOption(typeName.value)(enum.withNameOption)
+    ConfigDecoder[String].mapOption(typeName.value)(`enum`.withNameOption)
 }
