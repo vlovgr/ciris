@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-package enumeratum.internal
+package ciris.refined.internal
 
 final case class TypeName[A](value: String)
 

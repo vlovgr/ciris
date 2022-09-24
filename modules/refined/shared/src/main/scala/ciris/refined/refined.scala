@@ -7,8 +7,8 @@
 package ciris
 
 import cats.Show
+import ciris.refined.internal.TypeName
 import eu.timepit.refined.api.{RefType, Validate}
-import org.tpolecat.typename.TypeName
 
 package object refined {
   implicit final def refTypeConfigDecoder[F[_, _], A, B, P](

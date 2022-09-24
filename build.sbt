@@ -50,7 +50,9 @@ lazy val ciris = project
     http4s.js,
     http4s.jvm,
     http4s.native,
-    refined,
+    refined.js,
+    refined.jvm,
+    refined.native,
     squants.js,
     squants.jvm,
     squants.native
@@ -157,15 +159,14 @@ lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
-lazy val refined = project
+lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/refined"))
   .settings(
     moduleName := "ciris-refined",
     name := moduleName.value,
     dependencySettings ++ Seq(
       libraryDependencies ++= Seq(
-        "eu.timepit" %% "refined" % refinedVersion,
-        "org.tpolecat" %% "typename" % typeNameVersion
+        "eu.timepit" %%% "refined" % refinedVersion
       )
     ),
     publishSettings,
@@ -175,7 +176,9 @@ lazy val refined = project
     ),
     testSettings
   )
-  .dependsOn(core.jvm)
+  .jsSettings(sharedJsSettings)
+  .nativeSettings(sharedNativeSettings)
+  .dependsOn(core)
 
 lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/squants"))
@@ -212,7 +215,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum.jvm, http4s.jvm, refined, squants.jvm)
+  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum.jvm, http4s.jvm, refined.jvm, squants.jvm)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -252,7 +255,7 @@ lazy val mdocSettings = Seq(
     circeYaml,
     enumeratum.jvm,
     http4s.jvm,
-    refined,
+    refined.jvm,
     squants.jvm
   ),
   ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
@@ -308,8 +311,10 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(http4s.jvm / crossScalaVersions) { case (k, v) => "http4s" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.js / crossScalaVersions) { case (k, v) => "http4sJs" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.native / crossScalaVersions) { case (k, v) => "http4sNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
+    BuildInfoKey.map(refined.jvm / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
+    BuildInfoKey.map(refined.jvm / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
+    BuildInfoKey.map(refined.js / crossScalaVersions) { case (k, v) => "refinedJs" ++ k.capitalize -> v },
+    BuildInfoKey.map(refined.native / crossScalaVersions) { case (k, v) => "refinedNative" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / crossScalaVersions) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.js / crossScalaVersions) { case (k, v) => "squantsJs" ++ k.capitalize -> v },
