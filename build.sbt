@@ -12,8 +12,6 @@ val refinedVersion = "0.10.1"
 
 val squantsVersion = "1.8.3"
 
-val typeNameVersion = "1.0.0"
-
 val scala212 = "2.12.16"
 
 val scala213 = "2.13.9"
@@ -328,7 +326,6 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey("http4sVersion" -> http4sVersion),
     BuildInfoKey("refinedVersion" -> refinedVersion),
     BuildInfoKey("squantsVersion" -> squantsVersion),
-    BuildInfoKey("typeNameVersion" -> typeNameVersion),
     BuildInfoKey("scalaJsMajorMinorVersion" -> scalaJsMajorMinorVersion),
     BuildInfoKey("scalaNativeMajorMinorVersion" -> scalaNativeMajorMinorVersion)
     // format: on
