@@ -8,69 +8,69 @@ package ciris
 
 import cats.data.Chain
 import cats.Eq
-import cats.syntax.all._
 import cats.laws.discipline.ContravariantTests
 import cats.laws.discipline.MonadErrorTests
-import cats.tests.CatsSuite
+import cats.syntax.all._
 import org.scalacheck.Arbitrary
+import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
+import org.scalacheck.Prop.forAll
+import org.scalacheck.Test
 import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
 
-final class ConfigDecoderSpec extends CatsSuite with Generators {
+final class ConfigDecoderSpec extends DisciplineSuite with Generators {
   implicit def configDecoderEq[A, B](
     implicit arb: Arbitrary[A],
     eq: Eq[B]
   ): Eq[ConfigDecoder[A, B]] =
     Eq.instance { (d1, d2) =>
-      Try {
+      Test.check {
         forAll { (a: A) =>
-          assert {
-            d1.decode(None, a) === d2.decode(None, a)
-          }
+          d1.decode(None, a) === d2.decode(None, a)
         }
-      }.isSuccess
+      }(_ => scalaCheckTestParameters).passed
     }
 
-  test("ConfigDecoder.as") {
+  property("ConfigDecoder.as") {
     forAll { (key: Option[ConfigKey], s: String) =>
       val expected = ConfigDecoder[String, Int].decode(key, s)
       val actual = ConfigDecoder[String].as[Int].decode(key, s)
-      assert(actual === expected)
+      actual === expected
     }
   }
 
-  test("ConfigDecoder.bigDecimal.success") {
+  property("ConfigDecoder.bigDecimal.success") {
     forAll { (bigDecimal: BigDecimal) =>
-      assert(
-        ConfigDecoder[String, BigDecimal].decode(None, bigDecimal.toString) === bigDecimal.asRight
-      )
+      ConfigDecoder[String, BigDecimal].decode(None, bigDecimal.toString) === bigDecimal.asRight
     }
   }
 
-  test("ConfigDecoder.bigDecimal.failure") {
-    forAll { (s: String) =>
-      whenever(Try(BigDecimal(s)).isFailure) {
-        assert(ConfigDecoder[String, BigDecimal].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.bigDecimal.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(BigDecimal(s)).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, BigDecimal].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.bigInt.success") {
+  property("ConfigDecoder.bigInt.success") {
     forAll { (bigInt: BigInt) =>
-      assert(ConfigDecoder[String, BigInt].decode(None, bigInt.toString) === bigInt.asRight)
+      ConfigDecoder[String, BigInt].decode(None, bigInt.toString) === bigInt.asRight
     }
   }
 
-  test("ConfigDecoder.bigInt.failure") {
-    forAll { (s: String) =>
-      whenever(Try(BigInt(s)).isFailure) {
-        assert(ConfigDecoder[String, BigInt].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.bigInt.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(BigInt(s)).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, BigInt].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.boolean.success") {
+  property("ConfigDecoder.boolean.success") {
     val genBoolean =
       Gen.oneOf(
         "true",
@@ -82,11 +82,11 @@ final class ConfigDecoderSpec extends CatsSuite with Generators {
       )
 
     forAll(genBoolean) { boolean =>
-      assert(ConfigDecoder[String, Boolean].decode(None, boolean.toString).isRight)
+      ConfigDecoder[String, Boolean].decode(None, boolean.toString).isRight
     }
   }
 
-  test("ConfigDecoder.boolean.failure") {
+  property("ConfigDecoder.boolean.failure") {
     def isBoolean(s: String) =
       s.toLowerCase() match {
         case "true" | "yes" | "on"  => true
@@ -94,152 +94,156 @@ final class ConfigDecoderSpec extends CatsSuite with Generators {
         case _                      => false
       }
 
-    forAll { (s: String) =>
-      whenever(!isBoolean(s)) {
-        assert(ConfigDecoder[String, Boolean].decode(None, s).isLeft)
-      }
+    val gen =
+      arbitrary[String].filterNot(isBoolean)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, Boolean].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.byte.success") {
+  property("ConfigDecoder.byte.success") {
     forAll { (byte: Byte) =>
-      assert(ConfigDecoder[String, Byte].decode(None, byte.toString) === byte.asRight)
+      ConfigDecoder[String, Byte].decode(None, byte.toString) === byte.asRight
     }
   }
 
-  test("ConfigDecoder.byte.failure") {
-    forAll { (s: String) =>
-      whenever(Try(s.toByte).isFailure) {
-        assert(ConfigDecoder[String, Byte].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.byte.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(s.toByte).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, Byte].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.char.success") {
+  property("ConfigDecoder.char.success") {
     forAll { (char: Char) =>
-      assert(ConfigDecoder[String, Char].decode(None, char.toString) === char.asRight)
+      ConfigDecoder[String, Char].decode(None, char.toString) === char.asRight
     }
   }
 
-  test("ConfigDecoder.char.failure") {
-    forAll { (s: String) =>
-      whenever(s.length !== 1) {
-        assert(ConfigDecoder[String, Char].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.char.failure") {
+    val gen =
+      arbitrary[String].filter(_.length =!= 1)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, Char].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.double.success") {
+  property("ConfigDecoder.double.success") {
     forAll { (double: Double) =>
-      assert(ConfigDecoder[String, Double].decode(None, double.toString) === double.asRight)
+      ConfigDecoder[String, Double].decode(None, double.toString) === double.asRight
     }
   }
 
-  test("ConfigDecoder.double.success percent") {
+  property("ConfigDecoder.double.success percent") {
     forAll { (double: Double) =>
-      assert(
-        ConfigDecoder[String, Double]
-          .decode(None, double.toString ++ "%") === (double / 100f).asRight
-      )
+      ConfigDecoder[String, Double]
+        .decode(None, double.toString ++ "%") === (double / 100f).asRight
     }
   }
 
-  test("ConfigDecoder.double.failure") {
-    forAll { (s: String) =>
-      whenever(Try(s.toDouble).isFailure) {
-        assert(ConfigDecoder[String, Double].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.double.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(s.toDouble).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, Double].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.duration.success") {
-    forAll { (duration: Duration) =>
-      whenever(!(duration eq Duration.Undefined)) {
-        val expected = Try(Duration(duration.toString))
-        whenever(expected.isSuccess) {
-          assert(
-            ConfigDecoder[String, Duration].decode(None, duration.toString) == expected.toEither
-          )
-        }
-      }
+  property("ConfigDecoder.duration.success") {
+    val gen =
+      arbitrary[Duration]
+        .filterNot(_ eq Duration.Undefined)
+        .filter(duration => Try(Duration(duration.toString)).isSuccess)
+
+    forAll(gen) { duration =>
+      val expected = Right(Duration(duration.toString))
+      ConfigDecoder[String, Duration].decode(None, duration.toString) == expected
     }
   }
 
-  test("ConfigDecoder.duration.failure") {
-    forAll { (s: String) =>
-      whenever(Try(Duration(s)).isFailure) {
-        assert(ConfigDecoder[String, Duration].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.duration.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(Duration(s)).isFailure)
+
+    forAll(gen) { s =>
+      assert(ConfigDecoder[String, Duration].decode(None, s).isLeft)
     }
   }
 
-  test("ConfigDecoder.finiteDuration.success") {
+  property("ConfigDecoder.finiteDuration.success") {
+    val gen =
+      arbitrary[FiniteDuration]
+        .filter(d => Try(Duration(d.toString)).isSuccess)
+
     forAll { (finiteDuration: FiniteDuration) =>
-      val expected = Try(Duration(finiteDuration.toString))
-      whenever(expected.isSuccess) {
-        assert {
-          ConfigDecoder[String, FiniteDuration]
-            .decode(None, finiteDuration.toString) == expected.toEither
-        }
-      }
+      val actual = ConfigDecoder[String, FiniteDuration].decode(None, finiteDuration.toString)
+      val expected = Right(Duration(finiteDuration.toString))
+      actual == expected
     }
   }
 
-  test("ConfigDecoder.finiteDuration.failure") {
-    forAll { (s: String) =>
-      whenever(Try(Duration(s)).isFailure) {
-        assert(ConfigDecoder[String, FiniteDuration].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.finiteDuration.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(Duration(s)).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, FiniteDuration].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.float.success") {
+  property("ConfigDecoder.float.success") {
     forAll { (float: Float) =>
-      assert(ConfigDecoder[String, Float].decode(None, float.toString) === float.asRight)
+      ConfigDecoder[String, Float].decode(None, float.toString) === float.asRight
     }
   }
 
-  test("ConfigDecoder.float.success percent") {
+  property("ConfigDecoder.float.success percent") {
     forAll { (float: Float) =>
-      assert(
-        ConfigDecoder[String, Float].decode(None, float.toString ++ "%") === (float / 100f).asRight
-      )
+      ConfigDecoder[String, Float].decode(None, float.toString ++ "%") === (float / 100f).asRight
     }
   }
 
-  test("ConfigDecoder.float.failure") {
-    forAll { (s: String) =>
-      whenever(Try(s.toFloat).isFailure) {
-        assert(ConfigDecoder[String, Float].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.float.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(s.toFloat).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, Float].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.int.success") {
+  property("ConfigDecoder.int.success") {
     forAll { (int: Int) =>
-      assert(ConfigDecoder[String, Int].decode(None, int.toString) === int.asRight)
+      ConfigDecoder[String, Int].decode(None, int.toString) === int.asRight
     }
   }
 
-  test("ConfigDecoder.int.failure") {
-    forAll { (s: String) =>
-      whenever(Try(s.toInt).isFailure) {
-        assert(ConfigDecoder[String, Int].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.int.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(s.toInt).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, Int].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.long.success") {
+  property("ConfigDecoder.long.success") {
     forAll { (long: Long) =>
-      assert(ConfigDecoder[String, Long].decode(None, long.toString) === long.asRight)
+      ConfigDecoder[String, Long].decode(None, long.toString) === long.asRight
     }
   }
 
-  test("ConfigDecoder.long.failure") {
-    forAll { (s: String) =>
-      whenever(Try(s.toLong).isFailure) {
-        assert(ConfigDecoder[String, Long].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.long.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(s.toLong).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, Long].decode(None, s).isLeft
     }
   }
 
@@ -253,27 +257,28 @@ final class ConfigDecoderSpec extends CatsSuite with Generators {
     MonadErrorTests[ConfigDecoder[String, *], ConfigError].monadError[String, String, String]
   )
 
-  test("ConfigDecoder.short.success") {
+  property("ConfigDecoder.short.success") {
     forAll { (short: Short) =>
-      assert(ConfigDecoder[String, Short].decode(None, short.toString) === short.asRight)
+      ConfigDecoder[String, Short].decode(None, short.toString) === short.asRight
     }
   }
 
-  test("ConfigDecoder.short.failure") {
-    forAll { (s: String) =>
-      whenever(Try(s.toShort).isFailure) {
-        assert(ConfigDecoder[String, Short].decode(None, s).isLeft)
-      }
+  property("ConfigDecoder.short.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(s.toShort).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[String, Short].decode(None, s).isLeft
     }
   }
 
-  test("ConfigDecoder.toString") {
+  property("ConfigDecoder.toString") {
     forAll { (decoder: ConfigDecoder[String, String]) =>
-      assert(decoder.toString.startsWith("ConfigDecoder$"))
+      decoder.toString.startsWith("ConfigDecoder$")
     }
   }
 
-  test("ConfigDecoder.redacted.nonSensitive") {
+  property("ConfigDecoder.redacted.nonSensitive") {
     forAll { (key: Option[ConfigKey], value: String) =>
       val decoder =
         ConfigDecoder.instance[String, String] { (key, value) =>
@@ -282,11 +287,11 @@ final class ConfigDecoderSpec extends CatsSuite with Generators {
 
       val expected = "message"
       val actual = decoder.redacted.decode(key, value)
-      assert(actual.leftMap(_.messages) == Left(Chain.one(expected)))
+      actual.leftMap(_.messages) == Left(Chain.one(expected))
     }
   }
 
-  test("ConfigDecoder.redacted.sensitive") {
+  property("ConfigDecoder.redacted.sensitive") {
     forAll { (key: Option[ConfigKey], value: String) =>
       val decoder =
         ConfigDecoder.instance[String, String] { (key, value) =>
@@ -295,7 +300,7 @@ final class ConfigDecoderSpec extends CatsSuite with Generators {
 
       val expected = "redacted"
       val actual = decoder.redacted.decode(key, value)
-      assert(actual.leftMap(_.messages) == Left(Chain.one(expected)))
+      actual.leftMap(_.messages) == Left(Chain.one(expected))
     }
   }
 }

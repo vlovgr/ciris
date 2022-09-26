@@ -8,31 +8,33 @@ package ciris.circe.yaml
 
 import cats.data.Chain
 import cats.effect.IO
-import cats.effect.unsafe.implicits.global
 import cats.syntax.all._
 import ciris._
 import io.circe.Json
 import io.circe.yaml._
 import io.circe.yaml.syntax._
-import org.scalatest.compatible.Assertion
-import org.scalatest.funsuite.AnyFunSuite
+import munit.CatsEffectSuite
 
-final class CirceYamlSpec extends AnyFunSuite {
+final class CirceYamlSpec extends CatsEffectSuite {
   test("circeYamlConfigDecoder.success") {
-    val result = default("123").as[Int](circeYamlConfigDecoder("Int")).load[IO].unsafeRunSync()
-    assert(result == 123)
+    default("123")
+      .as[Int](circeYamlConfigDecoder("Int"))
+      .load[IO]
+      .assertEquals(123)
   }
 
   test("circeYamlConfigDecoder.success.noquotes") {
-    val result =
-      default("abc").as[String](circeYamlConfigDecoder("String")).load[IO].unsafeRunSync()
-    assert(result == "abc")
+    default("abc")
+      .as[String](circeYamlConfigDecoder("String"))
+      .load[IO]
+      .assertEquals("abc")
   }
 
   test("circeYamlConfigDecoder.success.quotes") {
-    val result =
-      default("\"abc\"").as[String](circeYamlConfigDecoder("String")).load[IO].unsafeRunSync()
-    assert(result == "abc")
+    default("\"abc\"")
+      .as[String](circeYamlConfigDecoder("String"))
+      .load[IO]
+      .assertEquals("abc")
   }
 
   test("circeYamlConfigDecoder.invalid.noquotes") {
@@ -74,8 +76,11 @@ final class CirceYamlSpec extends AnyFunSuite {
   }
 
   test("yamlConfigDecoder.success") {
-    val result = default("123").as[Json].load[IO].unsafeRunSync()
-    assert(result.asNumber.flatMap(_.toInt).contains(123))
+    default("123")
+      .as[Json]
+      .load[IO]
+      .map(_.asNumber.flatMap(_.toInt).contains(123))
+      .assert
   }
 
   test("yamlConfigDecoder.invalid") {
@@ -106,12 +111,11 @@ final class CirceYamlSpec extends AnyFunSuite {
     )
   }
 
-  def checkError[A](value: ConfigValue[IO, A], message: String): Assertion =
+  def checkError[A](value: ConfigValue[IO, A], message: String) =
     value
       .attempt[IO]
       .flatMap {
         case Left(error) => IO(assert(error.messages === Chain.one(message)))
         case Right(a)    => IO(fail(s"expected error, got $a"))
       }
-      .unsafeRunSync()
 }

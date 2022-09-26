@@ -8,7 +8,6 @@ package ciris
 
 import cats.{Eq, Show}
 import cats.data.Chain
-import cats.tests.CatsSuite
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 import org.scalacheck.Arbitrary.arbitrary
 import scala.collection.JavaConverters._

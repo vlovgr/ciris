@@ -6,81 +6,94 @@
 
 package ciris
 
-import cats.syntax.all._
 import cats.kernel.laws.discipline.EqTests
 import cats.laws.discipline.TraverseTests
-import cats.tests.CatsSuite
+import cats.syntax.all._
+import org.scalacheck.Arbitrary.arbitrary
+import org.scalacheck.Prop.forAll
 
-final class ConfigEntrySpec extends CatsSuite with Generators {
-  test("ConfigEntry.default.hashCode") {
-    forAll { (e: ConfigError, e2: ConfigError, default: String, default2: String) =>
-      whenever((e !== e2) && (default != default2)) {
-        val entry1 = ConfigEntry.Default(e, default)
-        val entry2 = ConfigEntry.Default(e, default2)
-        val entry3 = ConfigEntry.Default(e2, default)
-        val entry4 = ConfigEntry.Default(e, default)
+final class ConfigEntrySpec extends DisciplineSuite with Generators {
+  property("ConfigEntry.default.hashCode") {
+    val gen =
+      for {
+        e <- arbitrary[ConfigError]
+        e2 <- arbitrary[ConfigError]
+        if e =!= e2
+        default <- arbitrary[String]
+        default2 <- arbitrary[String]
+        if default =!= default2
+      } yield (e, e2, default, default2)
 
-        assert {
-          (entry1.hashCode !== entry2.hashCode) &&
-          (entry2.hashCode !== entry3.hashCode) &&
-          (entry1.hashCode !== entry3.hashCode) &&
-          (entry1.hashCode === entry4.hashCode)
-        }
-      }
+    forAll(gen) { case (e, e2, default, default2) =>
+      val entry1 = ConfigEntry.Default(e, default)
+      val entry2 = ConfigEntry.Default(e, default2)
+      val entry3 = ConfigEntry.Default(e2, default)
+      val entry4 = ConfigEntry.Default(e, default)
+
+      (entry1.hashCode =!= entry2.hashCode) &&
+      (entry2.hashCode =!= entry3.hashCode) &&
+      (entry1.hashCode =!= entry3.hashCode) &&
+      (entry1.hashCode === entry4.hashCode)
     }
   }
 
-  test("ConfigEntry.default.equals.default") {
-    forAll { (e: ConfigError, e2: ConfigError, default: String, default2: String) =>
-      whenever((e !== e2) && (default != default2)) {
-        val entry1 = ConfigEntry.Default(e, default)
-        val entry2 = ConfigEntry.Default(e, default2)
-        val entry3 = ConfigEntry.Default(e2, default)
-        val entry4 = ConfigEntry.Default(e, default)
+  property("ConfigEntry.default.equals.default") {
+    val gen =
+      for {
+        e <- arbitrary[ConfigError]
+        e2 <- arbitrary[ConfigError]
+        if e =!= e2
+        default <- arbitrary[String]
+        default2 <- arbitrary[String]
+        if default =!= default2
+      } yield (e, e2, default, default2)
 
-        assert {
-          (entry1 != entry2) &&
-          (entry2 != entry3) &&
-          (entry1 != entry3) &&
-          (entry1 == entry4)
-        }
-      }
+    forAll(gen) { case (e, e2, default, default2) =>
+      val entry1 = ConfigEntry.Default(e, default)
+      val entry2 = ConfigEntry.Default(e, default2)
+      val entry3 = ConfigEntry.Default(e2, default)
+      val entry4 = ConfigEntry.Default(e, default)
+
+      (entry1 != entry2) &&
+      (entry2 != entry3) &&
+      (entry1 != entry3) &&
+      (entry1 == entry4)
     }
   }
 
-  test("ConfigEntry.default.equals.non default") {
+  property("ConfigEntry.default.equals.non default") {
     forAll { (e: ConfigError, default: String) =>
       val entry = ConfigEntry.Default(e, default)
-      assert((entry: Any) != e && (entry: Any) != default)
+      (entry: Any) != e && (entry: Any) != default
     }
   }
 
   checkAll("ConfigEntry", EqTests[ConfigEntry[String]].eqv)
 
-  test("ConfigEntry.mapError.default") {
+  property("ConfigEntry.mapError.default") {
     forAll { (error: ConfigError, value: String) =>
       val entry = ConfigEntry.Default(error, value)
-      assert(entry.mapError(_.redacted).error === error.redacted)
+      entry.mapError(_.redacted).error === error.redacted
     }
   }
 
-  test("ConfigEntry.mapError.failed") {
+  property("ConfigEntry.mapError.failed") {
     forAll { (error: ConfigError) =>
       val entry = ConfigEntry.Failed(error)
-      assert(entry.mapError(_.redacted).error === error.redacted)
+      entry.mapError(_.redacted).error === error.redacted
     }
   }
 
-  test("ConfigEntry.mapError.loaded") {
+  property("ConfigEntry.mapError.loaded") {
     forAll { (error: ConfigError, key: Option[ConfigKey], value: String) =>
       val entry = ConfigEntry.Loaded(error, key, value)
-      assert(entry.mapError(_.redacted).error === error.redacted)
+      entry.mapError(_.redacted).error === error.redacted
     }
   }
 
-  test("ConfigEntry.show") {
+  property("ConfigEntry.show") {
     forAll { (entry: ConfigEntry[String]) =>
-      assert(entry.show === entry.toString)
+      entry.show === entry.toString
     }
   }
 

@@ -74,9 +74,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       HiddenFileFilter ||
         "*GeneralDigest.scala" ||
         "*Pack.scala" ||
-        "*SHA1Digest.scala" ||
-        "*CatsEquality.scala" ||
-        "*CatsSuite.scala"
+        "*SHA1Digest.scala"
   )
   .jsSettings(sharedJsSettings)
   .nativeSettings(sharedNativeSettings)
@@ -226,8 +224,7 @@ lazy val dependencySettings = Seq(
     "org.typelevel" %%% "munit-cats-effect" % "2.0.0-M3",
     "org.typelevel" %%% "scalacheck-effect-munit" % "2.0.0-M2",
     "org.typelevel" %%% "cats-effect-laws" % catsEffectVersion,
-    "org.typelevel" %%% "cats-effect" % catsEffectVersion,
-    "org.typelevel" %%% "discipline-scalatest" % "2.2.0"
+    "org.typelevel" %%% "cats-effect" % catsEffectVersion
   ).map(_ % Test),
   pomPostProcess := { (node: xml.Node) =>
     new xml.transform.RuleTransformer(new xml.transform.RewriteRule {

@@ -9,11 +9,10 @@ package ciris
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
 import cats.Eq
-import cats.syntax.all._
 import cats.laws.discipline.{ApplyTests, FlatMapTests, NonEmptyParallelTests}
-import cats.tests.CatsSuite
+import cats.syntax.all._
 
-final class ConfigValueLawsSpec extends CatsSuite with Generators {
+final class ConfigValueLawsSpec extends DisciplineSuite with Generators {
   implicit def configValueEq[A](implicit eq: Eq[A]): Eq[ConfigValue[IO, A]] =
     Eq.instance { (v1, v2) =>
       val a1 = v1.to[IO].use(IO.pure).attempt.unsafeRunSync()

@@ -6,15 +6,17 @@
 
 package ciris
 
-import cats.tests.CatsSuite
+import cats.syntax.all._
 import java.nio.charset.Charset
 import java.nio.file.Path
+import munit.ScalaCheckSuite
+import org.scalacheck.Prop.forAll
 
-final class ConfigKeyRuntimePlatformSpec extends CatsSuite with Generators {
-  test("ConfigKey.file") {
+final class ConfigKeyRuntimePlatformSpec extends ScalaCheckSuite with Generators {
+  property("ConfigKey.file") {
     forAll { (path: Path, charset: Charset) =>
       val description = ConfigKey.file(path, charset).description
-      assert(description === s"file at $path with charset $charset")
+      description === s"file at $path with charset $charset"
     }
   }
 }

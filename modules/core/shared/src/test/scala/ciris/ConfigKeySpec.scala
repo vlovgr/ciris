@@ -7,68 +7,69 @@
 package ciris
 
 import cats.kernel.laws.discipline.EqTests
-import cats.tests.CatsSuite
+import cats.syntax.all._
+import org.scalacheck.Prop.forAll
 
-final class ConfigKeySpec extends CatsSuite with Generators {
-  test("ConfigKey.description") {
+final class ConfigKeySpec extends DisciplineSuite with Generators {
+  property("ConfigKey.description") {
     forAll { (description: String) =>
-      assert(ConfigKey(description).description === description)
+      ConfigKey(description).description === description
     }
   }
 
-  test("ConfigKey.env") {
+  property("ConfigKey.env") {
     forAll { (name: String) =>
       val description = ConfigKey.env(name).description
-      assert(description === s"environment variable $name")
+      description === s"environment variable $name"
     }
   }
 
   checkAll("ConfigKey", EqTests[ConfigKey].eqv)
 
-  test("ConfigKey.equals.key") {
+  property("ConfigKey.equals.key") {
     forAll { (first: ConfigKey, second: ConfigKey) =>
       val expected = first.description == second.description
       val actual = first == second
-      assert(expected === actual)
+      expected === actual
     }
   }
 
-  test("ConfigKey.equals.non key") {
+  property("ConfigKey.equals.non key") {
     forAll { (key: ConfigKey) =>
-      assert((key: Any) != key.description)
+      (key: Any) != key.description
     }
   }
 
-  test("ConfigKey.hashCode") {
+  property("ConfigKey.hashCode") {
     forAll { (key: ConfigKey) =>
-      assert(key.hashCode === key.description.hashCode)
+      key.hashCode === key.description.hashCode
     }
   }
 
-  test("ConfigKey.prop") {
+  property("ConfigKey.prop") {
     forAll { (name: String) =>
       val description = ConfigKey.prop(name).description
-      assert(description === s"system property $name")
+      description === s"system property $name"
     }
   }
 
-  test("ConfigKey.show") {
+  property("ConfigKey.show") {
     forAll { (key: ConfigKey) =>
-      assert(key.show === key.toString)
+      key.show === key.toString
     }
   }
 
-  test("ConfigKey.toString") {
+  property("ConfigKey.toString") {
     forAll { (key: ConfigKey) =>
-      assert(key.toString === s"ConfigKey(${key.description})")
+      key.toString === s"ConfigKey(${key.description})"
     }
   }
 
-  test("ConfigKey.unapply") {
+  property("ConfigKey.unapply") {
     forAll { (key: ConfigKey) =>
       key match {
         case ConfigKey(description) =>
-          assert(description === key.description)
+          description === key.description
       }
     }
   }

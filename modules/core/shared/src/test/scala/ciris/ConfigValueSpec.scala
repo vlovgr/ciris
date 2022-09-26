@@ -13,9 +13,6 @@ import cats.syntax.all._
 import cats.laws.discipline.{ApplyTests, FlatMapTests, NonEmptyParallelTests}
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Arbitrary.arbitrary
-import org.scalatest.Assertion
-import org.scalatest.funspec.AnyFunSpec
-import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import munit.{CatsEffectSuite, ScalaCheckEffectSuite}
 import org.scalacheck.effect.PropF
 

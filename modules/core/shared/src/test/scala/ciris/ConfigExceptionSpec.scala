@@ -7,18 +7,19 @@
 package ciris
 
 import cats.kernel.laws.discipline.EqTests
-import cats.tests.CatsSuite
+import cats.syntax.all._
+import org.scalacheck.Prop.forAll
 
-final class ConfigExceptionSpec extends CatsSuite with Generators {
+final class ConfigExceptionSpec extends DisciplineSuite with Generators {
   checkAll("ConfigException", EqTests[ConfigException].eqv)
 
-  test("ConfigException.error") {
+  property("ConfigException.error") {
     forAll { (error: ConfigError) =>
-      assert(ConfigException(error).error === error)
+      ConfigException(error).error === error
     }
   }
 
-  test("ConfigException.message.contains") {
+  property("ConfigException.message.contains") {
     forAll { (exception: ConfigException) =>
       val exceptionMessage =
         exception.getMessage
@@ -44,43 +45,41 @@ final class ConfigExceptionSpec extends CatsSuite with Generators {
             }
           }
 
-      assert(withEntryTrailing && withoutEntryTrailing)
+      withEntryTrailing && withoutEntryTrailing
     }
   }
 
-  test("ConfigException.message.leading") {
+  property("ConfigException.message.leading") {
     forAll { (exception: ConfigException) =>
-      assert(exception.getMessage.startsWith(ConfigException.messageLeading))
+      exception.getMessage.startsWith(ConfigException.messageLeading)
     }
   }
 
-  test("ConfigException.message.trailing") {
+  property("ConfigException.message.trailing") {
     forAll { (exception: ConfigException) =>
-      assert(exception.getMessage.endsWith(ConfigException.messageTrailing))
+      exception.getMessage.endsWith(ConfigException.messageTrailing)
     }
   }
 
-  test("ConfigException.messageLength") {
+  property("ConfigException.messageLength") {
     forAll { (exception: ConfigException) =>
       val expected = ConfigException.messageLength(exception.error.messages)
       val actual = exception.getMessage.length
-      assert(actual === expected)
+      actual === expected
     }
   }
 
-  test("ConfigException.toString") {
+  property("ConfigException.toString") {
     forAll { (exception: ConfigException) =>
-      assert(exception.toString === s"ciris.ConfigException: ${exception.getMessage}")
+      exception.toString === s"ciris.ConfigException: ${exception.getMessage}"
     }
   }
 
-  test("ConfigException.unapply") {
+  property("ConfigException.unapply") {
     forAll { (exception: ConfigException) =>
-      assert {
-        exception match {
-          case ConfigException(error) =>
-            error === exception.error
-        }
+      exception match {
+        case ConfigException(error) =>
+          error === exception.error
       }
     }
   }

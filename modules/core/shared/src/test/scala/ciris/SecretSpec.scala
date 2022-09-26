@@ -6,64 +6,63 @@
 
 package ciris
 
-import cats.syntax.all._
 import cats.kernel.laws.discipline.EqTests
-import cats.tests.CatsSuite
+import cats.syntax.all._
+import org.scalacheck.Gen
+import org.scalacheck.Prop.forAll
 
-final class SecretSpec extends CatsSuite with Generators {
+final class SecretSpec extends DisciplineSuite with Generators {
   checkAll("Secret", EqTests[Secret[String]].eqv)
 
-  test("Secret.equals.other") {
+  property("Secret.equals.other") {
     forAll { (secret: Secret[String]) =>
-      assert((secret: Any) != secret.value)
+      (secret: Any) != secret.value
     }
   }
 
-  test("Secret.equals.secret") {
+  property("Secret.equals.secret") {
     forAll { (first: Secret[String], second: Secret[String]) =>
       val expected = first.value == second.value
       val actual = first == second
-      assert(actual === expected)
+      actual === expected
     }
   }
 
-  test("Secret.hashCode") {
+  property("Secret.hashCode") {
     forAll { (secret: Secret[String]) =>
-      assert(secret.hashCode === secret.value.hashCode)
+      secret.hashCode === secret.value.hashCode
     }
   }
 
-  test("Secret.show") {
+  property("Secret.show") {
     forAll { (secret: Secret[String]) =>
-      assert(secret.show === secret.toString)
+      secret.show === secret.toString
     }
   }
 
-  test("Secret.toString") {
+  property("Secret.toString") {
     forAll { (secret: Secret[String]) =>
-      assert(secret.toString === s"Secret(${secret.valueShortHash})")
+      secret.toString === s"Secret(${secret.valueShortHash})"
     }
   }
 
-  test("Secret.unapply") {
+  property("Secret.unapply") {
     forAll { (secret: Secret[String]) =>
-      assert {
-        secret match {
-          case Secret(value) => value === secret.value
-        }
+      secret match {
+        case Secret(value) => value === secret.value
       }
     }
   }
 
-  test("Secret.value") {
+  property("Secret.value") {
     forAll { (value: String) =>
-      assert(Secret(value).value === value)
+      Secret(value).value === value
     }
   }
 
-  test("Secret.valueHash") {
-    val secrets =
-      List(
+  property("Secret.valueHash") {
+    val gen =
+      Gen.oneOf(
         Secret("RacrqvWjuu4KVmnTG9b6xyZMTP7jnX") -> "0a7425a3f46ceef2bada1f9ebddd2a857184997e",
         Secret("bc6Bt5uKfW2dgiyjiGa8dscapBFTXp") -> "ef252534aa72ba5006ff1c0532fe399845831854",
         Secret("9XVaCoj9bMoAYEu54JrbyZpJgB8yF9") -> "fd46dc3450f412d8f0dbdaf35c73392ff0aff0ea",
@@ -76,14 +75,14 @@ final class SecretSpec extends CatsSuite with Generators {
         Secret("4N4VoriUwnvNr4HR8Qjto5RxNEnQVV") -> "ac8fec13cba5308b2d360450150a381bdf7c3d00"
       )
 
-    secrets.foreach { case (secret, expectedHash) =>
-      assert(secret.valueHash === expectedHash)
+    forAll(gen) { case (secret, expectedHash) =>
+      secret.valueHash === expectedHash
     }
   }
 
-  test("Secret.valueShortHash") {
+  property("Secret.valueShortHash") {
     forAll { (secret: Secret[String]) =>
-      assert(secret.valueShortHash === secret.valueHash.substring(0, 7))
+      secret.valueShortHash === secret.valueHash.substring(0, 7)
     }
   }
 }

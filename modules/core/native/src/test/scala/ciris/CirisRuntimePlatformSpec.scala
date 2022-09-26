@@ -40,7 +40,7 @@ final class CirisRuntimePlatformSpec
         arbitrary[String]
       )
 
-    PropF.forAllF(envGen) { (name: String) =>
+    PropF.forAllF(envGen) { name =>
       val description = ConfigKey.env(name).description
       env(name)
         .to[IO]

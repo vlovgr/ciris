@@ -33,7 +33,7 @@ final class CirisSpec extends CatsEffectSuite with ScalaCheckEffectSuite with Ge
         arbitrary[String]
       )
 
-    PropF.forAllF(propGen) { (name: String) =>
+    PropF.forAllF(propGen) { name =>
       val description = ConfigKey.prop(name).description
       prop(name)
         .to[IO]
