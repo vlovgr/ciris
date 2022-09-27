@@ -98,7 +98,7 @@ class Index extends React.Component {
     );
 
     const index =
-      `[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![GitHub Actions](https://img.shields.io/github/workflow/status/vlovgr/ciris/ci)](https://github.com/vlovgr/ciris/actions) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/badge/version-v${latestVersionBadge}-orange.svg)](https://index.scala-lang.org/vlovgr/ciris)
+      `[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![GitHub Actions](https://img.shields.io/github/workflow/status/vlovgr/ciris/ci)](https://github.com/vlovgr/ciris/actions) [![Discord](https://img.shields.io/discord/632277896739946517?color=5865f2)](https://discord.gg/XF3CXcMzqD) [![Version](https://img.shields.io/badge/version-v${latestVersionBadge}-orange.svg)](https://index.scala-lang.org/vlovgr/ciris)
 
 Functional, lightweight, and composable configuration loading for Scala.<br>
 Project is under active development. Feedback and contributions welcome.
