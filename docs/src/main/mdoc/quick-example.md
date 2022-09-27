@@ -15,7 +15,7 @@ Following is an example showing how to:
 
 ```scala mdoc:reset-object:silent
 import cats.effect.{ExitCode, IO, IOApp}
-import cats.implicits._
+import cats.syntax.all._
 import ciris._
 import ciris.refined._
 import enumeratum.{CirisEnum, Enum, EnumEntry}

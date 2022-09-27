@@ -75,6 +75,8 @@ class Index extends React.Component {
       coreModuleName,
       latestVersion,
       scalaPublishVersions,
+      scalaJsMajorMinorVersion,
+      scalaNativeMajorMinorVersion,
     } = variables;
 
     const latestVersionBadge = latestVersion
@@ -95,7 +97,8 @@ class Index extends React.Component {
       </Container>
     );
 
-    const index = `[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![GitHub Actions](https://img.shields.io/github/workflow/status/vlovgr/ciris/ci)](https://github.com/vlovgr/ciris/actions) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/badge/version-v${latestVersionBadge}-orange.svg)](https://index.scala-lang.org/vlovgr/ciris)
+    const index =
+      `[![Typelevel](https://img.shields.io/badge/typelevel-library-fd3d50.svg)](https://typelevel.org/projects/#ciris) [![GitHub Actions](https://img.shields.io/github/workflow/status/vlovgr/ciris/ci)](https://github.com/vlovgr/ciris/actions) [![Gitter](https://img.shields.io/gitter/room/vlovgr/ciris.svg?colorB=36bc97)](https://gitter.im/vlovgr/ciris) [![Version](https://img.shields.io/badge/version-v${latestVersionBadge}-orange.svg)](https://index.scala-lang.org/vlovgr/ciris)
 
 Functional, lightweight, and composable configuration loading for Scala.<br>
 Project is under active development. Feedback and contributions welcome.
@@ -107,7 +110,9 @@ To get started with [sbt](https://scala-sbt.org), add the following line to your
 libraryDependencies += "${organization}" %% "${coreModuleName}" % "${latestVersion}"
 \`\`\`
 
-Published for Scala ${scalaPublishVersions}. For changes, refer to the [release notes](https://github.com/vlovgr/ciris/releases).
+Published for Scala ${scalaPublishVersions}, [Scala.js](https://www.scala-js.org) ${scalaJsMajorMinorVersion} and [Scala Native](https://scala-native.org) ${scalaNativeMajorMinorVersion}.
+
+For changes between versions, please refer to the [release notes](https://github.com/vlovgr/ciris/releases).
 `.trim();
 
     return (

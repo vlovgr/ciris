@@ -106,7 +106,6 @@ The `@REFINED_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s fo
 
 ```scala mdoc
 import ciris.refined._
-import cats.implicits._
 import eu.timepit.refined.types.numeric.PosInt
 
 ConfigDecoder[String, PosInt]
