@@ -19,7 +19,7 @@ const siteConfig = {
     { blog: true, label: "Blog" },
     { href: apiUrl, label: "API Docs" },
     { doc: "overview", label: "Documentation" },
-    { href: repoUrl, label: "GitHub" }
+    { href: repoUrl, label: "GitHub" },
   ],
 
   blogSidebarCount: "ALL",
@@ -31,10 +31,10 @@ const siteConfig = {
 
   colors: {
     primaryColor: "#122932",
-    secondaryColor: "#153243"
+    secondaryColor: "#153243",
   },
 
-  copyright: `Copyright © 2017-${new Date().getFullYear()} Viktor Lövgren.`,
+  copyright: `Copyright © 2017-${new Date().getFullYear()} Viktor Rudebeck.`,
 
   highlight: { theme: "github" },
 
@@ -46,7 +46,7 @@ const siteConfig = {
 
   repoUrl,
 
-  apiUrl
+  apiUrl,
 };
 
 module.exports = siteConfig;
