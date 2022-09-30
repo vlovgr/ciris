@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 Viktor Lövgren
+ * Copyright 2017-2022 Viktor Rudebeck
  *
  * SPDX-License-Identifier: MIT
  */

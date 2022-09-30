@@ -345,7 +345,7 @@ lazy val publishSettings =
     headerLicense := Some(
       de.heikoseeberger.sbtheader.License.MIT(
         s"${startYear.value.get}-${java.time.Year.now}",
-        "Viktor Lövgren",
+        "Viktor Rudebeck",
         HeaderLicenseStyle.SpdxSyntax
       )
     ),
@@ -353,7 +353,7 @@ lazy val publishSettings =
     developers := List(
       Developer(
         id = "vlovgr",
-        name = "Viktor Lövgren",
+        name = "Viktor Rudebeck",
         email = "github@vlovgr.se",
         url = url("https://vlovgr.se")
       )
