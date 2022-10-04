@@ -1,12 +1,12 @@
 /*
- * Copyright 2017-2022 Viktor Lövgren
+ * Copyright 2017-2022 Viktor Rudebeck
  *
  * SPDX-License-Identifier: MIT
  */
 
 package ciris.circe
 
-import cats.implicits._
+import cats.syntax.all._
 import ciris.{ConfigDecoder, ConfigError}
 import io.circe.{Decoder, Json}
 import io.circe.{DecodingFailure, ParsingFailure}

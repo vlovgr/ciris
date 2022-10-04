@@ -29,7 +29,7 @@ port.covary[IO]
 Multiple values can be loaded and combined in parallel, and errors accumulated, using `parMapN`.
 
 ```scala mdoc:silent
-import cats.implicits._
+import cats.syntax.all._
 import scala.concurrent.duration._
 
 final case class ApiConfig(port: Int, timeout: Option[Duration])
