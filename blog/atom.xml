@@ -7,7 +7,7 @@
     <link rel="alternate" href="https://cir.is/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Ciris news and events.</subtitle>
     <logo>https://cir.is/img/ciris.white.svg</logo>
-    <rights>Copyright © 2017-2022 Viktor Lövgren.</rights>
+    <rights>Copyright © 2017-2022 Viktor Rudebeck.</rights>
     <entry>
         <title type="html"><![CDATA[Ciris v1.0.0]]></title>
         <id>https://cir.is/blog/2019/11/01/ciris-v1.0.0.html</id>
@@ -17,7 +17,7 @@
 <p>Refer to the <a href="https://cir.is/docs/overview">documentation</a> for more detailed information on v1.0.0.</p>
 ]]></summary>
         <author>
-            <name>Viktor Lövgren</name>
+            <name>Viktor Rudebeck</name>
             <uri>https://vlovgr.se</uri>
         </author>
     </entry>
