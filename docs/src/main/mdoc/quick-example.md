@@ -14,7 +14,7 @@ Following is an example showing how to:
 - use `load` to return an effect for loading the configuration.
 
 ```scala mdoc:reset-object:silent
-import cats.effect.{ExitCode, IO, IOApp}
+import cats.effect.{IO, IOApp}
 import cats.syntax.all._
 import ciris._
 import ciris.refined._
@@ -45,7 +45,7 @@ type ApiKey = String Refined MatchesRegex["[a-zA-Z0-9]{25,40}"]
 type DatabasePassword = String Refined MinSize[30]
 
 final case class ApiConfig(
-  port: UserPortNumber,
+  port: Option[UserPortNumber],
   key: Secret[ApiKey],
   timeout: Option[FiniteDuration]
 )
@@ -56,8 +56,7 @@ final case class DatabaseConfig(
 )
 
 final case class Config(
-  appName: NonEmptyString,
-  environment: AppEnvironment,
+  name: NonEmptyString,
   api: ApiConfig,
   database: DatabaseConfig
 )
@@ -65,17 +64,12 @@ final case class Config(
 def apiConfig(environment: AppEnvironment): ConfigValue[Effect, ApiConfig] =
   (
     env("API_PORT").or(prop("api.port")).as[UserPortNumber].option,
-    env("API_KEY").as[ApiKey].secret
-  ).parMapN { (port, key) =>
-    ApiConfig(
-      port = port getOrElse 9000,
-      key = key,
-      timeout = environment match {
-        case Local | Testing => None
-        case Production      => Some(10.seconds)
-      }
-    )
-  }
+    env("API_KEY").as[ApiKey].secret,
+    default(environment match {
+      case Local | Testing => None
+      case Production      => Some(10.seconds)
+    })
+  ).parMapN(ApiConfig)
 
 val databaseConfig: ConfigValue[Effect, DatabaseConfig] =
   (
@@ -84,22 +78,14 @@ val databaseConfig: ConfigValue[Effect, DatabaseConfig] =
   ).parMapN(DatabaseConfig)
 
 val config: ConfigValue[Effect, Config] =
-  env("APP_ENV").as[AppEnvironment].flatMap { environment =>
-    (
-      apiConfig(environment),
-      databaseConfig
-    ).parMapN { (api, database) =>
-      Config(
-        appName = "my-api",
-        environment = environment,
-        api = api,
-        database = database
-      )
-    }
-  }
+  (
+    default("my-api").as[NonEmptyString],
+    env("APP_ENV").as[AppEnvironment].flatMap(apiConfig),
+    databaseConfig
+  ).parMapN(Config)
 
-object Main extends IOApp {
-  def run(args: List[String]): IO[ExitCode] =
-    config.load[IO].as(ExitCode.Success)
+object Main extends IOApp.Simple {
+  def run: IO[Unit] =
+    config.load[IO].flatMap(IO.println)
 }
 ```
