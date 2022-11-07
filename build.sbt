@@ -362,16 +362,18 @@ lazy val publishSettings =
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    // val unpublishedModules = Set[String]()
-    // if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
-    //   Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
-    // } else Set()
-    Set()
+    val unpublishedModules = Set[String]()
+    if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
+      Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
+    } else Set()
   },
   mimaBinaryIssueFilters ++= {
     import com.typesafe.tools.mima.core._
     // format: off
-    Seq()
+    Seq(
+      ProblemFilters.exclude[DirectMissingMethodProblem]("ciris.ConfigKey.file"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("ciris.package.file")
+    )
     // format: on
   }
 )
