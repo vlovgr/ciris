@@ -1,3 +1,5 @@
+import scala.scalanative.build._
+
 val catsEffectVersion = "3.3.14"
 
 val circeVersion = "0.14.3"
@@ -25,6 +27,8 @@ val scalaNativeMajorMinorVersion = "0.4"
 ThisBuild / versionScheme := Some("early-semver")
 
 ThisBuild / doctestTestFramework := DoctestTestFramework.Munit
+
+ThisBuild / nativeConfig ~= { _.withMode(Mode.debug) }
 
 lazy val ciris = project
   .in(file("."))
