@@ -131,7 +131,9 @@ lazy val enumeratum = crossProject(JSPlatform, JVMPlatform)
     ),
     publishSettings,
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
     testSettings
   )
   .jsSettings(sharedJsSettings)
@@ -366,7 +368,7 @@ lazy val publishSettings =
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    val unpublishedModules = Set[String]()
+    val unpublishedModules = Set[String]("ciris-enumeratum")
     if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
       Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
     } else Set()
@@ -429,7 +431,7 @@ lazy val scalaSettings = Seq(
 
     val scala3ScalacOptions =
       if (scalaVersion.value.startsWith("3")) {
-        Seq("-Ykind-projector")
+        Seq("-Ykind-projector", "-Yretain-trees")
       } else Seq()
 
     commonScalacOptions ++
