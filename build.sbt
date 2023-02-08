@@ -127,7 +127,9 @@ lazy val enumeratum = crossProject(JSPlatform, JVMPlatform)
     ),
     publishSettings,
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions += scala3
+    ),
     testSettings
   )
   .jsSettings(sharedJsSettings)
@@ -425,7 +427,7 @@ lazy val scalaSettings = Seq(
 
     val scala3ScalacOptions =
       if (scalaVersion.value.startsWith("3")) {
-        Seq("-Ykind-projector")
+        Seq("-Ykind-projector", "-Yretain-trees")
       } else Seq()
 
     commonScalacOptions ++
