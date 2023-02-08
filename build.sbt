@@ -1,4 +1,4 @@
-import scala.scalanative.build._
+import scala.scalanative.build.Mode
 
 val catsEffectVersion = "3.3.14"
 
