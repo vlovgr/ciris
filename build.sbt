@@ -20,7 +20,7 @@ val scala213 = "2.13.10"
 
 val scala3 = "3.2.2"
 
-val scalaJsMajorMinorVersion = "1.11"
+val scalaJsMajorMinorVersion = "1.13"
 
 val scalaNativeMajorMinorVersion = "0.4"
 
