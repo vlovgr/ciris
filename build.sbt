@@ -368,7 +368,7 @@ lazy val publishSettings =
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    val unpublishedModules = Set[String]("ciris-enumeratum")
+    val unpublishedModules = Set[String]()
     if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
       Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
     } else Set()
