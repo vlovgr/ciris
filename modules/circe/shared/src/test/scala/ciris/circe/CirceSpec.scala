@@ -21,7 +21,7 @@ final class CirceSpec extends CatsEffectSuite {
   test("circeConfigDecoder.invalid") {
     checkError(
       ConfigValue.default("\"abc\"").as[Int](circeConfigDecoder("Int")),
-      """Unable to decode json "abc" to Int: Int"""
+      """Unable to decode json "abc" to Int"""
     )
   }
 
@@ -35,7 +35,7 @@ final class CirceSpec extends CatsEffectSuite {
   test("circeConfigDecoder.invalid.loaded") {
     checkError(
       ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeConfigDecoder("Int")),
-      """Key with json "abc" cannot be decoded to Int: Int"""
+      """Key with json "abc" cannot be decoded to Int"""
     )
   }
 
@@ -86,7 +86,28 @@ final class CirceSpec extends CatsEffectSuite {
     value
       .attempt[IO]
       .flatMap {
-        case Left(error) => IO(assert(error.messages.exists(_.contains(message))))
-        case Right(a)    => IO(fail(s"expected error, got $a"))
+        case Left(error) =>
+          val exists =
+            error.messages.exists(_.contains(message))
+
+          val printHelpText =
+            IO.println(
+              s"""
+              |Assertion could not find an error message containing:
+              |
+              |  $message
+              |
+              |The available error messages were:
+              |
+              |${error.messages.map("  " ++ _).toList.mkString("\n")}
+             """.stripMargin.trim
+            ).unlessA(exists)
+
+          val assertion =
+            IO(assert(exists))
+
+          printHelpText >> assertion
+        case Right(a) =>
+          IO(fail(s"expected error, got $a"))
       }
 }
