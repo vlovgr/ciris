@@ -2,7 +2,7 @@ import scala.scalanative.build.Mode
 
 val catsEffectVersion = "3.4.7"
 
-val circeVersion = "0.14.3"
+val circeVersion = "0.14.4"
 
 val circeYamlVersion = "0.14.2"
 
