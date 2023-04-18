@@ -1,6 +1,6 @@
 import scala.scalanative.build.Mode
 
-val catsEffectVersion = "3.4.8"
+val catsEffectVersion = "3.4.9"
 
 val circeVersion = "0.14.5"
 
