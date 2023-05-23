@@ -346,6 +346,25 @@ object ConfigValue {
     * @group Create
     */
   final def async[F[_], A](
+    k: (Either[Throwable, ConfigValue[F, A]] => Unit) => F[Option[F[Unit]]]
+  ): ConfigValue[F, A] =
+    new ConfigValue[F, A] {
+      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+        Resource
+          .eval(G.async[ConfigValue[F, A]](k(_).asInstanceOf[G[Option[G[Unit]]]]))
+          .flatMap(_.to[G])
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+
+  /**
+    * Returns a new [[ConfigValue]] which loads a configuration
+    * value using a callback.
+    *
+    * @group Create
+    */
+  final def async_[F[_], A](
     k: (Either[Throwable, ConfigValue[F, A]] => Unit) => Unit
   ): ConfigValue[F, A] =
     new ConfigValue[F, A] {

@@ -137,34 +137,68 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
 
   test("ConfigValue.async.default") {
     check(
-      ConfigValue.async[IO, String] { cb => cb(Right(default)) },
+      ConfigValue.async[IO, String] { cb => IO(cb(Right(default))).as(None) },
       default
     )
   }
 
   test("ConfigValue.async.error") {
     checkLoadFail {
-      ConfigValue.async[IO, String] { cb => cb(Left(new RuntimeException)) }
+      ConfigValue.async[IO, String] { cb => IO(cb(Left(new RuntimeException))).as(None) }
     }
   }
 
   test("ConfigValue.async.failed") {
     check(
-      ConfigValue.async[IO, String] { cb => cb(Right(failed)) },
+      ConfigValue.async[IO, String] { cb => IO(cb(Right(failed))).as(None) },
       failed
     )
   }
 
   test("ConfigValue.async.loaded") {
     check(
-      ConfigValue.async[IO, String] { cb => cb(Right(loaded)) },
+      ConfigValue.async[IO, String] { cb => IO(cb(Right(loaded))).as(None) },
       loaded
     )
   }
 
   test("ConfigValue.async.missing") {
     check(
-      ConfigValue.async[IO, String] { cb => cb(Right(missing)) },
+      ConfigValue.async[IO, String] { cb => IO(cb(Right(missing))).as(None) },
+      missing
+    )
+  }
+
+  test("ConfigValue.async_.default") {
+    check(
+      ConfigValue.async_[IO, String] { cb => cb(Right(default)) },
+      default
+    )
+  }
+
+  test("ConfigValue.async_.error") {
+    checkLoadFail {
+      ConfigValue.async_[IO, String] { cb => cb(Left(new RuntimeException)) }
+    }
+  }
+
+  test("ConfigValue.async_.failed") {
+    check(
+      ConfigValue.async_[IO, String] { cb => cb(Right(failed)) },
+      failed
+    )
+  }
+
+  test("ConfigValue.async_.loaded") {
+    check(
+      ConfigValue.async_[IO, String] { cb => cb(Right(loaded)) },
+      loaded
+    )
+  }
+
+  test("ConfigValue.async_.missing") {
+    check(
+      ConfigValue.async_[IO, String] { cb => cb(Right(missing)) },
       missing
     )
   }
