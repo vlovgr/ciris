@@ -1,6 +1,6 @@
 import scala.scalanative.build.Mode
 
-val catsEffectVersion = "3.5.0"
+val catsEffectVersion = "3.5.1"
 
 val circeVersion = "0.14.5"
 
@@ -8,7 +8,7 @@ val circeYamlVersion = "0.14.2"
 
 val enumeratumVersion = "1.7.2"
 
-val http4sVersion = "0.23.19"
+val http4sVersion = "0.23.22"
 
 val refinedVersion = "0.11.0"
 
@@ -18,7 +18,7 @@ val scala212 = "2.12.18"
 
 val scala213 = "2.13.11"
 
-val scala3 = "3.2.2"
+val scala3 = "3.3.0"
 
 val scalaJsMajorMinorVersion = "1.13"
 
