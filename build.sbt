@@ -194,8 +194,7 @@ lazy val iron = crossProject(JVMPlatform)
       libraryDependencies := Seq(
         "io.github.iltotore" %% "iron" % ironVersion,
         "org.scalameta" %% "munit" % "1.0.0-M8" % "test",
-        ("org.typelevel" %% "cats-effect" % catsEffectVersion).cross(CrossVersion.for3Use2_13),
-//        ("org.typelevel" %%% "munit-cats-effect" % "2.0.0-M3" % "test").cross(CrossVersion.for3Use2_13)
+        ("org.typelevel" %% "cats-effect" % catsEffectVersion % "test").cross(CrossVersion.for3Use2_13),
       )
     ),
     publishSettings,
