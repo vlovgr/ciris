@@ -12,6 +12,8 @@ val http4sVersion = "0.23.23"
 
 val refinedVersion = "0.11.0"
 
+val ironVersion = "2.2.0"
+
 val squantsVersion = "1.8.3"
 
 val scala212 = "2.12.18"
@@ -55,9 +57,10 @@ lazy val ciris = project
     refined.js,
     refined.jvm,
     refined.native,
+    iron.jvm,
     squants.js,
     squants.jvm,
-    squants.native
+    squants.native,
   )
 
 lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -182,6 +185,30 @@ lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
+lazy val iron = crossProject(JVMPlatform)
+  .in(file("modules/iron"))
+  .settings(
+    moduleName := "ciris-iron",
+    name := moduleName.value,
+    dependencySettings ++ Seq(
+      libraryDependencies := Seq(
+        "io.github.iltotore" %% "iron" % ironVersion,
+        "org.scalameta" %% "munit" % "1.0.0-M8" % "test",
+        ("org.typelevel" %% "cats-effect" % catsEffectVersion).cross(CrossVersion.for3Use2_13),
+//        ("org.typelevel" %%% "munit-cats-effect" % "2.0.0-M3" % "test").cross(CrossVersion.for3Use2_13)
+      )
+    ),
+    publishSettings,
+    mimaSettings,
+    scalaSettings ++ Seq(
+      scalaVersion := scala3,
+      crossScalaVersions := Seq(scala3)
+    ),
+    testSettings
+  )
+  .dependsOn(core)
+
+
 lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/squants"))
   .settings(
@@ -217,7 +244,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum.jvm, http4s.jvm, refined.jvm, squants.jvm)
+  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum.jvm, http4s.jvm, refined.jvm, iron.jvm, squants.jvm)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -257,6 +284,7 @@ lazy val mdocSettings = Seq(
     enumeratum.jvm,
     http4s.jvm,
     refined.jvm,
+    iron.jvm,
     squants.jvm
   ),
   ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
@@ -316,6 +344,8 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(refined.jvm / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
     BuildInfoKey.map(refined.js / crossScalaVersions) { case (k, v) => "refinedJs" ++ k.capitalize -> v },
     BuildInfoKey.map(refined.native / crossScalaVersions) { case (k, v) => "refinedNative" ++ k.capitalize -> v },
+    BuildInfoKey.map(iron.jvm / moduleName) { case (k, v) => "iron" ++ k.capitalize -> v },
+    BuildInfoKey.map(iron.jvm / crossScalaVersions) { case (k, v) => "iron" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / crossScalaVersions) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.js / crossScalaVersions) { case (k, v) => "squantsJs" ++ k.capitalize -> v },
@@ -328,6 +358,7 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
     BuildInfoKey("http4sVersion" -> http4sVersion),
     BuildInfoKey("refinedVersion" -> refinedVersion),
+    BuildInfoKey("ironVersion" -> ironVersion),
     BuildInfoKey("squantsVersion" -> squantsVersion),
     BuildInfoKey("scalaJsMajorMinorVersion" -> scalaJsMajorMinorVersion),
     BuildInfoKey("scalaNativeMajorMinorVersion" -> scalaNativeMajorMinorVersion)
