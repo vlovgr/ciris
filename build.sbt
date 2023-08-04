@@ -191,15 +191,13 @@ lazy val iron = crossProject(JVMPlatform)
     moduleName := "ciris-iron",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies := Seq(
-        "io.github.iltotore" %% "iron" % ironVersion,
-        "org.scalameta" %% "munit" % "1.0.0-M8" % "test",
+      libraryDependencies ++= Seq(
+        ("io.github.iltotore" %% "iron" % ironVersion).cross(CrossVersion.for2_13Use3),
       )
     ),
     publishSettings,
     mimaSettings,
     scalaSettings ++ Seq(
-      scalaVersion := scala3,
       crossScalaVersions := Seq(scala3)
     ),
     testSettings

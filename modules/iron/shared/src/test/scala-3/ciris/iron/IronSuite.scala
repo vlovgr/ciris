@@ -6,19 +6,31 @@
 
 package ciris.iron
 
+import cats.effect.IO
+import cats.syntax.all.*
 import ciris.*
 import ciris.iron.given
 import io.github.iltotore.iron.*
-import munit.FunSuite
+import io.github.iltotore.iron.constraint.numeric.Positive
+import munit.{CatsEffectSuite, FunSuite}
 
-final class IronSuite extends FunSuite {
+final class IronSuite extends CatsEffectSuite {
 
-  test("summon String => Int :| Pure") {
-    summon[ConfigDecoder[String, Int :| Pure]]
+  test("ironConfigDecoder.success") {
 
+    default("1")
+      .as[Int :| Positive]
+      .attempt[IO]
+      .assertEquals(Right(1))
   }
 
-  test("summon from Int => Int :| Pure") {
-    summon[ConfigDecoder[Int, Int :| Pure]]
+  test("ironConfigDecoder.error") {
+
+    default("-1")
+      .as[Int :| Positive]
+      .attempt[IO]
+      .map(_.isLeft)
+      .assertEquals(true)
   }
+
 }
