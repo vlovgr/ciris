@@ -398,7 +398,7 @@ lazy val publishSettings =
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
     val unpublishedModules = Set[String]()
-    if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
+    if (publishArtifact.value && !unpublishedModules.contains(moduleName.value) && (ThisBuild / previousStableVersion).value.isDefined) {
       Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
     } else Set()
   },
@@ -496,7 +496,7 @@ ThisBuild / latestVersion := {
   if (!snapshot && stable) {
     (ThisBuild / version).value
   } else {
-    (ThisBuild / previousStableVersion).value.get
+    (ThisBuild / previousStableVersion).value.getOrElse("0.0.0")
   }
 }
 
