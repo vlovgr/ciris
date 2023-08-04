@@ -57,7 +57,9 @@ lazy val ciris = project
     refined.js,
     refined.jvm,
     refined.native,
+    iron.js,
     iron.jvm,
+    iron.native,
     squants.js,
     squants.jvm,
     squants.native,
@@ -185,14 +187,14 @@ lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
-lazy val iron = crossProject(JVMPlatform)
+lazy val iron = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/iron"))
   .settings(
     moduleName := "ciris-iron",
     name := moduleName.value,
     dependencySettings ++ Seq(
       libraryDependencies ++= Seq(
-        ("io.github.iltotore" %% "iron" % ironVersion).cross(CrossVersion.for2_13Use3),
+        ("io.github.iltotore" %%% "iron" % ironVersion).cross(CrossVersion.for2_13Use3),
       )
     ),
     publishSettings,
@@ -202,6 +204,8 @@ lazy val iron = crossProject(JVMPlatform)
     ),
     testSettings
   )
+  .jsSettings(sharedJsSettings)
+  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
 
@@ -342,6 +346,8 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(refined.native / crossScalaVersions) { case (k, v) => "refinedNative" ++ k.capitalize -> v },
     BuildInfoKey.map(iron.jvm / moduleName) { case (k, v) => "iron" ++ k.capitalize -> v },
     BuildInfoKey.map(iron.jvm / crossScalaVersions) { case (k, v) => "iron" ++ k.capitalize -> v },
+    BuildInfoKey.map(iron.js / crossScalaVersions) { case (k, v) => "ironJs" ++ k.capitalize -> v },
+    BuildInfoKey.map(iron.native / crossScalaVersions) { case (k, v) => "ironNative" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / crossScalaVersions) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.js / crossScalaVersions) { case (k, v) => "squantsJs" ++ k.capitalize -> v },
