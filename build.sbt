@@ -10,9 +10,9 @@ val enumeratumVersion = "1.7.3"
 
 val http4sVersion = "0.23.23"
 
-val refinedVersion = "0.11.0"
-
 val ironVersion = "2.2.0"
+
+val refinedVersion = "0.11.0"
 
 val squantsVersion = "1.8.3"
 
@@ -54,15 +54,15 @@ lazy val ciris = project
     http4s.js,
     http4s.jvm,
     http4s.native,
-    refined.js,
-    refined.jvm,
-    refined.native,
     iron.js,
     iron.jvm,
     iron.native,
+    refined.js,
+    refined.jvm,
+    refined.native,
     squants.js,
     squants.jvm,
-    squants.native,
+    squants.native
   )
 
 lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -166,6 +166,28 @@ lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
+lazy val iron = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+  .in(file("modules/iron"))
+  .settings(
+    moduleName := "ciris-iron",
+    name := moduleName.value,
+    dependencySettings ++ Seq(
+      libraryDependencies ++= Seq(
+        "io.github.iltotore" %%% "iron" % ironVersion
+      )
+    ),
+    publishSettings,
+    mimaSettings,
+    scalaSettings ++ Seq(
+      scalaVersion := scala3,
+      crossScalaVersions := Seq(scala3)
+    ),
+    testSettings
+  )
+  .jsSettings(sharedJsSettings)
+  .nativeSettings(sharedNativeSettings)
+  .dependsOn(core)
+
 lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/refined"))
   .settings(
@@ -186,28 +208,6 @@ lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .jsSettings(sharedJsSettings)
   .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
-
-lazy val iron = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .in(file("modules/iron"))
-  .settings(
-    moduleName := "ciris-iron",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies ++= Seq(
-        ("io.github.iltotore" %%% "iron" % ironVersion).cross(CrossVersion.for2_13Use3),
-      )
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions := Seq(scala3)
-    ),
-    testSettings
-  )
-  .jsSettings(sharedJsSettings)
-  .nativeSettings(sharedNativeSettings)
-  .dependsOn(core)
-
 
 lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/squants"))
@@ -244,7 +244,7 @@ lazy val docs = project
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum.jvm, http4s.jvm, refined.jvm, iron.jvm, squants.jvm)
+  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum.jvm, http4s.jvm, iron.jvm, refined.jvm, squants.jvm)
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -283,8 +283,8 @@ lazy val mdocSettings = Seq(
     circeYaml,
     enumeratum.jvm,
     http4s.jvm,
-    refined.jvm,
     iron.jvm,
+    refined.jvm,
     squants.jvm
   ),
   ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
@@ -340,14 +340,14 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(http4s.jvm / crossScalaVersions) { case (k, v) => "http4s" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.js / crossScalaVersions) { case (k, v) => "http4sJs" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.native / crossScalaVersions) { case (k, v) => "http4sNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined.jvm / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined.jvm / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined.js / crossScalaVersions) { case (k, v) => "refinedJs" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined.native / crossScalaVersions) { case (k, v) => "refinedNative" ++ k.capitalize -> v },
     BuildInfoKey.map(iron.jvm / moduleName) { case (k, v) => "iron" ++ k.capitalize -> v },
     BuildInfoKey.map(iron.jvm / crossScalaVersions) { case (k, v) => "iron" ++ k.capitalize -> v },
     BuildInfoKey.map(iron.js / crossScalaVersions) { case (k, v) => "ironJs" ++ k.capitalize -> v },
     BuildInfoKey.map(iron.native / crossScalaVersions) { case (k, v) => "ironNative" ++ k.capitalize -> v },
+    BuildInfoKey.map(refined.jvm / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
+    BuildInfoKey.map(refined.jvm / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
+    BuildInfoKey.map(refined.js / crossScalaVersions) { case (k, v) => "refinedJs" ++ k.capitalize -> v },
+    BuildInfoKey.map(refined.native / crossScalaVersions) { case (k, v) => "refinedNative" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / crossScalaVersions) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.js / crossScalaVersions) { case (k, v) => "squantsJs" ++ k.capitalize -> v },
@@ -359,8 +359,8 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey("circeYamlVersion" -> circeYamlVersion),
     BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
     BuildInfoKey("http4sVersion" -> http4sVersion),
-    BuildInfoKey("refinedVersion" -> refinedVersion),
     BuildInfoKey("ironVersion" -> ironVersion),
+    BuildInfoKey("refinedVersion" -> refinedVersion),
     BuildInfoKey("squantsVersion" -> squantsVersion),
     BuildInfoKey("scalaJsMajorMinorVersion" -> scalaJsMajorMinorVersion),
     BuildInfoKey("scalaNativeMajorMinorVersion" -> scalaNativeMajorMinorVersion)
@@ -401,8 +401,8 @@ lazy val publishSettings =
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    val unpublishedModules = Set[String]()
-    if (publishArtifact.value && !unpublishedModules.contains(moduleName.value) && (ThisBuild / previousStableVersion).value.isDefined) {
+    val unpublishedModules = Set[String]("ciris-iron")
+    if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
       Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
     } else Set()
   },
@@ -500,7 +500,7 @@ ThisBuild / latestVersion := {
   if (!snapshot && stable) {
     (ThisBuild / version).value
   } else {
-    (ThisBuild / previousStableVersion).value.getOrElse("0.0.0")
+    (ThisBuild / previousStableVersion).value.get
   }
 }
 
