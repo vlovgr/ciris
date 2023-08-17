@@ -173,13 +173,12 @@ lazy val iron = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     name := moduleName.value,
     dependencySettings ++ Seq(
       libraryDependencies ++= Seq(
-        "io.github.iltotore" %%% "iron" % ironVersion
+        ("io.github.iltotore" %%% "iron" % ironVersion).cross(CrossVersion.for2_13Use3),
       )
     ),
     publishSettings,
     mimaSettings,
     scalaSettings ++ Seq(
-      scalaVersion := scala3,
       crossScalaVersions := Seq(scala3)
     ),
     testSettings
