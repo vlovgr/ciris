@@ -424,11 +424,13 @@ lazy val noPublishSettings =
   )
 
 lazy val sharedJsSettings = Seq(
-  doctestGenTests := Seq.empty
+  doctestGenTests := Seq.empty,
+  mimaPreviousArtifacts := Set.empty
 )
 
 lazy val sharedNativeSettings = Seq(
-  crossScalaVersions -= scala212
+  crossScalaVersions -= scala212,
+  mimaPreviousArtifacts := Set.empty
 )
 
 lazy val scalaSettings = Seq(
