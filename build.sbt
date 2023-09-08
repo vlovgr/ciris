@@ -14,8 +14,6 @@ val refinedVersion = "0.11.0"
 
 val squantsVersion = "1.8.3"
 
-val scala212 = "2.12.18"
-
 val scala213 = "2.13.11"
 
 val scala3 = "3.3.0"
@@ -81,7 +79,6 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         "*SHA1Digest.scala"
   )
   .jsSettings(sharedJsSettings)
-  .nativeSettings(sharedNativeSettings)
 
 lazy val circe = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/circe"))
@@ -99,7 +96,6 @@ lazy val circe = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     testSettings
   )
   .jsSettings(sharedJsSettings)
-  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
 lazy val circeYaml = project
@@ -158,7 +154,6 @@ lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     sharedJsSettings,
     Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
   )
-  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
 lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -179,7 +174,6 @@ lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     testSettings
   )
   .jsSettings(sharedJsSettings)
-  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
 lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -198,10 +192,7 @@ lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     testSettings
   )
   .jsSettings(sharedJsSettings)
-  .nativeSettings(
-    sharedNativeSettings,
-    crossScalaVersions -= scala3
-  )
+  .nativeSettings(crossScalaVersions -= scala3)
   .dependsOn(core)
 
 lazy val docs = project
@@ -394,13 +385,9 @@ lazy val sharedJsSettings = Seq(
   doctestGenTests := Seq.empty
 )
 
-lazy val sharedNativeSettings = Seq(
-  crossScalaVersions -= scala212
-)
-
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
-  crossScalaVersions := Seq(scala212, scala213),
+  crossScalaVersions := Seq(scala213),
   scalacOptions ++= {
     val commonScalacOptions =
       Seq(
@@ -424,11 +411,6 @@ lazy val scalaSettings = Seq(
         )
       } else Seq()
 
-    val scala212ScalacOptions =
-      if (scalaVersion.value.startsWith("2.12")) {
-        Seq("-Yno-adapted-args", "-Ypartial-unification")
-      } else Seq()
-
     val scala3ScalacOptions =
       if (scalaVersion.value.startsWith("3")) {
         Seq("-Ykind-projector", "-Yretain-trees")
@@ -436,7 +418,6 @@ lazy val scalaSettings = Seq(
 
     commonScalacOptions ++
       scala2ScalacOptions ++
-      scala212ScalacOptions ++
       scala3ScalacOptions
   },
   Compile / console / scalacOptions --= Seq("-Xlint", "-Ywarn-unused"),
