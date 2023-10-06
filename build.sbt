@@ -20,9 +20,21 @@ val scala213 = "2.13.12"
 
 val scala3 = "3.3.1"
 
-val scalaJsMajorMinorVersion = "1.14"
+val scalaJsMajorMinorVersion =
+  """"org.scala-js" % "sbt-scalajs" % "([^"]+)"""".r
+    .findFirstMatchIn(IO.read(file("project/plugins.sbt")))
+    .map(_.group(1))
+    .flatMap(CrossVersion.partialVersion)
+    .map { case (major, minor) => s"$major.$minor" }
+    .getOrElse(throw new MessageOnlyException("Unable to determine Scala.js plugin version."))
 
-val scalaNativeMajorMinorVersion = "0.4"
+val scalaNativeMajorMinorVersion =
+  """"org.scala-native" % "sbt-scala-native" % "([^"]+)"""".r
+    .findFirstMatchIn(IO.read(file("project/plugins.sbt")))
+    .map(_.group(1))
+    .flatMap(CrossVersion.partialVersion)
+    .map { case (major, minor) => s"$major.$minor" }
+    .getOrElse(throw new MessageOnlyException("Unable to determine Scala Native plugin version."))
 
 ThisBuild / versionScheme := Some("early-semver")
 
