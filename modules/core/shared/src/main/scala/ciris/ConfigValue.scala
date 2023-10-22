@@ -132,6 +132,12 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
+    * Alias for `evalMap(f).flatten`.
+    */
+  final def evalFlatMap[G[x] >: F[x], B](f: A => G[ConfigValue[G, B]]): ConfigValue[G, B] =
+    evalMap(f).flatten
+
+  /**
     * Returns a new [[ConfigValue]] which applies the
     * specified effectful function on the value.
     */
