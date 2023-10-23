@@ -25,7 +25,7 @@ final class ConfigExceptionSpec extends DisciplineSuite with Generators {
         exception.getMessage
 
       val messages =
-        exception.error.messages
+        exception.error.messages.map(ConfigException.formatMessage)
 
       val withEntryTrailing =
         messages
@@ -63,7 +63,8 @@ final class ConfigExceptionSpec extends DisciplineSuite with Generators {
 
   property("ConfigException.messageLength") {
     forAll { (exception: ConfigException) =>
-      val expected = ConfigException.messageLength(exception.error.messages)
+      val messages = exception.error.messages.map(ConfigException.formatMessage)
+      val expected = ConfigException.messageLength(messages)
       val actual = exception.getMessage.length
       actual === expected
     }

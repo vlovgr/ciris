@@ -40,7 +40,8 @@ trait Generators extends GeneratorsRuntimePlatform {
   val configErrorMessageGen: Gen[String] =
     Gen.oneOf(
       Gen.alphaNumStr,
-      Gen.alphaNumStr.map(_ ++ ConfigException.entryTrailing)
+      Gen.alphaNumStr.map(_ ++ ConfigException.entryTrailing),
+      Gen.alphaNumStr.map(s => s"$s\n$s")
     )
 
   val configErrorGen: Gen[ConfigError] =
