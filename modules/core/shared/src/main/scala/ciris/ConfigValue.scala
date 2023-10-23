@@ -447,6 +447,12 @@ object ConfigValue {
   final def missing[A](key: ConfigKey): ConfigValue[Effect, A] =
     ConfigValue.failed(ConfigError.Missing(key))
 
+  /**
+    * Alias for `ConfigValue.missing(ConfigKey(description))`.
+    */
+  final def missing[A](description: => String): ConfigValue[Effect, A] =
+    ConfigValue.missing(ConfigKey(description))
+
   private[ciris] final def pure[F[_], A](entry: ConfigEntry[A]): ConfigValue[F, A] =
     new ConfigValue[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
