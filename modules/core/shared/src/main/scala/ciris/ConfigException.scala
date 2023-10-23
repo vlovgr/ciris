@@ -36,12 +36,18 @@ object ConfigException {
   private[ciris] final val entryLeading: String =
     "\n  - "
 
+  private[ciris] final val entryNewLineLeading: String =
+    " " * (entryLeading.length - 1)
+
   private[ciris] final val entryTrailing: String =
     "."
 
+  private[ciris] final def formatMessage(message: String): String =
+    message.replaceAll("\n", s"\n$entryNewLineLeading")
+
   private[ciris] final def message(error: ConfigError): String = {
     val messages =
-      error.messages
+      error.messages.map(formatMessage)
 
     val builder =
       new java.lang.StringBuilder(messageLength(messages))
