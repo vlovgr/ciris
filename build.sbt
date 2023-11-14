@@ -239,7 +239,7 @@ lazy val dependencySettings = Seq(
       Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.2").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
-    "org.typelevel" %%% "munit-cats-effect" % "2.0.0-M3",
+    "org.typelevel" %%% "munit-cats-effect" % "2.0.0-M4",
     "org.typelevel" %%% "scalacheck-effect-munit" % "2.0.0-M2",
     "org.typelevel" %%% "cats-effect-laws" % catsEffectVersion,
     "org.typelevel" %%% "cats-effect" % catsEffectVersion
