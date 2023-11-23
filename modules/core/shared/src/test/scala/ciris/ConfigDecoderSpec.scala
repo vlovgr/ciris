@@ -257,6 +257,21 @@ final class ConfigDecoderSpec extends DisciplineSuite with Generators {
     MonadErrorTests[ConfigDecoder[String, *], ConfigError].monadError[String, String, String]
   )
 
+  property("ConfigDecoder.secret.success") {
+    forAll { (int: Int) =>
+      ConfigDecoder[Secret[String], Int].decode(None, Secret(int.show)) === int.asRight
+    }
+  }
+
+  property("ConfigDecoder.secret.failure") {
+    val gen =
+      arbitrary[String].filter(s => Try(s.toInt).isFailure)
+
+    forAll(gen) { s =>
+      ConfigDecoder[Secret[String], Int].decode(None, Secret(s)).isLeft
+    }
+  }
+
   property("ConfigDecoder.short.success") {
     forAll { (short: Short) =>
       ConfigDecoder[String, Short].decode(None, short.toString) === short.asRight
