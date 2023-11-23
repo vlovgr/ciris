@@ -40,14 +40,14 @@ final class CirceYamlSpec extends CatsEffectSuite {
   test("circeYamlConfigDecoder.invalid.noquotes") {
     checkError(
       ConfigValue.default("abc").as[Int](circeYamlConfigDecoder("Int")),
-      """Unable to decode json "abc" to Int: Int"""
+      """Unable to decode json "abc" to Int: DecodingFailure at : Int"""
     )
   }
 
   test("circeYamlConfigDecoder.invalid") {
     checkError(
       ConfigValue.default("\"abc\"").as[Int](circeYamlConfigDecoder("Int")),
-      """Unable to decode json "abc" to Int: Int"""
+      """Unable to decode json "abc" to Int: DecodingFailure at : Int"""
     )
   }
 
@@ -61,7 +61,7 @@ final class CirceYamlSpec extends CatsEffectSuite {
   test("circeYamlConfigDecoder.invalid.loaded") {
     checkError(
       ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeYamlConfigDecoder("Int")),
-      """Key with json "abc" cannot be decoded to Int: Int"""
+      """Key with json "abc" cannot be decoded to Int: DecodingFailure at : Int"""
     )
   }
 
@@ -115,7 +115,13 @@ final class CirceYamlSpec extends CatsEffectSuite {
     value
       .attempt[IO]
       .flatMap {
-        case Left(error) => IO(assert(error.messages === Chain.one(message)))
-        case Right(a)    => IO(fail(s"expected error, got $a"))
+        case Left(error) =>
+          IO(
+            assert(
+              error.messages === Chain.one(message),
+              s"Got messages:\n\n${error.messages}\n\nExpected message:\n\n$message"
+            )
+          )
+        case Right(a) => IO(fail(s"expected error, got $a"))
       }
 }
