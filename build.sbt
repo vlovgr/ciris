@@ -4,7 +4,7 @@ val catsEffectVersion = "3.5.2"
 
 val circeVersion = "0.14.6"
 
-val circeYamlVersion = "0.15.1"
+val circeYamlVersion = "1.15.0"
 
 val enumeratumVersion = "1.7.3"
 
