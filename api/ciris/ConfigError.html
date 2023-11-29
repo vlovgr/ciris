@@ -11,7 +11,7 @@ the error relates to a value which might contain sensitive details,
 <a href="ConfigValue.html#secret(implicitshow:cats.Show[A]):ciris.ConfigValue[F,ciris.Secret[A]]" name="ciris.ConfigValue#secret" id="ciris.ConfigValue#secret" class="extmbr">ConfigValue#secret</a> is used, sensitive details are redacted and
 the value is wrapped in <a href="Secret.html" name="ciris.Secret" id="ciris.Secret" class="extype">Secret</a> to prevent it from being shown.</p><p>A <code>Throwable</code> representation of a <a href="" name="ciris.ConfigError" id="ciris.ConfigError" class="extype">ConfigError</a> can be retrieved
 using <a href="#throwable:Throwable" name="ciris.ConfigError#throwable" id="ciris.ConfigError#throwable" class="extmbr">ConfigError#throwable</a>.
-</p></div><dl class="attributes block"><dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v3.5.0modules/core/shared/src/main/scala/ciris/ConfigError.scala" target="_blank">ConfigError.scala</a></dd><div class="block">Example:<ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError(<span class="lit">"error"</span>)
+</p></div><dl class="attributes block"><dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v3.5.0/modules/core/shared/src/main/scala/ciris/ConfigError.scala" target="_blank">ConfigError.scala</a></dd><div class="block">Example:<ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">val</span> error = ConfigError(<span class="lit">"error"</span>)
 error: ConfigError = ConfigError(error)
 
 scala&gt; <span class="kw">val</span> sensitive = ConfigError.sensitive(<span class="lit">"error"</span>, <span class="lit">"redacted"</span>)

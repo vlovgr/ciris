@@ -19,7 +19,7 @@ which accumulate errors.</p><p>Configuration values can be loaded using <a href=
 loads the value using a specified effect type. If a <a href="" name="ciris.ConfigValue" id="ciris.ConfigValue" class="extype">ConfigValue</a>
 contains <code>Resource</code>s for loading the configuration, there is also
 the option to return a <code>Resource</code> with <a href="ConfigValue$.html#resource[F[_],A](resource:cats.effect.kernel.Resource[F,ciris.ConfigValue[F,A]]):ciris.ConfigValue[F,A]" name="ciris.ConfigValue#resource" id="ciris.ConfigValue#resource" class="extmbr">ConfigValue#resource</a>.
-</p></div><dl class="attributes block"><dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v3.5.0modules/core/shared/src/main/scala/ciris/ConfigValue.scala" target="_blank">ConfigValue.scala</a></dd><div class="block">Example:<ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">import</span> cats.syntax.all._
+</p></div><dl class="attributes block"><dt>Source</dt><dd><a href="https://github.com/vlovgr/ciris/tree/v3.5.0/modules/core/shared/src/main/scala/ciris/ConfigValue.scala" target="_blank">ConfigValue.scala</a></dd><div class="block">Example:<ol><li class="cmt"><p></p><pre>scala&gt; <span class="kw">import</span> cats.syntax.all._
 <span class="kw">import</span> cats.syntax.all._
 
 scala&gt; <span class="kw">case</span> <span class="kw">class</span> Config(maxRetries: <span class="std">Int</span>, apiKey: <span class="std">Option</span>[Secret[<span class="std">String</span>]])
