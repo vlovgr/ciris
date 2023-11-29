@@ -287,7 +287,7 @@ lazy val mdocSettings = Seq(
   ),
   // format: off
   ScalaUnidoc / unidoc / scalacOptions ++= Seq(
-    "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(ThisBuild / latestVersion).value}€{FILE_PATH}.scala",
+    "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(ThisBuild / latestVersion).value}/€{FILE_PATH}.scala",
     "-sourcepath", (LocalRootProject / baseDirectory).value.getAbsolutePath,
     "-doc-title", "Ciris",
     "-doc-version", s"v${(ThisBuild / latestVersion).value}",
