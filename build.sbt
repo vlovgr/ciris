@@ -413,6 +413,7 @@ lazy val sharedNativeSettings = Seq(
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
   crossScalaVersions := Seq(scala212, scala213),
+  javacOptions ++= Seq("--release", "8"),
   scalacOptions ++= {
     val commonScalacOptions =
       Seq(

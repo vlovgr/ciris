@@ -1,16 +1,21 @@
 name: ci
 on:
   push:
-    branches: ['*']
+    branches:
+      - "**"
   pull_request:
-    branches: ['*']
+    branches:
+      - "**"
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - uses: olafurpg/setup-scala@v10
-    - uses: coursier/cache-action@v5
-    - run: sbt validate
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: coursier/cache-action@v6
+      - uses: coursier/setup-action@v1
+        with:
+          jvm: adoptium:1.11.0.22
+          apps: sbt
+      - run: sbt validate
