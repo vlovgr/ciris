@@ -1,21 +1,26 @@
 name: release
 on:
   push:
-    branches: ['master']
-    tags: ['*']
+    branches:
+      - "master"
+    tags:
+      - "**"
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - uses: olafurpg/setup-scala@v10
-    - uses: olafurpg/setup-gpg@v3
-    - uses: coursier/cache-action@v5
-    - run: echo "GIT_DEPLOY_KEY=${{ secrets.GIT_DEPLOY_KEY }}" >> $GITHUB_ENV
-    - run: echo "PGP_PASSPHRASE=${{ secrets.PGP_PASSPHRASE }}" >> $GITHUB_ENV
-    - run: echo "PGP_SECRET=${{ secrets.PGP_SECRET }}" >> $GITHUB_ENV
-    - run: echo "SONATYPE_PASSWORD=${{ secrets.SONATYPE_PASSWORD }}" >> $GITHUB_ENV
-    - run: echo "SONATYPE_USERNAME=${{ secrets.SONATYPE_USERNAME }}" >> $GITHUB_ENV
-    - run: sbt ci-release docs/docusaurusPublishGhpages
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: coursier/cache-action@v6
+      - uses: coursier/setup-action@v1
+        with:
+          jvm: adoptium:1.11.0.22
+          apps: sbt
+      - uses: olafurpg/setup-gpg@v3
+      - run: echo "GIT_DEPLOY_KEY=${{ secrets.GIT_DEPLOY_KEY }}" >> $GITHUB_ENV
+      - run: echo "PGP_PASSPHRASE=${{ secrets.PGP_PASSPHRASE }}" >> $GITHUB_ENV
+      - run: echo "PGP_SECRET=${{ secrets.PGP_SECRET }}" >> $GITHUB_ENV
+      - run: echo "SONATYPE_PASSWORD=${{ secrets.SONATYPE_PASSWORD }}" >> $GITHUB_ENV
+      - run: echo "SONATYPE_USERNAME=${{ secrets.SONATYPE_USERNAME }}" >> $GITHUB_ENV
+      - run: sbt ci-release docs/docusaurusPublishGhpages
