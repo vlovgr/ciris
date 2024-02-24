@@ -236,7 +236,7 @@ lazy val dependencySettings = Seq(
   libraryDependencies ++= {
     if (scalaVersion.value.startsWith("3")) Nil
     else
-      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.2").cross(CrossVersion.full)))
+      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.3").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
     "org.typelevel" %%% "munit-cats-effect" % "2.0.0-M4",
