@@ -381,7 +381,7 @@ object ConfigDecoder {
       override final def raiseError[B](error: ConfigError): ConfigDecoder[A, B] =
         ConfigDecoder.lift(_ => Left(error))
 
-      override final def tailRecM[B, C](b: B)(
+      override final def tailRecM[B, C](initial: B)(
         f: B => ConfigDecoder[A, Either[B, C]]
       ): ConfigDecoder[A, C] =
         ConfigDecoder.instance { (key, value) =>
@@ -392,7 +392,7 @@ object ConfigDecoder {
               case Right(Left(b))          => go(f(b))
             }
 
-          go(f(b))
+          go(f(initial))
         }
     }
 }
