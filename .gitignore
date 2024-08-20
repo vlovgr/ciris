@@ -6,3 +6,8 @@
 /website/variables.js
 /website/yarn.lock
 target/
+/.metals/
+.bloop/
+/.bsp/
+/.vscode/
+metals.sbt
