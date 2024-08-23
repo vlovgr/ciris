@@ -246,7 +246,7 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
       val default = value.default(a).to[IO].attempt
       val or = value.or(ciris.default(a)).to[IO].attempt
 
-      (default, or).tupled.use {
+      (default.evalTap(IO.println), or).tupled.evalTap(IO.println).use {
         case (Left(_), Left(_))   => IO.pure(true)
         case (Right(a), Right(b)) => IO.pure(a === b)
         case (_, _)               => IO.pure(false)
@@ -338,88 +338,6 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
     checkLoadFail {
       missing.evalMap(_ => IO.raiseError[String](ConfigError("").throwable))
     }
-  }
-
-  test("ConfigValue.flatMap.default >> default") {
-    check(
-      default >> default2,
-      defaultWith(ConfigError.Empty, defaultValue2)
-    )
-  }
-
-  test("ConfigValue.flatMap.default >> failed") {
-    check(default >> failed, failed)
-  }
-
-  test("ConfigValue.flatMap.default >> loaded") {
-    check(
-      default >> loaded,
-      loadedWith(ConfigError.Loaded, None, loadedValue)
-    )
-  }
-
-  test("ConfigValue.flatMap.default >> missing") {
-    check(default >> missing, missing)
-  }
-
-  test("ConfigValue.flatMap.failed >> default") {
-    check(failed >> default, failed)
-  }
-
-  test("ConfigValue.flatMap.failed >> failed") {
-    check(failed >> failed2, failed)
-  }
-
-  test("ConfigValue.flatMap.failed >> loaded") {
-    check(failed >> loaded, failed)
-  }
-
-  test("ConfigValue.flatMap.failed >> missing") {
-    check(failed >> missing, failed)
-  }
-
-  test("ConfigValue.flatMap.loaded >> default") {
-    check(
-      loaded >> default,
-      loadedWith(ConfigError.Loaded, None, defaultValue)
-    )
-  }
-
-  test("ConfigValue.flatMap.loaded >> failed") {
-    check(
-      loaded >> failed,
-      failedWith[IO, String](ConfigError.Loaded.and(failedError))
-    )
-  }
-
-  test("ConfigValue.flatMap.loaded >> loaded") {
-    check(
-      loaded >> loaded2,
-      loadedWith(ConfigError.Loaded, None, loadedValue2)
-    )
-  }
-
-  test("ConfigValue.flatMap.loaded >> missing") {
-    check(
-      loaded >> missing,
-      failedWith[IO, String](ConfigError.Loaded.and(missingError))
-    )
-  }
-
-  test("ConfigValue.flatMap.missing >> default") {
-    check(missing >> default, missing)
-  }
-
-  test("ConfigValue.flatMap.missing >> failed") {
-    check(missing >> failed, missing)
-  }
-
-  test("ConfigValue.flatMap.missing >> loaded") {
-    check(missing >> loaded, missing)
-  }
-
-  test("ConfigValue.flatMap.missing >> missing") {
-    check(missing >> missing2, missing)
   }
 
   test("ConfigValue.load.default") {
@@ -552,118 +470,6 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
     check(
       default.or(default2),
       defaultWith(defaultError.or(defaultError2), defaultValue2)
-    )
-  }
-
-  test("ConfigValue.parallel.(default, default).parTupled") {
-    check(
-      (default, default2).parTupled,
-      defaultWith(ConfigError.Empty, (defaultValue, defaultValue2))
-    )
-  }
-
-  test("ConfigValue.parallel.(default, failed).parTupled") {
-    check(
-      (default, failed).parTupled,
-      failed.asInstanceOf[ConfigValue[IO, (String, String)]]
-    )
-  }
-
-  test("ConfigValue.parallel.(default, loaded).parTupled") {
-    check(
-      (default, loaded).parTupled,
-      loadedWith(ConfigError.Loaded, None, (defaultValue, loadedValue))
-    )
-  }
-
-  test("ConfigValue.parallel.(default, missing).parTupled") {
-    check(
-      (default, missing).parTupled,
-      failedWith[IO, (String, String)](missingError)
-    )
-  }
-
-  test("ConfigValue.parallel.(failed, default).parTupled") {
-    check(
-      (failed, default).parTupled,
-      failed.asInstanceOf[ConfigValue[IO, (String, String)]]
-    )
-  }
-
-  test("ConfigValue.parallel.(failed, failed).parTupled") {
-    check(
-      (failed, failed2).parTupled,
-      failedWith[IO, (String, String)](failedError.and(failedError2))
-    )
-  }
-
-  test("ConfigValue.parallel.(failed, loaded).parTupled") {
-    check(
-      (failed, loaded).parTupled,
-      failedWith[IO, (String, String)](failedError.and(loadedError))
-    )
-  }
-
-  test("ConfigValue.parallel.(failed, missing).parTupled") {
-    check(
-      (failed, missing).parTupled,
-      failedWith[IO, (String, String)](failedError.and(missingError))
-    )
-  }
-
-  test("ConfigValue.parallel.(loaded, default).parTupled") {
-    check(
-      (loaded, default).parTupled,
-      loadedWith(ConfigError.Loaded, None, (loadedValue, defaultValue))
-    )
-  }
-
-  test("ConfigValue.parallel.(loaded, failed).parTupled") {
-    check(
-      (loaded, failed).parTupled,
-      failedWith[IO, (String, String)](loadedError.and(failedError))
-    )
-  }
-
-  test("ConfigValue.parallel.(loaded, loaded).parTupled") {
-    check(
-      (loaded, loaded2).parTupled,
-      loadedWith(ConfigError.Loaded, None, (loadedValue, loadedValue2))
-    )
-  }
-
-  test("ConfigValue.parallel.(loaded, missing).parTupled") {
-    check(
-      (loaded, missing).parTupled,
-      failedWith[IO, (String, String)](loadedError.and(missingError))
-    )
-  }
-
-  test("ConfigValue.parallel.(missing, default).parTupled") {
-    check(
-      (missing, default).parTupled,
-      failedWith[IO, (String, String)](missingError)
-    )
-  }
-
-  test("ConfigValue.parallel.(missing, failed).parTupled") {
-    check(
-      (missing, failed).parTupled,
-      failedWith[IO, (String, String)](missingError.and(failedError))
-    )
-  }
-
-  test("ConfigValue.parallel.(missing, loaded).parTupled") {
-    check(
-      (missing, loaded).parTupled,
-      failedWith[IO, (String, String)](missingError.and(loadedError))
-    )
-  }
-
-  test("ConfigValue.parallel.(missing, missing).parTupled") {
-    check(
-      (missing, missing2).parTupled,
-      failedWith[IO, (String, String)](missingError.and(missingError2))
     )
   }
 

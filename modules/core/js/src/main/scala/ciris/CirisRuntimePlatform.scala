@@ -11,12 +11,8 @@ import scala.util.control.NonFatal
 
 private[ciris] trait CirisRuntimePlatform {
 
-  /**
-    * Returns a new [[ConfigValue]] for the specified environment variable.
-    */
-  final def env(name: String): ConfigValue[Effect, String] =
-    ConfigValue.suspend {
-      val key = ConfigKey.env(name)
+  private[ciris] final def getEnv(name: String): ConfigEntry[String] = {
+    val key = ConfigKey.env(name)
 
       val value =
         try {
@@ -28,8 +24,8 @@ private[ciris] trait CirisRuntimePlatform {
         }
 
       value match {
-        case Some(value) => ConfigValue.loaded(key, value)
-        case None        => ConfigValue.missing(key)
+        case Some(value) => ConfigEntry.loaded(Some(key), value)
+        case None        => ConfigEntry.missing(key)
       }
-    }
+  }
 }

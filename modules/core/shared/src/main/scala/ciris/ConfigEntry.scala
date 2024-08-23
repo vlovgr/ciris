@@ -45,6 +45,8 @@ private[ciris] object ConfigEntry {
   final def loaded[A](key: Option[ConfigKey], value: A): ConfigEntry[A] =
     Loaded(ConfigError.Loaded, key, value)
 
+  final def missing[A](key: ConfigKey): ConfigEntry[A] = failed(ConfigError.Missing(key))
+
   final case class Default[A](error: ConfigError, value: A) extends ConfigEntry[A] {
     override final def hashCode: Int =
       (error, value).hashCode

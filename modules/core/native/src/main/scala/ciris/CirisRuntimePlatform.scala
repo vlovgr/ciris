@@ -11,20 +11,16 @@ import java.nio.file.{Files, Path}
 
 private[ciris] trait CirisRuntimePlatform {
 
-  /**
-    * Returns a new [[ConfigValue]] for the specified environment variable.
-    */
-  final def env(name: String): ConfigValue[Effect, String] =
-    ConfigValue.suspend {
-      val key = ConfigKey.env(name)
-      val value = System.getenv(name)
+  private[ciris] final def getEnv(name: String): ConfigEntry[String] = {
+    val key = ConfigKey.env(name)
+    val value = System.getenv(name)
 
-      if (value != null) {
-        ConfigValue.loaded(key, value)
-      } else {
-        ConfigValue.missing(key)
-      }
+    if (value != null) {
+      ConfigEntry.loaded(Some(key), value)
+    } else {
+      ConfigEntry.missing(key)
     }
+  }
 
   /**
     * Returns a new [[ConfigValue]] for the file at the
