@@ -131,13 +131,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     * specified effectful function on the value.
     */
   final def evalMap[G[x] >: F[x], B](f: A => G[B]): ConfigValue[G, B] =
-    new ConfigValue[G, B] {
-      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
-        self.to[H].evalMap(_.traverse[H, B](f))
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
+    ConfigValue.EvalMap(this, f)
 
   /**
     * Returns an effect of the specified type which loads
@@ -341,6 +335,12 @@ object ConfigValue {
       Resource.eval(G.delay(getEnv(name)))
   }
 
+  case class EvalMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => G[B]) extends ConfigValue[G, B] {
+
+    override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
+        input.to[H].evalMap(_.traverse[H, B](f))
+  }
+
   case class Property(name: String) extends ConfigValue[Effect, String] {
     override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[String]] =
       Resource.eval(G.delay {
@@ -513,6 +513,9 @@ object ConfigValue {
         "ConfigValue$" + System.identityHashCode(this)
     }
 
+  /**
+    * @group Instances
+    */
   implicit final def configValueApplicative[F[_]]: Applicative[ConfigValue[F, *]] =
     new Applicative[ConfigValue[F, *]] {
 
