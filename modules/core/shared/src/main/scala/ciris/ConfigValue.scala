@@ -11,6 +11,8 @@ import cats.effect.kernel.{Async, Resource}
 import cats.syntax.all._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
 import cats.Applicative
+import cats.data.NonEmptyList
+import ciris.ConfigValue.Or
 
 /**
   * Represents a configuration value or a composition of multiple values.
@@ -182,35 +184,10 @@ sealed abstract class ConfigValue[+F[_], A] {
     * defaults. Errors from both the value and the
     * specified configuration are accumulated.
     */
-  final def or[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] =
-    new ConfigValue[G, A] {
-      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[A]] =
-        self.to[H].flatMap {
-          case Default(error, a) =>
-            value.to[H].map {
-              case Failed(nextError) if nextError.isMissing => Default(error.or(nextError), a)
-              case Failed(nextError)                        => Failed(error.or(nextError))
-              case Default(nextError, b)                    => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b)                => Loaded(error.or(nextError), key, b)
-            }
-
-          case Failed(error) if error.isMissing =>
-            value.to[H].map {
-              case Failed(nextError)         => Failed(error.or(nextError))
-              case Default(nextError, b)     => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
-            }
-
-          case failed @ Failed(_) =>
-            Resource.eval(H.pure(failed))
-
-          case loaded @ Loaded(_, _, _) =>
-            Resource.eval(H.pure(loaded))
-        }
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
+  final def or[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] = this match {
+    case Or(alternatives) => Or(alternatives :+ value)
+    case _ => Or(NonEmptyList.of(this, value))
+  }
 
   /**
     * Returns a new [[ConfigValue]] with sensitive
@@ -339,6 +316,34 @@ object ConfigValue {
 
     override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
         input.to[H].evalMap(_.traverse[H, B](f))
+  }
+
+  case class Or[F[_], A](alternatives: NonEmptyList[ConfigValue[F, A]]) extends ConfigValue[F, A] {
+
+    override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G,ConfigEntry[A]] =
+      alternatives.reduceLeftTo(_.to[G])((res, value) => res.flatMap {
+          case Default(error, a) =>
+            value.to[G].map {
+              case Failed(nextError) if nextError.isMissing => Default(error.or(nextError), a)
+              case Failed(nextError)                        => Failed(error.or(nextError))
+              case Default(nextError, b)                    => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b)                => Loaded(error.or(nextError), key, b)
+            }
+
+          case Failed(error) if error.isMissing =>
+            value.to[G].map {
+              case Failed(nextError)         => Failed(error.or(nextError))
+              case Default(nextError, b)     => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
+            }
+
+          case failed @ Failed(_) =>
+            Resource.eval(G.pure(failed))
+
+          case loaded @ Loaded(_, _, _) =>
+            Resource.eval(G.pure(loaded))
+        }
+      )
   }
 
   case class Property(name: String) extends ConfigValue[Effect, String] {
