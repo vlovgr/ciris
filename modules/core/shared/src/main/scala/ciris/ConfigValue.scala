@@ -12,7 +12,6 @@ import cats.syntax.all._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
 import cats.Applicative
 import cats.data.NonEmptyList
-import ciris.ConfigValue.Or
 
 /**
   * Represents a configuration value or a composition of multiple values.
@@ -136,6 +135,12 @@ sealed abstract class ConfigValue[+F[_], A] {
     ConfigValue.EvalMap(this, f)
 
   /**
+    * Isomophic-ish version of [[evalMap]].
+    */
+  final def ievalMap[G[x] >: F[x], B](f: A => G[B])(g: B => A): ConfigValue[G, B] =
+    ConfigValue.IEvalMap(this, f, g)
+
+  /**
     * Returns an effect of the specified type which loads
     * the configuration value.
     *
@@ -158,6 +163,12 @@ sealed abstract class ConfigValue[+F[_], A] {
     */
   final def map[B](f: A => B): ConfigValue[F, B] =
     transform(_.map(f))
+
+  /**
+   * Isomorphic [[map]].
+   */
+  final def imap[B](f: A => B)(g: B => A): ConfigValue[F, B] =
+    itransform(_.map(f))(g)
 
   /**
     * Returns a new [[ConfigValue]] which uses `None` as the
@@ -185,9 +196,12 @@ sealed abstract class ConfigValue[+F[_], A] {
     * specified configuration are accumulated.
     */
   final def or[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] = this match {
-    case Or(alternatives) => Or(alternatives :+ value)
-    case _ => Or(NonEmptyList.of(this, value))
+    case ConfigValue.Or(alternatives) => ConfigValue.Or(alternatives :+ value)
+    case _ => ConfigValue.Or(NonEmptyList.of(this, value))
   }
+
+  final def product[G[x] >: F[x], B](right: ConfigValue[G, B]): ConfigValue[G, (A, B)] =
+    ConfigValue.Product(this, right)
 
   /**
     * Returns a new [[ConfigValue]] with sensitive
@@ -198,7 +212,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     * requiring a `Show` instance.
     */
   final def redacted: ConfigValue[F, A] =
-    transform(_.mapError(_.redacted))
+    itransform(_.mapError(_.redacted))(identity)
 
   /**
     * Returns a `Resource` with the specified effect
@@ -223,11 +237,11 @@ sealed abstract class ConfigValue[+F[_], A] {
     * `.redacted.map(Secret(_))`.
     */
   final def secret(implicit show: Show[A]): ConfigValue[F, Secret[A]] =
-    transform {
+    itransform({
       case Default(error, a)     => Default(error.redacted, Secret(a)(show))
       case Failed(error)         => Failed(error.redacted)
       case Loaded(error, key, a) => Loaded(error.redacted, key, Secret(a)(show))
-    }
+    })(_.value)
 
   lazy val fields: List[ConfigField] = fieldsRec(None)
 
@@ -239,6 +253,9 @@ sealed abstract class ConfigValue[+F[_], A] {
     f: ConfigEntry[A] => ConfigEntry[B]
   ): ConfigValue[F, B] =
     ConfigValue.Transform(this, f)
+
+  private[ciris] final def itransform[B](f: ConfigEntry[A] => ConfigEntry[B])(g: B => A): ConfigValue[F, B] =
+    ConfigValue.ITransform(this, f, g)
 
   /**
     * Returns a new [[ConfigValue]] which treats the value
@@ -336,6 +353,22 @@ object ConfigValue {
         input.to[H].evalMap(_.traverse[H, B](f))
   }
 
+  case class IEvalMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => G[B], g: B => A) extends ConfigValue[G, B] {
+    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(defaultValue.map(g))
+
+    override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
+        input.to[H].evalMap(_.traverse[H, B](f))
+  }
+
+  case class ITransform[F[_], A, B](input: ConfigValue[F, A], f: ConfigEntry[A] => ConfigEntry[B], g: B => A) extends ConfigValue[F, B] {
+    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(defaultValue.map(g))
+
+    override private[ciris] def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G,ConfigEntry[B]] =
+      input.to[G].map(f)
+  }
+
   case class Or[F[_], A](alternatives: NonEmptyList[ConfigValue[F, A]]) extends ConfigValue[F, A] {
     override protected def fieldsRec(defaultValue: Option[A]): List[ConfigField] =
       alternatives.toList.flatMap(_.fieldsRec(defaultValue))
@@ -365,6 +398,21 @@ object ConfigValue {
         }
       )
   }
+
+  case class Product[F[_], A, B](a: ConfigValue[F, A], b: ConfigValue[F, B]) extends ConfigValue[F, (A, B)] {
+    override protected def fieldsRec(defaultValue: Option[(A, B)]): List[ConfigField] =
+      a.fieldsRec(defaultValue.map(_._1)) ++ b.fieldsRec(defaultValue.map(_._2))
+
+    override private[ciris] def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G,ConfigEntry[(A, B)]] =
+      a.to[G].map2(b.to[G]) {
+        case (Default(errorA, valueA), Default(errorB, valueB)) => Default(errorA.and(errorB), (valueA, valueB))
+        case (Default(errorA, valueA), Loaded(errorB, _, valueB)) => Default(errorA.and(errorB), (valueA, valueB))
+        case (Loaded(errorA, _, valueA), Default(errorB, valueB)) => Default(errorA.and(errorB), (valueA, valueB))
+        case (Loaded(errorA, keyA, valueA), Loaded(errorB, keyB, valueB)) => Loaded(errorA.and(errorB), keyA.zip(keyB).map {case (kA, kB) => kA.and(kB)}, (valueA, valueB))
+        case (Failed(errorA), entryB) => Failed(errorA.and(entryB.error))
+        case (entryA, Failed(errorB)) => Failed(entryA.error.and(errorB))
+      }
+  } 
 
   case class Property(name: String) extends ConfigValue[Effect, String] {
     override protected def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
@@ -548,6 +596,7 @@ object ConfigValue {
         "ConfigValue$" + System.identityHashCode(this)
     }
 
+  //TODO Turn to InvariantMonoidal once unidirectional map/ap methods are removed.
   /**
     * @group Instances
     */
@@ -558,6 +607,12 @@ object ConfigValue {
         Apply(ff, fa)
 
       override def pure[A](x: A): ConfigValue[F,A] = default(x)
+
+      override def imap[A, B](fa: ConfigValue[F, A])(f: A => B)(g: B => A): ConfigValue[F, B] =
+        fa.imap(f)(g)
+
+      override def product[A, B](fa: ConfigValue[F, A], fb: ConfigValue[F, B]): ConfigValue[F, (A, B)] =
+        fa.product(fb)
     }
   
   /**
