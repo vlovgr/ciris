@@ -131,6 +131,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     * Returns a new [[ConfigValue]] which applies the
     * specified effectful function on the value.
     */
+  @deprecated("Use ievalMap instead", "3.5.0")
   final def evalMap[G[x] >: F[x], B](f: A => G[B]): ConfigValue[G, B] =
     ConfigValue.EvalMap(this, f)
 
@@ -161,6 +162,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     * Returns a new [[ConfigValue]] which applies the
     * specified function on the value.
     */
+  @deprecated("Use imap instead", "3.5.0")
   final def map[B](f: A => B): ConfigValue[F, B] =
     transform(_.map(f))
 
@@ -657,6 +659,7 @@ object ConfigValue {
           }
         }
 
+      @deprecated("Use imap instead", "3.5.0")
       override final def map[A, B](pa: Par[F, A])(f: A => B): Par[F, B] =
         Par(pa.unwrap.map(f))
     }
