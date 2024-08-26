@@ -229,6 +229,10 @@ sealed abstract class ConfigValue[+F[_], A] {
       case Loaded(error, key, a) => Loaded(error.redacted, key, Secret(a)(show))
     }
 
+  lazy val fields: List[ConfigField] = fieldsRec(None)
+
+  protected def fieldsRec(defaultValue: Option[A]): List[ConfigField]
+
   private[ciris] def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]]
 
   private[ciris] final def transform[B](
@@ -265,9 +269,14 @@ object ConfigValue {
   /**
    * A misceallenous effectful configuration that cannot be introspected in a pure environment.
    */
-  sealed abstract class Effectful[F[_], A] extends ConfigValue[F, A]
+  sealed abstract class Effectful[F[_], A] extends ConfigValue[F, A] {
+    override protected def fieldsRec(defaultValue: Option[A]): List[ConfigField] = Nil
+  }
 
   case class Apply[F[_], A, B](ff: ConfigValue[F, A => B], fa: ConfigValue[F, A]) extends ConfigValue[F, B] {
+
+    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      ff.fieldsRec(None) ++ fa.fieldsRec(None)
 
     override final def to[G[x] >: F[x]](
               implicit G: Async[G]
@@ -297,6 +306,10 @@ object ConfigValue {
   }
 
   case class DefaultValue[F[_], A](configValue: ConfigValue[F, A], defaultValue: A) extends ConfigValue[F, A] {
+
+    override protected def fieldsRec(existingDefaultValue: Option[A]): List[ConfigField] =
+      configValue.fieldsRec(existingDefaultValue.orElse(Some(defaultValue)))
+
     override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G,ConfigEntry[A]] = {
       configValue.to[G].map {
         case Default(error, _)                => Default(error, defaultValue)
@@ -308,17 +321,24 @@ object ConfigValue {
   }
 
   case class Environment(name: String) extends ConfigValue[Effect, String] {
+    override protected def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
+      List(ConfigField(ConfigKey.env(name), defaultValue))
+
     override final def to[G[x]](implicit G: Async[G]): Resource[G,ConfigEntry[String]] =
       Resource.eval(G.delay(getEnv(name)))
   }
 
   case class EvalMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => G[B]) extends ConfigValue[G, B] {
+    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(None)
 
     override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
         input.to[H].evalMap(_.traverse[H, B](f))
   }
 
   case class Or[F[_], A](alternatives: NonEmptyList[ConfigValue[F, A]]) extends ConfigValue[F, A] {
+    override protected def fieldsRec(defaultValue: Option[A]): List[ConfigField] =
+      alternatives.toList.flatMap(_.fieldsRec(defaultValue))
 
     override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G,ConfigEntry[A]] =
       alternatives.reduceLeftTo(_.to[G])((res, value) => res.flatMap {
@@ -347,6 +367,9 @@ object ConfigValue {
   }
 
   case class Property(name: String) extends ConfigValue[Effect, String] {
+    override protected def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
+      List(ConfigField(ConfigKey.prop(name), defaultValue))
+
     override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[String]] =
       Resource.eval(G.delay {
         val key = ConfigKey.prop(name)
@@ -365,17 +388,24 @@ object ConfigValue {
   }
 
   case class Pure[A](entry: ConfigEntry[A]) extends ConfigValue[Effect, A] {
+    override protected def fieldsRec(defaultValue: Option[A]): List[ConfigField] = Nil
+
     override final def to[G[x]](implicit G: Async[G]): Resource[G,ConfigEntry[A]] =
       Resource.pure(entry)
   }
 
   case class Transform[F[_], A, B](input: ConfigValue[F, A], f: ConfigEntry[A] => ConfigEntry[B]) extends ConfigValue[F, B] {
+    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(None)
 
     override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[B]] =
       input.to[G].map(f)
   }
 
   case class ToUseOnceSecret[F[_], A](input: ConfigValue[F, A])(implicit ev: A <:< Array[Char]) extends ConfigValue[F, UseOnceSecret] {
+    override protected def fieldsRec(defaultValue: Option[UseOnceSecret]): List[ConfigField] =
+      input.fieldsRec(None)
+
     override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[UseOnceSecret]] =
       input.redacted.to[G].evalMap(_.traverse(UseOnceSecret[G](_)))
   }
@@ -538,6 +568,9 @@ object ConfigValue {
       override final def ap[A, B](pab: Par[F, A => B])(pa: Par[F, A]): Par[F, B] =
         Par {
           new ConfigValue[F, B] {
+            override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+              pab.unwrap.fieldsRec(None) ++ pa.unwrap.fieldsRec(None)
+
             override final def to[G[x] >: F[x]](
               implicit G: Async[G]
             ): Resource[G, ConfigEntry[B]] =
