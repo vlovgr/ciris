@@ -69,7 +69,8 @@ sealed abstract class ConfigValue[+F[_], A] {
     * Returns a new [[ConfigValue]] which attempts to decode the
     * value to the specified type.
     */
-  final def as[B](implicit decoder: ConfigDecoder[A, B]): ConfigValue[F, B] =
+  @deprecated("Use as(implicit ConfigCodec) instead", "3.7.0")
+  final def decodeAs[B](implicit decoder: ConfigDecoder[A, B]): ConfigValue[F, B] =
     transform {
       case Default(error, a) =>
         decoder.decode(None, a) match {
@@ -86,6 +87,24 @@ sealed abstract class ConfigValue[+F[_], A] {
           case Left(decodeError) => Failed(error.or(decodeError))
         }
     }
+
+  final def as[B](implicit codec: ConfigCodec[A, B]): ConfigValue[F, B] =
+    itransform {
+      case Default(error, a) =>
+        codec.decode(None, a) match {
+          case Right(b)          => Default(error, b)
+          case Left(decodeError) => Failed(error.or(decodeError))
+        }
+
+      case failed @ Failed(_) =>
+        failed
+
+      case Loaded(error, key, a) =>
+        codec.decode(key, a) match {
+          case Right(b)          => Loaded(error, key, b)
+          case Left(decodeError) => Failed(error.or(decodeError))
+        }
+    }(codec.encode)
 
   /**
     * Returns an effect of the specified type which attempts
