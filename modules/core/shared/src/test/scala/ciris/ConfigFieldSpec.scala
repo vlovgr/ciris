@@ -87,7 +87,7 @@ final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
 
   test("ConfigValue.useOnceSecret.fields") {
     check(
-      prop("user.dir").map(_.toCharArray).useOnceSecret,
+      prop("user.dir").imap(_.toCharArray)(_.mkString).useOnceSecret,
       List(ConfigField(ConfigKey.prop("user.dir")))
     )
   }
@@ -99,20 +99,6 @@ final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
         ConfigField(ConfigKey.prop("user.dir"), Some("~")),
         ConfigField(ConfigKey.prop("user.name"), Some("default_user"))
       )
-    )
-  }
-
-  test("ConfigValue.map.default.fields") {
-    check(
-      prop("user.id").map(_.toInt).default(0),
-      List(ConfigField(ConfigKey.prop("user.id")))
-    )
-  }
-
-  test("ConfigValue.evalMap.default.fields") {
-    check(
-      prop("user.id").evalMap(x => IO(x.toInt)).default(0),
-      List(ConfigField(ConfigKey.prop("user.id")))
     )
   }
 
