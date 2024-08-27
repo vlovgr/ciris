@@ -19,11 +19,11 @@ final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
   }
 
   test("ConfigValue.environment.fields") {
-    check(env("ENV_VARIABLE"), List(ConfigField(ConfigKey.env("ENV_VARIABLE"), None)))
+    check(env("ENV_VARIABLE"), List(ConfigField(ConfigKey.env("ENV_VARIABLE"))))
   }
 
   test("ConfigValue.prop.fields") {
-    check(prop("user.dir"), List(ConfigField(ConfigKey.prop("user.dir"), None)))
+    check(prop("user.dir"), List(ConfigField(ConfigKey.prop("user.dir"))))
   }
 
   test("ConfigValue.prop.default.fields") {
@@ -36,6 +36,34 @@ final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
   test("ConfigValue.prop.default.default.fields") {
     check(
       prop("user.dir").default("/").default("~"),
+      List(ConfigField(ConfigKey.prop("user.dir"), Some("~")))
+    )
+  }
+
+  test("ConfigValue.option.fields") {
+    check(
+      prop("user.dir").option,
+      List(ConfigField.Optional(ConfigKey.prop("user.dir"), None))
+    )
+  }
+
+  test("ConfigValue.option.option.fields") {
+    check(
+      prop("user.dir").option.option,
+      List(ConfigField.Optional(ConfigKey.prop("user.dir"), None))
+    )
+  }
+
+  test("ConfigValue.option.default.fields") {
+    check(
+      prop("user.dir").option.default(Some("discarded since option always returns a value")),
+      List(ConfigField.Optional(ConfigKey.prop("user.dir"), None))
+    )
+  }
+
+  test("ConfigValue.default.option.fields") {
+    check(
+      prop("user.dir").default("~").option,
       List(ConfigField(ConfigKey.prop("user.dir"), Some("~")))
     )
   }
@@ -53,14 +81,14 @@ final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
   test("ConfigValue.secret.fields") {
     check(
       prop("user.dir").secret,
-      List(ConfigField(ConfigKey.prop("user.dir"), None))
+      List(ConfigField(ConfigKey.prop("user.dir")))
     )
   }
 
   test("ConfigValue.useOnceSecret.fields") {
     check(
       prop("user.dir").map(_.toCharArray).useOnceSecret,
-      List(ConfigField(ConfigKey.prop("user.dir"), None))
+      List(ConfigField(ConfigKey.prop("user.dir")))
     )
   }
 
@@ -77,14 +105,14 @@ final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
   test("ConfigValue.map.default.fields") {
     check(
       prop("user.id").map(_.toInt).default(0),
-      List(ConfigField(ConfigKey.prop("user.id"), None))
+      List(ConfigField(ConfigKey.prop("user.id")))
     )
   }
 
   test("ConfigValue.evalMap.default.fields") {
     check(
       prop("user.id").evalMap(x => IO(x.toInt)).default(0),
-      List(ConfigField(ConfigKey.prop("user.id"), None))
+      List(ConfigField(ConfigKey.prop("user.id")))
     )
   }
 

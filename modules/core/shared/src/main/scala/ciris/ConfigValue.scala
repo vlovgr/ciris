@@ -141,10 +141,9 @@ sealed abstract class ConfigValue[+F[_], A] {
     * a composition of values, the default will be used in case all
     * values are either missing or are default values themselves.
     *
-    * Using `.default(a)` is equivalent to using `.or(default(a))`.
+    * Using `.default(a)` is roughly equivalent to using `.or(default(a))`.
     */
-  final def default(value: => A): ConfigValue[F, A] =
-    ConfigValue.DefaultValue(this, value)
+  def default(value: => A): ConfigValue[F, A] = ConfigValue.DefaultValue(this, value)
 
   /**
     * Returns a new [[ConfigValue]] which applies the
@@ -194,16 +193,11 @@ sealed abstract class ConfigValue[+F[_], A] {
   /**
     * Returns a new [[ConfigValue]] which uses `None` as the
     * default if the value is missing.
-    *
-    * Using `.option` is equivalent to using `.map(_.some).default(None)`.
     */
-  final def option: ConfigValue[F, Option[A]] =
-    transform {
-      case Default(error, _)                => Default(error, None)
-      case Failed(error) if error.isMissing => Default(error, None)
-      case failed @ Failed(_)               => failed
-      case Loaded(error, key, a)            => Loaded(error, key, Some(a))
-    }
+  final def option: ConfigValue[F, Option[A]] = this match {
+    case ConfigValue.DefaultValue(_, defaultValue) => imap(_.some)(_.getOrElse(defaultValue))
+    case _ => ConfigValue.Optional(this)
+  }
 
   /**
     * Returns a new [[ConfigValue]] which uses the specified
@@ -344,9 +338,11 @@ object ConfigValue {
   }
 
   case class DefaultValue[F[_], A](configValue: ConfigValue[F, A], defaultValue: A) extends ConfigValue[F, A] {
+    override def default(value: => A): ConfigValue[F,A] =
+      DefaultValue(configValue, value)
 
     override protected def fieldsRec(existingDefaultValue: Option[A]): List[ConfigField] =
-      configValue.fieldsRec(existingDefaultValue.orElse(Some(defaultValue)))
+      configValue.fieldsRec(existingDefaultValue.orElse(Some(defaultValue))).map(_.option)
 
     override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G,ConfigEntry[A]] = {
       configValue.to[G].map {
@@ -388,6 +384,22 @@ object ConfigValue {
 
     override private[ciris] def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G,ConfigEntry[B]] =
       input.to[G].map(f)
+  }
+
+  case class Optional[F[_], A](input: ConfigValue[F, A]) extends ConfigValue[F, Option[A]] {
+    override def default(value: => Option[A]): ConfigValue[F,Option[A]] =
+      this
+
+    override protected def fieldsRec(defaultValue: Option[Option[A]]): List[ConfigField] =
+      input.fieldsRec(defaultValue.flatten).map(_.option)
+
+    override private[ciris] def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G,ConfigEntry[Option[A]]] =
+      input.to[G].map {
+        case Default(error, _)                => Default(error, None)
+        case Failed(error) if error.isMissing => Default(error, None)
+        case failed @ Failed(_)               => failed
+        case Loaded(error, key, a)            => Loaded(error, key, Some(a))
+      }
   }
 
   case class Or[F[_], A](alternatives: NonEmptyList[ConfigValue[F, A]]) extends ConfigValue[F, A] {
