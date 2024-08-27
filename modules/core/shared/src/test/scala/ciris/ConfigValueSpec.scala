@@ -15,7 +15,9 @@ import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Arbitrary.arbitrary
 import munit.{CatsEffectSuite, ScalaCheckEffectSuite}
 import org.scalacheck.effect.PropF
+import scala.annotation.nowarn
 
+@nowarn("cat=deprecation")
 final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite with Generators {
   val defaultValue: String = "defaultValue"
   val defaultError: ConfigError = ConfigError.Empty

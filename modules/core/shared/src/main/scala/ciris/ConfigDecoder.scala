@@ -14,6 +14,7 @@ import scala.concurrent.duration.{Duration, FiniteDuration}
 /**
   * Decodes configuration values from a first type to a second type.
   */
+@deprecated("Use ConfigCodec instead", "3.7.0")
 sealed abstract class ConfigDecoder[A, B] {
 
   /**
@@ -108,6 +109,7 @@ sealed abstract class ConfigDecoder[A, B] {
   * @groupname Instances Type Class Instances
   * @groupprio Instances 2
   */
+@deprecated("Use ConfigCodec instead", "3.7.0")
 object ConfigDecoder {
 
   /**

@@ -30,7 +30,7 @@ import cats.data.NonEmptyList
   *
   * Sometimes, we first need to load a configuration value to determine
   * how to continue loading the remaining values. In such cases, it's
-  * suitable to use [[ConfigValue#flatMap]]. When loading values in
+  * suitable to use TODO Selective. When loading values in
   * sequence using `flatMap`, errors are not accumulated, and so
   * only the first error will be available.
   *
