@@ -11,37 +11,42 @@ import cats.syntax.all._
 import ciris._
 import io.circe.Json
 import munit.CatsEffectSuite
+import ciris.circe.circeConfigCodec
+import ciris.circe.circeConfigCodec
+import ciris.circe.circeConfigCodec
+import ciris.circe.circeConfigCodec
+import ciris.circe.circeConfigCodec
 
 final class CirceSpec extends CatsEffectSuite {
   test("circeConfigDecoder.success") {
-    default("123").as[Int](circeConfigDecoder("Int")).load[IO].assertEquals(123)
+    default("123").as[Int](circeConfigCodec("Int")).load[IO].assertEquals(123)
 
   }
 
   test("circeConfigDecoder.invalid") {
     checkError(
-      ConfigValue.default("\"abc\"").as[Int](circeConfigDecoder("Int")),
+      ConfigValue.default("\"abc\"").as[Int](circeConfigCodec("Int")),
       """Unable to decode json "abc" to Int"""
     )
   }
 
   test("circeConfigDecoder.invalid.redacted") {
     checkError(
-      ConfigValue.default("\"abc\"").as[Int](circeConfigDecoder("Int")).redacted,
+      ConfigValue.default("\"abc\"").as[Int](circeConfigCodec("Int")).redacted,
       "Unable to decode json to Int"
     )
   }
 
   test("circeConfigDecoder.invalid.loaded") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeConfigDecoder("Int")),
+      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeConfigCodec("Int")),
       """Key with json "abc" cannot be decoded to Int"""
     )
   }
 
   test("circeConfigDecoder.invalid.loaded.redacted") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeConfigDecoder("Int")).redacted,
+      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeConfigCodec("Int")).redacted,
       "Key cannot be decoded to Int"
     )
   }
