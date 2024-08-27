@@ -16,60 +16,60 @@ import io.circe.yaml.syntax._
 import munit.CatsEffectSuite
 
 final class CirceYamlSpec extends CatsEffectSuite {
-  test("circeYamlConfigDecoder.success") {
+  test("circeYamlConfigCodec.success") {
     default("123")
-      .as[Int](circeYamlConfigDecoder("Int"))
+      .as[Int](circeYamlConfigCodec("Int"))
       .load[IO]
       .assertEquals(123)
   }
 
-  test("circeYamlConfigDecoder.success.noquotes") {
+  test("circeYamlConfigCodec.success.noquotes") {
     default("abc")
-      .as[String](circeYamlConfigDecoder("String"))
+      .as[String](circeYamlConfigCodec("String"))
       .load[IO]
       .assertEquals("abc")
   }
 
-  test("circeYamlConfigDecoder.success.quotes") {
+  test("circeYamlConfigCodec.success.quotes") {
     default("\"abc\"")
-      .as[String](circeYamlConfigDecoder("String"))
+      .as[String](circeYamlConfigCodec("String"))
       .load[IO]
       .assertEquals("abc")
   }
 
-  test("circeYamlConfigDecoder.invalid.noquotes") {
+  test("circeYamlConfigCodec.invalid.noquotes") {
     checkError(
-      ConfigValue.default("abc").as[Int](circeYamlConfigDecoder("Int")),
+      ConfigValue.default("abc").as[Int](circeYamlConfigCodec("Int")),
       """Unable to decode json "abc" to Int: DecodingFailure at : Int"""
     )
   }
 
-  test("circeYamlConfigDecoder.invalid") {
+  test("circeYamlConfigCodec.invalid") {
     checkError(
-      ConfigValue.default("\"abc\"").as[Int](circeYamlConfigDecoder("Int")),
+      ConfigValue.default("\"abc\"").as[Int](circeYamlConfigCodec("Int")),
       """Unable to decode json "abc" to Int: DecodingFailure at : Int"""
     )
   }
 
-  test("circeYamlConfigDecoder.invalid.redacted") {
+  test("circeYamlConfigCodec.invalid.redacted") {
     checkError(
-      ConfigValue.default("\"abc\"").as[Int](circeYamlConfigDecoder("Int")).redacted,
+      ConfigValue.default("\"abc\"").as[Int](circeYamlConfigCodec("Int")).redacted,
       "Unable to decode json to Int"
     )
   }
 
-  test("circeYamlConfigDecoder.invalid.loaded") {
+  test("circeYamlConfigCodec.invalid.loaded") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeYamlConfigDecoder("Int")),
+      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeYamlConfigCodec("Int")),
       """Key with json "abc" cannot be decoded to Int: DecodingFailure at : Int"""
     )
   }
 
-  test("circeYamlConfigDecoder.invalid.loaded.redacted") {
+  test("circeYamlConfigCodec.invalid.loaded.redacted") {
     checkError(
       ConfigValue
         .loaded(ConfigKey("key"), "\"abc\"")
-        .as[Int](circeYamlConfigDecoder("Int"))
+        .as[Int](circeYamlConfigCodec("Int"))
         .redacted,
       "Key cannot be decoded to Int"
     )
