@@ -11,11 +11,6 @@ import cats.syntax.all._
 import ciris._
 import io.circe.Json
 import munit.CatsEffectSuite
-import ciris.circe.circeConfigCodec
-import ciris.circe.circeConfigCodec
-import ciris.circe.circeConfigCodec
-import ciris.circe.circeConfigCodec
-import ciris.circe.circeConfigCodec
 
 final class CirceSpec extends CatsEffectSuite {
   test("circeConfigDecoder.success") {

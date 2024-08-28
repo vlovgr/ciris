@@ -18,6 +18,8 @@ object Ciris {
   )(implicit typeName: TypeName[A]): ConfigDecoder[String, A] =
     ConfigDecoder[String].mapOption(typeName.value)(`enum`.withNameOption)
 
-  final def enumConfigCodec[A <: EnumEntry](`enum`: Enum[A])(implicit typeName: TypeName[A]): ConfigCodec[String, A] =
+  final def enumConfigCodec[A <: EnumEntry](`enum`: Enum[A])(
+    implicit typeName: TypeName[A]
+  ): ConfigCodec[String, A] =
     ConfigCodec[String].imapOption(typeName.value)(`enum`.withNameOption)(_.entryName)
 }

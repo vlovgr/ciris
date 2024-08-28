@@ -31,7 +31,7 @@ sealed abstract class ConfigCodec[A, B] {
   final def icollect[C](typeName: String)(f: PartialFunction[B, C])(g: C => B)(
     implicit show: Show[B]
   ): ConfigCodec[A, C] =
-    ConfigCodec.instance[A, C] {(key, value) =>
+    ConfigCodec.instance[A, C] { (key, value) =>
       decode(key, value).flatMap { b =>
         f.andThen(_.asRight)
           .applyOrElse(
@@ -69,14 +69,18 @@ sealed abstract class ConfigCodec[A, B] {
     * specified function on successfully decoded values.
     */
   final def imap[C](f: B => C)(g: C => B): ConfigCodec[A, C] =
-  ConfigCodec.instance[A, C]((key, value) => decode(key, value).map(f))(g andThen encode)
+    ConfigCodec.instance[A, C]((key, value) => decode(key, value).map(f))(g andThen encode)
 
   /**
     * Returns a new [[ConfigCodec]] which successfully decodes
     * values for which the specified function returns `Right`.
     */
-  final def imapEither[C](f: (Option[ConfigKey], B) => Either[ConfigError, C])(g: C => B): ConfigCodec[A, C] =
-    ConfigCodec.instance[A, C]((key, value) => decode(key, value).flatMap(f(key, _)))(g andThen encode)
+  final def imapEither[C](
+    f: (Option[ConfigKey], B) => Either[ConfigError, C]
+  )(g: C => B): ConfigCodec[A, C] =
+    ConfigCodec.instance[A, C]((key, value) => decode(key, value).flatMap(f(key, _)))(
+      g andThen encode
+    )
 
   /**
     * Returns a new [[ConfigCodec]] which successfully decodes
@@ -135,7 +139,9 @@ object ConfigCodec {
   final def apply[A, B](implicit codec: ConfigCodec[A, B]): ConfigCodec[A, B] =
     codec
 
-  private def fromStringOption[A](typeName: String)(f: String => Option[A]): ConfigCodec[String, A] =
+  private def fromStringOption[A](typeName: String)(
+    f: String => Option[A]
+  ): ConfigCodec[String, A] =
     ConfigCodec[String].imapOption(typeName)(f)(_.toString)
 
   /**
@@ -181,7 +187,14 @@ object ConfigCodec {
     * @group Codecs
     */
   implicit final val stringByteConfigCodec: ConfigCodec[String, Byte] =
-    fromStringOption("Byte")(_.toByteOption)
+    fromStringOption("Byte") { s =>
+      try {
+        Some(s.toByte)
+      } catch {
+        case _: NumberFormatException =>
+          None
+      }
+    }
 
   /**
     * @group Codecs
@@ -189,7 +202,7 @@ object ConfigCodec {
   implicit final val stringCharConfigCodec: ConfigCodec[String, Char] =
     fromStringOption("Char") {
       case s if s.length == 1 => Some(s.charAt(0))
-      case _ => None
+      case _                  => None
     }
 
   /**
@@ -260,8 +273,8 @@ object ConfigCodec {
   /**
     * @group Codecs
     */
-  implicit final def secretConfigCodec[A, B](implicit
-    codec: ConfigCodec[A, B],
+  implicit final def secretConfigCodec[A, B](
+    implicit codec: ConfigCodec[A, B],
     showA: Show[A]
   ): ConfigCodec[Secret[A], B] =
     codec.icontramap[Secret[A]](_.value)(Secret.apply)
@@ -275,7 +288,9 @@ object ConfigCodec {
     *
     * @group Create
     */
-  final def instance[A, B](decode: (Option[ConfigKey], A) => Either[ConfigError, B])(encode: B => A): ConfigCodec[A, B] = {
+  final def instance[A, B](
+    decode: (Option[ConfigKey], A) => Either[ConfigError, B]
+  )(encode: B => A): ConfigCodec[A, B] = {
     val _decode = decode
     val _encode = encode
     new ConfigCodec[A, B] {
@@ -294,7 +309,14 @@ object ConfigCodec {
     * @group Codecs
     */
   implicit final val stringIntConfigCodec: ConfigCodec[String, Int] =
-    fromStringOption("Int")(_.toIntOption)
+    fromStringOption("Int") { s =>
+      try {
+        Some(s.toInt)
+      } catch {
+        case _: NumberFormatException =>
+          None
+      }
+    }
 
   /**
     * Returns a new [[ConfigCodec]] which decodes values
@@ -312,20 +334,36 @@ object ConfigCodec {
     * @group Codecs
     */
   implicit final val stringLongConfigCodec: ConfigCodec[String, Long] =
-    fromStringOption("Long")(_.toLongOption)
+    fromStringOption("Long") { s =>
+      try {
+        Some(s.toLong)
+      } catch {
+        case _: NumberFormatException =>
+          None
+      }
+    }
 
   /**
     * @group Codecs
     */
   implicit final val stringShortConfigCodec: ConfigCodec[String, Short] =
-    fromStringOption("Short")(_.toShortOption)
+    fromStringOption("Short") { s =>
+      try {
+        Some(s.toShort)
+      } catch {
+        case _: NumberFormatException =>
+          None
+      }
+    }
 
   /**
     * @group Instances
     */
   implicit final def configCodecInvariant[A]: Invariant[ConfigCodec[A, *]] =
     new Invariant[ConfigCodec[A, *]] {
-      override final def imap[B, C](codec: ConfigCodec[A, B])(f: B => C)(g: C => B): ConfigCodec[A, C] =
+      override final def imap[B, C](codec: ConfigCodec[A, B])(f: B => C)(
+        g: C => B
+      ): ConfigCodec[A, C] =
         codec.imap(f)(g)
     }
 
@@ -333,5 +371,7 @@ object ConfigCodec {
     * @group Instances
     */
   @nowarn("cat=deprecation")
-  implicit final def decoderFromCodec[A, B](implicit codec: ConfigCodec[A, B]): ConfigDecoder[A, B] = ConfigDecoder.instance(codec.decode)
+  implicit final def decoderFromCodec[A, B](
+    implicit codec: ConfigCodec[A, B]
+  ): ConfigDecoder[A, B] = ConfigDecoder.instance(codec.decode)
 }

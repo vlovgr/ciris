@@ -18,7 +18,9 @@ sealed trait CirisValueEnum[ValueType, EntryType <: ValueEnumEntry[ValueType]] {
     implicit typeName: TypeName[EntryType]
   ): ConfigDecoder[String, EntryType]
 
-  implicit def cirisConfigCodec(implicit typeName: TypeName[EntryType]): ConfigCodec[String, EntryType]
+  implicit def cirisConfigCodec(
+    implicit typeName: TypeName[EntryType]
+  ): ConfigCodec[String, EntryType]
 }
 
 trait ByteCirisEnum[EntryType <: ByteEnumEntry] extends CirisValueEnum[Byte, EntryType] {
@@ -30,7 +32,9 @@ trait ByteCirisEnum[EntryType <: ByteEnumEntry] extends CirisValueEnum[Byte, Ent
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 
-  implicit override def cirisConfigCodec(implicit typeName: TypeName[EntryType]): ConfigCodec[String, EntryType] =
+  implicit override def cirisConfigCodec(
+    implicit typeName: TypeName[EntryType]
+  ): ConfigCodec[String, EntryType] =
     Ciris.enumConfigCodec(this)
 }
 
@@ -43,7 +47,9 @@ trait CharCirisEnum[EntryType <: CharEnumEntry] extends CirisValueEnum[Char, Ent
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 
-  implicit override def cirisConfigCodec(implicit typeName: TypeName[EntryType]): ConfigCodec[String, EntryType] =
+  implicit override def cirisConfigCodec(
+    implicit typeName: TypeName[EntryType]
+  ): ConfigCodec[String, EntryType] =
     Ciris.enumConfigCodec(this)
 }
 
@@ -56,7 +62,9 @@ trait IntCirisEnum[EntryType <: IntEnumEntry] extends CirisValueEnum[Int, EntryT
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 
-  implicit override def cirisConfigCodec(implicit typeName: TypeName[EntryType]): ConfigCodec[String, EntryType] =
+  implicit override def cirisConfigCodec(
+    implicit typeName: TypeName[EntryType]
+  ): ConfigCodec[String, EntryType] =
     Ciris.enumConfigCodec(this)
 }
 
@@ -69,7 +77,9 @@ trait LongCirisEnum[EntryType <: LongEnumEntry] extends CirisValueEnum[Long, Ent
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 
-  implicit override def cirisConfigCodec(implicit typeName: TypeName[EntryType]): ConfigCodec[String, EntryType] =
+  implicit override def cirisConfigCodec(
+    implicit typeName: TypeName[EntryType]
+  ): ConfigCodec[String, EntryType] =
     Ciris.enumConfigCodec(this)
 }
 
@@ -82,7 +92,9 @@ trait ShortCirisEnum[EntryType <: ShortEnumEntry] extends CirisValueEnum[Short, 
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 
-  implicit override def cirisConfigCodec(implicit typeName: TypeName[EntryType]): ConfigCodec[String, EntryType] =
+  implicit override def cirisConfigCodec(
+    implicit typeName: TypeName[EntryType]
+  ): ConfigCodec[String, EntryType] =
     Ciris.enumConfigCodec(this)
 }
 
@@ -95,6 +107,8 @@ trait StringCirisEnum[EntryType <: StringEnumEntry] extends CirisValueEnum[Strin
   ): ConfigDecoder[String, EntryType] =
     Ciris.enumConfigDecoder(this)
 
-  implicit override def cirisConfigCodec(implicit typeName: TypeName[EntryType]): ConfigCodec[String, EntryType] =
+  implicit override def cirisConfigCodec(
+    implicit typeName: TypeName[EntryType]
+  ): ConfigCodec[String, EntryType] =
     Ciris.enumConfigCodec(this)
 }

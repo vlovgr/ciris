@@ -23,7 +23,7 @@ object Ciris {
   ): ConfigDecoder[String, EntryType] =
     decoder.mapOption(typeName.value)(`enum`.withValueOpt)
 
-    final def enumConfigCodec[ValueType, EntryType <: ValueEnumEntry[ValueType]](
+  final def enumConfigCodec[ValueType, EntryType <: ValueEnumEntry[ValueType]](
     `enum`: ValueEnum[ValueType, EntryType]
   )(
     implicit codec: ConfigCodec[String, ValueType],

@@ -248,11 +248,14 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
       val default = value.default(a).to[IO].attempt
       val or = value.or(ciris.default(a)).to[IO].attempt
 
-      (default.evalTap(IO.println), or).tupled.evalTap(IO.println).use {
-        case (Left(_), Left(_))   => IO.pure(true)
-        case (Right(a), Right(b)) => IO.pure(a === b)
-        case (_, _)               => IO.pure(false)
-      }.assert
+      (default.evalTap(IO.println), or).tupled
+        .evalTap(IO.println)
+        .use {
+          case (Left(_), Left(_))   => IO.pure(true)
+          case (Right(a), Right(b)) => IO.pure(a === b)
+          case (_, _)               => IO.pure(false)
+        }
+        .assert
     }
   }
 

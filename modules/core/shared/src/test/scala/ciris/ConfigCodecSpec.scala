@@ -297,8 +297,9 @@ final class ConfigCodecSpec extends DisciplineSuite with Generators {
   property("ConfigCodec.redacted.sensitive") {
     forAll { (key: Option[ConfigKey], value: String) =>
       val codec =
-        ConfigCodec.instance[String, String]((key, value) => Left(ConfigError.sensitive("message", "redacted")))(identity)
-        
+        ConfigCodec.instance[String, String]((key, value) =>
+          Left(ConfigError.sensitive("message", "redacted"))
+        )(identity)
 
       val expected = "redacted"
       val actual = codec.redacted.decode(key, value)

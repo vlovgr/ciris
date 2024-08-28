@@ -1,6 +1,5 @@
 package ciris
 
-
 /**
   * A single configuration field.
   */
@@ -10,13 +9,13 @@ sealed trait ConfigField {
     * This field's key.
     */
   def key: ConfigKey
-  
+
   /**
     * Whether this field is optional or not. A field with a default value is considered optional.
     */
   val optional: Boolean = this match {
-    case _: ConfigField.Required    => false
-    case _: ConfigField.Optional    => true
+    case _: ConfigField.Required => false
+    case _: ConfigField.Optional => true
   }
 
   /**

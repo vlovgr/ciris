@@ -13,15 +13,15 @@ private[ciris] trait CirisRuntimePlatform {
 
   private[ciris] final def getEnv(name: String): ConfigEntry[String] = {
     val key = ConfigKey.env(name)
-      val value = System.getenv(name)
+    val value = System.getenv(name)
 
-      if (value != null) {
-        ConfigEntry.loaded(Some(key), value)
-      } else {
-        ConfigEntry.missing(key)
-      }
+    if (value != null) {
+      ConfigEntry.loaded(Some(key), value)
+    } else {
+      ConfigEntry.missing(key)
+    }
   }
-  
+
   /**
     * Returns a new [[ConfigValue]] for the file at the
     * specified path.

@@ -197,12 +197,18 @@ trait Generators extends GeneratorsRuntimePlatform {
   ): Arbitrary[ConfigDecoder[A, B]] =
     Arbitrary(configDecoderGen(arbitrary[A => Either[ConfigError, B]]))
 
-  def configCodecGen[A, B](genDecode: Gen[A => Either[ConfigError, B]], genEncode: Gen[B => A]): Gen[ConfigCodec[A, B]] =
+  def configCodecGen[A, B](
+    genDecode: Gen[A => Either[ConfigError, B]],
+    genEncode: Gen[B => A]
+  ): Gen[ConfigCodec[A, B]] =
     for {
       decode <- genDecode
       encode <- genEncode
     } yield ConfigCodec.lift(decode)(encode)
 
-  implicit def configCodecArbitrary[A, B](implicit arbDecode: Arbitrary[A => Either[ConfigError, B]], arbEncode: Arbitrary[B => A]): Arbitrary[ConfigCodec[A, B]] =
+  implicit def configCodecArbitrary[A, B](
+    implicit arbDecode: Arbitrary[A => Either[ConfigError, B]],
+    arbEncode: Arbitrary[B => A]
+  ): Arbitrary[ConfigCodec[A, B]] =
     Arbitrary(configCodecGen(arbDecode.arbitrary, arbEncode.arbitrary))
 }

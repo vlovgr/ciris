@@ -12,8 +12,8 @@ package object ciris extends CirisRuntimePlatform {
   type Effect[A] <: Nothing
 
   /**
-  * Returns a new [[ConfigValue]] for the specified environment variable.
-  */
+    * Returns a new [[ConfigValue]] for the specified environment variable.
+    */
   final def env(name: String): ConfigValue[Effect, String] =
     ConfigValue.Environment(name)
 

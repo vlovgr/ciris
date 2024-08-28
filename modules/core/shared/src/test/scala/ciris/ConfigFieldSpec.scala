@@ -3,11 +3,7 @@ package ciris
 import cats.syntax.all._
 import munit.CatsEffectSuite
 import munit.ScalaCheckEffectSuite
-import ciris.env
-import ciris.prop
-import ciris.prop
 import cats.effect.IO
-import ciris.Effect
 
 final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite with Generators {
 
@@ -119,16 +115,18 @@ final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
   test("ConfigValue.imapN.default.fields") {
     case class ProgramEnvironment(pwd: String, username: String)
 
-    check(clue(
-      (
-        prop("user.dir"),
-        prop("user.name")
-      )
-      .imapN(ProgramEnvironment.apply)(env => (env.pwd, env.username))
-      .default(ProgramEnvironment("~", "default_user"))),
+    check(
+      clue(
+        (
+          prop("user.dir"),
+          prop("user.name")
+        )
+          .imapN(ProgramEnvironment.apply)(env => (env.pwd, env.username))
+          .default(ProgramEnvironment("~", "default_user"))
+      ),
       List(
         ConfigField(ConfigKey.prop("user.dir"), Some("~")),
-        ConfigField(ConfigKey.prop("user.name"), Some("default_user")),
+        ConfigField(ConfigKey.prop("user.name"), Some("default_user"))
       )
     )
   }
