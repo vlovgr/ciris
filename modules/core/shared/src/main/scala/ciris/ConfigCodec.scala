@@ -306,6 +306,27 @@ object ConfigCodec {
   }
 
   /**
+    * Returns a new [[ConfigCodec]] which decodes values
+    * using the specified function.
+    *
+    * If the decode function needs access to the key, then
+    * we can use [[ConfigCodec.instance]] instead.
+    *
+    * @group Create
+    */
+  final def lift[A, B](decode: A => Either[ConfigError, B])(encode: B => A): ConfigCodec[A, B] =
+    ConfigCodec.instance[A, B]((_, value) => decode(value))(encode)
+
+  /**
+    * Returns a new [[ConfigCodec]] which decodes values
+    * using the specified pure function.
+    *
+    * @group Create
+    */
+  final def pure[A, B](decode: A => B)(encode: B => A): ConfigCodec[A, B] =
+    ConfigCodec.lift[A, B](decode andThen Right.apply)(encode)
+
+  /**
     * @group Codecs
     */
   implicit final val stringIntConfigCodec: ConfigCodec[String, Int] =
@@ -317,18 +338,6 @@ object ConfigCodec {
           None
       }
     }
-
-  /**
-    * Returns a new [[ConfigCodec]] which decodes values
-    * using the specified function.
-    *
-    * If the decode function needs access to the key, then
-    * we can use [[ConfigCodec.instance]] instead.
-    *
-    * @group Create
-    */
-  final def lift[A, B](decode: A => Either[ConfigError, B])(encode: B => A): ConfigCodec[A, B] =
-    ConfigCodec.instance[A, B]((_, value) => decode(value))(encode)
 
   /**
     * @group Codecs
