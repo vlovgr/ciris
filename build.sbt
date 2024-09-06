@@ -14,7 +14,7 @@ val refinedVersion = "0.11.1"
 
 val squantsVersion = "1.8.3"
 
-val scala212 = "2.12.19"
+val scala212 = "2.12.20"
 
 val scala213 = "2.13.14"
 
