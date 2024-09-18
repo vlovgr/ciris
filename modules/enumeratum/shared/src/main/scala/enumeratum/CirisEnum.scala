@@ -6,9 +6,9 @@
 
 package enumeratum
 
+import ciris.ConfigCodec
 import ciris.ConfigDecoder
 import enumeratum.internal.TypeName
-import ciris.ConfigCodec
 
 trait CirisEnum[A <: EnumEntry] { this: Enum[A] =>
 

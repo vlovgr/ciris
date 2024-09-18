@@ -6,13 +6,13 @@
 
 package enumeratum
 
+import ciris.ConfigCodec
 import ciris.ConfigDecoder
 import enumeratum.internal.TypeName
-import ciris.ConfigCodec
 
 object Ciris {
 
-  @deprecated("Use ConfigCodec instead", "3.7.0")
+  @deprecated("Use ConfigCodec and enumConfigCodec instead", "3.7.0")
   final def enumConfigDecoder[A <: EnumEntry](
     `enum`: Enum[A]
   )(implicit typeName: TypeName[A]): ConfigDecoder[String, A] =

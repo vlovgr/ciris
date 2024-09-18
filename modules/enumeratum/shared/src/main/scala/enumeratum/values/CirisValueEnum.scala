@@ -6,9 +6,9 @@
 
 package enumeratum.values
 
+import ciris.ConfigCodec
 import ciris.ConfigDecoder
 import enumeratum.internal.TypeName
-import ciris.ConfigCodec
 
 sealed trait CirisValueEnum[ValueType, EntryType <: ValueEnumEntry[ValueType]] {
   this: ValueEnum[ValueType, EntryType] =>

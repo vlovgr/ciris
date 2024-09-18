@@ -7,13 +7,13 @@
 package enumeratum.values
 
 import cats.Show
+import ciris.ConfigCodec
 import ciris.ConfigDecoder
 import enumeratum.internal.TypeName
-import ciris.ConfigCodec
 
 object Ciris {
 
-  @deprecated("Use ConfigCodec instead", "3.7.0")
+  @deprecated("Use ConfigCodec and enumConfigCodec instead", "3.7.0")
   final def enumConfigDecoder[ValueType, EntryType <: ValueEnumEntry[ValueType]](
     `enum`: ValueEnum[ValueType, EntryType]
   )(
