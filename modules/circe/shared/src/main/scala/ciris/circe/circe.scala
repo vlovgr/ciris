@@ -9,12 +9,12 @@ package ciris
 import cats.syntax.all._
 import io.circe.{Decoder, Json}
 import io.circe.{DecodingFailure, ParsingFailure}
-import io.circe.parser.parse
 import io.circe.Encoder
+import io.circe.parser.parse
 
 package object circe {
 
-  @deprecated("Use ConfigCodec instead", "3.7.0")
+  @deprecated("Use ConfigCodec and circeConfigCodec instead", "3.7.0")
   final def circeConfigDecoder[A](
     typeName: String
   )(implicit decoder: Decoder[A]): ConfigDecoder[String, A] =
