@@ -75,7 +75,7 @@ final class CirceYamlSpec extends CatsEffectSuite {
     )
   }
 
-  test("yamlConfigDecoder.success") {
+  test("yamlConfigCodec.success") {
     default("123")
       .as[Json]
       .load[IO]
@@ -83,28 +83,28 @@ final class CirceYamlSpec extends CatsEffectSuite {
       .assert
   }
 
-  test("yamlConfigDecoder.invalid") {
+  test("yamlConfigCodec.invalid") {
     checkError(
       ConfigValue.default("\"no\"").as[Boolean],
       "Unable to convert value \"no\" to Boolean"
     )
   }
 
-  test("yamlConfigDecoder.invalid.redacted") {
+  test("yamlConfigCodec.invalid.redacted") {
     checkError(
       ConfigValue.default("\"no\"").as[Boolean].redacted,
       "Unable to convert value to Boolean"
     )
   }
 
-  test("yamlConfigDecoder.invalid.loaded") {
+  test("yamlConfigCodec.invalid.loaded") {
     checkError(
       ConfigValue.loaded(ConfigKey("key"), "\"no\"").as[Boolean],
       "Key with value \"no\" cannot be converted to Boolean"
     )
   }
 
-  test("yamlConfigDecoder.invalid.loaded.redacted") {
+  test("yamlConfigCodec.invalid.loaded.redacted") {
     checkError(
       ConfigValue.loaded(ConfigKey("key"), "\"no\"").as[Boolean].redacted,
       "Key cannot be converted to Boolean"

@@ -8,15 +8,15 @@ package ciris.circe
 
 import cats.syntax.all._
 import ciris.{ConfigDecoder, ConfigError}
+import ciris.ConfigCodec
 import io.circe.{Decoder, Json}
 import io.circe.{DecodingFailure, ParsingFailure}
-import io.circe.yaml.parser.parse
 import io.circe.Encoder
-import ciris.ConfigCodec
+import io.circe.yaml.parser.parse
 
 package object yaml {
 
-  @deprecated("Use ConfigCodec instead", "3.7.0")
+  @deprecated("Use ConfigCodec and circeYamlConfigCodec instead", "3.7.0")
   final def circeYamlConfigDecoder[A](
     typeName: String
   )(implicit decoder: Decoder[A]): ConfigDecoder[String, A] =
@@ -145,6 +145,6 @@ package object yaml {
       } yield a
     }(encoder(_).toString)
 
-  implicit final val yamlConfigEncoder: ConfigCodec[String, Json] =
+  implicit final val yamlConfigCodec: ConfigCodec[String, Json] =
     circeYamlConfigCodec("Yaml")
 }
