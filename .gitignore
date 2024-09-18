@@ -1,3 +1,7 @@
+.bloop/
+.bsp/
+.metals/
+.vscode/
 /docs/_site/
 /website/blog/
 /website/build/
@@ -5,9 +9,5 @@
 /website/static/api/
 /website/variables.js
 /website/yarn.lock
-target/
-/.metals/
-.bloop/
-/.bsp/
-/.vscode/
 metals.sbt
+target/
