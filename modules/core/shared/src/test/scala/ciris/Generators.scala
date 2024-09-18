@@ -10,10 +10,10 @@ import cats.{Eq, Show}
 import cats.data.Chain
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 import org.scalacheck.Arbitrary.arbitrary
+import scala.annotation.nowarn
 import scala.collection.JavaConverters._
 import scala.util.control.NoStackTrace
 import scala.util.Try
-import scala.annotation.nowarn
 
 trait Generators extends GeneratorsRuntimePlatform {
   val configKeyGen: Gen[ConfigKey] =

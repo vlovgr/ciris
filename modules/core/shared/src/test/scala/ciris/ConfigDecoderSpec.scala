@@ -16,9 +16,9 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Test
+import scala.annotation.nowarn
 import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
-import scala.annotation.nowarn
 
 @nowarn("cat=deprecation")
 final class ConfigDecoderSpec extends DisciplineSuite with Generators {
