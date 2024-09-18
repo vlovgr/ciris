@@ -360,7 +360,7 @@ object ConfigValue {
 
   case class Environment(name: String) extends ConfigValue[Effect, String] {
     override protected def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
-      List(ConfigField(ConfigKey.env(name), defaultValue))
+      List(ConfigField.fromOption(ConfigKey.env(name), defaultValue))
 
     override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[String]] =
       Resource.eval(G.delay(getEnv(name)))
@@ -478,7 +478,7 @@ object ConfigValue {
 
   case class Property(name: String) extends ConfigValue[Effect, String] {
     override protected def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
-      List(ConfigField(ConfigKey.prop(name), defaultValue))
+      List(ConfigField.fromOption(ConfigKey.prop(name), defaultValue))
 
     override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[String]] =
       Resource.eval(G.delay {
