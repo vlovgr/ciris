@@ -194,10 +194,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     * Returns a new [[ConfigValue]] which uses `None` as the
     * default if the value is missing.
     */
-  final def option: ConfigValue[F, Option[A]] = this match {
-    case ConfigValue.DefaultValue(_, defaultValue) => imap(_.some)(_.getOrElse(defaultValue))
-    case _                                         => ConfigValue.Optional(this)
-  }
+  final def option: ConfigValue[F, Option[A]] = ConfigValue.Optional(this)
 
   /**
     * Returns a new [[ConfigValue]] which uses the specified
@@ -399,8 +396,6 @@ object ConfigValue {
   }
 
   case class Optional[F[_], A](input: ConfigValue[F, A]) extends ConfigValue[F, Option[A]] {
-    override def default(value: => Option[A]): ConfigValue[F, Option[A]] =
-      this
 
     override protected def fieldsRec(defaultValue: Option[Option[A]]): List[ConfigField] =
       input.fieldsRec(defaultValue.flatten).map(_.option)

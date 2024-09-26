@@ -51,8 +51,8 @@ final class ConfigFieldSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
 
   test("ConfigValue.option.default.fields") {
     check(
-      prop("user.dir").option.default(Some("discarded since option always returns a value")),
-      List(ConfigField.optional(ConfigKey.prop("user.dir"), None))
+      prop("user.dir").option.default(Some("foo")),
+      List(ConfigField.optional(ConfigKey.prop("user.dir"), Some("foo")))
     )
   }
 
