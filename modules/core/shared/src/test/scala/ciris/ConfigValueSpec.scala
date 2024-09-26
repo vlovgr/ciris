@@ -345,6 +345,88 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
     }
   }
 
+  test("ConfigValue.flatMap.default >> default") {
+    check(
+      default >> default2,
+      defaultWith(ConfigError.Empty, defaultValue2)
+    )
+  }
+
+  test("ConfigValue.flatMap.default >> failed") {
+    check(default >> failed, failed)
+  }
+
+  test("ConfigValue.flatMap.default >> loaded") {
+    check(
+      default >> loaded,
+      loadedWith(ConfigError.Loaded, None, loadedValue)
+    )
+  }
+
+  test("ConfigValue.flatMap.default >> missing") {
+    check(default >> missing, missing)
+  }
+
+  test("ConfigValue.flatMap.failed >> default") {
+    check(failed >> default, failed)
+  }
+
+  test("ConfigValue.flatMap.failed >> failed") {
+    check(failed >> failed2, failed)
+  }
+
+  test("ConfigValue.flatMap.failed >> loaded") {
+    check(failed >> loaded, failed)
+  }
+
+  test("ConfigValue.flatMap.failed >> missing") {
+    check(failed >> missing, failed)
+  }
+
+  test("ConfigValue.flatMap.loaded >> default") {
+    check(
+      loaded >> default,
+      loadedWith(ConfigError.Loaded, None, defaultValue)
+    )
+  }
+
+  test("ConfigValue.flatMap.loaded >> failed") {
+    check(
+      loaded >> failed,
+      failedWith[IO, String](ConfigError.Loaded.and(failedError))
+    )
+  }
+
+  test("ConfigValue.flatMap.loaded >> loaded") {
+    check(
+      loaded >> loaded2,
+      loadedWith(ConfigError.Loaded, None, loadedValue2)
+    )
+  }
+
+  test("ConfigValue.flatMap.loaded >> missing") {
+    check(
+      loaded >> missing,
+      failedWith[IO, String](ConfigError.Loaded.and(missingError))
+    )
+  }
+
+  test("ConfigValue.flatMap.missing >> default") {
+    check(missing >> default, missing)
+  }
+
+  test("ConfigValue.flatMap.missing >> failed") {
+    check(missing >> failed, missing)
+  }
+
+  test("ConfigValue.flatMap.missing >> loaded") {
+    check(missing >> loaded, missing)
+  }
+
+  test("ConfigValue.flatMap.missing >> missing") {
+    check(missing >> missing2, missing)
+  }
+
   test("ConfigValue.load.default") {
     checkLoad(default, defaultValue)
   }

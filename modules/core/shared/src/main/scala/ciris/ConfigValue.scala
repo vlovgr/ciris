@@ -10,8 +10,9 @@ import cats.Show
 import cats.effect.kernel.{Async, Resource}
 import cats.syntax.all._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
-import cats.Applicative
 import cats.data.NonEmptyList
+import cats.Monad
+import scala.annotation.nowarn
 
 /**
   * Represents a configuration value or a composition of multiple values.
@@ -152,6 +153,13 @@ sealed abstract class ConfigValue[+F[_], A] {
   @deprecated("Use ievalMap instead", "3.7.0")
   final def evalMap[G[x] >: F[x], B](f: A => G[B]): ConfigValue[G, B] =
     ConfigValue.EvalMap[F, G, A, B](this, f)
+
+  /**
+    * Returns a new [[ConfigValue]] which loads the specified
+    * configuration using the value.
+    */
+  final def flatMap[G[x] >: F[x], B](f: A => ConfigValue[G, B]): ConfigValue[G, B] =
+    ConfigValue.FlatMap[F, G, A, B](this, f)
 
   /**
     * Isomophic-ish version of [[evalMap]].
@@ -370,6 +378,31 @@ object ConfigValue {
 
     override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
       input.to[H].evalMap(_.traverse[H, B](f))
+  }
+
+  case class FlatMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => ConfigValue[G, B]) extends ConfigValue[G, B] {
+    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(None)
+
+    override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
+      input.to[H].flatMap {
+          case Default(_, a) =>
+            f(a).to[H].map {
+              case Default(_, b)      => ConfigEntry.default(b)
+              case failed @ Failed(_) => failed
+              case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
+            }
+
+          case failed @ Failed(_) =>
+            Resource.eval(H.pure(failed))
+
+          case Loaded(_, _, a) =>
+            f(a).to[H].map {
+              case Default(_, b)   => ConfigEntry.loaded(None, b)
+              case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
+              case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
+            }
+        }
   }
 
   case class IEvalMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => G[B], g: B => A)
@@ -665,13 +698,20 @@ object ConfigValue {
   /**
     * @group Instances
     */
-  implicit final def configValueApplicative[F[_]]: Applicative[ConfigValue[F, *]] =
-    new Applicative[ConfigValue[F, *]] {
+  implicit final def configValueMonad[F[_]]: Monad[ConfigValue[F, *]] =
+    new Monad[ConfigValue[F, *]] {
 
       override def ap[A, B](ff: ConfigValue[F, A => B])(fa: ConfigValue[F, A]): ConfigValue[F, B] =
         Apply(ff, fa)
 
       override def pure[A](x: A): ConfigValue[F, A] = default(x)
+
+      override def flatMap[A, B](fa: ConfigValue[F,A])(f: A => ConfigValue[F,B]): ConfigValue[F,B] =
+        fa.flatMap(f)
+
+      @nowarn("cat=deprecation")
+      override def map[A, B](fa: ConfigValue[F, A])(f: A => B): ConfigValue[F, B] =
+        fa.map(f)
 
       override def imap[A, B](fa: ConfigValue[F, A])(f: A => B)(g: B => A): ConfigValue[F, B] =
         fa.imap(f)(g)
@@ -681,6 +721,19 @@ object ConfigValue {
         fb: ConfigValue[F, B]
       ): ConfigValue[F, (A, B)] =
         fa.product(fb)
+
+
+      /**
+        * Note: this is intentionally not stack safe, as the `flatMap`
+        * on `ConfigValue` cannot be expressed in a tail-recursive way.
+        */
+      override final def tailRecM[A, B](
+        a: A
+      )(f: A => ConfigValue[F, Either[A, B]]): ConfigValue[F, B] =
+        f(a).flatMap {
+          case Left(a)  => tailRecM(a)(f)
+          case Right(b) => default(b)
+        }
     }
 
   /**
