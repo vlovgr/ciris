@@ -168,6 +168,13 @@ sealed abstract class ConfigValue[+F[_], A] {
   def default(value: => A): ConfigValue[F, A] = ConfigValue.DefaultValue(this, value)
 
   /**
+    * Alias for `evalMap(f).flatten`.
+    */
+  @deprecated("Use ievalMap or flatMap instead", "3.7.0")
+  final def evalFlatMap[G[x] >: F[x], B](f: A => G[ConfigValue[G, B]]): ConfigValue[G, B] =
+    evalMap(f).flatten
+
+  /**
     * Returns a new [[ConfigValue]] which applies the
     * specified effectful function on the value.
     */
