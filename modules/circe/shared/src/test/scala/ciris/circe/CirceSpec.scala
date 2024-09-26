@@ -14,41 +14,41 @@ import munit.CatsEffectSuite
 
 final class CirceSpec extends CatsEffectSuite {
   test("circeConfigCodec.success") {
-    default("123").as[Int](circeConfigCodec("Int")).load[IO].assertEquals(123)
+    default("123").asIso[Int](circeConfigCodec("Int")).load[IO].assertEquals(123)
 
   }
 
   test("circeConfigCodec.invalid") {
     checkError(
-      ConfigValue.default("\"abc\"").as[Int](circeConfigCodec("Int")),
+      ConfigValue.default("\"abc\"").asIso[Int](circeConfigCodec("Int")),
       """Unable to decode json "abc" to Int"""
     )
   }
 
   test("circeConfigCodec.invalid.redacted") {
     checkError(
-      ConfigValue.default("\"abc\"").as[Int](circeConfigCodec("Int")).redacted,
+      ConfigValue.default("\"abc\"").asIso[Int](circeConfigCodec("Int")).redacted,
       "Unable to decode json to Int"
     )
   }
 
   test("circeConfigCodec.invalid.loaded") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeConfigCodec("Int")),
+      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").asIso[Int](circeConfigCodec("Int")),
       """Key with json "abc" cannot be decoded to Int"""
     )
   }
 
   test("circeConfigCodec.invalid.loaded.redacted") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeConfigCodec("Int")).redacted,
+      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").asIso[Int](circeConfigCodec("Int")).redacted,
       "Key cannot be decoded to Int"
     )
   }
 
   test("jsonConfigCodec.success") {
     default("123")
-      .as[Json]
+      .asIso[Json]
       .load[IO]
       .map(_.asNumber.flatMap(_.toInt).contains(123))
       .assert
@@ -56,28 +56,28 @@ final class CirceSpec extends CatsEffectSuite {
 
   test("jsonConfigCodec.invalid") {
     checkError(
-      ConfigValue.default("abc").as[Json],
+      ConfigValue.default("abc").asIso[Json],
       "Unable to parse value abc as json"
     )
   }
 
   test("jsonConfigCodec.invalid.redacted") {
     checkError(
-      ConfigValue.default("abc").as[Json].redacted,
+      ConfigValue.default("abc").asIso[Json].redacted,
       "Unable to parse value as json"
     )
   }
 
   test("jsonConfigCodec.invalid.loaded") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "abc").as[Json],
+      ConfigValue.loaded(ConfigKey("key"), "abc").asIso[Json],
       "Key with value abc cannot be parsed as json"
     )
   }
 
   test("jsonConfigCodec.invalid.loaded.redacted") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "abc").as[Json].redacted,
+      ConfigValue.loaded(ConfigKey("key"), "abc").asIso[Json].redacted,
       "Key cannot be parsed as json"
     )
   }

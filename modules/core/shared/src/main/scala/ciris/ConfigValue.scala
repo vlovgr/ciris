@@ -91,7 +91,7 @@ sealed abstract class ConfigValue[+F[_], A] {
         }
     }
 
-  final def as[B](implicit codec: ConfigCodec[A, B]): ConfigValue[F, B] =
+  final def asIso[B](implicit codec: ConfigCodec[A, B]): ConfigValue[F, B] =
     itransform {
       case Default(error, a) =>
         codec.decode(None, a) match {
@@ -108,6 +108,25 @@ sealed abstract class ConfigValue[+F[_], A] {
           case Left(decodeError) => Failed(error.or(decodeError))
         }
     }(codec.encode)
+
+  @deprecated("Use asIso instead", "3.7.0")
+  final def as[B](implicit decoder: ConfigDecoder[A, B]): ConfigValue[F, B] =
+    transform {
+      case Default(error, a) =>
+        decoder.decode(None, a) match {
+          case Right(b)          => Default(error, b)
+          case Left(decodeError) => Failed(error.or(decodeError))
+        }
+
+      case failed @ Failed(_) =>
+        failed
+
+      case Loaded(error, key, a) =>
+        decoder.decode(key, a) match {
+          case Right(b)          => Loaded(error, key, b)
+          case Left(decodeError) => Failed(error.or(decodeError))
+        }
+    }
 
   /**
     * Returns an effect of the specified type which attempts
