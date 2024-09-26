@@ -13,6 +13,8 @@ import ciris.ConfigEntry.{Default, Failed, Loaded}
 import cats.data.NonEmptyList
 import cats.Monad
 import scala.annotation.nowarn
+import cats.NonEmptyParallel
+import cats.arrow.FunctionK
 
 /**
   * Represents a configuration value or a composition of multiple values.
@@ -781,6 +783,33 @@ object ConfigValue {
       @deprecated("Use imap instead", "3.7.0")
       override final def map[A, B](pa: Par[F, A])(f: A => B): Par[F, B] =
         Par(pa.unwrap.map(f))
+    }
+
+  /**
+    * @group Instances
+    */
+  implicit final def configValueNonEmptyParallel[G[_]]
+    : NonEmptyParallel.Aux[ConfigValue[G, *], Par[G, *]] =
+    new NonEmptyParallel[ConfigValue[G, *]] {
+      override final type F[A] = Par[G, A]
+
+      override final val apply: cats.Apply[Par[G, *]] =
+        configValueParApply
+
+      override final val flatMap: cats.FlatMap[ConfigValue[G, *]] =
+        configValueMonad
+
+      override final val parallel: FunctionK[ConfigValue[G, *], Par[G, *]] =
+        new FunctionK[ConfigValue[G, *], Par[G, *]] {
+          override final def apply[A](value: ConfigValue[G, A]): Par[G, A] =
+            Par(value)
+        }
+
+      override final val sequential: FunctionK[Par[G, *], ConfigValue[G, *]] =
+        new FunctionK[Par[G, *], ConfigValue[G, *]] {
+          override final def apply[A](par: Par[G, A]): ConfigValue[G, A] =
+            par.unwrap
+        }
     }
 
   /**
