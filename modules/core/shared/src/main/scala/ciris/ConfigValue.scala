@@ -722,7 +722,9 @@ object ConfigValue {
         "ConfigValue$" + System.identityHashCode(this)
     }
 
-  // TODO Turn to InvariantMonoidal once unidirectional map/ap methods are removed.
+  @deprecated("Use configValueMonad instead", "3.7.0")
+  final def configValueFlatMap[F[_]]: cats.FlatMap[ConfigValue[F, *]] = configValueMonad[F]
+
   /**
     * @group Instances
     */
