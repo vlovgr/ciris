@@ -274,7 +274,7 @@ sealed abstract class ConfigValue[+F[_], A] {
 
   lazy val fields: List[ConfigField] = fieldsRec(None)
 
-  protected def fieldsRec(defaultValue: Option[A]): List[ConfigField]
+  private[ciris] def fieldsRec(defaultValue: Option[A]): List[ConfigField]
 
   private[ciris] def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]]
 
@@ -318,14 +318,14 @@ object ConfigValue {
     * A misceallenous effectful configuration that cannot be introspected in a pure environment.
     */
   private sealed abstract class Effectful[F[_], A] extends ConfigValue[F, A] {
-    override protected def fieldsRec(defaultValue: Option[A]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[A]): List[ConfigField] =
       Nil
   }
 
   private final case class Apply[F[_], A, B](ff: ConfigValue[F, A => B], fa: ConfigValue[F, A])
       extends ConfigValue[F, B] {
 
-    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
       ff.fieldsRec(None) ++ fa.fieldsRec(None)
 
     override final def to[G[x] >: F[x]](
@@ -360,7 +360,7 @@ object ConfigValue {
     override def default(value: => A): ConfigValue[F, A] =
       DefaultValue(configValue, value)
 
-    override protected def fieldsRec(existingDefaultValue: Option[A]): List[ConfigField] =
+    override def fieldsRec(existingDefaultValue: Option[A]): List[ConfigField] =
       configValue.fieldsRec(existingDefaultValue.orElse(Some(defaultValue))).map(_.option)
 
     override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] = {
@@ -374,7 +374,7 @@ object ConfigValue {
   }
 
   private[ciris] final case class Environment(name: String) extends ConfigValue[Effect, String] {
-    override protected def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
       List(ConfigField.fromOption(ConfigKey.env(name), defaultValue))
 
     override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[String]] =
@@ -383,7 +383,7 @@ object ConfigValue {
 
   private final case class EvalMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => G[B])
       extends ConfigValue[G, B] {
-    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
       input.fieldsRec(None)
 
     override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
@@ -394,7 +394,7 @@ object ConfigValue {
     input: ConfigValue[F, A],
     f: A => ConfigValue[G, B]
   ) extends ConfigValue[G, B] {
-    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
       input.fieldsRec(None)
 
     override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
@@ -423,7 +423,7 @@ object ConfigValue {
     f: A => G[B],
     g: B => A
   ) extends ConfigValue[G, B] {
-    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
       input.fieldsRec(defaultValue.map(g))
 
     override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
@@ -435,7 +435,7 @@ object ConfigValue {
     f: ConfigEntry[A] => ConfigEntry[B],
     g: B => A
   ) extends ConfigValue[F, B] {
-    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
       input.fieldsRec(defaultValue.map(g))
 
     override private[ciris] def to[G[x] >: F[x]](
@@ -447,7 +447,7 @@ object ConfigValue {
   private final case class Optional[F[_], A](input: ConfigValue[F, A])
       extends ConfigValue[F, Option[A]] {
 
-    override protected def fieldsRec(defaultValue: Option[Option[A]]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[Option[A]]): List[ConfigField] =
       input.fieldsRec(defaultValue.flatten).map(_.option)
 
     override private[ciris] def to[G[x] >: F[x]](
@@ -463,7 +463,7 @@ object ConfigValue {
 
   private final case class Or[F[_], A](alternatives: NonEmptyList[ConfigValue[F, A]])
       extends ConfigValue[F, A] {
-    override protected def fieldsRec(defaultValue: Option[A]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[A]): List[ConfigField] =
       alternatives.toList.flatMap(_.fieldsRec(defaultValue))
 
     override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
@@ -495,7 +495,7 @@ object ConfigValue {
 
   private final case class Product[F[_], A, B](a: ConfigValue[F, A], b: ConfigValue[F, B])
       extends ConfigValue[F, (A, B)] {
-    override protected def fieldsRec(defaultValue: Option[(A, B)]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[(A, B)]): List[ConfigField] =
       a.fieldsRec(defaultValue.map(_._1)) ++ b.fieldsRec(defaultValue.map(_._2))
 
     override private[ciris] def to[G[x] >: F[x]](
@@ -523,7 +523,7 @@ object ConfigValue {
   }
 
   private[ciris] final case class Property(name: String) extends ConfigValue[Effect, String] {
-    override protected def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
       List(ConfigField.fromOption(ConfigKey.prop(name), defaultValue))
 
     override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[String]] =
@@ -544,7 +544,7 @@ object ConfigValue {
   }
 
   private final case class Pure[A](entry: ConfigEntry[A]) extends ConfigValue[Effect, A] {
-    override protected def fieldsRec(defaultValue: Option[A]): List[ConfigField] = Nil
+    override def fieldsRec(defaultValue: Option[A]): List[ConfigField] = Nil
 
     override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
       Resource.pure(entry)
@@ -554,7 +554,7 @@ object ConfigValue {
     input: ConfigValue[F, A],
     f: ConfigEntry[A] => ConfigEntry[B]
   ) extends ConfigValue[F, B] {
-    override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
       input.fieldsRec(None)
 
     override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[B]] =
@@ -564,7 +564,7 @@ object ConfigValue {
   private final case class ToUseOnceSecret[F[_], A](input: ConfigValue[F, A])(
     implicit ev: A <:< Array[Char]
   ) extends ConfigValue[F, UseOnceSecret] {
-    override protected def fieldsRec(defaultValue: Option[UseOnceSecret]): List[ConfigField] =
+    override def fieldsRec(defaultValue: Option[UseOnceSecret]): List[ConfigField] =
       input.fieldsRec(None)
 
     override final def to[G[x] >: F[x]](
@@ -768,7 +768,7 @@ object ConfigValue {
       override final def ap[A, B](pab: Par[F, A => B])(pa: Par[F, A]): Par[F, B] =
         Par {
           new ConfigValue[F, B] {
-            override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+            override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
               pab.unwrap.fieldsRec(None) ++ pa.unwrap.fieldsRec(None)
 
             override final def to[G[x] >: F[x]](
