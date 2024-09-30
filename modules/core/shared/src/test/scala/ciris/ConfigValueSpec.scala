@@ -9,11 +9,11 @@ package ciris
 import cats.effect.IO
 import cats.effect.kernel.{Resource, Sync}
 import cats.Eq
-import cats.syntax.all._
 import cats.laws.discipline.{ApplyTests, FlatMapTests, NonEmptyParallelTests}
+import cats.syntax.all._
+import munit.{CatsEffectSuite, ScalaCheckEffectSuite}
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Arbitrary.arbitrary
-import munit.{CatsEffectSuite, ScalaCheckEffectSuite}
 import org.scalacheck.effect.PropF
 import scala.annotation.nowarn
 
@@ -248,14 +248,11 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
       val default = value.default(a).to[IO].attempt
       val or = value.or(ciris.default(a)).to[IO].attempt
 
-      (default.evalTap(IO.println), or).tupled
-        .evalTap(IO.println)
-        .use {
-          case (Left(_), Left(_))   => IO.pure(true)
-          case (Right(a), Right(b)) => IO.pure(a === b)
-          case (_, _)               => IO.pure(false)
-        }
-        .assert
+      (default, or).tupled.use {
+        case (Left(_), Left(_))   => IO.pure(true)
+        case (Right(a), Right(b)) => IO.pure(a === b)
+        case (_, _)               => IO.pure(false)
+      }.assert
     }
   }
 
