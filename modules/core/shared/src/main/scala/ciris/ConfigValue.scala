@@ -272,7 +272,8 @@ sealed abstract class ConfigValue[+F[_], A] {
       case Loaded(error, key, a) => Loaded(error.redacted, key, Secret(a)(show))
     })(_.value)
 
-  lazy val fields: List[ConfigField] = fieldsRec(None)
+  final def fields: List[ConfigField] =
+    fieldsRec(None)
 
   private[ciris] def fieldsRec(defaultValue: Option[A]): List[ConfigField]
 
