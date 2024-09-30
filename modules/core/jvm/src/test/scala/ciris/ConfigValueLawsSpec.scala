@@ -29,8 +29,17 @@ final class ConfigValueLawsSpec extends DisciplineSuite with Generators {
     Eq.by(_.unwrap)
 
   checkAll(
+    "ConfigValue",
+    FlatMapTests[ConfigValue[IO, *]].flatMap[String, String, String]
+  )
+
+  checkAll(
     "ConfigValue.Par",
     ApplyTests[ConfigValue.Par[IO, *]].apply[String, String, String]
   )
 
+  checkAll(
+    "ConfigValue",
+    NonEmptyParallelTests[ConfigValue[IO, *]].nonEmptyParallel[String, String]
+  )
 }
