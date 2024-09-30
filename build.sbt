@@ -390,7 +390,8 @@ lazy val mimaSettings = Seq(
     // format: off
     Seq(
       ProblemFilters.exclude[DirectMissingMethodProblem]("ciris.ConfigKey.file"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("ciris.package.file")
+      ProblemFilters.exclude[DirectMissingMethodProblem]("ciris.package.file"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("ciris.ConfigValue.fieldsRec")
     )
     // format: on
   }
