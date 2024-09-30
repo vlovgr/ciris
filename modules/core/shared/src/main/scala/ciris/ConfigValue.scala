@@ -33,7 +33,7 @@ import cats.arrow.FunctionK
   *
   * Sometimes, we first need to load a configuration value to determine
   * how to continue loading the remaining values. In such cases, it's
-  * suitable to use TODO Selective. When loading values in
+  * suitable to use [[ConfigValue#flatMap]]. When loading values in
   * sequence using `flatMap`, errors are not accumulated, and so
   * only the first error will be available.
   *
@@ -61,35 +61,12 @@ import cats.arrow.FunctionK
   * scala> val apiKey = env("API_KEY").or(prop("api.key")).secret.option
   * val apiKey: ConfigValue[[x]Effect[x],Option[Secret[String]]] = ConfigValue$$2109306667
   *
-  * scala> val config = (maxRetries, apiKey).mapN(Config(_, _))
+  * scala> val config = (maxRetries, apiKey).parMapN(Config(_, _))
   * val config: ConfigValue[[x]Effect[x],Config] = ConfigValue$$1463229407
   * }}}
   */
 sealed abstract class ConfigValue[+F[_], A] {
   private[this] final val self: ConfigValue[F, A] = this
-
-  /**
-    * Returns a new [[ConfigValue]] which attempts to decode the
-    * value to the specified type.
-    */
-  @deprecated("Use as(implicit ConfigCodec) instead", "3.7.0")
-  final def decodeAs[B](implicit decoder: ConfigDecoder[A, B]): ConfigValue[F, B] =
-    transform {
-      case Default(error, a) =>
-        decoder.decode(None, a) match {
-          case Right(b)          => Default(error, b)
-          case Left(decodeError) => Failed(error.or(decodeError))
-        }
-
-      case failed @ Failed(_) =>
-        failed
-
-      case Loaded(error, key, a) =>
-        decoder.decode(key, a) match {
-          case Right(b)          => Loaded(error, key, b)
-          case Left(decodeError) => Failed(error.or(decodeError))
-        }
-    }
 
   final def asIso[B](implicit codec: ConfigCodec[A, B]): ConfigValue[F, B] =
     itransform {
@@ -109,6 +86,10 @@ sealed abstract class ConfigValue[+F[_], A] {
         }
     }(codec.encode)
 
+  /**
+    * Returns a new [[ConfigValue]] which attempts to decode the
+    * value to the specified type.
+    */
   @deprecated("Use asIso instead", "3.7.0")
   final def as[B](implicit decoder: ConfigDecoder[A, B]): ConfigValue[F, B] =
     transform {
@@ -408,29 +389,30 @@ object ConfigValue {
       input.to[H].evalMap(_.traverse[H, B](f))
   }
 
-  case class FlatMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => ConfigValue[G, B]) extends ConfigValue[G, B] {
+  case class FlatMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => ConfigValue[G, B])
+      extends ConfigValue[G, B] {
     override protected def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
       input.fieldsRec(None)
 
     override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
       input.to[H].flatMap {
-          case Default(_, a) =>
-            f(a).to[H].map {
-              case Default(_, b)      => ConfigEntry.default(b)
-              case failed @ Failed(_) => failed
-              case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
-            }
+        case Default(_, a) =>
+          f(a).to[H].map {
+            case Default(_, b)      => ConfigEntry.default(b)
+            case failed @ Failed(_) => failed
+            case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
+          }
 
-          case failed @ Failed(_) =>
-            Resource.eval(H.pure(failed))
+        case failed @ Failed(_) =>
+          Resource.eval(H.pure(failed))
 
-          case Loaded(_, _, a) =>
-            f(a).to[H].map {
-              case Default(_, b)   => ConfigEntry.loaded(None, b)
-              case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
-              case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
-            }
-        }
+        case Loaded(_, _, a) =>
+          f(a).to[H].map {
+            case Default(_, b)   => ConfigEntry.loaded(None, b)
+            case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
+            case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
+          }
+      }
   }
 
   case class IEvalMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => G[B], g: B => A)
@@ -736,7 +718,9 @@ object ConfigValue {
 
       override def pure[A](x: A): ConfigValue[F, A] = default(x)
 
-      override def flatMap[A, B](fa: ConfigValue[F,A])(f: A => ConfigValue[F,B]): ConfigValue[F,B] =
+      override def flatMap[A, B](fa: ConfigValue[F, A])(
+        f: A => ConfigValue[F, B]
+      ): ConfigValue[F, B] =
         fa.flatMap(f)
 
       @nowarn("cat=deprecation")
@@ -751,7 +735,6 @@ object ConfigValue {
         fb: ConfigValue[F, B]
       ): ConfigValue[F, (A, B)] =
         fa.product(fb)
-
 
       /**
         * Note: this is intentionally not stack safe, as the `flatMap`
