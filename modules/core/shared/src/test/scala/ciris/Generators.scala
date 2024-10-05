@@ -10,6 +10,7 @@ import cats.{Eq, Show}
 import cats.data.Chain
 import org.scalacheck.{Arbitrary, Cogen, Gen}
 import org.scalacheck.Arbitrary.arbitrary
+import scala.annotation.nowarn
 import scala.collection.JavaConverters._
 import scala.util.control.NoStackTrace
 import scala.util.Try
@@ -186,11 +187,28 @@ trait Generators extends GeneratorsRuntimePlatform {
   ): Arbitrary[ConfigException => ConfigException] =
     Arbitrary(configExceptionFunctionGen(arb.arbitrary))
 
+  @nowarn("cat=deprecation")
   def configDecoderGen[A, B](gen: Gen[A => Either[ConfigError, B]]): Gen[ConfigDecoder[A, B]] =
     gen.map(f => ConfigDecoder.instance((_, a) => f(a)))
 
+  @nowarn("cat=deprecation")
   implicit def configDecoderArbitrary[A, B](
     implicit arb: Arbitrary[A => Either[ConfigError, B]]
   ): Arbitrary[ConfigDecoder[A, B]] =
     Arbitrary(configDecoderGen(arbitrary[A => Either[ConfigError, B]]))
+
+  def configCodecGen[A, B](
+    genDecode: Gen[A => Either[ConfigError, B]],
+    genEncode: Gen[B => A]
+  ): Gen[ConfigCodec[A, B]] =
+    for {
+      decode <- genDecode
+      encode <- genEncode
+    } yield ConfigCodec.lift(decode)(encode)
+
+  implicit def configCodecArbitrary[A, B](
+    implicit arbDecode: Arbitrary[A => Either[ConfigError, B]],
+    arbEncode: Arbitrary[B => A]
+  ): Arbitrary[ConfigCodec[A, B]] =
+    Arbitrary(configCodecGen(arbDecode.arbitrary, arbEncode.arbitrary))
 }
