@@ -16,7 +16,7 @@ import ciris.ConfigError._
   *
   * Configuration errors can be created using [[ConfigError.apply]], or
   * with [[ConfigError.sensitive]] if the error might contain sensitive
-  * details. When writing [[ConfigDecoder]]s, [[ConfigError.decode]]
+  * details. When writing [[ConfigCodec]]s, [[ConfigError.decode]]
   * can be useful for creating decoding errors.
   *
   * Errors for a single configuration value, which might be retrieved

@@ -16,97 +16,97 @@ import io.circe.yaml.syntax._
 import munit.CatsEffectSuite
 
 final class CirceYamlSpec extends CatsEffectSuite {
-  test("circeYamlConfigDecoder.success") {
+  test("circeYamlConfigCodec.success") {
     default("123")
-      .as[Int](circeYamlConfigDecoder("Int"))
+      .asIso[Int](circeYamlConfigCodec("Int"))
       .load[IO]
       .assertEquals(123)
   }
 
-  test("circeYamlConfigDecoder.success.noquotes") {
+  test("circeYamlConfigCodec.success.noquotes") {
     default("abc")
-      .as[String](circeYamlConfigDecoder("String"))
+      .asIso[String](circeYamlConfigCodec("String"))
       .load[IO]
       .assertEquals("abc")
   }
 
-  test("circeYamlConfigDecoder.success.quotes") {
+  test("circeYamlConfigCodec.success.quotes") {
     default("\"abc\"")
-      .as[String](circeYamlConfigDecoder("String"))
+      .asIso[String](circeYamlConfigCodec("String"))
       .load[IO]
       .assertEquals("abc")
   }
 
-  test("circeYamlConfigDecoder.invalid.noquotes") {
+  test("circeYamlConfigCodec.invalid.noquotes") {
     checkError(
-      ConfigValue.default("abc").as[Int](circeYamlConfigDecoder("Int")),
+      ConfigValue.default("abc").asIso[Int](circeYamlConfigCodec("Int")),
       """Unable to decode json "abc" to Int: DecodingFailure at : Int"""
     )
   }
 
-  test("circeYamlConfigDecoder.invalid") {
+  test("circeYamlConfigCodec.invalid") {
     checkError(
-      ConfigValue.default("\"abc\"").as[Int](circeYamlConfigDecoder("Int")),
+      ConfigValue.default("\"abc\"").asIso[Int](circeYamlConfigCodec("Int")),
       """Unable to decode json "abc" to Int: DecodingFailure at : Int"""
     )
   }
 
-  test("circeYamlConfigDecoder.invalid.redacted") {
+  test("circeYamlConfigCodec.invalid.redacted") {
     checkError(
-      ConfigValue.default("\"abc\"").as[Int](circeYamlConfigDecoder("Int")).redacted,
+      ConfigValue.default("\"abc\"").asIso[Int](circeYamlConfigCodec("Int")).redacted,
       "Unable to decode json to Int"
     )
   }
 
-  test("circeYamlConfigDecoder.invalid.loaded") {
+  test("circeYamlConfigCodec.invalid.loaded") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").as[Int](circeYamlConfigDecoder("Int")),
+      ConfigValue.loaded(ConfigKey("key"), "\"abc\"").asIso[Int](circeYamlConfigCodec("Int")),
       """Key with json "abc" cannot be decoded to Int: DecodingFailure at : Int"""
     )
   }
 
-  test("circeYamlConfigDecoder.invalid.loaded.redacted") {
+  test("circeYamlConfigCodec.invalid.loaded.redacted") {
     checkError(
       ConfigValue
         .loaded(ConfigKey("key"), "\"abc\"")
-        .as[Int](circeYamlConfigDecoder("Int"))
+        .asIso[Int](circeYamlConfigCodec("Int"))
         .redacted,
       "Key cannot be decoded to Int"
     )
   }
 
-  test("yamlConfigDecoder.success") {
+  test("yamlConfigCodec.success") {
     default("123")
-      .as[Json]
+      .asIso[Json]
       .load[IO]
       .map(_.asNumber.flatMap(_.toInt).contains(123))
       .assert
   }
 
-  test("yamlConfigDecoder.invalid") {
+  test("yamlConfigCodec.invalid") {
     checkError(
-      ConfigValue.default("\"no\"").as[Boolean],
+      ConfigValue.default("\"no\"").asIso[Boolean],
       "Unable to convert value \"no\" to Boolean"
     )
   }
 
-  test("yamlConfigDecoder.invalid.redacted") {
+  test("yamlConfigCodec.invalid.redacted") {
     checkError(
-      ConfigValue.default("\"no\"").as[Boolean].redacted,
+      ConfigValue.default("\"no\"").asIso[Boolean].redacted,
       "Unable to convert value to Boolean"
     )
   }
 
-  test("yamlConfigDecoder.invalid.loaded") {
+  test("yamlConfigCodec.invalid.loaded") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"no\"").as[Boolean],
+      ConfigValue.loaded(ConfigKey("key"), "\"no\"").asIso[Boolean],
       "Key with value \"no\" cannot be converted to Boolean"
     )
   }
 
-  test("yamlConfigDecoder.invalid.loaded.redacted") {
+  test("yamlConfigCodec.invalid.loaded.redacted") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"no\"").as[Boolean].redacted,
+      ConfigValue.loaded(ConfigKey("key"), "\"no\"").asIso[Boolean].redacted,
       "Key cannot be converted to Boolean"
     )
   }
