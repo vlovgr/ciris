@@ -16,9 +16,11 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Test
+import scala.annotation.nowarn
 import scala.concurrent.duration.{Duration, FiniteDuration}
 import scala.util.Try
 
+@nowarn("cat=deprecation")
 final class ConfigDecoderSpec extends DisciplineSuite with Generators {
   implicit def configDecoderEq[A, B](
     implicit arb: Arbitrary[A],

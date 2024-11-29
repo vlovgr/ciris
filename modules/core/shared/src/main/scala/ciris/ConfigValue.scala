@@ -6,11 +6,15 @@
 
 package ciris
 
-import cats.{Apply, FlatMap, NonEmptyParallel, Show}
-import cats.arrow.FunctionK
+import cats.Show
 import cats.effect.kernel.{Async, Resource}
 import cats.syntax.all._
 import ciris.ConfigEntry.{Default, Failed, Loaded}
+import cats.data.NonEmptyList
+import cats.Monad
+import scala.annotation.nowarn
+import cats.NonEmptyParallel
+import cats.arrow.FunctionK
 
 /**
   * Represents a configuration value or a composition of multiple values.
@@ -64,10 +68,29 @@ import ciris.ConfigEntry.{Default, Failed, Loaded}
 sealed abstract class ConfigValue[+F[_], A] {
   private[this] final val self: ConfigValue[F, A] = this
 
+  final def asIso[B](implicit codec: ConfigCodec[A, B]): ConfigValue[F, B] =
+    itransform {
+      case Default(error, a) =>
+        codec.decode(None, a) match {
+          case Right(b)          => Default(error, b)
+          case Left(decodeError) => Failed(error.or(decodeError))
+        }
+
+      case failed @ Failed(_) =>
+        failed
+
+      case Loaded(error, key, a) =>
+        codec.decode(key, a) match {
+          case Right(b)          => Loaded(error, key, b)
+          case Left(decodeError) => Failed(error.or(decodeError))
+        }
+    }(codec.encode)
+
   /**
     * Returns a new [[ConfigValue]] which attempts to decode the
     * value to the specified type.
     */
+  @deprecated("Use asIso instead", "3.7.0")
   final def as[B](implicit decoder: ConfigDecoder[A, B]): ConfigValue[F, B] =
     transform {
       case Default(error, a) =>
@@ -121,19 +144,14 @@ sealed abstract class ConfigValue[+F[_], A] {
     * a composition of values, the default will be used in case all
     * values are either missing or are default values themselves.
     *
-    * Using `.default(a)` is equivalent to using `.or(default(a))`.
+    * Using `.default(a)` is roughly equivalent to using `.or(default(a))`.
     */
-  final def default(value: => A): ConfigValue[F, A] =
-    transform {
-      case Default(error, _)                => Default(error, value)
-      case Failed(error) if error.isMissing => Default(error, value)
-      case failed @ Failed(_)               => failed
-      case loaded @ Loaded(_, _, _)         => loaded
-    }
+  def default(value: => A): ConfigValue[F, A] = ConfigValue.DefaultValue(this, value)
 
   /**
     * Alias for `evalMap(f).flatten`.
     */
+  @deprecated("Use ievalMap or flatMap instead", "3.7.0")
   final def evalFlatMap[G[x] >: F[x], B](f: A => G[ConfigValue[G, B]]): ConfigValue[G, B] =
     evalMap(f).flatten
 
@@ -141,44 +159,22 @@ sealed abstract class ConfigValue[+F[_], A] {
     * Returns a new [[ConfigValue]] which applies the
     * specified effectful function on the value.
     */
+  @deprecated("Use ievalMap instead", "3.7.0")
   final def evalMap[G[x] >: F[x], B](f: A => G[B]): ConfigValue[G, B] =
-    new ConfigValue[G, B] {
-      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
-        self.to[H].evalMap(_.traverse[H, B](f))
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
+    ConfigValue.EvalMap[F, G, A, B](this, f)
 
   /**
     * Returns a new [[ConfigValue]] which loads the specified
     * configuration using the value.
     */
   final def flatMap[G[x] >: F[x], B](f: A => ConfigValue[G, B]): ConfigValue[G, B] =
-    new ConfigValue[G, B] {
-      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
-        self.to[H].flatMap {
-          case Default(_, a) =>
-            f(a).to[H].map {
-              case Default(_, b)      => ConfigEntry.default(b)
-              case failed @ Failed(_) => failed
-              case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
-            }
+    ConfigValue.FlatMap[F, G, A, B](this, f)
 
-          case failed @ Failed(_) =>
-            Resource.eval(H.pure(failed))
-
-          case Loaded(_, _, a) =>
-            f(a).to[H].map {
-              case Default(_, b)   => ConfigEntry.loaded(None, b)
-              case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
-              case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
-            }
-        }
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
+  /**
+    * Isomophic-ish version of [[evalMap]].
+    */
+  final def ievalMap[G[x] >: F[x], B](f: A => G[B])(g: B => A): ConfigValue[G, B] =
+    ConfigValue.IEvalMap[F, G, A, B](this, f, g)
 
   /**
     * Returns an effect of the specified type which loads
@@ -201,22 +197,21 @@ sealed abstract class ConfigValue[+F[_], A] {
     * Returns a new [[ConfigValue]] which applies the
     * specified function on the value.
     */
+  @deprecated("Use imap instead", "3.7.0")
   final def map[B](f: A => B): ConfigValue[F, B] =
     transform(_.map(f))
 
   /**
+    * Isomorphic [[map]].
+    */
+  final def imap[B](f: A => B)(g: B => A): ConfigValue[F, B] =
+    itransform(_.map(f))(g)
+
+  /**
     * Returns a new [[ConfigValue]] which uses `None` as the
     * default if the value is missing.
-    *
-    * Using `.option` is equivalent to using `.map(_.some).default(None)`.
     */
-  final def option: ConfigValue[F, Option[A]] =
-    transform {
-      case Default(error, _)                => Default(error, None)
-      case Failed(error) if error.isMissing => Default(error, None)
-      case failed @ Failed(_)               => failed
-      case Loaded(error, key, a)            => Loaded(error, key, Some(a))
-    }
+  final def option: ConfigValue[F, Option[A]] = ConfigValue.Optional(this)
 
   /**
     * Returns a new [[ConfigValue]] which uses the specified
@@ -229,35 +224,13 @@ sealed abstract class ConfigValue[+F[_], A] {
     * defaults. Errors from both the value and the
     * specified configuration are accumulated.
     */
-  final def or[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] =
-    new ConfigValue[G, A] {
-      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[A]] =
-        self.to[H].flatMap {
-          case Default(error, a) =>
-            value.to[H].map {
-              case Failed(nextError) if nextError.isMissing => Default(error.or(nextError), a)
-              case Failed(nextError)                        => Failed(error.or(nextError))
-              case Default(nextError, b)                    => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b)                => Loaded(error.or(nextError), key, b)
-            }
+  final def or[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] = this match {
+    case ConfigValue.Or(alternatives) => ConfigValue.Or(alternatives :+ value)
+    case _                            => ConfigValue.Or(NonEmptyList.of(this, value))
+  }
 
-          case Failed(error) if error.isMissing =>
-            value.to[H].map {
-              case Failed(nextError)         => Failed(error.or(nextError))
-              case Default(nextError, b)     => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
-            }
-
-          case failed @ Failed(_) =>
-            Resource.eval(H.pure(failed))
-
-          case loaded @ Loaded(_, _, _) =>
-            Resource.eval(H.pure(loaded))
-        }
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
+  final def product[G[x] >: F[x], B](right: ConfigValue[G, B]): ConfigValue[G, (A, B)] =
+    ConfigValue.Product(this, right)
 
   /**
     * Returns a new [[ConfigValue]] with sensitive
@@ -268,7 +241,7 @@ sealed abstract class ConfigValue[+F[_], A] {
     * requiring a `Show` instance.
     */
   final def redacted: ConfigValue[F, A] =
-    transform(_.mapError(_.redacted))
+    itransform(_.mapError(_.redacted))(identity)
 
   /**
     * Returns a `Resource` with the specified effect
@@ -293,24 +266,28 @@ sealed abstract class ConfigValue[+F[_], A] {
     * `.redacted.map(Secret(_))`.
     */
   final def secret(implicit show: Show[A]): ConfigValue[F, Secret[A]] =
-    transform {
+    itransform({
       case Default(error, a)     => Default(error.redacted, Secret(a)(show))
       case Failed(error)         => Failed(error.redacted)
       case Loaded(error, key, a) => Loaded(error.redacted, key, Secret(a)(show))
-    }
+    })(_.value)
+
+  final def fields: List[ConfigField] =
+    fieldsRec(None)
+
+  private[ciris] def fieldsRec(defaultValue: Option[A]): List[ConfigField]
 
   private[ciris] def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]]
 
   private[ciris] final def transform[B](
     f: ConfigEntry[A] => ConfigEntry[B]
   ): ConfigValue[F, B] =
-    new ConfigValue[F, B] {
-      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[B]] =
-        self.to[G].map(f)
+    ConfigValue.Transform(this, f)
 
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
+  private[ciris] final def itransform[B](f: ConfigEntry[A] => ConfigEntry[B])(
+    g: B => A
+  ): ConfigValue[F, B] =
+    ConfigValue.ITransform(this, f, g)
 
   /**
     * Returns a new [[ConfigValue]] which treats the value
@@ -322,15 +299,8 @@ sealed abstract class ConfigValue[+F[_], A] {
     * the secret once it has been used.
     */
   final def useOnceSecret(implicit ev: A <:< Array[Char]): ConfigValue[F, UseOnceSecret] =
-    new ConfigValue[F, UseOnceSecret] {
-      override final def to[G[x] >: F[x]](
-        implicit G: Async[G]
-      ): Resource[G, ConfigEntry[UseOnceSecret]] =
-        self.redacted.to[G].evalMap(_.traverse(UseOnceSecret[G](_)))
+    ConfigValue.ToUseOnceSecret(this)
 
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
 }
 
 /**
@@ -346,6 +316,265 @@ sealed abstract class ConfigValue[+F[_], A] {
 object ConfigValue {
 
   /**
+    * A misceallenous effectful configuration that cannot be introspected in a pure environment.
+    */
+  private sealed abstract class Effectful[F[_], A] extends ConfigValue[F, A] {
+    override def fieldsRec(defaultValue: Option[A]): List[ConfigField] =
+      Nil
+  }
+
+  private final case class Apply[F[_], A, B](ff: ConfigValue[F, A => B], fa: ConfigValue[F, A])
+      extends ConfigValue[F, B] {
+
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      ff.fieldsRec(None) ++ fa.fieldsRec(None)
+
+    override final def to[G[x] >: F[x]](
+      implicit G: Async[G]
+    ): Resource[G, ConfigEntry[B]] =
+      (ff.to[G], fa.to[G]).parMapN {
+        case (Default(_, ab), Default(_, a)) =>
+          ConfigEntry.default(ab.apply(a))
+        case (Default(_, _), failed @ Failed(_)) =>
+          failed
+        case (Default(_, ab), Loaded(_, _, a)) =>
+          ConfigEntry.loaded(None, ab.apply(a))
+
+        case (failed @ Failed(_), Default(_, _)) =>
+          failed
+        case (Failed(e1), Failed(e2)) =>
+          ConfigEntry.failed(e1.and(e2))
+        case (Failed(e1), Loaded(_, _, _)) =>
+          ConfigEntry.failed(ConfigError.Loaded.and(e1))
+
+        case (Loaded(_, _, ab), Default(_, a)) =>
+          ConfigEntry.loaded(None, ab(a))
+        case (Loaded(_, _, _), Failed(e2)) =>
+          ConfigEntry.failed(ConfigError.Loaded.and(e2))
+        case (Loaded(_, _, ab), Loaded(_, _, a)) =>
+          ConfigEntry.loaded(None, ab(a))
+      }
+  }
+
+  private final case class DefaultValue[F[_], A](configValue: ConfigValue[F, A], defaultValue: A)
+      extends ConfigValue[F, A] {
+    override def default(value: => A): ConfigValue[F, A] =
+      DefaultValue(configValue, value)
+
+    override def fieldsRec(existingDefaultValue: Option[A]): List[ConfigField] =
+      configValue.fieldsRec(existingDefaultValue.orElse(Some(defaultValue))).map(_.option)
+
+    override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] = {
+      configValue.to[G].map {
+        case Default(error, _)                => Default(error, defaultValue)
+        case Failed(error) if error.isMissing => Default(error, defaultValue)
+        case failed @ Failed(_)               => failed
+        case loaded @ Loaded(_, _, _)         => loaded
+      }
+    }
+  }
+
+  private[ciris] final case class Environment(name: String) extends ConfigValue[Effect, String] {
+    override def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
+      List(ConfigField.fromOption(ConfigKey.env(name), defaultValue))
+
+    override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[String]] =
+      Resource.eval(G.delay(getEnv(name)))
+  }
+
+  private final case class EvalMap[F[_], G[x] >: F[x], A, B](input: ConfigValue[F, A], f: A => G[B])
+      extends ConfigValue[G, B] {
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(None)
+
+    override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
+      input.to[H].evalMap(_.traverse[H, B](f))
+  }
+
+  private final case class FlatMap[F[_], G[x] >: F[x], A, B](
+    input: ConfigValue[F, A],
+    f: A => ConfigValue[G, B]
+  ) extends ConfigValue[G, B] {
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(None)
+
+    override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
+      input.to[H].flatMap {
+        case Default(_, a) =>
+          f(a).to[H].map {
+            case Default(_, b)      => ConfigEntry.default(b)
+            case failed @ Failed(_) => failed
+            case Loaded(_, _, b)    => ConfigEntry.loaded(None, b)
+          }
+
+        case failed @ Failed(_) =>
+          Resource.eval(H.pure(failed))
+
+        case Loaded(_, _, a) =>
+          f(a).to[H].map {
+            case Default(_, b)   => ConfigEntry.loaded(None, b)
+            case Failed(e2)      => ConfigEntry.failed(ConfigError.Loaded.and(e2))
+            case Loaded(_, _, b) => ConfigEntry.loaded(None, b)
+          }
+      }
+  }
+
+  private final case class IEvalMap[F[_], G[x] >: F[x], A, B](
+    input: ConfigValue[F, A],
+    f: A => G[B],
+    g: B => A
+  ) extends ConfigValue[G, B] {
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(defaultValue.map(g))
+
+    override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[B]] =
+      input.to[H].evalMap(_.traverse[H, B](f))
+  }
+
+  private final case class ITransform[F[_], A, B](
+    input: ConfigValue[F, A],
+    f: ConfigEntry[A] => ConfigEntry[B],
+    g: B => A
+  ) extends ConfigValue[F, B] {
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(defaultValue.map(g))
+
+    override private[ciris] def to[G[x] >: F[x]](
+      implicit G: Async[G]
+    ): Resource[G, ConfigEntry[B]] =
+      input.to[G].map(f)
+  }
+
+  private final case class Optional[F[_], A](input: ConfigValue[F, A])
+      extends ConfigValue[F, Option[A]] {
+
+    override def fieldsRec(defaultValue: Option[Option[A]]): List[ConfigField] =
+      input.fieldsRec(defaultValue.flatten).map(_.option)
+
+    override private[ciris] def to[G[x] >: F[x]](
+      implicit G: Async[G]
+    ): Resource[G, ConfigEntry[Option[A]]] =
+      input.to[G].map {
+        case Default(error, _)                => Default(error, None)
+        case Failed(error) if error.isMissing => Default(error, None)
+        case failed @ Failed(_)               => failed
+        case Loaded(error, key, a)            => Loaded(error, key, Some(a))
+      }
+  }
+
+  private final case class Or[F[_], A](alternatives: NonEmptyList[ConfigValue[F, A]])
+      extends ConfigValue[F, A] {
+    override def fieldsRec(defaultValue: Option[A]): List[ConfigField] =
+      alternatives.toList.flatMap(_.fieldsRec(defaultValue))
+
+    override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+      alternatives.reduceLeftTo(_.to[G])((res, value) =>
+        res.flatMap {
+          case Default(error, a) =>
+            value.to[G].map {
+              case Failed(nextError) if nextError.isMissing => Default(error.or(nextError), a)
+              case Failed(nextError)                        => Failed(error.or(nextError))
+              case Default(nextError, b)                    => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b)                => Loaded(error.or(nextError), key, b)
+            }
+
+          case Failed(error) if error.isMissing =>
+            value.to[G].map {
+              case Failed(nextError)         => Failed(error.or(nextError))
+              case Default(nextError, b)     => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
+            }
+
+          case failed @ Failed(_) =>
+            Resource.eval(G.pure(failed))
+
+          case loaded @ Loaded(_, _, _) =>
+            Resource.eval(G.pure(loaded))
+        }
+      )
+  }
+
+  private final case class Product[F[_], A, B](a: ConfigValue[F, A], b: ConfigValue[F, B])
+      extends ConfigValue[F, (A, B)] {
+    override def fieldsRec(defaultValue: Option[(A, B)]): List[ConfigField] =
+      a.fieldsRec(defaultValue.map(_._1)) ++ b.fieldsRec(defaultValue.map(_._2))
+
+    override private[ciris] def to[G[x] >: F[x]](
+      implicit G: Async[G]
+    ): Resource[G, ConfigEntry[(A, B)]] =
+      a.to[G].map2(b.to[G]) {
+        case (Default(errorA, valueA), Default(errorB, valueB)) =>
+          Default(errorA.and(errorB), (valueA, valueB))
+        case (Default(errorA, valueA), Loaded(errorB, _, valueB)) =>
+          Default(errorA.and(errorB), (valueA, valueB))
+        case (Loaded(errorA, _, valueA), Default(errorB, valueB)) =>
+          Default(errorA.and(errorB), (valueA, valueB))
+        case (Loaded(errorA, keyA, valueA), Loaded(errorB, keyB, valueB)) =>
+          Loaded(
+            errorA.and(errorB),
+            for {
+              kA <- keyA
+              kB <- keyB
+            } yield kA.and(kB),
+            (valueA, valueB)
+          )
+        case (Failed(errorA), entryB) => Failed(errorA.and(entryB.error))
+        case (entryA, Failed(errorB)) => Failed(entryA.error.and(errorB))
+      }
+  }
+
+  private[ciris] final case class Property(name: String) extends ConfigValue[Effect, String] {
+    override def fieldsRec(defaultValue: Option[String]): List[ConfigField] =
+      List(ConfigField.fromOption(ConfigKey.prop(name), defaultValue))
+
+    override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[String]] =
+      Resource.eval(G.delay {
+        val key = ConfigKey.prop(name)
+
+        if (name.nonEmpty) {
+          val value = System.getProperty(name)
+          if (value != null) {
+            ConfigEntry.loaded(Some(key), value)
+          } else {
+            ConfigEntry.missing(key)
+          }
+        } else {
+          ConfigEntry.missing(key)
+        }
+      })
+  }
+
+  private final case class Pure[A](entry: ConfigEntry[A]) extends ConfigValue[Effect, A] {
+    override def fieldsRec(defaultValue: Option[A]): List[ConfigField] = Nil
+
+    override final def to[G[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+      Resource.pure(entry)
+  }
+
+  private final case class Transform[F[_], A, B](
+    input: ConfigValue[F, A],
+    f: ConfigEntry[A] => ConfigEntry[B]
+  ) extends ConfigValue[F, B] {
+    override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+      input.fieldsRec(None)
+
+    override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[B]] =
+      input.to[G].map(f)
+  }
+
+  private final case class ToUseOnceSecret[F[_], A](input: ConfigValue[F, A])(
+    implicit ev: A <:< Array[Char]
+  ) extends ConfigValue[F, UseOnceSecret] {
+    override def fieldsRec(defaultValue: Option[UseOnceSecret]): List[ConfigField] =
+      input.fieldsRec(None)
+
+    override final def to[G[x] >: F[x]](
+      implicit G: Async[G]
+    ): Resource[G, ConfigEntry[UseOnceSecret]] =
+      input.redacted.to[G].evalMap(_.traverse(UseOnceSecret[G](_)))
+  }
+
+  /**
     * Returns a new [[ConfigValue]] which loads a configuration
     * value using a callback.
     *
@@ -354,14 +583,14 @@ object ConfigValue {
   final def async[F[_], A](
     k: (Either[Throwable, ConfigValue[F, A]] => Unit) => F[Option[F[Unit]]]
   ): ConfigValue[F, A] =
-    new ConfigValue[F, A] {
-      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
+    new Effectful[F, A] {
+
+      override private[ciris] def to[G[x] >: F[x]](
+        implicit G: Async[G]
+      ): Resource[G, ConfigEntry[A]] =
         Resource
           .eval(G.async[ConfigValue[F, A]](k(_).asInstanceOf[G[Option[G[Unit]]]]))
           .flatMap(_.to[G])
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
     }
 
   /**
@@ -373,7 +602,7 @@ object ConfigValue {
   final def async_[F[_], A](
     k: (Either[Throwable, ConfigValue[F, A]] => Unit) => Unit
   ): ConfigValue[F, A] =
-    new ConfigValue[F, A] {
+    new Effectful[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
         Resource.eval(G.async_(k)).flatMap(_.to[G])
 
@@ -388,7 +617,7 @@ object ConfigValue {
     * @group Create
     */
   final def blocking[F[_], A](value: => ConfigValue[F, A]): ConfigValue[F, A] =
-    new ConfigValue[F, A] {
+    new Effectful[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
         Resource.eval(G.blocking(value)).flatMap(_.to[G])
 
@@ -412,7 +641,7 @@ object ConfigValue {
     * @group Create
     */
   final def eval[F[_], A](value: F[ConfigValue[F, A]]): ConfigValue[F, A] =
-    new ConfigValue[F, A] {
+    new Effectful[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
         Resource.eval(value).asInstanceOf[Resource[G, ConfigValue[F, A]]].flatMap(_.to[G])
 
@@ -454,13 +683,7 @@ object ConfigValue {
     ConfigValue.missing(ConfigKey(description))
 
   private[ciris] final def pure[F[_], A](entry: ConfigEntry[A]): ConfigValue[F, A] =
-    new ConfigValue[F, A] {
-      override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
-        Resource.pure(entry)
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
+    Pure(entry)
 
   /**
     * Returns a new [[ConfigValue]] for the specified resource.
@@ -469,7 +692,7 @@ object ConfigValue {
     */
   final def resource[F[_], A](resource: Resource[F, ConfigValue[F, A]]): ConfigValue[F, A] = {
     val _resource = resource
-    new ConfigValue[F, A] {
+    new Effectful[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
         _resource.asInstanceOf[Resource[G, ConfigValue[F, A]]].flatMap(_.to[G])
 
@@ -485,7 +708,7 @@ object ConfigValue {
     * @group Create
     */
   final def suspend[F[_], A](value: => ConfigValue[F, A]): ConfigValue[F, A] =
-    new ConfigValue[F, A] {
+    new Effectful[F, A] {
       override final def to[G[x] >: F[x]](implicit G: Async[G]): Resource[G, ConfigEntry[A]] =
         Resource.suspend(G.delay(value.to[G]))
 
@@ -493,20 +716,37 @@ object ConfigValue {
         "ConfigValue$" + System.identityHashCode(this)
     }
 
+  @deprecated("Use configValueMonad instead", "3.7.0")
+  final def configValueFlatMap[F[_]]: cats.FlatMap[ConfigValue[F, *]] = configValueMonad[F]
+
   /**
     * @group Instances
     */
-  implicit final def configValueFlatMap[F[_]]: FlatMap[ConfigValue[F, *]] =
-    new FlatMap[ConfigValue[F, *]] {
-      override final def flatMap[A, B](
-        value: ConfigValue[F, A]
-      )(f: A => ConfigValue[F, B]): ConfigValue[F, B] =
-        value.flatMap(f)
+  implicit final def configValueMonad[F[_]]: Monad[ConfigValue[F, *]] =
+    new Monad[ConfigValue[F, *]] {
 
-      override final def map[A, B](
-        value: ConfigValue[F, A]
-      )(f: A => B): ConfigValue[F, B] =
-        value.map(f)
+      override def ap[A, B](ff: ConfigValue[F, A => B])(fa: ConfigValue[F, A]): ConfigValue[F, B] =
+        Apply(ff, fa)
+
+      override def pure[A](x: A): ConfigValue[F, A] = default(x)
+
+      override def flatMap[A, B](fa: ConfigValue[F, A])(
+        f: A => ConfigValue[F, B]
+      ): ConfigValue[F, B] =
+        fa.flatMap(f)
+
+      @nowarn("cat=deprecation")
+      override def map[A, B](fa: ConfigValue[F, A])(f: A => B): ConfigValue[F, B] =
+        fa.map(f)
+
+      override def imap[A, B](fa: ConfigValue[F, A])(f: A => B)(g: B => A): ConfigValue[F, B] =
+        fa.imap(f)(g)
+
+      override def product[A, B](
+        fa: ConfigValue[F, A],
+        fb: ConfigValue[F, B]
+      ): ConfigValue[F, (A, B)] =
+        fa.product(fb)
 
       /**
         * Note: this is intentionally not stack safe, as the `flatMap`
@@ -524,11 +764,14 @@ object ConfigValue {
   /**
     * @group Instances
     */
-  implicit final def configValueParApply[F[_]]: Apply[Par[F, *]] =
-    new Apply[Par[F, *]] {
+  implicit final def configValueParApply[F[_]]: cats.Apply[Par[F, *]] =
+    new cats.Apply[Par[F, *]] {
       override final def ap[A, B](pab: Par[F, A => B])(pa: Par[F, A]): Par[F, B] =
         Par {
           new ConfigValue[F, B] {
+            override def fieldsRec(defaultValue: Option[B]): List[ConfigField] =
+              pab.unwrap.fieldsRec(None) ++ pa.unwrap.fieldsRec(None)
+
             override final def to[G[x] >: F[x]](
               implicit G: Async[G]
             ): Resource[G, ConfigEntry[B]] =
@@ -560,6 +803,7 @@ object ConfigValue {
           }
         }
 
+      @deprecated("Use imap instead", "3.7.0")
       override final def map[A, B](pa: Par[F, A])(f: A => B): Par[F, B] =
         Par(pa.unwrap.map(f))
     }
@@ -572,11 +816,11 @@ object ConfigValue {
     new NonEmptyParallel[ConfigValue[G, *]] {
       override final type F[A] = Par[G, A]
 
-      override final val apply: Apply[Par[G, *]] =
+      override final val apply: cats.Apply[Par[G, *]] =
         configValueParApply
 
-      override final val flatMap: FlatMap[ConfigValue[G, *]] =
-        configValueFlatMap
+      override final val flatMap: cats.FlatMap[ConfigValue[G, *]] =
+        configValueMonad
 
       override final val parallel: FunctionK[ConfigValue[G, *], Par[G, *]] =
         new FunctionK[ConfigValue[G, *], Par[G, *]] {

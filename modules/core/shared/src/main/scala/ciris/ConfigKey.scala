@@ -26,6 +26,13 @@ sealed abstract class ConfigKey {
     * configuration values.
     */
   def description: String
+
+  /**
+    * Returns a new [[ConfigKey]] representing boolean
+    * AND with this key and the specified `key`.
+    */
+  def and(key: ConfigKey): ConfigKey =
+    ConfigKey(s"$description and ${key.description}")
 }
 
 /**
