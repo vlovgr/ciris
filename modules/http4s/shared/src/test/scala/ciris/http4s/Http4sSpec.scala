@@ -6,6 +6,7 @@
 
 package ciris.http4s
 
+import cats.data.NonEmptyList
 import cats.effect.IO
 import cats.syntax.all._
 import ciris._
@@ -13,6 +14,7 @@ import com.comcast.ip4s._
 import munit.CatsEffectSuite
 import org.http4s.syntax.literals._
 import org.http4s.Uri
+import org.http4s.headers.Origin
 
 final class Http4sSpec extends CatsEffectSuite {
   test("hostConfigDecoder.error") {
@@ -49,5 +51,31 @@ final class Http4sSpec extends CatsEffectSuite {
       .as[Uri]
       .attempt[IO]
       .assertEquals(Right(uri"https://github.com/vlovgr/ciris"))
+  }
+
+  test("originConfigDecoder.error") {
+    default("invalid origin").as[Origin].attempt[IO].map(_.isLeft).assert
+  }
+
+  test("originConfigDecoder.success") {
+    default("https://cir.is:443 http://github.com")
+      .as[Origin]
+      .attempt[IO]
+      .assertEquals(
+        Right(
+          Origin
+            .HostList(
+              NonEmptyList
+                .of(
+                  Origin.Host(Uri.Scheme.https, Uri.Host.fromIp4sHost(host"cir.is"), Some(443)),
+                  Origin.Host(
+                    Uri.Scheme.http,
+                    Uri.Host.fromIp4sHost(host"github.com"),
+                    None
+                  )
+                )
+            )
+        )
+      )
   }
 }
