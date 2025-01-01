@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 Viktor Rudebeck
+ * Copyright 2017-2025 Viktor Rudebeck
  *
  * SPDX-License-Identifier: MIT
  */
