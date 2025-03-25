@@ -12,7 +12,7 @@ val http4sVersion = "0.23.30"
 
 val http4sAwsVersion = "6.1.0"
 
-val refinedVersion = "0.11.1"
+val refinedVersion = "0.11.3"
 
 val squantsVersion = "1.8.3"
 
