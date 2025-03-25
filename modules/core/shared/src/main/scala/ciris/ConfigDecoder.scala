@@ -272,6 +272,15 @@ object ConfigDecoder {
     decoder.contramap(_.value)
 
   /**
+    * @group Decoders
+    */
+  implicit final def toSecretConfigDecoder[A, B](
+    implicit decoder: ConfigDecoder[A, B],
+    show: Show[B]
+  ): ConfigDecoder[A, Secret[B]] =
+    decoder.map(Secret(_))
+
+  /**
     * Returns a new [[ConfigDecoder]] which decodes values
     * using the specified function, with access to the key.
     *
