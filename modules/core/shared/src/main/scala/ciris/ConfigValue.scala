@@ -6,11 +6,18 @@
 
 package ciris
 
-import cats.{Apply, FlatMap, NonEmptyParallel, Show}
+import cats.Apply
+import cats.FlatMap
+import cats.NonEmptyParallel
+import cats.Show
 import cats.arrow.FunctionK
-import cats.effect.kernel.{Async, Resource}
+import cats.effect.kernel.Async
+import cats.effect.kernel.Resource
 import cats.syntax.all._
-import ciris.ConfigEntry.{Default, Failed, Loaded}
+import ciris.ConfigDecoder.Base64
+import ciris.ConfigEntry.Default
+import ciris.ConfigEntry.Failed
+import ciris.ConfigEntry.Loaded
 
 /**
   * Represents a configuration value or a composition of multiple values.
@@ -104,6 +111,19 @@ sealed abstract class ConfigValue[+F[_], A] {
         case Loaded(_, _, a) => Right(a)
       })
     }
+
+  /**
+    * Returns a new [[ConfigValue]] which base64 decodes the value.
+    *
+    * The value has to be String-like in the sense that we can decode
+    * it to String and then back again after base64 decoding. This is
+    * the case for both `String` and `Secret[String]`, for example.
+    */
+  final def base64(
+    implicit decoderString: ConfigDecoder[A, String],
+    decoderA: ConfigDecoder[String, A]
+  ): ConfigValue[F, A] =
+    self.as[String].as[Base64].as[A]
 
   /**
     * Returns the same [[ConfigValue]] but lifted to the

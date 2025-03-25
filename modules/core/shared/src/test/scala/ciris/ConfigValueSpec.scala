@@ -6,15 +6,22 @@
 
 package ciris
 
-import cats.effect.IO
-import cats.effect.kernel.{Resource, Sync}
 import cats.Eq
+import cats.effect.IO
+import cats.effect.kernel.Resource
+import cats.effect.kernel.Sync
+import cats.laws.discipline.ApplyTests
+import cats.laws.discipline.FlatMapTests
+import cats.laws.discipline.NonEmptyParallelTests
 import cats.syntax.all._
-import cats.laws.discipline.{ApplyTests, FlatMapTests, NonEmptyParallelTests}
-import org.scalacheck.{Arbitrary, Gen}
+import munit.CatsEffectSuite
+import munit.ScalaCheckEffectSuite
+import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
-import munit.{CatsEffectSuite, ScalaCheckEffectSuite}
+import org.scalacheck.Gen
 import org.scalacheck.effect.PropF
+import java.util.Base64
+import scala.util.Try
 
 final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite with Generators {
   val defaultValue: String = "defaultValue"
@@ -779,5 +786,39 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
 
   test("ConfigValue.secret.missing") {
     check(missing.secret, missing.asInstanceOf[ConfigValue[IO, Secret[String]]])
+  }
+
+  def base64(s: String): String =
+    new String(Base64.getEncoder.encode(s.getBytes("UTF-8")), "UTF-8")
+
+  def decodeBase64(s: String): Try[String] =
+    Try(new String(Base64.getDecoder.decode(s.getBytes("UTF-8")), "UTF-8"))
+
+  test("ConfigValue.base64") {
+    PropF.forAllF { (s: String) =>
+      check(
+        ConfigValue.default(base64(s)).base64,
+        ConfigValue.default(s)
+      )
+    }
+  }
+
+  test("ConfigValue.secret.base64") {
+    PropF.forAllF { (s: String) =>
+      check(
+        ConfigValue.default(base64(s)).secret.base64,
+        ConfigValue.default(s).secret
+      )
+    }
+  }
+
+  test("ConfigValue.base64.error") {
+    val gen = arbitrary[String].suchThat(decodeBase64(_).isFailure)
+    PropF.forAllF(gen) { s =>
+      checkError(
+        ConfigValue.default(s).base64,
+        ConfigError("Unable to base64 decode")
+      )
+    }
   }
 }
