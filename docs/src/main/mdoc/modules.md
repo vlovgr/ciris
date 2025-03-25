@@ -5,9 +5,9 @@ title: Modules
 
 The following sections describe the additional modules.
 
-## Circe
+## circe
 
-The `@CIRCE_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for JSON using [Circe](https://github.com/circe/circe).
+The `@CIRCE_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for JSON using [circe](https://github.com/circe/circe).
 
 ```scala mdoc
 import ciris._
@@ -27,9 +27,9 @@ object SerialNumber {
 env("SERIAL").as[SerialNumber]
 ```
 
-## Circe YAML
+## circe-yaml
 
-The `@CIRCE_YAML_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for YAML using [`circe-yaml`](https://github.com/circe/circe-yaml).
+The `@CIRCE_YAML_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for YAML using [circe-yaml](https://github.com/circe/circe-yaml).
 
 ```scala mdoc:reset
 import ciris._
@@ -49,9 +49,9 @@ object SerialNumber {
 env("SERIAL").as[SerialNumber]
 ```
 
-## Enumeratum
+## enumeratum
 
-The `@ENUMERATUM_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [Enumeratum](https://github.com/lloydmeta/enumeratum) enumerations.
+The `@ENUMERATUM_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [enumeratum](https://github.com/lloydmeta/enumeratum) enumerations.
 
 For regular `Enum`s, also mix in `CirisEnum` to derive a [`ConfigDecoder`][configdecoder] instance.
 
@@ -93,19 +93,59 @@ object Color extends StringEnum[Color] with StringCirisEnum[Color] {
 env("COLOR").as[Color]
 ```
 
-## Http4s
+## http4s
 
-The `@HTTP4S_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for the [http4s](https://github.com/http4s/http4s) `Uri` type.
+The `@HTTP4S_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [ip4s](https://github.com/Comcast/ip4s) and [http4s](https://github.com/http4s/http4s) types.
 
 ```scala mdoc:reset
 import ciris.env
 import ciris.http4s._
+import com.comcast.ip4s.Host
+import com.comcast.ip4s.Port
+import org.http4s.headers.Origin
 import org.http4s.Uri
 
+env("HOST").as[Host]
+env("PORT").as[Port]
+env("Origin").as[Origin]
 env("URI").as[Uri]
 ```
 
-## Refined
+## http4s-aws
+
+The `@HTTP4SAWS_MODULE_NAME@` module provides a way to read decrypted values from the [AWS Systems Manager (SSM) Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) using the [http4s-aws](https://github.com/maginepro/http4s-aws) library. Following is an example of how parameter values can be retrieved. Note parameter values are wrapped in [Secret](configurations.md#secrets) by default since they are usually sensitive.
+
+```scala mdoc:reset
+import cats.effect.IO
+import cats.effect.IOApp
+import ciris._
+import ciris.http4s.aws.AwsSsmParameters
+import com.magine.aws.Region
+import com.magine.http4s.aws.CredentialsProvider
+import org.http4s.ember.client.EmberClientBuilder
+
+object Main extends IOApp.Simple {
+  case class Config(username: String, password: Secret[String])
+
+  object Config {
+    def fromParameters(parameters: AwsSsmParameters[IO]): IO[Config] =
+      (
+        env("USERNAME"),
+        parameters("password")
+      ).parMapN(apply).load[IO]
+  }
+
+  override def run: IO[Unit] =
+    EmberClientBuilder.default[IO].build.use { client =>
+      CredentialsProvider.default(client).use { provider =>
+        val parameters = AwsSsmParameters(client, provider, Region.EU_WEST_1)
+        Config.fromParameters(parameters).flatMap(IO.println)
+      }
+    }
+}
+```
+
+## refined
 
 The `@REFINED_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [refined](https://github.com/fthomas/refined) refinement types.
 
@@ -117,7 +157,7 @@ import eu.timepit.refined.types.numeric.PosInt
 env("POS_INT").as[PosInt]
 ```
 
-## Squants
+## squants
 
 The `@SQUANTS_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [squants](https://github.com/typelevel/squants) quantities.
 

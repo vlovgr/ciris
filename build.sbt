@@ -10,6 +10,8 @@ val enumeratumVersion = "1.7.5"
 
 val http4sVersion = "0.23.30"
 
+val http4sAwsVersion = "6.1.0"
+
 val refinedVersion = "0.11.1"
 
 val squantsVersion = "1.8.3"
@@ -46,7 +48,10 @@ lazy val ciris = project
   .in(file("."))
   .settings(
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      // https://github.com/sbt/sbt/issues/4181#issuecomment-413248697
+      crossScalaVersions := List()
+    ),
     noPublishSettings,
     console := (core.jvm / Compile / console).value,
     Test / console := (core.jvm / Test / console).value
@@ -64,6 +69,7 @@ lazy val ciris = project
     http4s.js,
     http4s.jvm,
     http4s.native,
+    http4sAws.jvm,
     refined.js,
     refined.jvm,
     refined.native,
@@ -173,6 +179,24 @@ lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
+lazy val http4sAws = crossProject(JVMPlatform)
+  .in(file("modules/http4s-aws"))
+  .settings(
+    moduleName := "ciris-http4s-aws",
+    name := moduleName.value,
+    dependencySettings ++ Seq(
+      libraryDependencies += "com.magine" %% "http4s-aws" % http4sAwsVersion
+    ),
+    publishSettings,
+    mimaSettings,
+    scalaSettings ++ Seq(
+      crossScalaVersions -= scala212,
+      crossScalaVersions += scala3
+    ),
+    testSettings
+  )
+  .dependsOn(http4s)
+
 lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/refined"))
   .settings(
@@ -222,14 +246,26 @@ lazy val docs = project
     moduleName := "ciris-docs",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion
+      libraryDependencies ++= Seq(
+        "org.http4s" %% "http4s-ember-client" % http4sVersion,
+        "org.typelevel" %% "cats-effect" % catsEffectVersion
+      )
     ),
     noPublishSettings,
     scalaSettings,
     mdocSettings,
     buildInfoSettings
   )
-  .dependsOn(core.jvm, circe.jvm, circeYaml, enumeratum.jvm, http4s.jvm, refined.jvm, squants.jvm)
+  .dependsOn(
+    core.jvm,
+    circe.jvm,
+    circeYaml,
+    enumeratum.jvm,
+    http4s.jvm,
+    http4sAws.jvm,
+    refined.jvm,
+    squants.jvm
+  )
   .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
 
 lazy val dependencySettings = Seq(
@@ -268,6 +304,7 @@ lazy val mdocSettings = Seq(
     circeYaml,
     enumeratum.jvm,
     http4s.jvm,
+    http4sAws.jvm,
     refined.jvm,
     squants.jvm
   ),
@@ -324,6 +361,8 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(http4s.jvm / crossScalaVersions) { case (k, v) => "http4s" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.js / crossScalaVersions) { case (k, v) => "http4sJs" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.native / crossScalaVersions) { case (k, v) => "http4sNative" ++ k.capitalize -> v },
+    BuildInfoKey.map(http4sAws.jvm / moduleName) { case (k, v) => "http4sAws" ++ k.capitalize -> v },
+    BuildInfoKey.map(http4sAws.jvm / crossScalaVersions) { case (k, v) => "http4sAws" ++ k.capitalize -> v },
     BuildInfoKey.map(refined.jvm / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
     BuildInfoKey.map(refined.jvm / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
     BuildInfoKey.map(refined.js / crossScalaVersions) { case (k, v) => "refinedJs" ++ k.capitalize -> v },
@@ -339,6 +378,7 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey("circeYamlVersion" -> circeYamlVersion),
     BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
     BuildInfoKey("http4sVersion" -> http4sVersion),
+    BuildInfoKey("http4sAwsVersion" -> http4sAwsVersion),
     BuildInfoKey("refinedVersion" -> refinedVersion),
     BuildInfoKey("squantsVersion" -> squantsVersion),
     BuildInfoKey("scalaJsMajorMinorVersion" -> scalaJsMajorMinorVersion),
@@ -380,7 +420,7 @@ lazy val publishSettings =
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := {
-    val unpublishedModules = Set[String]()
+    val unpublishedModules = Set[String]("ciris-http4s-aws")
     if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
       Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
     } else Set()

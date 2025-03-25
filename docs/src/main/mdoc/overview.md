@@ -39,7 +39,7 @@ scalacOptions += "-Ypartial-unification"
 
 Following are additional provided modules.
 
-#### Circe
+#### circe
 
 For [circe](modules.md#circe) support, add the following line to your `build.sbt` file.
 
@@ -47,7 +47,7 @@ For [circe](modules.md#circe) support, add the following line to your `build.sbt
 libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_MODULE_NAME@" % "@LATEST_VERSION@"
 ```
 
-#### Circe YAML
+#### circe-yaml
 
 For [circe-yaml](modules.md#circe-yaml) support, add the following line to your `build.sbt` file.
 
@@ -55,7 +55,7 @@ For [circe-yaml](modules.md#circe-yaml) support, add the following line to your 
 libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_YAML_MODULE_NAME@" % "@LATEST_VERSION@"
 ```
 
-#### Enumeratum
+#### enumeratum
 
 For [enumeratum](modules.md#enumeratum) support, add the following line to your `build.sbt` file.
 
@@ -63,7 +63,7 @@ For [enumeratum](modules.md#enumeratum) support, add the following line to your 
 libraryDependencies += "@ORGANIZATION@" %% "@ENUMERATUM_MODULE_NAME@" % "@LATEST_VERSION@"
 ```
 
-#### Http4s
+#### http4s
 
 For [http4s](modules.md#http4s) support, add the following line to your `build.sbt` file.
 
@@ -71,7 +71,15 @@ For [http4s](modules.md#http4s) support, add the following line to your `build.s
 libraryDependencies += "@ORGANIZATION@" %% "@HTTP4S_MODULE_NAME@" % "@LATEST_VERSION@"
 ```
 
-#### Refined
+#### http4s-aws
+
+For [http4s-aws](modules.md#http4s-aws) support, add the following line to your `build.sbt` file.
+
+```scala
+libraryDependencies += "@ORGANIZATION@" %% "@HTTP4SAWS_MODULE_NAME@" % "@LATEST_VERSION@"
+```
+
+#### refined
 
 For [refined](modules.md#refined) support, add the following line to your `build.sbt` file.
 
@@ -79,7 +87,7 @@ For [refined](modules.md#refined) support, add the following line to your `build
 libraryDependencies += "@ORGANIZATION@" %% "@REFINED_MODULE_NAME@" % "@LATEST_VERSION@"
 ```
 
-#### Squants
+#### squants
 
 For [squants](modules.md#squants) support, add the following line to your `build.sbt` file.
 
@@ -125,13 +133,14 @@ Refer to the table below for dependencies and version support across modules.
 
 | Module                     | Dependencies                                                                  | Scala                                   |
 | -------------------------- | ----------------------------------------------------------------------------- | --------------------------------------- |
-| `@CORE_MODULE_NAME@`       | [Cats Effect @CATS_EFFECT_VERSION@](https://github.com/typelevel/cats-effect) | Scala @CORE_CROSS_SCALA_VERSIONS@       |
-| `@CIRCE_MODULE_NAME@`      | [Circe @CIRCE_VERSION@](https://github.com/circe/circe)                       | Scala @CIRCE_CROSS_SCALA_VERSIONS@      |
-| `@CIRCE_YAML_MODULE_NAME@` | [Circe YAML @CIRCE_YAML_VERSION@](https://github.com/circe/circe-yaml)        | Scala @CIRCE_YAML_CROSS_SCALA_VERSIONS@ |
-| `@ENUMERATUM_MODULE_NAME@` | [Enumeratum @ENUMERATUM_VERSION@](https://github.com/lloydmeta/enumeratum)    | Scala @ENUMERATUM_CROSS_SCALA_VERSIONS@ |
-| `@HTTP4S_MODULE_NAME@`     | [Http4s @HTTP4S_VERSION@](https://github.com/http4s/http4s)                   | Scala @HTTP4S_CROSS_SCALA_VERSIONS@     |
-| `@REFINED_MODULE_NAME@`    | [Refined @REFINED_VERSION@](https://github.com/fthomas/refined)               | Scala @REFINED_CROSS_SCALA_VERSIONS@    |
-| `@SQUANTS_MODULE_NAME@`    | [Squants @SQUANTS_VERSION@](https://github.com/typelevel/squants)             | Scala @SQUANTS_CROSS_SCALA_VERSIONS@    |
+| `@CORE_MODULE_NAME@`       | [cats-effect @CATS_EFFECT_VERSION@](https://github.com/typelevel/cats-effect) | Scala @CORE_CROSS_SCALA_VERSIONS@       |
+| `@CIRCE_MODULE_NAME@`      | [circe @CIRCE_VERSION@](https://github.com/circe/circe)                       | Scala @CIRCE_CROSS_SCALA_VERSIONS@      |
+| `@CIRCE_YAML_MODULE_NAME@` | [circe-yaml @CIRCE_YAML_VERSION@](https://github.com/circe/circe-yaml)        | Scala @CIRCE_YAML_CROSS_SCALA_VERSIONS@ |
+| `@ENUMERATUM_MODULE_NAME@` | [enumeratum @ENUMERATUM_VERSION@](https://github.com/lloydmeta/enumeratum)    | Scala @ENUMERATUM_CROSS_SCALA_VERSIONS@ |
+| `@HTTP4S_MODULE_NAME@`     | [http4s @HTTP4S_VERSION@](https://github.com/http4s/http4s)                   | Scala @HTTP4S_CROSS_SCALA_VERSIONS@     |
+| `@HTTP4SAWS_MODULE_NAME@`  | [http4s-aws @HTTP4SAWS_VERSION@](https://github.com/maginepro/http4s-aws)     | Scala @HTTP4SAWS_CROSS_SCALA_VERSIONS@  |
+| `@REFINED_MODULE_NAME@`    | [refined @REFINED_VERSION@](https://github.com/fthomas/refined)               | Scala @REFINED_CROSS_SCALA_VERSIONS@    |
+| `@SQUANTS_MODULE_NAME@`    | [squants @SQUANTS_VERSION@](https://github.com/typelevel/squants)             | Scala @SQUANTS_CROSS_SCALA_VERSIONS@    |
 
 For Scala.js and Scala Native version support, refer to the following table.
 
@@ -142,6 +151,7 @@ For Scala.js and Scala Native version support, refer to the following table.
 | `@CIRCE_YAML_MODULE_NAME@` | -                                                                                    | -                                                                                             |
 | `@ENUMERATUM_MODULE_NAME@` | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @ENUMERATUM_JS_CROSS_SCALA_VERSIONS@) | -                                                                                             |
 | `@HTTP4S_MODULE_NAME@`     | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @HTTP4S_JS_CROSS_SCALA_VERSIONS@)     | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @HTTP4S_NATIVE_CROSS_SCALA_VERSIONS@)  |
+| `@HTTP4SAWS_MODULE_NAME@`  | -                                                                                    | -                                                                                             |
 | `@REFINED_MODULE_NAME@`    | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @REFINED_JS_CROSS_SCALA_VERSIONS@)    | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @REFINED_NATIVE_CROSS_SCALA_VERSIONS@) |
 | `@SQUANTS_MODULE_NAME@`    | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @SQUANTS_JS_CROSS_SCALA_VERSIONS@)    | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @SQUANTS_NATIVE_CROSS_SCALA_VERSIONS@) |
 
