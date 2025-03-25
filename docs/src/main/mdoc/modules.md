@@ -107,7 +107,7 @@ import org.http4s.Uri
 
 env("HOST").as[Host]
 env("PORT").as[Port]
-env("Origin").as[Origin]
+env("ORIGIN").as[Origin]
 env("URI").as[Uri]
 ```
 
