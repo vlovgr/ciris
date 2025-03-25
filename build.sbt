@@ -4,7 +4,7 @@ val catsEffectVersion = "3.6.0"
 
 val circeVersion = "0.14.8"
 
-val circeYamlVersion = "0.15.2"
+val circeYamlVersion = "0.16.0"
 
 val enumeratumVersion = "1.7.5"
 
@@ -131,6 +131,7 @@ lazy val circeYaml = project
     publishSettings,
     mimaSettings,
     scalaSettings ++ Seq(
+      crossScalaVersions -= scala212,
       crossScalaVersions += scala3
     ),
     testSettings
