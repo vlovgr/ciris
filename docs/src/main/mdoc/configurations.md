@@ -3,7 +3,7 @@ id: configurations
 title: Configurations
 ---
 
-[`ConfigValue`][configvalue] is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like `env`, `file`, and `prop` for creating `ConfigValue`s for environment variables, file contents, and system properties. [External modules](overview.md#external-modules) provide support for additional configuration sources.
+[`ConfigValue`][configvalue] is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like `env`, `file`, and `prop` for creating `ConfigValue`s for environment variables, file contents, and system properties. The [ciris-http4s-aws](modules.md#http4s-aws) module adds support for reading values from the [AWS Systems Manager (SSM) Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), while [external modules](overview.md#external-modules) provide support for additional configuration sources.
 
 If a configuration value is missing, `or` lets us use a fallback.
 
