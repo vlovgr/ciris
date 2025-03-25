@@ -48,7 +48,10 @@ lazy val ciris = project
   .in(file("."))
   .settings(
     mimaSettings,
-    scalaSettings,
+    scalaSettings ++ Seq(
+      // https://github.com/sbt/sbt/issues/4181#issuecomment-413248697
+      crossScalaVersions := List()
+    ),
     noPublishSettings,
     console := (core.jvm / Compile / console).value,
     Test / console := (core.jvm / Test / console).value
