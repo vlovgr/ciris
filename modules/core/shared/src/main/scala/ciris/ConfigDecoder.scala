@@ -6,10 +6,16 @@
 
 package ciris
 
-import cats.{Contravariant, MonadError, Show}
+import cats.Contravariant
+import cats.MonadError
+import cats.Show
 import cats.syntax.all._
+import java.nio.charset.StandardCharsets
+import java.util.regex.Pattern
 import scala.annotation.tailrec
-import scala.concurrent.duration.{Duration, FiniteDuration}
+import scala.concurrent.duration.Duration
+import scala.concurrent.duration.FiniteDuration
+import scala.util.control.NonFatal
 
 /**
   * Decodes configuration values from a first type to a second type.
@@ -272,6 +278,15 @@ object ConfigDecoder {
     decoder.contramap(_.value)
 
   /**
+    * @group Decoders
+    */
+  implicit final def toSecretConfigDecoder[A, B](
+    implicit decoder: ConfigDecoder[A, B],
+    show: Show[B]
+  ): ConfigDecoder[A, Secret[B]] =
+    decoder.map(Secret(_))
+
+  /**
     * Returns a new [[ConfigDecoder]] which decodes values
     * using the specified function, with access to the key.
     *
@@ -395,4 +410,30 @@ object ConfigDecoder {
           go(f(initial))
         }
     }
+
+  private[ciris] final case class Base64(value: String)
+
+  private[ciris] object Base64 {
+    implicit def base64ConfigDecoder[A](
+      implicit decoder: ConfigDecoder[String, A]
+    ): ConfigDecoder[Base64, A] =
+      decoder.contramap(_.value)
+
+    private val whitespace: Pattern = Pattern.compile("\\s+")
+
+    implicit val stringBase64ConfigDecoder: ConfigDecoder[String, Base64] =
+      ConfigDecoder[String].mapEither { case (key, value) =>
+        try {
+          val trimmed = whitespace.matcher(value).replaceAll("")
+          val decoded = java.util.Base64.getDecoder.decode(trimmed)
+          Right(Base64(new String(decoded, StandardCharsets.UTF_8)))
+        } catch {
+          case e if NonFatal(e) =>
+            Left(ConfigError(key match {
+              case Some(key) => s"Unable to base64 decode ${key.description}"
+              case None      => "Unable to base64 decode"
+            }))
+        }
+      }
+  }
 }
