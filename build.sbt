@@ -6,7 +6,7 @@ val circeVersion = "0.14.8"
 
 val circeYamlVersion = "0.16.0"
 
-val enumeratumVersion = "1.7.6"
+val enumeratumVersion = "1.9.0"
 
 val http4sVersion = "0.23.30"
 
