@@ -122,7 +122,7 @@ Please note binary-compatibility is not guaranteed between milestone releases.
 To use the latest snapshot release, add the following lines to your `build.sbt` file.
 
 ```scala
-resolvers += Resolver.sonatypeRepo("snapshots")
+resolvers += Resolver.sonatypeCentralSnapshots
 
 libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@LATEST_SNAPSHOT_VERSION@"
 ```
