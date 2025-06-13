@@ -66,10 +66,10 @@
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> cats.effect.<span class="hljs-type">IO</span>
 
 port: <span class="hljs-type">ConfigValue</span>[<span class="hljs-type">IO</span>, <span class="hljs-type">Int</span>]
-<span class="hljs-comment">// res1: ConfigValue[IO, Int] = ConfigValue$517730342</span>
+<span class="hljs-comment">// res1: ConfigValue[IO, Int] = ConfigValue$1063903819</span>
 
 port.covary[<span class="hljs-type">IO</span>]
-<span class="hljs-comment">// res2: ConfigValue[IO, Int] = ConfigValue$517730342</span>
+<span class="hljs-comment">// res2: ConfigValue[IO, Int] = ConfigValue$1063903819</span>
 </code></pre>
 <p>Multiple values can be loaded and combined in parallel, and errors accumulated, using <code>parMapN</code>.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> cats.syntax.all._
@@ -126,6 +126,24 @@ port.covary[<span class="hljs-type">IO</span>]
 <p>When using <code>secret</code>, sensitive details, like the value, are also redacted from errors.</p>
 <h3><a class="anchor" aria-hidden="true" id="redacting"></a><a href="#redacting" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Redacting</h3>
 <p>In addition to <code>secret</code> there is also <code>redacted</code> which redacts sensitive details from errors, without wrapping the value in <a href="/api/ciris/Secret.html"><code>Secret</code></a>. We might not want to use <a href="/api/ciris/Secret.html"><code>Secret</code></a> and show the first 28/160 bits of the SHA-1 hash if there are few enough possible values to enable bruteforcing.</p>
+<h2><a class="anchor" aria-hidden="true" id="alternatives"></a><a href="#alternatives" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Alternatives</h2>
+<p>Using <code>or</code>, we can provide a fallback configuration. Similarly, <code>alt</code> allows us to provide an alternative configuration. The difference between them is that <code>alt</code> considers the alternative configuration even though the first configuration has been partially loaded (while <code>or</code> only considers the fallback configuration when the first configuration is missing).</p>
+<p>Consider the following example where we have different configurations across environments.</p>
+<pre><code class="hljs css language-scala"><span class="hljs-keyword">sealed</span> <span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Config</span></span>
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DevConfig</span>(<span class="hljs-params">port: <span class="hljs-type">Int</span>, admin: <span class="hljs-type">Boolean</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Config</span></span>
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProdConfig</span>(<span class="hljs-params">port: <span class="hljs-type">Int</span>, key: <span class="hljs-type">Secret</span>[<span class="hljs-type">String</span>]</span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Config</span></span>
+
+<span class="hljs-keyword">val</span> dev = (
+  env(<span class="hljs-string">"API_PORT"</span>).as[<span class="hljs-type">Int</span>],
+  env(<span class="hljs-string">"ADMIN"</span>).as[<span class="hljs-type">Boolean</span>]
+).parMapN(<span class="hljs-type">DevConfig</span>.apply).widen[<span class="hljs-type">Config</span>]
+
+<span class="hljs-keyword">val</span> prod = (
+  env(<span class="hljs-string">"API_PORT"</span>).as[<span class="hljs-type">Int</span>],
+  env(<span class="hljs-string">"API_KEY"</span>).secret
+).parMapN(<span class="hljs-type">ProdConfig</span>.apply).widen[<span class="hljs-type">Config</span>]
+</code></pre>
+<p>If we set <code>API_PORT</code> and <code>API_KEY</code> and use <code>dev.or(prod)</code>, we will not attempt to load <code>prod</code>. This is because we succeeded to load <code>API_PORT</code> for <code>dev</code>, and will therefore not consider fallbacks. If we want to consider fallbacks even though a configuration was partially loaded, we can instead use <code>dev.alt(prod)</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="loading"></a><a href="#loading" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Loading</h2>
 <p>In order to load a configuration, we can use <code>load</code> and specify an effect type.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> cats.effect.{<span class="hljs-type">ExitCode</span>, <span class="hljs-type">IOApp</span>}
@@ -169,4 +187,4 @@ env(<span class="hljs-string">"MAX_RETRIES"</span>).as[<span class="hljs-type">P
   }
 </code></pre>
 <p>The <a href="/api/ciris/ConfigKey.html"><code>ConfigKey</code></a> is a description of the key, e.g. <code>s&quot;environment variable $name&quot;</code>. The function returns <code>missing</code> when there is no value for the key, and <code>loaded</code> when a value is available. Since reading environment variables can throw <code>SecurityException</code>s, we capture side effects using <code>suspend</code>.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/quick-example"><span class="arrow-prev">← </span><span>Quick Example</span></a><a class="docs-next button" href="/docs/modules"><span>Modules</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#defaults">Defaults</a></li><li><a href="#secrets">Secrets</a><ul class="toc-headings"><li><a href="#redacting">Redacting</a></li></ul></li><li><a href="#loading">Loading</a></li><li><a href="#decoders">Decoders</a></li><li><a href="#sources">Sources</a></li></ul></nav></div><footer class="nav-footer" id="footer"><hr class="separator"/><section class="copyright">Copyright © 2017-2025 Viktor Rudebeck.<br/>Icon designed by <a href="https://www.flaticon.com/authors/freepik" rel="noopener">Freepik</a> from Flaticon.</section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/quick-example"><span class="arrow-prev">← </span><span>Quick Example</span></a><a class="docs-next button" href="/docs/modules"><span>Modules</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#defaults">Defaults</a></li><li><a href="#secrets">Secrets</a><ul class="toc-headings"><li><a href="#redacting">Redacting</a></li></ul></li><li><a href="#alternatives">Alternatives</a></li><li><a href="#loading">Loading</a></li><li><a href="#decoders">Decoders</a></li><li><a href="#sources">Sources</a></li></ul></nav></div><footer class="nav-footer" id="footer"><hr class="separator"/><section class="copyright">Copyright © 2017-2025 Viktor Rudebeck.<br/>Icon designed by <a href="https://www.flaticon.com/authors/freepik" rel="noopener">Freepik</a> from Flaticon.</section></footer></div></body></html>
