@@ -8,6 +8,7 @@ package ciris
 
 import cats.Eq
 import cats.effect.IO
+import cats.effect.Ref
 import cats.effect.kernel.Resource
 import cats.effect.kernel.Sync
 import cats.laws.discipline.ApplyTests
@@ -408,6 +409,78 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
   test("ConfigValue.evalMap.missing error") {
     checkLoadFail {
       missing.evalMap(_ => IO.raiseError[String](ConfigError("").throwable))
+    }
+  }
+
+  test("ConfigValue.evalTap.loaded") {
+    Ref[IO].empty[Option[String]].flatMap { capture =>
+      checkLoad(
+        loaded.evalTap(s => capture.set(s.some)),
+        loadedValue
+      ) *> capture.get.assertEquals(loadedValue.some)
+    }
+  }
+
+  test("ConfigValue.evalTap.default") {
+    Ref[IO].empty[Option[String]].flatMap { capture =>
+      checkLoad(
+        default.evalTap(s => capture.set(s.some)),
+        defaultValue
+      ) *> capture.get.assertEquals(defaultValue.some)
+    }
+  }
+
+  test("ConfigValue.evalTap.missing") {
+    Ref[IO].empty[Option[String]].flatMap { capture =>
+      checkError(
+        missing.evalTap(s => capture.set(s.some)),
+        missingError
+      ) *> capture.get.assertEquals(none)
+    }
+  }
+
+  test("ConfigValue.evalTap.failed") {
+    Ref[IO].empty[Option[String]].flatMap { capture =>
+      checkError(
+        failed.evalTap(s => capture.set(s.some)),
+        failedError
+      ) *> capture.get.assertEquals(none)
+    }
+  }
+
+  test("ConfigValue.evalAttemptTap.loaded") {
+    Ref[IO].empty[Option[Either[ConfigError, String]]].flatMap { capture =>
+      checkLoad(
+        loaded.evalAttemptTap(s => capture.set(s.some)),
+        loadedValue
+      ) *> capture.get.assertEquals(loadedValue.asRight.some)
+    }
+  }
+
+  test("ConfigValue.evalAttemptTap.default") {
+    Ref[IO].empty[Option[Either[ConfigError, String]]].flatMap { capture =>
+      checkLoad(
+        default.evalAttemptTap(s => capture.set(s.some)),
+        defaultValue
+      ) *> capture.get.assertEquals(defaultValue.asRight.some)
+    }
+  }
+
+  test("ConfigValue.evalAttemptTap.missing") {
+    Ref[IO].empty[Option[Either[ConfigError, String]]].flatMap { capture =>
+      checkError(
+        missing.evalAttemptTap(s => capture.set(s.some)),
+        missingError
+      ) *> capture.get.assertEquals(missingError.asLeft.some)
+    }
+  }
+
+  test("ConfigValue.evalAttemptTap.failed") {
+    Ref[IO].empty[Option[Either[ConfigError, String]]].flatMap { capture =>
+      checkError(
+        failed.evalAttemptTap(s => capture.set(s.some)),
+        failedError
+      ) *> capture.get.assertEquals(failedError.asLeft.some)
     }
   }
 
