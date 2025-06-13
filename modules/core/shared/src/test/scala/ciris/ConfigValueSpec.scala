@@ -104,6 +104,70 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
   def checkLoadFail[A](actual: ConfigValue[IO, A]): IO[Unit] =
     actual.load.attempt.map(_.isLeft).assert
 
+  test("ConfigValue.alt.loaded or loaded") {
+    checkLoad(loaded.alt(loaded2), loadedValue)
+  }
+
+  test("ConfigValue.alt.loaded or failed") {
+    checkLoad(loaded.alt(failed), loadedValue)
+  }
+
+  test("ConfigValue.alt.loaded or missing") {
+    checkLoad(loaded.alt(missing), loadedValue)
+  }
+
+  test("ConfigValue.alt.loaded or default") {
+    checkLoad(loaded.alt(default), loadedValue)
+  }
+
+  test("ConfigValue.alt.failed or loaded") {
+    checkError(failed.alt(loaded), failedError)
+  }
+
+  test("ConfigValue.alt.failed or failed") {
+    checkError(failed.alt(failed2), failedError)
+  }
+
+  test("ConfigValue.alt.failed or missing") {
+    checkError(failed.alt(missing), failedError)
+  }
+
+  test("ConfigValue.alt.failed or default") {
+    checkError(failed.alt(default), failedError)
+  }
+
+  test("ConfigValue.alt.missing or loaded") {
+    checkLoad(missing.alt(loaded), loadedValue)
+  }
+
+  test("ConfigValue.alt.missing or failed") {
+    checkError(missing.alt(failed), missingError.or(failedError))
+  }
+
+  test("ConfigValue.alt.missing or missing") {
+    checkError(missing.alt(missing2), missingError.or(missingError2))
+  }
+
+  test("ConfigValue.alt.missing or default") {
+    checkLoad(missing.alt(default), defaultValue)
+  }
+
+  test("ConfigValue.alt.default or loaded") {
+    checkLoad(default.alt(loaded), loadedValue)
+  }
+
+  test("ConfigValue.alt.default or failed") {
+    checkError(default.alt(failed), defaultError.or(failedError))
+  }
+
+  test("ConfigValue.alt.default or missing") {
+    checkLoad(default.alt(missing), defaultValue)
+  }
+
+  test("ConfigValue.alt.default or default") {
+    checkLoad(default.alt(default2), defaultValue2)
+  }
+
   test("ConfigValue.as.default success") {
     check(default.as[String], default)
   }
@@ -560,70 +624,6 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
       default.or(default2),
       defaultWith(defaultError.or(defaultError2), defaultValue2)
     )
-  }
-
-  test("ConfigValue.firstValid.loaded or loaded") {
-    checkLoad(loaded.findValid(loaded2), loadedValue)
-  }
-
-  test("ConfigValue.firstValid.loaded or failed") {
-    checkLoad(loaded.findValid(failed), loadedValue)
-  }
-
-  test("ConfigValue.firstValid.loaded or missing") {
-    checkLoad(loaded.findValid(missing), loadedValue)
-  }
-
-  test("ConfigValue.firstValid.loaded or default") {
-    checkLoad(loaded.findValid(default), loadedValue)
-  }
-
-  test("ConfigValue.firstValid.failed or loaded") {
-    checkError(failed.findValid(loaded), failedError)
-  }
-
-  test("ConfigValue.firstValid.failed or failed") {
-    checkError(failed.findValid(failed2), failedError)
-  }
-
-  test("ConfigValue.firstValid.failed or missing") {
-    checkError(failed.findValid(missing), failedError)
-  }
-
-  test("ConfigValue.firstValid.failed or default") {
-    checkError(failed.findValid(default), failedError)
-  }
-
-  test("ConfigValue.firstValid.missing or loaded") {
-    checkLoad(missing.findValid(loaded), loadedValue)
-  }
-
-  test("ConfigValue.firstValid.missing or failed") {
-    checkError(missing.findValid(failed), missingError.or(failedError))
-  }
-
-  test("ConfigValue.firstValid.missing or missing") {
-    checkError(missing.findValid(missing2), missingError.or(missingError2))
-  }
-
-  test("ConfigValue.firstValid.missing or default") {
-    checkLoad(missing.findValid(default), defaultValue)
-  }
-
-  test("ConfigValue.firstValid.default or loaded") {
-    checkLoad(default.findValid(loaded), loadedValue)
-  }
-
-  test("ConfigValue.firstValid.default or failed") {
-    checkError(default.findValid(failed), defaultError.or(failedError))
-  }
-
-  test("ConfigValue.firstValid.default or missing") {
-    checkLoad(default.findValid(missing), defaultValue)
-  }
-
-  test("ConfigValue.firstValid.default or default") {
-    checkLoad(default.findValid(default2), defaultValue2)
   }
 
   test("ConfigValue.parallel.(default, default).parTupled") {

@@ -72,6 +72,56 @@ sealed abstract class ConfigValue[+F[_], A] {
   private[this] final val self: ConfigValue[F, A] = this
 
   /**
+    * Returns a new [[ConfigValue]] which uses the specified
+    * configuration if the value is missing.
+    *
+    * If the value is a compound value, an attempt to use
+    * the specified configuration will be attempted if
+    * all of its parts are either missing or successful.
+    *
+    * If the value is a default value, an attempt is made to
+    * use the specified configuration, and if that is also
+    * missing, the default value remains. If that is a compound
+    * value, the default value only remains if all of its parts
+    * are either missing or successful.
+    *
+    * Defaults in the specified configuration will override
+    * any previous defaults.
+    *
+    * Errors from both the value and the specified configuration
+    * are accumulated.
+    */
+  final def alt[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] =
+    new ConfigValue[G, A] {
+      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[A]] =
+        self.to[H].flatMap {
+          case Default(error, a) =>
+            value.to[H].map {
+              case Failed(nextError) if error.isNonFatal => Default(error.or(nextError), a)
+              case Failed(nextError)                     => Failed(error.or(nextError))
+              case Default(nextError, b)                 => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b)             => Loaded(error.or(nextError), key, b)
+            }
+
+          case Failed(error) if error.isNonFatal =>
+            value.to[H].map {
+              case Failed(nextError)         => Failed(error.or(nextError))
+              case Default(nextError, b)     => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
+            }
+
+          case failed @ Failed(_) =>
+            Resource.pure(failed)
+
+          case loaded @ Loaded(_, _, _) =>
+            Resource.pure(loaded)
+        }
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+
+  /**
     * Returns a new [[ConfigValue]] which attempts to decode the
     * value to the specified type.
     */
@@ -278,59 +328,10 @@ sealed abstract class ConfigValue[+F[_], A] {
             }
 
           case failed @ Failed(_) =>
-            Resource.eval(H.pure(failed))
+            Resource.pure(failed)
 
           case loaded @ Loaded(_, _, _) =>
-            Resource.eval(H.pure(loaded))
-        }
-
-      override final def toString: String =
-        "ConfigValue$" + System.identityHashCode(this)
-    }
-
-  /**
-    * Returns a new [[ConfigValue]] which uses the specified
-    * configuration if the value is missing.
-    *
-    * If the value is a compound value, an attempt to use
-    * the specified configuration will be attempted if
-    * all of its parts are either missing or successful.
-    *
-    * If the value is a default value, an attempt is made to
-    * use the specified configuration, and if that is also
-    * missing, the default value remains. If that is a compound
-    * value, the default value only remains if all of its parts
-    * are either missing or successful.
-    *
-    * Defaults in the specified configuration will override
-    * any previous defaults.
-    *
-    * Errors from both the value and the specified configuration
-    * are accumulated.
-    */
-  def findValid[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] =
-    new ConfigValue[G, A] {
-      override private[ciris] def to[H[x] >: G[x]](
-        implicit G: Async[H]
-      ): Resource[H, ConfigEntry[A]] =
-        self.to[H].flatMap {
-          case Default(error, a) =>
-            value.to[H].map {
-              case Failed(nextError) if error.isNonFatal => Default(error.or(nextError), a)
-              case Failed(nextError)                     => Failed(error.or(nextError))
-              case Default(nextError, b)                 => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b)             => Loaded(error.or(nextError), key, b)
-            }
-
-          case Failed(error) if error.isNonFatal =>
-            value.to[H].map {
-              case Failed(nextError)         => Failed(error.or(nextError))
-              case Default(nextError, b)     => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
-            }
-
-          case failed @ Failed(_)       => Resource.pure(failed)
-          case loaded @ Loaded(_, _, _) => Resource.pure(loaded)
+            Resource.pure(loaded)
         }
 
       override final def toString: String =
