@@ -171,6 +171,38 @@ sealed abstract class ConfigValue[+F[_], A] {
     }
 
   /**
+    * Return a new [[ConfigValue]] which applies the specified effectful function on the value, and discards the result
+    */
+  final def evalTap[G[x] >: F[x], B](f: A => G[B]): ConfigValue[G, A] =
+    new ConfigValue[G, A] {
+      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[A]] =
+        self.to[H].evalTap {
+          case Default(_, a)   => H.void(f(a))
+          case Failed(_)       => H.unit
+          case Loaded(_, _, a) => H.void(f(a))
+        }
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+
+  /**
+    * Return a new [[ConfigValue]] which applies the specified effectful function on the value or error, and discards the result
+    */
+  final def evalAttemptTap[G[x] >: F[x], B](f: Either[ConfigError, A] => G[B]): ConfigValue[G, A] =
+    new ConfigValue[G, A] {
+      override final def to[H[x] >: G[x]](implicit H: Async[H]): Resource[H, ConfigEntry[A]] =
+        self.to[H].evalTap[B] {
+          case Default(_, a)   => f(a.asRight[ConfigError])
+          case Failed(error)   => f(error.asLeft[A])
+          case Loaded(_, _, a) => f(a.asRight[ConfigError])
+        }
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+
+  /**
     * Returns a new [[ConfigValue]] which loads the specified
     * configuration using the value.
     */
