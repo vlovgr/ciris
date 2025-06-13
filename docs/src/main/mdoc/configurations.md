@@ -114,6 +114,30 @@ When using `secret`, sensitive details, like the value, are also redacted from e
 
 In addition to `secret` there is also `redacted` which redacts sensitive details from errors, without wrapping the value in [`Secret`][secret]. We might not want to use [`Secret`][secret] and show the first 28/160 bits of the SHA-1 hash if there are few enough possible values to enable bruteforcing.
 
+## Alternatives
+
+Using `or`, we can provide a fallback configuration. Similarly, `alt` allows us to provide an alternative configuration. The difference between them is that `alt` considers the alternative configuration even though the first configuration has been partially loaded (while `or` only considers the fallback configuration when the first configuration is missing).
+
+Consider the following example where we have different configurations across environments.
+
+```scala mdoc:silent
+sealed trait Config
+case class DevConfig(port: Int, admin: Boolean) extends Config
+case class ProdConfig(port: Int, key: Secret[String]) extends Config
+
+val dev = (
+  env("API_PORT").as[Int],
+  env("ADMIN").as[Boolean]
+).parMapN(DevConfig.apply).widen[Config]
+
+val prod = (
+  env("API_PORT").as[Int],
+  env("API_KEY").secret
+).parMapN(ProdConfig.apply).widen[Config]
+```
+
+If we set `API_PORT` and `API_KEY` and use `dev.or(prod)`, we will not attempt to load `prod`. This is because we succeeded to load `API_PORT` for `dev`, and will therefore not consider fallbacks. If we want to consider fallbacks even though a configuration was partially loaded, we can instead use `dev.alt(prod)`.
+
 ## Loading
 
 In order to load a configuration, we can use `load` and specify an effect type.
