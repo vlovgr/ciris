@@ -93,6 +93,29 @@ sealed abstract class ConfigError {
     }
 
   /**
+    * Returns `true` if the error is due to a non-fatal
+    * error; otherwise `false`.
+    *
+    * If the error is a combination of multiple errors,
+    * returns `true` if all errors are due to non-fatal
+    * errors; otherwise `false`.
+    *
+    * A non-fatal error is any error without an error
+    * message. Fatal errors are created by [[apply]]
+    * and [[sensitive]].
+    */
+  private[ciris] final def isNonFatal: Boolean =
+    this match {
+      case And(errors)     => errors.forall(_.isNonFatal)
+      case Apply(_)        => false
+      case Empty           => true
+      case Loaded          => true
+      case Missing(_)      => true
+      case Or(errors)      => errors.forall(_.isNonFatal)
+      case Sensitive(_, _) => false
+    }
+
+  /**
     * Returns a new [[ConfigError]] combining errors for
     * a single configuration value.
     */

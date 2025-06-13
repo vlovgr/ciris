@@ -310,29 +310,19 @@ sealed abstract class ConfigValue[+F[_], A] {
     */
   def findValid[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] =
     new ConfigValue[G, A] {
-      private def nonFatal(configEntry: ConfigError): Boolean = configEntry match {
-        case ConfigError.Empty           => true
-        case ConfigError.Loaded          => true
-        case ConfigError.Missing(_)      => true
-        case ConfigError.Apply(_)        => false
-        case ConfigError.Sensitive(_, _) => false
-        case ConfigError.And(errors)     => errors.forall(nonFatal)
-        case ConfigError.Or(errors)      => errors.forall(nonFatal)
-      }
-
       override private[ciris] def to[H[x] >: G[x]](
         implicit G: Async[H]
       ): Resource[H, ConfigEntry[A]] =
         self.to[H].flatMap {
           case Default(error, a) =>
             value.to[H].map {
-              case Failed(nextError) if nonFatal(error) => Default(error.or(nextError), a)
-              case Failed(nextError)                    => Failed(error.or(nextError))
-              case Default(nextError, b)                => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b)            => Loaded(error.or(nextError), key, b)
+              case Failed(nextError) if error.isNonFatal => Default(error.or(nextError), a)
+              case Failed(nextError)                     => Failed(error.or(nextError))
+              case Default(nextError, b)                 => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b)             => Loaded(error.or(nextError), key, b)
             }
 
-          case Failed(error) if nonFatal(error) =>
+          case Failed(error) if error.isNonFatal =>
             value.to[H].map {
               case Failed(nextError)         => Failed(error.or(nextError))
               case Default(nextError, b)     => Default(error.or(nextError), b)
