@@ -242,12 +242,21 @@ sealed abstract class ConfigValue[+F[_], A] {
     * Returns a new [[ConfigValue]] which uses the specified
     * configuration if the value is missing.
     *
+    * If the value is a compound value, an attempt to use
+    * the specified configuration will only be attempted if
+    * all of its parts are missing.
+    *
     * If the value is a default value, an attempt is made to
     * use the specified configuration, and if that is also
-    * missing, the default value remains. Defaults in the
-    * specified configuration will override any previous
-    * defaults. Errors from both the value and the
-    * specified configuration are accumulated.
+    * missing, the default value remains. If that is a compound
+    * value, the default value only remains if all of its parts
+    * are missing.
+    *
+    * Defaults in the specified configuration will override
+    * any previous defaults.
+    *
+    * Errors from both the value and the specified configuration
+    * are accumulated.
     */
   final def or[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] =
     new ConfigValue[G, A] {
@@ -273,6 +282,65 @@ sealed abstract class ConfigValue[+F[_], A] {
 
           case loaded @ Loaded(_, _, _) =>
             Resource.eval(H.pure(loaded))
+        }
+
+      override final def toString: String =
+        "ConfigValue$" + System.identityHashCode(this)
+    }
+
+  /**
+    * Returns a new [[ConfigValue]] which uses the specified
+    * configuration if the value is missing.
+    *
+    * If the value is a compound value, an attempt to use
+    * the specified configuration will be attempted if
+    * all of its parts are either missing or successful.
+    *
+    * If the value is a default value, an attempt is made to
+    * use the specified configuration, and if that is also
+    * missing, the default value remains. If that is a compound
+    * value, the default value only remains if all of its parts
+    * are either missing or successful.
+    *
+    * Defaults in the specified configuration will override
+    * any previous defaults.
+    *
+    * Errors from both the value and the specified configuration
+    * are accumulated.
+    */
+  def findValid[G[x] >: F[x]](value: => ConfigValue[G, A]): ConfigValue[G, A] =
+    new ConfigValue[G, A] {
+      private def nonFatal(configEntry: ConfigError): Boolean = configEntry match {
+        case ConfigError.Empty           => true
+        case ConfigError.Loaded          => true
+        case ConfigError.Missing(_)      => true
+        case ConfigError.Apply(_)        => false
+        case ConfigError.Sensitive(_, _) => false
+        case ConfigError.And(errors)     => errors.forall(nonFatal)
+        case ConfigError.Or(errors)      => errors.forall(nonFatal)
+      }
+
+      override private[ciris] def to[H[x] >: G[x]](
+        implicit G: Async[H]
+      ): Resource[H, ConfigEntry[A]] =
+        self.to[H].flatMap {
+          case Default(error, a) =>
+            value.to[H].map {
+              case Failed(nextError) if nonFatal(error) => Default(error.or(nextError), a)
+              case Failed(nextError)                    => Failed(error.or(nextError))
+              case Default(nextError, b)                => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b)            => Loaded(error.or(nextError), key, b)
+            }
+
+          case Failed(error) if nonFatal(error) =>
+            value.to[H].map {
+              case Failed(nextError)         => Failed(error.or(nextError))
+              case Default(nextError, b)     => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b) => Loaded(error.or(nextError), key, b)
+            }
+
+          case failed @ Failed(_)       => Resource.pure(failed)
+          case loaded @ Loaded(_, _, _) => Resource.pure(loaded)
         }
 
       override final def toString: String =

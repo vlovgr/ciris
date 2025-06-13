@@ -562,6 +562,70 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
     )
   }
 
+  test("ConfigValue.firstValid.loaded or loaded") {
+    checkLoad(loaded.findValid(loaded2), loadedValue)
+  }
+
+  test("ConfigValue.firstValid.loaded or failed") {
+    checkLoad(loaded.findValid(failed), loadedValue)
+  }
+
+  test("ConfigValue.firstValid.loaded or missing") {
+    checkLoad(loaded.findValid(missing), loadedValue)
+  }
+
+  test("ConfigValue.firstValid.loaded or default") {
+    checkLoad(loaded.findValid(default), loadedValue)
+  }
+
+  test("ConfigValue.firstValid.failed or loaded") {
+    checkError(failed.findValid(loaded), failedError)
+  }
+
+  test("ConfigValue.firstValid.failed or failed") {
+    checkError(failed.findValid(failed2), failedError)
+  }
+
+  test("ConfigValue.firstValid.failed or missing") {
+    checkError(failed.findValid(missing), failedError)
+  }
+
+  test("ConfigValue.firstValid.failed or default") {
+    checkError(failed.findValid(default), failedError)
+  }
+
+  test("ConfigValue.firstValid.missing or loaded") {
+    checkLoad(missing.findValid(loaded), loadedValue)
+  }
+
+  test("ConfigValue.firstValid.missing or failed") {
+    checkError(missing.findValid(failed), missingError.or(failedError))
+  }
+
+  test("ConfigValue.firstValid.missing or missing") {
+    checkError(missing.findValid(missing2), missingError.or(missingError2))
+  }
+
+  test("ConfigValue.firstValid.missing or default") {
+    checkLoad(missing.findValid(default), defaultValue)
+  }
+
+  test("ConfigValue.firstValid.default or loaded") {
+    checkLoad(default.findValid(loaded), loadedValue)
+  }
+
+  test("ConfigValue.firstValid.default or failed") {
+    checkError(default.findValid(failed), defaultError.or(failedError))
+  }
+
+  test("ConfigValue.firstValid.default or missing") {
+    checkLoad(default.findValid(missing), defaultValue)
+  }
+
+  test("ConfigValue.firstValid.default or default") {
+    checkLoad(default.findValid(default2), defaultValue2)
+  }
+
   test("ConfigValue.parallel.(default, default).parTupled") {
     check(
       (default, default2).parTupled,
