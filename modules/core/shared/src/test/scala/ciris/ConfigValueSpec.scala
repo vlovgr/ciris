@@ -105,6 +105,70 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
   def checkLoadFail[A](actual: ConfigValue[IO, A]): IO[Unit] =
     actual.load.attempt.map(_.isLeft).assert
 
+  test("ConfigValue.alt.loaded alt loaded") {
+    checkLoad(loaded.alt(loaded2), loadedValue)
+  }
+
+  test("ConfigValue.alt.loaded alt failed") {
+    checkLoad(loaded.alt(failed), loadedValue)
+  }
+
+  test("ConfigValue.alt.loaded alt missing") {
+    checkLoad(loaded.alt(missing), loadedValue)
+  }
+
+  test("ConfigValue.alt.loaded alt default") {
+    checkLoad(loaded.alt(default), loadedValue)
+  }
+
+  test("ConfigValue.alt.failed alt loaded") {
+    checkError(failed.alt(loaded), failedError)
+  }
+
+  test("ConfigValue.alt.failed alt failed") {
+    checkError(failed.alt(failed2), failedError)
+  }
+
+  test("ConfigValue.alt.failed alt missing") {
+    checkError(failed.alt(missing), failedError)
+  }
+
+  test("ConfigValue.alt.failed alt default") {
+    checkError(failed.alt(default), failedError)
+  }
+
+  test("ConfigValue.alt.missing alt loaded") {
+    checkLoad(missing.alt(loaded), loadedValue)
+  }
+
+  test("ConfigValue.alt.missing alt failed") {
+    checkError(missing.alt(failed), missingError.or(failedError))
+  }
+
+  test("ConfigValue.alt.missing alt missing") {
+    checkError(missing.alt(missing2), missingError.or(missingError2))
+  }
+
+  test("ConfigValue.alt.missing alt default") {
+    checkLoad(missing.alt(default), defaultValue)
+  }
+
+  test("ConfigValue.alt.default alt loaded") {
+    checkLoad(default.alt(loaded), loadedValue)
+  }
+
+  test("ConfigValue.alt.default alt failed") {
+    checkError(default.alt(failed), defaultError.or(failedError))
+  }
+
+  test("ConfigValue.alt.default alt missing") {
+    checkLoad(default.alt(missing), defaultValue)
+  }
+
+  test("ConfigValue.alt.default alt default") {
+    checkLoad(default.alt(default2), defaultValue2)
+  }
+
   test("ConfigValue.as.default success") {
     check(default.as[String], default)
   }
