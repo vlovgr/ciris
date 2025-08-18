@@ -69,6 +69,7 @@ lazy val ciris = project
     http4s.js,
     http4s.jvm,
     http4s.native,
+    http4sAws.js,
     http4sAws.jvm,
     refined.js,
     refined.jvm,
@@ -180,7 +181,7 @@ lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
-lazy val http4sAws = crossProject(JVMPlatform)
+lazy val http4sAws = crossProject(JSPlatform, JVMPlatform)
   .in(file("modules/http4s-aws"))
   .settings(
     moduleName := "ciris-http4s-aws",
@@ -364,6 +365,7 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(http4s.native / crossScalaVersions) { case (k, v) => "http4sNative" ++ k.capitalize -> v },
     BuildInfoKey.map(http4sAws.jvm / moduleName) { case (k, v) => "http4sAws" ++ k.capitalize -> v },
     BuildInfoKey.map(http4sAws.jvm / crossScalaVersions) { case (k, v) => "http4sAws" ++ k.capitalize -> v },
+    BuildInfoKey.map(http4sAws.js / crossScalaVersions) { case (k, v) => "http4sAwsJs" ++ k.capitalize -> v },
     BuildInfoKey.map(refined.jvm / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
     BuildInfoKey.map(refined.jvm / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
     BuildInfoKey.map(refined.js / crossScalaVersions) { case (k, v) => "refinedJs" ++ k.capitalize -> v },

@@ -151,7 +151,7 @@ For Scala.js and Scala Native version support, refer to the following table.
 | `@CIRCE_YAML_MODULE_NAME@` | -                                                                                    | -                                                                                             |
 | `@ENUMERATUM_MODULE_NAME@` | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @ENUMERATUM_JS_CROSS_SCALA_VERSIONS@) | -                                                                                             |
 | `@HTTP4S_MODULE_NAME@`     | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @HTTP4S_JS_CROSS_SCALA_VERSIONS@)     | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @HTTP4S_NATIVE_CROSS_SCALA_VERSIONS@)  |
-| `@HTTP4SAWS_MODULE_NAME@`  | -                                                                                    | -                                                                                             |
+| `@HTTP4SAWS_MODULE_NAME@`  | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @HTTP4SAWS_JS_CROSS_SCALA_VERSIONS@)  | -                                                                                             |
 | `@REFINED_MODULE_NAME@`    | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @REFINED_JS_CROSS_SCALA_VERSIONS@)    | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @REFINED_NATIVE_CROSS_SCALA_VERSIONS@) |
 | `@SQUANTS_MODULE_NAME@`    | Scala.js @SCALA_JS_MAJOR_MINOR_VERSION@ (Scala @SQUANTS_JS_CROSS_SCALA_VERSIONS@)    | Scala Native @SCALA_NATIVE_MAJOR_MINOR_VERSION@ (Scala @SQUANTS_NATIVE_CROSS_SCALA_VERSIONS@) |
 
