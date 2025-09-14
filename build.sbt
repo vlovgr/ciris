@@ -404,7 +404,7 @@ lazy val publishSettings =
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
     startYear := Some(2017),
     headerLicense := Some(
-      de.heikoseeberger.sbtheader.License.MIT(
+      sbtheader.License.MIT(
         s"${startYear.value.get}-${java.time.Year.now}",
         "Viktor Rudebeck",
         HeaderLicenseStyle.SpdxSyntax
