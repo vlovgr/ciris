@@ -6,9 +6,11 @@
 
 package ciris
 
+import cats.Show
 import cats.syntax.all._
 import io.circe.{Decoder, Json}
 import io.circe.{DecodingFailure, ParsingFailure}
+import io.circe.Encoder
 import io.circe.parser.parse
 
 package object circe {
@@ -76,4 +78,10 @@ package object circe {
 
   implicit final val jsonConfigDecoder: ConfigDecoder[String, Json] =
     circeConfigDecoder("Json")
+
+  implicit final def secretDecoder[A: Decoder: Show]: Decoder[Secret[A]] =
+    Decoder[A].map(Secret(_))
+
+  implicit final def secretEncoder[A: Encoder]: Encoder[Secret[A]] =
+    Encoder[A].contramap(_.value)
 }

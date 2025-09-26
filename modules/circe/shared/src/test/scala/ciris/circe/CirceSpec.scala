@@ -10,6 +10,7 @@ import cats.effect.IO
 import cats.syntax.all._
 import ciris._
 import io.circe.Json
+import io.circe.syntax._
 import munit.CatsEffectSuite
 
 final class CirceSpec extends CatsEffectSuite {
@@ -80,6 +81,18 @@ final class CirceSpec extends CatsEffectSuite {
       ConfigValue.loaded(ConfigKey("key"), "abc").as[Json].redacted,
       "Key cannot be parsed as json"
     )
+  }
+
+  test("secretDecoder") {
+    default("123")
+      .as[Secret[Json]]
+      .load[IO]
+      .map(_.value.asNumber.flatMap(_.toInt).contains(123))
+      .assert
+  }
+
+  test("secretEncoder") {
+    assert(Secret(123).asJson.asNumber.flatMap(_.toInt).contains(123))
   }
 
   def checkError[A](value: ConfigValue[IO, A], message: String): IO[Unit] =
