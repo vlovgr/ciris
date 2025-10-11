@@ -18,7 +18,7 @@ val squantsVersion = "1.8.3"
 
 val scala212 = "2.12.20"
 
-val scala213 = "2.13.16"
+val scala213 = "2.13.17"
 
 val scala3 = "3.3.6"
 
@@ -485,6 +485,13 @@ lazy val scalaSettings = Seq(
         Seq("-Yno-adapted-args", "-Ypartial-unification")
       } else Seq()
 
+    val scala213ScalacOptions =
+      if (scalaVersion.value.startsWith("2.13")) {
+        Seq("-Wconf:cat=lint-overload&msg=mistake:s") ++
+          // https://github.com/scala/bug/issues/13128#issuecomment-3375870295
+          Seq("-Wconf:cat=lint-infer-any&msg=kind-polymorphic:s")
+      } else Seq()
+
     val scala3ScalacOptions =
       if (scalaVersion.value.startsWith("3")) {
         Seq("-Ykind-projector", "-Yretain-trees")
@@ -493,6 +500,7 @@ lazy val scalaSettings = Seq(
     commonScalacOptions ++
       scala2ScalacOptions ++
       scala212ScalacOptions ++
+      scala213ScalacOptions ++
       scala3ScalacOptions
   },
   Compile / console / scalacOptions --= Seq("-Xlint", "-Ywarn-unused"),
