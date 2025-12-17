@@ -32,7 +32,10 @@ import org.http4s.Uri
 import org.http4s.circe.CirceEntityDecoder
 import org.http4s.circe.CirceEntityEncoder
 import org.http4s.client.Client
+import org.http4s.client.middleware.Retry
+import org.http4s.client.middleware.RetryPolicy
 import org.typelevel.ci._
+import scala.concurrent.duration._
 import scala.util.control.NoStackTrace
 
 /**
@@ -50,14 +53,21 @@ trait AwsSsmParameters[F[_]] {
 object AwsSsmParameters {
 
   /**
-    * Alias for [[AwsSsmParameters.fromClient]].
+    * Returns a new [[AwsSsmParameters]] which requests
+    * parameter values using the specified `Client`.
+    *
+    * Requests will be signed using credentials from the
+    * provided `CredentialsProvider` and the target `Region`.
+    *
+    * There is a default retry policy is in place to avoid
+    * intermittent issues when fetching parameter values.
     */
   def apply[F[_]: Temporal: Hashing](
     client: Client[F],
     provider: CredentialsProvider[F],
     region: Region
   ): AwsSsmParameters[F] =
-    fromClient(client, provider, region)
+    apply(client, provider, region, defaultRetryPolicy)
 
   /**
     * Returns a new [[AwsSsmParameters]] which requests
@@ -65,13 +75,56 @@ object AwsSsmParameters {
     *
     * Requests will be signed using credentials from the
     * provided `CredentialsProvider` and the target `Region`.
+    *
+    * The specified retry policy will be used to avoid
+    * intermittent issues when fetching parameter values.
+    */
+  def apply[F[_]: Temporal: Hashing](
+    client: Client[F],
+    provider: CredentialsProvider[F],
+    region: Region,
+    retryPolicy: RetryPolicy[F]
+  ): AwsSsmParameters[F] =
+    fromClient(client, provider, region, retryPolicy)
+
+  /**
+    * Returns a new [[AwsSsmParameters]] which requests
+    * parameter values using the specified `Client`.
+    *
+    * Requests will be signed using credentials from the
+    * provided `CredentialsProvider` and the target `Region`.
+    *
+    * There is a default retry policy is in place to avoid
+    * intermittent issues when fetching parameter values.
     */
   def fromClient[F[_]: Temporal: Hashing](
     client: Client[F],
     provider: CredentialsProvider[F],
     region: Region
   ): AwsSsmParameters[F] =
-    fromSigningClient(AwsSigningClient(provider, region, SystemsManager)(client), region)
+    fromClient(client, provider, region, defaultRetryPolicy)
+
+  /**
+    * Returns a new [[AwsSsmParameters]] which requests
+    * parameter values using the specified `Client`.
+    *
+    * Requests will be signed using credentials from the
+    * provided `CredentialsProvider` and the target `Region`.
+    *
+    * The specified retry policy will be used to avoid
+    * intermittent issues when fetching parameter values.
+    */
+  def fromClient[F[_]: Temporal: Hashing](
+    client: Client[F],
+    provider: CredentialsProvider[F],
+    region: Region,
+    retryPolicy: RetryPolicy[F]
+  ): AwsSsmParameters[F] =
+    fromSigningClient(
+      AwsSigningClient(provider, region, SystemsManager)(client),
+      region,
+      retryPolicy
+    )
 
   /**
     * Returns a new [[AwsSsmParameters]] which requests
@@ -79,8 +132,78 @@ object AwsSsmParameters {
     *
     * The provided `Client` is responsible for signing
     * requests using credentials and the target `Region`.
+    *
+    * There is a default retry policy is in place to avoid
+    * intermittent issues when fetching parameter values.
     */
-  def fromSigningClient[F[_]: Concurrent](
+  def fromSigningClient[F[_]: Temporal](
+    client: Client[F],
+    region: Region
+  ): AwsSsmParameters[F] =
+    fromSigningClient(client, region, defaultRetryPolicy)
+
+  /**
+    * Returns a new [[AwsSsmParameters]] which requests
+    * parameter values using the specified `Client`.
+    *
+    * The provided `Client` is responsible for signing
+    * requests using credentials and the target `Region`.
+    *
+    * The specified retry policy will be used to avoid
+    * intermittent issues when fetching parameter values.
+    */
+  def fromSigningClient[F[_]: Temporal](
+    client: Client[F],
+    region: Region,
+    retryPolicy: RetryPolicy[F]
+  ): AwsSsmParameters[F] =
+    new AwsSsmParameters[F] {
+      override def apply(name: String): ConfigValue[F, Secret[String]] =
+        ConfigValue.eval {
+          val key =
+            ConfigKey(s"parameter $name from AWS SSM")
+
+          val request =
+            Uri.fromString(s"https://ssm.$region.amazonaws.com").liftTo[F].map { uri =>
+              Request[F](Method.POST, uri)
+                .withEntity(GetRequest(name))
+                .withHeaders(GetRequest.headers)
+            }
+
+          val retryClient =
+            Retry(retryPolicy)(client)
+
+          request.toResource.flatMap(retryClient.run).use {
+            case Successful(response) =>
+              GetResponse.entityDecoder
+                .decode(response, strict = false)
+                .leftWiden[Throwable]
+                .rethrowT
+                .map(_.value)
+                .map(ConfigValue.loaded(key, _).secret.covary[F])
+            case response =>
+              GetErrorResponse.entityDecoder
+                .decode(response, strict = false)
+                .leftWiden[Throwable]
+                .rethrowT
+                .flatMap {
+                  case response if response.notFound =>
+                    Concurrent[F].pure(ConfigValue.missing(key))
+                  case unexpected =>
+                    Concurrent[F].raiseError(
+                      UnexpectedError(
+                        unexpected.code.value,
+                        unexpected.message,
+                        response.status
+                      )
+                    )
+                }
+          }
+        }
+    }
+
+  /* TODO: Remove for 4.0 release. */
+  private[aws] def fromSigningClient[F[_]: Concurrent](
     client: Client[F],
     region: Region
   ): AwsSsmParameters[F] =
@@ -137,6 +260,12 @@ object AwsSsmParameters {
       s"unexpected HTTP status $status with error code $errorCode$trailing"
     }
   }
+
+  private def defaultRetryPolicy[F[_]]: RetryPolicy[F] =
+    RetryPolicy(
+      RetryPolicy.exponentialBackoff(maxWait = 3.seconds, maxRetry = 3),
+      (_, result) => RetryPolicy.isErrorOrRetriableStatus(result)
+    )
 
   private final case class GetRequest(name: String)
   private object GetRequest {
