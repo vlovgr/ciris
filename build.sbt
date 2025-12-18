@@ -10,7 +10,7 @@ val enumeratumVersion = "1.9.1"
 
 val http4sVersion = "0.23.33"
 
-val http4sAwsVersion = "6.3.0"
+val http4sAwsVersion = "6.3.1"
 
 val refinedVersion = "0.11.1"
 
