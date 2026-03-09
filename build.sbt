@@ -1,25 +1,16 @@
 import scala.scalanative.build.Mode
 
-val catsEffectVersion = "3.6.3"
-
-val circeVersion = "0.14.8"
-
+val catsEffectVersion = "3.7.0"
+val circeVersion = "0.14.15"
 val circeYamlVersion = "0.16.1"
-
 val enumeratumVersion = "1.9.6"
-
 val http4sVersion = "0.23.33"
-
 val http4sAwsVersion = "6.3.1"
-
-val refinedVersion = "0.11.1"
-
+val refinedVersion = "0.11.3"
 val squantsVersion = "1.8.3"
 
 val scala212 = "2.12.21"
-
 val scala213 = "2.13.18"
-
 val scala3 = "3.3.7"
 
 val scalaJsMajorMinorVersion =
@@ -277,8 +268,8 @@ lazy val dependencySettings = Seq(
       Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.4").cross(CrossVersion.full)))
   },
   libraryDependencies ++= Seq(
-    "org.typelevel" %%% "munit-cats-effect" % "2.1.0",
-    "org.typelevel" %%% "scalacheck-effect-munit" % "2.0.0-M2",
+    "org.typelevel" %%% "munit-cats-effect" % "2.2.0",
+    "org.typelevel" %%% "scalacheck-effect-munit" % "2.1.0",
     "org.typelevel" %%% "cats-effect-laws" % catsEffectVersion,
     "org.typelevel" %%% "cats-effect" % catsEffectVersion
   ).map(_ % Test),
