@@ -100,7 +100,6 @@ object Main {
           "SQUANTS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(squantsCrossScalaVersions),
           "SQUANTS_JS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(squantsJsCrossScalaVersions),
           "SQUANTS_MODULE_NAME" -> squantsModuleName,
-          "SQUANTS_NATIVE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(squantsNativeCrossScalaVersions),
           "SQUANTS_VERSION" -> squantsVersion
         )
         // format: on
