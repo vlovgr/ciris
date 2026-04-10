@@ -161,4 +161,4 @@ Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wan
 
 ## License
 
-Licensed under the [MIT license](https://opensource.org/licenses/MIT). Refer to the [license file](https://github.com/vlovgr/ciris/blob/master/license.txt).
+Licensed under the [MIT license](https://opensource.org/licenses/MIT). Refer to the [license file](https://github.com/vlovgr/ciris/blob/main/license.txt).
