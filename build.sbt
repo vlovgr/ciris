@@ -1,25 +1,19 @@
 import scala.scalanative.build.Mode
 
-val catsEffectVersion = "3.6.3"
-
-val circeVersion = "0.14.8"
-
+val catsEffectVersion = "3.7.0"
+val circeVersion = "0.14.15"
 val circeYamlVersion = "0.16.1"
-
 val enumeratumVersion = "1.9.7"
-
-val http4sVersion = "0.23.33"
-
 val http4sAwsVersion = "6.4.0"
-
-val refinedVersion = "0.11.1"
-
+val http4sVersion = "0.23.34"
+val kindProjectorVersion = "0.13.4"
+val munitCatsEffectVersion = "2.2.0"
+val refinedVersion = "0.11.3"
+val scalaCheckEffectMunitVersion = "2.1.0"
 val squantsVersion = "1.8.3"
 
 val scala212 = "2.12.21"
-
 val scala213 = "2.13.18"
-
 val scala3 = "3.3.7"
 
 val scalaJsMajorMinorVersion =
@@ -75,8 +69,7 @@ lazy val ciris = project
     refined.jvm,
     refined.native,
     squants.js,
-    squants.jvm,
-    squants.native
+    squants.jvm
   )
 
 lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -187,7 +180,7 @@ lazy val http4sAws = crossProject(JSPlatform, JVMPlatform)
     moduleName := "ciris-http4s-aws",
     name := moduleName.value,
     dependencySettings ++ Seq(
-      libraryDependencies += "com.magine" %% "http4s-aws" % http4sAwsVersion
+      libraryDependencies += "com.magine" %%% "http4s-aws" % http4sAwsVersion
     ),
     publishSettings,
     mimaSettings,
@@ -220,7 +213,7 @@ lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
-lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+lazy val squants = crossProject(JSPlatform, JVMPlatform)
   .in(file("modules/squants"))
   .settings(
     moduleName := "ciris-squants",
@@ -236,10 +229,6 @@ lazy val squants = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     testSettings
   )
   .jsSettings(sharedJsSettings)
-  .nativeSettings(
-    sharedNativeSettings,
-    crossScalaVersions -= scala3
-  )
   .dependsOn(core)
 
 lazy val docs = project
@@ -274,11 +263,15 @@ lazy val dependencySettings = Seq(
   libraryDependencies ++= {
     if (scalaVersion.value.startsWith("3")) Nil
     else
-      Seq(compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.4").cross(CrossVersion.full)))
+      Seq(
+        compilerPlugin(
+          ("org.typelevel" %% "kind-projector" % kindProjectorVersion).cross(CrossVersion.full)
+        )
+      )
   },
   libraryDependencies ++= Seq(
-    "org.typelevel" %%% "munit-cats-effect" % "2.1.0",
-    "org.typelevel" %%% "scalacheck-effect-munit" % "2.0.0-M2",
+    "org.typelevel" %%% "munit-cats-effect" % munitCatsEffectVersion,
+    "org.typelevel" %%% "scalacheck-effect-munit" % scalaCheckEffectMunitVersion,
     "org.typelevel" %%% "cats-effect-laws" % catsEffectVersion,
     "org.typelevel" %%% "cats-effect" % catsEffectVersion
   ).map(_ % Test),
@@ -373,7 +366,6 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(squants.jvm / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.jvm / crossScalaVersions) { case (k, v) => "squants" ++ k.capitalize -> v },
     BuildInfoKey.map(squants.js / crossScalaVersions) { case (k, v) => "squantsJs" ++ k.capitalize -> v },
-    BuildInfoKey.map(squants.native / crossScalaVersions) { case (k, v) => "squantsNative" ++ k.capitalize -> v },
     LocalRootProject / organization,
     core.jvm / crossScalaVersions,
     BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
