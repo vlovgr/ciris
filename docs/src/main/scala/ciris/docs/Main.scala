@@ -83,6 +83,7 @@ object Main {
           "HTTP4S_VERSION" -> http4sVersion,
           "HTTP4SAWS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(http4sAwsCrossScalaVersions),
           "HTTP4SAWS_JS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(http4sAwsJsCrossScalaVersions),
+          "HTTP4SAWS_NATIVE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(http4sAwsNativeCrossScalaVersions),
           "HTTP4SAWS_MODULE_NAME" -> http4sAwsModuleName,
           "HTTP4SAWS_VERSION" -> http4sAwsVersion,
           "LATEST_MAJOR_VERSION" -> majorVersion(latestVersion),
