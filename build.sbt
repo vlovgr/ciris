@@ -60,6 +60,7 @@ lazy val ciris = project
     circeYaml,
     enumeratum.js,
     enumeratum.jvm,
+    enumeratum.native,
     http4s.js,
     http4s.jvm,
     http4s.native,
@@ -133,7 +134,7 @@ lazy val circeYaml = project
   )
   .dependsOn(core.jvm)
 
-lazy val enumeratum = crossProject(JSPlatform, JVMPlatform)
+lazy val enumeratum = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/enumeratum"))
   .settings(
     moduleName := "ciris-enumeratum",
@@ -151,6 +152,7 @@ lazy val enumeratum = crossProject(JSPlatform, JVMPlatform)
     testSettings
   )
   .jsSettings(sharedJsSettings)
+  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
 
 lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
@@ -354,6 +356,7 @@ lazy val buildInfoSettings = Seq(
     BuildInfoKey.map(enumeratum.jvm / moduleName) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
     BuildInfoKey.map(enumeratum.jvm / crossScalaVersions) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
     BuildInfoKey.map(enumeratum.js / crossScalaVersions) { case (k, v) => "enumeratumJs" ++ k.capitalize -> v },
+    BuildInfoKey.map(enumeratum.native / crossScalaVersions) { case (k, v) => "enumeratumNative" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.jvm / moduleName) { case (k, v) => "http4s" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.jvm / crossScalaVersions) { case (k, v) => "http4s" ++ k.capitalize -> v },
     BuildInfoKey.map(http4s.js / crossScalaVersions) { case (k, v) => "http4sJs" ++ k.capitalize -> v },

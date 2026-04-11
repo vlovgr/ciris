@@ -74,6 +74,7 @@ object Main {
           "DOCS_SCALA_VERSION" -> scalaDocsVersion,
           "ENUMERATUM_CROSS_SCALA_VERSIONS" -> scalaVersionsString(enumeratumCrossScalaVersions),
           "ENUMERATUM_JS_CROSS_SCALA_VERSIONS" -> scalaVersionsString(enumeratumJsCrossScalaVersions),
+          "ENUMERATUM_NATIVE_CROSS_SCALA_VERSIONS" -> scalaVersionsString(enumeratumNativeCrossScalaVersions),
           "ENUMERATUM_MODULE_NAME" -> enumeratumModuleName,
           "ENUMERATUM_VERSION" -> enumeratumVersion,
           "HTTP4S_CROSS_SCALA_VERSIONS" -> scalaVersionsString(http4sCrossScalaVersions),
