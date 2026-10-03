@@ -157,7 +157,7 @@ For Scala.js and Scala Native version support, refer to the following table.
 
 ## Participation
 
-Ciris embraces pure, typeful, idiomatic functional programming in Scala, and wants to provide a safe and friendly environment for teaching, learning, and contributing as described in the [Scala Code of Conduct](https://www.scala-lang.org/conduct/).
+Everyone is expected to follow the [Typelevel Code of Conduct](https://typelevel.org/code-of-conduct/) as described [here](https://github.com/vlovgr/ciris/blob/main/.github/CODE_OF_CONDUCT.md).
 
 ## License
 
