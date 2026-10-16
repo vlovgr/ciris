@@ -272,6 +272,22 @@ final class ConfigDecoderSpec extends DisciplineSuite with Generators {
     }
   }
 
+  property("ConfigDecoder.secret.failure.redacted") {
+    forAll(Gen.alphaStr, arbitrary[Option[ConfigKey]]) { (s, key) =>
+      val expected = ConfigDecoder[String, Int].redacted.decode(key, s).swap.toOption
+      val actual = ConfigDecoder[Secret[String], Int].decode(key, Secret(s)).swap.toOption
+      expected.isDefined && actual.map(_.messages) === expected.map(_.messages)
+    }
+  }
+
+  property("ConfigDecoder.toSecret.failure.redacted") {
+    forAll(Gen.alphaStr, arbitrary[Option[ConfigKey]]) { (s, key) =>
+      val expected = ConfigDecoder[String, Int].redacted.decode(key, s).swap.toOption
+      val actual = ConfigDecoder[String, Secret[Int]].decode(key, s).swap.toOption
+      expected.isDefined && actual.map(_.messages) === expected.map(_.messages)
+    }
+  }
+
   property("ConfigDecoder.short.success") {
     forAll { (short: Short) =>
       ConfigDecoder[String, Short].decode(None, short.toString) === short.asRight
