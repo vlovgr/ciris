@@ -996,4 +996,34 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
       )
     }
   }
+
+  // 0xff never occurs in valid UTF-8
+  val invalidUtf8Base64Gen: Gen[String] =
+    arbitrary[List[Byte]].map { bytes =>
+      Base64.getEncoder.encodeToString((0xff.toByte :: bytes).toArray)
+    }
+
+  test("ConfigValue.base64.error invalid utf-8") {
+    PropF.forAllNoShrinkF(invalidUtf8Base64Gen) { s =>
+      check(
+        ConfigValue.default(s).base64,
+        failedWith[IO, String](
+          ConfigError("Unable to base64 decode: decoded value is not valid UTF-8")
+        )
+      )
+    }
+  }
+
+  test("ConfigValue.base64.error invalid utf-8 with key") {
+    PropF.forAllNoShrinkF(invalidUtf8Base64Gen) { s =>
+      check(
+        ConfigValue.loaded(loadedKey, s).base64,
+        failedWith[IO, String](
+          ConfigError.Loaded.or(
+            ConfigError("Unable to base64 decode loadedKey: decoded value is not valid UTF-8")
+          )
+        )
+      )
+    }
+  }
 }
