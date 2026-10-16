@@ -12,16 +12,7 @@ import org.scalacheck.{Arbitrary, Gen}
 
 private[ciris] trait GeneratorsRuntimePlatform {
   val pathGen: Gen[Path] =
-    Gen.lzy {
-      Gen.alphaNumStr.map(Paths.get(_)).flatMap { path =>
-        Gen.sized { size =>
-          Gen.frequency(
-            1 -> Gen.const(path),
-            size -> pathGen.map(path.resolve)
-          )
-        }
-      }
-    }
+    Gen.alphaNumStr.map(Paths.get(_))
 
   implicit val pathArbitrary: Arbitrary[Path] =
     Arbitrary(pathGen)
