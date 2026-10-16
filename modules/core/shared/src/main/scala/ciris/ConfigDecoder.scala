@@ -231,7 +231,7 @@ object ConfigDecoder {
       try {
         Some(Duration(s))
       } catch {
-        case _: NumberFormatException =>
+        case _: IllegalArgumentException =>
           None
       }
     }
