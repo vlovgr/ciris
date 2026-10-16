@@ -102,7 +102,12 @@ final class AwsSsmParametersSpec extends CatsEffectSuite {
     }
   }
 
-  List("ParameterNotFound", "ParameterVersionNotFound").foreach { errorType =>
+  List(
+    "ParameterNotFound",
+    "ParameterVersionNotFound",
+    "com.amazonaws.ssm#ParameterNotFound",
+    "ParameterNotFound:http://internal.amazon.com/coral/com.amazonaws.ssm/"
+  ).foreach { errorType =>
     test(s"fromSigningClient.missing $errorType") {
       recording(errorResponse(Status.BadRequest, errorType, None)).flatMap { case (parameters, _) =>
         val parameter = parameters("name")
@@ -134,6 +139,15 @@ final class AwsSsmParametersSpec extends CatsEffectSuite {
             "unexpected HTTP status 400 Bad Request with error code InvalidKeyId: Invalid key"
           )
         }
+    }
+  }
+
+  test("fromSigningClient.unexpected namespaced") {
+    recording(errorResponse(Status.BadRequest, "com.amazonaws.ssm#InvalidKeyId", None)).flatMap {
+      case (parameters, _) =>
+        interceptIO[UnexpectedError](parameters("name").load[IO])
+          .map(_.errorCode)
+          .assertEquals("InvalidKeyId")
     }
   }
 }
