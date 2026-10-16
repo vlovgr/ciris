@@ -88,6 +88,29 @@ final class CirisRuntimePlatformSpec
       }
   }
 
+  test("file.path.directory") {
+    val path = Files.createTempDirectory("test-")
+    path.toFile.deleteOnExit()
+
+    val expected = s"Unable to read file at $path with charset UTF-8"
+
+    val messages =
+      file(path).attempt[IO].map {
+        case Left(error) =>
+          error.messages.toList match {
+            case List(message) => assert(message.startsWith(expected), message)
+            case messages      => fail(s"expected one message, got $messages")
+          }
+        case Right(value) =>
+          fail(s"expected an error, got $value")
+      }
+
+    val default =
+      file(path).default("default").attempt[IO].map(_.isLeft).assert
+
+    messages >> default
+  }
+
   test("file.path.charset") {
     val pathContentCharsetGen: Gen[(Path, String, Charset)] =
       for {
