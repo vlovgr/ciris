@@ -275,7 +275,7 @@ object ConfigDecoder {
   implicit final def secretConfigDecoder[A, B](
     implicit decoder: ConfigDecoder[A, B]
   ): ConfigDecoder[Secret[A], B] =
-    decoder.contramap(_.value)
+    decoder.redacted.contramap(_.value)
 
   /**
     * @group Decoders
@@ -284,7 +284,7 @@ object ConfigDecoder {
     implicit decoder: ConfigDecoder[A, B],
     show: Show[B]
   ): ConfigDecoder[A, Secret[B]] =
-    decoder.map(Secret(_))
+    decoder.redacted.map(Secret(_))
 
   /**
     * Returns a new [[ConfigDecoder]] which decodes values
