@@ -175,7 +175,7 @@ object AwsSsmParameters {
             }
 
           val retryClient =
-            Retry(retryPolicy)(raiseThrottlingErrors(client))
+            Retry(retryPolicy)(raiseThrottlingErrors(client, name))
 
           request.toResource.flatMap(retryClient.run).use {
             case Successful(response) =>
@@ -195,10 +195,11 @@ object AwsSsmParameters {
                     Concurrent[F].pure(ConfigValue.missing(key))
                   case unexpected =>
                     Concurrent[F].raiseError(
-                      UnexpectedError(
+                      new UnexpectedError(
                         unexpected.code.value,
                         unexpected.message,
-                        response.status
+                        response.status,
+                        name
                       )
                     )
                 }
@@ -242,10 +243,11 @@ object AwsSsmParameters {
                     Concurrent[F].pure(ConfigValue.missing(key))
                   case unexpected =>
                     Concurrent[F].raiseError(
-                      UnexpectedError(
+                      new UnexpectedError(
                         unexpected.code.value,
                         unexpected.message,
-                        response.status
+                        response.status,
+                        name
                       )
                     )
                 }
@@ -259,9 +261,24 @@ object AwsSsmParameters {
     status: Status
   ) extends RuntimeException
       with NoStackTrace {
+
+    /* TODO: Change to a parameter for 4.0 release. */
+    private var parameterName: Option[String] = None
+
+    private[aws] def this(
+      errorCode: String,
+      message: Option[String],
+      status: Status,
+      parameterName: String
+    ) = {
+      this(errorCode, message, status)
+      this.parameterName = Some(parameterName)
+    }
+
     override def getMessage: String = {
+      val parameter = parameterName.foldMap(name => s" for parameter $name")
       val trailing = message.foldMap(message => s": $message")
-      s"unexpected HTTP status $status with error code $errorCode$trailing"
+      s"unexpected HTTP status $status with error code $errorCode$parameter$trailing"
     }
   }
 
@@ -270,7 +287,10 @@ object AwsSsmParameters {
    * `ThrottlingException`, which retry policies can't see.
    * Raise them as errors instead, so they can be retried.
    */
-  private def raiseThrottlingErrors[F[_]: Concurrent](client: Client[F]): Client[F] =
+  private def raiseThrottlingErrors[F[_]: Concurrent](
+    client: Client[F],
+    name: String
+  ): Client[F] =
     Client { request =>
       client.run(request).flatMap {
         case response if response.status == Status.BadRequest =>
@@ -280,10 +300,11 @@ object AwsSsmParameters {
               GetErrorResponse.entityDecoder[F].decode(buffered, strict = false).value.flatMap {
                 case Right(GetErrorResponse(GetErrorResponseCode.ThrottlingException, message)) =>
                   Concurrent[F].raiseError[Response[F]](
-                    UnexpectedError(
+                    new UnexpectedError(
                       GetErrorResponseCode.ThrottlingException.value,
                       message,
-                      response.status
+                      response.status,
+                      name
                     )
                   )
                 case _ =>
