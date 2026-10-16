@@ -182,22 +182,32 @@ object ConfigError {
     typeName: String,
     key: Option[ConfigKey],
     value: A
+  )(implicit show: Show[A]): ConfigError =
+    decode(typeName, key, value, None)
+
+  private[ciris] final def decode[A](
+    typeName: String,
+    key: Option[ConfigKey],
+    value: A,
+    reason: Option[String]
   )(implicit show: Show[A]): ConfigError = {
-    def message(valueShown: Option[String]): String =
+    def message(valueShown: Option[String], reason: Option[String]): String = {
+      val trailing = reason.fold("")(reason => s": $reason")
       (key, valueShown) match {
         case (Some(key), Some(value)) =>
-          s"${key.description.capitalize} with value $value cannot be converted to $typeName"
+          s"${key.description.capitalize} with value $value cannot be converted to $typeName$trailing"
         case (Some(key), None) =>
-          s"${key.description.capitalize} cannot be converted to $typeName"
+          s"${key.description.capitalize} cannot be converted to $typeName$trailing"
         case (None, Some(value)) =>
-          s"Unable to convert value $value to $typeName"
+          s"Unable to convert value $value to $typeName$trailing"
         case (None, None) =>
-          s"Unable to convert value to $typeName"
+          s"Unable to convert value to $typeName$trailing"
       }
+    }
 
     ConfigError.sensitive(
-      message = message(Some(value.show)),
-      redactedMessage = message(None)
+      message = message(Some(value.show), reason),
+      redactedMessage = message(None, None)
     )
   }
 
