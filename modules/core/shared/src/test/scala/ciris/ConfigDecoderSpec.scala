@@ -196,6 +196,13 @@ final class ConfigDecoderSpec extends DisciplineSuite with Generators {
     }
   }
 
+  test("ConfigDecoder.duration.failure.outOfRange") {
+    List("1000000 days", "-1000000 days", "1e30 days").foreach { s =>
+      assert(ConfigDecoder[String, Duration].decode(None, s).isLeft, s)
+      assert(ConfigDecoder[String, FiniteDuration].decode(None, s).isLeft, s)
+    }
+  }
+
   property("ConfigDecoder.float.success") {
     forAll { (float: Float) =>
       ConfigDecoder[String, Float].decode(None, float.toString) === float.asRight
