@@ -6,6 +6,7 @@
 
 package ciris
 
+import java.io.IOException
 import java.nio.charset.{Charset, StandardCharsets}
 import java.nio.file.{Files, NoSuchFileException, Path}
 
@@ -32,6 +33,10 @@ private[ciris] trait CirisRuntimePlatform {
     *
     * The file contents are read synchronously using
     * the `UTF-8` charset.
+    *
+    * If the file does not exist, the value is missing.
+    * If the file cannot be read, for example when the
+    * path is a directory, loading fails with an error.
     */
   final def file(path: Path): ConfigValue[Effect, String] =
     file(path, StandardCharsets.UTF_8)
@@ -42,6 +47,10 @@ private[ciris] trait CirisRuntimePlatform {
     *
     * The file contents are read synchronously using
     * the specified charset.
+    *
+    * If the file does not exist, the value is missing.
+    * If the file cannot be read, for example when the
+    * path is a directory, loading fails with an error.
     */
   final def file(path: Path, charset: Charset): ConfigValue[Effect, String] =
     ConfigValue.blocking {
@@ -54,6 +63,9 @@ private[ciris] trait CirisRuntimePlatform {
       } catch {
         case _: NoSuchFileException =>
           ConfigValue.missing(key)
+        case e: IOException =>
+          val details = Option(e.getMessage).fold("")(message => s": $message")
+          ConfigValue.failed(ConfigError(s"Unable to read ${key.description}$details"))
       }
     }
 }
