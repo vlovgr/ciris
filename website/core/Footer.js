@@ -20,8 +20,6 @@ class Footer extends React.Component {
         <hr className="separator" />
         <section className="copyright">
           {this.props.config.copyright}
-          <br />
-          Icon designed by <a href="https://www.flaticon.com/authors/freepik" rel="noopener">Freepik</a> from Flaticon.
         </section>
       </footer>
     );

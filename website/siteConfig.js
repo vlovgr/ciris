@@ -25,9 +25,9 @@ const siteConfig = {
   blogSidebarCount: "ALL",
   blogSidebarTitle: { default: "Recent Posts", all: "Blog Posts" },
 
-  headerIcon: "img/ciris.white.svg",
-  titleIcon: "img/ciris.svg",
-  favicon: "img/favicon.png",
+  headerIcon: "img/logo.svg",
+  titleIcon: "img/logo.svg",
+  favicon: "img/favicon.svg",
 
   colors: {
     primaryColor: "#122932",
