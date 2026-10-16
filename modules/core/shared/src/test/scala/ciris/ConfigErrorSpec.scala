@@ -301,13 +301,32 @@ final class ConfigErrorSpec extends DisciplineSuite with Generators {
   property("ConfigError#uncapitalize") {
     forAll(Gen.alphaStr) { (s: String) =>
       val expected =
-        if (s.headOption.exists(_.isUpper))
+        if (s.headOption.exists(_.isUpper) && !s.lift(1).exists(_.isUpper))
           s"${s.charAt(0).toLower}" ++ s.tail
         else
           s
 
       ConfigError.uncapitalize(s) === expected
     }
+  }
+
+  test("ConfigError#uncapitalize.acronym") {
+    assertEquals(ConfigError.uncapitalize("AWS parameter"), "AWS parameter")
+    assertEquals(ConfigError.uncapitalize("Parameter"), "parameter")
+  }
+
+  test("ConfigError.missing.messages.acronym") {
+    assertEquals(
+      ConfigError.Missing(ConfigKey("AWS SSM parameter")).messages,
+      Chain.one("Missing AWS SSM parameter")
+    )
+  }
+
+  test("ConfigError.or.messages.acronym") {
+    assertEquals(
+      ConfigError("Error").or(ConfigError("AWS error")).messages,
+      Chain.one("Error and AWS error")
+    )
   }
 
   property("ConfigError.show") {
