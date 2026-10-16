@@ -84,30 +84,30 @@ final class CirceYamlSpec extends CatsEffectSuite {
   }
 
   test("yamlConfigDecoder.invalid") {
-    checkError(
-      ConfigValue.default("\"no\"").as[Boolean],
-      "Unable to convert value \"no\" to Boolean"
+    checkErrorPrefix(
+      ConfigValue.default("a: b: c").as[Json],
+      "Unable to parse value a: b: c as yaml: "
     )
   }
 
   test("yamlConfigDecoder.invalid.redacted") {
     checkError(
-      ConfigValue.default("\"no\"").as[Boolean].redacted,
-      "Unable to convert value to Boolean"
+      ConfigValue.default("a: b: c").as[Json].redacted,
+      "Unable to parse value as yaml"
     )
   }
 
   test("yamlConfigDecoder.invalid.loaded") {
-    checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"no\"").as[Boolean],
-      "Key with value \"no\" cannot be converted to Boolean"
+    checkErrorPrefix(
+      ConfigValue.loaded(ConfigKey("key"), "a: b: c").as[Json],
+      "Key with value a: b: c cannot be parsed as yaml: "
     )
   }
 
   test("yamlConfigDecoder.invalid.loaded.redacted") {
     checkError(
-      ConfigValue.loaded(ConfigKey("key"), "\"no\"").as[Boolean].redacted,
-      "Key cannot be converted to Boolean"
+      ConfigValue.loaded(ConfigKey("key"), "a: b: c").as[Json].redacted,
+      "Key cannot be parsed as yaml"
     )
   }
 
@@ -120,6 +120,20 @@ final class CirceYamlSpec extends CatsEffectSuite {
             assert(
               error.messages === Chain.one(message),
               s"Got messages:\n\n${error.messages}\n\nExpected message:\n\n$message"
+            )
+          )
+        case Right(a) => IO(fail(s"expected error, got $a"))
+      }
+
+  def checkErrorPrefix[A](value: ConfigValue[IO, A], prefix: String) =
+    value
+      .attempt[IO]
+      .flatMap {
+        case Left(error) =>
+          IO(
+            assert(
+              error.messages.size == 1 && error.messages.forall(_.startsWith(prefix)),
+              s"Got messages:\n\n${error.messages}\n\nExpected message starting with:\n\n$prefix"
             )
           )
         case Right(a) => IO(fail(s"expected error, got $a"))

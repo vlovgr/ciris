@@ -53,13 +53,13 @@ package object yaml {
 
           (key, valueShown) match {
             case (Some(key), Some(value)) =>
-              s"${key.description.capitalize} with value $value cannot be parsed as json$trailingParsingFailureMessage"
+              s"${key.description.capitalize} with value $value cannot be parsed as yaml$trailingParsingFailureMessage"
             case (Some(key), None) =>
-              s"${key.description.capitalize} cannot be parsed as json$trailingParsingFailureMessage"
+              s"${key.description.capitalize} cannot be parsed as yaml$trailingParsingFailureMessage"
             case (None, Some(value)) =>
-              s"Unable to parse value $value as json$trailingParsingFailureMessage"
+              s"Unable to parse value $value as yaml$trailingParsingFailureMessage"
             case (None, None) =>
-              s"Unable to parse value as json$trailingParsingFailureMessage"
+              s"Unable to parse value as yaml$trailingParsingFailureMessage"
           }
         }
 
