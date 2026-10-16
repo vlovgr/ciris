@@ -7,6 +7,7 @@
 package ciris.http4s.aws
 
 import cats.effect.Concurrent
+import cats.effect.Resource
 import cats.effect.Temporal
 import cats.effect.syntax.all._
 import cats.syntax.all._
@@ -17,6 +18,8 @@ import com.magine.aws.Region
 import com.magine.http4s.aws.AwsServiceName.SystemsManager
 import com.magine.http4s.aws.AwsSigningClient
 import com.magine.http4s.aws.CredentialsProvider
+import fs2.Chunk
+import fs2.Stream
 import fs2.hashing.Hashing
 import io.circe.Decoder
 import io.circe.Encoder
@@ -26,6 +29,7 @@ import org.http4s.Header
 import org.http4s.Headers
 import org.http4s.Method
 import org.http4s.Request
+import org.http4s.Response
 import org.http4s.Status
 import org.http4s.Status.Successful
 import org.http4s.Uri
@@ -171,7 +175,7 @@ object AwsSsmParameters {
             }
 
           val retryClient =
-            Retry(retryPolicy)(client)
+            Retry(retryPolicy)(raiseThrottlingErrors(client))
 
           request.toResource.flatMap(retryClient.run).use {
             case Successful(response) =>
@@ -261,6 +265,37 @@ object AwsSsmParameters {
     }
   }
 
+  /*
+   * Throttled requests fail with status 400 and error type
+   * `ThrottlingException`, which retry policies can't see.
+   * Raise them as errors instead, so they can be retried.
+   */
+  private def raiseThrottlingErrors[F[_]: Concurrent](client: Client[F]): Client[F] =
+    Client { request =>
+      client.run(request).flatMap {
+        case response if response.status == Status.BadRequest =>
+          Resource.eval {
+            response.body.compile.to(Chunk).flatMap { body =>
+              val buffered = response.withBodyStream(Stream.chunk(body))
+              GetErrorResponse.entityDecoder[F].decode(buffered, strict = false).value.flatMap {
+                case Right(GetErrorResponse(GetErrorResponseCode.ThrottlingException, message)) =>
+                  Concurrent[F].raiseError[Response[F]](
+                    UnexpectedError(
+                      GetErrorResponseCode.ThrottlingException.value,
+                      message,
+                      response.status
+                    )
+                  )
+                case _ =>
+                  Concurrent[F].pure(buffered)
+              }
+            }
+          }
+        case response =>
+          Resource.pure(response)
+      }
+    }
+
   private def defaultRetryPolicy[F[_]]: RetryPolicy[F] =
     RetryPolicy(
       RetryPolicy.exponentialBackoff(maxWait = 3.seconds, maxRetry = 3),
@@ -297,6 +332,7 @@ object AwsSsmParameters {
     case object InvalidKeyId extends GetErrorResponseCode("InvalidKeyId")
     case object ParameterNotFound extends GetErrorResponseCode("ParameterNotFound")
     case object ParameterVersionNotFound extends GetErrorResponseCode("ParameterVersionNotFound")
+    case object ThrottlingException extends GetErrorResponseCode("ThrottlingException")
     final case class Other(override val value: String) extends GetErrorResponseCode(value)
 
     implicit val decoder: Decoder[GetErrorResponseCode] =
@@ -305,6 +341,7 @@ object AwsSsmParameters {
         case InvalidKeyId.value             => InvalidKeyId
         case ParameterNotFound.value        => ParameterNotFound
         case ParameterVersionNotFound.value => ParameterVersionNotFound
+        case ThrottlingException.value      => ThrottlingException
         case code                           => Other(code)
       }
 
@@ -326,6 +363,7 @@ object AwsSsmParameters {
         case GetErrorResponseCode.Other(_)                 => false
         case GetErrorResponseCode.ParameterNotFound        => true
         case GetErrorResponseCode.ParameterVersionNotFound => true
+        case GetErrorResponseCode.ThrottlingException      => false
       }
   }
   private object GetErrorResponse {
