@@ -334,7 +334,7 @@ object ConfigError {
     }
 
   private[ciris] final def uncapitalize(s: String): String =
-    if (s.length == 0 || s.charAt(0).isLower) s
+    if (s.length == 0 || s.charAt(0).isLower || (s.length > 1 && s.charAt(1).isUpper)) s
     else {
       val chars = s.toCharArray
       chars(0) = chars(0).toLower
