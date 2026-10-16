@@ -6,7 +6,7 @@
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://cir.is/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Ciris news and events.</subtitle>
-    <logo>https://cir.is/img/ciris.white.svg</logo>
+    <logo>https://cir.is/img/logo.svg</logo>
     <rights>Copyright © 2017-2026 Viktor Rudebeck.</rights>
     <entry>
         <title type="html"><![CDATA[Ciris v1.0.0]]></title>
