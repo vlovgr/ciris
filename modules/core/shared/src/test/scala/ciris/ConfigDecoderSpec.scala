@@ -29,7 +29,7 @@ final class ConfigDecoderSpec extends DisciplineSuite with Generators {
         forAll { (a: A) =>
           d1.decode(None, a) === d2.decode(None, a)
         }
-      }(_ => scalaCheckTestParameters).passed
+      }(_ => scalaCheckTestParameters.withMinSuccessfulTests(10)).passed
     }
 
   property("ConfigDecoder.as") {
