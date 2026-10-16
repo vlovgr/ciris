@@ -19,6 +19,8 @@ package object refined {
     typeName: TypeName[F[B, P]]
   ): ConfigDecoder[A, F[B, P]] = {
     val refine = refType.refine[P]
-    decoder.mapOption(typeName.value)(refine(_).toOption)
+    decoder.mapEither { (key, b) =>
+      refine(b).left.map(reason => ConfigError.decode(typeName.value, key, b, Some(reason)))
+    }
   }
 }

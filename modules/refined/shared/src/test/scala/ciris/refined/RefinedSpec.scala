@@ -28,4 +28,21 @@ final class RefinedSpec extends CatsEffectSuite {
       .map(_.leftMap(_.messages.exists(_.contains("Refined"))))
       .assertEquals(Left(true))
   }
+
+  test("refTypeConfigDecoder.error.reason") {
+    default("0")
+      .as[PosInt]
+      .attempt[IO]
+      .map(_.leftMap(_.messages.exists(_.contains("Predicate failed"))))
+      .assertEquals(Left(true))
+  }
+
+  test("refTypeConfigDecoder.error.reason.redacted") {
+    default("0")
+      .as[PosInt]
+      .redacted
+      .attempt[IO]
+      .map(_.leftMap(_.messages.exists(_.contains("Predicate failed"))))
+      .assertEquals(Left(false))
+  }
 }
