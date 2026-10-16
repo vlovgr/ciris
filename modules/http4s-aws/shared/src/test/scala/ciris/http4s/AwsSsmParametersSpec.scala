@@ -7,6 +7,7 @@
 package ciris.http4s
 
 import cats.data.Chain
+import cats.data.NonEmptyList
 import cats.effect.IO
 import cats.effect.Ref
 import cats.syntax.all._
@@ -23,26 +24,42 @@ import org.http4s.Request
 import org.http4s.Response
 import org.http4s.Status
 import org.http4s.client.Client
+import org.http4s.client.middleware.RetryPolicy
 import org.http4s.headers.`Content-Type`
 import org.http4s.syntax.literals._
 import org.typelevel.ci._
+import scala.concurrent.duration.Duration
 
 final class AwsSsmParametersSpec extends CatsEffectSuite {
   type Recorded = (Request[IO], String)
 
-  def recording(response: Response[IO]): IO[(AwsSsmParameters[IO], IO[List[Recorded]])] =
-    Ref[IO].of(List.empty[Recorded]).map { recorded =>
+  def recordingClient(
+    response: Response[IO],
+    responses: Response[IO]*
+  ): IO[(Client[IO], IO[List[Recorded]])] =
+    (
+      Ref[IO].of(NonEmptyList(response, responses.toList)),
+      Ref[IO].of(List.empty[Recorded])
+    ).mapN { (remaining, recorded) =>
+      val next =
+        remaining.modify {
+          case NonEmptyList(last, Nil)          => (NonEmptyList.one(last), last)
+          case NonEmptyList(head, next :: rest) => (NonEmptyList(next, rest), head)
+        }
+
       val app =
         HttpApp[IO] { request =>
           request.as[String].flatMap { body =>
-            recorded.update(_ :+ ((request, body))).as(response)
+            recorded.update(_ :+ ((request, body))) >> next
           }
         }
 
-      val parameters =
-        AwsSsmParameters.fromSigningClient(Client.fromHttpApp(app), Region.EU_WEST_1)
+      (Client.fromHttpApp(app), recorded.get)
+    }
 
-      (parameters, recorded.get)
+  def recording(response: Response[IO]): IO[(AwsSsmParameters[IO], IO[List[Recorded]])] =
+    recordingClient(response).map { case (client, recorded) =>
+      (AwsSsmParameters.fromSigningClient(client, Region.EU_WEST_1), recorded)
     }
 
   def jsonResponse(status: Status, body: Json): Response[IO] =
@@ -148,6 +165,32 @@ final class AwsSsmParametersSpec extends CatsEffectSuite {
         interceptIO[UnexpectedError](parameters("name").load[IO])
           .map(_.errorCode)
           .assertEquals("InvalidKeyId")
+    }
+  }
+
+  val throttledResponse: Response[IO] =
+    errorResponse(Status.BadRequest, "ThrottlingException", Some("Rate exceeded"))
+
+  test("fromSigningClient.throttled") {
+    recordingClient(throttledResponse, parameterResponse("value")).flatMap {
+      case (client, recorded) =>
+        val parameters = AwsSsmParameters.fromSigningClient(client, Region.EU_WEST_1)
+        val loaded = parameters("name").load[IO].map(_.value).assertEquals("value")
+        loaded >> recorded.map(_.size).assertEquals(2)
+    }
+  }
+
+  test("fromSigningClient.throttled retries exhausted") {
+    val retryPolicy =
+      RetryPolicy[IO](
+        RetryPolicy.exponentialBackoff(maxWait = Duration.Zero, maxRetry = 2),
+        (_, result) => RetryPolicy.isErrorOrRetriableStatus(result)
+      )
+
+    recordingClient(throttledResponse).flatMap { case (client, recorded) =>
+      val parameters = AwsSsmParameters.fromSigningClient(client, Region.EU_WEST_1, retryPolicy)
+      val errorCode = interceptIO[UnexpectedError](parameters("name").load[IO]).map(_.errorCode)
+      errorCode.assertEquals("ThrottlingException") >> recorded.map(_.size).assertEquals(3)
     }
   }
 }
