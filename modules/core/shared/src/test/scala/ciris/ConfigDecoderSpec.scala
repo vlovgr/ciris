@@ -180,7 +180,7 @@ final class ConfigDecoderSpec extends DisciplineSuite with Generators {
       arbitrary[FiniteDuration]
         .filter(d => Try(Duration(d.toString)).isSuccess)
 
-    forAll { (finiteDuration: FiniteDuration) =>
+    forAll(gen) { finiteDuration =>
       val actual = ConfigDecoder[String, FiniteDuration].decode(None, finiteDuration.toString)
       val expected = Right(Duration(finiteDuration.toString))
       actual == expected
@@ -319,7 +319,7 @@ final class ConfigDecoderSpec extends DisciplineSuite with Generators {
   property("ConfigDecoder.redacted.nonSensitive") {
     forAll { (key: Option[ConfigKey], value: String) =>
       val decoder =
-        ConfigDecoder.instance[String, String] { (key, value) =>
+        ConfigDecoder.instance[String, String] { (_, _) =>
           Left(ConfigError("message"))
         }
 
@@ -332,7 +332,7 @@ final class ConfigDecoderSpec extends DisciplineSuite with Generators {
   property("ConfigDecoder.redacted.sensitive") {
     forAll { (key: Option[ConfigKey], value: String) =>
       val decoder =
-        ConfigDecoder.instance[String, String] { (key, value) =>
+        ConfigDecoder.instance[String, String] { (_, _) =>
           Left(ConfigError.sensitive("message", "redacted"))
         }
 

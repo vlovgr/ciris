@@ -6,7 +6,6 @@
 
 package ciris.refined.internal
 
-import scala.language.experimental.macros
 import scala.reflect.macros.blackbox.Context
 
 private[internal] trait TypeNameRuntimePlatform {

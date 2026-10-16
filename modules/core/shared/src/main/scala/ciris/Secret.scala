@@ -23,9 +23,6 @@ import ciris.internal.digest.sha1Hex
   * while also redacting sentitive details from errors.
   *
   * @example {{{
-  * scala> import cats.syntax.all._
-  * import cats.syntax.all._
-  *
   * scala> val secret = Secret(123)
   * secret: Secret[Int] = Secret(40bd001)
   *
@@ -78,9 +75,6 @@ object Secret {
     * The [[Secret#valueHash]] will be calculated using the shown value.
     *
     * @example {{{
-    * scala> import cats.syntax.all._
-    * import cats.syntax.all._
-    *
     * scala> Secret(12.5)
     * res0: Secret[Double] = Secret(90db4c0)
     * }}}
@@ -119,9 +113,6 @@ object Secret {
     * This function enables pattern matching on [[Secret]]s.
     *
     * @example {{{
-    * scala> import cats.syntax.all._
-    * import cats.syntax.all._
-    *
     * scala> val secret = Secret(12.5)
     * secret: Secret[Double] = Secret(90db4c0)
     *

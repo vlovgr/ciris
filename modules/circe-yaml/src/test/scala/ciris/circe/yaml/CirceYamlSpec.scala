@@ -8,11 +8,8 @@ package ciris.circe.yaml
 
 import cats.data.Chain
 import cats.effect.IO
-import cats.syntax.all._
 import ciris._
 import io.circe.Json
-import io.circe.yaml._
-import io.circe.yaml.syntax._
 import munit.CatsEffectSuite
 
 final class CirceYamlSpec extends CatsEffectSuite {

@@ -2,7 +2,14 @@ pull_request_rules:
   - name: automatically merge scala-steward's PRs
     conditions:
       - author=scala-steward
-      - status-success=validate
+      - status-success=Test (ubuntu-latest, 2.12, temurin@21, rootJS)
+      - status-success=Test (ubuntu-latest, 2.12, temurin@21, rootJVM)
+      - status-success=Test (ubuntu-latest, 2.13, temurin@21, rootJS)
+      - status-success=Test (ubuntu-latest, 2.13, temurin@21, rootJVM)
+      - status-success=Test (ubuntu-latest, 2.13, temurin@21, rootNative)
+      - status-success=Test (ubuntu-latest, 3, temurin@21, rootJS)
+      - status-success=Test (ubuntu-latest, 3, temurin@21, rootJVM)
+      - status-success=Test (ubuntu-latest, 3, temurin@21, rootNative)
       - body~=labels:.*semver-patch
     actions:
       merge:
