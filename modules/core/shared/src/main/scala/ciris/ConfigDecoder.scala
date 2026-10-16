@@ -10,6 +10,9 @@ import cats.Contravariant
 import cats.MonadError
 import cats.Show
 import cats.syntax.all._
+import java.nio.ByteBuffer
+import java.nio.charset.CharacterCodingException
+import java.nio.charset.CodingErrorAction
 import java.nio.charset.StandardCharsets
 import java.util.regex.Pattern
 import scala.annotation.tailrec
@@ -423,16 +426,26 @@ object ConfigDecoder {
 
     implicit val stringBase64ConfigDecoder: ConfigDecoder[String, Base64] =
       ConfigDecoder[String].mapEither { case (key, value) =>
+        def error(trailing: String): ConfigError =
+          ConfigError(key match {
+            case Some(key) => s"Unable to base64 decode ${key.description}$trailing"
+            case None      => s"Unable to base64 decode$trailing"
+          })
+
         try {
           val trimmed = whitespace.matcher(value).replaceAll("")
           val decoded = java.util.Base64.getDecoder.decode(trimmed)
-          Right(Base64(new String(decoded, StandardCharsets.UTF_8)))
+          val utf8 =
+            StandardCharsets.UTF_8
+              .newDecoder()
+              .onMalformedInput(CodingErrorAction.REPORT)
+              .onUnmappableCharacter(CodingErrorAction.REPORT)
+          Right(Base64(utf8.decode(ByteBuffer.wrap(decoded)).toString))
         } catch {
+          case _: CharacterCodingException =>
+            Left(error(": decoded value is not valid UTF-8"))
           case e if NonFatal(e) =>
-            Left(ConfigError(key match {
-              case Some(key) => s"Unable to base64 decode ${key.description}"
-              case None      => "Unable to base64 decode"
-            }))
+            Left(error(""))
         }
       }
   }

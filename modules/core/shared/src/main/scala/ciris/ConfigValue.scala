@@ -168,6 +168,10 @@ sealed abstract class ConfigValue[+F[_], A] {
     * The value has to be String-like in the sense that we can decode
     * it to String and then back again after base64 decoding. This is
     * the case for both `String` and `Secret[String]`, for example.
+    *
+    * The base64 decoded bytes have to be valid UTF-8. If they are
+    * not, for example when the value is binary data like a key,
+    * decoding fails with an error instead.
     */
   final def base64(
     implicit decoderString: ConfigDecoder[A, String],
