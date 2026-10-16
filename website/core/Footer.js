@@ -15,10 +15,13 @@ class Footer extends React.Component {
   }
 
   render() {
+    const repoUrl = this.props.config.repoUrl;
     return (
       <footer className="nav-footer" id="footer">
         <hr className="separator" />
         <section className="copyright">
+          Licensed under the <a href={`${repoUrl}/blob/main/license.txt`}>MIT License</a>.
+          <br />
           {this.props.config.copyright}
         </section>
       </footer>

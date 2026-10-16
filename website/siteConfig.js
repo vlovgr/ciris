@@ -34,7 +34,7 @@ const siteConfig = {
     secondaryColor: "#153243",
   },
 
-  copyright: `Copyright © 2017-${new Date().getFullYear()} Viktor Rudebeck.`,
+  copyright: "Copyright © 2017 Viktor Rudebeck.",
 
   highlight: { theme: "github" },
 

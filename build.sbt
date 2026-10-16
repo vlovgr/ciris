@@ -404,7 +404,7 @@ lazy val publishSettings =
     startYear := Some(2017),
     headerLicense := Some(
       sbtheader.License.MIT(
-        s"${startYear.value.get}-${java.time.Year.now}",
+        startYear.value.get.toString,
         "Viktor Rudebeck",
         HeaderLicenseStyle.SpdxSyntax
       )
@@ -576,7 +576,7 @@ addCommandsAlias(
     "+mimaReportBinaryIssues",
     "scalafmtCheckAll",
     "scalafmtSbtCheck",
-    "headerCheckAll",
+    "+headerCheckAll",
     "+doc",
     "docs/run"
   )
