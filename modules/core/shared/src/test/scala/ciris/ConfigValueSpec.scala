@@ -106,67 +106,105 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
     actual.load.attempt.map(_.isLeft).assert
 
   test("ConfigValue.alt.loaded alt loaded") {
-    checkLoad(loaded.alt(loaded2), loadedValue)
+    check(loaded.alt(loaded2), loaded)
   }
 
   test("ConfigValue.alt.loaded alt failed") {
-    checkLoad(loaded.alt(failed), loadedValue)
+    check(loaded.alt(failed), loaded)
   }
 
   test("ConfigValue.alt.loaded alt missing") {
-    checkLoad(loaded.alt(missing), loadedValue)
+    check(loaded.alt(missing), loaded)
   }
 
   test("ConfigValue.alt.loaded alt default") {
-    checkLoad(loaded.alt(default), loadedValue)
+    check(loaded.alt(default), loaded)
   }
 
   test("ConfigValue.alt.failed alt loaded") {
-    checkError(failed.alt(loaded), failedError)
+    check(failed.alt(loaded), failed)
   }
 
   test("ConfigValue.alt.failed alt failed") {
-    checkError(failed.alt(failed2), failedError)
+    check(failed.alt(failed2), failed)
   }
 
   test("ConfigValue.alt.failed alt missing") {
-    checkError(failed.alt(missing), failedError)
+    check(failed.alt(missing), failed)
   }
 
   test("ConfigValue.alt.failed alt default") {
-    checkError(failed.alt(default), failedError)
+    check(failed.alt(default), failed)
   }
 
   test("ConfigValue.alt.missing alt loaded") {
-    checkLoad(missing.alt(loaded), loadedValue)
+    check(
+      missing.alt(loaded),
+      loadedWith(missingError.or(ConfigError.Loaded), Some(loadedKey), loadedValue)
+    )
   }
 
   test("ConfigValue.alt.missing alt failed") {
-    checkError(missing.alt(failed), missingError.or(failedError))
+    check(
+      missing.alt(failed),
+      failedWith[IO, String](missingError.or(failedError))
+    )
   }
 
   test("ConfigValue.alt.missing alt missing") {
-    checkError(missing.alt(missing2), missingError.or(missingError2))
+    check(
+      missing.alt(missing2),
+      failedWith[IO, String](missingError.or(missingError2))
+    )
   }
 
   test("ConfigValue.alt.missing alt default") {
-    checkLoad(missing.alt(default), defaultValue)
+    check(
+      missing.alt(default),
+      defaultWith(missingError.or(defaultError), defaultValue)
+    )
   }
 
   test("ConfigValue.alt.default alt loaded") {
-    checkLoad(default.alt(loaded), loadedValue)
+    check(
+      default.alt(loaded),
+      loadedWith(defaultError.or(ConfigError.Loaded), Some(loadedKey), loadedValue)
+    )
   }
 
   test("ConfigValue.alt.default alt failed") {
-    checkError(default.alt(failed), defaultError.or(failedError))
+    check(
+      default.alt(failed),
+      failedWith[IO, String](defaultError.or(failedError))
+    )
   }
 
   test("ConfigValue.alt.default alt missing") {
-    checkLoad(default.alt(missing), defaultValue)
+    check(
+      default.alt(missing),
+      defaultWith(defaultError.or(missingError), defaultValue)
+    )
   }
 
   test("ConfigValue.alt.default alt default") {
-    checkLoad(default.alt(default2), defaultValue2)
+    check(
+      default.alt(default2),
+      defaultWith(defaultError.or(defaultError2), defaultValue2)
+    )
+  }
+
+  test("ConfigValue.alt.default alt partially loaded") {
+    check(
+      default.alt((loaded, missing).parMapN((_, b) => b)),
+      defaultWith(defaultError.or(loadedError.and(missingError)), defaultValue)
+    )
+  }
+
+  test("ConfigValue.alt.default alt partially failed") {
+    check(
+      default.alt((loaded, failed).parMapN((_, b) => b)),
+      failedWith[IO, String](defaultError.or(loadedError.and(failedError)))
+    )
   }
 
   test("ConfigValue.as.default success") {

@@ -97,10 +97,10 @@ sealed abstract class ConfigValue[+F[_], A] {
         self.to[H].flatMap {
           case Default(error, a) =>
             value.to[H].map {
-              case Failed(nextError) if error.isNonFatal => Default(error.or(nextError), a)
-              case Failed(nextError)                     => Failed(error.or(nextError))
-              case Default(nextError, b)                 => Default(error.or(nextError), b)
-              case Loaded(nextError, key, b)             => Loaded(error.or(nextError), key, b)
+              case Failed(nextError) if nextError.isNonFatal => Default(error.or(nextError), a)
+              case Failed(nextError)                         => Failed(error.or(nextError))
+              case Default(nextError, b)                     => Default(error.or(nextError), b)
+              case Loaded(nextError, key, b)                 => Loaded(error.or(nextError), key, b)
             }
 
           case Failed(error) if error.isNonFatal =>
