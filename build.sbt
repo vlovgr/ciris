@@ -6,7 +6,6 @@ val circeYamlVersion = "0.16.1"
 val enumeratumVersion = "1.9.7"
 val http4sAwsVersion = "6.5.0"
 val http4sVersion = "0.23.38"
-val kindProjectorVersion = "0.13.4"
 val munitCatsEffectVersion = "2.2.1"
 val refinedVersion = "0.11.3"
 val scalaCheckEffectMunitVersion = "2.1.0"
@@ -16,241 +15,169 @@ val scala212 = "2.12.21"
 val scala213 = "2.13.18"
 val scala3 = "3.3.8"
 
-val scalaJsMajorMinorVersion =
-  """"org.scala-js" % "sbt-scalajs" % "([^"]+)"""".r
-    .findFirstMatchIn(IO.read(file("project/plugins.sbt")))
-    .map(_.group(1))
-    .flatMap(CrossVersion.partialVersion)
-    .map { case (major, minor) => s"$major.$minor" }
-    .getOrElse(throw new MessageOnlyException("Unable to determine Scala.js plugin version."))
-
-val scalaNativeMajorMinorVersion =
-  """"org.scala-native" % "sbt-scala-native" % "([^"]+)"""".r
-    .findFirstMatchIn(IO.read(file("project/plugins.sbt")))
-    .map(_.group(1))
-    .flatMap(CrossVersion.partialVersion)
-    .map { case (major, minor) => s"$major.$minor" }
-    .getOrElse(throw new MessageOnlyException("Unable to determine Scala Native plugin version."))
-
-ThisBuild / versionScheme := Some("early-semver")
-
-ThisBuild / doctestTestFramework := DoctestTestFramework.Munit
-
-ThisBuild / nativeConfig ~= { _.withMode(Mode.debug) }
-
-lazy val ciris = project
-  .in(file("."))
-  .settings(
-    mimaSettings,
-    scalaSettings ++ Seq(
-      // https://github.com/sbt/sbt/issues/4181#issuecomment-413248697
-      crossScalaVersions := List()
+inThisBuild(
+  Seq(
+    crossScalaVersions := Seq(scala212, scala213, scala3),
+    developers := List(tlGitHubDev("vlovgr", "Viktor Rudebeck")),
+    doctestTestFramework := DoctestTestFramework.Munit,
+    githubWorkflowBuild := Seq(
+      WorkflowStep.Sbt(
+        List(
+          "++ ${{ matrix.scala }} test",
+          "++ ${{ matrix.scala }} mimaReportBinaryIssues",
+          "++ ${{ matrix.scala }} doc"
+        )
+      ),
+      WorkflowStep.Sbt(
+        List("headerCheckAll", "scalafmtCheckAll", "project /", "scalafmtSbtCheck"),
+        cond = Some("matrix.scala == '2.13'")
+      ),
+      WorkflowStep.Sbt(
+        List("docs/run", "docs/unidoc"),
+        cond = Some("matrix.scala == '2.13' && matrix.project == 'rootJVM'")
+      )
     ),
-    noPublishSettings,
-    console := (core.jvm / Compile / console).value,
-    Test / console := (core.jvm / Test / console).value
+    githubWorkflowBuildMatrixExclusions +=
+      MatrixExclude(Map("project" -> "rootNative", "scala" -> "2.12")),
+    githubWorkflowBuildSbtStepPreamble := Seq("project ${{ matrix.project }}"),
+    githubWorkflowJavaVersions := Seq(JavaSpec.temurin("21")),
+    githubWorkflowOSes := Seq("ubuntu-latest"),
+    githubWorkflowPublish += WorkflowStep.Sbt(
+      List("docs/docusaurusPublishGhpages"),
+      name = Some("Publish website"),
+      env = Map("GIT_DEPLOY_KEY" -> "${{ secrets.GIT_DEPLOY_KEY }}")
+    ),
+    homepage := Some(url("https://cir.is")),
+    licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
+    mimaBinaryIssueFilters ++= {
+      import com.typesafe.tools.mima.core._
+      Seq(
+        ProblemFilters.exclude[IncompatibleMethTypeProblem](
+          "ciris.http4s.aws.AwsSsmParameters.fromSigningClient"
+        )
+      )
+    },
+    nativeConfig ~= (_.withMode(Mode.debug)),
+    organization := "is.cir",
+    organizationHomepage := Some(url("https://cir.is")),
+    organizationName := "Ciris",
+    scalaVersion := scala213,
+    startYear := Some(2017),
+    tlBaseVersion := "3.15"
   )
-  .aggregate(
-    core.js,
-    core.jvm,
-    core.native,
-    circe.js,
-    circe.jvm,
-    circe.native,
-    circeYaml,
-    enumeratum.js,
-    enumeratum.jvm,
-    enumeratum.native,
-    http4s.js,
-    http4s.jvm,
-    http4s.native,
-    http4sAws.js,
-    http4sAws.jvm,
-    http4sAws.native,
-    refined.js,
-    refined.jvm,
-    refined.native,
-    squants.js,
-    squants.jvm
+)
+
+lazy val root = tlCrossRootProject
+  .aggregate(core, circe, circeYaml, enumeratum, http4s, http4sAws, refined, squants)
+  .settings(
+    headerSettings,
+    crossScalaVersions := Nil,
+    scalaVersion := (ThisBuild / scalaVersion).value
   )
 
 lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/core"))
   .settings(
-    moduleName := "ciris",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies += "org.typelevel" %%% "cats-effect-kernel" % catsEffectVersion
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions += scala3
-    ),
-    testSettings,
+    name := "ciris",
+    libraryDependencies += "org.typelevel" %%% "cats-effect-kernel" % catsEffectVersion,
+    moduleSettings,
+    scalacOptions ++= {
+      if (scalaVersion.value.startsWith("2.13")) Seq("-Wconf:cat=lint-overload&msg=mistake:s")
+      else Seq()
+    },
     headerSources / excludeFilter :=
       HiddenFileFilter ||
         "*GeneralDigest.scala" ||
         "*Pack.scala" ||
         "*SHA1Digest.scala"
   )
-  .jsSettings(sharedJsSettings)
-  .nativeSettings(sharedNativeSettings)
+  .jsSettings(doctestGenTests := Seq.empty)
+  .nativeSettings(nativeSettings)
 
 lazy val circe = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/circe"))
-  .settings(
-    moduleName := "ciris-circe",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies += "io.circe" %%% "circe-parser" % circeVersion
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions += scala3
-    ),
-    testSettings
-  )
-  .jsSettings(sharedJsSettings)
-  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
+  .settings(
+    name := "ciris-circe",
+    libraryDependencies += "io.circe" %%% "circe-parser" % circeVersion,
+    moduleSettings
+  )
+  .nativeSettings(nativeSettings)
 
 lazy val circeYaml = project
   .in(file("modules/circe-yaml"))
-  .settings(
-    moduleName := "ciris-circe-yaml",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies += "io.circe" %% "circe-yaml" % circeYamlVersion
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions -= scala212,
-      crossScalaVersions += scala3
-    ),
-    testSettings
-  )
   .dependsOn(core.jvm)
+  .settings(
+    name := "ciris-circe-yaml",
+    libraryDependencies += "io.circe" %% "circe-yaml" % circeYamlVersion,
+    moduleSettings,
+    withoutScala212
+  )
 
 lazy val enumeratum = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/enumeratum"))
-  .settings(
-    moduleName := "ciris-enumeratum",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies ++= Seq(
-        "com.beachape" %%% "enumeratum" % enumeratumVersion
-      )
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions += scala3
-    ),
-    testSettings
-  )
-  .jsSettings(sharedJsSettings)
-  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
+  .settings(
+    name := "ciris-enumeratum",
+    libraryDependencies += "com.beachape" %%% "enumeratum" % enumeratumVersion,
+    moduleSettings,
+    Test / scalacOptions ++= (if (tlIsScala3.value) Seq("-Yretain-trees") else Seq()),
+    tlVersionIntroduced := Map("3" -> "3.1.0")
+  )
+  .nativeSettings(
+    nativeSettings,
+    tlVersionIntroduced := Map("2.13" -> "3.14.1", "3" -> "3.14.1")
+  )
 
 lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/http4s"))
-  .settings(
-    moduleName := "ciris-http4s",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies += "org.http4s" %%% "http4s-core" % http4sVersion
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions += scala3
-    ),
-    testSettings
-  )
-  .jsSettings(
-    sharedJsSettings,
-    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
-  )
-  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
+  .settings(
+    name := "ciris-http4s",
+    libraryDependencies += "org.http4s" %%% "http4s-core" % http4sVersion,
+    moduleSettings
+  )
+  .jsSettings(Test / scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)))
+  .nativeSettings(nativeSettings)
 
 lazy val http4sAws = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/http4s-aws"))
-  .settings(
-    moduleName := "ciris-http4s-aws",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies += "com.magine" %%% "http4s-aws" % http4sAwsVersion
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions -= scala212,
-      crossScalaVersions += scala3
-    ),
-    testSettings
-  )
-  .nativeSettings(sharedNativeSettings)
   .dependsOn(http4s)
+  .settings(
+    name := "ciris-http4s-aws",
+    libraryDependencies += "com.magine" %%% "http4s-aws" % http4sAwsVersion,
+    moduleSettings,
+    withoutScala212
+  )
+  .jvmSettings(tlVersionIntroduced := Map("2.13" -> "3.8.0", "3" -> "3.8.0"))
+  .jsSettings(tlVersionIntroduced := Map("2.13" -> "3.10.0", "3" -> "3.10.0"))
+  .nativeSettings(
+    nativeSettings,
+    tlVersionIntroduced := Map("2.13" -> "3.14.0", "3" -> "3.14.0")
+  )
 
 lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/refined"))
-  .settings(
-    moduleName := "ciris-refined",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies ++= Seq(
-        "eu.timepit" %%% "refined" % refinedVersion
-      )
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions += scala3
-    ),
-    testSettings
-  )
-  .jsSettings(sharedJsSettings)
-  .nativeSettings(sharedNativeSettings)
   .dependsOn(core)
+  .settings(
+    name := "ciris-refined",
+    libraryDependencies += "eu.timepit" %%% "refined" % refinedVersion,
+    moduleSettings
+  )
+  .nativeSettings(nativeSettings)
 
 lazy val squants = crossProject(JSPlatform, JVMPlatform)
   .in(file("modules/squants"))
-  .settings(
-    moduleName := "ciris-squants",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies += "org.typelevel" %%% "squants" % squantsVersion
-    ),
-    publishSettings,
-    mimaSettings,
-    scalaSettings ++ Seq(
-      crossScalaVersions += scala3
-    ),
-    testSettings
-  )
-  .jsSettings(sharedJsSettings)
   .dependsOn(core)
+  .settings(
+    name := "ciris-squants",
+    libraryDependencies += "org.typelevel" %%% "squants" % squantsVersion,
+    moduleSettings
+  )
 
 lazy val docs = project
   .in(file("docs"))
-  .settings(
-    moduleName := "ciris-docs",
-    name := moduleName.value,
-    dependencySettings ++ Seq(
-      libraryDependencies ++= Seq(
-        "org.http4s" %% "http4s-ember-client" % http4sVersion,
-        "org.typelevel" %% "cats-effect" % catsEffectVersion
-      )
-    ),
-    noPublishSettings,
-    scalaSettings,
-    mdocSettings,
-    buildInfoSettings
-  )
+  .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, NoPublishPlugin, ScalaUnidocPlugin)
   .dependsOn(
     core.jvm,
     circe.jvm,
@@ -261,257 +188,122 @@ lazy val docs = project
     refined.jvm,
     squants.jvm
   )
-  .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, ScalaUnidocPlugin)
-
-lazy val dependencySettings = Seq(
-  libraryDependencies ++= {
-    if (scalaVersion.value.startsWith("3")) Nil
-    else
-      Seq(
-        compilerPlugin(
-          ("org.typelevel" %% "kind-projector" % kindProjectorVersion).cross(CrossVersion.full)
-        )
-      )
-  },
-  libraryDependencies ++= Seq(
-    "org.typelevel" %%% "munit-cats-effect" % munitCatsEffectVersion,
-    "org.typelevel" %%% "scalacheck-effect-munit" % scalaCheckEffectMunitVersion,
-    "org.typelevel" %%% "cats-effect-laws" % catsEffectVersion,
-    "org.typelevel" %%% "cats-effect" % catsEffectVersion
-  ).map(_ % Test),
-  pomPostProcess := { (node: xml.Node) =>
-    new xml.transform.RuleTransformer(new xml.transform.RewriteRule {
-      def scopedDependency(e: xml.Elem): Boolean =
-        e.label == "dependency" && e.child.exists(_.label == "scope")
-
-      override def transform(node: xml.Node): xml.NodeSeq =
-        node match {
-          case e: xml.Elem if scopedDependency(e) => Nil
-          case _                                  => Seq(node)
-        }
-    }).transform(node).head
-  }
-)
-
-lazy val mdocSettings = Seq(
-  mdoc := (Compile / run).evaluated,
-  scalacOptions --= Seq("-Xfatal-warnings", "-Ywarn-unused"),
-  crossScalaVersions := Seq(scalaVersion.value),
-  ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
-    core.jvm,
-    circe.jvm,
-    circeYaml,
-    enumeratum.jvm,
-    http4s.jvm,
-    http4sAws.jvm,
-    refined.jvm,
-    squants.jvm
-  ),
-  ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
-  cleanFiles += (ScalaUnidoc / unidoc / target).value,
-  docusaurusVersion := DocusaurusVersion.V1,
-  docusaurusCreateSite := docusaurusCreateSite
-    .dependsOn(Compile / unidoc)
-    .dependsOn(ThisBuild / updateSiteVariables)
-    .value,
-  docusaurusPublishGhpages :=
-    docusaurusPublishGhpages
+  .settings(
+    name := "ciris-docs",
+    crossScalaVersions := Seq(scala213),
+    scalacOptions -= "-Wunused",
+    libraryDependencies ++= Seq(
+      "eu.timepit" %% "refined-cats" % refinedVersion,
+      "org.http4s" %% "http4s-ember-client" % http4sVersion,
+      "org.typelevel" %% "cats-effect" % catsEffectVersion
+    ),
+    mdoc := (Compile / run).evaluated,
+    buildInfoPackage := "ciris.build",
+    buildInfoObject := "info",
+    buildInfoKeys := Seq[BuildInfoKey](
+      scalaVersion,
+      scalacOptions,
+      sourceDirectory,
+      LocalRootProject / organization,
+      ThisBuild / latestVersion,
+      core.jvm / crossScalaVersions,
+      BuildInfoKey.map(ThisBuild / version) { case (_, v) => "latestSnapshotVersion" -> v },
+      BuildInfoKey.map(LocalRootProject / baseDirectory) { case (_, v) => "rootDirectory" -> v },
+      BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
+      BuildInfoKey("circeVersion" -> circeVersion),
+      BuildInfoKey("circeYamlVersion" -> circeYamlVersion),
+      BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
+      BuildInfoKey("http4sVersion" -> http4sVersion),
+      BuildInfoKey("http4sAwsVersion" -> http4sAwsVersion),
+      BuildInfoKey("refinedVersion" -> refinedVersion),
+      BuildInfoKey("squantsVersion" -> squantsVersion),
+      BuildInfoKey("scalaJsMajorMinorVersion" -> scalaJsMajorMinorVersion),
+      BuildInfoKey("scalaNativeMajorMinorVersion" -> scalaNativeMajorMinorVersion)
+    ) ++
+      moduleInfo("core", core) ++
+      moduleInfo("circe", circe) ++
+      moduleInfo("circeYaml", circeYaml) ++
+      moduleInfo("enumeratum", enumeratum) ++
+      moduleInfo("http4s", http4s) ++
+      moduleInfo("http4sAws", http4sAws) ++
+      moduleInfo("refined", refined) ++
+      moduleInfo("squants", squants),
+    docusaurusVersion := DocusaurusVersion.V1,
+    docusaurusCreateSite := docusaurusCreateSite
       .dependsOn(Compile / unidoc)
       .dependsOn(ThisBuild / updateSiteVariables)
       .value,
-  libraryDependencies ++= Seq(
-    "eu.timepit" %% "refined-cats" % refinedVersion
-  ),
-  // format: off
-  ScalaUnidoc / unidoc / scalacOptions ++= Seq(
-    "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(ThisBuild / latestVersion).value}/€{FILE_PATH}.scala",
-    "-sourcepath", (LocalRootProject / baseDirectory).value.getAbsolutePath,
-    "-doc-title", "Ciris",
-    "-doc-version", s"v${(ThisBuild / latestVersion).value}",
-    "-groups"
-  )
-  // format: on
-)
-
-lazy val buildInfoSettings = Seq(
-  buildInfoPackage := "ciris.build",
-  buildInfoObject := "info",
-  buildInfoKeys := Seq[BuildInfoKey](
-    scalaVersion,
-    scalacOptions,
-    sourceDirectory,
-    ThisBuild / latestVersion,
-    // format: off
-    BuildInfoKey.map(ThisBuild / version) { case (_, v) => "latestSnapshotVersion" -> v },
-    BuildInfoKey.map(LocalRootProject / baseDirectory) { case (k, v) => "rootDirectory" -> v },
-    BuildInfoKey.map(core.jvm / moduleName) { case (k, v) => "core" ++ k.capitalize -> v },
-    BuildInfoKey.map(core.jvm / crossScalaVersions) { case (k, v) => "core" ++ k.capitalize -> v },
-    BuildInfoKey.map(core.js / crossScalaVersions) { case (k, v) => "coreJs" ++ k.capitalize -> v },
-    BuildInfoKey.map(core.native / crossScalaVersions) { case (k, v) => "coreNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(circe.jvm / moduleName) { case (k, v) => "circe" ++ k.capitalize -> v },
-    BuildInfoKey.map(circe.jvm / crossScalaVersions) { case (k, v) => "circe" ++ k.capitalize -> v },
-    BuildInfoKey.map(circe.js / crossScalaVersions) { case (k, v) => "circeJs" ++ k.capitalize -> v },
-    BuildInfoKey.map(circe.native / crossScalaVersions) { case (k, v) => "circeNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(circeYaml / moduleName) { case (k, v) => "circeYaml" ++ k.capitalize -> v },
-    BuildInfoKey.map(circeYaml / crossScalaVersions) { case (k, v) => "circeYaml" ++ k.capitalize -> v },
-    BuildInfoKey.map(enumeratum.jvm / moduleName) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
-    BuildInfoKey.map(enumeratum.jvm / crossScalaVersions) { case (k, v) => "enumeratum" ++ k.capitalize -> v },
-    BuildInfoKey.map(enumeratum.js / crossScalaVersions) { case (k, v) => "enumeratumJs" ++ k.capitalize -> v },
-    BuildInfoKey.map(enumeratum.native / crossScalaVersions) { case (k, v) => "enumeratumNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4s.jvm / moduleName) { case (k, v) => "http4s" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4s.jvm / crossScalaVersions) { case (k, v) => "http4s" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4s.js / crossScalaVersions) { case (k, v) => "http4sJs" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4s.native / crossScalaVersions) { case (k, v) => "http4sNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4sAws.jvm / moduleName) { case (k, v) => "http4sAws" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4sAws.jvm / crossScalaVersions) { case (k, v) => "http4sAws" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4sAws.js / crossScalaVersions) { case (k, v) => "http4sAwsJs" ++ k.capitalize -> v },
-    BuildInfoKey.map(http4sAws.native / crossScalaVersions) { case (k, v) => "http4sAwsNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined.jvm / moduleName) { case (k, v) => "refined" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined.jvm / crossScalaVersions) { case (k, v) => "refined" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined.js / crossScalaVersions) { case (k, v) => "refinedJs" ++ k.capitalize -> v },
-    BuildInfoKey.map(refined.native / crossScalaVersions) { case (k, v) => "refinedNative" ++ k.capitalize -> v },
-    BuildInfoKey.map(squants.jvm / moduleName) { case (k, v) => "squants" ++ k.capitalize -> v },
-    BuildInfoKey.map(squants.jvm / crossScalaVersions) { case (k, v) => "squants" ++ k.capitalize -> v },
-    BuildInfoKey.map(squants.js / crossScalaVersions) { case (k, v) => "squantsJs" ++ k.capitalize -> v },
-    LocalRootProject / organization,
-    core.jvm / crossScalaVersions,
-    BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
-    BuildInfoKey("circeVersion" -> circeVersion),
-    BuildInfoKey("circeYamlVersion" -> circeYamlVersion),
-    BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
-    BuildInfoKey("http4sVersion" -> http4sVersion),
-    BuildInfoKey("http4sAwsVersion" -> http4sAwsVersion),
-    BuildInfoKey("refinedVersion" -> refinedVersion),
-    BuildInfoKey("squantsVersion" -> squantsVersion),
-    BuildInfoKey("scalaJsMajorMinorVersion" -> scalaJsMajorMinorVersion),
-    BuildInfoKey("scalaNativeMajorMinorVersion" -> scalaNativeMajorMinorVersion)
-    // format: on
-  )
-)
-
-lazy val metadataSettings = Seq(
-  organization := "is.cir",
-  organizationName := "Ciris",
-  organizationHomepage := Some(url("https://cir.is"))
-)
-
-lazy val publishSettings =
-  metadataSettings ++ Seq(
-    Test / publishArtifact := false,
-    pomIncludeRepository := (_ => false),
-    homepage := Some(url("https://cir.is")),
-    licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
-    startYear := Some(2017),
-    headerLicense := Some(
-      sbtheader.License.MIT(
-        startYear.value.get.toString,
-        "Viktor Rudebeck",
-        HeaderLicenseStyle.SpdxSyntax
-      )
+    docusaurusPublishGhpages := docusaurusPublishGhpages
+      .dependsOn(Compile / unidoc)
+      .dependsOn(ThisBuild / updateSiteVariables)
+      .value,
+    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
+      core.jvm,
+      circe.jvm,
+      circeYaml,
+      enumeratum.jvm,
+      http4s.jvm,
+      http4sAws.jvm,
+      refined.jvm,
+      squants.jvm
     ),
-    headerSources / excludeFilter := HiddenFileFilter,
-    developers := List(
-      Developer(
-        id = "vlovgr",
-        name = "Viktor Rudebeck",
-        email = "github@vlovgr.se",
-        url = url("https://vlovgr.se")
-      )
-    )
-  )
-
-lazy val mimaSettings = Seq(
-  mimaPreviousArtifacts := {
-    val unpublishedModules = Set[String]()
-    if (publishArtifact.value && !unpublishedModules.contains(moduleName.value)) {
-      Set(organization.value %% moduleName.value % (ThisBuild / previousStableVersion).value.get)
-    } else Set()
-  },
-  mimaBinaryIssueFilters ++= {
-    import com.typesafe.tools.mima.core._
+    ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
+    cleanFiles += (ScalaUnidoc / unidoc / target).value,
     // format: off
-    Seq(
-      ProblemFilters.exclude[DirectMissingMethodProblem]("ciris.ConfigKey.file"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("ciris.package.file")
+    ScalaUnidoc / unidoc / scalacOptions ++= Seq(
+      "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(ThisBuild / latestVersion).value}/€{FILE_PATH}.scala",
+      "-sourcepath", (LocalRootProject / baseDirectory).value.getAbsolutePath,
+      "-doc-title", "Ciris",
+      "-doc-version", s"v${(ThisBuild / latestVersion).value}",
+      "-groups"
     )
     // format: on
-  }
-)
-
-lazy val noPublishSettings =
-  publishSettings ++ Seq(
-    publish / skip := true,
-    publishArtifact := false
   )
 
-lazy val sharedJsSettings = Seq(
-  doctestGenTests := Seq.empty
+lazy val headerSettings = Seq(
+  headerLicense := Some(
+    HeaderLicense.MIT(
+      startYear.value.get.toString,
+      "Viktor Rudebeck",
+      HeaderLicenseStyle.SpdxSyntax
+    )
+  )
 )
 
-lazy val sharedNativeSettings = Seq(
-  crossScalaVersions -= scala212
+lazy val moduleSettings = headerSettings ++ Seq(
+  libraryDependencies ++= Seq(
+    "org.typelevel" %%% "cats-effect" % catsEffectVersion,
+    "org.typelevel" %%% "cats-effect-laws" % catsEffectVersion,
+    "org.typelevel" %%% "munit-cats-effect" % munitCatsEffectVersion,
+    "org.typelevel" %%% "scalacheck-effect-munit" % scalaCheckEffectMunitVersion
+  ).map(_ % Test)
 )
 
-lazy val scalaSettings = Seq(
-  scalaVersion := scala213,
-  crossScalaVersions := Seq(scala212, scala213),
-  javacOptions ++= Seq("--release", "8"),
-  scalacOptions ++= {
-    val commonScalacOptions =
-      Seq(
-        "-deprecation",
-        "-encoding",
-        "UTF-8",
-        "-feature",
-        "-unchecked",
-        "-Xfatal-warnings"
-      )
-
-    val scala2ScalacOptions =
-      if (scalaVersion.value.startsWith("2.")) {
-        Seq(
-          "-language:higherKinds",
-          "-Xlint",
-          "-Ywarn-dead-code",
-          "-Ywarn-numeric-widen",
-          "-Ywarn-value-discard",
-          "-Ywarn-unused"
-        )
-      } else Seq()
-
-    val scala212ScalacOptions =
-      if (scalaVersion.value.startsWith("2.12")) {
-        Seq("-Yno-adapted-args", "-Ypartial-unification")
-      } else Seq()
-
-    val scala213ScalacOptions =
-      if (scalaVersion.value.startsWith("2.13")) {
-        Seq("-Wconf:cat=lint-overload&msg=mistake:s") ++
-          // https://github.com/scala/bug/issues/13128#issuecomment-3375870295
-          Seq("-Wconf:cat=lint-infer-any&msg=kind-polymorphic:s")
-      } else Seq()
-
-    val scala3ScalacOptions =
-      if (scalaVersion.value.startsWith("3")) {
-        Seq("-Ykind-projector", "-Yretain-trees")
-      } else Seq()
-
-    commonScalacOptions ++
-      scala2ScalacOptions ++
-      scala212ScalacOptions ++
-      scala213ScalacOptions ++
-      scala3ScalacOptions
-  },
-  Compile / console / scalacOptions --= Seq("-Xlint", "-Ywarn-unused"),
-  Test / console / scalacOptions := (Compile / console / scalacOptions).value
+lazy val nativeSettings = withoutScala212 ++ Seq(
+  tlVersionIntroduced := Map("2.13" -> "3.13.0", "3" -> "3.13.0")
 )
 
-lazy val testSettings = Seq(
-  Test / logBuffered := false,
-  Test / parallelExecution := false,
-  Test / testOptions += Tests.Argument("-oDF"),
-  Test / scalacOptions --= Seq("-deprecation", "-Xfatal-warnings", "-Xlint", "-Ywarn-unused")
+lazy val withoutScala212 = Seq(
+  crossScalaVersions := Seq(scala213, scala3),
+  scalaVersion := scala213
 )
+
+def moduleInfo(prefix: String, project: CompositeProject): Seq[BuildInfoKey] =
+  project.componentProjects.flatMap { p =>
+    val platform = p.id.stripPrefix(prefix) match {
+      case "" | "JVM" => ""
+      case "JS"       => "Js"
+      case other      => other
+    }
+
+    val moduleNameKey =
+      if (platform.nonEmpty) Seq()
+      else Seq(BuildInfoKey.map(p / moduleName) { case (_, v) => s"${prefix}ModuleName" -> v })
+
+    moduleNameKey :+ BuildInfoKey.map(p / crossScalaVersions) { case (_, v) =>
+      s"$prefix${platform}CrossScalaVersions" -> v
+    }
+  }
 
 def scalaVersionOf(version: String): String = {
   if (version.contains("-")) version
@@ -522,17 +314,25 @@ def scalaVersionOf(version: String): String = {
   }
 }
 
-val latestVersion = settingKey[String]("Latest stable released version")
-ThisBuild / latestVersion := {
-  val snapshot = (ThisBuild / isSnapshot).value
-  val stable = (ThisBuild / isVersionStable).value
+lazy val scalaJsMajorMinorVersion =
+  """"org.scala-js" % "sbt-scalajs" % "([^"]+)"""".r
+    .findFirstMatchIn(IO.read(file("project/plugins.sbt")))
+    .map(_.group(1))
+    .flatMap(CrossVersion.partialVersion)
+    .map { case (major, minor) => s"$major.$minor" }
+    .getOrElse(throw new MessageOnlyException("Unable to determine Scala.js plugin version."))
 
-  if (!snapshot && stable) {
-    (ThisBuild / version).value
-  } else {
-    (ThisBuild / previousStableVersion).value.get
-  }
-}
+lazy val scalaNativeMajorMinorVersion =
+  """"org.scala-native" % "sbt-scala-native" % "([^"]+)"""".r
+    .findFirstMatchIn(IO.read(file("project/plugins.sbt")))
+    .map(_.group(1))
+    .flatMap(CrossVersion.partialVersion)
+    .map { case (major, minor) => s"$major.$minor" }
+    .getOrElse(throw new MessageOnlyException("Unable to determine Scala Native plugin version."))
+
+val latestVersion = settingKey[String]("Latest stable released version")
+ThisBuild / latestVersion := tlLatestVersion.value
+  .getOrElse(throw new IllegalStateException("No tagged version found"))
 
 val updateSiteVariables = taskKey[Unit]("Update site variables")
 ThisBuild / updateSiteVariables := {
@@ -564,20 +364,3 @@ ThisBuild / updateSiteVariables := {
 
   IO.write(file, fileContents)
 }
-
-def addCommandsAlias(name: String, values: List[String]) =
-  addCommandAlias(name, values.mkString(";", ";", ""))
-
-addCommandsAlias(
-  "validate",
-  List(
-    "+clean",
-    "+test",
-    "+mimaReportBinaryIssues",
-    "scalafmtCheckAll",
-    "scalafmtSbtCheck",
-    "+headerCheckAll",
-    "+doc",
-    "docs/run"
-  )
-)

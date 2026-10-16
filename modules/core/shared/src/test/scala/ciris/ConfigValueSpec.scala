@@ -10,14 +10,9 @@ import cats.Eq
 import cats.effect.IO
 import cats.effect.Ref
 import cats.effect.kernel.Resource
-import cats.effect.kernel.Sync
-import cats.laws.discipline.ApplyTests
-import cats.laws.discipline.FlatMapTests
-import cats.laws.discipline.NonEmptyParallelTests
 import cats.syntax.all._
 import munit.CatsEffectSuite
 import munit.ScalaCheckEffectSuite
-import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalacheck.effect.PropF

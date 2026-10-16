@@ -52,6 +52,12 @@ import ciris.ConfigEntry.Loaded
   * the option to return a `Resource` with [[ConfigValue#resource]].
   *
   * @example {{{
+  * scala> import cats.effect.IO
+  * import cats.effect.IO
+  *
+  * scala> import cats.effect.unsafe.implicits.global
+  * import cats.effect.unsafe.implicits.global
+  *
   * scala> import cats.syntax.all._
   * import cats.syntax.all._
   *
@@ -66,6 +72,9 @@ import ciris.ConfigEntry.Loaded
   *
   * scala> val config = (maxRetries, apiKey).parMapN(Config(_, _))
   * val config: ConfigValue[[x]Effect[x],Config] = ConfigValue$$1463229407
+  *
+  * scala> config.load[IO].unsafeRunSync()
+  * res0: Config = Config(5,None)
   * }}}
   */
 sealed abstract class ConfigValue[+F[_], A] {

@@ -9,7 +9,7 @@ package ciris
 import cats.effect.IO
 import cats.syntax.all._
 import java.nio.charset.{Charset, StandardCharsets}
-import java.nio.file.{Files, Path, StandardOpenOption}
+import java.nio.file.{Files, Path}
 import munit.{CatsEffectSuite, ScalaCheckEffectSuite}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.effect.PropF

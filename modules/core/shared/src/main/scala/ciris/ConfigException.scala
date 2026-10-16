@@ -56,7 +56,7 @@ object ConfigException {
     messages.foldLeft(()) { (_, message) =>
       builder.append(entryLeading).append(message)
       if (!message.endsWith(entryTrailing))
-        builder.append(entryTrailing)
+        builder.append(entryTrailing): Unit
 
       ()
     }
