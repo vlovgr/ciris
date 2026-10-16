@@ -300,13 +300,19 @@ object AwsSsmParameters {
     final case class Other(override val value: String) extends GetErrorResponseCode(value)
 
     implicit val decoder: Decoder[GetErrorResponseCode] =
-      Decoder[String].map {
+      Decoder[String].map(normalize).map {
         case InternalServerError.value      => InternalServerError
         case InvalidKeyId.value             => InvalidKeyId
         case ParameterNotFound.value        => ParameterNotFound
         case ParameterVersionNotFound.value => ParameterVersionNotFound
         case code                           => Other(code)
       }
+
+    // Error types can include a namespace and a suffix, e.g. "namespace#Code:suffix".
+    private def normalize(errorType: String): String = {
+      val withoutSuffix = errorType.takeWhile(_ != ':')
+      withoutSuffix.substring(withoutSuffix.indexOf('#') + 1)
+    }
   }
 
   private final case class GetErrorResponse(
