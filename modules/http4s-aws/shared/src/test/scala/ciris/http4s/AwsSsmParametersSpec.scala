@@ -153,7 +153,7 @@ final class AwsSsmParametersSpec extends CatsEffectSuite {
           )
           assertEquals(
             error.getMessage,
-            "unexpected HTTP status 400 Bad Request with error code InvalidKeyId: Invalid key"
+            "unexpected HTTP status 400 Bad Request with error code InvalidKeyId for parameter name: Invalid key"
           )
         }
     }
@@ -189,8 +189,10 @@ final class AwsSsmParametersSpec extends CatsEffectSuite {
 
     recordingClient(throttledResponse).flatMap { case (client, recorded) =>
       val parameters = AwsSsmParameters.fromSigningClient(client, Region.EU_WEST_1, retryPolicy)
-      val errorCode = interceptIO[UnexpectedError](parameters("name").load[IO]).map(_.errorCode)
-      errorCode.assertEquals("ThrottlingException") >> recorded.map(_.size).assertEquals(3)
+      val message = interceptIO[UnexpectedError](parameters("name").load[IO]).map(_.getMessage)
+      val expected =
+        "unexpected HTTP status 400 Bad Request with error code ThrottlingException for parameter name: Rate exceeded"
+      message.assertEquals(expected) >> recorded.map(_.size).assertEquals(3)
     }
   }
 }
