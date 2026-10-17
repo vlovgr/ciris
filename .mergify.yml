@@ -10,6 +10,7 @@ pull_request_rules:
       - status-success=Test (ubuntu-latest, 3, temurin@21, rootJS)
       - status-success=Test (ubuntu-latest, 3, temurin@21, rootJVM)
       - status-success=Test (ubuntu-latest, 3, temurin@21, rootNative)
+      - status-success=Generate Site (ubuntu-22.04, temurin@21)
       - body~=labels:.*semver-patch
     actions:
       merge:

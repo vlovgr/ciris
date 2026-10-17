@@ -66,16 +66,13 @@ jobs:
       - if: matrix.scala == '2.13'
         run: sbt 'project ${{ matrix.project }}' headerCheckAll scalafmtCheckAll 'project /' scalafmtSbtCheck
 
-      - if: matrix.scala == '2.13' && matrix.project == 'rootJVM'
-        run: sbt 'project ${{ matrix.project }}' docs/run docs/unidoc
-
       - name: Make target directories
         if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')
-        run: mkdir -p modules/http4s/jvm/target modules/http4s/js/target modules/circe/jvm/target modules/core/native/target modules/enumeratum/native/target modules/core/js/target modules/circe/js/target modules/http4s-aws/native/target modules/core/jvm/target modules/circe-yaml/target modules/refined/native/target modules/http4s-aws/jvm/target modules/refined/js/target modules/refined/jvm/target modules/http4s/native/target modules/squants/jvm/target modules/circe/native/target modules/enumeratum/js/target modules/http4s-aws/js/target modules/squants/js/target modules/enumeratum/jvm/target project/target
+        run: mkdir -p modules/http4s/jvm/target modules/http4s/js/target modules/circe/jvm/target unidocs/target modules/core/native/target modules/enumeratum/native/target modules/core/js/target modules/circe/js/target modules/http4s-aws/native/target modules/core/jvm/target modules/circe-yaml/target modules/refined/native/target modules/http4s-aws/jvm/target modules/refined/js/target modules/refined/jvm/target modules/http4s/native/target modules/squants/jvm/target modules/circe/native/target modules/enumeratum/js/target modules/http4s-aws/js/target modules/squants/js/target modules/enumeratum/jvm/target project/target
 
       - name: Compress target directories
         if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')
-        run: tar cf targets.tar modules/http4s/jvm/target modules/http4s/js/target modules/circe/jvm/target modules/core/native/target modules/enumeratum/native/target modules/core/js/target modules/circe/js/target modules/http4s-aws/native/target modules/core/jvm/target modules/circe-yaml/target modules/refined/native/target modules/http4s-aws/jvm/target modules/refined/js/target modules/refined/jvm/target modules/http4s/native/target modules/squants/jvm/target modules/circe/native/target modules/enumeratum/js/target modules/http4s-aws/js/target modules/squants/js/target modules/enumeratum/jvm/target project/target
+        run: tar cf targets.tar modules/http4s/jvm/target modules/http4s/js/target modules/circe/jvm/target unidocs/target modules/core/native/target modules/enumeratum/native/target modules/core/js/target modules/circe/js/target modules/http4s-aws/native/target modules/core/jvm/target modules/circe-yaml/target modules/refined/native/target modules/http4s-aws/jvm/target modules/refined/js/target modules/refined/jvm/target modules/http4s/native/target modules/squants/jvm/target modules/circe/native/target modules/enumeratum/js/target modules/http4s-aws/js/target modules/squants/js/target modules/enumeratum/jvm/target project/target
 
       - name: Upload target directories
         if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')
@@ -219,11 +216,6 @@ jobs:
           SONATYPE_CREDENTIAL_HOST: ${{ secrets.SONATYPE_CREDENTIAL_HOST }}
         run: sbt tlCiRelease
 
-      - name: Publish website
-        env:
-          GIT_DEPLOY_KEY: ${{ secrets.GIT_DEPLOY_KEY }}
-        run: sbt docs/docusaurusPublishGhpages
-
   dependency-submission:
     name: Submit Dependencies
     if: github.event.repository.fork == false && github.event_name != 'pull_request'
@@ -257,5 +249,45 @@ jobs:
       - name: Submit Dependencies
         uses: scalacenter/sbt-dependency-submission@v2
         with:
-          modules-ignore: ciris-docs_2.13
+          modules-ignore: docs_2.13
           configs-ignore: test scala-tool scala-doc-tool test-internal
+
+  site:
+    name: Generate Site
+    strategy:
+      matrix:
+        os: [ubuntu-22.04]
+        java: [temurin@21]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout current branch (full)
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
+      - name: Setup Java (temurin@21)
+        id: setup-java-temurin-21
+        if: matrix.java == 'temurin@21'
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: sbt
+
+      - name: sbt update
+        if: matrix.java == 'temurin@21' && steps.setup-java-temurin-21.outputs.cache-hit == 'false'
+        run: sbt +update
+
+      - name: Generate site
+        run: sbt docs/tlSite
+
+      - name: Publish site
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site/target/docs/site
+          keep_files: false

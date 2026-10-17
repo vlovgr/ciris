@@ -1,7 +1,4 @@
----
-id: quick-example
-title: Quick Example
----
+# Quick Example
 
 Following is an example showing how to:
 
