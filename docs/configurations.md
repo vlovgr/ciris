@@ -1,7 +1,4 @@
----
-id: configurations
-title: Configurations
----
+# Configurations
 
 [`ConfigValue`][configvalue] is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like `env`, `file`, and `prop` for creating `ConfigValue`s for environment variables, file contents, and system properties. The [ciris-http4s-aws](modules.md#http4s-aws) module adds support for reading values from the [AWS Systems Manager (SSM) Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), while [external modules](overview.md#external-modules) provide support for additional configuration sources.
 
@@ -197,9 +194,9 @@ def env(name: String): ConfigValue[Effect, String] =
 
 The [`ConfigKey`][configkey] is a description of the key, e.g. `s"environment variable $name"`. The function returns `missing` when there is no value for the key, and `loaded` when a value is available. Since reading environment variables can throw `SecurityException`s, we capture side effects using `suspend`.
 
-[configdecoder]: @API_BASE_URL@/ConfigDecoder.html
-[configerror]: @API_BASE_URL@/ConfigError.html
-[configkey]: @API_BASE_URL@/ConfigKey.html
-[configvalue]: @API_BASE_URL@/ConfigValue.html
-[configvalue$]: @API_BASE_URL@/ConfigValue$.html
-[secret]: @API_BASE_URL@/Secret.html
+[configdecoder]: @API_URL@ciris/ConfigDecoder.html
+[configerror]: @API_URL@ciris/ConfigError.html
+[configkey]: @API_URL@ciris/ConfigKey.html
+[configvalue]: @API_URL@ciris/ConfigValue.html
+[configvalue$]: @API_URL@ciris/ConfigValue$.html
+[secret]: @API_URL@ciris/Secret.html

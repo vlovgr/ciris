@@ -1,7 +1,4 @@
----
-id: overview
-title: Overview
----
+# Overview
 
 Ciris is a functional programming library for loading configurations.
 
@@ -13,14 +10,14 @@ In particular, the following features are supported.
 - Decoding configuration values to various commonly used types.
 - Accumulating errors when multiple values cannot be loaded.
 
-Documentation is kept up-to-date, currently documenting v@LATEST_VERSION@ on Scala @DOCS_SCALA_VERSION@.
+Documentation is kept up-to-date, currently documenting v@VERSION@ on Scala @SCALA_DOCS_VERSION@.
 
 ## Getting Started
 
 To get started with [sbt](https://scala-sbt.org), add the following line to your `build.sbt` file.
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@LATEST_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@VERSION@"
 ```
 
 Published for Scala @SCALA_PUBLISH_VERSIONS@, [Scala.js](https://www.scala-js.org) @SCALA_JS_MAJOR_MINOR_VERSION@ and [Scala Native](https://scala-native.org) @SCALA_NATIVE_MAJOR_MINOR_VERSION@.
@@ -44,7 +41,7 @@ Following are additional provided modules.
 For [circe](modules.md#circe) support, add the following line to your `build.sbt` file.
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_MODULE_NAME@" % "@LATEST_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_MODULE_NAME@" % "@VERSION@"
 ```
 
 #### circe-yaml
@@ -52,7 +49,7 @@ libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_MODULE_NAME@" % "@LATEST_VERS
 For [circe-yaml](modules.md#circe-yaml) support, add the following line to your `build.sbt` file.
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_YAML_MODULE_NAME@" % "@LATEST_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_YAML_MODULE_NAME@" % "@VERSION@"
 ```
 
 #### enumeratum
@@ -60,7 +57,7 @@ libraryDependencies += "@ORGANIZATION@" %% "@CIRCE_YAML_MODULE_NAME@" % "@LATEST
 For [enumeratum](modules.md#enumeratum) support, add the following line to your `build.sbt` file.
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %% "@ENUMERATUM_MODULE_NAME@" % "@LATEST_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@ENUMERATUM_MODULE_NAME@" % "@VERSION@"
 ```
 
 #### http4s
@@ -68,7 +65,7 @@ libraryDependencies += "@ORGANIZATION@" %% "@ENUMERATUM_MODULE_NAME@" % "@LATEST
 For [http4s](modules.md#http4s) support, add the following line to your `build.sbt` file.
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %% "@HTTP4S_MODULE_NAME@" % "@LATEST_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@HTTP4S_MODULE_NAME@" % "@VERSION@"
 ```
 
 #### http4s-aws
@@ -76,7 +73,7 @@ libraryDependencies += "@ORGANIZATION@" %% "@HTTP4S_MODULE_NAME@" % "@LATEST_VER
 For [http4s-aws](modules.md#http4s-aws) support, add the following line to your `build.sbt` file.
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %% "@HTTP4SAWS_MODULE_NAME@" % "@LATEST_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@HTTP4SAWS_MODULE_NAME@" % "@VERSION@"
 ```
 
 #### refined
@@ -84,7 +81,7 @@ libraryDependencies += "@ORGANIZATION@" %% "@HTTP4SAWS_MODULE_NAME@" % "@LATEST_
 For [refined](modules.md#refined) support, add the following line to your `build.sbt` file.
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %% "@REFINED_MODULE_NAME@" % "@LATEST_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@REFINED_MODULE_NAME@" % "@VERSION@"
 ```
 
 #### squants
@@ -92,7 +89,7 @@ libraryDependencies += "@ORGANIZATION@" %% "@REFINED_MODULE_NAME@" % "@LATEST_VE
 For [squants](modules.md#squants) support, add the following line to your `build.sbt` file.
 
 ```scala
-libraryDependencies += "@ORGANIZATION@" %% "@SQUANTS_MODULE_NAME@" % "@LATEST_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@SQUANTS_MODULE_NAME@" % "@VERSION@"
 ```
 
 #### External Modules
@@ -112,8 +109,9 @@ Stable release artifacts are signed with the [`3C73 EC3D A303 8ED3`](https://key
 
 ### Compatibility
 
-Backwards binary-compatibility for the library is guaranteed between minor and patch versions.<br>
-Version `@LATEST_MAJOR_VERSION@.a.b` is backwards binary-compatible with `@LATEST_MAJOR_VERSION@.c.d` for any `a > c` or `a = c` and `b > d`.
+Backwards binary-compatibility for the library is guaranteed between minor and patch versions.
+
+Version `@MAJOR_VERSION@.a.b` is backwards binary-compatible with `@MAJOR_VERSION@.c.d` for any `a > c` or `a = c` and `b > d`.
 
 Please note binary-compatibility is not guaranteed between milestone releases.
 
@@ -124,7 +122,7 @@ To use the latest snapshot release, add the following lines to your `build.sbt` 
 ```scala
 resolvers += Resolver.sonatypeCentralSnapshots
 
-libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@LATEST_SNAPSHOT_VERSION@"
+libraryDependencies += "@ORGANIZATION@" %% "@CORE_MODULE_NAME@" % "@SNAPSHOT_VERSION@"
 ```
 
 ## Dependencies

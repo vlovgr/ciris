@@ -31,10 +31,6 @@ inThisBuild(
       WorkflowStep.Sbt(
         List("headerCheckAll", "scalafmtCheckAll", "project /", "scalafmtSbtCheck"),
         cond = Some("matrix.scala == '2.13'")
-      ),
-      WorkflowStep.Sbt(
-        List("docs/run", "docs/unidoc"),
-        cond = Some("matrix.scala == '2.13' && matrix.project == 'rootJVM'")
       )
     ),
     githubWorkflowBuildMatrixExclusions +=
@@ -42,11 +38,6 @@ inThisBuild(
     githubWorkflowBuildSbtStepPreamble := Seq("project ${{ matrix.project }}"),
     githubWorkflowJavaVersions := Seq(JavaSpec.temurin("21")),
     githubWorkflowOSes := Seq("ubuntu-latest"),
-    githubWorkflowPublish += WorkflowStep.Sbt(
-      List("docs/docusaurusPublishGhpages"),
-      name = Some("Publish website"),
-      env = Map("GIT_DEPLOY_KEY" -> "${{ secrets.GIT_DEPLOY_KEY }}")
-    ),
     homepage := Some(url("https://cir.is")),
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
     mimaBinaryIssueFilters ++= {
@@ -63,12 +54,14 @@ inThisBuild(
     organizationName := "Ciris",
     scalaVersion := scala213,
     startYear := Some(2017),
-    tlBaseVersion := "3.15"
+    tlBaseVersion := "3.15",
+    tlSiteKeepFiles := false,
+    tlSitePublishBranch := Some("main")
   )
 )
 
 lazy val root = tlCrossRootProject
-  .aggregate(core, circe, circeYaml, enumeratum, http4s, http4sAws, refined, squants)
+  .aggregate(core, circe, circeYaml, enumeratum, http4s, http4sAws, refined, squants, unidocs)
   .settings(
     headerSettings,
     crossScalaVersions := Nil,
@@ -176,8 +169,8 @@ lazy val squants = crossProject(JSPlatform, JVMPlatform)
   )
 
 lazy val docs = project
-  .in(file("docs"))
-  .enablePlugins(BuildInfoPlugin, DocusaurusPlugin, MdocPlugin, NoPublishPlugin, ScalaUnidocPlugin)
+  .in(file("site"))
+  .enablePlugins(TypelevelSitePlugin)
   .dependsOn(
     core.jvm,
     circe.jvm,
@@ -188,55 +181,202 @@ lazy val docs = project
     refined.jvm,
     squants.jvm
   )
+  .settings {
+    import laika.ast.Image
+    import laika.ast.InlineSVGIcon
+    import laika.ast.LengthUnit.em
+    import laika.ast.LengthUnit.px
+    import laika.ast.Path.Root
+    import laika.ast.Styles
+    import laika.helium.Helium
+    import laika.helium.config.ButtonLink
+    import laika.helium.config.ColorQuintet
+    import laika.helium.config.Favicon
+    import laika.helium.config.HeliumIcon
+    import laika.helium.config.IconLink
+    import laika.helium.config.LinkGroup
+    import laika.helium.config.LinkPanel
+    import laika.helium.config.ReleaseInfo
+    import laika.helium.config.TextLink
+    import laika.theme.config.Color
+    import org.typelevel.sbt.site.GenericSiteSettings
+
+    Seq(
+      crossScalaVersions := Seq(scala213),
+      scalacOptions -= "-Wunused",
+      libraryDependencies ++= Seq(
+        "eu.timepit" %% "refined-cats" % refinedVersion,
+        "org.http4s" %% "http4s-ember-client" % http4sVersion,
+        "org.typelevel" %% "cats-effect" % catsEffectVersion
+      ),
+      Compile / packageDoc / mappings := (unidocs / Compile / packageDoc / mappings).value,
+      laikaIncludeAPI := true,
+      tlSiteApiUrl := None,
+      tlSitePreview := tlSitePreview.dependsOn(laikaGenerateAPI).value,
+      mdocVariables ++= Map(
+        "API_URL" -> "/api/",
+        "CATS_EFFECT_VERSION" -> catsEffectVersion,
+        "CIRCE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(circe.jvm).value,
+        "CIRCE_JS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(circe.js).value,
+        "CIRCE_MODULE_NAME" -> (circe.jvm / moduleName).value,
+        "CIRCE_NATIVE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(circe.native).value,
+        "CIRCE_VERSION" -> circeVersion,
+        "CIRCE_YAML_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(circeYaml).value,
+        "CIRCE_YAML_MODULE_NAME" -> (circeYaml / moduleName).value,
+        "CIRCE_YAML_VERSION" -> circeYamlVersion,
+        "CORE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(core.jvm).value,
+        "CORE_JS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(core.js).value,
+        "CORE_MODULE_NAME" -> (core.jvm / moduleName).value,
+        "CORE_NATIVE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(core.native).value,
+        "ENUMERATUM_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(enumeratum.jvm).value,
+        "ENUMERATUM_JS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(enumeratum.js).value,
+        "ENUMERATUM_MODULE_NAME" -> (enumeratum.jvm / moduleName).value,
+        "ENUMERATUM_NATIVE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(enumeratum.native).value,
+        "ENUMERATUM_VERSION" -> enumeratumVersion,
+        "HTTP4S_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(http4s.jvm).value,
+        "HTTP4S_JS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(http4s.js).value,
+        "HTTP4S_MODULE_NAME" -> (http4s.jvm / moduleName).value,
+        "HTTP4S_NATIVE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(http4s.native).value,
+        "HTTP4S_VERSION" -> http4sVersion,
+        "HTTP4SAWS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(http4sAws.jvm).value,
+        "HTTP4SAWS_JS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(http4sAws.js).value,
+        "HTTP4SAWS_MODULE_NAME" -> (http4sAws.jvm / moduleName).value,
+        "HTTP4SAWS_NATIVE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(http4sAws.native).value,
+        "HTTP4SAWS_VERSION" -> http4sAwsVersion,
+        "MAJOR_VERSION" -> majorVersion(version.value),
+        "ORGANIZATION" -> (ThisBuild / organization).value,
+        "REFINED_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(refined.jvm).value,
+        "REFINED_JS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(refined.js).value,
+        "REFINED_MODULE_NAME" -> (refined.jvm / moduleName).value,
+        "REFINED_NATIVE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(refined.native).value,
+        "REFINED_VERSION" -> refinedVersion,
+        "SCALA_DOCS_VERSION" -> scalaVersionOf(scalaVersion.value),
+        "SCALA_JS_MAJOR_MINOR_VERSION" -> scalaJsMajorMinorVersion,
+        "SCALA_NATIVE_MAJOR_MINOR_VERSION" -> scalaNativeMajorMinorVersion,
+        "SCALA_PUBLISH_VERSIONS" -> crossScalaVersionsOf(core.jvm).value,
+        "SQUANTS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(squants.jvm).value,
+        "SQUANTS_JS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(squants.js).value,
+        "SQUANTS_MODULE_NAME" -> (squants.jvm / moduleName).value,
+        "SQUANTS_VERSION" -> squantsVersion
+      ),
+      tlSiteHelium := {
+        val gitHubUrl = "https://github.com/vlovgr/ciris"
+
+        val projectLinks = List(
+          IconLink.internal(Root / "api" / "ciris" / "index.html", HeliumIcon.api),
+          IconLink.external(gitHubUrl, HeliumIcon.github),
+          IconLink.external("https://discord.gg/XF3CXcMzqD", HeliumIcon.chat)
+        )
+
+        Helium.defaults
+          .extendWith(GenericSiteSettings.themeExtensions.value)
+          .site
+          .metadata(
+            title = Some("Ciris · Functional Configurations for Scala"),
+            description = Some("Functional Configurations for Scala"),
+            authors = developers.value.map(_.name),
+            language = Some("en"),
+            version = Some(version.value)
+          )
+          .site
+          .themeColors(
+            primary = Color.hex("122932"),
+            secondary = Color.hex("19647e"),
+            primaryMedium = Color.hex("c5d3da"),
+            primaryLight = Color.hex("f2f5f6"),
+            text = Color.hex("24292e"),
+            background = Color.hex("ffffff"),
+            bgGradient = (Color.hex("122932"), Color.hex("153243"))
+          )
+          .site
+          .syntaxHighlightingColors(
+            base = ColorQuintet(
+              Color.hex("f8f8f8"), // background
+              Color.hex("999988"), // comments
+              Color.hex("333333"), // punctuation
+              Color.hex("333333"), // identifiers
+              Color.hex("333333") // unclassified
+            ),
+            wheel = ColorQuintet(
+              Color.hex("999999"), // substitutions, annotations
+              Color.hex("333333"), // keywords, escape sequences
+              Color.hex("990000"), // declaration names
+              Color.hex("dd1144"), // literals
+              Color.hex("445588") // types
+            )
+          )
+          .site
+          .clearFontResources
+          .site
+          .fontSizes(
+            body = px(16),
+            code = em(0.85),
+            title = px(32),
+            header2 = px(24),
+            header3 = px(20),
+            header4 = px(16),
+            small = px(12)
+          )
+          .site
+          .darkMode
+          .disabled
+          .site
+          .layout(topBarHeight = px(50))
+          .site
+          .topNavigationBar(
+            homeLink = IconLink.internal(
+              Root / "README",
+              InlineSVGIcon(IO.read(file("docs/img/logo.svg"))),
+              text = Some("Ciris"),
+              options = Styles("home-link")
+            ),
+            navLinks = projectLinks,
+            highContrast = true
+          )
+          .site
+          .internalCSS(Root / "css")
+          .site
+          .favIcons(Favicon.internal(Root / "img" / "favicon.svg"))
+          .site
+          .landingPage(
+            logo = Some(
+              Image.internal(Root / "img" / "logo.svg", height = Some(px(150)), alt = Some(""))
+            ),
+            title = Some("Ciris"),
+            subtitle = Some("Functional Configurations for Scala"),
+            latestReleases = tlLatestVersion.value.toList.map(ReleaseInfo("Latest Release", _)),
+            license = Some("MIT"),
+            titleLinks = Seq(
+              ButtonLink.internal(Root / "overview.md", "Documentation"),
+              LinkGroup.create(projectLinks.head, projectLinks.tail: _*)
+            ),
+            linkPanel = Some(
+              LinkPanel(
+                "Documentation",
+                TextLink.internal(Root / "overview.md", "Overview"),
+                TextLink.internal(Root / "quick-example.md", "Quick Example"),
+                TextLink.internal(Root / "configurations.md", "Configurations"),
+                TextLink.internal(Root / "modules.md", "Modules")
+              )
+            )
+          )
+          .site
+          .footer(
+            "Licensed under the <a href=\"https://github.com/vlovgr/ciris/blob/main/license.txt\">MIT License</a>.<br>" +
+              "Copyright © 2017 Viktor Rudebeck."
+          )
+          .site
+          .pageNavigation(sourceBaseURL = Some("https://github.com/vlovgr/ciris/tree/main/docs"))
+      }
+    )
+  }
+
+lazy val unidocs = project
+  .enablePlugins(TypelevelUnidocPlugin)
   .settings(
     name := "ciris-docs",
-    crossScalaVersions := Seq(scala213),
-    scalacOptions -= "-Wunused",
-    libraryDependencies ++= Seq(
-      "eu.timepit" %% "refined-cats" % refinedVersion,
-      "org.http4s" %% "http4s-ember-client" % http4sVersion,
-      "org.typelevel" %% "cats-effect" % catsEffectVersion
-    ),
-    mdoc := (Compile / run).evaluated,
-    buildInfoPackage := "ciris.build",
-    buildInfoObject := "info",
-    buildInfoKeys := Seq[BuildInfoKey](
-      scalaVersion,
-      scalacOptions,
-      sourceDirectory,
-      LocalRootProject / organization,
-      ThisBuild / latestVersion,
-      core.jvm / crossScalaVersions,
-      BuildInfoKey.map(ThisBuild / version) { case (_, v) => "latestSnapshotVersion" -> v },
-      BuildInfoKey.map(LocalRootProject / baseDirectory) { case (_, v) => "rootDirectory" -> v },
-      BuildInfoKey("catsEffectVersion" -> catsEffectVersion),
-      BuildInfoKey("circeVersion" -> circeVersion),
-      BuildInfoKey("circeYamlVersion" -> circeYamlVersion),
-      BuildInfoKey("enumeratumVersion" -> enumeratumVersion),
-      BuildInfoKey("http4sVersion" -> http4sVersion),
-      BuildInfoKey("http4sAwsVersion" -> http4sAwsVersion),
-      BuildInfoKey("refinedVersion" -> refinedVersion),
-      BuildInfoKey("squantsVersion" -> squantsVersion),
-      BuildInfoKey("scalaJsMajorMinorVersion" -> scalaJsMajorMinorVersion),
-      BuildInfoKey("scalaNativeMajorMinorVersion" -> scalaNativeMajorMinorVersion)
-    ) ++
-      moduleInfo("core", core) ++
-      moduleInfo("circe", circe) ++
-      moduleInfo("circeYaml", circeYaml) ++
-      moduleInfo("enumeratum", enumeratum) ++
-      moduleInfo("http4s", http4s) ++
-      moduleInfo("http4sAws", http4sAws) ++
-      moduleInfo("refined", refined) ++
-      moduleInfo("squants", squants),
-    docusaurusVersion := DocusaurusVersion.V1,
-    docusaurusCreateSite := docusaurusCreateSite
-      .dependsOn(Compile / unidoc)
-      .dependsOn(ThisBuild / updateSiteVariables)
-      .value,
-    docusaurusPublishGhpages := docusaurusPublishGhpages
-      .dependsOn(Compile / unidoc)
-      .dependsOn(ThisBuild / updateSiteVariables)
-      .value,
+    headerSettings,
+    withoutScala212,
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
       core.jvm,
       circe.jvm,
@@ -247,17 +387,11 @@ lazy val docs = project
       refined.jvm,
       squants.jvm
     ),
-    ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
-    cleanFiles += (ScalaUnidoc / unidoc / target).value,
-    // format: off
-    ScalaUnidoc / unidoc / scalacOptions ++= Seq(
-      "-doc-source-url", s"https://github.com/vlovgr/ciris/tree/v${(ThisBuild / latestVersion).value}/€{FILE_PATH}.scala",
-      "-sourcepath", (LocalRootProject / baseDirectory).value.getAbsolutePath,
-      "-doc-title", "Ciris",
-      "-doc-version", s"v${(ThisBuild / latestVersion).value}",
-      "-groups"
-    )
-    // format: on
+    ScalaUnidoc / unidoc / scalacOptions ++= {
+      val docVersion = tlLatestVersion.value.getOrElse(version.value)
+      if (tlIsScala3.value) Seq()
+      else Seq("-doc-title", "Ciris", "-doc-version", s"v$docVersion", "-groups")
+    }
   )
 
 lazy val headerSettings = Seq(
@@ -288,22 +422,8 @@ lazy val withoutScala212 = Seq(
   scalaVersion := scala213
 )
 
-def moduleInfo(prefix: String, project: CompositeProject): Seq[BuildInfoKey] =
-  project.componentProjects.flatMap { p =>
-    val platform = p.id.stripPrefix(prefix) match {
-      case "" | "JVM" => ""
-      case "JS"       => "Js"
-      case other      => other
-    }
-
-    val moduleNameKey =
-      if (platform.nonEmpty) Seq()
-      else Seq(BuildInfoKey.map(p / moduleName) { case (_, v) => s"${prefix}ModuleName" -> v })
-
-    moduleNameKey :+ BuildInfoKey.map(p / crossScalaVersions) { case (_, v) =>
-      s"$prefix${platform}CrossScalaVersions" -> v
-    }
-  }
+def majorVersion(version: String): String =
+  version.split('.').head
 
 def scalaVersionOf(version: String): String = {
   if (version.contains("-")) version
@@ -313,6 +433,13 @@ def scalaVersionOf(version: String): String = {
     s"$major.$minor"
   }
 }
+
+def crossScalaVersionsOf(project: Project): Def.Initialize[String] =
+  Def.setting {
+    val scalaVersions = (project / crossScalaVersions).value.map(scalaVersionOf)
+    if (scalaVersions.size <= 2) scalaVersions.mkString(" and ")
+    else scalaVersions.init.mkString(", ") ++ " and " ++ scalaVersions.last
+  }
 
 lazy val scalaJsMajorMinorVersion =
   """"org.scala-js" % "sbt-scalajs" % "([^"]+)"""".r
@@ -329,38 +456,3 @@ lazy val scalaNativeMajorMinorVersion =
     .flatMap(CrossVersion.partialVersion)
     .map { case (major, minor) => s"$major.$minor" }
     .getOrElse(throw new MessageOnlyException("Unable to determine Scala Native plugin version."))
-
-val latestVersion = settingKey[String]("Latest stable released version")
-ThisBuild / latestVersion := tlLatestVersion.value
-  .getOrElse(throw new IllegalStateException("No tagged version found"))
-
-val updateSiteVariables = taskKey[Unit]("Update site variables")
-ThisBuild / updateSiteVariables := {
-  val file =
-    (LocalRootProject / baseDirectory).value / "website" / "variables.js"
-
-  val variables =
-    Map[String, String](
-      "organization" -> (LocalRootProject / organization).value,
-      "coreModuleName" -> (core.jvm / moduleName).value,
-      "latestVersion" -> (ThisBuild / latestVersion).value,
-      "scalaPublishVersions" -> {
-        val scalaVersions = (core.jvm / crossScalaVersions).value.map(scalaVersionOf)
-        if (scalaVersions.size <= 2) scalaVersions.mkString(" and ")
-        else scalaVersions.init.mkString(", ") ++ " and " ++ scalaVersions.last
-      },
-      "scalaJsMajorMinorVersion" -> scalaJsMajorMinorVersion,
-      "scalaNativeMajorMinorVersion" -> scalaNativeMajorMinorVersion
-    )
-
-  val fileHeader =
-    "// Generated by sbt. Do not edit directly."
-
-  val fileContents =
-    variables.toList
-      .sortBy { case (key, _) => key }
-      .map { case (key, value) => s"  $key: '$value'" }
-      .mkString(s"$fileHeader\nmodule.exports = {\n", ",\n", "\n};\n")
-
-  IO.write(file, fileContents)
-}

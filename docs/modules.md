@@ -1,7 +1,4 @@
----
-id: modules
-title: Modules
----
+# Modules
 
 The following sections describe the additional modules.
 
@@ -55,7 +52,7 @@ The `@ENUMERATUM_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s
 
 For regular `Enum`s, also mix in `CirisEnum` to derive a [`ConfigDecoder`][configdecoder] instance.
 
-```scala mdoc:reset
+```scala mdoc:reset-object
 import ciris.env
 import enumeratum.{CirisEnum, Enum, EnumEntry}
 import enumeratum.EnumEntry.Lowercase
@@ -76,7 +73,7 @@ env("SUIT").as[Suit]
 
 For `ValueEnum`s, also mix in the matching `CirisValueEnum` to derive a [`ConfigDecoder`][configdecoder] instance.
 
-```scala mdoc:reset
+```scala mdoc:reset-object
 import ciris.env
 import enumeratum.values.{StringCirisEnum, StringEnum, StringEnumEntry}
 
@@ -169,4 +166,4 @@ import squants.market.Money
 env("MONEY").as[Money]
 ```
 
-[configdecoder]: @API_BASE_URL@/ConfigDecoder.html
+[configdecoder]: @API_URL@ciris/ConfigDecoder.html
