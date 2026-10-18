@@ -50,7 +50,8 @@ main a {
   font-weight: normal;
 }
 
-main a:hover {
+main a:hover,
+footer a:hover {
   color: var(--primary-color);
   text-decoration: none;
 }
