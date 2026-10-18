@@ -1,5 +1,3 @@
-import scala.scalanative.build.Mode
-
 val catsEffectVersion = "3.7.1"
 val circeVersion = "0.14.17"
 val circeYamlVersion = "0.16.1"
@@ -48,7 +46,6 @@ inThisBuild(
         )
       )
     },
-    nativeConfig ~= (_.withMode(Mode.debug)),
     organization := "is.cir",
     organizationHomepage := Some(url("https://cir.is")),
     organizationName := "Ciris",
