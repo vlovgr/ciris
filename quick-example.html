@@ -103,13 +103,18 @@
     
   </div>
 
-  <h3 class="nav-category">Documentation</h3>
-
   <ul class="nav-list">
     <li class="level1 nav-leaf"><a href="overview.html">Overview</a></li>
     <li class="level1 active nav-leaf"><a href="#">Quick Example</a></li>
     <li class="level1 nav-leaf"><a href="configurations.html">Configurations</a></li>
-    <li class="level1 nav-leaf"><a href="modules.html">Modules</a></li>
+    <li class="level1 nav-header">integrations</li>
+    <li class="level2 nav-leaf"><a href="integrations/circe.html">circe</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/circe-yaml.html">circe-yaml</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/enumeratum.html">enumeratum</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/http4s.html">http4s</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/http4s-aws.html">http4s-aws</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/refined.html">refined</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/squants.html">squants</a></li>
   </ul>
 
 </nav>
@@ -137,7 +142,7 @@
           <li>use combinators like <code>as</code>, <code>default</code>, <code>option</code>, and <code>secret</code> on values,</li>
           <li>use <code>flatMap</code> to load a single value, without accumulation of errors,</li>
           <li>use <code>parMapN</code> to combine multiple values with error accumulation,</li>
-          <li>use the <a href="modules.html#enumeratum">ciris-enumeratum</a> and <a href="modules.html#refined">ciris-refined</a> integration modules,</li>
+          <li>use the <a href="integrations/enumeratum.html">ciris-enumeratum</a> and <a href="integrations/refined.html">ciris-refined</a> integration modules,</li>
           <li>use <code>load</code> to return an effect for loading the configuration.</li>
         </ul>
         <pre><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.{</span><span class="type-name">IO</span><span>, </span><span class="type-name">IOApp</span><span>}

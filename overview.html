@@ -103,13 +103,18 @@
     
   </div>
 
-  <h3 class="nav-category">Documentation</h3>
-
   <ul class="nav-list">
     <li class="level1 active nav-leaf"><a href="#">Overview</a></li>
     <li class="level1 nav-leaf"><a href="quick-example.html">Quick Example</a></li>
     <li class="level1 nav-leaf"><a href="configurations.html">Configurations</a></li>
-    <li class="level1 nav-leaf"><a href="modules.html">Modules</a></li>
+    <li class="level1 nav-header">integrations</li>
+    <li class="level2 nav-leaf"><a href="integrations/circe.html">circe</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/circe-yaml.html">circe-yaml</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/enumeratum.html">enumeratum</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/http4s.html">http4s</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/http4s-aws.html">http4s-aws</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/refined.html">refined</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/squants.html">squants</a></li>
   </ul>
 
 </nav>
@@ -122,7 +127,7 @@
 
   <ul class="nav-list">
     <li class="level1 nav-node"><a href="#getting-started">Getting Started</a></li>
-    <li class="level2 nav-leaf"><a href="#modules">Modules</a></li>
+    <li class="level2 nav-leaf"><a href="#external-modules">External Modules</a></li>
     <li class="level2 nav-leaf"><a href="#signatures">Signatures</a></li>
     <li class="level2 nav-leaf"><a href="#compatibility">Compatibility</a></li>
     <li class="level2 nav-leaf"><a href="#snapshot-releases">Snapshot Releases</a></li>
@@ -158,38 +163,7 @@
         <p>For Scala 2.12, enable partial unification by adding the following line to <code>build.sbt</code>.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">scalacOptions</span><span> += </span><span class="string-literal">&quot;-Ypartial-unification&quot;</span></code></pre>
         
-        <h3 id="modules" class="section"><a class="anchor-link left" href="#modules"><i class="icofont-laika link">&#xef71;</i></a>Modules</h3>
-        <p>Following are additional provided modules.</p>
-        
-        <h4 id="circe" class="section"><a class="anchor-link left" href="#circe"><i class="icofont-laika link">&#xef71;</i></a>circe</h4>
-        <p>For <a href="modules.html#circe">circe</a> support, add the following line to your <code>build.sbt</code> file.</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris-circe&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2&quot;</span></code></pre>
-        
-        <h4 id="circe-yaml" class="section"><a class="anchor-link left" href="#circe-yaml"><i class="icofont-laika link">&#xef71;</i></a>circe-yaml</h4>
-        <p>For <a href="modules.html#circe-yaml">circe-yaml</a> support, add the following line to your <code>build.sbt</code> file.</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris-circe-yaml&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2&quot;</span></code></pre>
-        
-        <h4 id="enumeratum" class="section"><a class="anchor-link left" href="#enumeratum"><i class="icofont-laika link">&#xef71;</i></a>enumeratum</h4>
-        <p>For <a href="modules.html#enumeratum">enumeratum</a> support, add the following line to your <code>build.sbt</code> file.</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris-enumeratum&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2&quot;</span></code></pre>
-        
-        <h4 id="http4s" class="section"><a class="anchor-link left" href="#http4s"><i class="icofont-laika link">&#xef71;</i></a>http4s</h4>
-        <p>For <a href="modules.html#http4s">http4s</a> support, add the following line to your <code>build.sbt</code> file.</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris-http4s&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2&quot;</span></code></pre>
-        
-        <h4 id="http4s-aws" class="section"><a class="anchor-link left" href="#http4s-aws"><i class="icofont-laika link">&#xef71;</i></a>http4s-aws</h4>
-        <p>For <a href="modules.html#http4s-aws">http4s-aws</a> support, add the following line to your <code>build.sbt</code> file.</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris-http4s-aws&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2&quot;</span></code></pre>
-        
-        <h4 id="refined" class="section"><a class="anchor-link left" href="#refined"><i class="icofont-laika link">&#xef71;</i></a>refined</h4>
-        <p>For <a href="modules.html#refined">refined</a> support, add the following line to your <code>build.sbt</code> file.</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris-refined&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2&quot;</span></code></pre>
-        
-        <h4 id="squants" class="section"><a class="anchor-link left" href="#squants"><i class="icofont-laika link">&#xef71;</i></a>squants</h4>
-        <p>For <a href="modules.html#squants">squants</a> support, add the following line to your <code>build.sbt</code> file.</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris-squants&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2&quot;</span></code></pre>
-        
-        <h4 id="external-modules" class="section"><a class="anchor-link left" href="#external-modules"><i class="icofont-laika link">&#xef71;</i></a>External Modules</h4>
+        <h3 id="external-modules" class="section"><a class="anchor-link left" href="#external-modules"><i class="icofont-laika link">&#xef71;</i></a>External Modules</h3>
         <p>Following is an incomplete list of third-party integrations.</p>
         <ul>
           <li><a href="https://github.com/ovotech/ciris-aiven-kafka"><code>ciris-aiven-kafka</code></a></li>
@@ -212,7 +186,7 @@
         <p>To use the latest snapshot release, add the following lines to your <code>build.sbt</code> file.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">resolvers</span><span> += </span><span class="type-name">Resolver</span><span>.</span><span class="identifier">sonatypeCentralSnapshots</span><span>
 
-</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2-50-494a5ff-SNAPSHOT&quot;</span></code></pre>
+</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;is.cir&quot;</span><span> %% </span><span class="string-literal">&quot;ciris&quot;</span><span> % </span><span class="string-literal">&quot;3.15.2-52-054e93c-SNAPSHOT&quot;</span></code></pre>
         
         <h2 id="dependencies" class="section"><a class="anchor-link left" href="#dependencies"><i class="icofont-laika link">&#xef71;</i></a>Dependencies</h2>
         <p>Refer to the table below for dependencies and version support across modules.</p>
@@ -231,37 +205,37 @@
               <td>Scala 2.12, 2.13 and 3.3</td>
             </tr>
             <tr>
-              <td><code>ciris-circe</code></td>
+              <td><a href="integrations/circe.html"><code>ciris-circe</code></a></td>
               <td><a href="https://github.com/circe/circe">circe 0.14.17</a></td>
               <td>Scala 2.12, 2.13 and 3.3</td>
             </tr>
             <tr>
-              <td><code>ciris-circe-yaml</code></td>
+              <td><a href="integrations/circe-yaml.html"><code>ciris-circe-yaml</code></a></td>
               <td><a href="https://github.com/circe/circe-yaml">circe-yaml 0.16.1</a></td>
               <td>Scala 2.13 and 3.3</td>
             </tr>
             <tr>
-              <td><code>ciris-enumeratum</code></td>
+              <td><a href="integrations/enumeratum.html"><code>ciris-enumeratum</code></a></td>
               <td><a href="https://github.com/lloydmeta/enumeratum">enumeratum 1.9.8</a></td>
               <td>Scala 2.12, 2.13 and 3.3</td>
             </tr>
             <tr>
-              <td><code>ciris-http4s</code></td>
+              <td><a href="integrations/http4s.html"><code>ciris-http4s</code></a></td>
               <td><a href="https://github.com/http4s/http4s">http4s 0.23.38</a></td>
               <td>Scala 2.12, 2.13 and 3.3</td>
             </tr>
             <tr>
-              <td><code>ciris-http4s-aws</code></td>
+              <td><a href="integrations/http4s-aws.html"><code>ciris-http4s-aws</code></a></td>
               <td><a href="https://github.com/maginepro/http4s-aws">http4s-aws 6.7.0</a></td>
               <td>Scala 2.13 and 3.3</td>
             </tr>
             <tr>
-              <td><code>ciris-refined</code></td>
+              <td><a href="integrations/refined.html"><code>ciris-refined</code></a></td>
               <td><a href="https://github.com/fthomas/refined">refined 0.11.4</a></td>
               <td>Scala 2.12, 2.13 and 3.3</td>
             </tr>
             <tr>
-              <td><code>ciris-squants</code></td>
+              <td><a href="integrations/squants.html"><code>ciris-squants</code></a></td>
               <td><a href="https://github.com/typelevel/squants">squants 1.8.3</a></td>
               <td>Scala 2.12, 2.13 and 3.3</td>
             </tr>

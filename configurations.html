@@ -103,13 +103,18 @@
     
   </div>
 
-  <h3 class="nav-category">Documentation</h3>
-
   <ul class="nav-list">
     <li class="level1 nav-leaf"><a href="overview.html">Overview</a></li>
     <li class="level1 nav-leaf"><a href="quick-example.html">Quick Example</a></li>
     <li class="level1 active nav-leaf"><a href="#">Configurations</a></li>
-    <li class="level1 nav-leaf"><a href="modules.html">Modules</a></li>
+    <li class="level1 nav-header">integrations</li>
+    <li class="level2 nav-leaf"><a href="integrations/circe.html">circe</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/circe-yaml.html">circe-yaml</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/enumeratum.html">enumeratum</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/http4s.html">http4s</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/http4s-aws.html">http4s-aws</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/refined.html">refined</a></li>
+    <li class="level2 nav-leaf"><a href="integrations/squants.html">squants</a></li>
   </ul>
 
 </nav>
@@ -137,7 +142,7 @@
       <main class="content">
 
         <h1 id="configurations" class="title">Configurations</h1>
-        <p><a href="api/ciris/ConfigValue.html"><code>ConfigValue</code></a> is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like <code>env</code>, <code>file</code>, and <code>prop</code> for creating <code>ConfigValue</code>s for environment variables, file contents, and system properties. The <a href="modules.html#http4s-aws">ciris-http4s-aws</a> module adds support for reading values from the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS Systems Manager (SSM) Parameter Store</a>, while <a href="overview.html#external-modules">external modules</a> provide support for additional configuration sources.</p>
+        <p><a href="api/ciris/ConfigValue.html"><code>ConfigValue</code></a> is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like <code>env</code>, <code>file</code>, and <code>prop</code> for creating <code>ConfigValue</code>s for environment variables, file contents, and system properties. The <a href="integrations/http4s-aws.html">ciris-http4s-aws</a> module adds support for reading values from the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS Systems Manager (SSM) Parameter Store</a>, while <a href="overview.html#external-modules">external modules</a> provide support for additional configuration sources.</p>
         <p>If a configuration value is missing, <code>or</code> lets us use a fallback.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">ciris</span><span>.</span><span class="identifier">_</span><span>
 
@@ -148,10 +153,10 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
 
 </span><span class="identifier">port</span><span>: </span><span class="type-name">ConfigValue</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Int</span><span>]
-</span><span class="comment">// res1: ConfigValue[IO, Int] = ConfigValue$1544384101
+</span><span class="comment">// res1: ConfigValue[IO, Int] = ConfigValue$1394552721
 </span><span>
 </span><span class="identifier">port</span><span>.</span><span class="identifier">covary</span><span>[</span><span class="type-name">IO</span><span>]
-</span><span class="comment">// res2: ConfigValue[IO, Int] = ConfigValue$1544384101</span></code></pre>
+</span><span class="comment">// res2: ConfigValue[IO, Int] = ConfigValue$1394552721</span></code></pre>
         <p>Multiple values can be loaded and combined in parallel, and errors accumulated, using <code>parMapN</code>.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">all</span><span>.</span><span class="identifier">_</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">scala</span><span>.</span><span class="identifier">concurrent</span><span>.</span><span class="identifier">duration</span><span>.</span><span class="identifier">_</span><span>
