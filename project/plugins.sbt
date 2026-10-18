@@ -1,4 +1,4 @@
-addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.12.5")
+addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % "0.13.2")
 addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "1.4.0")
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.4.0")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.22.0")
