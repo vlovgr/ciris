@@ -156,7 +156,7 @@
 }
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;SERIAL&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">SerialNumber</span><span>]
-</span><span class="comment">// res0: ConfigValue[Effect, SerialNumber] = ConfigValue$999264131</span></code></pre>
+</span><span class="comment">// res0: ConfigValue[Effect, SerialNumber] = ConfigValue$2645411</span></code></pre>
         
         <h2 id="circe-yaml" class="section"><a class="anchor-link left" href="#circe-yaml"><i class="icofont-laika link">&#xef71;</i></a>circe-yaml</h2>
         <p>The <code>ciris-circe-yaml</code> module provides <a href="api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for YAML using <a href="https://github.com/circe/circe-yaml">circe-yaml</a>.</p>
@@ -175,7 +175,7 @@
 }
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;SERIAL&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">SerialNumber</span><span>]
-</span><span class="comment">// res2: ConfigValue[Effect, SerialNumber] = ConfigValue$2002826453</span></code></pre>
+</span><span class="comment">// res2: ConfigValue[Effect, SerialNumber] = ConfigValue$21938476</span></code></pre>
         
         <h2 id="enumeratum" class="section"><a class="anchor-link left" href="#enumeratum"><i class="icofont-laika link">&#xef71;</i></a>enumeratum</h2>
         <p>The <code>ciris-enumeratum</code> module provides <a href="api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations.</p>
@@ -196,7 +196,7 @@
 }
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;SUIT&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Suit</span><span>]
-</span><span class="comment">// res4: ciris.ConfigValue[ciris.package.Effect, Suit] = ConfigValue$234596179</span></code></pre>
+</span><span class="comment">// res4: ciris.ConfigValue[ciris.package.Effect, Suit] = ConfigValue$334809427</span></code></pre>
         <p>For <code>ValueEnum</code>s, also mix in the matching <code>CirisValueEnum</code> to derive a <a href="api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a> instance.</p>
         <pre><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">ciris</span><span>.</span><span class="identifier">env</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">enumeratum</span><span>.</span><span class="identifier">values</span><span>.{</span><span class="type-name">StringCirisEnum</span><span>, </span><span class="type-name">StringEnum</span><span>, </span><span class="type-name">StringEnumEntry</span><span>}
@@ -212,7 +212,7 @@
 }
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;COLOR&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Color</span><span>]
-</span><span class="comment">// res6: ciris.ConfigValue[ciris.package.Effect, Color] = ConfigValue$2092275101</span></code></pre>
+</span><span class="comment">// res6: ciris.ConfigValue[ciris.package.Effect, Color] = ConfigValue$1710415024</span></code></pre>
         
         <h2 id="http4s" class="section"><a class="anchor-link left" href="#http4s"><i class="icofont-laika link">&#xef71;</i></a>http4s</h2>
         <p>The <code>ciris-http4s</code> module provides <a href="api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for <a href="https://github.com/Comcast/ip4s">ip4s</a> and <a href="https://github.com/http4s/http4s">http4s</a> types.</p>
@@ -224,13 +224,13 @@
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">http4s</span><span>.</span><span class="type-name">Uri</span><span>
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;HOST&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Host</span><span>]
-</span><span class="comment">// res8: ciris.ConfigValue[ciris.package.Effect, Host] = ConfigValue$1928364369
+</span><span class="comment">// res8: ciris.ConfigValue[ciris.package.Effect, Host] = ConfigValue$868287443
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;PORT&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Port</span><span>]
-</span><span class="comment">// res9: ciris.ConfigValue[ciris.package.Effect, Port] = ConfigValue$1295046975
+</span><span class="comment">// res9: ciris.ConfigValue[ciris.package.Effect, Port] = ConfigValue$785365478
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;ORIGIN&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Origin</span><span>]
-</span><span class="comment">// res10: ciris.ConfigValue[ciris.package.Effect, Origin] = ConfigValue$1635767302
+</span><span class="comment">// res10: ciris.ConfigValue[ciris.package.Effect, Origin] = ConfigValue$301293868
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;URI&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Uri</span><span>]
-</span><span class="comment">// res11: ciris.ConfigValue[ciris.package.Effect, Uri] = ConfigValue$860685099</span></code></pre>
+</span><span class="comment">// res11: ciris.ConfigValue[ciris.package.Effect, Uri] = ConfigValue$90622211</span></code></pre>
         
         <h2 id="http4s-aws" class="section"><a class="anchor-link left" href="#http4s-aws"><i class="icofont-laika link">&#xef71;</i></a>http4s-aws</h2>
         <p>The <code>ciris-http4s-aws</code> module provides a way to read decrypted values from the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS Systems Manager (SSM) Parameter Store</a> using the <a href="https://github.com/maginepro/http4s-aws">http4s-aws</a> library. Following is an example of how parameter values can be retrieved. Note parameter values are wrapped in <a href="configurations.html#secrets">Secret</a> by default since they are usually sensitive.</p>
@@ -269,7 +269,7 @@
 </span><span class="keyword">import</span><span> </span><span class="identifier">eu</span><span>.</span><span class="identifier">timepit</span><span>.</span><span class="identifier">refined</span><span>.</span><span class="identifier">types</span><span>.</span><span class="identifier">numeric</span><span>.</span><span class="type-name">PosInt</span><span>
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;POS_INT&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">PosInt</span><span>]
-</span><span class="comment">// res14: ciris.ConfigValue[ciris.package.Effect, PosInt] = ConfigValue$796670610</span></code></pre>
+</span><span class="comment">// res14: ciris.ConfigValue[ciris.package.Effect, PosInt] = ConfigValue$1796379965</span></code></pre>
         
         <h2 id="squants" class="section"><a class="anchor-link left" href="#squants"><i class="icofont-laika link">&#xef71;</i></a>squants</h2>
         <p>The <code>ciris-squants</code> module provides <a href="api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for <a href="https://github.com/typelevel/squants">squants</a> quantities.</p>
@@ -278,7 +278,7 @@
 </span><span class="keyword">import</span><span> </span><span class="identifier">squants</span><span>.</span><span class="identifier">market</span><span>.</span><span class="type-name">Money</span><span>
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;MONEY&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Money</span><span>]
-</span><span class="comment">// res16: ciris.ConfigValue[ciris.package.Effect, Money] = ConfigValue$626890252</span></code></pre>
+</span><span class="comment">// res16: ciris.ConfigValue[ciris.package.Effect, Money] = ConfigValue$1555066328</span></code></pre>
 
         
 <hr class="footer-rule"/>

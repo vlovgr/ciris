@@ -148,10 +148,10 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
 
 </span><span class="identifier">port</span><span>: </span><span class="type-name">ConfigValue</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Int</span><span>]
-</span><span class="comment">// res1: ConfigValue[IO, Int] = ConfigValue$662125836
+</span><span class="comment">// res1: ConfigValue[IO, Int] = ConfigValue$995739758
 </span><span>
 </span><span class="identifier">port</span><span>.</span><span class="identifier">covary</span><span>[</span><span class="type-name">IO</span><span>]
-</span><span class="comment">// res2: ConfigValue[IO, Int] = ConfigValue$662125836</span></code></pre>
+</span><span class="comment">// res2: ConfigValue[IO, Int] = ConfigValue$995739758</span></code></pre>
         <p>Multiple values can be loaded and combined in parallel, and errors accumulated, using <code>parMapN</code>.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">all</span><span>.</span><span class="identifier">_</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">scala</span><span>.</span><span class="identifier">concurrent</span><span>.</span><span class="identifier">duration</span><span>.</span><span class="identifier">_</span><span>
