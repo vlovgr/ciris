@@ -59,29 +59,24 @@ main a:hover {
   background-color: var(--bg-color);
 }
 
-#sidebar .nav-category {
-  color: #393939;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.2;
-  margin: 40px 15px 0 25px;
-}
-
-@media (max-width: 499px) {
-  #sidebar .nav-category {
-    margin-top: 20px;
-  }
-}
-
 #sidebar .nav-list li a {
   color: #717171;
   font-size: 14px;
 }
 
-#sidebar .nav-list .active a,
 #sidebar .nav-list li a:hover {
   color: var(--primary-color);
   background-color: transparent;
+}
+
+#sidebar .nav-list .active a,
+#sidebar .nav-list .active a:hover {
+  color: var(--bg-color);
+  background-color: var(--primary-color);
+}
+
+#sidebar .nav-list li.nav-header {
+  font-size: 13px;
 }
 
 #page-nav {
