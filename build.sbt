@@ -1,15 +1,19 @@
-import scala.scalanative.build.Mode
-
+val awsRegionsVersion = "1.2.0"
+val caseInsensitiveVersion = "1.5.0"
 val catsEffectVersion = "3.7.1"
+val catsVersion = "2.13.0"
 val circeVersion = "0.14.17"
 val circeYamlVersion = "0.16.1"
-val enumeratumVersion = "1.9.7"
-val http4sAwsVersion = "6.5.0"
+val enumeratumVersion = "1.9.8"
+val fs2Version = "3.14.0"
+val http4sAwsVersion = "6.7.0"
 val http4sVersion = "0.23.38"
+val ip4sVersion = "3.8.0"
 val munitCatsEffectVersion = "2.2.1"
-val refinedVersion = "0.11.3"
+val refinedVersion = "0.11.4"
 val scalaCheckEffectMunitVersion = "2.1.0"
 val squantsVersion = "1.8.3"
+val vaultVersion = "3.7.0"
 
 val scala212 = "2.12.21"
 val scala213 = "2.13.18"
@@ -48,7 +52,6 @@ inThisBuild(
         )
       )
     },
-    nativeConfig ~= (_.withMode(Mode.debug)),
     organization := "is.cir",
     organizationHomepage := Some(url("https://cir.is")),
     organizationName := "Ciris",
@@ -72,7 +75,11 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("modules/core"))
   .settings(
     name := "ciris",
-    libraryDependencies += "org.typelevel" %%% "cats-effect-kernel" % catsEffectVersion,
+    libraryDependencies ++= Seq(
+      "org.typelevel" %%% "cats-core" % catsVersion,
+      "org.typelevel" %%% "cats-effect-kernel" % catsEffectVersion,
+      "org.typelevel" %%% "cats-kernel" % catsVersion
+    ),
     moduleSettings,
     scalacOptions ++= {
       if (scalaVersion.value.startsWith("2.13")) Seq("-Wconf:cat=lint-overload&msg=mistake:s")
@@ -92,7 +99,11 @@ lazy val circe = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .dependsOn(core)
   .settings(
     name := "ciris-circe",
-    libraryDependencies += "io.circe" %%% "circe-parser" % circeVersion,
+    libraryDependencies ++= Seq(
+      "io.circe" %%% "circe-core" % circeVersion,
+      "io.circe" %%% "circe-parser" % circeVersion,
+      "org.typelevel" %%% "cats-core" % catsVersion
+    ),
     moduleSettings
   )
   .nativeSettings(nativeSettings)
@@ -102,7 +113,11 @@ lazy val circeYaml = project
   .dependsOn(core.jvm)
   .settings(
     name := "ciris-circe-yaml",
-    libraryDependencies += "io.circe" %% "circe-yaml" % circeYamlVersion,
+    libraryDependencies ++= Seq(
+      "io.circe" %%% "circe-core" % circeVersion,
+      "io.circe" %% "circe-yaml" % circeYamlVersion,
+      "org.typelevel" %%% "cats-core" % catsVersion
+    ),
     moduleSettings,
     withoutScala212
   )
@@ -112,7 +127,10 @@ lazy val enumeratum = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .dependsOn(core)
   .settings(
     name := "ciris-enumeratum",
-    libraryDependencies += "com.beachape" %%% "enumeratum" % enumeratumVersion,
+    libraryDependencies ++= Seq(
+      "com.beachape" %%% "enumeratum" % enumeratumVersion,
+      "org.typelevel" %%% "cats-core" % catsVersion
+    ),
     moduleSettings,
     Test / scalacOptions ++= (if (tlIsScala3.value) Seq("-Yretain-trees") else Seq()),
     tlVersionIntroduced := Map("3" -> "3.1.0")
@@ -127,7 +145,11 @@ lazy val http4s = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .dependsOn(core)
   .settings(
     name := "ciris-http4s",
-    libraryDependencies += "org.http4s" %%% "http4s-core" % http4sVersion,
+    libraryDependencies ++= Seq(
+      "com.comcast" %%% "ip4s-core" % ip4sVersion,
+      "org.http4s" %%% "http4s-core" % http4sVersion,
+      "org.typelevel" %%% "cats-core" % catsVersion
+    ),
     moduleSettings
   )
   .jsSettings(Test / scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)))
@@ -138,7 +160,22 @@ lazy val http4sAws = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .dependsOn(http4s)
   .settings(
     name := "ciris-http4s-aws",
-    libraryDependencies += "com.magine" %%% "http4s-aws" % http4sAwsVersion,
+    libraryDependencies ++= Seq(
+      "co.fs2" %%% "fs2-core" % fs2Version,
+      "com.comcast" %%% "ip4s-core" % ip4sVersion,
+      "com.magine" %%% "aws-regions" % awsRegionsVersion,
+      "com.magine" %%% "http4s-aws" % http4sAwsVersion,
+      "io.circe" %%% "circe-core" % circeVersion,
+      "org.http4s" %%% "http4s-circe" % http4sVersion,
+      "org.http4s" %%% "http4s-client" % http4sVersion,
+      "org.http4s" %%% "http4s-core" % http4sVersion,
+      "org.typelevel" %%% "case-insensitive" % caseInsensitiveVersion,
+      "org.typelevel" %%% "cats-effect-kernel" % catsEffectVersion,
+      "org.typelevel" %%% "cats-effect" % catsEffectVersion,
+      "org.typelevel" %%% "cats-kernel" % catsVersion,
+      "org.typelevel" %%% "vault" % vaultVersion,
+      "org.typelevel" %%% "cats-core" % catsVersion
+    ),
     moduleSettings,
     withoutScala212
   )
@@ -154,7 +191,10 @@ lazy val refined = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .dependsOn(core)
   .settings(
     name := "ciris-refined",
-    libraryDependencies += "eu.timepit" %%% "refined" % refinedVersion,
+    libraryDependencies ++= Seq(
+      "eu.timepit" %%% "refined" % refinedVersion,
+      "org.typelevel" %%% "cats-core" % catsVersion
+    ),
     moduleSettings
   )
   .nativeSettings(nativeSettings)
@@ -164,7 +204,10 @@ lazy val squants = crossProject(JSPlatform, JVMPlatform)
   .dependsOn(core)
   .settings(
     name := "ciris-squants",
-    libraryDependencies += "org.typelevel" %%% "squants" % squantsVersion,
+    libraryDependencies ++= Seq(
+      "org.typelevel" %%% "cats-core" % catsVersion,
+      "org.typelevel" %%% "squants" % squantsVersion
+    ),
     moduleSettings
   )
 
@@ -205,9 +248,9 @@ lazy val docs = project
       crossScalaVersions := Seq(scala213),
       scalacOptions -= "-Wunused",
       libraryDependencies ++= Seq(
-        "eu.timepit" %% "refined-cats" % refinedVersion,
-        "org.http4s" %% "http4s-ember-client" % http4sVersion,
-        "org.typelevel" %% "cats-effect" % catsEffectVersion
+        "eu.timepit" %%% "refined-cats" % refinedVersion,
+        "org.http4s" %%% "http4s-ember-client" % http4sVersion,
+        "org.typelevel" %%% "cats-effect" % catsEffectVersion
       ),
       Compile / packageDoc / mappings := (unidocs / Compile / packageDoc / mappings).value,
       laikaIncludeAPI := true,
