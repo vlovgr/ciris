@@ -7,7 +7,7 @@ Following is an example showing how to:
 - use combinators like `as`, `default`, `option`, and `secret` on values,
 - use `flatMap` to load a single value, without accumulation of errors,
 - use `parMapN` to combine multiple values with error accumulation,
-- use the [ciris-enumeratum](modules.md#enumeratum) and [ciris-refined](modules.md#refined) integration modules,
+- use the [ciris-enumeratum](integrations/enumeratum.md) and [ciris-refined](integrations/refined.md) integration modules,
 - use `load` to return an effect for loading the configuration.
 
 ```scala mdoc:reset-object:silent

@@ -399,7 +399,7 @@ lazy val docs = project
                 TextLink.internal(Root / "overview.md", "Overview"),
                 TextLink.internal(Root / "quick-example.md", "Quick Example"),
                 TextLink.internal(Root / "configurations.md", "Configurations"),
-                TextLink.internal(Root / "modules.md", "Modules")
+                TextLink.internal(Root / "integrations" / "circe.md", "Integrations")
               )
             )
           )
