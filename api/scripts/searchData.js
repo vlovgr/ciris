@@ -1,4 +1,4 @@
-pages = [{"l":"index.html#","e":false,"i":"","n":"Ciris v3.15.2","t":"Ciris v3.15.2","d":"","k":"static","x":""},
+pages = [{"l":"index.html#","e":false,"i":"","n":"Ciris","t":"Ciris","d":"","k":"static","x":""},
 {"l":"enumeratum.html#","e":false,"i":"","n":"enumeratum","t":"enumeratum","d":"","k":"package","x":""},
 {"l":"enumeratum/internal.html#","e":false,"i":"","n":"enumeratum.internal","t":"enumeratum.internal","d":"","k":"package","x":""},
 {"l":"enumeratum/internal/TypeName$.html#","e":false,"i":"","n":"TypeName","t":"TypeName","d":"enumeratum.internal","k":"object","x":""},
