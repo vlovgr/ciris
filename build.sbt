@@ -16,7 +16,7 @@ val squantsVersion = "1.8.3"
 val vaultVersion = "3.7.0"
 
 val scala212 = "2.12.21"
-val scala213 = "2.13.18"
+val scala213 = "3.10.0"
 val scala3 = "3.3.8"
 
 inThisBuild(
