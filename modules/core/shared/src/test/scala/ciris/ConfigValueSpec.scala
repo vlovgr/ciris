@@ -962,7 +962,7 @@ final class ConfigValueSpec extends CatsEffectSuite with ScalaCheckEffectSuite w
     new String(Base64.getEncoder.encode(s.getBytes("UTF-8")), "UTF-8")
 
   def decodeBase64(s: String): Try[String] =
-    Try(new String(Base64.getDecoder.decode(s.getBytes("UTF-8")), "UTF-8"))
+    Try(new String(Base64.getDecoder.decode(s.replaceAll("\\s+", "").getBytes("UTF-8")), "UTF-8"))
 
   test("ConfigValue.base64") {
     PropF.forAllF { (s: String) =>
