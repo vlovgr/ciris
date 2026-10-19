@@ -17,7 +17,6 @@ import ciris._
 import ciris.refined._
 import enumeratum.{CirisEnum, Enum, EnumEntry}
 import eu.timepit.refined.api.Refined
-import eu.timepit.refined.auto._
 import eu.timepit.refined.cats._
 import eu.timepit.refined.collection.MinSize
 import eu.timepit.refined.string.MatchesRegex
@@ -66,20 +65,20 @@ def apiConfig(environment: AppEnvironment): ConfigValue[Effect, ApiConfig] =
       case Local | Testing => None
       case Production      => Some(10.seconds)
     })
-  ).parMapN(ApiConfig)
+  ).parMapN(ApiConfig.apply)
 
 val databaseConfig: ConfigValue[Effect, DatabaseConfig] =
   (
-    env("DATABASE_USERNAME").as[NonEmptyString].default("username"),
+    env("DATABASE_USERNAME").default("username").as[NonEmptyString],
     env("DATABASE_PASSWORD").as[DatabasePassword].secret
-  ).parMapN(DatabaseConfig)
+  ).parMapN(DatabaseConfig.apply)
 
 val config: ConfigValue[Effect, Config] =
   (
     default("my-api").as[NonEmptyString],
     env("APP_ENV").as[AppEnvironment].flatMap(apiConfig),
     databaseConfig
-  ).parMapN(Config)
+  ).parMapN(Config.apply)
 
 object Main extends IOApp.Simple {
   def run: IO[Unit] =

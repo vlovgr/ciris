@@ -27,14 +27,19 @@ inThisBuild(
     githubWorkflowBuild := Seq(
       WorkflowStep.Sbt(
         List(
+          "++ ${{ matrix.scala }} headerCheckAll",
+          "++ ${{ matrix.scala }} scalafmtCheckAll",
+          "project /",
+          "scalafmtSbtCheck"
+        ),
+        name = Some("Check headers and formatting")
+      ),
+      WorkflowStep.Sbt(
+        List(
           "++ ${{ matrix.scala }} test",
           "++ ${{ matrix.scala }} mimaReportBinaryIssues",
           "++ ${{ matrix.scala }} doc"
         )
-      ),
-      WorkflowStep.Sbt(
-        List("headerCheckAll", "scalafmtCheckAll", "project /", "scalafmtSbtCheck"),
-        cond = Some("matrix.scala == '2.13'")
       )
     ),
     githubWorkflowBuildMatrixExclusions +=
@@ -55,7 +60,7 @@ inThisBuild(
     organization := "is.cir",
     organizationHomepage := Some(url("https://cir.is")),
     organizationName := "Ciris",
-    scalaVersion := scala213,
+    scalaVersion := scala3,
     startYear := Some(2017),
     tlBaseVersion := "3.15",
     tlSiteKeepFiles := false,
@@ -245,8 +250,9 @@ lazy val docs = project
     import org.typelevel.sbt.site.GenericSiteSettings
 
     Seq(
-      crossScalaVersions := Seq(scala213),
-      scalacOptions -= "-Wunused",
+      crossScalaVersions := Seq(scala3),
+      scalacOptions ~= (_.filterNot(_.startsWith("-Wunused"))),
+      scalacOptions += "-Yretain-trees",
       libraryDependencies ++= Seq(
         "eu.timepit" %%% "refined-cats" % refinedVersion,
         "org.http4s" %%% "http4s-ember-client" % http4sVersion,
@@ -306,7 +312,7 @@ lazy val docs = project
         val gitHubUrl = "https://github.com/vlovgr/ciris"
 
         val projectLinks = List(
-          IconLink.internal(Root / "api" / "ciris" / "index.html", HeliumIcon.api),
+          IconLink.internal(Root / "api" / "ciris.html", HeliumIcon.api),
           IconLink.external(gitHubUrl, HeliumIcon.github),
           IconLink.external("https://discord.gg/XF3CXcMzqD", HeliumIcon.chat)
         )
@@ -419,7 +425,7 @@ lazy val unidocs = project
   .settings(
     name := "ciris-docs",
     headerSettings,
-    withoutScala212,
+    crossScalaVersions := Seq(scala3),
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
       core.jvm,
       circe.jvm,
@@ -430,10 +436,31 @@ lazy val unidocs = project
       refined.jvm,
       squants.jvm
     ),
-    ScalaUnidoc / unidoc / scalacOptions ++= {
+    ScalaUnidoc / unidoc / apiMappings := {
+      val docsApiUrl = apiURL.value.map(_.toString)
+      (ScalaUnidoc / unidoc / apiMappings).value.filterNot { case (_, url) =>
+        docsApiUrl.contains(url.toString)
+      }
+    },
+    ScalaUnidoc / unidoc / scalacOptions := {
       val docVersion = tlLatestVersion.value.getOrElse(version.value)
-      if (tlIsScala3.value) Seq()
-      else Seq("-doc-title", "Ciris", "-doc-version", s"v$docVersion", "-groups")
+      val logo = (LocalRootProject / baseDirectory).value / "docs" / "img" / "logo.svg"
+      val options = (ScalaUnidoc / unidoc / scalacOptions).value.filter {
+        case "-Werror" | "-Wvalue-discard"                   => false
+        case option if option.startsWith("-Ykind-projector") => false
+        case _                                               => true
+      }
+      val projectOptions = withOption(options, "-project", s"Ciris v$docVersion")
+      withOption(projectOptions, "-project-version", s"v$docVersion") ++ Seq(
+        "-comment-syntax:wiki",
+        "-doc-canonical-base-url:https://cir.is/api/",
+        "-groups",
+        "-project-footer:Licensed under the MIT License. Copyright © 2017 Viktor Rudebeck.",
+        s"-project-logo:${logo.getAbsolutePath}",
+        "-quick-links:Documentation::http://cir.is/overview.html",
+        "-social-links:github::https://github.com/vlovgr/ciris",
+        "-social-links:discord::https://discord.gg/XF3CXcMzqD"
+      )
     }
   )
 
@@ -461,12 +488,17 @@ lazy val nativeSettings = withoutScala212 ++ Seq(
 )
 
 lazy val withoutScala212 = Seq(
-  crossScalaVersions := Seq(scala213, scala3),
-  scalaVersion := scala213
+  crossScalaVersions := Seq(scala213, scala3)
 )
 
 def majorVersion(version: String): String =
   version.split('.').head
+
+def withOption(options: Seq[String], name: String, value: String): Seq[String] =
+  options.indexOf(name) match {
+    case -1    => options ++ Seq(name, value)
+    case index => options.updated(index + 1, value)
+  }
 
 def scalaVersionOf(version: String): String = {
   if (version.contains("-")) version

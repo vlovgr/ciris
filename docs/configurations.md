@@ -35,7 +35,7 @@ val timeout: ConfigValue[Effect, Option[Duration]] =
   env("API_TIMEOUT").as[Duration].option
 
 val apiConfig: ConfigValue[Effect, ApiConfig] =
-  (port, timeout).parMapN(ApiConfig)
+  (port, timeout).parMapN(ApiConfig.apply)
 ```
 
 We can also use `flatMap`, or for-comprehensions, to load values without error accumulation.
@@ -65,7 +65,7 @@ Default values will only be used if the value is missing. If the value is a comp
 (
   env("API_PORT").as[Int],
   env("API_TIMEOUT").as[Duration].option
-).parMapN(ApiConfig).default {
+).parMapN(ApiConfig.apply).default {
   ApiConfig(3000, 20.seconds.some)
 }
 ```
