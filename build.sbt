@@ -457,7 +457,6 @@ lazy val unidocs = project
         "-groups",
         "-project-footer:Licensed under the MIT License. Copyright © 2017 Viktor Rudebeck.",
         s"-project-logo:${logo.getAbsolutePath}",
-        "-quick-links:Documentation::http://cir.is/overview.html",
         "-social-links:github::https://github.com/vlovgr/ciris",
         "-social-links:discord::https://discord.gg/XF3CXcMzqD"
       )
