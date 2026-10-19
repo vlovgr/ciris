@@ -61,10 +61,10 @@ jobs:
       - name: Check that workflows are up to date
         run: sbt githubWorkflowCheck
 
-      - run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }} test' '++ ${{ matrix.scala }} mimaReportBinaryIssues' '++ ${{ matrix.scala }} doc'
+      - name: Check headers and formatting
+        run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }} headerCheckAll' '++ ${{ matrix.scala }} scalafmtCheckAll' 'project /' scalafmtSbtCheck
 
-      - if: matrix.scala == '2.13'
-        run: sbt 'project ${{ matrix.project }}' headerCheckAll scalafmtCheckAll 'project /' scalafmtSbtCheck
+      - run: sbt 'project ${{ matrix.project }}' '++ ${{ matrix.scala }} test' '++ ${{ matrix.scala }} mimaReportBinaryIssues' '++ ${{ matrix.scala }} doc'
 
       - name: Make target directories
         if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main')
@@ -249,7 +249,7 @@ jobs:
       - name: Submit Dependencies
         uses: scalacenter/sbt-dependency-submission@v2
         with:
-          modules-ignore: docs_2.13
+          modules-ignore: docs_3
           configs-ignore: test scala-tool scala-doc-tool test-internal
 
   site:
