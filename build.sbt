@@ -450,7 +450,7 @@ lazy val unidocs = project
         case option if option.startsWith("-Ykind-projector") => false
         case _                                               => true
       }
-      val projectOptions = withOption(options, "-project", s"Ciris")
+      val projectOptions = withOption(options, "-project", "Ciris")
       withOption(projectOptions, "-project-version", s"v$docVersion") ++ Seq(
         "-comment-syntax:wiki",
         "-doc-canonical-base-url:https://cir.is/api/",
