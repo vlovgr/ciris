@@ -11,10 +11,21 @@
     @:@
     @:for(laika.site.metadata.description)
       <meta name="description" content="${_}"/>
+      <meta property="og:description" content="${_}"/>
     @:@
+    <meta name="theme-color" content="#122932"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="Ciris"/>
+    <meta property="og:title" content="${?laika.site.metadata.title}"/>
+    <meta property="og:image" content="https://cir.is/img/social-preview.png"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:image:alt" content="${?laika.site.metadata.title}"/>
+    <meta name="twitter:card" content="summary_large_image"/>
     @:for(helium.site.favIcons)
       <link rel="icon" @:attribute(sizes, _.sizes) @:attribute(type, _.type) href="@:target(_.target)"/>
     @:@
+    <link rel="apple-touch-icon" href="@:target(/img/favicon.png)"/>
     @:for(helium.webFonts)
       <link rel="stylesheet" href="${_}">
     @:@
