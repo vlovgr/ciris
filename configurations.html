@@ -11,8 +11,8 @@
   <meta name="author" content="Viktor Rudebeck"/>
   
   
-  <meta name="description" content="Functional Configurations for Scala"/>
-  <meta property="og:description" content="Functional Configurations for Scala"/>
+  <meta name="description" content="Functional, lightweight, and composable configuration loading for Scala."/>
+  <meta property="og:description" content="Functional, lightweight, and composable configuration loading for Scala."/>
   
   <meta name="theme-color" content="#122932"/>
   <meta property="og:type" content="website"/>
@@ -23,6 +23,7 @@
   <meta property="og:image:height" content="630"/>
   <meta property="og:image:alt" content="Ciris · Functional Configurations for Scala"/>
   <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="theme-color" content="#409dab"/>
   
   
   <link rel="icon" sizes="180x180" type="image/png" href="img/favicon.png"/>
@@ -166,10 +167,10 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
 
 </span><span class="identifier">port</span><span>: </span><span class="type-name">ConfigValue</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Int</span><span>]
-</span><span class="comment">// res1: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$1094563694
+</span><span class="comment">// res1: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$910455169
 </span><span>
 </span><span class="identifier">port</span><span>.</span><span class="identifier">covary</span><span>[</span><span class="type-name">IO</span><span>]
-</span><span class="comment">// res2: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$1094563694</span></code></pre>
+</span><span class="comment">// res2: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$910455169</span></code></pre>
         <p>Multiple values can be loaded and combined in parallel, and errors accumulated, using <code>parMapN</code>.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">all</span><span>.</span><span class="identifier">_</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">scala</span><span>.</span><span class="identifier">concurrent</span><span>.</span><span class="identifier">duration</span><span>.</span><span class="identifier">_</span><span>
