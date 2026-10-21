@@ -155,7 +155,7 @@
       <main class="content">
 
         <h1 id="configurations" class="title">Configurations</h1>
-        <p><a href="api/ciris/ConfigValue.html"><code>ConfigValue</code></a> is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like <code>env</code>, <code>file</code>, and <code>prop</code> for creating <code>ConfigValue</code>s for environment variables, file contents, and system properties. The <a href="integrations/http4s-aws.html">ciris-http4s-aws</a> module adds support for reading values from the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS Systems Manager (SSM) Parameter Store</a>, while <a href="overview.html#external-modules">external modules</a> provide support for additional configuration sources.</p>
+        <p><a class="api" href="api/ciris/ConfigValue.html">ConfigValue</a> is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like <code>env</code>, <code>file</code>, and <code>prop</code> for creating <code>ConfigValue</code>s for environment variables, file contents, and system properties. The <a href="integrations/http4s-aws.html">ciris-http4s-aws</a> module adds support for reading values from the <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html">AWS Systems Manager (SSM) Parameter Store</a>, while <a href="overview.html#external-modules">external modules</a> provide support for additional configuration sources.</p>
         <p>If a configuration value is missing, <code>or</code> lets us use a fallback.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">ciris</span><span>.</span><span class="identifier">_</span><span>
 
@@ -166,10 +166,10 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
 
 </span><span class="identifier">port</span><span>: </span><span class="type-name">ConfigValue</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Int</span><span>]
-</span><span class="comment">// res1: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$475127537
+</span><span class="comment">// res1: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$1992042785
 </span><span>
 </span><span class="identifier">port</span><span>.</span><span class="identifier">covary</span><span>[</span><span class="type-name">IO</span><span>]
-</span><span class="comment">// res2: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$475127537</span></code></pre>
+</span><span class="comment">// res2: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$1992042785</span></code></pre>
         <p>Multiple values can be loaded and combined in parallel, and errors accumulated, using <code>parMapN</code>.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">all</span><span>.</span><span class="identifier">_</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">scala</span><span>.</span><span class="identifier">concurrent</span><span>.</span><span class="identifier">duration</span><span>.</span><span class="identifier">_</span><span>
@@ -209,7 +209,7 @@
         <p>When loading sensitive configuration values, <code>secret</code> can be used.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">val</span><span> </span><span class="identifier">apiKey</span><span>: </span><span class="type-name">ConfigValue</span><span>[</span><span class="type-name">Effect</span><span>, </span><span class="type-name">Secret</span><span>[</span><span class="type-name">String</span><span>]] =
   </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;API_KEY&quot;</span><span>).</span><span class="identifier">secret</span></code></pre>
-        <p>By using <code>secret</code>, the value is wrapped in <a href="api/ciris/Secret.html"><code>Secret</code></a>, which prevents the value from being shown. When shown, the value is replaced by the first 7 characters of the SHA-1 hash for the value. This enables us to check whether the correct secret is being used, while not exposing the value.</p>
+        <p>By using <code>secret</code>, the value is wrapped in <a class="api" href="api/ciris/Secret.html">Secret</a>, which prevents the value from being shown. When shown, the value is replaced by the first 7 characters of the SHA-1 hash for the value. This enables us to check whether the correct secret is being used, while not exposing the value.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="type-name">Secret</span><span>(</span><span class="string-literal">&quot;RacrqvWjuu4KVmnTG9b6xyZMTP7jnX&quot;</span><span>)
 </span><span class="comment">// res8: Secret[String] = Secret(0a7425a)</span></code></pre>
         <p>To calculate the short hash ourselves, we can e.g. use <code>sha1sum</code>.</p>
@@ -218,7 +218,7 @@
         <p>When using <code>secret</code>, sensitive details, like the value, are also redacted from errors.</p>
         
         <h3 id="redacting" class="section"><a class="anchor-link left" href="#redacting"><i class="icofont-laika link">&#xef71;</i></a>Redacting</h3>
-        <p>In addition to <code>secret</code> there is also <code>redacted</code> which redacts sensitive details from errors, without wrapping the value in <a href="api/ciris/Secret.html"><code>Secret</code></a>. We might not want to use <a href="api/ciris/Secret.html"><code>Secret</code></a> and show the first 28/160 bits of the SHA-1 hash if there are few enough possible values to enable bruteforcing.</p>
+        <p>In addition to <code>secret</code> there is also <code>redacted</code> which redacts sensitive details from errors, without wrapping the value in <a class="api" href="api/ciris/Secret.html">Secret</a>. We might not want to use <a class="api" href="api/ciris/Secret.html">Secret</a> and show the first 28/160 bits of the SHA-1 hash if there are few enough possible values to enable bruteforcing.</p>
         
         <h2 id="alternatives" class="section"><a class="anchor-link left" href="#alternatives"><i class="icofont-laika link">&#xef71;</i></a>Alternatives</h2>
         <p>Using <code>or</code>, we can provide a fallback configuration. Similarly, <code>alt</code> allows us to provide an alternative configuration. The difference between them is that <code>alt</code> considers the alternative configuration even though the first configuration has been partially loaded (while <code>or</code> only considers the fallback configuration when the first configuration is missing).</p>
@@ -246,10 +246,10 @@
   </span><span class="keyword">def</span><span> </span><span class="declaration-name">run</span><span>(</span><span class="identifier">args</span><span>: </span><span class="type-name">List</span><span>[</span><span class="type-name">String</span><span>]): </span><span class="type-name">IO</span><span>[</span><span class="type-name">ExitCode</span><span>] =
     </span><span class="identifier">apiConfig</span><span>.</span><span class="identifier">load</span><span>[</span><span class="type-name">IO</span><span>].</span><span class="identifier">as</span><span>(</span><span class="type-name">ExitCode</span><span>.</span><span class="type-name">Success</span><span>)
 }</span></code></pre>
-        <p>We can use <code>attempt</code> instead if we want access to the <a href="api/ciris/ConfigError.html"><code>ConfigError</code></a> messages.</p>
+        <p>We can use <code>attempt</code> instead if we want access to the <a class="api" href="api/ciris/ConfigError.html">ConfigError</a> messages.</p>
         
         <h2 id="decoders" class="section"><a class="anchor-link left" href="#decoders"><i class="icofont-laika link">&#xef71;</i></a>Decoders</h2>
-        <p>When decoding using <code>as</code>, a matching <a href="api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a> instance has to be available.</p>
+        <p>When decoding using <code>as</code>, a matching <a class="api" href="api/ciris/ConfigDecoder.html">ConfigDecoder</a> instance has to be available.</p>
         <p>The library provides instances for many common types, but we can also write an instance.</p>
         <pre><code class="nohighlight"><span class="keyword">sealed</span><span> </span><span class="keyword">abstract</span><span> </span><span class="keyword">case</span><span> </span><span class="keyword">class</span><span> </span><span class="type-name">PosInt</span><span>(</span><span class="identifier">value</span><span>: </span><span class="type-name">Int</span><span>)
 
@@ -266,7 +266,7 @@
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;MAX_RETRIES&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">PosInt</span><span>]</span></code></pre>
         
         <h2 id="sources" class="section"><a class="anchor-link left" href="#sources"><i class="icofont-laika link">&#xef71;</i></a>Sources</h2>
-        <p>To support new configuration sources, we can use the <a href="api/ciris/ConfigValue$.html"><code>ConfigValue</code></a> functions.</p>
+        <p>To support new configuration sources, we can use the <a class="api" href="api/ciris/ConfigValue$.html">ConfigValue</a> functions.</p>
         <p>Following is an example showing how the <code>env</code> function can be defined.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">def</span><span> </span><span class="declaration-name">env</span><span>(</span><span class="identifier">name</span><span>: </span><span class="type-name">String</span><span>): </span><span class="type-name">ConfigValue</span><span>[</span><span class="type-name">Effect</span><span>, </span><span class="type-name">String</span><span>] =
   </span><span class="type-name">ConfigValue</span><span>.</span><span class="identifier">suspend</span><span> {
@@ -279,7 +279,7 @@
       </span><span class="type-name">ConfigValue</span><span>.</span><span class="identifier">missing</span><span>(</span><span class="identifier">key</span><span>)
     }
   }</span></code></pre>
-        <p>The <a href="api/ciris/ConfigKey.html"><code>ConfigKey</code></a> is a description of the key, e.g. <code>s&quot;environment variable $name&quot;</code>. The function returns <code>missing</code> when there is no value for the key, and <code>loaded</code> when a value is available. Since reading environment variables can throw <code>SecurityException</code>s, we capture side effects using <code>suspend</code>.</p>
+        <p>The <a class="api" href="api/ciris/ConfigKey.html">ConfigKey</a> is a description of the key, e.g. <code>s&quot;environment variable $name&quot;</code>. The function returns <code>missing</code> when there is no value for the key, and <code>loaded</code> when a value is available. Since reading environment variables can throw <code>SecurityException</code>s, we capture side effects using <code>suspend</code>.</p>
 
         
 <hr class="footer-rule"/>

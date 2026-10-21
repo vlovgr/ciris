@@ -146,6 +146,15 @@ code {
   padding: 0.2em 0.4em;
 }
 
+a.api {
+  font-family: var(--code-font);
+  font-size: var(--code-font-size);
+  white-space: nowrap;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+  padding: 0.2em 0.4em;
+}
+
 pre code .comment {
   font-style: italic;
 }

@@ -150,7 +150,7 @@
       <main class="content">
 
         <h1 id="enumeratum" class="title">enumeratum</h1>
-        <p>The <code>ciris-enumeratum</code> module provides <a href="../api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a>s for <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations.</p>
+        <p>The <code>ciris-enumeratum</code> module provides <a class="api" href="../api/ciris/ConfigDecoder.html">ConfigDecoder</a>s for <a href="https://github.com/lloydmeta/enumeratum">enumeratum</a> enumerations.</p>
         
         <h2 id="getting-started" class="section"><a class="anchor-link left" href="#getting-started"><i class="icofont-laika link">&#xef71;</i></a>Getting Started</h2>
         <p>To get started with <a href="https://scala-sbt.org">sbt</a>, add the following line to your <code>build.sbt</code> file.</p>
@@ -158,7 +158,7 @@
         <p>If you are using Scala.js or Scala Native, make sure to replace <code>%%</code> with <code>%%%</code> above.</p>
         
         <h2 id="usage" class="section"><a class="anchor-link left" href="#usage"><i class="icofont-laika link">&#xef71;</i></a>Usage</h2>
-        <p>For regular <code>Enum</code>s, also mix in <code>CirisEnum</code> to derive a <a href="../api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a> instance.</p>
+        <p>For regular <code>Enum</code>s, also mix in <code>CirisEnum</code> to derive a <a class="api" href="../api/ciris/ConfigDecoder.html">ConfigDecoder</a> instance.</p>
         <pre><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">ciris</span><span>.</span><span class="identifier">env</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">enumeratum</span><span>.{</span><span class="type-name">CirisEnum</span><span>, </span><span class="type-name">Enum</span><span>, </span><span class="type-name">EnumEntry</span><span>}
 </span><span class="keyword">import</span><span> </span><span class="identifier">enumeratum</span><span>.</span><span class="type-name">EnumEntry</span><span>.</span><span class="type-name">Lowercase</span><span>
@@ -175,8 +175,8 @@
 }
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;SUIT&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Suit</span><span>]
-</span><span class="comment">// res1: ConfigValue[Effect, Suit] = ConfigValue$744161191</span></code></pre>
-        <p>For <code>ValueEnum</code>s, also mix in the matching <code>CirisValueEnum</code> to derive a <a href="../api/ciris/ConfigDecoder.html"><code>ConfigDecoder</code></a> instance.</p>
+</span><span class="comment">// res1: ConfigValue[Effect, Suit] = ConfigValue$657872550</span></code></pre>
+        <p>For <code>ValueEnum</code>s, also mix in the matching <code>CirisValueEnum</code> to derive a <a class="api" href="../api/ciris/ConfigDecoder.html">ConfigDecoder</a> instance.</p>
         <pre><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">ciris</span><span>.</span><span class="identifier">env</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">enumeratum</span><span>.</span><span class="identifier">values</span><span>.{</span><span class="type-name">StringCirisEnum</span><span>, </span><span class="type-name">StringEnum</span><span>, </span><span class="type-name">StringEnumEntry</span><span>}
 
@@ -191,7 +191,7 @@
 }
 
 </span><span class="identifier">env</span><span>(</span><span class="string-literal">&quot;COLOR&quot;</span><span>).</span><span class="identifier">as</span><span>[</span><span class="type-name">Color</span><span>]
-</span><span class="comment">// res3: ConfigValue[Effect, Color] = ConfigValue$2005430691</span></code></pre>
+</span><span class="comment">// res3: ConfigValue[Effect, Color] = ConfigValue$1786823465</span></code></pre>
 
         
 <hr class="footer-rule"/>
