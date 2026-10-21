@@ -326,7 +326,8 @@ lazy val docs = project
           .site
           .metadata(
             title = Some("Ciris · Functional Configurations for Scala"),
-            description = Some("Functional Configurations for Scala"),
+            description =
+              Some("Functional, lightweight, and composable configuration loading for Scala."),
             authors = developers.value.map(_.name),
             language = Some("en"),
             version = Some(version.value)
