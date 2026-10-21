@@ -211,3 +211,23 @@ main:not(.content) {
   color: var(--component-hover);
   text-decoration: none;
 }
+
+@supports (animation-timeline: scroll()) {
+  #header-tint {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background-color: var(--gradient-top);
+    animation: header-tint-scroll linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 20px;
+  }
+
+  @keyframes header-tint-scroll {
+    to {
+      transform: translateY(-100%);
+    }
+  }
+}
