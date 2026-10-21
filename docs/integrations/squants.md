@@ -1,6 +1,6 @@
 # squants
 
-The `@SQUANTS_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [squants](https://github.com/typelevel/squants) quantities.
+The `@SQUANTS_MODULE_NAME@` module provides @:api(ciris.ConfigDecoder)s for [squants](https://github.com/typelevel/squants) quantities.
 
 ## Getting Started
 
@@ -21,5 +21,3 @@ import squants.market.Money
 
 env("MONEY").as[Money]
 ```
-
-[configdecoder]: @API_URL@ciris/ConfigDecoder.html

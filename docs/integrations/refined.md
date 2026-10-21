@@ -1,6 +1,6 @@
 # refined
 
-The `@REFINED_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [refined](https://github.com/fthomas/refined) refinement types.
+The `@REFINED_MODULE_NAME@` module provides @:api(ciris.ConfigDecoder)s for [refined](https://github.com/fthomas/refined) refinement types.
 
 ## Getting Started
 
@@ -21,5 +21,3 @@ import eu.timepit.refined.types.numeric.PosInt
 
 env("POS_INT").as[PosInt]
 ```
-
-[configdecoder]: @API_URL@ciris/ConfigDecoder.html

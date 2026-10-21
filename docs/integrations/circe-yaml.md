@@ -1,6 +1,6 @@
 # circe-yaml
 
-The `@CIRCE_YAML_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for YAML using [circe-yaml](https://github.com/circe/circe-yaml).
+The `@CIRCE_YAML_MODULE_NAME@` module provides @:api(ciris.ConfigDecoder)s for YAML using [circe-yaml](https://github.com/circe/circe-yaml).
 
 ## Getting Started
 
@@ -29,5 +29,3 @@ object SerialNumber {
 
 env("SERIAL").as[SerialNumber]
 ```
-
-[configdecoder]: @API_URL@ciris/ConfigDecoder.html

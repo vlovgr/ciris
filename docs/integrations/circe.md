@@ -1,6 +1,6 @@
 # circe
 
-The `@CIRCE_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for JSON using [circe](https://github.com/circe/circe).
+The `@CIRCE_MODULE_NAME@` module provides @:api(ciris.ConfigDecoder)s for JSON using [circe](https://github.com/circe/circe).
 
 ## Getting Started
 
@@ -31,5 +31,3 @@ object SerialNumber {
 
 env("SERIAL").as[SerialNumber]
 ```
-
-[configdecoder]: @API_URL@ciris/ConfigDecoder.html

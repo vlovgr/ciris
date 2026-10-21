@@ -236,6 +236,8 @@ lazy val docs = project
     import laika.ast.LengthUnit.px
     import laika.ast.Path.Root
     import laika.ast.Styles
+    import laika.config.ApiLinks
+    import laika.config.LinkConfig
     import laika.helium.Helium
     import laika.helium.config.ButtonLink
     import laika.helium.config.ColorQuintet
@@ -259,11 +261,14 @@ lazy val docs = project
         "org.typelevel" %%% "cats-effect" % catsEffectVersion
       ),
       Compile / packageDoc / mappings := (unidocs / Compile / packageDoc / mappings).value,
+      laikaConfig ~= (_.withConfigValue(LinkConfig.empty.addApiLinks(ApiLinks("/api/")))),
+      laikaGenerateAPI / mappings ~= (_.map { case (file, path) =>
+        file -> path.replace('\\', '/')
+      }),
       laikaIncludeAPI := true,
       tlSiteApiUrl := None,
       tlSitePreview := tlSitePreview.dependsOn(laikaGenerateAPI).value,
       mdocVariables ++= Map(
-        "API_URL" -> "/api/",
         "CATS_EFFECT_VERSION" -> catsEffectVersion,
         "CIRCE_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(circe.jvm).value,
         "CIRCE_JS_CROSS_SCALA_VERSIONS" -> crossScalaVersionsOf(circe.js).value,

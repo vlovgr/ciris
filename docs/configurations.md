@@ -1,6 +1,6 @@
 # Configurations
 
-[`ConfigValue`][configvalue] is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like `env`, `file`, and `prop` for creating `ConfigValue`s for environment variables, file contents, and system properties. The [ciris-http4s-aws](integrations/http4s-aws.md) module adds support for reading values from the [AWS Systems Manager (SSM) Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), while [external modules](overview.md#external-modules) provide support for additional configuration sources.
+@:api(ciris.ConfigValue) is the central concept in the library. It represents a single configuration value or a composition of multiple values. The library provides functions like `env`, `file`, and `prop` for creating `ConfigValue`s for environment variables, file contents, and system properties. The [ciris-http4s-aws](integrations/http4s-aws.md) module adds support for reading values from the [AWS Systems Manager (SSM) Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), while [external modules](overview.md#external-modules) provide support for additional configuration sources.
 
 If a configuration value is missing, `or` lets us use a fallback.
 
@@ -92,7 +92,7 @@ val apiKey: ConfigValue[Effect, Secret[String]] =
   env("API_KEY").secret
 ```
 
-By using `secret`, the value is wrapped in [`Secret`][secret], which prevents the value from being shown. When shown, the value is replaced by the first 7 characters of the SHA-1 hash for the value. This enables us to check whether the correct secret is being used, while not exposing the value.
+By using `secret`, the value is wrapped in @:api(ciris.Secret), which prevents the value from being shown. When shown, the value is replaced by the first 7 characters of the SHA-1 hash for the value. This enables us to check whether the correct secret is being used, while not exposing the value.
 
 ```scala mdoc
 Secret("RacrqvWjuu4KVmnTG9b6xyZMTP7jnX")
@@ -109,7 +109,7 @@ When using `secret`, sensitive details, like the value, are also redacted from e
 
 ### Redacting
 
-In addition to `secret` there is also `redacted` which redacts sensitive details from errors, without wrapping the value in [`Secret`][secret]. We might not want to use [`Secret`][secret] and show the first 28/160 bits of the SHA-1 hash if there are few enough possible values to enable bruteforcing.
+In addition to `secret` there is also `redacted` which redacts sensitive details from errors, without wrapping the value in @:api(ciris.Secret). We might not want to use @:api(ciris.Secret) and show the first 28/160 bits of the SHA-1 hash if there are few enough possible values to enable bruteforcing.
 
 ## Alternatives
 
@@ -148,11 +148,11 @@ object Main extends IOApp {
 }
 ```
 
-We can use `attempt` instead if we want access to the [`ConfigError`][configerror] messages.
+We can use `attempt` instead if we want access to the @:api(ciris.ConfigError) messages.
 
 ## Decoders
 
-When decoding using `as`, a matching [`ConfigDecoder`][configdecoder] instance has to be available.
+When decoding using `as`, a matching @:api(ciris.ConfigDecoder) instance has to be available.
 
 The library provides instances for many common types, but we can also write an instance.
 
@@ -174,7 +174,7 @@ env("MAX_RETRIES").as[PosInt]
 
 ## Sources
 
-To support new configuration sources, we can use the [`ConfigValue`][configvalue$] functions.
+To support new configuration sources, we can use the @:api(ciris.ConfigValue$) functions.
 
 Following is an example showing how the `env` function can be defined.
 
@@ -192,11 +192,4 @@ def env(name: String): ConfigValue[Effect, String] =
   }
 ```
 
-The [`ConfigKey`][configkey] is a description of the key, e.g. `s"environment variable $name"`. The function returns `missing` when there is no value for the key, and `loaded` when a value is available. Since reading environment variables can throw `SecurityException`s, we capture side effects using `suspend`.
-
-[configdecoder]: @API_URL@ciris/ConfigDecoder.html
-[configerror]: @API_URL@ciris/ConfigError.html
-[configkey]: @API_URL@ciris/ConfigKey.html
-[configvalue]: @API_URL@ciris/ConfigValue.html
-[configvalue$]: @API_URL@ciris/ConfigValue$.html
-[secret]: @API_URL@ciris/Secret.html
+The @:api(ciris.ConfigKey) is a description of the key, e.g. `s"environment variable $name"`. The function returns `missing` when there is no value for the key, and `loaded` when a value is available. Since reading environment variables can throw `SecurityException`s, we capture side effects using `suspend`.

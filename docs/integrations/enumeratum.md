@@ -1,6 +1,6 @@
 # enumeratum
 
-The `@ENUMERATUM_MODULE_NAME@` module provides [`ConfigDecoder`][configdecoder]s for [enumeratum](https://github.com/lloydmeta/enumeratum) enumerations.
+The `@ENUMERATUM_MODULE_NAME@` module provides @:api(ciris.ConfigDecoder)s for [enumeratum](https://github.com/lloydmeta/enumeratum) enumerations.
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ If you are using Scala.js or Scala Native, make sure to replace `%%` with `%%%` 
 
 ## Usage
 
-For regular `Enum`s, also mix in `CirisEnum` to derive a [`ConfigDecoder`][configdecoder] instance.
+For regular `Enum`s, also mix in `CirisEnum` to derive a @:api(ciris.ConfigDecoder) instance.
 
 ```scala mdoc:reset-object
 import ciris.env
@@ -35,7 +35,7 @@ object Suit extends Enum[Suit] with CirisEnum[Suit] {
 env("SUIT").as[Suit]
 ```
 
-For `ValueEnum`s, also mix in the matching `CirisValueEnum` to derive a [`ConfigDecoder`][configdecoder] instance.
+For `ValueEnum`s, also mix in the matching `CirisValueEnum` to derive a @:api(ciris.ConfigDecoder) instance.
 
 ```scala mdoc:reset-object
 import ciris.env
@@ -53,5 +53,3 @@ object Color extends StringEnum[Color] with StringCirisEnum[Color] {
 
 env("COLOR").as[Color]
 ```
-
-[configdecoder]: @API_URL@ciris/ConfigDecoder.html
