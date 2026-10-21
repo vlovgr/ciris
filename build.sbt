@@ -260,11 +260,10 @@ lazy val docs = project
         "org.http4s" %%% "http4s-ember-client" % http4sVersion,
         "org.typelevel" %%% "cats-effect" % catsEffectVersion
       ),
-      Compile / packageDoc / mappings := (unidocs / Compile / packageDoc / mappings).value,
+      Compile / packageDoc / mappings := (unidocs / Compile / packageDoc / mappings).value.map {
+        case (file, path) => file -> path.replace('\\', '/')
+      },
       laikaConfig ~= (_.withConfigValue(LinkConfig.empty.addApiLinks(ApiLinks("/api/")))),
-      laikaGenerateAPI / mappings ~= (_.map { case (file, path) =>
-        file -> path.replace('\\', '/')
-      }),
       laikaIncludeAPI := true,
       tlSiteApiUrl := None,
       tlSitePreview := tlSitePreview.dependsOn(laikaGenerateAPI).value,
