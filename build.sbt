@@ -318,7 +318,7 @@ lazy val docs = project
         val projectLinks = List(
           IconLink.internal(Root / "api" / "ciris.html", HeliumIcon.api),
           IconLink.external(gitHubUrl, HeliumIcon.github),
-          IconLink.external("https://discord.gg/XF3CXcMzqD", HeliumIcon.chat)
+          IconLink.external("https://discord.gg/eUTVJBYcpY", HeliumIcon.chat)
         )
 
         Helium.defaults
@@ -466,7 +466,7 @@ lazy val unidocs = project
         "-project-footer:Licensed under the MIT License. Copyright © 2017 Viktor Rudebeck.",
         s"-project-logo:${logo.getAbsolutePath}",
         "-social-links:github::https://github.com/vlovgr/ciris",
-        "-social-links:discord::https://discord.gg/XF3CXcMzqD"
+        "-social-links:discord::https://discord.gg/eUTVJBYcpY"
       )
     }
   )
