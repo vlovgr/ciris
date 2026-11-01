@@ -391,8 +391,8 @@ lazy val docs = project
           .internalCSS(Root / "css")
           .site
           .favIcons(
-            Favicon.internal(Root / "img" / "favicon.png", "180x180"),
-            Favicon.internal(Root / "img" / "favicon.svg")
+            Favicon.internal(Root / "img" / "logo.png", "180x180"),
+            Favicon.internal(Root / "img" / "logo.svg")
           )
           .site
           .landingPage(
