@@ -418,10 +418,7 @@ lazy val docs = project
             )
           )
           .site
-          .footer(
-            "Licensed under the <a href=\"https://github.com/vlovgr/ciris/blob/main/license.txt\">MIT License</a>.<br>" +
-              "Copyright © 2017 Viktor Rudebeck."
-          )
+          .footer()
           .site
           .pageNavigation(sourceBaseURL = Some("https://github.com/vlovgr/ciris/tree/main/docs"))
       }
@@ -463,7 +460,7 @@ lazy val unidocs = project
         "-comment-syntax:wiki",
         "-doc-canonical-base-url:https://cir.is/api/",
         "-groups",
-        "-project-footer:Licensed under the MIT License. Copyright © 2017 Viktor Rudebeck.",
+        "-project-footer:Licensed under the MIT License.",
         s"-project-logo:${logo.getAbsolutePath}",
         "-social-links:github::https://github.com/vlovgr/ciris",
         "-social-links:discord::https://discord.gg/eUTVJBYcpY"

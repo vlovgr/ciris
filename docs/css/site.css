@@ -50,8 +50,7 @@ main a {
   font-weight: normal;
 }
 
-main a:hover,
-footer a:hover {
+main a:hover {
   color: var(--primary-color);
   text-decoration: none;
 }
@@ -169,26 +168,6 @@ pre code .number-literal,
 pre code .boolean-literal,
 pre code .literal-value {
   color: #008080;
-}
-
-.footer-rule {
-  width: 350px;
-  margin-left: auto;
-  margin-right: auto;
-  border: none;
-  border-top: 1px solid #dfe2e5;
-}
-
-footer {
-  color: #7c7c7c;
-}
-
-footer a {
-  font-weight: normal;
-}
-
-body > footer {
-  padding-bottom: 30px;
 }
 
 main:not(.content) {
