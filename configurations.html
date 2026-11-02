@@ -167,10 +167,10 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
 
 </span><span class="identifier">port</span><span>: </span><span class="type-name">ConfigValue</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Int</span><span>]
-</span><span class="comment">// res1: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$1061017618
+</span><span class="comment">// res1: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$1806356560
 </span><span>
 </span><span class="identifier">port</span><span>.</span><span class="identifier">covary</span><span>[</span><span class="type-name">IO</span><span>]
-</span><span class="comment">// res2: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$1061017618</span></code></pre>
+</span><span class="comment">// res2: ConfigValue[[A &gt;: Nothing &lt;: Any] =&gt; IO[A], Int] = ConfigValue$1806356560</span></code></pre>
         <p>Multiple values can be loaded and combined in parallel, and errors accumulated, using <code>parMapN</code>.</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">all</span><span>.</span><span class="identifier">_</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">scala</span><span>.</span><span class="identifier">concurrent</span><span>.</span><span class="identifier">duration</span><span>.</span><span class="identifier">_</span><span>
@@ -283,11 +283,6 @@
         <p>The <a class="api" href="api/ciris/ConfigKey.html">ConfigKey</a> is a description of the key, e.g. <code>s&quot;environment variable $name&quot;</code>. The function returns <code>missing</code> when there is no value for the key, and <code>loaded</code> when a value is available. Since reading environment variables can throw <code>SecurityException</code>s, we capture side effects using <code>suspend</code>.</p>
 
         
-<hr class="footer-rule"/>
-<footer>
-  Licensed under the <a href="https://github.com/vlovgr/ciris/blob/main/license.txt">MIT License</a>.<br>Copyright © 2017 Viktor Rudebeck.
-</footer>
-
 
       </main>
 
